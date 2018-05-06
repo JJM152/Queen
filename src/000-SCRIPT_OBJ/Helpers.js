@@ -176,7 +176,7 @@ window.App.PR = new function() {
 
     /**
      * Convert Hips Stat into CM.
-     * @param {App.Entity.Player} Player
+     * @param {window.App.Entity.Player} Player
      * @returns {number}
      */
         this.HipsInCM = function (Player) { return this.StatToCM(Player, "Hips"); };

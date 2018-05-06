@@ -18,13 +18,13 @@ window.App.JobEngine = new function() {
 
         if (this._Jobs.length < 1) {
         var oKeys = Object.keys(App.Data.JobData);
-        for (var i = 0; i < oKeys.length; i++) this._Jobs.push( new window.App.Job( App.Data.JobData[oKeys[i]]) );
+        for (var i = 0; i < oKeys.length; i++) this._Jobs.push( new App.Job( App.Data.JobData[oKeys[i]]) );
         }
     };
 
     /**
      * Lists all jobs at person/location
-     * @param {App.Entity.Player} Player
+     * @param {window.App.Entity.Player} Player
      * @param {string} Giver
      * @returns {Array.<Job>}
      */
@@ -49,7 +49,7 @@ window.App.JobEngine = new function() {
     };
     /**
      * Lists all AVAILABLE jobs at a person
-     * @param {App.Entity.Player} Player
+     * @param {window.App.Entity.Player} Player
      * @param {string} Giver
      * @returns {Array.<Job>}
      */
@@ -577,6 +577,11 @@ window.App.Job = function(Data) {
     {
         var Output = "";
         var Percent = Math.floor( ((Result / Value) * 100)/2);
+
+        /**
+         * @param {string} a
+         * @returns {string}
+         */
         var Colorize = function(a) { return  (typeof a !== 'undefined') ? window.App.PR.ColorizeString(Percent, a.slice(2,-2), 100) : ""; };
 
         for ( var i = 0; i < this._JobData["JOB_RESULTS"].length; i++)
@@ -668,8 +673,8 @@ window.App.Job = function(Data) {
 
 /**
  * Stores and plays a "scene" from a job.
- * @param {App.Entity.Player} Player
- * @param {App.Entity.NPC} NPC
+ * @param {window.App.Entity.Player} Player
+ * @param {window.App.Entity.NPC} NPC
  * @param {object} SceneData
  * @param {object} Checks
  * @constructor
@@ -710,9 +715,9 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
     this.Triggered  = function() { return (this._Triggered != false && this._StrBuffer != ""); };
     /** @returns {string} */
     this.Print      = function() { return (this._StrBuffer != "") ? this._StrBuffer + "\n" : ""; };
-    /** returns {number} */
+    /** @returns {number} */
     this.Pay        = function() { return this._Pay; };
-    /** returns {object} */
+    /** @returns {object} */
     this.Results    = function() { return this._Checks; };
 
     /** @private
@@ -1001,6 +1006,10 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
     {
         var Output = "";
         var Percent = Math.floor(((Result / Value) * 100)/2);
+        /**
+         * @param {string} a
+         * @returns {string}
+         */
         var Colorize = function(a) { return  (typeof a !== 'undefined') ? window.App.PR.ColorizeString(Percent, a.slice(2,-2), 100) : ""; };
 
         for ( var i = 0; i < this._SceneData["RESULTS"].length; i++)

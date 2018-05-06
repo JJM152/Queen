@@ -533,7 +533,7 @@ window.App.PR = new function() {
 
     /**
      * Convert Hips Stat into CM.
-     * @param {App.Entity.Player} Player
+     * @param {window.App.Entity.Player} Player
      * @returns {number}
      */
         this.HipsInCM = function (Player) { return this.StatToCM(Player, "Hips"); };
@@ -1327,13 +1327,13 @@ window.App.JobEngine = new function() {
 
         if (this._Jobs.length < 1) {
         var oKeys = Object.keys(App.Data.JobData);
-        for (var i = 0; i < oKeys.length; i++) this._Jobs.push( new window.App.Job( App.Data.JobData[oKeys[i]]) );
+        for (var i = 0; i < oKeys.length; i++) this._Jobs.push( new App.Job( App.Data.JobData[oKeys[i]]) );
         }
     };
 
     /**
      * Lists all jobs at person/location
-     * @param {App.Entity.Player} Player
+     * @param {window.App.Entity.Player} Player
      * @param {string} Giver
      * @returns {Array.<Job>}
      */
@@ -1358,7 +1358,7 @@ window.App.JobEngine = new function() {
     };
     /**
      * Lists all AVAILABLE jobs at a person
-     * @param {App.Entity.Player} Player
+     * @param {window.App.Entity.Player} Player
      * @param {string} Giver
      * @returns {Array.<Job>}
      */
@@ -1886,6 +1886,11 @@ window.App.Job = function(Data) {
     {
         var Output = "";
         var Percent = Math.floor( ((Result / Value) * 100)/2);
+
+        /**
+         * @param {string} a
+         * @returns {string}
+         */
         var Colorize = function(a) { return  (typeof a !== 'undefined') ? window.App.PR.ColorizeString(Percent, a.slice(2,-2), 100) : ""; };
 
         for ( var i = 0; i < this._JobData["JOB_RESULTS"].length; i++)
@@ -1977,8 +1982,8 @@ window.App.Job = function(Data) {
 
 /**
  * Stores and plays a "scene" from a job.
- * @param {App.Entity.Player} Player
- * @param {App.Entity.NPC} NPC
+ * @param {window.App.Entity.Player} Player
+ * @param {window.App.Entity.NPC} NPC
  * @param {object} SceneData
  * @param {object} Checks
  * @constructor
@@ -2019,9 +2024,9 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
     this.Triggered  = function() { return (this._Triggered != false && this._StrBuffer != ""); };
     /** @returns {string} */
     this.Print      = function() { return (this._StrBuffer != "") ? this._StrBuffer + "\n" : ""; };
-    /** returns {number} */
+    /** @returns {number} */
     this.Pay        = function() { return this._Pay; };
-    /** returns {object} */
+    /** @returns {object} */
     this.Results    = function() { return this._Checks; };
 
     /** @private
@@ -2310,6 +2315,10 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
     {
         var Output = "";
         var Percent = Math.floor(((Result / Value) * 100)/2);
+        /**
+         * @param {string} a
+         * @returns {string}
+         */
         var Colorize = function(a) { return  (typeof a !== 'undefined') ? window.App.PR.ColorizeString(Percent, a.slice(2,-2), 100) : ""; };
 
         for ( var i = 0; i < this._SceneData["RESULTS"].length; i++)
@@ -3075,11 +3084,17 @@ window.App.Entity.Player = function (){
         return Math.max(0, Math.min(this.HairBonus, 100));
     };
 
+    /**
+     * @returns {string}
+     */
     this.GetHairStyle = function () {
         if (this.Equipment["Wig"] != 0) return this.Equipment["Wig"].HairStyle();
         return this.HairStyle;
     };
 
+    /**
+     * @returns {string}
+     */
     this.GetHairColor = function () {
         if (this.Equipment["Wig"] != 0) return this.Equipment["Wig"].HairColor();
         return this.HairColor;
@@ -3132,7 +3147,7 @@ window.App.Entity.Player = function (){
             Rating += this.Equipment[prop].CategoryBonus(Spec);
         }
         return Rating;
-    }
+    };
 
     /**
      * Derived statistic, lends itself to Beauty. WaistRating, BustRating, HipsRating and AssRating contribute.
@@ -3180,6 +3195,7 @@ window.App.Entity.Player = function (){
 
     /**
      * For now just the percentage of the lips 1-100.
+     * @returns {number}
      */
     this.LipsRating = function () {
         return this.GetStatPercent("BODY", "Lips");
@@ -3225,6 +3241,12 @@ window.App.Entity.Player = function (){
     this.GetMinStat = function (Type, StatName) {
         return this.GetStatConfig(Type)[StatName]["MIN"];
     };
+
+    /**
+     * @param {string} Type
+     * @param {string} StatName
+     * @returns {number}
+     */
     this.GetStatPercent = function (Type, StatName) {
         return Math.floor(((this.GetStat(Type, StatName) - this.GetMinStat(Type, StatName)) / ((this.GetMaxStat(Type, StatName) - this.GetMinStat(Type, StatName)))) * 100);
     };
@@ -3249,6 +3271,12 @@ window.App.Entity.Player = function (){
         return Level;
     };
 
+    /**
+     * @param {string} Type
+     * @param {string} StatName
+     * @param {number} Amount
+     * @returns {number}
+     */
     this.GetCapStat = function (Type, StatName, Amount) {
         return Math.round((Math.max(this.GetMinStat(Type, StatName), Math.min(Amount, this.GetMaxStat(Type, StatName)))) * 100) / 100;
     };
@@ -3469,6 +3497,9 @@ window.App.Entity.Player = function (){
         }
     };
 
+    /**
+     * @returns {*}
+     */
     this.GetShipLocation = function () {
         var Routes = window.App.Data.Lists["ShipRoute"];
         if (!Routes.hasOwnProperty(this.SailDays)) return 0;
@@ -3485,6 +3516,11 @@ window.App.Entity.Player = function (){
 
     // Equipment and Inventory Related Functions
 
+    /**
+     *
+     * @param ItemDict
+     * @returns {boolean}
+     */
     this.OwnsWardrobeItem = function(ItemDict)
     {
         if (ItemDict["TYPE"] != "CLOTHES") return false;
@@ -3492,9 +3528,12 @@ window.App.Entity.Player = function (){
         var Slot = window.App.Data.Clothes[ItemDict["TAG"]]["Slot"];
         if ((this.Equipment[Slot] === undefined) || (this.Equipment[Slot] == 0)) return false;
         if (this.Equipment[Slot].Name() == ItemDict["TAG"]) return true;
-        return false;
     };
 
+    /**
+     * @param ItemDict
+     * @returns {boolean}
+     */
     this.MaxItemCapacity = function(ItemDict)
     {
         var o = this.GetItemByName(ItemDict["TAG"]);
@@ -3515,6 +3554,10 @@ window.App.Entity.Player = function (){
         return this.Wardrobe.filter(function(Item) { return Item.Slot() == Slot;});
     };
 
+    /**
+     * @param {string} Slot
+     * @returns {string}
+     */
     this.PrintEquipment = function(Slot)
     {
         if (!this.Equipment.hasOwnProperty(Slot)) return "@@color:grey;Nothing@@";
@@ -3522,6 +3565,10 @@ window.App.Entity.Player = function (){
         return this.Equipment[Slot].Description();
     };
 
+    /**
+     * @param {string} Slot
+     * @returns {*}
+     */
     this.GetEquipmentInSlot = function(Slot) {
         if ( (!this.Equipment.hasOwnProperty(Slot)) || (this.Equipment[Slot] == 0 )) return 0;
         return this.Equipment[Slot];
@@ -3572,6 +3619,11 @@ window.App.Entity.Player = function (){
         });
     };
 
+    /**
+     * @param {string} Type
+     * @param {string} Bonus
+     * @returns {number}
+     */
     this.GetBestItem = function (Type, Bonus) {
         var items = this.GetItemByTypes([Type]);
         var o = 0;
@@ -3654,6 +3706,10 @@ window.App.Entity.Player = function (){
         }
     };
 
+    /**
+     * @param {string} Skill
+     * @returns {number}
+     */
     this.GetWornSkillBonus = function (Skill) {
         var bonus = 0;
         for (var prop in this.Equipment) {
@@ -3694,6 +3750,11 @@ window.App.Entity.Player = function (){
         return window.App.Data.Lists["BodyChanges"][BodyPart][Direction];
     };
 
+    /**
+     * @param {string} Type
+     * @param {string} Flag
+     * @returns {*}
+     */
     this.GetHistory = function(Type, Flag) {
         if ((typeof this.History[Type] === 'undefined')) return 0;
         if ((typeof this.History[Type][Flag] === 'undefined')) return 0;
@@ -8803,7 +8864,7 @@ The tavern is bustling and lively with many patrons clamoring for drink and food
 @@color:lime;Travel@@: [[The Docks|IslaHarbor]] | @@color:grey;[General Store]@@ | @@color:grey;[Governors Mansion]@@
 &lt;&lt;/if&gt;&gt;\
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="Bazzar" tags="" position="2475,100">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="21" name="GI_CheapBrothel" tags="" position="2600,100">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="22" name="GI_Clothiers" tags="" position="2725,100">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="23" name="GI_DanceHall" tags="" position="2850,100">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="24" name="GI_GeneralGoods" tags="" position="2975,100">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="25" name="GI_GovernorsMansion" tags="" position="3100,100">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="26" name="GI_GuardStation" tags="" position="3225,100">@@color:lime;Travel@@: [[Portside District|Portside]] | [[Jail House|GI_Jail]] | [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="27" name="GI_Jail" tags="" position="3350,100">@@color:lime;Travel@@: [[Guard Station|GI_GuardStation]]</tw-passagedata><tw-passagedata pid="28" name="GI_Salon" tags="" position="3475,100">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="29" name="GoldenIsle" tags="" position="3600,100">@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Smuggler&#39;s Den|SmugglersDen]] | [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="30" name="HighHill" tags="" position="3725,100">@@color:lime;Travel@@: [[Guard Station|GI_GuardStation]] | [[Madame Yvonne&#39;s Salon|GI_Salon]] | [[Bella&#39;s Boudoir|GI_Clothiers]] | [[Minxy&#39;s Dance Hall|GI_DanceHall]] | [[The Governor&#39;s Mansion|GI_GovernorsMansion]]</tw-passagedata><tw-passagedata pid="31" name="Portside" tags="" position="3850,100">@@color:lime;Travel@@: [[Docks|GoldenIsle]] | [[General Goods Store|GI_GeneralGoods]] | [[The Saucy Slattern|GI_CheapBrothel]] | [[The Bazzar|Bazzar]] | [[Guard Station|GI_GuardStation]]</tw-passagedata><tw-passagedata pid="32" name="SmugglersDen" tags="" position="3975,100">@@color:lime;Travel@@: [[Docks|GoldenIsle]]</tw-passagedata><tw-passagedata pid="33" name="Abamond" tags="" position="4100,100">@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Far Beach|FarBeach]] | [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="34" name="FarBeach" tags="" position="4225,100">@@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[Into the Cave|OceanCave]]</tw-passagedata><tw-passagedata pid="35" name="HiddenCove" tags="" position="4350,100">@@color:lime;Travel@@: [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="36" name="Jungle" tags="" position="4475,100">@@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[Hidden Cove|HiddenCove]] | [[Into the Ruins|Ruins]]</tw-passagedata><tw-passagedata pid="37" name="OceanCave" tags="" position="4600,100">@@color:lime;Travel@@: [[Far Beach|FarBeach]]</tw-passagedata><tw-passagedata pid="38" name="Ruins" tags="" position="4725,100">@@color:lime;Travel@@: [[Into the Jungle|Jungle]] | [[Treasure Room|TreasureRoom]]</tw-passagedata><tw-passagedata pid="39" name="TreasureRoom" tags="" position="4850,100">@@color:lime;Travel@@: [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="40" name="Casino" tags="" position="4975,100">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="41" name="CourtesansGuild" tags="" position="5100,100">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="42" name="EntertainmentDistrict" tags="" position="5225,100">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[The Grand Casino|Casino]] | [[Jezzebelles|PR_DanceHall]] | [[Green Gryphon|PR_FancyTavern]] | [[Sindee Rella&#39;s Sexorium and Slut Show|XXXShow]] |
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[[Port Royale Gifts|GiftShop]]</tw-passagedata><tw-passagedata pid="43" name="FortuneTeller" tags="" position="5350,100">@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="44" name="GiftShop" tags="" position="5475,100">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="45" name="GreatMarket" tags="" position="5600,100">@@color:lime;Travel@@: [[The Docks|PortRoyale]] | [[Madame Blanche&#39;s|FortuneTeller]] | [[Grey Peacock|PR_Tavern]] | [[Lusty Lass|PR_CheapBrothel]] | [[The Entertainment District|EntertainmentDistrict]] | [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="46" name="PR_CheapBrothel" tags="" position="5725,100">@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="47" name="PR_Clothier" tags="" position="5850,100">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="48" name="PR_DanceHall" tags="" position="5975,100">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="49" name="PR_FancyTavern" tags="" position="6100,100">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="50" name="PR_GovernorsMansion" tags="" position="6225,100">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="51" name="PR_GuardHouse" tags="" position="6350,100">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[Jail House|PR_Jail]] | [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="52" name="PR_Jail" tags="" position="6475,100">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="53" name="PR_RareGoods" tags="" position="6600,100">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="54" name="PR_Tavern" tags="" position="6725,100">@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="55" name="PortRoyale" tags="" position="6850,100">@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Ship Wright|ShipWright]] | [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="56" name="ShipWright" tags="" position="6975,100">@@color:lime;Travel@@: [[The Docks|PortRoyale]]</tw-passagedata><tw-passagedata pid="57" name="WealthyDistrict" tags="" position="7100,100">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]] | [[Lady Selene&#39;s School for Courtesans|CourtesansGuild]] | [[Veronica&#39;s Secret|PR_Clothier]] | [[David Jone&#39;s Locker|PR_RareGoods]] | 
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[[Port Royale Gifts|GiftShop]]</tw-passagedata><tw-passagedata pid="43" name="FortuneTeller" tags="" position="5350,100">@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="44" name="GiftShop" tags="" position="5475,100">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="45" name="GreatMarket" tags="" position="5600,100">@@color:lime;Travel@@: [[The Docks|PortRoyale]] | [[Madame Blanche&#39;s|FortuneTeller]] | [[Grey Peacock|PR_Tavern]] | [[Lusty Lass|PR_CheapBrothel]] | [[The Entertainment District|EntertainmentDistrict]] | [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="46" name="PR_CheapBrothel" tags="" position="5725,100">@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="47" name="PR_Clothier" tags="" position="5850,100">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="48" name="PR_DanceHall" tags="" position="5975,100">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="49" name="PR_FancyTavern" tags="" position="6100,100">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="50" name="PR_GovernorsMansion" tags="" position="6225,100">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="51" name="PR_GuardHouse" tags="" position="6350,100">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[Jail House|PR_Jail]] | [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="52" name="PR_Jail" tags="" position="6475,100">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="53" name="PR_RareGoods" tags="" position="6600,100">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="54" name="PR_Tavern" tags="" position="6725,100">@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="55" name="PortRoyale" tags="" position="6850,100">@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Shipwright|ShipWright]] | [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="56" name="ShipWright" tags="" position="6975,100">@@color:lime;Travel@@: [[The Docks|PortRoyale]]</tw-passagedata><tw-passagedata pid="57" name="WealthyDistrict" tags="" position="7100,100">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]] | [[Lady Selene&#39;s School for Courtesans|CourtesansGuild]] | [[Veronica&#39;s Secret|PR_Clothier]] | [[David Jone&#39;s Locker|PR_RareGoods]] | 
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[[The Governor&#39;s Mansion|PR_GovernorsMansion]]</tw-passagedata><tw-passagedata pid="58" name="XXXShow" tags="" position="7225,100">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="59" name="PassageTest" tags="" position="7350,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;click &quot;PIRATE_PRACTICE&quot; &quot;Combat&quot;&gt;&gt;
 &lt;&lt;set $MenuAction = &quot;PIRATE_PRACTICE&quot;;&gt;&gt;
