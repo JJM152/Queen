@@ -1,6 +1,0 @@
-:: GirlfriendRoom
-<<set _GFN = $Player.GirlfriendName>>\
-It looks like @@color:pink;<<=_GFN>>'s@@ room hasn't been disturb since the night of your ill-fated departure. In fact, the room is practically immaculate as if not a single spec of dust has landed since. @@color:pink;<<=_GFN>>@@ always seemed to have particularly girly tastes and her room reflects this. Everything is colored a light rose and draped in voluminus fabrics.
-
-@@color:cyan;Interact@@: [[Wardrobe|GFWardrobe]] | [[Vanity|GFVanity]] | [[Mirror|GFMirror]]
-@@color:lime;Travel@@: [[Foyer|IslaMansion]]

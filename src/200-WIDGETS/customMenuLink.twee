@@ -1,6 +1,0 @@
-:: customMenuLink [widget]
-<<widget "customMenuLink">>\
-<<click $args[0] $args[0]>>
-<<if def $args[1]>><<set $MenuAction = $args[1]>><</if>>\
-<<if not tags().contains("custom-menu")>><<set $GameBookmark = passage(); >><</if>><</click>>\
-<</widget>>

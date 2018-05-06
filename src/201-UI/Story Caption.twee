@@ -1,2 +1,0 @@
-:: StoryCaption
-<span id="PlayerScore"><<if $Player != undefined>><<score>><</if>></span>\
