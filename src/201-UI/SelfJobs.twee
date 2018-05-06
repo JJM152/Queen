@@ -1,0 +1,6 @@
+:: SelfJobs [custom-ui]
+<<nobr>>
+<<set _JE = window.App.JobEngine;>>
+<<printJobResult $MenuAction>>
+<<set $MenuAction = 0;>><</nobr>>
+@@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>

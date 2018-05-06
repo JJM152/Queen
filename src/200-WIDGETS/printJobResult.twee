@@ -1,0 +1,19 @@
+:: printJobResult [widget]
+<<widget "printJobResult">><<nobr>>
+<<set _Start = $args[0].PrintStart($Player, _NPC);>>
+<<set _Scenes = $args[0].PlayScenes($Player, _NPC); >>
+<<set _End = $args[0].PrintEnd($Player, _NPC);>>
+<<if _Start != "">><<print _Start>><</if>>
+<<for _i = 0; _i < _Scenes.length; _i++>>
+<br/><<print _Scenes[_i].Print();>><</for>>
+<<if _End != "">><br/><<print $args[0].PrintEnd($Player, _NPC); >><</if>><</nobr>><</widget>>
+
+<<widget "jobButton">><<nobr>>
+<<if $args[0].Available($Player, _NPC)>>
+<<button "Accept">><<replace "#JobUI">><<printJobResult $args[0]>><</replace>><<replace "#PlayerScore">><<score>><</replace>><</button>>
+<<else>>
+<<if $args[0].OnCoolDown($Player) == true>>
+<<button "COOLDOWN">><</button>><<else>>
+<<button "LOCKED">><</button>><</if>>
+<<print $args[0].ReqString($Player);>><</if>>
+<</nobr>><</widget>>

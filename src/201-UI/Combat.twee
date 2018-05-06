@@ -1,0 +1,2 @@
+:: Combat [custom-menu]
+<<combatPanel $MenuAction>>

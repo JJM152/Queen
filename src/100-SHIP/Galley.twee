@@ -1,0 +1,6 @@
+:: Galley
+The galley is a small, but vital area on the ship. From here the cook and his helpers stock and prepare all the meals for the crew, working perpetually around the clock. While most of the crew takes their meals on the deck, there are rows of benches and tables scattered around as well as a small raised dias that looks something like a stage.
+
+<<NPC "Cook">>
+<<jobLinks "GALLEY" 1>>
+@@color:lime;Travel@@: [[Deck]]

@@ -1,0 +1,5 @@
+:: Inventory [custom-menu]
+@@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>\
+<<set _Drugs = $Player.GetItemByTypes(["potion"]);>>\
+<<set _Quests = $Player.GetItemByTypes(["QUEST"]);>>
+<span id="InventoryUI"><<InventoryTable "food">></span>
