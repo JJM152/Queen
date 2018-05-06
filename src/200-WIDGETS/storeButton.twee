@@ -1,0 +1,17 @@
+:: storeButton [widget]
+<<widget "storeButton">>\
+<<if ($args[0]["TYPE"] == "CLOTHES") and ($Player.OwnsWardrobeItem($args[0]) == true)>>@@.disabledStoreButton;<<button "OWNED">><</button>>@@\
+<<else>>\
+<<if ($args[0]["QTY"] < 1) or
+(_ST.PlayerCanAfford($args[0]) != 1)>>\
+@@.disabledStoreButton;<<button "BUY">><</button>>@@\
+<<else>>\
+<<if $Player.MaxItemCapacity($args[0])>>@@.disabledStoreButton;<<button "FULL">><</button>>@@\
+<<else>>\
+@@.storeButton;<<button "BUY" "Shop">>\
+<<run _ST.BuyItem($args[0]);>>\
+<</button>>@@\
+<</if>>\
+<</if>>\
+<</if>>\
+<</widget>>

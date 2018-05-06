@@ -1,0 +1,35 @@
+:: IslaMansion
+<<set _GFN = $Player.GirlfriendName + "'s Room";>>\
+<<set _GFL = $Player.GirlfriendName + "'s Room">>\
+The Governors Mansion is the largest and most elegant building on Isla Harbor. You've only been in a few times, mostly when $Player.GirlfriendName would sneak you past the house staff, but it's largely how you remember it - with high vaulted cielings, dark wood panelling and lush carpets covering the tiled floors. The Governor himself isn't much for such opulance, but as $Player.GirlfriendName explained to you, there's a certain level of extravagance that's expected with such a position in society.
+
+<<if $Player.Phase < 3>><<NPC "Jarvis">>
+
+@@color:lime;Travel@@: [[Town Center|IslaTown]] | \
+<<click _GFL>>\
+<<replace "#Notification">>\
+As you attempt to gain entry into @@color:HotPink;<<print _GFL >>@@ the steward steps forward and blocks your way.
+
+@@color:cyan;Jarvis@@ says, "Excuse me, but I can't allow you to enter any further than this. The young miss isn't about but I dare say she wouldn't like you rifling through her things."
+
+//Perhaps if there was some way to distract him...//
+<</replace>>\
+<</click>>\
+ | \
+<<if window.App.QuestEngine.GetQuestFlag($Player, "DADDYSGIRL") == false>>\
+<<click "Study">>\
+<<replace "#Notification">>\
+You move forward toward's the @@color:gold;Governor's Study@@, but the steward steps forward and blocks your way.
+
+@@color:cyan;Jarvis@@ says, "Sorry miss, but the Governor isn't taking any visitors now. He's quite distraught over the disappearance of his daughter."
+
+//How can you convince him to let you through without exposing your embarassing identity?//
+<</replace>>\
+<</click>>\
+<<else>>\
+[[Study|GovernorStudy]]
+<</if>>
+<<else>>@@color:lime;Travel@@: [[Town Center|IslaTown]] | [[_GFN|GirlfriendRoom]] | [[Study|GovernorStudy]]
+<</if>>
+
+<span id="Notification"></span>
