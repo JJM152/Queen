@@ -1,0 +1,8 @@
+:: printPlayerDescription [widget]
+<<widget "printPlayerDescription">>\
+You stare into the mirror...
+
+You are <<print window.App.PR.pHeight($Player);>> and <<print window.App.PR.pFitness($Player);>> You have a <<print window.App.PR.pFace($Player);>> <<print window.App.PR.pHair($Player);>> <<print window.App.PR.pEyes($Player);>> You have <<print window.App.PR.pLips($Player);>> <<print window.App.PR.pBust($Player);>> <<print window.App.PR.pAss($Player);>> <<print window.App.PR.pHips($Player);>> <<print window.App.PR.pWaist($Player);>> and <<print window.App.PR.pFigure($Player);>>. You have <<print window.App.PR.pPenis($Player);>> and <<print window.App.PR.pBalls($Player);>> between your legs.
+You consider your natural beauty to be <<print window.App.PR.pBeauty($Player);>>.
+The fetish appeal of your body is <<print window.App.PR.pFetish($Player);>>.
+<</widget>>
