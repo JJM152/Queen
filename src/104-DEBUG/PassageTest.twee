@@ -1,8 +1,0 @@
-:: PassageTest
-<<nobr>>
-<<click "PIRATE_PRACTICE" "Combat">>
-<<set $MenuAction = "PIRATE_PRACTICE";>>
-<<if not tags().contains("custom-menu")>>
-<<set $GameBookmark = passage(); >>
-<</if>>
-<</click>><</nobr>>

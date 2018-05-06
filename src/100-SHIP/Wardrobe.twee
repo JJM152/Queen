@@ -1,5 +1,0 @@
-:: Wardrobe
-You are standing infront of a large wooden wardrobe. It's obviously old and it's time at sea has caused it to rot away in places. This is where you can store and change your clothes.
-
-@@color:cyan;Interact:@@ [[Exit|Cabin]] | [[Vanity]] | [[Mirror]]
-<span id="WardrobeUI"><<WearingTable>></span>

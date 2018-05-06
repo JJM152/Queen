@@ -1,6 +1,0 @@
-:: Captain
-The captains quarters are spacious, at least by the standards of this ship. There is a large glass window against the aft side of the room and plush velvet drapes hanging from the walls. The furniture itself is old, but well maintained and the Captain is known for his expensive tastes.
-
-<<NPC "Captain">>
-
-@@color:lime;Travel@@: [[Deck]]

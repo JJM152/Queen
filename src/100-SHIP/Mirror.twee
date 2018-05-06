@@ -1,6 +1,0 @@
-:: Mirror
-This is a well used full length mirror. Unlike most mirrors it's actually made out of silvered glass intead of metal. It's surprisingly expensive.
-
-@@color:cyan;Interact:@@ [[Exit|Cabin]] | [[Vanity]] | [[Wardrobe]]
-
-<<printPlayerDescription>>

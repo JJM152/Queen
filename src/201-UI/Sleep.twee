@@ -1,8 +1,0 @@
-:: Sleep [custom-menu]
-<<if $Player.Phase >= 3>><<run $Player.NextDay(); >><</if>>\
-Night finally comes and you drag yourself off to bed. Within moments of laying down your tired body succumbs to sleep.
-
-<<if $Player.SleepLog.length != 0>><<for _i to 0; _i lt $Player.SleepLog.length; _i++>>\
-<<print $Player.SleepLog[_i]>><br/><</for>><</if>>\
-
-@@color:cyan;Interact@@: [[Wake up|Cabin]]
