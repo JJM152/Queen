@@ -1,0 +1,42 @@
+:: combatWidgets [widget]
+<<widget "enemyStatus">><<nobr>>
+<table>
+<tbody>
+<tr>
+    <td colspan="2">@@color:yellow;<<print $args[0].Name()>>@@</td>
+</tr>
+<tr>
+    <td>Health</td>
+	<td><span id="fixed-font"><<print $args[0].HealthMeter(); >></span></td>
+</tr>
+<tr>
+    <td>Energy</td>
+	<td><span id="fixed-font"><<print $args[0].EnergyMeter(); >></span></td>
+</tr>
+</tbody>
+</table>
+<</nobr>><</widget>>
+
+<<widget "enemyStatus2">><<print JSON.stringify($args[0]);>><</widget>>
+
+<<widget "combatPanel">><<nobr>>
+<<set _CE = window.App.CombatEngine; >>
+<<run _CE.LoadEncounter($args[0]);>>
+<<set _EN = _CE.GetEnemies(); >>
+<table>
+<tbody>
+<tr style="border-bottom:solid 1px white;">
+	<td colspan="4">@@color:cyan;Combat Encounter!@@</td>
+</tr>
+<tr style="border-bottom:solid 1px white;">
+<<for _i = 0; _i < 4; _i++>>
+<<if _i < _EN.length>>
+	<td style="width:200px;"><<enemyStatus _EN[_i]>></td>
+<<else>>
+	<td style="width:200px;"> </td>
+<</if>>
+<</for>>
+</tr>
+</tbody>
+</table>
+<</nobr>><</widget>>

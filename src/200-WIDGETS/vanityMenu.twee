@@ -1,0 +1,191 @@
+:: vanityMenu [widget]
+<<widget "vanityMenu">>\
+<<set _Hair = window.App.Data.Lists["HairStyles"];>>\
+<<set _H1 = $Player.GetItemCharges("hair tool");>>\
+<<set _H2 = $Player.GetItemCharges("hair treatment");>>
+<<set _HL = $Player.GetStat("BODY", "Hair"); >>\
+<<set _M1 = $Player.GetItemCharges("basic makeup");>>\
+<<set _M2 = $Player.GetItemCharges("expensive makeup");>>
+<<set _Makeup = window.App.Data.Lists["MakeupStyles"];>>\
+<<set _Wig = $Player.Equipment["Wig"];>>\
+<<set _Wigs = $Player.WardrobeItemsBySlot("Wig");>>\
+<<set _TRIM = $Player.GetStat("BODY", "Hair") - 5;>>\
+<<set _PR = window.App.PR;>>\
+<<nobr>>
+<table class="MyTable">
+    <tbody>
+    <tr>
+        <td style="vertical-align:top;">
+        <table class="MyTable" style="border:1px solid black;">
+            <tbody>
+            <tr style="border-bottom:1px solid white;">
+			    <td style="width:30px;"> </td>
+                <td>Hair Style</td>
+                <td style="font-size:smaller;">Acc.</td>
+				<td style="font-size:smaller;">Prod.</td>
+            </tr>
+<<if _Wig != 0>>
+<tr>
+    <td style="text-align:center;width:30px;">
+	<<print '<<radiobutton "$HairStyle" "'+_Wig.Id()+'" checked>>'>></td>
+	<td><<print _PR.ColorizeString(_Wig.HairBonus(), "⇑Wig");>> <<print _Wig.Description()>></td>
+	<td style="text-align:center;width:30px;"> - </td>
+	<td style="text-align:center;width:30px;"> - </td>
+</tr>
+<</if>>
+<<if _Wigs.length != 0>>
+<<for _i = 0; _i < _Wigs.length; _i++>>
+<tr>
+    <td style="text-align:center;width:30px;">
+<<print '<<radiobutton "$HairStyle" "'+_Wigs[_i].Id()+'">>'>>	
+   </td>
+	<td><<print _PR.ColorizeString(_Wigs[_i].HairBonus(), "⇑Wig");>> <<print _Wigs[_i].Description()>></td>
+	<td style="text-align:center;width:30px;"> - </td>
+	<td style="text-align:center;width:30px;"> - </td>
+</tr>
+<</for>>
+<</if>>
+<<for _i = 0; _i < _Hair.length; _i++>>
+<tr>
+<<if ( _H1 < _Hair[_i]["RESOURCE1"] ) ||
+	 ( _H2 < _Hair[_i]["RESOURCE2"] ) ||
+	 ( _HL < _Hair[_i]["MIN"] ) || 
+	 ( _HL > _Hair[_i]["MAX"] )>>
+		 <td> </td>
+	     <td>
+<<if _HL < _Hair[_i]["MIN"]>>
+@@color:red;⇓Hair@@<<else>>@@color:red;⇑Hair@@<</if>>
+@@color:grey;<<print _Hair[_i]["SHORT"];>>@@
+		</td>
+		<td style="text-align:center;width:30px;">
+<<if _H1 < _Hair[_i]["RESOURCE1"]>>
+@@color:red;<<print _Hair[_i]["RESOURCE1"];>>@@<<else>>
+<<print _Hair[_i]["RESOURCE1"];>>
+<</if>>
+		</td>
+		<td style="text-align:center;width:30px;">
+<<if _H2 < _Hair[_i]["RESOURCE2"]>>
+@@color:red;<<print _Hair[_i]["RESOURCE2"];>>@@<<else>>
+<<print _Hair[_i]["RESOURCE2"]>>
+<</if>>
+		</td>
+<<else>>
+	<td style="text-align:center;">
+	<<if $Player.LastUsedHair == _Hair[_i]["NAME"] && _Wig == 0>>
+<<print '<<radiobutton "$HairStyle" "'+_Hair[_i]["NAME"] +'" checked>>'>><<else>><<print '<<radiobutton "$HairStyle" "'+_Hair[_i]["NAME"] +'">>'>><</if>>
+	</td>
+	<td><<print _PR.ColorizeString(_Hair[_i]["STYLE"], "⇑Style") + " "+ _Hair[_i]["SHORT"];>></td>
+	<td style="text-align:center;width:30px;"><<print _Hair[_i]["RESOURCE1"];>></td>
+	<td style="text-align:center;width:30px;"><<print _Hair[_i]["RESOURCE2"];>></td>
+<</if>>
+</tr>
+<</for>>
+            <tr style="border-top:1px solid white;">
+				<td> </td>
+                <td style="text-align:right;font-size:smaller">Accessories & Products Owned</td>
+                <td style="width:30px;text-align:center;"><<print $Player.GetItemCharges("hair tool");>></td>
+                <td style="width:30px;text-align:center;"><<print $Player.GetItemCharges("hair treatment");>></td>
+            </tr>
+            </tbody>
+        </table>
+        </td>
+        <td>
+        <table class="MyTable" style="border:1px solid black;">
+            <tbody>
+            <tr style="border-bottom:1px solid white;">
+			    <td style="width:30px;"> </td>
+                <td>Makeup Styles</td>
+                <td style="font-size:smaller;">Bas.</td>
+				<td style="font-size:smaller;">Exp.</td>
+            </tr>
+<<for _i = 0; _i < _Makeup.length; _i++>>
+<tr>
+<<if ( _M1 < _Makeup[_i]["RESOURCE1"] ) ||
+	 ( _M2 < _Makeup[_i]["RESOURCE2"] )>>
+		 <td> </td>
+	     <td>
+<<print _PR.ColorizeString(_Makeup[_i]["STYLE"], "⇑Style")>> @@color:grey;<<print _Makeup[_i]["SHORT"];>>@@
+		</td>
+		<td style="text-align:center;width:30px;">
+<<if _M1 < _Makeup[_i]["RESOURCE1"]>>
+@@color:red;<<print _Makeup[_i]["RESOURCE1"];>>@@<<else>>
+<<print _Makeup[_i]["RESOURCE1"];>>
+<</if>>
+		</td>
+		<td style="text-align:center;width:30px;">
+<<if _M2 < _Makeup[_i]["RESOURCE2"]>>
+@@color:red;<<print _Makeup[_i]["RESOURCE2"];>>@@<<else>>
+<<print _Makeup[_i]["RESOURCE2"]>>
+<</if>>
+		</td>
+<<else>>
+	<td style="text-align:center;">
+	<<if $Player.LastUsedMakeup == _Makeup[_i]["NAME"]>>
+<<print '<<radiobutton "$MakeupStyle" "'+_Makeup[_i]["NAME"] +'" checked>>'>><<else>><<print '<<radiobutton "$MakeupStyle" "'+_Makeup[_i]["NAME"] +'">>'>><</if>>
+	</td>
+	<td><<print _PR.ColorizeString(_Makeup[_i]["STYLE"], "⇑Style") + " "+ _Makeup[_i]["SHORT"];>></td>
+	<td style="text-align:center;width:30px;"><<print _Makeup[_i]["RESOURCE1"];>></td>
+	<td style="text-align:center;width:30px;"><<print _Makeup[_i]["RESOURCE2"];>></td>
+<</if>>
+</tr>
+<</for>>
+<<set _HairRows = _Hair.length + _Wigs.length>>
+<<if _Wig != 0>><<set _HairRows = _HairRows + 1>><</if>>
+<<if _HairRows > _Makeup.length >>
+<<set _Rows = (_HairRows - _Makeup.length)>>
+<<for _i = 0; _i < _Rows; _i++>>
+<tr>
+<td> </td><td> </td><td> </td><td> </td>
+</tr>
+<</for>>
+<</if>>
+            <tr style="border-top:1px solid white;">
+				<td> </td>
+                <td style="text-align:right;font-size:smaller">Basic & Expensive Makeup Owned</td>
+                <td style="width:30px;text-align:center;"><<print $Player.GetItemCharges("basic makeup");>></td>
+                <td style="width:30px;text-align:center;"><<print $Player.GetItemCharges("expensive makeup");>></td>
+            </tr>
+            </tbody>
+        </table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="text-align:left;">
+@@color:yellow;Action@@: 
+<<if $Player.GetStat("STAT", "Energy") < 1>>
+@@color:grey;Do Makeup and Hair@@
+<<else>>
+<<click "Do Makeup and Hair" "Vanity">>
+<<run $Player.AdjustStat("Energy", -1);>>
+<<run $Player.DoStyling($HairStyle, $MakeupStyle);>>
+<</click>>
+<</if>>
+@@color:yellow; (1 Energy)@@ |
+<<if $Player.MakeupStyle == "plain faced">>
+@@color:grey;Remove Makeup@@
+<<else>>
+<<click "Remove Makeup" "Vanity">>
+<<set $Player.MakeupStyle = "plain faced";>>
+<<set $Player.MakeupBonus = 0>>
+<</click>>
+<</if>>
+ | 
+<<if _TRIM < 5>>
+<<click "Trim Hair" "Vanity">>
+<<set $Player.BodyStats["Hair"] = 5;>>
+<<if _Wig != 0>>
+<<run $Player.Remove($Player.Equipment["Wig"]);>>.
+<</if>>
+<</click>> (<<print _PR.CMtoINCH(_PR.StatToCM($Player, "Hair"));>> in ⇒ <<print _PR.CMtoINCH(_PR.StatToCM($Player, "Hair", (5 - $Player.GetStat("BODY", "Hair"))));>> in)
+<<else>>
+<<click "Trim Hair" "Vanity">>
+<<run $Player.AdjustBody("Hair", -5);>>
+<<if _Wig != 0>>
+<<run $Player.Remove($Player.Equipment["Wig"]);>>.
+<</if>>
+<</click>> (<<print _PR.CMtoINCH(_PR.StatToCM($Player, "Hair"));>> in. -> <<print _PR.CMtoINCH( (_PR.StatToCM($Player, "Hair",-5)));>> in.)<</if>></td>
+	</tr>
+	</tbody>
+</table>
+<</nobr>>
+<</widget>>

@@ -1,0 +1,11 @@
+:: IslaTavern
+Entering this tavern brings back bad memories of that fateful night when you first ran into Captain Reginald and his pirate crew. The place hasn't changed much since then, it's still dingy, dirty and thoroughly disreputable. 
+<<if $Player.Phase < 2>>\
+The tavern is mostly quiet now, but business tends to pick up in the evening.<<else>>\
+<<if $Player.Phase == 4>>\
+It's late night so there aren't many patrons around.<<else>>\
+The tavern is bustling and lively with many patrons clamoring for drink and food.<</if>><</if>>
+
+<<NPC "IslaTavernKeeper">>
+<<if $Player.Phase == 3>><<NPC "Jarvis">><</if>>
+@@color:lime;Travel@@: [[The Docks|IslaHarbor]]

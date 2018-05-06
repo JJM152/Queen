@@ -1,0 +1,86 @@
+:: Stat Test
+<table>
+<tr>
+	<td>Stat</td><td>Score</td><td>XP</td><td> </td>
+	<td>Body</td><td>Score</td><td>XP</td><td> </td>
+	<td>Skill</td><td>Score</td><td>XP</td><td> </td>
+</tr>
+<tr>
+	<td>Health</td><td><<print $Player.CoreStats["Health"]>></td><td><<print $Player.CoreStatsXP["Health"]>></td><td> </td>
+	<td>Face</td><td><<print $Player.BodyStats["Face"]>></td><td><span id="Face"><<print $Player.BodyXP["Face"]>></span></td>
+	<td><<click "+">><<replace "#Face">><<print $Player.BodyXP["Face"]+= 50;>><</replace>><</click>>
+	    <<click "-">><<replace "#Face">><<print $Player.BodyXP["Face"]-= 50;>><</replace>><</click>>
+	</td>
+	<td>HandJobs</td><td><<print $Player.Skills["HandJobs"]>></td><td><span id="HandJobs"><<print $Player.SkillsXP["HandJobs"]>></span></td>
+	<td><<click "+">><<replace "#HandJobs">><<print $Player.SkillsXP["HandJobs"]+= 50;>><</replace>><</click>>
+	    <<click "-">><<replace "#HandJobs">><<print $Player.SkillsXP["HandJobs"]-= 50;>><</replace>><</click>>
+	</td>	
+</tr>
+<tr>
+	<td>Nutrition</td><td><<print $Player.CoreStats["Nutrition"]>></td><td><<print $Player.CoreStatsXP["Nutrition"]>></td><td> </td>
+	<td>Lips</td><td><<print $Player.BodyStats["Lips"]>></td><td><<print $Player.BodyXP["Lips"]>></td><td> </td>
+	<td>TitFucking</td><td><<print $Player.Skills["TitFucking"]>></td><td><<print $Player.SkillsXP["TitFucking"]>></td><td> </td>
+</tr>
+<tr>
+	<td>WillPower</td><td><<print $Player.CoreStats["WillPower"]>></td><td><<print $Player.CoreStatsXP["WillPower"]>></td><td> </td>
+	<td>Bust</td><td><<print $Player.BodyStats["Bust"]>></td><td><span id="Bust"><<print $Player.BodyXP["Bust"]>></span></td><td><<click "+">><<replace "#Bust">><<print $Player.BodyXP["Bust"]+= 50;>><</replace>><</click>>
+	    <<click "-">><<replace "#Bust">><<print $Player.BodyXP["Bust"]-= 50;>><</replace>><</click>></td>
+	<td>BlowJobs</td><td><<print $Player.Skills["BlowJobs"]>></td><td><<print $Player.SkillsXP["BlowJobs"]>></td><td> </td>
+</tr>
+<tr>
+	<td>Perversion</td><td><<print $Player.CoreStats["Perversion"]>></td><td><<print $Player.CoreStatsXP["Perversion"]>></td><td> </td>
+	<td>Ass</td><td><<print $Player.BodyStats["Ass"]>></td><td><<print $Player.BodyXP["Ass"]>></td><td> </td>
+	<td>AssFucking</td><td><<print $Player.Skills["AssFucking"]>></td><td><<print $Player.SkillsXP["AssFucking"]>></td><td> </td>
+</tr>
+<tr>
+	<td>Femininity</td><td><<print $Player.CoreStats["Femininity"]>></td><td><<print $Player.CoreStatsXP["Femininity"]>></td><td> </td>
+	<td>Waist</td><td><<print $Player.BodyStats["Waist"]>></td><td><<print $Player.BodyXP["Waist"]>></td><td> </td>
+	<td>Dancing</td><td><<print $Player.Skills["Dancing"]>></td><td><<print $Player.SkillsXP["Dancing"]>></td><td> </td>
+</tr>
+<tr>
+	<td>Fitness</td><td><<print $Player.CoreStats["Fitness"]>></td><td><<print $Player.CoreStatsXP["Fitness"]>></td><td> </td>
+	<td>Hips</td><td><<print $Player.BodyStats["Hips"]>></td><td><<print $Player.BodyXP["Hips"]>></td><td> </td>
+	<td>Singing</td><td><<print $Player.Skills["Singing"]>></td><td><<print $Player.SkillsXP["Singing"]>></td><td> </td>
+</tr>
+<tr>
+	<td>Toxicity</td><td><<print $Player.CoreStats["Toxicity"]>></td><td><<print $Player.CoreStatsXP["Toxicity"]>></td><td> </td>
+	<td>Penis</td><td><<print $Player.BodyStats["Penis"]>></td><td><<print $Player.BodyXP["Penis"]>></td><td> </td>
+	<td>Seduction</td><td><<print $Player.Skills["Seduction"]>></td><td><<print $Player.SkillsXP["Seduction"]>></td><td> </td>
+</tr>
+<tr>
+	<td>Hormones</td><td><<print $Player.CoreStats["Hormones"]>></td><td><span id="Hormones"><<print $Player.CoreStatsXP["Hormones"]>></span></td>
+	<td><<click "+">><<replace "#Hormones">><<print $Player.CoreStatsXP["Hormones"]+= 50;>><</replace>><</click>>
+	    <<click "-">><<replace "#Hormones">><<print $Player.CoreStatsXP["Hormones"]-= 50;>><</replace>><</click>>
+	</td>	
+	<td>Hair</td><td><<print $Player.BodyStats["Hair"]>></td><td><<print $Player.BodyXP["Hair"]>></td><td> </td>
+	<td>Cleaning</td><td><<print $Player.Skills["Cleaning"]>></td><td><<print $Player.SkillsXP["Cleaning"]>></td><td> </td>
+</tr>
+<tr>
+	<td colspan="4"> </td>
+	<td>Height</td><td><<print $Player.BodyStats["Height"]>></td><td><<print $Player.BodyXP["Height"]>></td><td> </td>
+	<td>Cooking</td><td><<print $Player.Skills["Cooking"]>></td><td><<print $Player.SkillsXP["Cooking"]>></td><td> </td>
+</tr>
+<tr>
+	<td colspan="4"> </td>
+	<td>Balls</td><td><<print $Player.BodyStats["Balls"]>></td><td><<print $Player.BodyXP["Balls"]>></td><td> </td>
+	<td>Swashbuckling</td><td><<print $Player.Skills["Swashbuckling"]>></td><td><<print $Player.SkillsXP["Swashbuckling"]>></td><td> </td>
+</tr>
+<tr>
+	<td colspan="4"> </td>
+	<td colspan="4"> </td>
+	<td>Sailing</td><td><<print $Player.Skills["Sailing"]>></td><td><<print $Player.SkillsXP["Sailing"]>></td><td> </td>
+</tr>
+<tr>
+	<td colspan="4"> </td>
+	<td colspan="4"> </td>
+	<td>Navigating</td><td><<print $Player.Skills["Navigating"]>></td><td><<print $Player.SkillsXP["Navigating"]>></td><td> </td>
+</tr>
+<tr>
+	<td colspan="4"> </td>
+	<td colspan="4"> </td>
+	<td>Styling</td><td><<print $Player.Skills["Styling"]>></td><td><<print $Player.SkillsXP["Styling"]>></td><td> </td>
+</tr>
+</table>
+[[Hormones to 100|Stat Test][$Player.CoreStats["Hormones"] to 100]]
+[[Next Day|Stat Test][$Player.NextDay();]]
+[[Cabin]] [[IslaHarbor]] [[GoldenIsle]] [[Abamond]] [[PortRoyale]] [[PassageTest]]

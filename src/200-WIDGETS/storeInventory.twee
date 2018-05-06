@@ -1,0 +1,55 @@
+:: storeInventory [widget]
+<<widget storeInventory>>\
+<<set _NPC = $MenuAction>>\
+<<set _SE = window.App.StoreEngine;>>\
+<<set _ST = _SE.OpenStore($Player, _NPC);>>\
+<<set _CI = _ST.GetCommonInventory();>>\
+<<set _RI = _ST.GetRareInventory(); >>\
+<<nobr>>
+<table class=".MyTable">
+<tbody>
+<tr><td colspan="4" style="font-size:larger;text-align:center;">@@color:cyan;<<print _ST.GetName();>>@@</td>
+</tr>
+<tr style="border-bottom:solid 1px white;">
+<td style="width: 310px;">@@color:yellow;General Items@@</td>
+<td style="width: 80px;font-size:smaller;text-align:center;">Quantity</td>
+<td style="width: 60px;font-size:smaller;text-align:right;">Price</td>
+<td style="width: 125px;"> </td>
+</tr>
+<<if _CI.length == 0>>
+<tr>
+<td colspan="4">  @@color:orange;Nothing for sale!@@</td>
+</tr>
+<<else>>
+<<for _i = 0; _i lt _CI.length; _i++>>
+<tr>
+<td>  <<print _ST.PrintItem(_CI[_i]);>></td>
+<td style="text-align:center;"><<print _CI[_i]["QTY"]>></td>
+<td style="text-align:right;"><<print _ST.GetPrice(_CI[_i]);>></td>
+<td style="text-align:center;"><<storeButton _CI[_i]>></td>
+</tr>
+<</for>>
+<</if>>
+<tr style="border-bottom:solid 1px white;">
+<td style="width: 310px;">@@color:lime;Rare Items@@</td>
+<td style="width: 80px;"> </td>
+<td style="width: 60px;"> </td>
+<td style="width: 125px;"> </td>
+</tr>
+<<if _RI.length == 0>>
+<tr>
+<td colspan="4">  @@color:orange;Nothing for sale!@@</td>
+</tr>
+<<else>>
+<<for _i = 0; _i lt _RI.length; _i++>>
+<tr>
+<td>  <<print _ST.PrintItem(_RI[_i]);>></td>
+<td style="text-align:center;"><<print _RI[_i]["QTY"]>></td>
+<td style="text-align:right;"><<print _ST.GetPrice( _RI[_i]);>></td>
+<td style="text-align:center;"><<storeButton _RI[_i]>></td>
+</tr>
+<</for>>
+<</if>>
+</tbody>
+</table>
+<</nobr>><</widget>>

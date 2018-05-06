@@ -1,0 +1,20 @@
+:: questList [widget]
+<<widget "questList">>\
+<<set _QE = window.App.QuestEngine;>>\
+<<set _QL = _QE.GetQuests("any", $Player, $MenuAction);>>\
+<<set _NPC = $Player.NPCS[$MenuAction];>>\
+<<set $n = _NPC.pName(); >>\
+You approach $n and ask about any 'special tasks' that need to be done.
+
+<<for _i = 0; _i < _QL.length; _i++>>\
+<<if _QE.QuestAvailable($Player, _QL[_i]["ID"]) or
+_QE.QuestActive($Player, _QL[_i]["ID"])>>\
+<<questEntry _QL[_i]>>\
+<<else>>\
+<<if _QE.QuestCompleted($Player, _QL[_i]["ID"])>>\
+@@color:grey;<<print _QL[_i]["Title"]>>@@ @@color:yellow;(COMPLETED)@@
+<</if>>\
+<</if>>\
+<</for>>
+@@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>
+<</widget>>

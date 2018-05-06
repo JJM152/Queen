@@ -1,0 +1,34 @@
+:: Journal [custom-menu]
+@@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>
+
+@@color:DeepPink;Active Quests@@
+<<set _QE = window.App.QuestEngine;>>\
+<<set _QLA = _QE.GetQuests("active", $Player);>>\
+<<set _QLC = _QE.GetQuests("completed", $Player);>>\
+<<if _QLA.length == 0>>\
+No active quests.
+<<else>>\
+<<for _i = 0; _i < _QLA.length; _i++>>\
+<<set _NPC = $Player.NPCS[_QLA[_i]["GIVER"]];>>\
+//<<print "[" +_NPC.pName() + " - " + _QLA[_i]["Title"] + "]";>>//
+<<print window.App.PR.pQuestDialog(_QLA[_i]["ID"], "JOURNAL_ENTRY", $Player, _NPC);>>
+<<if _QLA[_i]["CHECKS"].length != 0>>\
+<<print window.App.PR.pQuestRequirements(_QLA[_i]["ID"], $Player) + "\n";>>
+<<else>>
+<</if>>\
+<</for>>\
+<</if>>\
+<hr>
+@@color:yellow;Completed Quests@@
+<<if _QLC.length == 0>>\
+No completed quests.
+
+<<else>>\
+<<for _i = 0; _i < _QLC.length; _i++>>\
+<<set _NPC = $Player.NPCS[_QLC[_i]["GIVER"]];>>\
+//<<print "[" +_NPC.pName() + " - "  + _QLC[_i]["Title"] + "]";>>//
+<<print window.App.PR.pQuestDialog(_QLC[_i]["ID"], "JOURNAL_COMPLETE", $Player, _NPC);>>
+
+
+<</for>>\
+<</if>>

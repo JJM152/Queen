@@ -1,0 +1,19 @@
+:: Jobs [custom-menu]
+<<nobr>>
+<<set _NPC = $Player.NPCS[$MenuAction];>>
+<<set _JE = window.App.JobEngine;>>
+<<set _JA = _JE.GetAvailableJobs($Player, $MenuAction);>>
+<<set _JU = _JE.GetUnavailableJobs($Player, $MenuAction);>>
+<span id="JobUI"><<for _i = 0; _i < _JA.length; _i++>>
+<<if _i > 0;>><br/><br/><</if>>
+<<print _JA[_i].Title(); >><br/>
+<<print _JA[_i].Intro($Player, _NPC); >><br/>
+  <<if _JA[_i].Available($Player, _NPC)>>@@.cmdButton;<<jobButton _JA[_i]>>@@<<else>>@@.cmdDisabledButton;<<jobButton _JA[_i]>>@@<</if>><br/>
+<</for>>
+<<for _i = 0; _i < _JU.length; _i++>>
+<<if (_JA.length > 0 && _i == 0) || _i > 0>><br/><br/><</if>>
+<<print _JU[_i].Title(); >><br/>
+<<print _JU[_i].Intro($Player, _NPC); >><br/>
+  <<if _JU[_i].Available($Player, _NPC)>>@@.cmdButton;<<jobButton _JU[_i]>>@@<<else>>@@.cmdDisabledButton;<<jobButton _JU[_i]>>@@<</if>><br/>
+<</for>></span><</nobr>>
+@@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>
