@@ -489,11 +489,17 @@ window.App.Entity.Player = function (){
         return Math.max(0, Math.min(this.HairBonus, 100));
     };
 
+    /**
+     * @returns {string}
+     */
     this.GetHairStyle = function () {
         if (this.Equipment["Wig"] != 0) return this.Equipment["Wig"].HairStyle();
         return this.HairStyle;
     };
 
+    /**
+     * @returns {string}
+     */
     this.GetHairColor = function () {
         if (this.Equipment["Wig"] != 0) return this.Equipment["Wig"].HairColor();
         return this.HairColor;
@@ -546,7 +552,7 @@ window.App.Entity.Player = function (){
             Rating += this.Equipment[prop].CategoryBonus(Spec);
         }
         return Rating;
-    }
+    };
 
     /**
      * Derived statistic, lends itself to Beauty. WaistRating, BustRating, HipsRating and AssRating contribute.
@@ -594,6 +600,7 @@ window.App.Entity.Player = function (){
 
     /**
      * For now just the percentage of the lips 1-100.
+     * @returns {number}
      */
     this.LipsRating = function () {
         return this.GetStatPercent("BODY", "Lips");
@@ -639,6 +646,12 @@ window.App.Entity.Player = function (){
     this.GetMinStat = function (Type, StatName) {
         return this.GetStatConfig(Type)[StatName]["MIN"];
     };
+
+    /**
+     * @param {string} Type
+     * @param {string} StatName
+     * @returns {number}
+     */
     this.GetStatPercent = function (Type, StatName) {
         return Math.floor(((this.GetStat(Type, StatName) - this.GetMinStat(Type, StatName)) / ((this.GetMaxStat(Type, StatName) - this.GetMinStat(Type, StatName)))) * 100);
     };
@@ -663,6 +676,12 @@ window.App.Entity.Player = function (){
         return Level;
     };
 
+    /**
+     * @param {string} Type
+     * @param {string} StatName
+     * @param {number} Amount
+     * @returns {number}
+     */
     this.GetCapStat = function (Type, StatName, Amount) {
         return Math.round((Math.max(this.GetMinStat(Type, StatName), Math.min(Amount, this.GetMaxStat(Type, StatName)))) * 100) / 100;
     };
@@ -883,6 +902,9 @@ window.App.Entity.Player = function (){
         }
     };
 
+    /**
+     * @returns {*}
+     */
     this.GetShipLocation = function () {
         var Routes = window.App.Data.Lists["ShipRoute"];
         if (!Routes.hasOwnProperty(this.SailDays)) return 0;
@@ -899,6 +921,11 @@ window.App.Entity.Player = function (){
 
     // Equipment and Inventory Related Functions
 
+    /**
+     *
+     * @param ItemDict
+     * @returns {boolean}
+     */
     this.OwnsWardrobeItem = function(ItemDict)
     {
         if (ItemDict["TYPE"] != "CLOTHES") return false;
@@ -906,9 +933,12 @@ window.App.Entity.Player = function (){
         var Slot = window.App.Data.Clothes[ItemDict["TAG"]]["Slot"];
         if ((this.Equipment[Slot] === undefined) || (this.Equipment[Slot] == 0)) return false;
         if (this.Equipment[Slot].Name() == ItemDict["TAG"]) return true;
-        return false;
     };
 
+    /**
+     * @param ItemDict
+     * @returns {boolean}
+     */
     this.MaxItemCapacity = function(ItemDict)
     {
         var o = this.GetItemByName(ItemDict["TAG"]);
@@ -929,6 +959,10 @@ window.App.Entity.Player = function (){
         return this.Wardrobe.filter(function(Item) { return Item.Slot() == Slot;});
     };
 
+    /**
+     * @param {string} Slot
+     * @returns {string}
+     */
     this.PrintEquipment = function(Slot)
     {
         if (!this.Equipment.hasOwnProperty(Slot)) return "@@color:grey;Nothing@@";
@@ -936,6 +970,10 @@ window.App.Entity.Player = function (){
         return this.Equipment[Slot].Description();
     };
 
+    /**
+     * @param {string} Slot
+     * @returns {*}
+     */
     this.GetEquipmentInSlot = function(Slot) {
         if ( (!this.Equipment.hasOwnProperty(Slot)) || (this.Equipment[Slot] == 0 )) return 0;
         return this.Equipment[Slot];
@@ -986,6 +1024,11 @@ window.App.Entity.Player = function (){
         });
     };
 
+    /**
+     * @param {string} Type
+     * @param {string} Bonus
+     * @returns {number}
+     */
     this.GetBestItem = function (Type, Bonus) {
         var items = this.GetItemByTypes([Type]);
         var o = 0;
@@ -1068,6 +1111,10 @@ window.App.Entity.Player = function (){
         }
     };
 
+    /**
+     * @param {string} Skill
+     * @returns {number}
+     */
     this.GetWornSkillBonus = function (Skill) {
         var bonus = 0;
         for (var prop in this.Equipment) {
@@ -1108,6 +1155,11 @@ window.App.Entity.Player = function (){
         return window.App.Data.Lists["BodyChanges"][BodyPart][Direction];
     };
 
+    /**
+     * @param {string} Type
+     * @param {string} Flag
+     * @returns {*}
+     */
     this.GetHistory = function(Type, Flag) {
         if ((typeof this.History[Type] === 'undefined')) return 0;
         if ((typeof this.History[Type][Flag] === 'undefined')) return 0;
