@@ -69,7 +69,7 @@ window.App.Data.Quests  = {
                     {"TYPE": "NPC_MOOD", "NAME": "Crew", "VALUE": 90},
 					{"TYPE": "NPC_MOOD", "NAME": "FirstMate", "VALUE": 90},
 					{"TYPE": "NPC_MOOD", "NAME": "Cook", "VALUE": 90},
-					{"TYPE": "NPC_MOOD", "NAME": "Quartermaster", "VALUE": 90},
+					{"TYPE": "NPC_MOOD", "NAME": "Quartermaster", "VALUE": 90}
                 ],
                 "REWARD": [
                     // Rewards given when quest is completed.
@@ -199,9 +199,9 @@ window.App.Data.Quests  = {
                     // Flags that are set when quest is completed.
                 ],
                 "CHECKS": [
-                    {"TYPE": "STAT_BODY", "NAME": "Bust", "VALUE": 20},
-                    {"TYPE": "STAT_BODY", "NAME": "Lips", "VALUE": 38},
-                    {"TYPE": "STAT_BODY", "NAME": "Ass", "VALUE": 20}
+                    {"TYPE": "STAT_BODY", "NAME": "Bust", "VALUE": 11},
+                    {"TYPE": "STAT_BODY", "NAME": "Lips", "VALUE": 32},
+                    {"TYPE": "STAT_BODY", "NAME": "Ass", "VALUE": 11}
                 ],
                 "REWARD": [
                     {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "fashion corset", "AMOUNT": 1},
@@ -227,8 +227,8 @@ window.App.Data.Quests  = {
                 "It's shameful, but you have to admit that taking NPC_NAME's advice has paid off... literally.\n\n" +
                 "NPC_NAME looks at you and smiles, \"Here slut, have a little something to help you on your way, and if you ever want to earn some good coin " +
                 "stop by my cabin for some 'play time'.\"",
-                "JOURNAL_ENTRY": "You've been told to increase your physical assets so that you have some @@color:yellow;ample breasts@@, " +
-                "@@color:yellow;feminine lips@@ and at least a @@color:yellow;small ass@@. Doing so will increase your favor with the Captain.",
+                "JOURNAL_ENTRY": "You've been told to increase your physical assets so that you have some @@color:yellow;shapely breasts@@, " +
+                "@@color:yellow;puckered lips@@ and at least a @@color:yellow;rounded ass@@. Doing so will increase your favor with the Captain.",
                 "JOURNAL_COMPLETE": "You've discovered that the food and drugs you consume can alter your body in the most amazing ways. " +
                 "Through trial and error you managed to increase the size of your breasts, lips and ass to proportions where your customers are willing to pay " +
                 "far more for your services than before. In addition to this, the Captain will now be available as a potential customer."
