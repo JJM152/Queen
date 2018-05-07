@@ -820,10 +820,11 @@ window.App.Entity.Player = function (){
 
         this.LevelStatGroup("STAT");
 
-        //Adjust physical characteristics based on hormone balance.
+        //Adjust physical characteristics based on hormone balance. Only shift body if there is XP related to the hormone
+        //shift stored in the player object.
         var HormoneShift = 0;
 
-        if (this.GetStat("STAT", "Hormones") > 100) {
+        if ((this.GetStat("STAT", "Hormones") > 100) && this.GetStatXP("STAT", "Hormones") > 0 ) {
             HormoneShift = ( this.GetStat("STAT", "Hormones") - 100 );
             this.AdjustBodyXP("Face",   HormoneShift            ,     40);
             this.AdjustBodyXP("Bust",   HormoneShift            ,     20);
@@ -833,14 +834,16 @@ window.App.Entity.Player = function (){
             this.AdjustBodyXP("Penis", (HormoneShift * -1.0)    ,      1);
             this.AdjustBodyXP("Balls", (HormoneShift * -1.0)    ,      0);
         } else {
-            HormoneShift = ( 100 - this.GetStat("STAT", "Hormones"));
-            this.AdjustBodyXP("Face",  (HormoneShift * -1.0)    ,   this.GetStartStat("BODY", "Face"));
-            this.AdjustBodyXP("Bust",  (HormoneShift * -1.0)    ,   this.GetStartStat("BODY", "Bust"));
-            this.AdjustBodyXP("Lips",  (HormoneShift * -1.0)    ,   this.GetStartStat("BODY", "Lips"));
-            this.AdjustBodyXP("Ass",   (HormoneShift * -1.0)    ,   this.GetStartStat("BODY", "Ass"));
-            this.AdjustBodyXP("Hips",  (HormoneShift * -1.0)    ,   this.GetStartStat("BODY", "Hips"));
-            this.AdjustBodyXP("Penis",  HormoneShift            ,   this.GetStartStat("BODY", "Penis"));
-            this.AdjustBodyXP("Balls",  HormoneShift            ,   this.GetStartStat("BODY", "Balls"));
+            if (this.GetStatXP("STAT", "Hormones") < 0) {
+                HormoneShift = ( 100 - this.GetStat("STAT", "Hormones"));
+                this.AdjustBodyXP("Face", (HormoneShift * -1.0), this.GetStartStat("BODY", "Face"));
+                this.AdjustBodyXP("Bust", (HormoneShift * -1.0), this.GetStartStat("BODY", "Bust"));
+                this.AdjustBodyXP("Lips", (HormoneShift * -1.0), this.GetStartStat("BODY", "Lips"));
+                this.AdjustBodyXP("Ass",  (HormoneShift * -1.0), this.GetStartStat("BODY", "Ass"));
+                this.AdjustBodyXP("Hips", (HormoneShift * -1.0), this.GetStartStat("BODY", "Hips"));
+                this.AdjustBodyXP("Penis", HormoneShift, this.GetStartStat("BODY", "Penis"));
+                this.AdjustBodyXP("Balls", HormoneShift, this.GetStartStat("BODY", "Balls"));
+            }
         }
 
         this.ApplyClothingEffects();

@@ -1,5 +1,5 @@
 :: Rules [custom-menu]
-!Rules O' the Sea
+@@color:yellow;Rules O' the Sea@@ <<click "Exit" $GameBookmark>><</click>>
 ''Don't Die''
 There are multiple ways to die in this game. Combat and fighting, either with the crew or with other pirates or enemies can end your life. In addition to this you must monitor your health and nutrition. Be careful of taking drugs or magical potions and avoid tiring yourself out too much.
 

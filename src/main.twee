@@ -15,10 +15,23 @@ Config.history.controls = false;
 
 
 :: Start
-This is the title page.
+<<set $GameBookmark = passage(); >>
+@@color:deepPink;Queen of the Seas@@ is designed to be an RPG like transformation game with @@color:red;heavy non-consentual themes@@. \
+If this type of game bothers you then playing this game is not recommended.
 
-[[Yes, I am 18 years of age or older.|Intro1]]
+@@color:yellow;The Story So far...@@
+You are a young man who is in love with the daughter of the Governor of a small Caribbean-like island in a fantasy world. Since her father won't allow you to marry, you decide to elope by booking passage to the mainland on a passing trading ship.
 
+Unfortunately you didn't do your research and end up hiring a bunch of pirates. It seems that these pirates are a superstitious lot, so they believe that having a woman on board is bad luck and as such they quickly sell your lover off as a slave to a brothel and recruit you into their ranks as their newest crew member. It's a pity about the job...
+
+As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price needed to free yourself from bondage, or will you find some other way to escape? Will you ever see your fiance again?
+
+@@color:cyan;You must be 18 years of age or older to play this game.@@ Click the link below to agree and start the game.
+
+[[I am 18 years of age or older.|Intro1]]
+
+@@color:yellow;Additional Links...@@
+[[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | <a href="https://www.tfgamessite.com/index.php?module=viewgame&id=1680">IGDB Entry</a> | <a href="https://github.com/JJM152/Queen">GitHub Repository</a>
 
 :: Intro1
 <<set $Player = new window.App.Entity.Player();>>\

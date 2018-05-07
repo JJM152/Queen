@@ -345,7 +345,7 @@ window.App.PR = new function() {
             }
             //console.log("pMeter("+c+","+m+",0) called by pQuestMeter");
 
-            return "<span id=\"fixed-font\">" + this.pMeter(c, m, 0) +"</span>&nbsp;"+Math.round( ((c/m)*100)) +"% "+Name;
+            return "<span id=\"fixed-font\">" + this.pMeter(c, m, 0) +"</span>&nbsp;"+Math.floor( ((c/m)*100)) +"% "+Name;
         };
 
         this.pQuestRewards = function(QuestID)
@@ -616,7 +616,7 @@ window.App.PR = new function() {
             var pBust = Player.GetStatPercent("BODY", "Bust");
             var pWaist = Player.GetStatPercent("BODY", "Waist");
             var pHips = Player.GetStatPercent("BODY", "Hips");
-            var sCurve = "";
+            var sCurve = "a @@color:yellow;waifish@@ figure";
 
             if (pWaist >= 20) sCurve = "a @@color:yellow;small@@ figure";
             if (pWaist >= 30) sCurve = "a @@color:yellow;thin@@ figure";

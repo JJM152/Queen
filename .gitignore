@@ -283,3 +283,4 @@ $RECYCLE.BIN/
 # my stuff
 *.exe
 doc/
+.idea/
