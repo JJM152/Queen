@@ -798,7 +798,7 @@ window.App.Entity.Player = function (){
         if (OvernightFlag == 1) {
             var PoisonDamage = Math.ceil((this.GetStat("STAT", "Health") * ((Math.max(0, Math.min((this.GetStat("STAT", "Toxicity") - 100), 200)) / 10) * 0.1))); // 0 - .2
             if (PoisonDamage > 0) {
-                this.AdjustStat("Health", (PoisonDamage * -1.0));
+                this.AdjustStat("Health", (PoisonDamage * -0.5));
                 this.SleepLog.push("@@color:red;&dArr;You feel slightly sick@@... your current " + window.App.PR.ColorizeString(this.GetStatPercent("STAT", "Toxicity"), "Toxicity") +
                     " is probably to blame.");
             }

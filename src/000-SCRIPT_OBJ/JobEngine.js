@@ -390,6 +390,16 @@ window.App.Job = function(Data) {
                         }
                     }
                     break;
+                case "STYLE":
+                    if (this._Cmp( Player.Style(), Value, Condition) == false) {
+                        StatusFlag = false;
+                        if (Condition == "lt" || Condition == "lte" ) {
+                            ReqString = window.App.PR.ColorizeString(Value, "Style and Grooming too high");
+                        } else {
+                            ReqString = window.App.PR.ColorizeString(Value, "Style and Grooming too low");
+                        }
+                    }
+                    break;
                 case "HAIR_STYLE":
                     if ( (Player.GetHairStyle() == Name ) != Value ) {
                         StatusFlag = false;
@@ -803,6 +813,16 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
                 if ( (typeof Opt !== 'undefined') && (Opt == "RANDOM"))
                     return this._Cmp(this._Player.JobFlags[Name], Math.ceil(Value * Math.random()), Condition);
                 return this._Cmp(this._Player.JobFlags[Name], Value, Condition);
+                break;
+            case "STAT_BODY":
+                if ((typeof Opt !== 'undefined') && (Opt == "RANDOM"))
+                    return this._Cmp(this._Player.GetStatPercent("BODY", Name), Math.ceil((100 * Math.random())+1), Condition);
+                    return this._Cmp(this._Player.GetStatPercent("BODY", Name), Value, Condition);
+                break;
+            case "STAT_SKILL":
+                if ((typeof Opt !== 'undefined') && (Opt == "RANDOM"))
+                    return this._Cmp(this._Player.GetStatPercent("SKILL", Name), Math.ceil((100 * Math.random())+1), Condition);
+                return this._Cmp(this._Player.GetStatPercent("SKILL", Name), Value, Condition);
                 break;
             case "FLAG":
                 if ( (typeof Opt !== 'undefined') && (Opt == "NOT_SET"))
