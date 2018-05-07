@@ -102,7 +102,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 		<div id="init-lacking">Your browser lacks required capabilities. Please upgrade it or switch to another to continue.</div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<div id="store-area" hidden><tw-storydata name="Queen of the Seas" startnode="100" creator="Tweego" creator-version="1.0.1" ifid="2281ACF9-AFF5-4833-BD11-9D4317BCE5AE" format="SugarCube" format-version="2.19.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "custom.css" */
+	<div id="store-area" hidden><tw-storydata name="Queen of the Seas" startnode="101" creator="Tweego" creator-version="1.0.1" ifid="2281ACF9-AFF5-4833-BD11-9D4317BCE5AE" format="SugarCube" format-version="2.19.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "custom.css" */
 /* MY specific styles */
 
 #story-title { 
@@ -702,7 +702,7 @@ window.App.PR = new function() {
             }
             //console.log("pMeter("+c+","+m+",0) called by pQuestMeter");
 
-            return "<span id=\"fixed-font\">" + this.pMeter(c, m, 0) +"</span>&nbsp;"+Math.round( ((c/m)*100)) +"% "+Name;
+            return "<span id=\"fixed-font\">" + this.pMeter(c, m, 0) +"</span>&nbsp;"+Math.floor( ((c/m)*100)) +"% "+Name;
         };
 
         this.pQuestRewards = function(QuestID)
@@ -973,7 +973,7 @@ window.App.PR = new function() {
             var pBust = Player.GetStatPercent("BODY", "Bust");
             var pWaist = Player.GetStatPercent("BODY", "Waist");
             var pHips = Player.GetStatPercent("BODY", "Hips");
-            var sCurve = "";
+            var sCurve = "a @@color:yellow;waifish@@ figure";
 
             if (pWaist >= 20) sCurve = "a @@color:yellow;small@@ figure";
             if (pWaist >= 30) sCurve = "a @@color:yellow;thin@@ figure";
@@ -3413,7 +3413,7 @@ window.App.Entity.Player = function (){
         if (OvernightFlag == 1) {
             var PoisonDamage = Math.ceil((this.GetStat("STAT", "Health") * ((Math.max(0, Math.min((this.GetStat("STAT", "Toxicity") - 100), 200)) / 10) * 0.1))); // 0 - .2
             if (PoisonDamage > 0) {
-                this.AdjustStat("Health", (PoisonDamage * -1.0));
+                this.AdjustStat("Health", (PoisonDamage * -0.5));
                 this.SleepLog.push("@@color:red;&dArr;You feel slightly sick@@... your current " + window.App.PR.ColorizeString(this.GetStatPercent("STAT", "Toxicity"), "Toxicity") +
                     " is probably to blame.");
             }
@@ -6828,7 +6828,7 @@ window.App.Data.JobData = {
             { "TYPE" : "TIME",  "VALUE" : 1 },
             { "TYPE" : "STAT",  "NAME" : "Energy", "VALUE" : 2 }],
         "REQUIREMENTS" : [
-            { "TYPE" : "BODY",      "NAME" : "Bust",        "VALUE" :  6,   "CONDITION" : "gte" },
+            { "TYPE" : "BODY",      "NAME" : "Bust",        "VALUE" :  5,   "CONDITION" : "gte" },
             { "TYPE" : "NPC_STAT",  "NAME" : "Lust",        "VALUE" : 60,   "CONDITION" : "gte" }
         ],
         "INTRO" :
@@ -8379,8 +8379,8 @@ window.App.Data.JobData = {
         "PHASES" : [ 1, 2, 3 ],
         "DAYS"   : 1,
         "HIDDEN" : false,
-        "COST" : [  { "TYPE" : "TIME", "VALUE" : 3 },
-            { "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 2 } ],
+        "COST" : [  { "TYPE" : "TIME", "VALUE" : 1 },
+            { "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 1 } ],
         "REQUIREMENTS" : [
             { "TYPE" : "STYLE", "NAME" : "STYLE", "VALUE" : 50, "CONDITION" : "gte" },
             { "TYPE" : "STAT", "NAME" : "Femininity", "VALUE" : 10, "CONDITION" : "gte"}
@@ -8391,7 +8391,7 @@ window.App.Data.JobData = {
         "This sounds okay to you. Sure, it's probably not a lot of money, but it should be easy work. But what about that costume...\n\n"+
         "Almost on cue NPC_NAME reaches behind her counter and pulls out a frilly pink dress along with a pair of the highest platform shoes you've ever "+
         "seen before. What kind of clothes does this shop sell anyway? Before you can ask, she shoves the garments into your hands and directs you to a back room to change.\n\n"+
-        "Moment's later you are standing in front of shop looking like a cross between a little girl and a prostitute. You sigh to yourself and begin to call out to passerby's\n\n",
+        "Moment's later you are standing in front of shop looking like a cross between a little girl and a prostitute. You sigh to yourself and begin to call out to random people passing by.",
         "INTRO" : "NPC_NAME says, \"@@color:cyan;I'm looking for help driving customers into the shop. The pay's not great, but it's easy work.@@\"",
         "SCENES" : [
             {
@@ -8417,7 +8417,7 @@ window.App.Data.JobData = {
                     {"A": 500, "TEXT": "You put on your best face and try to exert your 'girlish charm'. It seems to @@have the desired effect@@ and you draw a respectable amount of customers to the shop."} ]
             }
         ],
-        "END" : "NPC_NAME comes up to you and hands you your pay for the shift, JOB_PAY coins. JOB_RESULTS.",
+        "END" : "NPC_NAME comes up to you and hands you your pay for the shift, JOB_PAY coins. JOB_RESULTS",
         "JOB_RESULTS" : [
             {"A":  33, "TEXT": "It seems that she was a @@little disappointed@@ in the turn out, but hey at least you still got paid."},
             {"A":  66, "TEXT": "It appears you did @@reasonably well@@ and the pay reflects that."},
@@ -8498,7 +8498,7 @@ window.App.Data.Quests  = {
                     {"TYPE": "NPC_MOOD", "NAME": "Crew", "VALUE": 90},
 					{"TYPE": "NPC_MOOD", "NAME": "FirstMate", "VALUE": 90},
 					{"TYPE": "NPC_MOOD", "NAME": "Cook", "VALUE": 90},
-					{"TYPE": "NPC_MOOD", "NAME": "Quartermaster", "VALUE": 90},
+					{"TYPE": "NPC_MOOD", "NAME": "Quartermaster", "VALUE": 90}
                 ],
                 "REWARD": [
                     // Rewards given when quest is completed.
@@ -8628,9 +8628,9 @@ window.App.Data.Quests  = {
                     // Flags that are set when quest is completed.
                 ],
                 "CHECKS": [
-                    {"TYPE": "STAT_BODY", "NAME": "Bust", "VALUE": 20},
-                    {"TYPE": "STAT_BODY", "NAME": "Lips", "VALUE": 38},
-                    {"TYPE": "STAT_BODY", "NAME": "Ass", "VALUE": 20}
+                    {"TYPE": "STAT_BODY", "NAME": "Bust", "VALUE": 11},
+                    {"TYPE": "STAT_BODY", "NAME": "Lips", "VALUE": 32},
+                    {"TYPE": "STAT_BODY", "NAME": "Ass", "VALUE": 11}
                 ],
                 "REWARD": [
                     {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "fashion corset", "AMOUNT": 1},
@@ -8656,8 +8656,8 @@ window.App.Data.Quests  = {
                 "It's shameful, but you have to admit that taking NPC_NAME's advice has paid off... literally.\n\n" +
                 "NPC_NAME looks at you and smiles, \"Here slut, have a little something to help you on your way, and if you ever want to earn some good coin " +
                 "stop by my cabin for some 'play time'.\"",
-                "JOURNAL_ENTRY": "You've been told to increase your physical assets so that you have some @@color:yellow;ample breasts@@, " +
-                "@@color:yellow;feminine lips@@ and at least a @@color:yellow;small ass@@. Doing so will increase your favor with the Captain.",
+                "JOURNAL_ENTRY": "You've been told to increase your physical assets so that you have some @@color:yellow;shapely breasts@@, " +
+                "@@color:yellow;puckered lips@@ and at least a @@color:yellow;rounded ass@@. Doing so will increase your favor with the Captain.",
                 "JOURNAL_COMPLETE": "You've discovered that the food and drugs you consume can alter your body in the most amazing ways. " +
                 "Through trial and error you managed to increase the size of your breasts, lips and ass to proportions where your customers are willing to pay " +
                 "far more for your services than before. In addition to this, the Captain will now be available as a potential customer."
@@ -9006,7 +9006,7 @@ It looks like @@color:pink;&lt;&lt;=_GFN&gt;&gt;&#39;s@@ room hasn&#39;t been di
 
 @@color:lime;Travel@@: [[Foyer|IslaMansion]]</tw-passagedata><tw-passagedata pid="15" name="IslaHarbor" tags="" position="1850,100">You are standing on the docks of Isla Harbor, your home town. There is a motley collection of sailors ambling around loading and unloading ships while occasionally visiting a local tavern. Off in the distance, up the hill, you can see the familiar sight of the town square.
 
-@@color:lime;Travel@@: [[Town Square|IslaTown]] | [[Tavern|IslaTavern]] | [[Back to The Mermaid|Deck]]</tw-passagedata><tw-passagedata pid="16" name="IslaMansion" tags="" position="1975,100">&lt;&lt;set _GFN = $Player.GirlfriendName + &quot;&#39;s Room&quot;;&gt;&gt;\
+@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Town Square|IslaTown]] | [[Tavern|IslaTavern]]</tw-passagedata><tw-passagedata pid="16" name="IslaMansion" tags="" position="1975,100">&lt;&lt;set _GFN = $Player.GirlfriendName + &quot;&#39;s Room&quot;;&gt;&gt;\
 &lt;&lt;set _GFL = $Player.GirlfriendName + &quot;&#39;s Room&quot;&gt;&gt;\
 The Governors Mansion is the largest and most elegant building on Isla Harbor. You&#39;ve only been in a few times, mostly when $Player.GirlfriendName would sneak you past the house staff, but it&#39;s largely how you remember it - with high vaulted cielings, dark wood panelling and lush carpets covering the tiled floors. The Governor himself isn&#39;t much for such opulance, but as $Player.GirlfriendName explained to you, there&#39;s a certain level of extravagance that&#39;s expected with such a position in society.
 
@@ -10363,13 +10363,15 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 	&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;&lt;/nobr&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="83" name="Combat" tags="custom-menu" position="10350,100">&lt;&lt;combatPanel $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="84" name="Examine" tags="custom-menu" position="10475,100">&lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.ShortDesc())&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="83" name="ChangeLog" tags="custom-menu" position="10350,100">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+
+0.1 - Initial Version - 05/05/2018</tw-passagedata><tw-passagedata pid="84" name="Combat" tags="custom-menu" position="10475,100">&lt;&lt;combatPanel $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="85" name="Examine" tags="custom-menu" position="10600,100">&lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.ShortDesc())&gt;&gt;
 &lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.LongDesc())&gt;&gt;
 
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="85" name="GameOver" tags="" position="10600,100">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="86" name="GameWon" tags="custom-menu" position="10725,100">You won the game. Great moves. Proud of you.</tw-passagedata><tw-passagedata pid="87" name="Inventory" tags="custom-menu" position="10850,100">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="86" name="GameOver" tags="" position="10725,100">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="87" name="GameWon" tags="custom-menu" position="10850,100">You won the game. Great moves. Proud of you.</tw-passagedata><tw-passagedata pid="88" name="Inventory" tags="custom-menu" position="10975,100">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
 &lt;&lt;set _Drugs = $Player.GetItemByTypes([&quot;potion&quot;]);&gt;&gt;\
 &lt;&lt;set _Quests = $Player.GetItemByTypes([&quot;QUEST&quot;]);&gt;&gt;
-&lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="88" name="Jobs" tags="custom-menu" position="10975,100">&lt;&lt;nobr&gt;&gt;
+&lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="89" name="Jobs" tags="custom-menu" position="11100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _NPC = $Player.NPCS[$MenuAction];&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;
 &lt;&lt;set _JA = _JE.GetAvailableJobs($Player, $MenuAction);&gt;&gt;
@@ -10386,7 +10388,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;&lt;print _JU[_i].Intro($Player, _NPC); &gt;&gt;&lt;br/&gt;
   &lt;&lt;if _JU[_i].Available($Player, _NPC)&gt;&gt;@@.cmdButton;&lt;&lt;jobButton _JU[_i]&gt;&gt;@@&lt;&lt;else&gt;&gt;@@.cmdDisabledButton;&lt;&lt;jobButton _JU[_i]&gt;&gt;@@&lt;&lt;/if&gt;&gt;&lt;br/&gt;
 &lt;&lt;/for&gt;&gt;&lt;/span&gt;&lt;&lt;/nobr&gt;&gt;
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="89" name="Journal" tags="custom-menu" position="11100,100">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="90" name="Journal" tags="custom-menu" position="11225,100">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 
 @@color:DeepPink;Active Quests@@
 &lt;&lt;set _QE = window.App.QuestEngine;&gt;&gt;\
@@ -10418,7 +10420,7 @@ No completed quests.
 
 
 &lt;&lt;/for&gt;&gt;\
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="90" name="Player Score" tags="widget" position="11225,100">&lt;&lt;widget &quot;score&quot;&gt;&gt;\
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="Player Score" tags="widget" position="11350,100">&lt;&lt;widget &quot;score&quot;&gt;&gt;\
 @@color:DeepPink;&quot;&lt;&lt;= $Player.SlaveName &gt;&gt;&quot;@@
 &lt;span id=&quot;DayCount&quot;&gt;Day &lt;&lt;print $Player.Day; &gt;&gt;, &lt;&lt;print $Player.GetPhase(1); &gt;&gt;&lt;/span&gt;.
 Coins: &lt;span id=&quot;Money&quot;&gt;&lt;&lt;print $Player.Money&gt;&gt;&lt;/span&gt;
@@ -10461,14 +10463,14 @@ Coins: &lt;span id=&quot;Money&quot;&gt;&lt;&lt;print $Player.Money&gt;&gt;&lt;/
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="Quests" tags="custom-menu" position="11350,100">&lt;span id=&quot;QuestUI&quot;&gt;&lt;&lt;questList&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="92" name="Rest" tags="custom-menu" position="11475,100">&lt;&lt;run $Player.Rest();&gt;&gt;You recline leisurely in your room. There isn&#39;t much to do so you after a few minutes you find yourself napping and trying to escape into your fantasies...
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="92" name="Quests" tags="custom-menu" position="11475,100">&lt;span id=&quot;QuestUI&quot;&gt;&lt;&lt;questList&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="93" name="Rest" tags="custom-menu" position="11600,100">&lt;&lt;run $Player.Rest();&gt;&gt;You recline leisurely in your room. There isn&#39;t much to do so you after a few minutes you find yourself napping and trying to escape into your fantasies...
 
 You wake up not long after, feeling slightly more energetic.
 
 &lt;&lt;if $Player.SleepLog.length != 0&gt;&gt;&lt;&lt;for _i to 0; _i lt $Player.SleepLog.length; _i++&gt;&gt;\
 &lt;&lt;print $Player.SleepLog[_i]&gt;&gt;&lt;br/&gt;&lt;&lt;/for&gt;&gt;&lt;&lt;/if&gt;&gt;\
 @@color:cyan;Interact@@: [[Exit|Cabin]]
-@@color:yellow;Action@@: &lt;&lt;if $Player.Phase != 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] &lt; $Player.GetMaxStat(&quot;STAT&quot;, &quot;Energy&quot;)&gt;&gt;[[Continue Resting|Rest]]&lt;&lt;else&gt;&gt;@@color:grey;[Continue Resting]@@&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="93" name="Rules" tags="custom-menu" position="11600,100">!Rules O&#39; the Sea
+@@color:yellow;Action@@: &lt;&lt;if $Player.Phase != 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] &lt; $Player.GetMaxStat(&quot;STAT&quot;, &quot;Energy&quot;)&gt;&gt;[[Continue Resting|Rest]]&lt;&lt;else&gt;&gt;@@color:grey;[Continue Resting]@@&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="94" name="Rules" tags="custom-menu" position="11725,100">@@color:yellow;Rules O&#39; the Sea@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &#39;&#39;Don&#39;t Die&#39;&#39;
 There are multiple ways to die in this game. Combat and fighting, either with the crew or with other pirates or enemies can end your life. In addition to this you must monitor your health and nutrition. Be careful of taking drugs or magical potions and avoid tiring yourself out too much.
 
@@ -10479,12 +10481,12 @@ There are three phases to a game day, morning, afternoon and night. Not all acti
 If your Willpower statistic gets too low, you will automatically lose the game as your mind is totally broken. Willpower is hard to raise, but easy to lose, so be careful.
 
 &#39;&#39;Crew Mood&#39;&#39;
-If the crew hates you then you may find yourself in serious trouble, the least of which is abuse and violence upon your person. They may decide to sell you off at the next port, effectively ending your game. The Captain, of course, can probably kill you at any time due to the magical collar on your neck.</tw-passagedata><tw-passagedata pid="94" name="SelfJobs" tags="custom-ui" position="11725,100">&lt;&lt;nobr&gt;&gt;
+If the crew hates you then you may find yourself in serious trouble, the least of which is abuse and violence upon your person. They may decide to sell you off at the next port, effectively ending your game. The Captain, of course, can probably kill you at any time due to the magical collar on your neck.</tw-passagedata><tw-passagedata pid="95" name="SelfJobs" tags="custom-ui" position="11850,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;
 &lt;&lt;printJobResult $MenuAction&gt;&gt;
 &lt;&lt;set $MenuAction = 0;&gt;&gt;&lt;&lt;/nobr&gt;&gt;
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="Shop" tags="custom-menu" position="11850,100">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
-&lt;&lt;storeInventory $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="96" name="Skills" tags="custom-menu" position="11975,100">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="96" name="Shop" tags="custom-menu" position="11975,100">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+&lt;&lt;storeInventory $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="97" name="Skills" tags="custom-menu" position="12100,100">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &lt;table class=&quot;#score-table&quot;&gt;
 &lt;tbody&gt;
 &lt;tr&gt;&lt;td colspan=&quot;6&quot; style=&quot;border-bottom: 1px solid&quot;&gt;@@color:yellow;Piracy Skills@@&lt;/td&gt;&lt;/tr&gt;
@@ -10521,13 +10523,13 @@ If the crew hates you then you may find yourself in serious trouble, the least o
 &lt;td colspan=&quot;4&quot;&gt; &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;</tw-passagedata><tw-passagedata pid="97" name="Sleep" tags="custom-menu" position="12100,100">&lt;&lt;if $Player.Phase &gt;= 3&gt;&gt;&lt;&lt;run $Player.NextDay(); &gt;&gt;&lt;&lt;/if&gt;&gt;\
+&lt;/table&gt;</tw-passagedata><tw-passagedata pid="98" name="Sleep" tags="custom-menu" position="12225,100">&lt;&lt;if $Player.Phase &gt;= 3&gt;&gt;&lt;&lt;run $Player.NextDay(); &gt;&gt;&lt;&lt;/if&gt;&gt;\
 Night finally comes and you drag yourself off to bed. Within moments of laying down your tired body succumbs to sleep.
 
 &lt;&lt;if $Player.SleepLog.length != 0&gt;&gt;&lt;&lt;for _i to 0; _i lt $Player.SleepLog.length; _i++&gt;&gt;\
 &lt;&lt;print $Player.SleepLog[_i]&gt;&gt;&lt;br/&gt;&lt;&lt;/for&gt;&gt;&lt;&lt;/if&gt;&gt;\
 
-@@color:cyan;Interact@@: [[Wake up|Cabin]]</tw-passagedata><tw-passagedata pid="98" name="StoryCaption" tags="" position="12225,100">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if $Player != undefined&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="99" name="Whore" tags="custom-menu" position="12350,100">&lt;&lt;set _NPC = $Player.NPCS[$MenuAction];&gt;&gt;\
+@@color:cyan;Interact@@: [[Wake up|Cabin]]</tw-passagedata><tw-passagedata pid="99" name="StoryCaption" tags="" position="12350,100">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if $Player != undefined&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="100" name="Whore" tags="custom-menu" position="12475,100">&lt;&lt;set _NPC = $Player.NPCS[$MenuAction];&gt;&gt;\
 &lt;&lt;set _PR = window.App.PR;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
 @@.custom-table;&lt;table style=&quot;border: 1px solid black;&quot;&gt;
@@ -10599,22 +10601,35 @@ The crew of the Salty Mermaid are for the most part filthy, violent and poor. No
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;@@&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="100" name="Start" tags="" position="12475,100">This is the title page.
+&lt;/table&gt;@@&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="101" name="Start" tags="" position="12600,100">&lt;&lt;set $GameBookmark = passage(); &gt;&gt;
+@@color:deepPink;Queen of the Seas@@ is designed to be an RPG like transformation game with @@color:red;heavy non-consentual themes@@. \
+If this type of game bothers you then playing this game is not recommended.
 
-[[Yes, I am 18 years of age or older.|Intro1]]</tw-passagedata><tw-passagedata pid="101" name="Intro1" tags="" position="12600,100">&lt;&lt;set $Player = new window.App.Entity.Player();&gt;&gt;\
+@@color:yellow;The Story So far...@@
+You are a young man who is in love with the daughter of the Governor of a small Caribbean-like island in a fantasy world. Since her father won&#39;t allow you to marry, you decide to elope by booking passage to the mainland on a passing trading ship.
+
+Unfortunately you didn&#39;t do your research and end up hiring a bunch of pirates. It seems that these pirates are a superstitious lot, so they believe that having a woman on board is bad luck and as such they quickly sell your lover off as a slave to a brothel and recruit you into their ranks as their newest crew member. It&#39;s a pity about the job...
+
+As the new &quot;Cabin Girl&quot; of the Salty Mermaid, can you manage to raise the price needed to free yourself from bondage, or will you find some other way to escape? Will you ever see your fiance again?
+
+@@color:cyan;You must be 18 years of age or older to play this game.@@ Click the link below to agree and start the game.
+[[I am 18 years of age or older.|Intro1]]
+
+@@color:yellow;Additional Links...@@
+[[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | &lt;a href=&quot;https://www.tfgamessite.com/index.php?module=viewgame&amp;id=1680&quot;&gt;IGDB Entry&lt;/a&gt; | &lt;a href=&quot;https://github.com/JJM152/Queen&quot;&gt;GitHub Repository&lt;/a&gt;</tw-passagedata><tw-passagedata pid="102" name="Intro1" tags="" position="12725,100">&lt;&lt;set $Player = new window.App.Entity.Player();&gt;&gt;\
 &lt;&lt;run $Player.Init(); &gt;&gt;\
 You are a guy. You recieve a letter from your girlfriend to meet her in her garden this evening.
 
 [[Intro2]]
-[[Skip the intro and begin the game|Cabin]]</tw-passagedata><tw-passagedata pid="102" name="Intro2" tags="" position="12725,100">You meet your girlfriend in the garden. She tells you her father is going to marry her off to the Govenor of the island. You decide to escape together by boarding a ship at the docks.
+[[Skip the intro and begin the game|Cabin]]</tw-passagedata><tw-passagedata pid="103" name="Intro2" tags="" position="12850,100">You meet your girlfriend in the garden. She tells you her father is going to marry her off to the Govenor of the island. You decide to escape together by boarding a ship at the docks.
 
-[[Intro3]]</tw-passagedata><tw-passagedata pid="103" name="Intro3" tags="" position="12850,100">At the docks you ask around and only one ship is leaving. The guy claims to be a merchant but his crew looks rough. You agree to pay him a fee of 50 cash now and 50 when you arrive at the destination.
+[[Intro3]]</tw-passagedata><tw-passagedata pid="104" name="Intro3" tags="" position="12975,100">At the docks you ask around and only one ship is leaving. The guy claims to be a merchant but his crew looks rough. You agree to pay him a fee of 50 cash now and 50 when you arrive at the destination.
 
 You board the ship.
 
 As you and girlfriend rest in each others arms you fall asleep after eating/drinking food. You were drugged.
 
-[[Intro4]]</tw-passagedata><tw-passagedata pid="104" name="Intro4" tags="" position="12975,100">Wake up, eyes are blurry. Your head feels groggy, your pulse is high and you&#39;re sweating. Your hands are tied and you&#39;re laying on the ground.
+[[Intro4]]</tw-passagedata><tw-passagedata pid="105" name="Intro4" tags="" position="13100,100">Wake up, eyes are blurry. Your head feels groggy, your pulse is high and you&#39;re sweating. Your hands are tied and you&#39;re laying on the ground.
 
 Merchant is actually a pirate captain and he&#39;s raping your girlfriend infront of your face. She seems drugged too, her eyes are rolling around in her head and she&#39;s gasping.
 
@@ -10622,16 +10637,16 @@ He taunts you, then the crew starts raping your asshole while he leans forward, 
 
 For some reason your dick gets hard, pirates cum in your ass and then you cum all over yourself infront of your girlfriend. She breaks down crying as the Pirate Captain finishes off inside her. They spend the entire night raping both of you.
 
-[[Intro5]]</tw-passagedata><tw-passagedata pid="105" name="Intro5" tags="" position="13100,100">You passed out and wake up naked in a small cell. A pirate comes by to feed you. You ask about your girlfriend and he taunts you that the Captain is raping her right now and planning to sell her off to a slave market in the next port. You find out the gruel is made up of semen
+[[Intro5]]</tw-passagedata><tw-passagedata pid="106" name="Intro5" tags="" position="13225,100">You passed out and wake up naked in a small cell. A pirate comes by to feed you. You ask about your girlfriend and he taunts you that the Captain is raping her right now and planning to sell her off to a slave market in the next port. You find out the gruel is made up of semen
 
 Eat gruel. +perv
 Don&#39;t eat gruel. -nutrition
 
-[[Intro6]]</tw-passagedata><tw-passagedata pid="106" name="Intro6" tags="" position="13225,100">After what seems like days the Captain and his First mate come and visit you. They bring you on deck to say farewell to your girlfriend one last time. The ship arrives at port tomorrow and the pirates are having a &quot;farewell party&quot; featuring your girlfriend as the party favor. She&#39;s getting buttfucked by a big black pirate and they bring you infront of her and you can see her panting and moaning in lust. Your dick gets hard at the sight of her being raped and the Captain taunts you.
+[[Intro6]]</tw-passagedata><tw-passagedata pid="107" name="Intro6" tags="" position="13350,100">After what seems like days the Captain and his First mate come and visit you. They bring you on deck to say farewell to your girlfriend one last time. The ship arrives at port tomorrow and the pirates are having a &quot;farewell party&quot; featuring your girlfriend as the party favor. She&#39;s getting buttfucked by a big black pirate and they bring you infront of her and you can see her panting and moaning in lust. Your dick gets hard at the sight of her being raped and the Captain taunts you.
 
 They bring you infront of her one last time and she sucks your dick while being ass raped. The pirate cums in your ass and she orgasms while you cum in her mouth. The pirates then tie you up and force you to watch the rest of the crew raping her into the night.
 
-[[Intro7]]</tw-passagedata><tw-passagedata pid="107" name="Intro7" tags="" position="13350,100">Two days later you&#39;re led from your cell infront of the Captain and first mate. Your girlfriend has been sold to a brothel in town in return for some gold and a special device. It&#39;s a magical collar that will kill you if the Captain dies or if you get too far away from him. It also allows him to punish you at will by ringing a bell, which he demonstrates. 
+[[Intro7]]</tw-passagedata><tw-passagedata pid="108" name="Intro7" tags="" position="13475,100">Two days later you&#39;re led from your cell infront of the Captain and first mate. Your girlfriend has been sold to a brothel in town in return for some gold and a special device. It&#39;s a magical collar that will kill you if the Captain dies or if you get too far away from him. It also allows him to punish you at will by ringing a bell, which he demonstrates. 
 
 He explains that you&#39;re now part of the crew, their live-in &quot;Cabin Girl&quot; and he throws a bag full of clothes at you and has the first mate escort you to your bunk, a small room inside the main hold.
 
