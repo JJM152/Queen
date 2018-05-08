@@ -335,15 +335,16 @@ window.App.PR = new function() {
 
         this.pQuestMeter = function(Player, Name, PlayerValue, GoalValue, Invert )
         {
+            console.log("pQuestMeter("+Player+","+Name+","+PlayerValue+","+GoalValue+","+Invert+")");
             var c, m;
             if (typeof Invert !== 'undefined' && Invert == 1) {
                 c = GoalValue;
-                m = PlayerValue;
+                m = GoalValue - PlayerValue;
             }  else {
                 c = PlayerValue;
                 m = GoalValue;
             }
-            //console.log("pMeter("+c+","+m+",0) called by pQuestMeter");
+            console.log("pMeter("+c+","+m+",0) called by pQuestMeter");
 
             return "<span id=\"fixed-font\">" + this.pMeter(c, m, 0) +"</span>&nbsp;"+Math.floor( ((c/m)*100)) +"% "+Name;
         };

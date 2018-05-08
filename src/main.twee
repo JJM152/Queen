@@ -36,64 +36,183 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
 
 :: Intro1
 <<set $Player = new window.App.Entity.Player();>>\
+<<set $InIntro = 1;>>\
 <<run $Player.Init(); >>\
-You are a guy. You recieve a letter from your girlfriend to meet her in her garden this evening.
+<<nobr>>
+Your name is @@color:yellow;<<= $Player.OriginalName >> Smythe@@, the middle son of an <span id="familyJob">
+<<click "farmer">>
+    <<run $Player.AdjustStat("Fitness", 10);>>
+    <<replace "#familyJob">>@@color:yellow;farmer@@<</replace>>
+    <<replace "#nextPage">>[[Go and meet your lover|Intro2]] or [[Skip the intro and begin the game|Cabin]]<</replace>>
+<</click>> |
+<<click "sailor">>
+    <<run $Player.AdjustSkill("Navigating", 5);>>
+    <<run $Player.AdjustSkill("Sailing", 5);>>
+    <<replace "#familyJob">>@@color:yellow;sailor@@<</replace>>
+    <<replace "#nextPage">>[[Go and meet your lover|Intro2]] or [[Skip the intro and begin the game|Cabin]]<</replace>>
+<</click>> |
+<<click "baker">>
+    <<run $Player.AdjustSkill("Cooking", 5);>>
+    <<run $Player.AdjustSkill("Serving", 10);>>
+    <<replace "#familyJob">>@@color:yellow;baker@@<</replace>>
+    <<replace "#nextPage">>[[Go and meet your lover|Intro2]] or [[Skip the intro and begin the game|Cabin]]<</replace>>
+<</click>></span>.
+<</nobr>>
+You've spent your entire life in @@color:cyan;Isla Harbor@@, a small, but quaint island in the middle situated towards the south of a large chain of other islands. All your life \
+you've longed to travel and explore, to leave behind your humble beginnings and make something of your self, but even more so now that you've fallen in love with your sweet \
+@@color:Pink;<<= $Player.GirlfriendName>>@@.
 
-[[Intro2]]
-[[Skip the intro and begin the game|Cabin]]
+The reason being that @@color:Pink;<<= $Player.GirlfriendName>>@@ happens to be the daughter of @@color:cyan;Lord Rowe@@, the nominal ruler of this tiny isle and hence so far \
+outside of your social class that such a relationship, if it should be known, would be swiftly aborted.
+
+Despite this challenge, and despite @@color:Pink;<<= $Player.GirlfriendName>>'s@@ rather sheltered upbringing, the two of you have agreed to elope. You meet tonight \
+to discuss the plan.
+
+<span id="nextPage">@@color:cyan;Select a profession to continue@@</span>
 
 
 :: Intro2
-You meet your girlfriend in the garden. She tells you her father is going to marry her off to the Govenor of the island. You decide to escape together by boarding a ship at the docks.
+You wait until nightfall and meet @@color:Pink;<<= $Player.GirlfriendName>>@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
+<<nobr>>
+<span id="flirting">
+<<click "serenading her">>
+    <<run $Player.AdjustSkill("Singing", 5);>>
+    <<replace "#flirting">>@@color:yellow;serenading her@@ with heart felt emotion, gazing lovingly into each others eyes...<</replace>>
+    <<replace "#nextPage">>[[Go and meet this Captain Reginald|Intro3]]<</replace>>
+<</click>> |
+<<click "reciting poetry to her">>
+    <<run $Player.AdjustSkill("Seduction", 5);>>
+    <<replace "#flirting">>@@color:yellow;reciting poetry to her@@ under the starlight, listening to her swoon...<</replace>>
+    <<replace "#nextPage">>[[Go and meet this Captain Reginald|Intro3]]<</replace>>
+<</click>> |
+<<click "feeling her up">>
+    <<run $Player.AdjustStat("Perversion", 5);>>
+    <<replace "#flirting">>@@color:yellow;feeling her up@@, ah such wonderful and magical nights! The sweet caresses, the heaving bosoms...<</replace>>
+    <<replace "#nextPage">>[[Go and meet this Captain Reginald|Intro3]]<</replace>>
+<</click>>.</span>
+<</nobr>> @@color:Pink;<<= $Player.GirlfriendName>>@@ notices you approaching and clears her throat, snapping you out of your reverie. You approach her under the starlight and clasp hands \
+earnestly.
 
-[[Intro3]]
+@@color:deepPink;"Oh, <<= $Player.OriginalName>>! Is it true? Is tonight the night we make our grand escape?"@@ she asks.
 
+You nod in the affirmative and lay out the plan before you. Together you shall steal away to a tavern by the docks and meet a man, the captain of a merchant vessel. He has \
+asked for only a small sum to transport the two of you to @@color:cyan;Port Royale@@, one of the largest islands in this archipelago. There, you can find work and the two of you \
+can begin a new chapter as man and wife.
+
+@@color:Pink;<<= $Player.GirlfriendName>>@@ looks at you with wistful eyes as she listens to your story. It's clear she's as eager as you are to depart tonight!
+
+<span id="nextPage">@@color:cyan;Select an activity to continue@@</span>
 
 :: Intro3
-At the docks you ask around and only one ship is leaving. The guy claims to be a merchant but his crew looks rough. You agree to pay him a fee of 50 cash now and 50 when you arrive at the destination.
+With haste you depart to the docks, entering the sole tavern on the island. The hour is late so there are not many patrons around and @@color:Pink;<<= $Player.GirlfriendName>>@@ is wearing an overly large \
+cowl to hide her appearance. It wouldn't do for anyone to see the Governor's daughter in such a place. Out of the corner of your eye a man waves at you. You recognize him as the gentle-sir you \
+spoke to yesterday, a fellow by the name of @@color:cyan;Reginald@@. You make your way to his table and take a seat.
 
-You board the ship.
+@@color:Pink;<<= $Player.GirlfriendName>>@@ looks on, somewhat concerned as the two of you discuss the passage, but you do your best to reassure her with smiles and a gentle \
+caress on her hand. Soon, the three of you depart and stealing through the night board the captains ship, the @@color:cyan;"Salty Mermaid"@@. You remark to yourself that it's quite the \
+colorful name, eliciting a titter from your fiance.
 
-As you and girlfriend rest in each others arms you fall asleep after eating/drinking food. You were drugged.
+On board the ship, @@color:cyan;Captain Reginald@@ shows you to your quarters, it's a little sparse, but the situation is dire so you dare not complain. He leaves you with a meal and some refreshments and \
+takes his leave. You and @@color:Pink;<<= $Player.GirlfriendName>>@@ look at each other, both of you thinking about what you can finally do now that you're alone and have some \
+privacy. Emboldened, you share a celebratory toast. The ale is bitter, but still cool. Just as you put your first cup down, a wave of light-headedness crashes into you...
 
-[[Intro4]]
+[[It all goes dark...|Intro4]]
 
 
 :: Intro4
-Wake up, eyes are blurry. Your head feels groggy, your pulse is high and you're sweating. Your hands are tied and you're laying on the ground.
+Wake up, eyes are blurry. Your head feels groggy, your pulse is high and you're sweating. Your hands are tied and you're laying on the ground. You try to struggle against your bonds and \
+take stock of your situation, but your ears are ringing. Slowly, the world seems to come back into focus...
 
-Merchant is actually a pirate captain and he's raping your girlfriend infront of your face. She seems drugged too, her eyes are rolling around in her head and she's gasping.
+@@color:deepPink;"Ahhh... AHHH... Oh...."@@
 
-He taunts you, then the crew starts raping your asshole while he leans forward, putting your girlfriend in front of you. She momentarily comes out of it and realizes what's going on. 
+That voice, those sounds... no, it couldn't be?
 
-For some reason your dick gets hard, pirates cum in your ass and then you cum all over yourself infront of your girlfriend. She breaks down crying as the Pirate Captain finishes off inside her. They spend the entire night raping both of you.
+You lift your head and your eyes adjust to the dim lantern light. Your heart nearly stops as you take in what is happening before you - @@color:Pink;<<= $Player.GirlfriendName>>@@, your \
+sweet, innocent love, is nude from the waist down, her voluptuous breasts spilling over the top of her now torn blouse, and frantically riding the turgid member of @@color:cyan;Captain Reginald@@.
 
-[[Intro5]]
+@@color:cyan;"Finally awake are you lass? Good! The crew was getting a little restless without enough sluts to go around!"@@ he taunts.
+
+The words barely sink into your head before you feel something, a hard pressure against your backside and then a pain so exquisite it causes your insides to shudder. Your drugged mind reels \
+at the experience and sensation as you slowly come to terms that you are being sodomized from behind by a rough looking man. Although it's painful at first, soon that pain starts to feel \
+good and to your shame, your cock gets hard and you start to groan.
+
+In a moment of lucidity, you scream out, demanding to know what the dastardly captain has done to you, but he only grins and bucks hard into @@color:Pink;<<= $Player.GirlfriendName>>'s'@@ \
+no longer virgin cunt, the motion and the force sending her into a screaming orgasm as he finishes off inside her.
+
+The rest of the evening is a blur... clearly your drinks were spiked and something, it must be a drug of some sort, is controlling your actions. After all, there's no way you could possibly enjoy \
+being raped by a man!
+
+[[Pass out into the welcoming blackness...|Intro5]]
 
 
 :: Intro5
-You passed out and wake up naked in a small cell. A pirate comes by to feed you. You ask about your girlfriend and he taunts you that the Captain is raping her right now and planning to sell her off to a slave market in the next port. You find out the gruel is made up of semen
+Some time later you wake up naked in a small cell. Your body is in pain and your smell like a sewer. You make a tentative gesture to probe your bottom and wince. You have no idea how many \
+cocks you took up there last night (was it last night?) and you shudder when you realize the remnants are still dripping out of your open arsehole.
 
-Eat gruel. +perv
-Don't eat gruel. -nutrition
+Before long a pirate (clearly these men are pirates!) comes by to feed you. You plead for information about @@color:Pink;<<= $Player.GirlfriendName>>@@, but he just taunts you that \
+the Captain is raping her right now and planning to sell her off to a slave market in the next port. You grimace in disgust and curse your foolishness. If only you had chosen a more \
+reliable man. If only you had never gotten on board this ship. If only...
 
-[[Intro6]]
+Your thoughts are interrupted by the sound of slop hitting a bowl. It's putrid, rancid and smells like semen. The pirate grins at you, taking obvious delight in your disgust and slams the \
+cell door closed.
 
+<span id="gruel"><<click "Eat the gruel.">>
+    <<run $Player.AdjustStat("Perversion", 5);>>
+    <<run $Player.AdjustStat("WillPower", -5);>>
+    <<run $Player.AdjustStatXP("Hormones", 50);>>
+    <<replace "#gruel">>Knowing that this is likely to be the best you'll get from these bastards, you tentatively take a taste of the gruel. It's @@color:brown;disgusting and rancid@@ and definitely filled with \
+"additional protein" supplied by the crew, but with no other choice, you'll have to make due so long as you're a prisoner here.<</replace>>
+    <<replace "#nextPage">>[[Days pass...|Intro6]]<</replace>>
+<</click>>
+<<click "No way in hell.">>
+    <<run $Player.AdjustStat("Nutrition", -60);>>
+    <<replace "#gruel">>You would @@color:red;rather starve to death@@ than eat such a perverse meal. You hastily kick the bowl over and scream in frustration. However, your complaints and wails fall on deaf ears...<</replace>>
+    <<replace "#nextPage">>[[Days pass...|Intro6]]<</replace>>
+<</click>></span>
+
+<span id="nextPage">@@color:cyan;Select an activity to continue@@</span>
 
 :: Intro6
-After what seems like days the Captain and his First mate come and visit you. They bring you on deck to say farewell to your girlfriend one last time. The ship arrives at port tomorrow and the pirates are having a "farewell party" featuring your girlfriend as the party favor. She's getting buttfucked by a big black pirate and they bring you infront of her and you can see her panting and moaning in lust. Your dick gets hard at the sight of her being raped and the Captain taunts you.
+After what seems like ages @@color:cyan;Captain Reginald@@ and his First mate come and visit you. The first mate is a large black giant by the name of @@color:cyan;Kipler@@ and you do your best \
+ to avoid looking at him too much, your mind recalling brief snatches of your first night on the ship and what he did to you. The Captain approaches you and you boldly take the chance to dash past him. \
+ It lasts all of a second before you find yourself crashing to the floor, a crippling pain coursing through your body and an intense feeling of pressure constricting your throat.
 
-They bring you infront of her one last time and she sucks your dick while being ass raped. The pirate cums in your ass and she orgasms while you cum in her mouth. The pirates then tie you up and force you to watch the rest of the crew raping her into the night.
+ @@color:cyan;"I love it when they do that"@@ the Captain says to his First mate. He then leans down in front of you and gestures to a collar around your neck (when did that get there? Was it here all along?)
 
-[[Intro7]]
+ @@color:cyan;"So long as you have that on my little strumpet, you're not going anywhere that I don't allow. And don't you be thinking to strike out at me either, because the moment you do that voodoo curse will take yer head clean off!"@@
+
+ He howls in laughter and you struggle to your feet, blinking back tears. It seems that your situation is even more dire than you imagined. Before you can collect yourself, the black giant grabs you by \
+ the arm and half shoves you towards the deck. It's night time, the first real night you've seen since you've left @@color:cyan;Isla Harbor@@ and much to your surprise, the entire crew of the \
+ ship is present. It doesn't take long for you to understand why as you hear a loud, feminine scream and then see your sweet @@color:Pink;<<= $Player.GirlfriendName>>@@ being raped on deck.
+
+ It appears pirates are throwing a party to celebrate their 'farewell' to their new slaves, as tomorrow they are meeting with a black market slaver who deals in whores. For tonight however, you and \
+ @@color:Pink;<<= $Player.GirlfriendName>>@@ are the 'party favors' for their celebration.
+
+ @@color:cyan;Kipler@@ brings you in front of your fiance, to witness her cruel treatment by the crew. You expect to see her distraught, crying, or otherwise objecting and are surprised to find her \
+ panting and moaning in lust. Your dick gets hard at the sight of her being raped and you feel an intense amount of shame at the fact.
+
+The rest of the night goes slowly, far slower than you had hoped. This time the pirates don't drug you, so you're forced to bear the brunt of their abuse for hours on end. Eventually however the pain \
+and fatigue starts to break down your mind and you lose yourself a little bit. The last thing you remember is your 'parting gift' - your first and only blow job from @@color:Pink;<<= $Player.GirlfriendName>>@@ \
+while the two of you are both being ass raped by burly pirates.
+
+Broken, beaten and exhausted, you are literally dragged and thrown back into your cell. @@color:Pink;<<= $Player.GirlfriendName>>@@ had stopped making noises hours ago. You fear the worst.
+
+[[Succumb to the pain|Intro7]]
 
 
 :: Intro7
-Two days later you're led from your cell infront of the Captain and first mate. Your girlfriend has been sold to a brothel in town in return for some gold and a special device. It's a magical collar that will kill you if the Captain dies or if you get too far away from him. It also allows him to punish you at will by ringing a bell, which he demonstrates. 
+Two days later you're led from your cell to the Captain's quarters by the First Mate. Once there, he explains that you're now part of the crew, their live-in "Cabin Girl" and that \
+your new name is going to be @@color:deepPink;"<<= $Player.SlaveName>>"@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women's clothes \
+and you sigh internally. You shouldn't have expected anything else after the treatment you've been given so far. Still, as embarrassing as it is, it's not as bad as being naked all the time.
 
-He explains that you're now part of the crew, their live-in "Cabin Girl" and he throws a bag full of clothes at you and has the first mate escort you to your bunk, a small room inside the main hold.
+Before you go, he has some final words for you.
 
-[[Cabin]]
+@@color:cyan;"Listen wench. The faster you accept your fate, the more likely you are the survive and I can tell yee are a survivor. Lest you be thinkin' Captain Reggie is a heartless bastard, I'll offer you a chance to walk free. Just get changed first and come back to see me."@@
+
+Your mouth almost hangs open at these words. To say this is surprising would be an understatement and for the first time you feel the faint embers of hope stirring in your breast. You're let free \
+from the Captain's quarters, not that there's anywhere for you to really go given your situation, anxiously thinking about what the future has in store for you.
+
+[[Be shown to your Cabin...|Cabin]]
 
 
 

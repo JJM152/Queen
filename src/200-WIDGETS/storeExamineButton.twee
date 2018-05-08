@@ -1,0 +1,7 @@
+:: storeExamineButton [widget]
+<<widget "storeExamineButton">>\
+@@.storeButton;<<button "EXAMINE">>\
+<<replace "#StoreExamine">>\
+<<= _ST.PrintItemLong($args[0])>><</replace>>
+<</button>>@@\
+<</widget>>

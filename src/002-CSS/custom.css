@@ -77,24 +77,23 @@ input[type="text"] {
 }
 
 .storeButton button {
-	width: 100px; !important;
+	width: 80px; !important;
 	color: White;
 	background-color: CornflowerBlue;
 	font-size: smaller;
 	border-radius: 12px;
 	padding: 4px;
-	width: 100px;
 }
 
 .disabledStoreButton button {
-	width: 100px; !important;
-  opacity: 0.6; 
-  cursor: not-allowed !important;
+	width: 80px; !important;
+	opacity: 0.6;
+	cursor: not-allowed !important;
 	color: White;
 	background-color: CornflowerBlue;
 	font-size: smaller;
 	border-radius: 12px;
-	padding: 4px;	
+	padding: 4px;
 }
 
 .wardrobeButton button {
@@ -108,8 +107,8 @@ input[type="text"] {
 
 .disabledWardrobeButton button {
 	width: 80px; !important;
-  opacity: 0.6; 
-  cursor: not-allowed !important;
+    opacity: 0.6;
+    cursor: not-allowed !important;
 	color: White;
 	background-color: CornflowerBlue;
 	font-size: smaller;

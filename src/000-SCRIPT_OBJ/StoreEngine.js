@@ -139,11 +139,16 @@ var Store = function(Player, NPC, StoreData) {
         return oItem.Description();
     };
 
+    /**
+     * Used for examining items through shop interface
+     * @param Item
+     * @returns {string}
+     */
     this.PrintItemLong = function(Item)
     {
         var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"], 1);
 		var Player = this._Player;
-        return oItem.Examine(Player);
+        return "@@color:yellow;You take a look at the @@" + oItem.Description()+ ".\n"+oItem.Examine(Player);
     };
 
     this.StockInventory();
