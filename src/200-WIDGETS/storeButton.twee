@@ -14,4 +14,7 @@
 <</if>>\
 <</if>>\
 <</if>>\
+@@.storeButton;<<button "EXAMINE">>\
+<<replace "#StoreExamine">>\<<print _ST.PrintItemLong($args[0])>><</replace>>
+<</button>>@@\
 <</widget>>
