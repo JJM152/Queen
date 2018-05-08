@@ -172,7 +172,7 @@ window.App.Item = new function() {
             this.Examine = function (Player) {
                 var Output = this.Data["LongDesc"];
                 var Usages = Player.GetHistory("ITEMS", this.Name());
-                var Effects = Object.keys(this.Data["UseEffect"]);
+                var Effects = Object.keys(this.Data["UseEffect"] || {});
 
                 if (Usages == 0) return Output;
 
