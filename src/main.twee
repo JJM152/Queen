@@ -43,19 +43,19 @@ Your name is @@color:yellow;<<= $Player.OriginalName >> Smythe@@, the middle son
 <<click "farmer">>
     <<run $Player.AdjustStat("Fitness", 10);>>
     <<replace "#familyJob">>@@color:yellow;farmer@@<</replace>>
-    <<replace "#nextPage">>[[Go and meet your lover|Intro2]] or [[Skip the intro and begin the game|Cabin]]<</replace>>
+    <<replace "#nextPage">>[[Go and meet your lover|Intro2]]<</replace>>
 <</click>> |
 <<click "sailor">>
     <<run $Player.AdjustSkill("Navigating", 5);>>
     <<run $Player.AdjustSkill("Sailing", 5);>>
     <<replace "#familyJob">>@@color:yellow;sailor@@<</replace>>
-    <<replace "#nextPage">>[[Go and meet your lover|Intro2]] or [[Skip the intro and begin the game|Cabin]]<</replace>>
+    <<replace "#nextPage">>[[Go and meet your lover|Intro2]]<</replace>>
 <</click>> |
 <<click "baker">>
     <<run $Player.AdjustSkill("Cooking", 5);>>
     <<run $Player.AdjustSkill("Serving", 10);>>
     <<replace "#familyJob">>@@color:yellow;baker@@<</replace>>
-    <<replace "#nextPage">>[[Go and meet your lover|Intro2]] or [[Skip the intro and begin the game|Cabin]]<</replace>>
+    <<replace "#nextPage">>[[Go and meet your lover|Intro2]]<</replace>>
 <</click>></span>.
 <</nobr>>
 You've spent your entire life in @@color:cyan;Isla Harbor@@, a small, but quaint island in the middle situated towards the south of a large chain of other islands. All your life \
@@ -68,7 +68,7 @@ outside of your social class that such a relationship, if it should be known, wo
 Despite this challenge, and despite @@color:Pink;<<= $Player.GirlfriendName>>'s@@ rather sheltered upbringing, the two of you have agreed to elope. You meet tonight \
 to discuss the plan.
 
-<span id="nextPage">@@color:cyan;Select a profession to continue@@</span>
+<span id="nextPage">@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]</span>
 
 
 :: Intro2

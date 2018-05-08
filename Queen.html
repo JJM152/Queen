@@ -8463,10 +8463,13 @@ window.App.Data.Quests  = {
                 "PREREQ": "Said when you don't have the pre-req for the quest.",
                 "INTRO": "Some intro text goes here",
                 "MIDDLE": "This is what gets displayed when you are doing the quest.",
-                "FINISH": "NPC_NAME says, \"Well now slut, I see you're not walking funny after all that ass raping - you must be a natural for this kind of work.\" " +
-                "He laughs menacingly at his own bad joke and continues, \"I mentioned to you that there was a way off this ship... well other than the gang plank and that's " +
-                "simple. All you need to do is @@color:cyan;earn enough filthy coin@@ for me to replace your faggot ass with a good and proper whore. About @@color:cyan;50 grand@@ should cover it. " +
-                "Until then... familiarize yourself with the ship and the crew. I'm sure they'll be familiarizing themselves with your slutty holes sooner or later.\"",
+                "FINISH": "NPC_NAME says, @@color:cyan;\"Well now slut, I see you're not walking funny after all that ass raping - you must be a natural for this kind of work.\"@@\n\n" +
+                "He laughs menacingly at his own bad joke and continues, @@color:cyan;\"I mentioned to you that there was a way off this ship... well other than the gang plank and that's " +
+                "simple. All you need to do is earn enough coin for me to replace your faggot ass with a good and proper whore. About@@ @@color:gold;50 grand@@ @@color:cyan;should cover it.@@\n\n"+
+                "That's a huge amount of money. Colossal even. You have no idea how you're supposed to earn it... is this some kind of sick joke?\n\n" +
+                "He continues, @@color:cyan;Until then... familiarize yourself with the ship and the crew. I'm sure they'll be familiarizing themselves with your slutty holes sooner or later.\"@@\n\n"+
+                "An ominous statement for sure, particularly given the last few days. Still, even if the Captain is just messing with you, there must be a way to get this blasted collar off your neck. "+
+                "Maybe you should walk around and talk to the crew...",
                 "JOURNAL_ENTRY": "You have been kidnapped and forced to become the on board prostitute to a ship full of scurvy sea dogs. " +
                 "The Captain of the ship had mentioned to you that it might be possible to purchase your freedom. You should go and speak to him.",
                 "JOURNAL_COMPLETE": "NPC_NAME has offered to let you buy your freedom for the sum of 50,000 coins. It's an enormous amount of money to earn, particularly for " +
@@ -10651,19 +10654,19 @@ Your name is @@color:yellow;&lt;&lt;= $Player.OriginalName &gt;&gt; Smythe@@, th
 &lt;&lt;click &quot;farmer&quot;&gt;&gt;
     &lt;&lt;run $Player.AdjustStat(&quot;Fitness&quot;, 10);&gt;&gt;
     &lt;&lt;replace &quot;#familyJob&quot;&gt;&gt;@@color:yellow;farmer@@&lt;&lt;/replace&gt;&gt;
-    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Go and meet your lover|Intro2]] or [[Skip the intro and begin the game|Cabin]]&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Go and meet your lover|Intro2]]&lt;&lt;/replace&gt;&gt;
 &lt;&lt;/click&gt;&gt; |
 &lt;&lt;click &quot;sailor&quot;&gt;&gt;
     &lt;&lt;run $Player.AdjustSkill(&quot;Navigating&quot;, 5);&gt;&gt;
     &lt;&lt;run $Player.AdjustSkill(&quot;Sailing&quot;, 5);&gt;&gt;
     &lt;&lt;replace &quot;#familyJob&quot;&gt;&gt;@@color:yellow;sailor@@&lt;&lt;/replace&gt;&gt;
-    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Go and meet your lover|Intro2]] or [[Skip the intro and begin the game|Cabin]]&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Go and meet your lover|Intro2]]&lt;&lt;/replace&gt;&gt;
 &lt;&lt;/click&gt;&gt; |
 &lt;&lt;click &quot;baker&quot;&gt;&gt;
     &lt;&lt;run $Player.AdjustSkill(&quot;Cooking&quot;, 5);&gt;&gt;
     &lt;&lt;run $Player.AdjustSkill(&quot;Serving&quot;, 10);&gt;&gt;
     &lt;&lt;replace &quot;#familyJob&quot;&gt;&gt;@@color:yellow;baker@@&lt;&lt;/replace&gt;&gt;
-    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Go and meet your lover|Intro2]] or [[Skip the intro and begin the game|Cabin]]&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Go and meet your lover|Intro2]]&lt;&lt;/replace&gt;&gt;
 &lt;&lt;/click&gt;&gt;&lt;/span&gt;.
 &lt;&lt;/nobr&gt;&gt;
 You&#39;ve spent your entire life in @@color:cyan;Isla Harbor@@, a small, but quaint island in the middle situated towards the south of a large chain of other islands. All your life \
@@ -10676,7 +10679,7 @@ outside of your social class that such a relationship, if it should be known, wo
 Despite this challenge, and despite @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;&#39;s@@ rather sheltered upbringing, the two of you have agreed to elope. You meet tonight \
 to discuss the plan.
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select a profession to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="104" name="Intro2" tags="" position="475,1350">You wait until nightfall and meet @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]&lt;/span&gt;</tw-passagedata><tw-passagedata pid="104" name="Intro2" tags="" position="475,1350">You wait until nightfall and meet @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
 &lt;&lt;nobr&gt;&gt;
 &lt;span id=&quot;flirting&quot;&gt;
 &lt;&lt;click &quot;serenading her&quot;&gt;&gt;

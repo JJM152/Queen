@@ -19,10 +19,13 @@ window.App.Data.Quests  = {
                 "PREREQ": "Said when you don't have the pre-req for the quest.",
                 "INTRO": "Some intro text goes here",
                 "MIDDLE": "This is what gets displayed when you are doing the quest.",
-                "FINISH": "NPC_NAME says, \"Well now slut, I see you're not walking funny after all that ass raping - you must be a natural for this kind of work.\" " +
-                "He laughs menacingly at his own bad joke and continues, \"I mentioned to you that there was a way off this ship... well other than the gang plank and that's " +
-                "simple. All you need to do is @@color:cyan;earn enough filthy coin@@ for me to replace your faggot ass with a good and proper whore. About @@color:cyan;50 grand@@ should cover it. " +
-                "Until then... familiarize yourself with the ship and the crew. I'm sure they'll be familiarizing themselves with your slutty holes sooner or later.\"",
+                "FINISH": "NPC_NAME says, @@color:cyan;\"Well now slut, I see you're not walking funny after all that ass raping - you must be a natural for this kind of work.\"@@\n\n" +
+                "He laughs menacingly at his own bad joke and continues, @@color:cyan;\"I mentioned to you that there was a way off this ship... well other than the gang plank and that's " +
+                "simple. All you need to do is earn enough coin for me to replace your faggot ass with a good and proper whore. About@@ @@color:gold;50 grand@@ @@color:cyan;should cover it.@@\n\n"+
+                "That's a huge amount of money. Colossal even. You have no idea how you're supposed to earn it... is this some kind of sick joke?\n\n" +
+                "He continues, @@color:cyan;Until then... familiarize yourself with the ship and the crew. I'm sure they'll be familiarizing themselves with your slutty holes sooner or later.\"@@\n\n"+
+                "An ominous statement for sure, particularly given the last few days. Still, even if the Captain is just messing with you, there must be a way to get this blasted collar off your neck. "+
+                "Maybe you should walk around and talk to the crew...",
                 "JOURNAL_ENTRY": "You have been kidnapped and forced to become the on board prostitute to a ship full of scurvy sea dogs. " +
                 "The Captain of the ship had mentioned to you that it might be possible to purchase your freedom. You should go and speak to him.",
                 "JOURNAL_COMPLETE": "NPC_NAME has offered to let you buy your freedom for the sum of 50,000 coins. It's an enormous amount of money to earn, particularly for " +
