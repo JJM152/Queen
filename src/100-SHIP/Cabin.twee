@@ -1,5 +1,5 @@
 :: Cabin
-<<script>>$("#story-caption").show();<</script>>\
+<<set $InIntro = 0>>\
 Your "Cabin" is really a converted jail cell used for holding prisoners, or in your case, slaves. It's been fitted with some old and decrepit furnishings, just enough amenities for you to begin your life as a whore. 
 
 There is a large wooden wardrobe here that contains spare clothes and a vanity and mirror combination for taking care of your personal appearance.
