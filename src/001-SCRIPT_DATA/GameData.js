@@ -1162,8 +1162,8 @@ window.App.Data.Ratings = {
                 100: "ADJECTIVE balls that signify you are one of natures true freaks. They are so bloated with cum that even the slightest touch if painful"
             },
             "Penis": {
-                 1: "a INCHES inch ADJECTIVE penis, a perfect sissy clit",
-                 5: "a INCHES inch ADJECTIVE penis, a perfect sissy clit",
+                 1: "a ADJECTIVE penis, a perfect sissy clit",
+                 5: "a ADJECTIVE penis, a perfect sissy clit",
                 10: "a INCHES inch ADJECTIVE dick or over sized sissy clit",
                 17: "a INCHES inch ADJECTIVE dick or over sized sissy clit",
                 25: "a humiliatingly ADJECTIVE INCHES inch dick",

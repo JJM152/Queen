@@ -139,6 +139,13 @@ var Store = function(Player, NPC, StoreData) {
         return oItem.Description();
     };
 
+    this.PrintItemLong = function(Item)
+    {
+        var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"], 1);
+		var Player = this._Player;
+        return oItem.Examine(Player);
+    };
+
     this.StockInventory();
 
 };
