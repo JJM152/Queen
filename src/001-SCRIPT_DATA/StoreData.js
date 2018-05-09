@@ -56,5 +56,24 @@ window.App.Data.Stores =  {
             { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   400, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink platform mary janes" },
             { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   120, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink head bow"            }
         ]
-    }
+    },
+    "SMUGGLERS" : {
+        "ID" : "SMUGGLERS",    "NAME" : "The Smuggler's Den",  "OPEN" : [ 0, 1, 2, 3, 4], "RESTOCK" : 7,
+        "INVENTORY" : [
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    16, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"             },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    },
+            { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",   "QTY":    4,     "MAX":    4,  "PRICE":    25, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"             }
+        ]
+    },
+    "PEACOCK" : {
+        "ID" : "PEACOCK",    "NAME" : "The Grey Peacock Tavern",  "OPEN" : [1, 2, 3, 4], "RESTOCK" : 7,
+        "INVENTORY" : [
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    16, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"             },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":    50, "MOOD":  0,   "LOCK": 0,  "TAG" : "bread and cheese"       },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":    50, "MOOD":  0,   "LOCK": 0,  "TAG" : "roast fish"             },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
+        ]
+    },
 };

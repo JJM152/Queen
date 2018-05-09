@@ -1,2 +1,11 @@
 :: GreatMarket
+An endless array of sounds and smells assaults your senses as you step foot into the grand plaza that plays host to the daily \
+@@color:gold;'Great Market of Port Royale'@@. Colourful tents and stands dot the landscape with vendors loudly hawking their wares \
+and shoppers scurrying around like angry ants. Here and there around the plaza are the entrances to other establishments - \
+a stately tavern named the @@color:gold;'Grey Peacock'@@, a small hovel with a hanging sign proclaiming it as @@color:gold;'Madam Blanche's Fortunes and Divining'@@ \
+and a large multi-story brothel, painted in bright red with lettering reading @@color:gold;'The Lusty Lass'@@.
+
+Further down the road is the open gateway to the @@color:gold;'Entertainment District'@@ and to the left of that is the guarded portcullis \
+that leads to the @@color:gold;'Wealthy District'@@.
+
 @@color:lime;Travel@@: [[The Docks|PortRoyale]] | [[Madame Blanche's|FortuneTeller]] | [[Grey Peacock|PR_Tavern]] | [[Lusty Lass|PR_CheapBrothel]] | [[The Entertainment District|EntertainmentDistrict]] | [[Guard House|PR_GuardHouse]]

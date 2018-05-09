@@ -97,8 +97,30 @@ window.App.Data.NPCS = {
                     "fair, honest and plain spoken - all relatively rare traits for a member of the aristocracy. Due to concealing your relationship with his daughter he never took much notice of you, "+
                     "which is probably a good thing considering how you stumbled into Captain Reginald's trap. NPC_NAME is an older man, well into middle age, but still retaining an air of vitality. His "+
                     "hair is still full and he sports a salt-and-pepper colored beard."
+            },
+            "Petey" : {
+                "Name": "Petey O'Bannon",
+                "Mood": 40,
+                "Wealth": 40,
+                "DailyMood": 0,
+                "Lust": 40,
+                "DailyLust": 10,
+                "Title": "NPC_NAME, 'Re-purposed Goods Specialist'",
+                "LongDesc": "NPC_NAME is a friendly looking middle aged man with a shock of red hair and a heavy smattering of freckles across his face. He's always game to make a deal or a trade, or just serve up a cold ale.",
+                "Store": "SMUGGLERS"
+            },
+            "Georgina" : {
+                "Name": "Georgina Littlehales",
+                "Mood": 40,
+                "Wealth": 40,
+                "DailyMood": 0,
+                "Lust": 40,
+                "DailyLust": 10,
+                "Title": "NPC_NAME, Bar Wench",
+                "LongDesc": "NPC_NAME is an older, but still attractive woman, with long flowing black hair and a truly stupendous bust that is only enhanced by her corseted dress. She can usually be found busily tending to orders, or just casually chatting up a regular.",
+                "Store": "PEACOCK"
             }
-                };
+};
 
 window.App.Data.Names = {
             "Male": ["Ailen", "Aldritch", "Allan", "Arnold", "Austyn", "Ayden",

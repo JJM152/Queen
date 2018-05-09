@@ -22,6 +22,7 @@ window.App.Entity.Player = function (){
     this.SailDays = 1;
     this.LastUsedMakeup = "minimal";
     this.LastUsedHair = "boy cut";
+    this.debugMode = false;
 
     this.JobFlags = { };
     this.QuestFlags = { "Q001": "ACTIVE" }; // Default Quest.
@@ -83,14 +84,18 @@ window.App.Entity.Player = function (){
             "IslaTavernKeeper" :    window.App.Item.Factory("NPC",     "IslaTavernKeeper"),
             "IslaShopKeeper" :      window.App.Item.Factory("NPC",     "IslaShopKeeper"),
             "Jarvis" :              window.App.Item.Factory("NPC",     "Jarvis"),
-            "LordRowe":             window.App.Item.Factory("NPC",     "LordRowe")
+            "LordRowe":             window.App.Item.Factory("NPC",     "LordRowe"),
+            "Petey":                window.App.Item.Factory("NPC",     "Petey"),
+            "Georgina":             window.App.Item.Factory("NPC",     "Georgina")
         };
 
         this.StoreInventory = {
             "GALLEY":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "CARGO":            { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "ISLATAVERN":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "ISLASTORE":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
+            "ISLASTORE":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "SMUGGLERS":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
         };
     };
 

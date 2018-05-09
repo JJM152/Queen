@@ -2637,6 +2637,7 @@ window.App.Entity.Player = function (){
     this.SailDays = 1;
     this.LastUsedMakeup = "minimal";
     this.LastUsedHair = "boy cut";
+    this.debugMode = false;
 
     this.JobFlags = { };
     this.QuestFlags = { "Q001": "ACTIVE" }; // Default Quest.
@@ -2698,14 +2699,18 @@ window.App.Entity.Player = function (){
             "IslaTavernKeeper" :    window.App.Item.Factory("NPC",     "IslaTavernKeeper"),
             "IslaShopKeeper" :      window.App.Item.Factory("NPC",     "IslaShopKeeper"),
             "Jarvis" :              window.App.Item.Factory("NPC",     "Jarvis"),
-            "LordRowe":             window.App.Item.Factory("NPC",     "LordRowe")
+            "LordRowe":             window.App.Item.Factory("NPC",     "LordRowe"),
+            "Petey":                window.App.Item.Factory("NPC",     "Petey"),
+            "Georgina":             window.App.Item.Factory("NPC",     "Georgina")
         };
 
         this.StoreInventory = {
             "GALLEY":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "CARGO":            { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "ISLATAVERN":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "ISLASTORE":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
+            "ISLASTORE":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "SMUGGLERS":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
         };
     };
 
@@ -4295,8 +4300,30 @@ window.App.Data.NPCS = {
                     "fair, honest and plain spoken - all relatively rare traits for a member of the aristocracy. Due to concealing your relationship with his daughter he never took much notice of you, "+
                     "which is probably a good thing considering how you stumbled into Captain Reginald's trap. NPC_NAME is an older man, well into middle age, but still retaining an air of vitality. His "+
                     "hair is still full and he sports a salt-and-pepper colored beard."
+            },
+            "Petey" : {
+                "Name": "Petey O'Bannon",
+                "Mood": 40,
+                "Wealth": 40,
+                "DailyMood": 0,
+                "Lust": 40,
+                "DailyLust": 10,
+                "Title": "NPC_NAME, 'Re-purposed Goods Specialist'",
+                "LongDesc": "NPC_NAME is a friendly looking middle aged man with a shock of red hair and a heavy smattering of freckles across his face. He's always game to make a deal or a trade, or just serve up a cold ale.",
+                "Store": "SMUGGLERS"
+            },
+            "Georgina" : {
+                "Name": "Georgina Littlehales",
+                "Mood": 40,
+                "Wealth": 40,
+                "DailyMood": 0,
+                "Lust": 40,
+                "DailyLust": 10,
+                "Title": "NPC_NAME, Bar Wench",
+                "LongDesc": "NPC_NAME is an older, but still attractive woman, with long flowing black hair and a truly stupendous bust that is only enhanced by her corseted dress. She can usually be found busily tending to orders, or just casually chatting up a regular.",
+                "Store": "PEACOCK"
             }
-                };
+};
 
 window.App.Data.Names = {
             "Male": ["Ailen", "Aldritch", "Allan", "Arnold", "Austyn", "Ayden",
@@ -5971,7 +5998,7 @@ window.App.Data.Clothes = {
                 "Name": "striped stockings", "ShortDesc": "a pair of {COLOR} and white striped stockings",
                 "LongDesc": "These cute striped stockings have adorable little pink bows at the top.",
                 "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "pink", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Sissy Lolita" ]
+                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Sissy Lolita", "Bimbo" ]
             },
             "frilly dress": {
                 "Name": "frilly dress", "ShortDesc": "a cute frilly {COLOR} dress",
@@ -5998,13 +6025,13 @@ window.App.Data.Clothes = {
                 "Slot": "Wig", "Restrict": ["Wig"], "Color": "blond", "Price": 150, "Style": "RARE", "Type" : "ACCESSORY",
                 "HairLength": 60, "HairStyle": "cute pig tails", "HairBonus": 60, "Category" : [ "Daddy's Girl" ]
             },
-            "pink knee socks": {
+            "pink knee socks": { // 10
                 "Name": "pink knee socks", "ShortDesc": "a pair of {COLOR} knee socks",
                 "LongDesc": "These pink socks come up right to your knee and have little ties to hold them up.",
                 "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "pink", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl", "Ordinary" ]
+                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl", "Ordinary", "Bimbo" ]
             },
-            "white knee socks": {
+            "white knee socks": { // 10
                 "Name": "pink knee socks", "ShortDesc": "a pair of {COLOR} knee socks",
                 "LongDesc": "These white socks come up right to your knee and have little ties to hold them up.",
                 "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "white", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
@@ -6029,11 +6056,96 @@ window.App.Data.Clothes = {
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl" ]
             },
 // Pirate Slut
-            "pirate hat": {
+            "pirate hat": { // 12
                 "Name": "pirate hat", "ShortDesc": "a cute little pirate hat",
                 "LongDesc": "This cute little pirate hat is the perfect accessory for a sissy pirate slut.",
-                "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 100, "Style": "RARE", "Type" : "ACCESSORY",
+                "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 100, "Style": "LEGENDARY", "Type" : "ACCESSORY",
                 "Category" : [ "Pirate Slut" ]
+            },
+            "pirate boots": { //10
+                "Name": "pirate boots", "ShortDesc": "a pair of very tall thigh-high {COLOR} leather boots",
+                "LongDesc": "The heels on these boots are outrageously high and pointed. The supple and shiny leather comes up to your mid thigh and folds over on itself.",
+                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
+                "Category" : [ "Pirate Slut", "BDSM" ], "WearEffect": {"Femininity": [0, 8, 40]}
+            },
+            "pirate bra": { //15
+                "Name": "pirate bra", "ShortDesc": "a {COLOR} push-up bra emblazoned with the skull and bones",
+                "LongDesc": "This sexy silk bra is fringed with gold and has a skull and bones, the traditional symbol of piracy emblazoned on the right breast cup.",
+                "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
+            },
+            "pirate thong": { //15
+                "Name": "pirate thong", "ShortDesc": "a {color} thong emblazoned with the skull and bones",
+                "LongDesc": "This t-back thong gently separates your arse cheeks, making them more prominent and luscious looking. It has the phrase 'Plunder my Booty' written across the rear waistband and a small skull and bones embroidered on the crotch.",
+                "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
+            },
+            "pirate waistcoat": { // 40
+                "Name": "pirate waistcoat", "ShortDesc": "a short {COLOR} velvet waistcoat",
+                "LongDesc": "This tiny waistcoat only has one button, leaving your cleavage exposed. It's also quite short, with the coat tails only barely covering your ass and leaving your front entirely exposed.",
+                "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Price": 1100, "Style": "LEGENDARY", "Type" : "ONE PIECE",
+                "WearEffect": {
+                    "Femininity"    : [0, 10, 80],
+                    "Seduction"     : [10,0,0],
+                    "Swashbuckling" : [10,0,0],
+                    "Navigating"    : [10,0,0],
+                    "Sailing"       : [10,0,0]
+                    },
+                "Category" :  [ "Pirate Slut" ]
+            },
+            "fishnet tights": { // 10
+                "Name": "fishnet tights", "ShortDesc": "a pair of {COLOR} fishnet stockings",
+                "LongDesc": "These fishnet tights wrap themselves perfectly to your legs. The feeling is quite exquisite.",
+                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 400, "Style": "UNCOMMON", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 5, 60]}, "Category" :  [ "Pirate Slut", "BDSM", "Naughty Nun", "Bimbo", "High Class Whore", "Slutty Lady" ]
+            },
+            "fishnet stockings": { // 10
+                "Name": "fishnet stockings", "ShortDesc": "a pair of {COLOR} fishnet stockings",
+                "LongDesc": "These fishnet stockings are topped with black lace and held up by garter straps.",
+                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 500, "Style": "UNCOMMON", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 5, 60]}, "Category" :  [ "Pirate Slut", "BDSM", "Naughty Nun", "Bimbo", "High Class Whore", "Slutty Lady", "Sexy Dancer" ]
+            },
+// Bimbo
+            "tall heels": { // 10
+                "Name": "tall heels", "ShortDesc": "a pair of very tall {COLOR} platform heels",
+                "LongDesc": "The heels on these sexy shoes are so tall that you prance and waddle, shaking your ass everywhere you walk.",
+                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 5, 60]}, Category : [ "Bimbo", "Sexy Dancer", "High Class Whore" ]
+            },
+            "bimbo heels": { // 15
+                "Name": "bimbo heels", "ShortDesc": "a pair of outrageously tall {COLOR} platform heels",
+                "LongDesc": "The heels on these platform shoes are so tall that you prance and waddle, shaking your ass, everywhere you walk.",
+                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Price": 300, "Style": "RARE", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 5, 60]}, Category : [ "Bimbo", "Sexy Dancer" ]
+            },
+            "micro dress": { // 40
+                "Name": "sexy micro dress",
+                "ShortDesc": "a figure hugging {COLOR} micro dress",
+                "LongDesc": "This dress is made out of some exotic material that hugs every curve of your body. It's so humiliatingly short that your genitals are half open for everyone and the top has several strategic holes to present multiple views of your chest.",
+                "Slot": "Dress",
+                "Restrict": ["Shirt", "Pants", "Dress", "Costume"],
+                "Color": "pink",
+                "Price": 1000,
+                "Style": "LEGENDARY", "Type" : "ONE PIECE",
+                "WearEffect": {"Femininity": [0, 15, 60], "Seduction" : [10,0,0]}, Category : [ "Bimbo" ]
+            },
+            "small plug": { // 9
+                "Name": "small plug", "ShortDesc": "a small anal plug with a heart-shaped {COLOR} faux gem",
+                "LongDesc": "This tiny little plug is designed be worn in your ass. The fake gem is there for decoration because everyone is going to be looking at it..",
+                "Slot": "Butt", "Restrict": ["Butt"], "Color": "pink", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
+                "WearEffect": {"Perversion": [0, 10, 40]}, Category : [ "Bimbo", "Sexy Dancer", "High Class Whore", "Ordinary" ]
+            },
+            "bimbo bra": { //15
+                "Name": "bimbo bra", "ShortDesc": "a {COLOR} push-up bra trimmed with lace and studded with rhinestones",
+                "LongDesc": "This sexy bra is designed to push up and display your assets in the most provocative way possible. The lace and shiny rhinestones there are for maximum eye-catching appeal.",
+                "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
+            },
+            "bimbo thong": { //15
+                "Name": "bimbo thong", "ShortDesc": "a {color} thong with 'I @@color:pink;&#9825;@@ Cum! written on the crotch' ",
+                "LongDesc": "This tiny thong is practically a g-string. The advertisement printed on it leaves no doubt to any onlookers as to what you're all about.",
+                "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
             },
 // Other Styles
             "cheap wig": {
@@ -6147,12 +6259,6 @@ window.App.Data.Clothes = {
                 "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
                 "WearEffect": {"Femininity": [0, 5, 40]}
             },
-            "fishnet stockings": {
-                "Name": "fishnet stockings", "ShortDesc": "a pair of {COLOR} fishnet stockings",
-                "LongDesc": "Sexy fishnet stockings topped with lace and held up by garter straps.",
-                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 250, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 60]}
-            },
             "worn boots": {
                 "Name": "worn boots", "ShortDesc": "a worn pair of {COLOR} boots",
                 "LongDesc": "These boots are decidedly ugly. More functional than fashionable.",
@@ -6175,12 +6281,6 @@ window.App.Data.Clothes = {
                 "LongDesc": "These shoes have a medium height heel that causes you to roll your ass as you walk.",
                 "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
                 "WearEffect": {"Femininity": [0, 8, 40]}
-            },
-            "tall heels": {
-                "Name": "tall heels", "ShortDesc": "a pair of very tall {COLOR} platform heels",
-                "LongDesc": "The heels on these sexy shoes are so tall that you prance and waddle, shaking your ass, everywhere you walk.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 60]}
             },
             "cotton blouse": {
                 "Name": "cotton blouse", "ShortDesc": "a {COLOR} cotton blouse",
@@ -6220,17 +6320,6 @@ window.App.Data.Clothes = {
                 "LongDesc": "This soft sundress has a cute floral pattern that is exceptionally girly.",
                 "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 100, "Style": "UNCOMMON", "Type" : "ONE PIECE",
                 "WearEffect": {"Femininity": [0, 5, 50]}
-            },
-            "micro dress": {
-                "Name": "sexy micro dress",
-                "ShortDesc": "a figure hugging {COLOR} micro dress",
-                "LongDesc": "This dress is made out of some exotic material that hugs every curve of your body. It's so humiliatingly short that your genitals are half open for everyone and the top has several strategic holes to expose your nipples.",
-                "Slot": "Dress",
-                "Restrict": ["Shirt", "Pants", "Dress", "Costume"],
-                "Color": "red",
-                "Price": 250,
-                "Style": "UNCOMMON", "Type" : "ONE PIECE",
-                "WearEffect": {"Femininity": [0, 15, 60], "Seduction" : [10,0,0]}
             },
             "sexy dress": {
                 "Name": "sexy dress",
@@ -6281,12 +6370,6 @@ window.App.Data.Clothes = {
                 "Style": "UNCOMMON", "Type" : "ONE PIECE",
                 "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]},
                 "SkillBonus": {"Cooking": [20, 20, 0], "Cleaning": [20, 20, 0]}
-            },
-            "small plug": {
-                "Name": "small plug", "ShortDesc": "a metal anal plug with a {COLOR} faux gem",
-                "LongDesc": "This tiny little plug is designed be worn in your ass. The fake gem is there for decoration.",
-                "Slot": "Butt", "Restrict": ["Butt"], "Color": "pink", "Price": 100, "Style": "COMMON", "Type" : "ACCESSORY",
-                "WearEffect": {"Perversion": [0, 10, 40]}
             },
             "large plug": {
                 "Name": "large plug", "ShortDesc": "a large {COLOR} butt plug",
@@ -8388,6 +8471,134 @@ window.App.Data.JobData = {
         "END" : "Finally, your shift in the tavern is over. NPC_NAME comes up to you and hands you your pay for the night, JOB_PAY coins.",
         "JOB_RESULTS" : [ ]
     },
+    "PEACOCK_WAITRESS": {
+        "ID": "PEACOCK_WAITRESS", "TITLE": "Wench For Hire", "GIVER": "Georgina", "PAY" : 40,
+        "RATING" : 3, // of 5
+        "PHASES" : [ 1 ],
+        "DAYS"   : 1,
+        "HIDDEN" : false,
+        "COST" : [  { "TYPE" : "TIME", "VALUE" : 3 },
+            { "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 2 } ],
+        "REQUIREMENTS" : [
+            { "TYPE" : "STYLE", "NAME" : "STYLE", "VALUE" : 50, "CONDITION" : "gte" }
+        ],
+        "START" :   "NPC_NAME smiles at you brightly and takes your hand in greeting.\n\n"+
+        "\"@@color:cyan;The job's easy enough lass, so don't worry if you don't have much experience at wenching. So long as you don't "+
+        "screw up too badly, you'll get paid@@\", he says.\n\n"+
+        "That's a relief. For once it seems you can get paid some coin without having to suck a dick... or five.\n\n"+
+        "\"@@color:cyan;Just a word of warning...@@\" he adds, \"@@color:cyan;The boys can get pretty 'hands on' if you know what I mean, "+
+        "especially after they've had a few. It shouldn't go too far... not like last time anyway.@@\"\n\n"+
+        "Aaaaaand... there it is.",
+        "INTRO" : "NPC_NAME says, \"@@color:cyan;I'm always looking for help on the floor. If you can sling beers and don't mind a hand or two on your arse, we're hiring.@@\"",
+        "SCENES" : [
+            {
+                "ID" : "SCENE01",
+                "TRIGGERS" :[ ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [
+                    { "TAG" : "A", "TYPE" : "SKILL", "NAME" : "Serving", "DIFFICULTY" : 30, "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 } ],
+                "POST" : [
+                    { "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 5, "OPT" : "TAG_A" },
+                    { "TYPE" : "MONEY", "NAME" : "", "VALUE" : 20, "OPT" : "TAG_A" }
+                ],
+                "START" :
+                    "You start your shift. The Tavern is mostly quiet this time of day and the customers are relatively orderly. "
+                ,
+                "END" :
+                    "Eventually the rush ends and you get a few moments to catch your breath and prepare for the next bustle of customers.",
+                "RESULTS" : [
+                    {"A":  33, "TEXT": "However, despite this, you find it @@difficult@@ to manage all of your orders and keep them happy."},
+                    {"A":  66, "TEXT": "You start off slowly and make a few miss-steps, but eventually @@you get the hang of it@@ and fall into a natural rhythm of slinging ale and grub."},
+                    {"A": 500, "TEXT": "All in all, it's @@not very difficult@@ to keep everyone happy - plied with drinks and food."} ]
+            },
+            {
+                "ID" : "SCENE02",
+                "TRIGGERS" :[ ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [
+                    { "TAG" : "B", "TYPE" : "SKILL", "NAME" : "Serving", "DIFFICULTY" : 30, "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 } ],
+                "POST" : [
+                    { "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 5, "OPT" : "TAG_B" },
+                    { "TYPE" : "MONEY", "NAME" : "", "VALUE" : 20, "OPT" : "TAG_B" }
+                ],
+                "START" :
+                    "The sky outside starts to darken and before long new customers start to arrive and you steel yourself for the dinner rush. "
+                ,
+                "END" :
+                    "",
+                "RESULTS" : [
+                    {"B":  33, "TEXT": "However, despite this, you find it @@difficult@@ to manage all of your orders and keep them happy."},
+                    {"B":  66, "TEXT": "You start off slowly and make a few miss-steps, but eventually @@you get the hang of it@@ and fall into a natural rhythm of slinging ale and grub."},
+                    {"B": 500, "TEXT": "All in all, it's @@not very difficult@@ to keep everyone happy - plied with drinks and food."} ]
+            },
+            {
+                "ID" : "SCENE02a",
+                "TRIGGERS" :[
+                    { "TYPE" : "STAT_BODY", "NAME" : "Ass", "VALUE" : 40, "CONDITION" : "gte", "OPT" : 0 }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [
+                    { "TAG" : "B1", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 30, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 50, "OPT" : 0 } ],
+                "POST" : [ ],
+                "START" :
+                    "Your pASS arse attracts a lot of attention of the customers. Several times during your shift you find yourself being groped or otherwise fondled by smelly labourers or fishermen."
+                ,
+                "END" :
+                    "",
+                "RESULTS" : [
+                    {"B1":  33, "TEXT": "You do your best to ignore the constant molestation and smile through it, but @@your tips suffer for it@@."},
+                    {"B1":  66, "TEXT": "You do your best at flirting and smiling while being molested and @@mostly it seems to work@@, getting you some extra coin in tips."},
+                    {"B1": 500, "TEXT": "You use the opportunity to flirt and grin at the obviously sex starved customers, who are more than happy to @@tip you generously@@"} ]
+            },
+            {
+                "ID" : "SCENE03",
+                "TRIGGERS" :[ ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [
+                    { "TAG" : "C", "TYPE" : "SKILL", "NAME" : "Serving", "DIFFICULTY" : 30, "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 } ],
+                "POST" : [
+                    { "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 5, "OPT" : "TAG_C" },
+                    { "TYPE" : "MONEY", "NAME" : "", "VALUE" : 20, "OPT" : "TAG_C" }
+                ],
+                "START" :
+                "Eventually the dinner rush comes to an end, leaving behind only the customers who are interested in some late night drinking and entertainment. You take a "+
+                "short break and then with renewed determination head back into the growing crowd."
+                ,
+                "END" :
+                    "",
+                "RESULTS" : [
+                    {"C":  33, "TEXT": "However, despite this, you find it @@difficult@@ to manage all of your orders and keep them happy."},
+                    {"C":  66, "TEXT": "You start off slowly and make a few miss-steps, but eventually @@you get the hang of it@@ and fall into a natural rhythm of slinging ale and grub."},
+                    {"C": 500, "TEXT": "All in all, it's @@not very difficult@@ to keep everyone happy - plied with drinks and food."} ]
+            },
+            {
+                "ID" : "SCENE03a",
+                "TRIGGERS" :[
+                    { "TYPE" : "STAT_SKILL", "NAME" : "Dancing", "VALUE" : 30, "CONDITION" : "gte", "OPT" : 0 }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [
+                    { "TAG" : "C1", "TYPE" : "SKILL", "NAME" : "Dancing", "DIFFICULTY" : 60, "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 } ],
+                "POST" : [
+                    {"TYPE" : "MONEY", "NAME" : "", "VALUE" : 60, "OPT" : "TAG_C1" }
+                ],
+                "START" :
+                "During your shift one of the locals begins to entertain the crowd by playing on his fiddle. The tune is quite catchy and you find yourself tapping your feet "+
+                "in time with the music. Some of the patrons catch on and with a little encouragement start to dance with you. Soon they are encouraging you as you twirl and "+
+                "twist away on the floor and the incessant clapping starts to get to your head. Caught up in the moment you quickly climb on top of the bar and start dancing for "+
+                "the crowd."
+                ,
+                "END" :
+                    "",
+                "RESULTS" : [
+                    {"C1":  33, "TEXT": "Your dancing is @@competent, if not inspired@@ and while the crowd seems to enjoy it, they don't really loosen their purse strings for you either."},
+                    {"C1":  66, "TEXT": "You mix in a few sexy moves with your dancing, exposing your pBUST tits in brief flashes and winking saucily at the crowd and you are @@rewarded with a good amount of tips@@ for your effort."},
+                    {"C1": 500, "TEXT": "Using everything you know, you prance and strut your stuff across the bar. You tease and flirt with the crowd, exposing brief glimpses of your pBUST tits and pASS ass to them and riling them up into a sexual frenzy. By the end of your routine they are @@practically showering you with coins@@."} ]
+            }
+        ],
+        "END" : "Finally, your shift in the tavern is over. NPC_NAME comes up to you and hands you your pay for the night, JOB_PAY coins.",
+        "JOB_RESULTS" : [ ]
+    },
     "ISLA_MASCOT": {
         "ID": "ISLA_MASCOT", "TITLE": "Store Mascot", "GIVER": "IslaShopKeeper", "PAY" : 40,
         "RATING" : 3, // of 5
@@ -8941,7 +9152,26 @@ window.App.Data.Stores =  {
             { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   400, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink platform mary janes" },
             { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   120, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink head bow"            }
         ]
-    }
+    },
+    "SMUGGLERS" : {
+        "ID" : "SMUGGLERS",    "NAME" : "The Smuggler's Den",  "OPEN" : [ 0, 1, 2, 3, 4], "RESTOCK" : 7,
+        "INVENTORY" : [
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    16, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"             },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    },
+            { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",   "QTY":    4,     "MAX":    4,  "PRICE":    25, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"             }
+        ]
+    },
+    "PEACOCK" : {
+        "ID" : "PEACOCK",    "NAME" : "The Grey Peacock Tavern",  "OPEN" : [1, 2, 3, 4], "RESTOCK" : 7,
+        "INVENTORY" : [
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    16, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"             },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":    50, "MOOD":  0,   "LOCK": 0,  "TAG" : "bread and cheese"       },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":    50, "MOOD":  0,   "LOCK": 0,  "TAG" : "roast fish"             },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
+        ]
+    },
 };
 /* twine-user-script #14: "Story JavaScript" */
 //Sugarcube config
@@ -8955,7 +9185,7 @@ There is a large wooden wardrobe here that contains spare clothes and a vanity a
 @@color:yellow;Action@@: &lt;&lt;if $Player.Phase &lt; 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] == $Player.GetMaxStat(&quot;STAT&quot;,&quot;Energy&quot;);&gt;&gt;@@color:grey;[Rest]@@&lt;&lt;else&gt;&gt;[[Rest]]&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;
 @@color:lime;Travel@@: [[Deck]]
 
-[[Stat Test]]</tw-passagedata><tw-passagedata pid="2" name="Captain" tags="" position="225,100">The captains quarters are spacious, at least by the standards of this ship. There is a large glass window against the aft side of the room and plush velvet drapes hanging from the walls. The furniture itself is old, but well maintained and the Captain is known for his expensive tastes.
+&lt;&lt;if $Player.debugMode != false&gt;&gt;[[Stat Test]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Captain" tags="" position="225,100">The captains quarters are spacious, at least by the standards of this ship. There is a large glass window against the aft side of the room and plush velvet drapes hanging from the walls. The furniture itself is old, but well maintained and the Captain is known for his expensive tastes.
 
 &lt;&lt;NPC &quot;Captain&quot;&gt;&gt;
 
@@ -9081,8 +9311,63 @@ The tavern is bustling and lively with many patrons clamoring for drink and food
 &lt;&lt;else&gt;&gt;\
 @@color:lime;Travel@@: [[The Docks|IslaHarbor]] | @@color:grey;[General Store]@@ | @@color:grey;[Governors Mansion]@@
 &lt;&lt;/if&gt;&gt;\
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="Bazzar" tags="" position="1225,225">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="21" name="GI_CheapBrothel" tags="" position="100,350">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="22" name="GI_Clothiers" tags="" position="225,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="23" name="GI_DanceHall" tags="" position="350,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="24" name="GI_GeneralGoods" tags="" position="475,350">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="25" name="GI_GovernorsMansion" tags="" position="600,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="26" name="GI_GuardStation" tags="" position="725,350">@@color:lime;Travel@@: [[Portside District|Portside]] | [[Jail House|GI_Jail]] | [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="27" name="GI_Jail" tags="" position="850,350">@@color:lime;Travel@@: [[Guard Station|GI_GuardStation]]</tw-passagedata><tw-passagedata pid="28" name="GI_Salon" tags="" position="975,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="29" name="GoldenIsle" tags="" position="1100,350">@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Smuggler&#39;s Den|SmugglersDen]] | [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="30" name="HighHill" tags="" position="1225,350">@@color:lime;Travel@@: [[Guard Station|GI_GuardStation]] | [[Madame Yvonne&#39;s Salon|GI_Salon]] | [[Bella&#39;s Boudoir|GI_Clothiers]] | [[Minxy&#39;s Dance Hall|GI_DanceHall]] | [[The Governor&#39;s Mansion|GI_GovernorsMansion]]</tw-passagedata><tw-passagedata pid="31" name="Portside" tags="" position="100,475">@@color:lime;Travel@@: [[Docks|GoldenIsle]] | [[General Goods Store|GI_GeneralGoods]] | [[The Saucy Slattern|GI_CheapBrothel]] | [[The Bazzar|Bazzar]] | [[Guard Station|GI_GuardStation]]</tw-passagedata><tw-passagedata pid="32" name="SmugglersDen" tags="" position="225,475">@@color:lime;Travel@@: [[Docks|GoldenIsle]]</tw-passagedata><tw-passagedata pid="33" name="Abamond" tags="" position="350,475">@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Far Beach|FarBeach]] | [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="34" name="FarBeach" tags="" position="475,475">@@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[Into the Cave|OceanCave]]</tw-passagedata><tw-passagedata pid="35" name="HiddenCove" tags="" position="600,475">@@color:lime;Travel@@: [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="36" name="Jungle" tags="" position="725,475">@@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[Hidden Cove|HiddenCove]] | [[Into the Ruins|Ruins]]</tw-passagedata><tw-passagedata pid="37" name="OceanCave" tags="" position="850,475">@@color:lime;Travel@@: [[Far Beach|FarBeach]]</tw-passagedata><tw-passagedata pid="38" name="Ruins" tags="" position="975,475">@@color:lime;Travel@@: [[Into the Jungle|Jungle]] | [[Treasure Room|TreasureRoom]]</tw-passagedata><tw-passagedata pid="39" name="TreasureRoom" tags="" position="1100,475">@@color:lime;Travel@@: [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="40" name="Casino" tags="" position="1225,475">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="41" name="CourtesansGuild" tags="" position="100,600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="42" name="EntertainmentDistrict" tags="" position="225,600">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[The Grand Casino|Casino]] | [[Jezzebelles|PR_DanceHall]] | [[Green Gryphon|PR_FancyTavern]] | [[Sindee Rella&#39;s Sexorium and Slut Show|XXXShow]] |
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[[Port Royale Gifts|GiftShop]]</tw-passagedata><tw-passagedata pid="43" name="FortuneTeller" tags="" position="350,600">@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="44" name="GiftShop" tags="" position="475,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="45" name="GreatMarket" tags="" position="600,600">@@color:lime;Travel@@: [[The Docks|PortRoyale]] | [[Madame Blanche&#39;s|FortuneTeller]] | [[Grey Peacock|PR_Tavern]] | [[Lusty Lass|PR_CheapBrothel]] | [[The Entertainment District|EntertainmentDistrict]] | [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="46" name="PR_CheapBrothel" tags="" position="725,600">@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="47" name="PR_Clothier" tags="" position="850,600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="48" name="PR_DanceHall" tags="" position="975,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="49" name="PR_FancyTavern" tags="" position="1100,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="50" name="PR_GovernorsMansion" tags="" position="1225,600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="51" name="PR_GuardHouse" tags="" position="100,725">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[Jail House|PR_Jail]] | [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="52" name="PR_Jail" tags="" position="225,725">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="53" name="PR_RareGoods" tags="" position="350,725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="54" name="PR_Tavern" tags="" position="475,725">@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="55" name="PortRoyale" tags="" position="600,725">@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Shipwright|ShipWright]] | [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="56" name="ShipWright" tags="" position="725,725">@@color:lime;Travel@@: [[The Docks|PortRoyale]]</tw-passagedata><tw-passagedata pid="57" name="WealthyDistrict" tags="" position="850,725">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]] | [[Lady Selene&#39;s School for Courtesans|CourtesansGuild]] | [[Veronica&#39;s Secret|PR_Clothier]] | [[David Jone&#39;s Locker|PR_RareGoods]] | 
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="Bazzar" tags="" position="1225,225">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="21" name="GI_CheapBrothel" tags="" position="100,350">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="22" name="GI_Clothiers" tags="" position="225,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="23" name="GI_DanceHall" tags="" position="350,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="24" name="GI_GeneralGoods" tags="" position="475,350">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="25" name="GI_GovernorsMansion" tags="" position="600,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="26" name="GI_GuardStation" tags="" position="725,350">@@color:lime;Travel@@: [[Portside District|Portside]] | [[Jail House|GI_Jail]] | [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="27" name="GI_Jail" tags="" position="850,350">@@color:lime;Travel@@: [[Guard Station|GI_GuardStation]]</tw-passagedata><tw-passagedata pid="28" name="GI_Salon" tags="" position="975,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="29" name="GoldenIsle" tags="" position="1100,350">You stand amongst a twisting warren of piers that stretches out into the harbor at the leeward side of the island. For many \
+years this bustling settlement has been a haven of sorts for all sorts of pirate crews that ply their dastardly trade up \
+and down the Lost Coast. Off in the distance you see the entrance to the @@color:gold;&#39;Portside District&#39;@@, the main hub of the \
+settlement and further back on the hill, overlooking it all, the manor of the former Governor, now occupied by one of the most infamous \
+pirates to ever set sail, @@color:cyan;&#39;Black Bertie&#39;@@.
+
+Set back from the wharf is a large multi-story building and from within you can hear the sounds of what appears to be a lively \
+crowd of sailors, likely up to no good. A swinging sign hanging from an awning denotes it as @@color:gold;&#39;The Smuggler&#39;s Den&#39;@@.
+
+@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Smuggler&#39;s Den|SmugglersDen]] | [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="30" name="HighHill" tags="" position="1225,350">@@color:lime;Travel@@: [[Guard Station|GI_GuardStation]] | [[Madame Yvonne&#39;s Salon|GI_Salon]] | [[Bella&#39;s Boudoir|GI_Clothiers]] | [[Minxy&#39;s Dance Hall|GI_DanceHall]] | [[The Governor&#39;s Mansion|GI_GovernorsMansion]]</tw-passagedata><tw-passagedata pid="31" name="Portside" tags="" position="100,475">@@color:lime;Travel@@: [[Docks|GoldenIsle]] | [[General Goods Store|GI_GeneralGoods]] | [[The Saucy Slattern|GI_CheapBrothel]] | [[The Bazzar|Bazzar]] | [[Guard Station|GI_GuardStation]]</tw-passagedata><tw-passagedata pid="32" name="SmugglersDen" tags="" position="225,475">The nondescript outer appearance of this tavern-cum-black market hides an interior that can only be described as \
+&#39;fading opulence&#39;, which is surprising given the clientele. It appears that the Den is owned by a now retired \
+former pirate captain and his taste (or lack thereof) for fine art and furniture has made itself part of the overall \
+aesthetic.
+
+The main floor of the establishment is dedicated to a bar and simple market, with the upper floors being reserved \
+for &#39;special&#39; activities and meetings. You probably don&#39;t want to know what.
+
+&lt;&lt;NPC &quot;Petey&quot;&gt;&gt;
+@@color:lime;Travel@@: [[Docks|GoldenIsle]]</tw-passagedata><tw-passagedata pid="33" name="Abamond" tags="" position="350,475">The sole pier on Abamond is a megalith is referred to by the locals as the @@color:gold;&#39;Lonely Pier&#39;@@ - it is a structure of \
+unknown origins that has been around for longer than anyone can possibly remember and hints at the previously &#39;occupied&#39; nature \
+of this now desolate island. From the sandy shale of this beach you can see a vast jungle ahead of you, denser than you could \
+have possibly imagined, and to the north the beach stretches out along the coast to a stark rock face that looks to have been \
+hewed out of stone by the force of the waves.
+
+@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Far Beach|FarBeach]] | [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="34" name="FarBeach" tags="" position="475,475">The northern beach of Abamond comes to an abrupt end at a large rock face that has been so beaten down by the crashing sea \
+that you cannot find any purchase to climb. Despite that you do notice that there are some small openings, caves by the look of it, \
+that dot the meridian between the sandy beach and the cliffs above. Off in the distance you can still see the massive @@color:gold;&#39;Lonely Pier&#39;@@.
+
+@@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[Explore the caves|OceanCave]]</tw-passagedata><tw-passagedata pid="35" name="HiddenCove" tags="" position="600,475">@@color:lime;Travel@@: [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="36" name="Jungle" tags="" position="725,475">@@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[Hidden Cove|HiddenCove]] | [[Into the Ruins|Ruins]]</tw-passagedata><tw-passagedata pid="37" name="OceanCave" tags="" position="850,475">These caves are set far enough back from the beach that even at the high tide they still do not completely flood. The air is damp and salty and other \
+than the occasional rock or wall covered with lichen you don&#39;t see any signs of life. A brief exploration has led you to conclude that there are some \
+deeper tunnels that you could explore, if you were so inclined.
+
+@@color:lime;Travel@@: [[Far Beach|FarBeach]] | @@color:grey;Explore the Caverns below Abamond@@</tw-passagedata><tw-passagedata pid="38" name="Ruins" tags="" position="975,475">@@color:lime;Travel@@: [[Into the Jungle|Jungle]] | [[Treasure Room|TreasureRoom]]</tw-passagedata><tw-passagedata pid="39" name="TreasureRoom" tags="" position="1100,475">@@color:lime;Travel@@: [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="40" name="Casino" tags="" position="1225,475">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="41" name="CourtesansGuild" tags="" position="100,600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="42" name="EntertainmentDistrict" tags="" position="225,600">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[The Grand Casino|Casino]] | [[Jezzebelles|PR_DanceHall]] | [[Green Gryphon|PR_FancyTavern]] | [[Sindee Rella&#39;s Sexorium and Slut Show|XXXShow]] |
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[[Port Royale Gifts|GiftShop]]</tw-passagedata><tw-passagedata pid="43" name="FortuneTeller" tags="" position="350,600">@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="44" name="GiftShop" tags="" position="475,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="45" name="GreatMarket" tags="" position="600,600">An endless array of sounds and smells assaults your senses as you step foot into the grand plaza that plays host to the daily \
+@@color:gold;&#39;Great Market of Port Royale&#39;@@. Colourful tents and stands dot the landscape with vendors loudly hawking their wares \
+and shoppers scurrying around like angry ants. Here and there around the plaza are the entrances to other establishments - \
+a stately tavern named the @@color:gold;&#39;Grey Peacock&#39;@@, a small hovel with a hanging sign proclaiming it as @@color:gold;&#39;Madam Blanche&#39;s Fortunes and Divining&#39;@@ \
+and a large multi-story brothel, painted in bright red with lettering reading @@color:gold;&#39;The Lusty Lass&#39;@@.
+
+Further down the road is the open gateway to the @@color:gold;&#39;Entertainment District&#39;@@ and to the left of that is the guarded portcullis \
+that leads to the @@color:gold;&#39;Wealthy District&#39;@@.
+
+@@color:lime;Travel@@: [[The Docks|PortRoyale]] | [[Madame Blanche&#39;s|FortuneTeller]] | [[Grey Peacock|PR_Tavern]] | [[Lusty Lass|PR_CheapBrothel]] | [[The Entertainment District|EntertainmentDistrict]] | [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="46" name="PR_CheapBrothel" tags="" position="725,600">@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="47" name="PR_Clothier" tags="" position="850,600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="48" name="PR_DanceHall" tags="" position="975,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="49" name="PR_FancyTavern" tags="" position="1100,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="50" name="PR_GovernorsMansion" tags="" position="1225,600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="51" name="PR_GuardHouse" tags="" position="100,725">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[Jail House|PR_Jail]] | [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="52" name="PR_Jail" tags="" position="225,725">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="53" name="PR_RareGoods" tags="" position="350,725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="54" name="PR_Tavern" tags="" position="475,725">The @@color:gold;&#39;Grey Peacock&#39;@@ is one of the more popular taverns in @@color:gold;&#39;Port Royale&#39;@@, well known for both it&#39;s wholesome food and \
+stiff drinks. The clientele tends to be a step up from the common rabble that you&#39;d find in other places since mostly their have their needs met \
+by the numerous street-side stands in the @@color:gold;&#39;Great Market&#39;@@ and the decor and settings represent that.
+
+&lt;&lt;NPC &quot;Georgina&quot;&gt;&gt;
+@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="55" name="PortRoyale" tags="" position="600,725">@@color:gold;&#39;Port Royale&#39;@@ is known far and wide as the most impressive collection of free traders on the open seas. The \
+island itself hosting numerous shops, markets and entertainment establishments that draw an odd collection of merchants, \
+freebooters and the occasional person of ill-repute. Looking into the harbor you can see dozens of ships moored within, everything \
+from small slips to large merchant vessels and the docks are bustling at all times of the day and night with teamsters carrying \
+goods back and forth.
+
+A large building attached to a massive dry-dock is to the north, it&#39;s obviously a shipyard of some sort and beyond that a \
+twisting road leads to the famous @@color:gold;&#39;Great Market&#39;@@.
+
+@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Shipwright|ShipWright]] | [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="56" name="ShipWright" tags="" position="725,725">@@color:lime;Travel@@: [[The Docks|PortRoyale]]</tw-passagedata><tw-passagedata pid="57" name="WealthyDistrict" tags="" position="850,725">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]] | [[Lady Selene&#39;s School for Courtesans|CourtesansGuild]] | [[Veronica&#39;s Secret|PR_Clothier]] | [[David Jone&#39;s Locker|PR_RareGoods]] | 
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[[The Governor&#39;s Mansion|PR_GovernorsMansion]]</tw-passagedata><tw-passagedata pid="58" name="XXXShow" tags="" position="975,725">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="59" name="PassageTest" tags="" position="1100,725">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;click &quot;PIRATE_PRACTICE&quot; &quot;Combat&quot;&gt;&gt;
 &lt;&lt;set $MenuAction = &quot;PIRATE_PRACTICE&quot;;&gt;&gt;
@@ -10394,7 +10679,39 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;&lt;/nobr&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="84" name="ChangeLog" tags="custom-menu" position="475,1100">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 
-0.1 - Initial Version - 05/05/2018</tw-passagedata><tw-passagedata pid="85" name="Combat" tags="custom-menu" position="600,1100">&lt;&lt;combatPanel $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="86" name="Examine" tags="custom-menu" position="725,1100">&lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.ShortDesc())&gt;&gt;
+!!!0.2 - 05/09/2018
+!!!!General
+* Rounding bug with Journal quest tracker fixed.
+* Figure rating blank in mirror fixed (hopefully)
+* New Title PAge
+* New Intro sequence
+* Added flavor choices to intro that give small stat/skill boosts.
+* Added changelog and faq/rules page.
+* Added and Categorized outfits for &#39;Pirate Slut&#39; and &#39;Bimbo&#39; styles (not all items are currently available)
+* Reduced effects (damage) from toxicity
+* Reduced quest requirements for the &#39;Build a Better Bimbo&#39; chain.
+* Reduced bust requirement for First Mate whoring job.
+* Hide game status panel during intro.
+* Added examine item button to store (thanks dcancer for github contribution)
+
+!!!!Isla Harbor
+* Added Waitress Job to tavern.
+* Added Mascot Job to General Store.
+
+!!!!Abamond
+* General descriptions to Lonely Pier, Far Beach and Ocean Cave
+
+!!!!Golden Isle
+* Added Docks, Smugglers Den.
+* Added Smuggler&#39;s den basic inventory and NPC.
+
+!!!!Port Royale
+* Added docks, Great Market and Grey Peacock tavern.
+* Added Grey Peacock basic inventory and NPC.
+* Added Waitress Job to Grey Peacock.
+
+!!!0.1 - 05/05/2018
+Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="85" name="Combat" tags="custom-menu" position="600,1100">&lt;&lt;combatPanel $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="86" name="Examine" tags="custom-menu" position="725,1100">&lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.ShortDesc())&gt;&gt;
 &lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.LongDesc())&gt;&gt;
 
 @@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="87" name="GameOver" tags="" position="850,1100">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="88" name="GameWon" tags="custom-menu" position="975,1100">You won the game. Great moves. Proud of you.</tw-passagedata><tw-passagedata pid="89" name="Inventory" tags="custom-menu" position="1100,1100">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
@@ -10501,16 +10818,42 @@ You wake up not long after, feeling slightly more energetic.
 @@color:cyan;Interact@@: [[Exit|Cabin]]
 @@color:yellow;Action@@: &lt;&lt;if $Player.Phase != 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] &lt; $Player.GetMaxStat(&quot;STAT&quot;, &quot;Energy&quot;)&gt;&gt;[[Continue Resting|Rest]]&lt;&lt;else&gt;&gt;@@color:grey;[Continue Resting]@@&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="Rules" tags="custom-menu" position="600,1225">@@color:yellow;Rules O&#39; the Sea@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &#39;&#39;Don&#39;t Die&#39;&#39;
-There are multiple ways to die in this game. Combat and fighting, either with the crew or with other pirates or enemies can end your life. In addition to this you must monitor your health and nutrition. Be careful of taking drugs or magical potions and avoid tiring yourself out too much.
+There are multiple ways to die in this game. Combat and fighting, either with the crew or with other pirates or enemies can end your life. \
+In addition to this you must monitor your health and nutrition. Be careful of taking drugs or magical potions and avoid tiring yourself out too much.
 
 &#39;&#39;Time and Game Phases&#39;&#39;
-There are three phases to a game day, morning, afternoon and night. Not all activities or locations are available depending on the time of day. You may hit the &#39;&#39;END DAY&#39;&#39; button at any time to skip to the next day.
+There are five phases to a game day, morning, afternoon, evening, night and late night. Not all activities or locations are available depending on the \
+time of day. You may always rest at your cabin until night and you may sleep till the next day during the night or late night phases.
 
 &#39;&#39;Willpower&#39;&#39;
 If your Willpower statistic gets too low, you will automatically lose the game as your mind is totally broken. Willpower is hard to raise, but easy to lose, so be careful.
 
 &#39;&#39;Crew Mood&#39;&#39;
-If the crew hates you then you may find yourself in serious trouble, the least of which is abuse and violence upon your person. They may decide to sell you off at the next port, effectively ending your game. The Captain, of course, can probably kill you at any time due to the magical collar on your neck.</tw-passagedata><tw-passagedata pid="96" name="SelfJobs" tags="custom-ui" position="725,1225">&lt;&lt;nobr&gt;&gt;
+If the crew hates you then you may find yourself in serious trouble, the least of which is abuse and violence upon your person. They may decide to sell you \
+off at the next port, effectively ending your game. The Captain, of course, can probably kill you at any time due to the magical collar on your neck.
+
+&#39;&#39;Questing&#39;&#39;
+There are quests in this game. Check your quest log to track them (you start with one from the introduction sequence). You can tell when someone has a quest available \
+because they will have a @@color:yellow;yellow exclamation mark (!)@@ next to their name. A @@color:deepPink;deep pink one@@ means a quest is ready to be turned in.
+
+&#39;&#39;Jobbing&#39;&#39;
+You can find jobs in your travels. Sometimes they have requirements based on your stats or based on completing previous deeds or quests. Explore them. They usually offer \
+some kind of payment or skill advancement, even if not noted.
+
+&#39;&#39;Food and Drugs&#39;&#39;
+There are many different kinds of food and drugs in the game and almost all of them will have some sort of effect on your player character. Food is especially important because \
+without it you will starve to death and die.
+
+&#39;&#39;Toxicity&#39;&#39;
+Pay attention to this statistic - the more toxicity you have gathered, the more damage you will take from &#39;poison&#39; over night. The only ways to clear this statistic are by waiting \
+for it to go away, or consuming certain potions or food.
+
+&#39;&#39;Healing&#39;&#39;
+Resting and sleeping will heal you if you are not poisoned or starving. There are also certain herbs or potions that can heal you instantly.
+
+&#39;&#39;Skill Checks&#39;&#39;
+Don&#39;t worry too much about these. They are important for tracking your progress, but most rewards are given on a sliding scale. You can still progress at most activities even if your \
+skills are low. You just won&#39;t get as much reward.</tw-passagedata><tw-passagedata pid="96" name="SelfJobs" tags="custom-ui" position="725,1225">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;
 &lt;&lt;printJobResult $MenuAction&gt;&gt;
 &lt;&lt;set $MenuAction = 0;&gt;&gt;&lt;&lt;/nobr&gt;&gt;

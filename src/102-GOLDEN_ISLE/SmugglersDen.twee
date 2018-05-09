@@ -1,2 +1,11 @@
 :: SmugglersDen
+The nondescript outer appearance of this tavern-cum-black market hides an interior that can only be described as \
+'fading opulence', which is surprising given the clientele. It appears that the Den is owned by a now retired \
+former pirate captain and his taste (or lack thereof) for fine art and furniture has made itself part of the overall \
+aesthetic.
+
+The main floor of the establishment is dedicated to a bar and simple market, with the upper floors being reserved \
+for 'special' activities and meetings. You probably don't want to know what.
+
+<<NPC "Petey">>
 @@color:lime;Travel@@: [[Docks|GoldenIsle]]

@@ -1,2 +1,7 @@
 :: PR_Tavern
+The @@color:gold;'Grey Peacock'@@ is one of the more popular taverns in @@color:gold;'Port Royale'@@, well known for both it's wholesome food and \
+stiff drinks. The clientele tends to be a step up from the common rabble that you'd find in other places since mostly their have their needs met \
+by the numerous street-side stands in the @@color:gold;'Great Market'@@ and the decor and settings represent that.
+
+<<NPC "Georgina">>
 @@color:lime;Travel@@: [[Great Market|GreatMarket]]
