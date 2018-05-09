@@ -322,7 +322,7 @@ window.App.Data.Clothes = {
                 "Name": "striped stockings", "ShortDesc": "a pair of {COLOR} and white striped stockings",
                 "LongDesc": "These cute striped stockings have adorable little pink bows at the top.",
                 "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "pink", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Sissy Lolita" ]
+                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Sissy Lolita", "Bimbo" ]
             },
             "frilly dress": {
                 "Name": "frilly dress", "ShortDesc": "a cute frilly {COLOR} dress",
@@ -349,13 +349,13 @@ window.App.Data.Clothes = {
                 "Slot": "Wig", "Restrict": ["Wig"], "Color": "blond", "Price": 150, "Style": "RARE", "Type" : "ACCESSORY",
                 "HairLength": 60, "HairStyle": "cute pig tails", "HairBonus": 60, "Category" : [ "Daddy's Girl" ]
             },
-            "pink knee socks": {
+            "pink knee socks": { // 10
                 "Name": "pink knee socks", "ShortDesc": "a pair of {COLOR} knee socks",
                 "LongDesc": "These pink socks come up right to your knee and have little ties to hold them up.",
                 "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "pink", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl", "Ordinary" ]
+                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl", "Ordinary", "Bimbo" ]
             },
-            "white knee socks": {
+            "white knee socks": { // 10
                 "Name": "pink knee socks", "ShortDesc": "a pair of {COLOR} knee socks",
                 "LongDesc": "These white socks come up right to your knee and have little ties to hold them up.",
                 "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "white", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
@@ -380,11 +380,96 @@ window.App.Data.Clothes = {
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl" ]
             },
 // Pirate Slut
-            "pirate hat": {
+            "pirate hat": { // 12
                 "Name": "pirate hat", "ShortDesc": "a cute little pirate hat",
                 "LongDesc": "This cute little pirate hat is the perfect accessory for a sissy pirate slut.",
-                "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 100, "Style": "RARE", "Type" : "ACCESSORY",
+                "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 100, "Style": "LEGENDARY", "Type" : "ACCESSORY",
                 "Category" : [ "Pirate Slut" ]
+            },
+            "pirate boots": { //10
+                "Name": "pirate boots", "ShortDesc": "a pair of very tall thigh-high {COLOR} leather boots",
+                "LongDesc": "The heels on these boots are outrageously high and pointed. The supple and shiny leather comes up to your mid thigh and folds over on itself.",
+                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
+                "Category" : [ "Pirate Slut", "BDSM" ], "WearEffect": {"Femininity": [0, 8, 40]}
+            },
+            "pirate bra": { //15
+                "Name": "pirate bra", "ShortDesc": "a {COLOR} push-up bra emblazoned with the skull and bones",
+                "LongDesc": "This sexy silk bra is fringed with gold and has a skull and bones, the traditional symbol of piracy emblazoned on the right breast cup.",
+                "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
+            },
+            "pirate thong": { //15
+                "Name": "pirate thong", "ShortDesc": "a {color} thong emblazoned with the skull and bones",
+                "LongDesc": "This t-back thong gently separates your arse cheeks, making them more prominent and luscious looking. It has the phrase 'Plunder my Booty' written across the rear waistband and a small skull and bones embroidered on the crotch.",
+                "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
+            },
+            "pirate waistcoat": { // 40
+                "Name": "pirate waistcoat", "ShortDesc": "a short {COLOR} velvet waistcoat",
+                "LongDesc": "This tiny waistcoat only has one button, leaving your cleavage exposed. It's also quite short, with the coat tails only barely covering your ass and leaving your front entirely exposed.",
+                "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Price": 1100, "Style": "LEGENDARY", "Type" : "ONE PIECE",
+                "WearEffect": {
+                    "Femininity"    : [0, 10, 80],
+                    "Seduction"     : [10,0,0],
+                    "Swashbuckling" : [10,0,0],
+                    "Navigating"    : [10,0,0],
+                    "Sailing"       : [10,0,0]
+                    },
+                "Category" :  [ "Pirate Slut" ]
+            },
+            "fishnet tights": { // 10
+                "Name": "fishnet tights", "ShortDesc": "a pair of {COLOR} fishnet stockings",
+                "LongDesc": "These fishnet tights wrap themselves perfectly to your legs. The feeling is quite exquisite.",
+                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 400, "Style": "UNCOMMON", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 5, 60]}, "Category" :  [ "Pirate Slut", "BDSM", "Naughty Nun", "Bimbo", "High Class Whore", "Slutty Lady" ]
+            },
+            "fishnet stockings": { // 10
+                "Name": "fishnet stockings", "ShortDesc": "a pair of {COLOR} fishnet stockings",
+                "LongDesc": "These fishnet stockings are topped with black lace and held up by garter straps.",
+                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 500, "Style": "UNCOMMON", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 5, 60]}, "Category" :  [ "Pirate Slut", "BDSM", "Naughty Nun", "Bimbo", "High Class Whore", "Slutty Lady", "Sexy Dancer" ]
+            },
+// Bimbo
+            "tall heels": { // 10
+                "Name": "tall heels", "ShortDesc": "a pair of very tall {COLOR} platform heels",
+                "LongDesc": "The heels on these sexy shoes are so tall that you prance and waddle, shaking your ass everywhere you walk.",
+                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 5, 60]}, Category : [ "Bimbo", "Sexy Dancer", "High Class Whore" ]
+            },
+            "bimbo heels": { // 15
+                "Name": "bimbo heels", "ShortDesc": "a pair of outrageously tall {COLOR} platform heels",
+                "LongDesc": "The heels on these platform shoes are so tall that you prance and waddle, shaking your ass, everywhere you walk.",
+                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Price": 300, "Style": "RARE", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 5, 60]}, Category : [ "Bimbo", "Sexy Dancer" ]
+            },
+            "micro dress": { // 40
+                "Name": "sexy micro dress",
+                "ShortDesc": "a figure hugging {COLOR} micro dress",
+                "LongDesc": "This dress is made out of some exotic material that hugs every curve of your body. It's so humiliatingly short that your genitals are half open for everyone and the top has several strategic holes to present multiple views of your chest.",
+                "Slot": "Dress",
+                "Restrict": ["Shirt", "Pants", "Dress", "Costume"],
+                "Color": "pink",
+                "Price": 1000,
+                "Style": "LEGENDARY", "Type" : "ONE PIECE",
+                "WearEffect": {"Femininity": [0, 15, 60], "Seduction" : [10,0,0]}, Category : [ "Bimbo" ]
+            },
+            "small plug": { // 9
+                "Name": "small plug", "ShortDesc": "a small anal plug with a heart-shaped {COLOR} faux gem",
+                "LongDesc": "This tiny little plug is designed be worn in your ass. The fake gem is there for decoration because everyone is going to be looking at it..",
+                "Slot": "Butt", "Restrict": ["Butt"], "Color": "pink", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
+                "WearEffect": {"Perversion": [0, 10, 40]}, Category : [ "Bimbo", "Sexy Dancer", "High Class Whore", "Ordinary" ]
+            },
+            "bimbo bra": { //15
+                "Name": "bimbo bra", "ShortDesc": "a {COLOR} push-up bra trimmed with lace and studded with rhinestones",
+                "LongDesc": "This sexy bra is designed to push up and display your assets in the most provocative way possible. The lace and shiny rhinestones there are for maximum eye-catching appeal.",
+                "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
+            },
+            "bimbo thong": { //15
+                "Name": "bimbo thong", "ShortDesc": "a {color} thong with 'I @@color:pink;&#9825;@@ Cum! written on the crotch' ",
+                "LongDesc": "This tiny thong is practically a g-string. The advertisement printed on it leaves no doubt to any onlookers as to what you're all about.",
+                "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
             },
 // Other Styles
             "cheap wig": {
@@ -498,12 +583,6 @@ window.App.Data.Clothes = {
                 "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
                 "WearEffect": {"Femininity": [0, 5, 40]}
             },
-            "fishnet stockings": {
-                "Name": "fishnet stockings", "ShortDesc": "a pair of {COLOR} fishnet stockings",
-                "LongDesc": "Sexy fishnet stockings topped with lace and held up by garter straps.",
-                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 250, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 60]}
-            },
             "worn boots": {
                 "Name": "worn boots", "ShortDesc": "a worn pair of {COLOR} boots",
                 "LongDesc": "These boots are decidedly ugly. More functional than fashionable.",
@@ -526,12 +605,6 @@ window.App.Data.Clothes = {
                 "LongDesc": "These shoes have a medium height heel that causes you to roll your ass as you walk.",
                 "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
                 "WearEffect": {"Femininity": [0, 8, 40]}
-            },
-            "tall heels": {
-                "Name": "tall heels", "ShortDesc": "a pair of very tall {COLOR} platform heels",
-                "LongDesc": "The heels on these sexy shoes are so tall that you prance and waddle, shaking your ass, everywhere you walk.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 60]}
             },
             "cotton blouse": {
                 "Name": "cotton blouse", "ShortDesc": "a {COLOR} cotton blouse",
@@ -571,17 +644,6 @@ window.App.Data.Clothes = {
                 "LongDesc": "This soft sundress has a cute floral pattern that is exceptionally girly.",
                 "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 100, "Style": "UNCOMMON", "Type" : "ONE PIECE",
                 "WearEffect": {"Femininity": [0, 5, 50]}
-            },
-            "micro dress": {
-                "Name": "sexy micro dress",
-                "ShortDesc": "a figure hugging {COLOR} micro dress",
-                "LongDesc": "This dress is made out of some exotic material that hugs every curve of your body. It's so humiliatingly short that your genitals are half open for everyone and the top has several strategic holes to expose your nipples.",
-                "Slot": "Dress",
-                "Restrict": ["Shirt", "Pants", "Dress", "Costume"],
-                "Color": "red",
-                "Price": 250,
-                "Style": "UNCOMMON", "Type" : "ONE PIECE",
-                "WearEffect": {"Femininity": [0, 15, 60], "Seduction" : [10,0,0]}
             },
             "sexy dress": {
                 "Name": "sexy dress",
@@ -632,12 +694,6 @@ window.App.Data.Clothes = {
                 "Style": "UNCOMMON", "Type" : "ONE PIECE",
                 "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]},
                 "SkillBonus": {"Cooking": [20, 20, 0], "Cleaning": [20, 20, 0]}
-            },
-            "small plug": {
-                "Name": "small plug", "ShortDesc": "a metal anal plug with a {COLOR} faux gem",
-                "LongDesc": "This tiny little plug is designed be worn in your ass. The fake gem is there for decoration.",
-                "Slot": "Butt", "Restrict": ["Butt"], "Color": "pink", "Price": 100, "Style": "COMMON", "Type" : "ACCESSORY",
-                "WearEffect": {"Perversion": [0, 10, 40]}
             },
             "large plug": {
                 "Name": "large plug", "ShortDesc": "a large {COLOR} butt plug",

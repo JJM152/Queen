@@ -1,4 +1,36 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
 
-0.1 - Initial Version - 05/05/2018
+!!!0.2 - 05/09/2018
+!!!!General
+* Rounding bug with Journal quest tracker fixed.
+* Figure rating blank in mirror fixed (hopefully)
+* New Title PAge
+* New Intro sequence
+* Added flavor choices to intro that give small stat/skill boosts.
+* Added changelog and faq/rules page.
+* Added and Categorized outfits for 'Pirate Slut' and 'Bimbo' styles (not all items are currently available)
+* Reduced effects (damage) from toxicity
+* Reduced quest requirements for the 'Build a Better Bimbo' chain.
+* Reduced bust requirement for First Mate whoring job.
+* Hide game status panel during intro.
+* Added examine item button to store (thanks dcancer for github contribution)
+
+!!!!Isla Harbor
+* Added Waitress Job to tavern.
+* Added Mascot Job to General Store.
+
+!!!!Abamond
+* General descriptions to Lonely Pier, Far Beach and Ocean Cave
+
+!!!!Golden Isle
+* Added Docks, Smugglers Den.
+* Added Smuggler's den basic inventory and NPC.
+
+!!!!Port Royale
+* Added docks, Great Market and Grey Peacock tavern.
+* Added Grey Peacock basic inventory and NPC.
+* Added Waitress Job to Grey Peacock.
+
+!!!0.1 - 05/05/2018
+Initial Release of Alpha content.
