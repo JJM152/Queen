@@ -692,17 +692,19 @@ window.App.PR = new function() {
         this.pQuestMeter = function(Player, Name, PlayerValue, GoalValue, Invert )
         {
             console.log("pQuestMeter("+Player+","+Name+","+PlayerValue+","+GoalValue+","+Invert+")");
-            var c, m;
+            var c, m, p;
             if (typeof Invert !== 'undefined' && Invert == 1) {
-                c = GoalValue;
-                m = GoalValue - PlayerValue;
+                m = (100 - GoalValue);
+                c = (100 - PlayerValue);
             }  else {
                 c = PlayerValue;
                 m = GoalValue;
             }
+
+            p = Math.floor( ((c/m)*100));
             console.log("pMeter("+c+","+m+",0) called by pQuestMeter");
 
-            return "<span id=\"fixed-font\">" + this.pMeter(c, m, 0) +"</span>&nbsp;"+Math.floor( ((c/m)*100)) +"% "+Name;
+            return "<span id=\"fixed-font\">" + this.pMeter(c, m, 0) +"</span>&nbsp;"+ p +"% "+Name;
         };
 
         this.pQuestRewards = function(QuestID)
@@ -1042,6 +1044,7 @@ window.App.Item = new function() {
             if (Type == "STORE") d = window.App.Data.Stores[Name];
 			if (Type == "NPC") d = window.App.Data.NPCS[Name];
             if (Type == "QUEST") d = window.App.Data.QuestItems[Name];
+            if (Type == "LOOT_BOX") d = window.App.Data.LootBoxes[Name];
 
             if (d == 0 || (typeof d === 'undefined')) alert("Factory Failed: (" + Type + "," + Name + "," + Count + ")");
 
@@ -1059,10 +1062,56 @@ window.App.Item = new function() {
 
             if (Type == "QUEST") o = new this.QuestItem(d);
 
-            if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" ) o = new this.Consumable(d);
+            if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" ) o = new this.Consumable(d);
             if ((Count != 0) && (typeof d["Charges"] !== 'undefined')) o.Data["Charges"] = Count;
 
             return o;
+        };
+
+    /**
+     *
+     * @param ItemID {string}
+     * @param Player {App.Entity.Player}
+     * @returns {string}
+     */
+        this.DoLootBox = function( ItemID, Player) {
+            var LootBox = Player.GetItemById(ItemID);
+            console.log(LootBox);
+            var Effect = LootBox.UseEffect()["LootBox"];
+            var Type = Effect[0];
+            var Minimum = Effect[1];
+            var Bonus = Effect[2];
+            var DiceRoll    = Math.floor(Math.random() * 100);
+            var Table = window.App.Data.LootTables[Type];
+            var output = "";
+
+            console.log("DoLootBox: Type="+Type+", Minimum="+Minimum+", Bonus="+Bonus);
+            DiceRoll = ( DiceRoll + Bonus) < Minimum ? Minimum : (DiceRoll + Bonus);
+
+            for (var prop in Table) {
+                if (!Table.hasOwnProperty(prop)) continue;
+
+                if (DiceRoll <= prop) {
+                    var Items = Table[prop]["LOOT"];
+                    for (var i = 0; i < Items.length; i++)
+                    {
+                        var obj = this.Factory(Items[i]["TYPE"], Items[i]["TAG"], Items[i]["QTY"]);
+
+                        if ( (Items[i]["TYPE"] == "CLOTHES") && (Player.OwnsWardrobeItem(Items[i]) == true)) {
+                            // We own this already. Give some cash.
+                            var coins = Math.floor((obj.Price() * 0.5))
+                            Player.AdjustMoney( coins );
+                            output += coins + " gold coins.\n";
+                        } else {
+                            output += obj.Description() + "\n";
+                            Player.AddItem(Items[i]["TYPE"], Items[i]["TAG"], Items[i]["QTY"]);
+                        }
+                    }
+                    break;
+                }
+            }
+
+            return (output != "" ? output : "Nothing?!?!?");
         };
 
         this.Clothing = function(d) {
@@ -1143,7 +1192,10 @@ window.App.Item = new function() {
 
                 return bonus[this.Type()][this.o["Style"]];
             };
-
+            /**
+             * Show stars relating to rank on clothing.
+             * @returns {string}
+             */
             this.Rank = function() {
                 if (this.o["Style"] == "COMMON") return "@@color:gold;&#9733;@@";
                 if (this.o["Style"] == "UNCOMMON") return "@@color:gold;&#9733;&#9733;@@";
@@ -1152,24 +1204,32 @@ window.App.Item = new function() {
                 return "@@color:gold;&#9733;@@";
             };
 
+            /** @returns {string} */
             this.HairColor = function () {
                 return this.o["Color"] ? this.o["Color"] : "black";
             };
 
+            /** @returns {number} */
             this.HairLength = function () {
                 return this.o["HairLength"] ? this.o["HairLength"] : 0;
             };
 
+            /** @returns {string} */
             this.HairStyle = function () {
                 return this.o["HairStyle"] ? this.o["HairStyle"] : "";
             };
+
+            /** @returns {number} */
             this.HairBonus = function () {
                 return this.o["HairBonus"] ? this.o["HairBonus"] : 0;
             };
+
+            /** @returns {number} */
             this.IsLocked = function () {
                 return this.o["Locked"] ? this.o["Locked"] : 0;
             };
 
+            /** @returns {boolean} */
             this.HasBonus = function (b) {
                 if (this.o.hasOwnProperty("SkillBonus") == false) return false;
                 return this.o["SkillBonus"].hasOwnProperty(b);
@@ -1182,6 +1242,11 @@ window.App.Item = new function() {
             };
         };
 
+    /**
+     * A consumable object.
+     * @param d {*}
+     * @constructor
+     */
         this.Consumable = function(d) {
             this.Data = $.extend( true, {}, d );
 
@@ -1210,7 +1275,7 @@ window.App.Item = new function() {
 
                 for(var i = 0; i < max; i++) {
                     EDict = this.Data["UseEffect"][Effects[i]];
-                    if (EDict[0] > 0 || EDict[1] > 0 ) {
+                    if (EDict[0] > 0 || EDict[1] > 0 || Effects[i] == "LootBox") {
                         Output += "@@color:lime;&uArr;"+Effects[i]+"@@ ";
                     } else {
                         Output +=  "@@color:red;&dArr;"+Effects[i]+"@@ ";
@@ -1225,6 +1290,8 @@ window.App.Item = new function() {
             this.Charges = function () {
                 return this.Data["Charges"];
             };
+
+            /** @returns {*}*/
             this.UseEffect = function () {
                 return this.Data["UseEffect"];
             };
@@ -1239,12 +1306,13 @@ window.App.Item = new function() {
 
                 var EffectLearn = "";
                 var EDict = this.Data["UseEffect"][Effects[Usages]];
-                if (EDict[0] > 0 || EDict[1] > 0 ) {
+                if (EDict[0] > 0 || EDict[1] > 0 || Effects[Usages] == "LootBox" ) {
                     EffectLearn = "@@color:lime;&uArr;"+Effects[Usages]+"@@";
                 } else {
                     EffectLearn = "@@color:red;&dArr;"+Effects[Usages]+"@@";
                 }
 
+                if (Effects[Usages] != "LootBox")
                 Output = Output + "\n\nYou learn something... This item has an effect: " +EffectLearn;
                 return Output;
             };
@@ -1261,10 +1329,16 @@ window.App.Item = new function() {
                 this.Data["Charges"] = Math.max(0, Math.min((this.Data["Charges"] + n), 100));
             };
 
+            /** @returns {boolean}*/
             this.IsFull = function () {
                 return this.Data["Charges"] == 100;
             };
 
+            /**
+             * Determine if an item has a bonus of a specific type.
+             * @param b {string}
+             * @returns {boolean}
+             */
             this.HasBonus = function (b) {
                 if (this.Data.hasOwnProperty("SkillBonus") == false) return false;
                 return this.Data["SkillBonus"].hasOwnProperty(b);
@@ -1299,6 +1373,7 @@ window.App.Item = new function() {
             return this.Data["Type"];
         };
 
+        /** @returns {number} */
         this.Charges = function() { return 1; }
 
     }
@@ -3743,12 +3818,17 @@ window.App.Entity.Player = function (){
         for (var prop in this.Equipment) {
             if (!this.Equipment.hasOwnProperty(prop)) continue;
             if (this.Equipment[prop] == 0) continue;
-            if (this.Equipment[prop].HasBonus(Skill) == 0) continue;
+            if (this.Equipment[prop].HasBonus(Skill) == false) continue;
             bonus += this.Equipment[prop].GetBonus(Skill)[0];
         }
         return 0;
     };
 
+    /**
+     * Apply the effects of an item.
+     * @param Effects {*}
+     * @returns {string}
+     */
     this.ApplyEffects = function (Effects) {
         for (var prop in Effects) {
             if (!Effects.hasOwnProperty(prop)) continue;
@@ -3762,10 +3842,18 @@ window.App.Entity.Player = function (){
             } else if (prop in this.Skills) {
                 this.AdjustSkill(prop, Effects[prop][0]);
                 this.AdjustSkillXP(prop, Effects[prop][1], Effects[prop][2]);
+            } else if (prop == "AddItem") {
+                this.AddItem(Effects[prop][0], Effects[prop][1], Effects[prop][2]);
             }
+
+            return "";
         }
     };
 
+    /**
+     * Use an item. Apply effects. Delete from inventory if out of charges.
+     * @param ItemId {string}
+     */
     this.UseItem = function (ItemId) {
         var o = this.GetItemById(ItemId);
         this.AddHistory("ITEMS", o.Name(), 1);
@@ -6075,7 +6163,7 @@ window.App.Data.Clothes = {
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
             },
             "pirate thong": { //15
-                "Name": "pirate thong", "ShortDesc": "a {color} thong emblazoned with the skull and bones",
+                "Name": "pirate thong", "ShortDesc": "a {COLOR} thong emblazoned with the skull and bones",
                 "LongDesc": "This t-back thong gently separates your arse cheeks, making them more prominent and luscious looking. It has the phrase 'Plunder my Booty' written across the rear waistband and a small skull and bones embroidered on the crotch.",
                 "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
@@ -6142,7 +6230,7 @@ window.App.Data.Clothes = {
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
             },
             "bimbo thong": { //15
-                "Name": "bimbo thong", "ShortDesc": "a {color} thong with 'I @@color:pink;&#9825;@@ Cum! written on the crotch' ",
+                "Name": "bimbo thong", "ShortDesc": "a {COLOR} thong with 'I @@color:pink;&#9825;@@ Cum! written on the crotch' ",
                 "LongDesc": "This tiny thong is practically a g-string. The advertisement printed on it leaves no doubt to any onlookers as to what you're all about.",
                 "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
@@ -6439,6 +6527,25 @@ window.App.Data.Cosmetics = {
                 "Price": 6
             }
         };
+
+// BOX TYPE     MINIMUM     BONUS ROLL
+// COMMON       0           0
+// UNCOMMON     20          10
+// RARE         30          20
+// LEGENDARY    50          30
+window.App.Data.LootBoxes = {
+    "common sissy loot box": {
+        "Name": "cute pink loot box",
+        "ShortDesc": "@@color:pink;A cute pink loot box@@",
+        "LongDesc": "This small pink box sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
+        "Message": "With unrestrained passion you tear open the loot box to find...\n\n",
+        "Type": "LOOT_BOX",
+        "Charges": 1,
+        // Effect : [ TABLE, Minimum Roll, Bonus to roll
+        "UseEffect": { "LootBox": ["SISSY_BIMBO", 0, 0]},
+        "Price": 1
+    }
+};
 
 window.App.Data.QuestItems = {
         "isla harbor mansion key": {
@@ -8652,7 +8759,77 @@ window.App.Data.JobData = {
     }
 
 };
-/* twine-user-script #12: "QuestData.js" */
+/* twine-user-script #12: "LootTableData.js" */
+window.App = window.App || { Data: { }, Entity: { } };
+
+
+window.App.Data.LootTables =
+{
+  "SISSY_BIMBO" :
+  {
+      10 :  {
+                "LOOT" : [
+                    { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
+                    { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5}
+                ] },
+      20 :  {
+                "LOOT" : [
+                    { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
+                    { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5},
+                    { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 5},
+                    { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 5}
+                ] },
+      30 :  {
+                "LOOT" : [
+                    { "TYPE" : "CLOTHES", "TAG" : "pink head bow", "QTY" : 1}
+                ] },
+      40 :  {
+                "LOOT" : [
+                    { "TYPE" : "CLOTHES", "TAG" : "striped panties", "QTY" : 1}
+                ] },
+      50 :  {
+                "LOOT" : [
+                    { "TYPE" : "CLOTHES", "TAG" : "striped bra", "QTY" : 1}
+                ] },
+      60 :  {
+                "LOOT" : [
+                    { "TYPE" : "CLOTHES", "TAG" : "striped stockings", "QTY" : 1}
+                ] },
+      70 :  {
+                "LOOT" : [
+                    { "TYPE" : "CLOTHES", "TAG" : "bimbo bra", "QTY" : 1}
+                ] },
+      80 :  {
+                "LOOT" : [
+                    { "TYPE" : "CLOTHES", "TAG" : "bimbo thong", "QTY" : 1}
+                ] },
+      90 :  {
+                "LOOT" : [
+                    { "TYPE" : "CLOTHES", "TAG" : "pink mary janes", "QTY" : 1}
+                ] },
+      100 :  {
+                "LOOT" : [
+                    { "TYPE" : "CLOTHES", "TAG" : "pink knee socks", "QTY" : 1},
+                    { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1}
+                ] },
+      110 :  {
+                "LOOT" : [
+                    { "TYPE" : "CLOTHES", "TAG" : "frilly dress", "QTY" : 1},
+                    { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1}
+                ] },
+      120 :  {
+                "LOOT" : [
+                    { "TYPE" : "CLOTHES", "TAG" : "pink platform mary janes", "QTY" : 1},
+                    { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2}
+                ] },
+      130 :  {
+                "LOOT" : [
+                    { "TYPE" : "CLOTHES", "TAG" : "sissy collar", "QTY" : 1},
+                    { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 3 }
+                ] }
+  }
+};
+/* twine-user-script #13: "QuestData.js" */
 window.App = window.App || { Data: { }, Entity: { } };
 
 window.App.Data.Quests  = {
@@ -9093,7 +9270,7 @@ window.App.Data.Quests  = {
         "JOURNAL_COMPLETE": "It seems that @@color:Cyan;Lord Rowe's@@ obsession with GF_NAME had a rather 'abnormal' aspect to it. Once you changed your appearance, he was more than happy to listen to you... so long as you sit on his lap like a good little girl. In addition, you can gain access to his study at any hour of the day."
     }
     };
-/* twine-user-script #13: "StoreData.js" */
+/* twine-user-script #14: "StoreData.js" */
 window.App = window.App || { Data: { }, Entity: { } };
 
 window.App.Data.Stores =  {
@@ -9173,7 +9350,7 @@ window.App.Data.Stores =  {
         ]
     },
 };
-/* twine-user-script #14: "Story JavaScript" */
+/* twine-user-script #15: "Story JavaScript" */
 //Sugarcube config
 Config.history.controls = false;
 Config.history.maxStates = 1;</script><tw-passagedata pid="1" name="Cabin" tags="" position="100,100">&lt;&lt;set $InIntro = 0&gt;&gt;\
@@ -9493,10 +9670,11 @@ twisting road leads to the famous @@color:gold;&#39;Great Market&#39;@@.
 	&lt;/tr&gt;	
 	&lt;tr&gt;
 		&lt;td&gt; &lt;/td&gt;
-		&lt;td colspan=&quot;2&quot;&gt;
+		&lt;td colspan=&quot;3&quot;&gt;
 			&lt;&lt;print _Item.Message($Player);&gt;&gt;\
+			&lt;&lt;set _Tmp = window.App.Item.DoLootBox($args[0], $Player); &gt;&gt;\
+			&lt;&lt;if _Tmp != &quot;&quot;&gt;&gt;&lt;&lt;= _Tmp&gt;&gt;&lt;&lt;/if&gt;&gt;\
 			&lt;&lt;run $Player.UseItem($args[0]);&gt;&gt;&lt;/td&gt;
-		&lt;td&gt; &lt;/td&gt;
 	&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;&lt;replace &quot;#PlayerScore&quot;&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/widget&gt;&gt;
@@ -9523,7 +9701,7 @@ twisting road leads to the famous @@color:gold;&#39;Great Market&#39;@@.
 	&lt;td colspan=2 style=&quot;text-align:right&quot;&gt;@@color:grey;Food@@ |
 	&lt;&lt;click &quot;Potions&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;potion&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
-	&lt;&lt;/click&gt;&gt; | &lt;&lt;click &quot;Quest&quot;&gt;&gt;
+	&lt;&lt;/click&gt;&gt; | &lt;&lt;click &quot;Quest &amp; Loot&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;quest&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
 	&lt;&lt;/click&gt;&gt;&lt;/td&gt;
 &lt;&lt;else&gt;&gt;
@@ -9537,13 +9715,13 @@ twisting road leads to the famous @@color:gold;&#39;Great Market&#39;@@.
 	&lt;&lt;/click&gt;&gt;&lt;/td&gt;
 &lt;&lt;else&gt;&gt;
 &lt;&lt;if $args[0] == &quot;quest&quot;&gt;&gt;
-&lt;&lt;set _Items = $Player.GetItemByTypes([&quot;QUEST&quot;]);&gt;&gt;
-	&lt;td colspan=2&gt;&lt;h3&gt;@@color:yellow;Inventory - Quest Items@@&lt;/h3&gt;&lt;/td&gt;
+&lt;&lt;set _Items = $Player.GetItemByTypes([&quot;QUEST&quot;, &quot;LOOT_BOX&quot;]);&gt;&gt;
+	&lt;td colspan=2&gt;&lt;h3&gt;@@color:yellow;Inventory - Quest and Loot Items@@&lt;/h3&gt;&lt;/td&gt;
 	&lt;td colspan=2 style=&quot;text-align:right&quot;&gt;&lt;&lt;click &quot;Food&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
 	&lt;&lt;/click&gt;&gt; | &lt;&lt;click &quot;Potions&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;potion&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
-	&lt;&lt;/click&gt;&gt; | @@color:grey;Quest@@&lt;/td&gt;
+	&lt;&lt;/click&gt;&gt; | @@color:grey;Quest &amp; Loot@@&lt;/td&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
@@ -9569,7 +9747,7 @@ twisting road leads to the famous @@color:gold;&#39;Great Market&#39;@@.
 &lt;td&gt;&lt;&lt;= _Items[_i].Charges() &gt;&gt;&lt;/td&gt;
 &lt;td&gt;&lt;&lt;= _Items[_i].Description() &gt;&gt;&lt;/td&gt;
 &lt;td style=&quot;text-align:right&quot;&gt;&lt;&lt;= &quot;&lt;&lt;ExamineItemButton \&quot;&quot; + _Items[_i].Id() + &quot;\&quot; \&quot;&quot; + $args[0] + &quot;\&quot; &gt;&gt;&quot; &gt;&gt;&lt;/td&gt;
-&lt;td style=&quot;text-align:right&quot;&gt; &lt;/td&gt;
+&lt;td style=&quot;text-align:right&quot;&gt;&lt;&lt;if _Items[_i].Type() == &quot;LOOT_BOX&quot;&gt;&gt;&lt;&lt;= &quot;&lt;&lt;UseItemButton \&quot;&quot; + _Items[_i].Id() + &quot;\&quot; \&quot;&quot; + $args[0] + &quot;\&quot; &gt;&gt;&quot; &gt;&gt;&lt;&lt;/if&gt;&gt; &lt;/td&gt;
 &lt;/tr&gt;
 &lt;&lt;/for&gt;&gt;
 &lt;&lt;/if&gt;&gt;
@@ -10716,7 +10894,7 @@ Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="85" name=
 
 @@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="87" name="GameOver" tags="" position="850,1100">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="88" name="GameWon" tags="custom-menu" position="975,1100">You won the game. Great moves. Proud of you.</tw-passagedata><tw-passagedata pid="89" name="Inventory" tags="custom-menu" position="1100,1100">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
 &lt;&lt;set _Drugs = $Player.GetItemByTypes([&quot;potion&quot;]);&gt;&gt;\
-&lt;&lt;set _Quests = $Player.GetItemByTypes([&quot;QUEST&quot;]);&gt;&gt;
+&lt;&lt;set _Quests = $Player.GetItemByTypes([&quot;QUEST&quot;, &quot;LOOT_BOX&quot;]);&gt;&gt;
 &lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="90" name="Jobs" tags="custom-menu" position="1225,1100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _NPC = $Player.NPCS[$MenuAction];&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;

@@ -34,10 +34,11 @@
 	</tr>	
 	<tr>
 		<td> </td>
-		<td colspan="2">
+		<td colspan="3">
 			<<print _Item.Message($Player);>>\
+			<<set _Tmp = window.App.Item.DoLootBox($args[0], $Player); >>\
+			<<if _Tmp != "">><<= _Tmp>><</if>>\
 			<<run $Player.UseItem($args[0]);>></td>
-		<td> </td>
 	</tr>
 </tbody>
 </table><<replace "#PlayerScore">><<score>><</replace>><</widget>>
@@ -64,7 +65,7 @@
 	<td colspan=2 style="text-align:right">@@color:grey;Food@@ |
 	<<click "Potions">>
 		<<replace "#InventoryUI">><<InventoryTable "potion">><</replace>>
-	<</click>> | <<click "Quest">>
+	<</click>> | <<click "Quest & Loot">>
 		<<replace "#InventoryUI">><<InventoryTable "quest">><</replace>>
 	<</click>></td>
 <<else>>
@@ -78,13 +79,13 @@
 	<</click>></td>
 <<else>>
 <<if $args[0] == "quest">>
-<<set _Items = $Player.GetItemByTypes(["QUEST"]);>>
-	<td colspan=2><h3>@@color:yellow;Inventory - Quest Items@@</h3></td>
+<<set _Items = $Player.GetItemByTypes(["QUEST", "LOOT_BOX"]);>>
+	<td colspan=2><h3>@@color:yellow;Inventory - Quest and Loot Items@@</h3></td>
 	<td colspan=2 style="text-align:right"><<click "Food">>
 		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
 	<</click>> | <<click "Potions">>
 		<<replace "#InventoryUI">><<InventoryTable "potion">><</replace>>
-	<</click>> | @@color:grey;Quest@@</td>
+	<</click>> | @@color:grey;Quest & Loot@@</td>
 <</if>>
 <</if>>
 <</if>>
@@ -110,7 +111,7 @@
 <td><<= _Items[_i].Charges() >></td>
 <td><<= _Items[_i].Description() >></td>
 <td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
-<td style="text-align:right"> </td>
+<td style="text-align:right"><<if _Items[_i].Type() == "LOOT_BOX">><<= "<<UseItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >><</if>> </td>
 </tr>
 <</for>>
 <</if>>

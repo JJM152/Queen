@@ -14,6 +14,7 @@ window.App.Item = new function() {
             if (Type == "STORE") d = window.App.Data.Stores[Name];
 			if (Type == "NPC") d = window.App.Data.NPCS[Name];
             if (Type == "QUEST") d = window.App.Data.QuestItems[Name];
+            if (Type == "LOOT_BOX") d = window.App.Data.LootBoxes[Name];
 
             if (d == 0 || (typeof d === 'undefined')) alert("Factory Failed: (" + Type + "," + Name + "," + Count + ")");
 
@@ -31,10 +32,56 @@ window.App.Item = new function() {
 
             if (Type == "QUEST") o = new this.QuestItem(d);
 
-            if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" ) o = new this.Consumable(d);
+            if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" ) o = new this.Consumable(d);
             if ((Count != 0) && (typeof d["Charges"] !== 'undefined')) o.Data["Charges"] = Count;
 
             return o;
+        };
+
+    /**
+     *
+     * @param ItemID {string}
+     * @param Player {App.Entity.Player}
+     * @returns {string}
+     */
+        this.DoLootBox = function( ItemID, Player) {
+            var LootBox = Player.GetItemById(ItemID);
+            console.log(LootBox);
+            var Effect = LootBox.UseEffect()["LootBox"];
+            var Type = Effect[0];
+            var Minimum = Effect[1];
+            var Bonus = Effect[2];
+            var DiceRoll    = Math.floor(Math.random() * 100);
+            var Table = window.App.Data.LootTables[Type];
+            var output = "";
+
+            console.log("DoLootBox: Type="+Type+", Minimum="+Minimum+", Bonus="+Bonus);
+            DiceRoll = ( DiceRoll + Bonus) < Minimum ? Minimum : (DiceRoll + Bonus);
+
+            for (var prop in Table) {
+                if (!Table.hasOwnProperty(prop)) continue;
+
+                if (DiceRoll <= prop) {
+                    var Items = Table[prop]["LOOT"];
+                    for (var i = 0; i < Items.length; i++)
+                    {
+                        var obj = this.Factory(Items[i]["TYPE"], Items[i]["TAG"], Items[i]["QTY"]);
+
+                        if ( (Items[i]["TYPE"] == "CLOTHES") && (Player.OwnsWardrobeItem(Items[i]) == true)) {
+                            // We own this already. Give some cash.
+                            var coins = Math.floor((obj.Price() * 0.5))
+                            Player.AdjustMoney( coins );
+                            output += coins + " gold coins.\n";
+                        } else {
+                            output += obj.Description() + "\n";
+                            Player.AddItem(Items[i]["TYPE"], Items[i]["TAG"], Items[i]["QTY"]);
+                        }
+                    }
+                    break;
+                }
+            }
+
+            return (output != "" ? output : "Nothing?!?!?");
         };
 
         this.Clothing = function(d) {
@@ -115,7 +162,10 @@ window.App.Item = new function() {
 
                 return bonus[this.Type()][this.o["Style"]];
             };
-
+            /**
+             * Show stars relating to rank on clothing.
+             * @returns {string}
+             */
             this.Rank = function() {
                 if (this.o["Style"] == "COMMON") return "@@color:gold;&#9733;@@";
                 if (this.o["Style"] == "UNCOMMON") return "@@color:gold;&#9733;&#9733;@@";
@@ -124,24 +174,32 @@ window.App.Item = new function() {
                 return "@@color:gold;&#9733;@@";
             };
 
+            /** @returns {string} */
             this.HairColor = function () {
                 return this.o["Color"] ? this.o["Color"] : "black";
             };
 
+            /** @returns {number} */
             this.HairLength = function () {
                 return this.o["HairLength"] ? this.o["HairLength"] : 0;
             };
 
+            /** @returns {string} */
             this.HairStyle = function () {
                 return this.o["HairStyle"] ? this.o["HairStyle"] : "";
             };
+
+            /** @returns {number} */
             this.HairBonus = function () {
                 return this.o["HairBonus"] ? this.o["HairBonus"] : 0;
             };
+
+            /** @returns {number} */
             this.IsLocked = function () {
                 return this.o["Locked"] ? this.o["Locked"] : 0;
             };
 
+            /** @returns {boolean} */
             this.HasBonus = function (b) {
                 if (this.o.hasOwnProperty("SkillBonus") == false) return false;
                 return this.o["SkillBonus"].hasOwnProperty(b);
@@ -154,6 +212,11 @@ window.App.Item = new function() {
             };
         };
 
+    /**
+     * A consumable object.
+     * @param d {*}
+     * @constructor
+     */
         this.Consumable = function(d) {
             this.Data = $.extend( true, {}, d );
 
@@ -182,7 +245,7 @@ window.App.Item = new function() {
 
                 for(var i = 0; i < max; i++) {
                     EDict = this.Data["UseEffect"][Effects[i]];
-                    if (EDict[0] > 0 || EDict[1] > 0 ) {
+                    if (EDict[0] > 0 || EDict[1] > 0 || Effects[i] == "LootBox") {
                         Output += "@@color:lime;&uArr;"+Effects[i]+"@@ ";
                     } else {
                         Output +=  "@@color:red;&dArr;"+Effects[i]+"@@ ";
@@ -197,6 +260,8 @@ window.App.Item = new function() {
             this.Charges = function () {
                 return this.Data["Charges"];
             };
+
+            /** @returns {*}*/
             this.UseEffect = function () {
                 return this.Data["UseEffect"];
             };
@@ -211,12 +276,13 @@ window.App.Item = new function() {
 
                 var EffectLearn = "";
                 var EDict = this.Data["UseEffect"][Effects[Usages]];
-                if (EDict[0] > 0 || EDict[1] > 0 ) {
+                if (EDict[0] > 0 || EDict[1] > 0 || Effects[Usages] == "LootBox" ) {
                     EffectLearn = "@@color:lime;&uArr;"+Effects[Usages]+"@@";
                 } else {
                     EffectLearn = "@@color:red;&dArr;"+Effects[Usages]+"@@";
                 }
 
+                if (Effects[Usages] != "LootBox")
                 Output = Output + "\n\nYou learn something... This item has an effect: " +EffectLearn;
                 return Output;
             };
@@ -233,10 +299,16 @@ window.App.Item = new function() {
                 this.Data["Charges"] = Math.max(0, Math.min((this.Data["Charges"] + n), 100));
             };
 
+            /** @returns {boolean}*/
             this.IsFull = function () {
                 return this.Data["Charges"] == 100;
             };
 
+            /**
+             * Determine if an item has a bonus of a specific type.
+             * @param b {string}
+             * @returns {boolean}
+             */
             this.HasBonus = function (b) {
                 if (this.Data.hasOwnProperty("SkillBonus") == false) return false;
                 return this.Data["SkillBonus"].hasOwnProperty(b);
@@ -271,6 +343,7 @@ window.App.Item = new function() {
             return this.Data["Type"];
         };
 
+        /** @returns {number} */
         this.Charges = function() { return 1; }
 
     }
