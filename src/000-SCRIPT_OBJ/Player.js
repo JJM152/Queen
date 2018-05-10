@@ -1128,12 +1128,17 @@ window.App.Entity.Player = function (){
         for (var prop in this.Equipment) {
             if (!this.Equipment.hasOwnProperty(prop)) continue;
             if (this.Equipment[prop] == 0) continue;
-            if (this.Equipment[prop].HasBonus(Skill) == 0) continue;
+            if (this.Equipment[prop].HasBonus(Skill) == false) continue;
             bonus += this.Equipment[prop].GetBonus(Skill)[0];
         }
         return 0;
     };
 
+    /**
+     * Apply the effects of an item.
+     * @param Effects {*}
+     * @returns {string}
+     */
     this.ApplyEffects = function (Effects) {
         for (var prop in Effects) {
             if (!Effects.hasOwnProperty(prop)) continue;
@@ -1147,10 +1152,18 @@ window.App.Entity.Player = function (){
             } else if (prop in this.Skills) {
                 this.AdjustSkill(prop, Effects[prop][0]);
                 this.AdjustSkillXP(prop, Effects[prop][1], Effects[prop][2]);
+            } else if (prop == "AddItem") {
+                this.AddItem(Effects[prop][0], Effects[prop][1], Effects[prop][2]);
             }
+
+            return "";
         }
     };
 
+    /**
+     * Use an item. Apply effects. Delete from inventory if out of charges.
+     * @param ItemId {string}
+     */
     this.UseItem = function (ItemId) {
         var o = this.GetItemById(ItemId);
         this.AddHistory("ITEMS", o.Name(), 1);

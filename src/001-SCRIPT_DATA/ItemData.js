@@ -399,7 +399,7 @@ window.App.Data.Clothes = {
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
             },
             "pirate thong": { //15
-                "Name": "pirate thong", "ShortDesc": "a {color} thong emblazoned with the skull and bones",
+                "Name": "pirate thong", "ShortDesc": "a {COLOR} thong emblazoned with the skull and bones",
                 "LongDesc": "This t-back thong gently separates your arse cheeks, making them more prominent and luscious looking. It has the phrase 'Plunder my Booty' written across the rear waistband and a small skull and bones embroidered on the crotch.",
                 "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
@@ -466,7 +466,7 @@ window.App.Data.Clothes = {
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
             },
             "bimbo thong": { //15
-                "Name": "bimbo thong", "ShortDesc": "a {color} thong with 'I @@color:pink;&#9825;@@ Cum! written on the crotch' ",
+                "Name": "bimbo thong", "ShortDesc": "a {COLOR} thong with 'I @@color:pink;&#9825;@@ Cum! written on the crotch' ",
                 "LongDesc": "This tiny thong is practically a g-string. The advertisement printed on it leaves no doubt to any onlookers as to what you're all about.",
                 "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
@@ -763,6 +763,25 @@ window.App.Data.Cosmetics = {
                 "Price": 6
             }
         };
+
+// BOX TYPE     MINIMUM     BONUS ROLL
+// COMMON       0           0
+// UNCOMMON     20          10
+// RARE         30          20
+// LEGENDARY    50          30
+window.App.Data.LootBoxes = {
+    "common sissy loot box": {
+        "Name": "cute pink loot box",
+        "ShortDesc": "@@color:pink;A cute pink loot box@@",
+        "LongDesc": "This small pink box sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
+        "Message": "With unrestrained passion you tear open the loot box to find...\n\n",
+        "Type": "LOOT_BOX",
+        "Charges": 1,
+        // Effect : [ TABLE, Minimum Roll, Bonus to roll
+        "UseEffect": { "LootBox": ["SISSY_BIMBO", 0, 0]},
+        "Price": 1
+    }
+};
 
 window.App.Data.QuestItems = {
         "isla harbor mansion key": {

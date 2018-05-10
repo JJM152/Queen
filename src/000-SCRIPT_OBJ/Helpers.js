@@ -336,17 +336,19 @@ window.App.PR = new function() {
         this.pQuestMeter = function(Player, Name, PlayerValue, GoalValue, Invert )
         {
             console.log("pQuestMeter("+Player+","+Name+","+PlayerValue+","+GoalValue+","+Invert+")");
-            var c, m;
+            var c, m, p;
             if (typeof Invert !== 'undefined' && Invert == 1) {
-                c = GoalValue;
-                m = GoalValue - PlayerValue;
+                m = (100 - GoalValue);
+                c = (100 - PlayerValue);
             }  else {
                 c = PlayerValue;
                 m = GoalValue;
             }
+
+            p = Math.floor( ((c/m)*100));
             console.log("pMeter("+c+","+m+",0) called by pQuestMeter");
 
-            return "<span id=\"fixed-font\">" + this.pMeter(c, m, 0) +"</span>&nbsp;"+Math.floor( ((c/m)*100)) +"% "+Name;
+            return "<span id=\"fixed-font\">" + this.pMeter(c, m, 0) +"</span>&nbsp;"+ p +"% "+Name;
         };
 
         this.pQuestRewards = function(QuestID)
