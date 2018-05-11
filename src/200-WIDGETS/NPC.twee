@@ -1,7 +1,7 @@
 :: NPC [widget]
 <<widget NPC>>\
 <<set _QE = window.App.QuestEngine;>>\
-<<set _NPC = $Player.NPCS[$args[0]];>>\
+<<set _NPC = $Player.GetNPC($args[0]);>>\
 <<set _JE = window.App.JobEngine;>>\
 <<set _SE = window.App.StoreEngine;>>\
 <<= window.App.PR.TokenizeString($Player, _NPC, _NPC.ShortDesc())>>

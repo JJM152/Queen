@@ -89,6 +89,17 @@ window.App.Entity.Player = function (){
             "Georgina":             window.App.Item.Factory("NPC",     "Georgina")
         };
 
+        /**
+         * @param NpcName {string}
+         * @returns {*}
+         */
+        this.GetNPC = function(NpcName ){
+          if (!this.NPCS.hasOwnProperty(NpcName))
+              this.NPCS[NpcName] = window.App.Item.Factory("NPC", NpcName);
+            return this.NPCS[NpcName];
+        };
+
+
         this.StoreInventory = {
             "GALLEY":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "CARGO":            { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},

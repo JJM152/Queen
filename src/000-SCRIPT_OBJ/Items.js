@@ -65,6 +65,11 @@ window.App.Item = new function() {
                     var Items = Table[prop]["LOOT"];
                     for (var i = 0; i < Items.length; i++)
                     {
+                        if (Items[i]["TYPE"] == "MONEY") {
+                            Player.AdjustMoney( Items[i]["QTY"]);
+                            continue;
+                        }
+
                         var obj = this.Factory(Items[i]["TYPE"], Items[i]["TAG"], Items[i]["QTY"]);
 
                         if ( (Items[i]["TYPE"] == "CLOTHES") && (Player.OwnsWardrobeItem(Items[i]) == true)) {

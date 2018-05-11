@@ -631,8 +631,8 @@ window.App.PR = new function() {
                         break;
                     case "NPC_MOOD":
                         bMeter = true;
-                        Val = Player.NPCS[Name].Mood();
-                        pString = Player.NPCS[Name].pName();
+                        Val = Player.GetNPC(Name).Mood();
+                        pString = Player.GetNPC(Name).pName();
                         break;
                     case "MONEY":
                         bMeter = true;
@@ -1095,6 +1095,11 @@ window.App.Item = new function() {
                     var Items = Table[prop]["LOOT"];
                     for (var i = 0; i < Items.length; i++)
                     {
+                        if (Items[i]["TYPE"] == "MONEY") {
+                            Player.AdjustMoney( Items[i]["QTY"]);
+                            continue;
+                        }
+
                         var obj = this.Factory(Items[i]["TYPE"], Items[i]["TAG"], Items[i]["QTY"]);
 
                         if ( (Items[i]["TYPE"] == "CLOTHES") && (Player.OwnsWardrobeItem(Items[i]) == true)) {
@@ -1438,7 +1443,7 @@ window.App.JobEngine = new function() {
      * @returns {Array.<Job>}
      */
     this.GetAvailableJobs = function(Player, Giver) {
-        return $.grep(this.GetJobs(Player, Giver), function(j) { return j.Available(Player, Player.NPCS[Giver]) == true; });
+        return $.grep(this.GetJobs(Player, Giver), function(j) { return j.Available(Player, Player.GetNPC(Giver)) == true; });
     };
 
     /**
@@ -1460,7 +1465,7 @@ window.App.JobEngine = new function() {
      */
     this.GetUnavailableJobs = function(Player, Giver) {
         return $.grep(this.GetJobs(Player, Giver), function(j) {
-            return j.Available(Player, Player.NPCS[Giver]) == false && j.Hidden() != true;
+            return j.Available(Player, Player.GetNPC(Giver)) == false && j.Hidden() != true;
         }).sort();
     };
 
@@ -1736,7 +1741,7 @@ window.App.Job = function(Data) {
                     }
                     break;
                 case "NPC_STAT":
-                    if (typeof NPC === 'undefined' && typeof Option !== 'undefined') NPC = Player.NPCS[Option];
+                    if (typeof NPC === 'undefined' && typeof Option !== 'undefined') NPC = Player.GetNPC(Option);
                     if (typeof NPC !== 'undefined') {
                         if (this._Cmp( NPC.GetStat(Name), Value, Condition ) == false) {
                             StatusFlag = false;
@@ -2194,6 +2199,7 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
                 return this._Cmp(Math.ceil((100 * Math.random())+1), Value, Condition);
                 break;
             case "COUNTER":
+                if ( this._Player.JobFlags.hasOwnProperty(Name) == false ) this._Player.JobFlags[Name] = 0;
                 if ( (typeof Opt !== 'undefined') && (Opt == "RANDOM"))
                     return this._Cmp(this._Player.JobFlags[Name], Math.ceil(Value * Math.random()), Condition);
                 return this._Cmp(this._Player.JobFlags[Name], Value, Condition);
@@ -2209,8 +2215,9 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
                 return this._Cmp(this._Player.GetStatPercent("SKILL", Name), Value, Condition);
                 break;
             case "FLAG":
-                if ( (typeof Opt !== 'undefined') && (Opt == "NOT_SET"))
+                if ( (typeof Opt !== 'undefined') && (Opt == "NOT_SET")) {
                     return (this._Player.JobFlags.hasOwnProperty(Name) == false);
+                }
 
                 if ( (typeof Opt !== 'undefined') && (Opt == "SET"))
                     return (this._Player.JobFlags.hasOwnProperty(Name) == true);
@@ -2218,6 +2225,7 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
                 return this._Cmp(this._Player.JobFlags[Name], Value, Condition);
                 break;
             case "TAG":
+                if (this._Checks.hasOwnProperty(Name) == false) return true;
                 var Percent = Math.ceil( (this._Checks[Name]["RESULT"] / this._Checks[Name]["VALUE"]) * 100);
                 return this._Cmp(Percent, Value, Condition);
                 break;
@@ -2285,6 +2293,7 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
             case "DRUGS":
             case "CLOTHES":
             case "COSMETICS":
+            case "LOOT_BOX":
                 this._Player.AddItem(Type, Name, Value, Opt);
                 break;
             case "QUEST_ITEM":
@@ -2330,11 +2339,11 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
                 this._NPC.AdjustStat(Name, Value);
                 break;
             case "PIRATE_STATS":
-                this._Player.NPCS["Crew"].AdjustStat(Name, Value);
-                this._Player.NPCS["Cook"].AdjustStat(Name, Value);
-                this._Player.NPCS["Quartermaster"].AdjustStat(Name, Value);
-                this._Player.NPCS["FirstMate"].AdjustStat(Name, Value);
-                this._Player.NPCS["Captain"].AdjustStat(Name, Value);
+                this._Player.GetNPC("Crew").AdjustStat(Name, Value);
+                this._Player.GetNPC("Cook").AdjustStat(Name, Value);
+                this._Player.GetNPC("Quartermaster").AdjustStat(Name, Value);
+                this._Player.GetNPC("FirstMate").AdjustStat(Name, Value);
+                this._Player.GetNPC("Captain").AdjustStat(Name, Value);
                 break;
         }
     };
@@ -2778,6 +2787,17 @@ window.App.Entity.Player = function (){
             "Petey":                window.App.Item.Factory("NPC",     "Petey"),
             "Georgina":             window.App.Item.Factory("NPC",     "Georgina")
         };
+
+        /**
+         * @param NpcName {string}
+         * @returns {*}
+         */
+        this.GetNPC = function(NpcName ){
+          if (!this.NPCS.hasOwnProperty(NpcName))
+              this.NPCS[NpcName] = window.App.Item.Factory("NPC", NpcName);
+            return this.NPCS[NpcName];
+        };
+
 
         this.StoreInventory = {
             "GALLEY":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
@@ -3934,7 +3954,7 @@ window.App.QuestEngine = new function() {
 
         switch (Type) {
             case "NPC_MOOD":
-                NPC = Player.NPCS[Key];
+                NPC = Player.GetNPC(Key);
                 if ((NPC.Mood() < Value) && (Reverse == 0)) return false;
                 if ((NPC.Mood() > Value) && (Reverse == 1)) return false;
                 break;
@@ -5831,7 +5851,7 @@ window.App.Data.Drugs = {
                 "Message": "You apply the herbs to your wounds and feel slightly better.",
                 "Type": "potion",
                 "Charges": 1,
-                "UseEffect": {"Health": [10, 0, 0], "Toxicity": [5, 0, 0]},
+                "UseEffect": {"Health": [10, 0, 0], "Toxicity": [3, 0, 0]},
                 "Price": 10
             },
             "healing potion" : {
@@ -5926,6 +5946,16 @@ window.App.Data.Food = {
                 "Charges": 1,
                 "UseEffect": {"Nutrition": [3, 20, 0], "Toxicity": [2, 0, 0]},
                 "Price": 2
+            },
+            "smugglers ale": {
+                "Name": "smugglers ale",
+                "ShortDesc": "A pint of Smuggler's Ale",
+                "LongDesc": "Only brewed and sold on Golden Isle, this dark ale has a tangy, almost fruit after taste.",
+                "Message": "You tip back the ale and have a drink. It's refreshing.",
+                "Type": "food",
+                "Charges": 1,
+                "UseEffect": {"Nutrition": [5, 20, 0], "Toxicity": [1, 0, 0]},
+                "Price": 10
             },
             "cheap wine": {
                 "Name": "cheap wine",
@@ -6042,8 +6072,51 @@ window.App.Data.Food = {
                 "Charges": 1,
                 "UseEffect": {"Nutrition": [10, 10, 0], "Toxicity": [25, 0, 0], "WillPower" : [ 0, 20, 0 ]},
                 "Price": 500
+            },
+            "red plum": {
+                "Name": "red plum",
+                "ShortDesc": "A dazzlingly bright red plum",
+                "LongDesc": "This unusual plum is bright red and cool to the touch. It's so ripe that it practically oozes sweetness.",
+                "Message": "You bite into the plum and instantly you are overcome with a wave of euphoria. You momentarily lose yourself as the sweet juices drip down your chin.",
+                "Type": "food",
+                "Charges": 1,
+                "UseEffect": {"Nutrition": [20, 100, 0], "Toxicity" : [-80, 0, 0], "Health": [10, 0, 0] },
+                "Price": 25
+            },
+            "purple mushrooms": {
+                "Name": "purple mushroom",
+                "ShortDesc": "A handful of rare purple mushrooms",
+                "LongDesc": "These mushrooms range in shapes from small and skinny to rather large specimens. Their caps are bright purple and spotted with darker purple blotches. These are safe to eat, right?",
+                "Message": "You ingest the mushrooms. They don't have much of a taste, but they definitely seem to have some 'kick' to them. You hope this wasn't a foolish idea...",
+                "Type": "food",
+                "Charges": 1,
+                "UseEffect": {"Nutrition": [5, 20, 0], "Toxicity" : [ 20, 0, 0], "Hormones": [-5, -200, 0],
+                              "Penis" : [0,200,0], "Balls" : [0, 200,0] },
+                "Price": 25
+            },
+            "ambrosia": {
+                "Name": "ambrosia",
+                "ShortDesc": "A dark green bottle of ambrosia",
+                "LongDesc": "Ambrosia is known far and wide as the 'Food of the Gods'. Legends tell that it is brewed by Sea Nymphs in their under water caves, but how that is possible you have no idea.",
+                "Message": "You uncork the bottle imbibe the potent brew. Words fail to describe how overwhelmingly good it tastes. You feel yourself filled with vigour and strength!",
+                "Type": "food",
+                "Charges": 1,
+                "UseEffect": {"Nutrition": [100, 100, 0], "Toxicity" : [-200, 0, 0], "Health": [100, 0, 0],
+                              "WillPower" : [ 0, 100, 0 ] },
+                "Price": 500
+            },
+            "pirates plunder": {
+                "Name": "pirates plunder",
+                "ShortDesc": "A flagon of 'Pirates Plunder'",
+                "LongDesc": "No one knows the origin of this legendary drink, but Pirates up and down the Lost Coast swear by it's effects. A single flagon is said to turn the most pathetic land lubber into a half way decent pirate. Could that possibly be true?",
+                "Message": "You tip back the flagon and drink deeply of the 'Pirates Plunder'. The taste is like nothing you've had before, dark, stormy and violent.",
+                "Type": "food",
+                "Charges": 1,
+                "UseEffect": {"Nutrition": [20, 50, 0], "Toxicity" : [50, 0, 0], "Sailing": [0, 300, 0],
+                              "Navigating" : [ 0, 300, 0 ], "Swashbuckling" : [ 0, 300, 0 ] },
+                "Price": 500
             }
-        };
+};
 
 // STYLE TABLE
 // TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
@@ -6528,22 +6601,33 @@ window.App.Data.Cosmetics = {
             }
         };
 
-// BOX TYPE     MINIMUM     BONUS ROLL
-// COMMON       0           0
-// UNCOMMON     20          10
-// RARE         30          20
-// LEGENDARY    50          30
+// BOX TYPE     MINIMUM     BONUS ROLL  COLOR
+// COMMON       0           0           grey
+// UNCOMMON     20          10          lime
+// RARE         30          20          cyan
+// LEGENDARY    50          30          orange
 window.App.Data.LootBoxes = {
     "common sissy loot box": {
-        "Name": "cute pink loot box",
-        "ShortDesc": "@@color:pink;A cute pink loot box@@",
-        "LongDesc": "This small pink box sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
-        "Message": "With unrestrained passion you tear open the loot box to find...\n\n",
+        "Name": "common sissy chest",
+        "ShortDesc": "@@color:grey;A small gift box shaped like a treasure chest@@",
+        "LongDesc": "This small pink treasure chest sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
+        "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
         "Type": "LOOT_BOX",
         "Charges": 1,
         // Effect : [ TABLE, Minimum Roll, Bonus to roll
         "UseEffect": { "LootBox": ["SISSY_BIMBO", 0, 0]},
-        "Price": 1
+        "Price": 0
+    },
+    "common food loot box": {
+        "Name": "common food chest",
+        "ShortDesc": "@@color:grey;A small crate used for storing foodstuff@@",
+        "LongDesc": "This small crate looks rather shoddy and the contents rattle when you shake it.",
+        "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+        "Type": "LOOT_BOX",
+        "Charges": 1,
+        // Effect : [ TABLE, Minimum Roll, Bonus to roll
+        "UseEffect": { "LootBox": ["FOOD", 0, 0]},
+        "Price": 0
     }
 };
 
@@ -6645,8 +6729,58 @@ window.App.Data.JobData = {
                 "TRIGGERS_ANY" : [ ],
                 "CHECKS" : [ ],
                 "POST" : [
-                    { "TYPE" : "FOOD", "NAME" : "bread crust", "VALUE" : 3, "OPT" : "RANDOM" }],
+                    { "TYPE" : "FOOD", "NAME" : "bread crust", "VALUE" : 3, "OPT" : "RANDOM" }
+                    ],
                 "START" :   "The work in the galley is winding down and there are less people about, you take the opportunity to pocket a few crusts of bread.",
+                "END" : "",
+                "RESULTS" : [ ]
+            },
+            {   // If pass both cooking checks and If counter is at MAX (5), reward player and set counter to 0.
+                "ID" : "SCENE04a",
+                "TRIGGERS" :[
+                    { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "COUNTER", "NAME" : "COOKIE_LOOT", "VALUE" : 5, "CONDITION" : "gte" }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "FLAG",      "NAME" : "COOKIE_LOOT",             "VALUE" :   0,  "OPT" : "SET" },
+                    { "TYPE" : "FLAG",      "NAME" : "COOKIE_REWARD",           "VALUE" :   1,  "OPT" : "SET" },
+                    { "TYPE" : "LOOT_BOX",  "NAME" : "common food loot box",    "VALUE" : 1,    "OPT" : "" }
+                ],
+                "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\" He hands you a small wooden crate, you wonder what's inside it?",
+                "END" : "",
+                "RESULTS" : [ ]
+            },
+            {   // If passed both cooking checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
+                "ID" : "SCENE04b",
+                "TRIGGERS" :[
+                    { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "COUNTER", "NAME" : "COOKIE_LOOT", "VALUE" : 4, "CONDITION" : "lte" },
+                    { "TYPE" : "FLAG", "NAME" : "COOKIE_REWARD",  "OPT" : "NOT_SET" }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "COUNTER",   "NAME" : "COOKIE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+                ],
+                "START" :   "NPC_NAME says, \"Nice work today. It's a pleasure to have you around the galley... in more ways than one. Keep it up and I might slip you a little bit something extra...\"",
+                "END" : "",
+                "RESULTS" : [ ]
+            },
+            {   // Just unset the flag that shows we received loot and make sure we clear the counter.
+                "ID" : "SCENE04c",
+                "TRIGGERS" :[
+                    { "TYPE" : "FLAG", "NAME" : "COOKIE_REWARD", "OPT" : "SET" }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "FLAG",   "NAME" : "COOKIE_REWARD",  "OPT" : "DELETE" }
+                ],
+                "START" : "",
                 "END" : "",
                 "RESULTS" : [ ]
             }
@@ -8748,6 +8882,54 @@ window.App.Data.JobData = {
                     {"A":  33, "TEXT": "Despite your efforts and outgoing antics @@not very many@@ customers enter the store. Hopefully it'll be enough."},
                     {"A":  66, "TEXT": "You seem to have a @@modest success@@ at cajoling people to check out the store. It's surprisingly more tiring than you thought to be so outgoing."},
                     {"A": 500, "TEXT": "You put on your best face and try to exert your 'girlish charm'. It seems to @@have the desired effect@@ and you draw a respectable amount of customers to the shop."} ]
+            },
+            {   // If pass check 'A' and If counter is at MAX (5), reward player and set counter to 0.
+                "ID" : "SCENE04a",
+                "TRIGGERS" :[
+                    { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "COUNTER", "NAME" : "HEDDY_LOOT", "VALUE" : 5, "CONDITION" : "gte" }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "FLAG",      "NAME" : "HEDDY_LOOT",              "VALUE" :   0,  "OPT" : "SET" },
+                    { "TYPE" : "FLAG",      "NAME" : "HEDDY_REWARD",            "VALUE" :   1,  "OPT" : "SET" },
+                    { "TYPE" : "LOOT_BOX",  "NAME" : "common sissy loot box",   "VALUE" :   1,  "OPT" : "" }
+                ],
+                "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\" She hands you a small novelty gift box shaped like a treasure chest, you wonder what's inside it?",
+                "END" : "",
+                "RESULTS" : [ ]
+            },
+            {   // If passed both cooking checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
+                "ID" : "SCENE04b",
+                "TRIGGERS" :[
+                    { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "COUNTER", "NAME" : "HEDDY_LOOT", "VALUE" : 4, "CONDITION" : "lte" },
+                    { "TYPE" : "FLAG", "NAME" : "HEDDY_REWARD",  "OPT" : "NOT_SET" }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "COUNTER",   "NAME" : "HEDDY_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+                ],
+                "START" :   "NPC_NAME says, \"Nice work today. You really brought in those customers. Keep it up and I might slip you a little bit something extra...\"",
+                "END" : "",
+                "RESULTS" : [ ]
+            },
+            {   // Just unset the flag that shows we received loot and make sure we clear the counter.
+                "ID" : "SCENE04c",
+                "TRIGGERS" :[
+                    { "TYPE" : "FLAG", "NAME" : "HEDDY_REWARD", "OPT" : "SET" }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "FLAG",   "NAME" : "HEDDY_REWARD",  "OPT" : "DELETE" }
+                ],
+                "START" : "",
+                "END" : "",
+                "RESULTS" : [ ]
             }
         ],
         "END" : "NPC_NAME comes up to you and hands you your pay for the shift, JOB_PAY coins. JOB_RESULTS",
@@ -8827,7 +9009,84 @@ window.App.Data.LootTables =
                     { "TYPE" : "CLOTHES", "TAG" : "sissy collar", "QTY" : 1},
                     { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 3 }
                 ] }
-  }
+  },
+"FOOD" :
+{
+    10 :  {
+        "LOOT" : [
+            { "TYPE": "FOOD", "QTY": 4, "TAG" : "slave gruel"  },
+            { "TYPE": "FOOD", "QTY": 4, "TAG" : "grog"}
+        ] },
+    20 :  {
+        "LOOT" : [
+            { "TYPE": "FOOD", "QTY": 6, "TAG" : "beer"  },
+            { "TYPE": "FOOD", "QTY": 2, "TAG" : "mystery stew"}
+        ] },
+    30 :  {
+        "LOOT" : [
+            { "TYPE": "FOOD", "QTY": 6, "TAG" : "cheep wine"  },
+            { "TYPE": "FOOD", "QTY": 2, "TAG" : "bread and cheese"}
+        ] },
+    40 :  {
+        "LOOT" : [
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 6},
+            { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 4}
+        ] },
+    50 :  {
+        "LOOT" : [
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 6},
+            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2}
+        ] },
+    60 :  {
+        "LOOT" : [
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 6},
+            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2}
+        ] },
+    70 :  {
+        "LOOT" : [
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "rum", "QTY" : 2}
+        ] },
+    80 :  {
+        "LOOT" : [
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "rum", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 2}
+        ] },
+    90 :  {
+        "LOOT" : [
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "rum", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "pink peach", "QTY" : 2}
+        ] },
+    100 :  {
+        "LOOT" : [
+            { "TYPE" : "FOOD", "TAG" : "starfruit",  "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "red plum",   "QTY" : 2}
+        ] },
+    110 :  {
+        "LOOT" : [
+            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "purple mushrooms", "QTY" : 2}
+        ] },
+    120 :  {
+        "LOOT" : [
+            { "TYPE" : "FOOD", "TAG" : "pirates plunder", "QTY" : 1}
+        ] },
+    130 :  {
+        "LOOT" : [
+            { "TYPE" : "FOOD", "TAG" : "ambrosia", "QTY" : 1}
+        ] }
+}
 };
 /* twine-user-script #13: "QuestData.js" */
 window.App = window.App || { Data: { }, Entity: { } };
@@ -9336,6 +9595,7 @@ window.App.Data.Stores =  {
             { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    16, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
             { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"             },
             { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    40, "MOOD":  0,   "LOCK": 0,  "TAG" : "smugglers ale"          },
             { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",   "QTY":    4,     "MAX":    4,  "PRICE":    25, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"             }
         ]
     },
@@ -9672,8 +9932,9 @@ twisting road leads to the famous @@color:gold;&#39;Great Market&#39;@@.
 		&lt;td&gt; &lt;/td&gt;
 		&lt;td colspan=&quot;3&quot;&gt;
 			&lt;&lt;print _Item.Message($Player);&gt;&gt;\
+			&lt;&lt;if _Item.Type() == &quot;LOOT_BOX&quot;&gt;&gt;\
 			&lt;&lt;set _Tmp = window.App.Item.DoLootBox($args[0], $Player); &gt;&gt;\
-			&lt;&lt;if _Tmp != &quot;&quot;&gt;&gt;&lt;&lt;= _Tmp&gt;&gt;&lt;&lt;/if&gt;&gt;\
+			&lt;&lt;= _Tmp&gt;&gt;&lt;&lt;/if&gt;&gt;\
 			&lt;&lt;run $Player.UseItem($args[0]);&gt;&gt;&lt;/td&gt;
 	&lt;/tr&gt;
 &lt;/tbody&gt;
@@ -9777,7 +10038,7 @@ twisting road leads to the famous @@color:gold;&#39;Great Market&#39;@@.
 &lt;&lt;/for&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="63" name="NPC" tags="widget" position="350,850">&lt;&lt;widget NPC&gt;&gt;\
 &lt;&lt;set _QE = window.App.QuestEngine;&gt;&gt;\
-&lt;&lt;set _NPC = $Player.NPCS[$args[0]];&gt;&gt;\
+&lt;&lt;set _NPC = $Player.GetNPC($args[0]);&gt;&gt;\
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;\
 &lt;&lt;set _SE = window.App.StoreEngine;&gt;&gt;\
 &lt;&lt;= window.App.PR.TokenizeString($Player, _NPC, _NPC.ShortDesc())&gt;&gt;
@@ -10422,7 +10683,7 @@ The fetish appeal of your body is &lt;&lt;print window.App.PR.pFetish($Player);&
 &lt;&lt;set _ID = $args[0][&quot;ID&quot;]&gt;&gt;\
 &lt;&lt;set _QE = window.App.QuestEngine;&gt;&gt;\
 &lt;&lt;set $ChoiceItem = 0&gt;&gt;\
-&lt;&lt;set _NPC = $Player.NPCS[$MenuAction]&gt;&gt;\
+&lt;&lt;set _NPC = $Player.GetNPC($MenuAction)&gt;&gt;\
 &lt;&lt;if _QE.GetQuestFlag($Player, _ID) == 0&gt;&gt;\
 &lt;&lt;print window.App.PR.pQuestDialog(_ID, &quot;INTRO&quot;, $Player, _NPC); &gt;&gt;
 
@@ -10473,7 +10734,7 @@ The fetish appeal of your body is &lt;&lt;print window.App.PR.pFetish($Player);&
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="76" name="questList" tags="widget" position="725,975">&lt;&lt;widget &quot;questList&quot;&gt;&gt;\
 &lt;&lt;set _QE = window.App.QuestEngine;&gt;&gt;\
 &lt;&lt;set _QL = _QE.GetQuests(&quot;any&quot;, $Player, $MenuAction);&gt;&gt;\
-&lt;&lt;set _NPC = $Player.NPCS[$MenuAction];&gt;&gt;\
+&lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;\
 &lt;&lt;set $n = _NPC.pName(); &gt;&gt;\
 You approach $n and ask about any &#39;special tasks&#39; that need to be done.
 
@@ -10896,7 +11157,7 @@ Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="85" name=
 &lt;&lt;set _Drugs = $Player.GetItemByTypes([&quot;potion&quot;]);&gt;&gt;\
 &lt;&lt;set _Quests = $Player.GetItemByTypes([&quot;QUEST&quot;, &quot;LOOT_BOX&quot;]);&gt;&gt;
 &lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="90" name="Jobs" tags="custom-menu" position="1225,1100">&lt;&lt;nobr&gt;&gt;
-&lt;&lt;set _NPC = $Player.NPCS[$MenuAction];&gt;&gt;
+&lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;
 &lt;&lt;set _JA = _JE.GetAvailableJobs($Player, $MenuAction);&gt;&gt;
 &lt;&lt;set _JU = _JE.GetUnavailableJobs($Player, $MenuAction);&gt;&gt;
@@ -10922,7 +11183,7 @@ Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="85" name=
 No active quests.
 &lt;&lt;else&gt;&gt;\
 &lt;&lt;for _i = 0; _i &lt; _QLA.length; _i++&gt;&gt;\
-&lt;&lt;set _NPC = $Player.NPCS[_QLA[_i][&quot;GIVER&quot;]];&gt;&gt;\
+&lt;&lt;set _NPC = $Player.GetNPC(_QLA[_i][&quot;GIVER&quot;]);&gt;&gt;\
 //&lt;&lt;print &quot;[&quot; +_NPC.pName() + &quot; - &quot; + _QLA[_i][&quot;Title&quot;] + &quot;]&quot;;&gt;&gt;//
 &lt;&lt;print window.App.PR.pQuestDialog(_QLA[_i][&quot;ID&quot;], &quot;JOURNAL_ENTRY&quot;, $Player, _NPC);&gt;&gt;
 &lt;&lt;if _QLA[_i][&quot;CHECKS&quot;].length != 0&gt;&gt;\
@@ -10938,7 +11199,7 @@ No completed quests.
 
 &lt;&lt;else&gt;&gt;\
 &lt;&lt;for _i = 0; _i &lt; _QLC.length; _i++&gt;&gt;\
-&lt;&lt;set _NPC = $Player.NPCS[_QLC[_i][&quot;GIVER&quot;]];&gt;&gt;\
+&lt;&lt;set _NPC = $Player.GetNPC(_QLC[_i][&quot;GIVER&quot;]);&gt;&gt;\
 //&lt;&lt;print &quot;[&quot; +_NPC.pName() + &quot; - &quot;  + _QLC[_i][&quot;Title&quot;] + &quot;]&quot;;&gt;&gt;//
 &lt;&lt;print window.App.PR.pQuestDialog(_QLC[_i][&quot;ID&quot;], &quot;JOURNAL_COMPLETE&quot;, $Player, _NPC);&gt;&gt;
 
@@ -11079,7 +11340,7 @@ Night finally comes and you drag yourself off to bed. Within moments of laying d
 &lt;&lt;if $Player.SleepLog.length != 0&gt;&gt;&lt;&lt;for _i to 0; _i lt $Player.SleepLog.length; _i++&gt;&gt;\
 &lt;&lt;print $Player.SleepLog[_i]&gt;&gt;&lt;br/&gt;&lt;&lt;/for&gt;&gt;&lt;&lt;/if&gt;&gt;\
 
-@@color:cyan;Interact@@: [[Wake up|Cabin]]</tw-passagedata><tw-passagedata pid="100" name="StoryCaption" tags="" position="1225,1225">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if ($Player != undefined) &amp;&amp; $InIntro != 1&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="101" name="Whore" tags="custom-menu" position="100,1350">&lt;&lt;set _NPC = $Player.NPCS[$MenuAction];&gt;&gt;\
+@@color:cyan;Interact@@: [[Wake up|Cabin]]</tw-passagedata><tw-passagedata pid="100" name="StoryCaption" tags="" position="1225,1225">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if ($Player != undefined) &amp;&amp; $InIntro != 1&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="101" name="Whore" tags="custom-menu" position="100,1350">&lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;\
 &lt;&lt;set _PR = window.App.PR;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
 @@.custom-table;&lt;table style=&quot;border: 1px solid black;&quot;&gt;

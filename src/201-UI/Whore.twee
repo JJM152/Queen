@@ -1,5 +1,5 @@
 :: Whore [custom-menu]
-<<set _NPC = $Player.NPCS[$MenuAction];>>\
+<<set _NPC = $Player.GetNPC($MenuAction);>>\
 <<set _PR = window.App.PR;>>\
 <<nobr>>
 @@.custom-table;<table style="border: 1px solid black;">

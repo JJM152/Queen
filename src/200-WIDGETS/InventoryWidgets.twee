@@ -36,8 +36,9 @@
 		<td> </td>
 		<td colspan="3">
 			<<print _Item.Message($Player);>>\
+			<<if _Item.Type() == "LOOT_BOX">>\
 			<<set _Tmp = window.App.Item.DoLootBox($args[0], $Player); >>\
-			<<if _Tmp != "">><<= _Tmp>><</if>>\
+			<<= _Tmp>><</if>>\
 			<<run $Player.UseItem($args[0]);>></td>
 	</tr>
 </tbody>

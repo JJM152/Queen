@@ -54,7 +54,7 @@ window.App.JobEngine = new function() {
      * @returns {Array.<Job>}
      */
     this.GetAvailableJobs = function(Player, Giver) {
-        return $.grep(this.GetJobs(Player, Giver), function(j) { return j.Available(Player, Player.NPCS[Giver]) == true; });
+        return $.grep(this.GetJobs(Player, Giver), function(j) { return j.Available(Player, Player.GetNPC(Giver)) == true; });
     };
 
     /**
@@ -76,7 +76,7 @@ window.App.JobEngine = new function() {
      */
     this.GetUnavailableJobs = function(Player, Giver) {
         return $.grep(this.GetJobs(Player, Giver), function(j) {
-            return j.Available(Player, Player.NPCS[Giver]) == false && j.Hidden() != true;
+            return j.Available(Player, Player.GetNPC(Giver)) == false && j.Hidden() != true;
         }).sort();
     };
 
@@ -352,7 +352,7 @@ window.App.Job = function(Data) {
                     }
                     break;
                 case "NPC_STAT":
-                    if (typeof NPC === 'undefined' && typeof Option !== 'undefined') NPC = Player.NPCS[Option];
+                    if (typeof NPC === 'undefined' && typeof Option !== 'undefined') NPC = Player.GetNPC(Option);
                     if (typeof NPC !== 'undefined') {
                         if (this._Cmp( NPC.GetStat(Name), Value, Condition ) == false) {
                             StatusFlag = false;
@@ -810,6 +810,7 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
                 return this._Cmp(Math.ceil((100 * Math.random())+1), Value, Condition);
                 break;
             case "COUNTER":
+                if ( this._Player.JobFlags.hasOwnProperty(Name) == false ) this._Player.JobFlags[Name] = 0;
                 if ( (typeof Opt !== 'undefined') && (Opt == "RANDOM"))
                     return this._Cmp(this._Player.JobFlags[Name], Math.ceil(Value * Math.random()), Condition);
                 return this._Cmp(this._Player.JobFlags[Name], Value, Condition);
@@ -825,8 +826,9 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
                 return this._Cmp(this._Player.GetStatPercent("SKILL", Name), Value, Condition);
                 break;
             case "FLAG":
-                if ( (typeof Opt !== 'undefined') && (Opt == "NOT_SET"))
+                if ( (typeof Opt !== 'undefined') && (Opt == "NOT_SET")) {
                     return (this._Player.JobFlags.hasOwnProperty(Name) == false);
+                }
 
                 if ( (typeof Opt !== 'undefined') && (Opt == "SET"))
                     return (this._Player.JobFlags.hasOwnProperty(Name) == true);
@@ -834,6 +836,7 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
                 return this._Cmp(this._Player.JobFlags[Name], Value, Condition);
                 break;
             case "TAG":
+                if (this._Checks.hasOwnProperty(Name) == false) return true;
                 var Percent = Math.ceil( (this._Checks[Name]["RESULT"] / this._Checks[Name]["VALUE"]) * 100);
                 return this._Cmp(Percent, Value, Condition);
                 break;
@@ -901,6 +904,7 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
             case "DRUGS":
             case "CLOTHES":
             case "COSMETICS":
+            case "LOOT_BOX":
                 this._Player.AddItem(Type, Name, Value, Opt);
                 break;
             case "QUEST_ITEM":
@@ -946,11 +950,11 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
                 this._NPC.AdjustStat(Name, Value);
                 break;
             case "PIRATE_STATS":
-                this._Player.NPCS["Crew"].AdjustStat(Name, Value);
-                this._Player.NPCS["Cook"].AdjustStat(Name, Value);
-                this._Player.NPCS["Quartermaster"].AdjustStat(Name, Value);
-                this._Player.NPCS["FirstMate"].AdjustStat(Name, Value);
-                this._Player.NPCS["Captain"].AdjustStat(Name, Value);
+                this._Player.GetNPC("Crew").AdjustStat(Name, Value);
+                this._Player.GetNPC("Cook").AdjustStat(Name, Value);
+                this._Player.GetNPC("Quartermaster").AdjustStat(Name, Value);
+                this._Player.GetNPC("FirstMate").AdjustStat(Name, Value);
+                this._Player.GetNPC("Captain").AdjustStat(Name, Value);
                 break;
         }
     };
