@@ -44,7 +44,7 @@ window.App.QuestEngine = new function() {
 
         switch (Type) {
             case "NPC_MOOD":
-                NPC = Player.NPCS[Key];
+                NPC = Player.GetNPC(Key);
                 if ((NPC.Mood() < Value) && (Reverse == 0)) return false;
                 if ((NPC.Mood() > Value) && (Reverse == 1)) return false;
                 break;

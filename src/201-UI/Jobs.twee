@@ -1,6 +1,6 @@
 :: Jobs [custom-menu]
 <<nobr>>
-<<set _NPC = $Player.NPCS[$MenuAction];>>
+<<set _NPC = $Player.GetNPC($MenuAction);>>
 <<set _JE = window.App.JobEngine;>>
 <<set _JA = _JE.GetAvailableJobs($Player, $MenuAction);>>
 <<set _JU = _JE.GetUnavailableJobs($Player, $MenuAction);>>

@@ -275,8 +275,8 @@ window.App.PR = new function() {
                         break;
                     case "NPC_MOOD":
                         bMeter = true;
-                        Val = Player.NPCS[Name].Mood();
-                        pString = Player.NPCS[Name].pName();
+                        Val = Player.GetNPC(Name).Mood();
+                        pString = Player.GetNPC(Name).pName();
                         break;
                     case "MONEY":
                         bMeter = true;

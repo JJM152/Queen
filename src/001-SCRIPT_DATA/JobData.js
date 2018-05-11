@@ -75,8 +75,58 @@ window.App.Data.JobData = {
                 "TRIGGERS_ANY" : [ ],
                 "CHECKS" : [ ],
                 "POST" : [
-                    { "TYPE" : "FOOD", "NAME" : "bread crust", "VALUE" : 3, "OPT" : "RANDOM" }],
+                    { "TYPE" : "FOOD", "NAME" : "bread crust", "VALUE" : 3, "OPT" : "RANDOM" }
+                    ],
                 "START" :   "The work in the galley is winding down and there are less people about, you take the opportunity to pocket a few crusts of bread.",
+                "END" : "",
+                "RESULTS" : [ ]
+            },
+            {   // If pass both cooking checks and If counter is at MAX (5), reward player and set counter to 0.
+                "ID" : "SCENE04a",
+                "TRIGGERS" :[
+                    { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "COUNTER", "NAME" : "COOKIE_LOOT", "VALUE" : 5, "CONDITION" : "gte" }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "FLAG",      "NAME" : "COOKIE_LOOT",             "VALUE" :   0,  "OPT" : "SET" },
+                    { "TYPE" : "FLAG",      "NAME" : "COOKIE_REWARD",           "VALUE" :   1,  "OPT" : "SET" },
+                    { "TYPE" : "LOOT_BOX",  "NAME" : "common food loot box",    "VALUE" : 1,    "OPT" : "" }
+                ],
+                "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\" He hands you a small wooden crate, you wonder what's inside it?",
+                "END" : "",
+                "RESULTS" : [ ]
+            },
+            {   // If passed both cooking checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
+                "ID" : "SCENE04b",
+                "TRIGGERS" :[
+                    { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "COUNTER", "NAME" : "COOKIE_LOOT", "VALUE" : 4, "CONDITION" : "lte" },
+                    { "TYPE" : "FLAG", "NAME" : "COOKIE_REWARD",  "OPT" : "NOT_SET" }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "COUNTER",   "NAME" : "COOKIE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+                ],
+                "START" :   "NPC_NAME says, \"Nice work today. It's a pleasure to have you around the galley... in more ways than one. Keep it up and I might slip you a little bit something extra...\"",
+                "END" : "",
+                "RESULTS" : [ ]
+            },
+            {   // Just unset the flag that shows we received loot and make sure we clear the counter.
+                "ID" : "SCENE04c",
+                "TRIGGERS" :[
+                    { "TYPE" : "FLAG", "NAME" : "COOKIE_REWARD", "OPT" : "SET" }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "FLAG",   "NAME" : "COOKIE_REWARD",  "OPT" : "DELETE" }
+                ],
+                "START" : "",
                 "END" : "",
                 "RESULTS" : [ ]
             }
@@ -1346,74 +1396,59 @@ window.App.Data.JobData = {
                     "shooting your own sissy cum while ironically drinking another mans hot jizz."}
                 ]
             },
-            {
-                "ID": "SCENE08a",
-                "TRIGGERS": [
-                    {"TYPE" : "FLAG", "NAME": "CAPTAIN_CLAMPS", "OPT": "SET"},
-                    {"TYPE" : "FLAG", "NAME": "CAPTAIN_DILDO",  "OPT": "SET"},
-                    {"TYPE" : "FLAG", "NAME": "CAPTAIN_CORSET", "OPT": "NOT_SET"},
-                    {"TYPE" : "TAG",  "NAME": "A", "VALUE":  100, "CONDITION" : "gte" },
-                    {"TYPE" : "TAG",  "NAME": "B", "VALUE":  100, "CONDITION" : "gte" },
-                    {"TYPE" : "TAG",  "NAME": "C", "VALUE":  100, "CONDITION" : "gte" }
+            {   // If pass check 'A', 'B', 'C' and If counter is at MAX (5), reward player and set counter to 0.
+                "ID" : "SCENE08a",
+                "TRIGGERS" :[
+                    { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "TAG", "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "COUNTER", "NAME" : "CAPTAIN_LOOT", "VALUE" : 5, "CONDITION" : "gte" }
                 ],
                 "TRIGGERS_ANY" : [ ],
-                "CHECKS": [],
-                "POST": [
-                    {"TYPE" : "FLAG",       "NAME" : "CAPTAIN_CORSET",  "VALUE" : 1, "OPT" : "SET"},
-                    {"TYPE" : "CLOTHES",    "NAME" : "bondage corset",  "VALUE" : 1, "OPT" : "WEAR" }
-
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "FLAG",      "NAME" : "CAPTAIN_LOOT",              "VALUE" :   0,  "OPT" : "SET" },
+                    { "TYPE" : "FLAG",      "NAME" : "CAPTAIN_REWARD",            "VALUE" :   1,  "OPT" : "SET" },
+                    { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon pirate loot box",   "VALUE" :   1,  "OPT" : "" }
                 ],
-                "START":
-                "NPC_NAME says, \"You've really come a long way PLAYER_NAME. When I first brought you aboard I had no idea you'd turn into "+
-                "such a fine slut. I'm pleasantly surprised. You can keep that @@color:orange;extreme bondage corset@@, I think it was made for you anyway.\"",
-                "END": "",
-                "RESULTS": []
+                "START" :   "NPC_NAME says, \"You've really come a long way PLAYER_NAME. When I first brought you aboard I had no idea you'd turn into "+
+                            "such a fine slut. I'm pleasantly surprised. Here, take this...\" NPC_NAME retrieves something from his desk. It's a small treasure chest emblazoned with a skull and crossbones. You wonder what's inside?",
+                "END" : "",
+                "RESULTS" : [ ]
             },
-            {
-                "ID": "SCENE08b",
-                "TRIGGERS": [
-                    {"TYPE" : "FLAG", "NAME": "CAPTAIN_CLAMPS", "OPT": "SET"},
-                    {"TYPE" : "FLAG", "NAME": "CAPTAIN_DILDO",  "OPT": "NOT_SET"},
-                    {"TYPE" : "FLAG", "NAME": "CAPTAIN_CORSET", "OPT": "NOT_SET"},
-                    {"TYPE" : "TAG",  "NAME": "A", "VALUE":  100, "CONDITION" : "gte" },
-                    {"TYPE" : "TAG",  "NAME": "B", "VALUE":  100, "CONDITION" : "gte" },
-                    {"TYPE" : "TAG",  "NAME": "C", "VALUE":  100, "CONDITION" : "gte" }
+            {   // If passed all checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
+                "ID" : "SCENE08b",
+                "TRIGGERS" :[
+                    { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "TAG", "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "COUNTER", "NAME" : "CAPTAIN_LOOT", "VALUE" : 4, "CONDITION" : "lte" },
+                    { "TYPE" : "FLAG", "NAME" : "CAPTAIN_REWARD",  "OPT" : "NOT_SET" }
                 ],
                 "TRIGGERS_ANY" : [ ],
-                "CHECKS": [],
-                "POST": [
-                    {"TYPE" : "FLAG",       "NAME" : "CAPTAIN_DILDO",  "VALUE" : 1, "OPT" : "SET"},
-                    {"TYPE" : "CLOTHES",    "NAME" : "large plug",    "VALUE" : 1, "OPT" : "WEAR" }
-
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "COUNTER",   "NAME" : "CAPTAIN_LOOT",    "VALUE" :   1,  "OPT" : 1 }
                 ],
-                "START":
-                "NPC_NAME says, \"Not a half bad job PLAYER_NAME, keep it up and you'll be a fine bimbo whore some day.\"\n\n"+
-                "He tosses the @@color:orange;anal dildo@@ to you and says, \"Keep that as a tip. You'll put them to good use I'm sure.\"",
-                "END": "",
-                "RESULTS": []
+                "START" :   "NPC_NAME says, \"Ahh... that was relaxing. Who knew you'd take so well to your new job, eh my little cumslut?\"\n\n"+
+                            "You're not sure this is the kind of compliment you've ever wanted, but what choice do you have?\n\n"+
+                            "NPC_NAME says, \"Keep up the good work and I'll make sure to reward you properly... and not just with a gullet full o' me jizz!\"",
+                "END" : "",
+                "RESULTS" : [ ]
             },
-            {
-                "ID": "SCENE08c",
-                "TRIGGERS": [
-                    {"TYPE" : "FLAG", "NAME": "CAPTAIN_CLAMPS", "OPT": "NOT_SET"},
-                    {"TYPE" : "FLAG", "NAME": "CAPTAIN_DILDO",  "OPT": "NOT_SET"},
-                    {"TYPE" : "FLAG", "NAME": "CAPTAIN_CORSET", "OPT": "NOT_SET"},
-                    {"TYPE" : "TAG",  "NAME": "A", "VALUE":  10, "CONDITION" : "gte" },
-                    {"TYPE" : "TAG",  "NAME": "B", "VALUE":  10, "CONDITION" : "gte" },
-                    {"TYPE" : "TAG",  "NAME": "C", "VALUE":  10, "CONDITION" : "gte" }
+            {   // Just unset the flag that shows we received loot and make sure we clear the counter.
+                "ID" : "SCENE08c",
+                "TRIGGERS" :[
+                    { "TYPE" : "FLAG", "NAME" : "CAPTAIN_REWARD", "OPT" : "SET" }
                 ],
                 "TRIGGERS_ANY" : [ ],
-                "CHECKS": [],
-                "POST": [
-                    {"TYPE" : "FLAG",       "NAME" : "CAPTAIN_CLAMPS",  "VALUE" : 1, "OPT" : "SET"},
-                    {"TYPE" : "CLOTHES",    "NAME" : "nipple clamps",   "VALUE" : 1, "OPT" : "WEAR" }
-
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "FLAG",   "NAME" : "CAPTAIN_REWARD",  "OPT" : "DELETE" }
                 ],
-                "START":
-                "NPC_NAME says, \"Not a half bad job PLAYER_NAME, keep it up and you'll be a fine bimbo whore some day.\"\n\n"+
-                "He tosses the @@color:orange;nipple clamps@@ to you and says, \"Keep that as a tip. You'll put them to good use I'm sure.\"",
-                "END": "",
-                "RESULTS": []
+                "START" : "",
+                "END" : "",
+                "RESULTS" : [ ]
             },
             {
                 "ID": "SCENE09",
@@ -2178,6 +2213,54 @@ window.App.Data.JobData = {
                     {"A":  33, "TEXT": "Despite your efforts and outgoing antics @@not very many@@ customers enter the store. Hopefully it'll be enough."},
                     {"A":  66, "TEXT": "You seem to have a @@modest success@@ at cajoling people to check out the store. It's surprisingly more tiring than you thought to be so outgoing."},
                     {"A": 500, "TEXT": "You put on your best face and try to exert your 'girlish charm'. It seems to @@have the desired effect@@ and you draw a respectable amount of customers to the shop."} ]
+            },
+            {   // If pass check 'A' and If counter is at MAX (5), reward player and set counter to 0.
+                "ID" : "SCENE04a",
+                "TRIGGERS" :[
+                    { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "COUNTER", "NAME" : "HEDDY_LOOT", "VALUE" : 5, "CONDITION" : "gte" }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "FLAG",      "NAME" : "HEDDY_LOOT",              "VALUE" :   0,  "OPT" : "SET" },
+                    { "TYPE" : "FLAG",      "NAME" : "HEDDY_REWARD",            "VALUE" :   1,  "OPT" : "SET" },
+                    { "TYPE" : "LOOT_BOX",  "NAME" : "common sissy loot box",   "VALUE" :   1,  "OPT" : "" }
+                ],
+                "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\" She hands you a small novelty gift box shaped like a treasure chest, you wonder what's inside it?",
+                "END" : "",
+                "RESULTS" : [ ]
+            },
+            {   // If passed both cooking checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
+                "ID" : "SCENE04b",
+                "TRIGGERS" :[
+                    { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                    { "TYPE" : "COUNTER", "NAME" : "HEDDY_LOOT", "VALUE" : 4, "CONDITION" : "lte" },
+                    { "TYPE" : "FLAG", "NAME" : "HEDDY_REWARD",  "OPT" : "NOT_SET" }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "COUNTER",   "NAME" : "HEDDY_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+                ],
+                "START" :   "NPC_NAME says, \"Nice work today. You really brought in those customers. Keep it up and I might slip you a little bit something extra...\"",
+                "END" : "",
+                "RESULTS" : [ ]
+            },
+            {   // Just unset the flag that shows we received loot and make sure we clear the counter.
+                "ID" : "SCENE04c",
+                "TRIGGERS" :[
+                    { "TYPE" : "FLAG", "NAME" : "HEDDY_REWARD", "OPT" : "SET" }
+                ],
+                "TRIGGERS_ANY" : [ ],
+                "CHECKS" : [ ],
+                "POST" : [
+                    { "TYPE" : "FLAG",   "NAME" : "HEDDY_REWARD",  "OPT" : "DELETE" }
+                ],
+                "START" : "",
+                "END" : "",
+                "RESULTS" : [ ]
             }
         ],
         "END" : "NPC_NAME comes up to you and hands you your pay for the shift, JOB_PAY coins. JOB_RESULTS",

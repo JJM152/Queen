@@ -67,7 +67,7 @@ window.App.Data.Drugs = {
                 "Message": "You apply the herbs to your wounds and feel slightly better.",
                 "Type": "potion",
                 "Charges": 1,
-                "UseEffect": {"Health": [10, 0, 0], "Toxicity": [5, 0, 0]},
+                "UseEffect": {"Health": [10, 0, 0], "Toxicity": [3, 0, 0]},
                 "Price": 10
             },
             "healing potion" : {
@@ -162,6 +162,16 @@ window.App.Data.Food = {
                 "Charges": 1,
                 "UseEffect": {"Nutrition": [3, 20, 0], "Toxicity": [2, 0, 0]},
                 "Price": 2
+            },
+            "smugglers ale": {
+                "Name": "smugglers ale",
+                "ShortDesc": "A pint of Smuggler's Ale",
+                "LongDesc": "Only brewed and sold on Golden Isle, this dark ale has a tangy, almost fruit after taste.",
+                "Message": "You tip back the ale and have a drink. It's refreshing.",
+                "Type": "food",
+                "Charges": 1,
+                "UseEffect": {"Nutrition": [5, 20, 0], "Toxicity": [1, 0, 0]},
+                "Price": 10
             },
             "cheap wine": {
                 "Name": "cheap wine",
@@ -278,8 +288,51 @@ window.App.Data.Food = {
                 "Charges": 1,
                 "UseEffect": {"Nutrition": [10, 10, 0], "Toxicity": [25, 0, 0], "WillPower" : [ 0, 20, 0 ]},
                 "Price": 500
+            },
+            "red plum": {
+                "Name": "red plum",
+                "ShortDesc": "A dazzlingly bright red plum",
+                "LongDesc": "This unusual plum is bright red and cool to the touch. It's so ripe that it practically oozes sweetness.",
+                "Message": "You bite into the plum and instantly you are overcome with a wave of euphoria. You momentarily lose yourself as the sweet juices drip down your chin.",
+                "Type": "food",
+                "Charges": 1,
+                "UseEffect": {"Nutrition": [20, 100, 0], "Toxicity" : [-80, 0, 0], "Health": [10, 0, 0] },
+                "Price": 25
+            },
+            "purple mushrooms": {
+                "Name": "purple mushroom",
+                "ShortDesc": "A handful of rare purple mushrooms",
+                "LongDesc": "These mushrooms range in shapes from small and skinny to rather large specimens. Their caps are bright purple and spotted with darker purple blotches. These are safe to eat, right?",
+                "Message": "You ingest the mushrooms. They don't have much of a taste, but they definitely seem to have some 'kick' to them. You hope this wasn't a foolish idea...",
+                "Type": "food",
+                "Charges": 1,
+                "UseEffect": {"Nutrition": [5, 20, 0], "Toxicity" : [ 20, 0, 0], "Hormones": [-5, -200, 0],
+                              "Penis" : [0,200,0], "Balls" : [0, 200,0] },
+                "Price": 25
+            },
+            "ambrosia": {
+                "Name": "ambrosia",
+                "ShortDesc": "A dark green bottle of ambrosia",
+                "LongDesc": "Ambrosia is known far and wide as the 'Food of the Gods'. Legends tell that it is brewed by Sea Nymphs in their under water caves, but how that is possible you have no idea.",
+                "Message": "You uncork the bottle imbibe the potent brew. Words fail to describe how overwhelmingly good it tastes. You feel yourself filled with vigour and strength!",
+                "Type": "food",
+                "Charges": 1,
+                "UseEffect": {"Nutrition": [100, 100, 0], "Toxicity" : [-200, 0, 0], "Health": [100, 0, 0],
+                              "WillPower" : [ 0, 100, 0 ] },
+                "Price": 500
+            },
+            "pirates plunder": {
+                "Name": "pirates plunder",
+                "ShortDesc": "A flagon of 'Pirates Plunder'",
+                "LongDesc": "No one knows the origin of this legendary drink, but Pirates up and down the Lost Coast swear by it's effects. A single flagon is said to turn the most pathetic land lubber into a half way decent pirate. Could that possibly be true?",
+                "Message": "You tip back the flagon and drink deeply of the 'Pirates Plunder'. The taste is like nothing you've had before, dark, stormy and violent.",
+                "Type": "food",
+                "Charges": 1,
+                "UseEffect": {"Nutrition": [20, 50, 0], "Toxicity" : [50, 0, 0], "Sailing": [0, 300, 0],
+                              "Navigating" : [ 0, 300, 0 ], "Swashbuckling" : [ 0, 300, 0 ] },
+                "Price": 500
             }
-        };
+};
 
 // STYLE TABLE
 // TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
@@ -367,13 +420,13 @@ window.App.Data.Clothes = {
                 "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 800, "Style": "LEGENDARY", "Type" : "ONE PIECE",
                 "WearEffect": {"Femininity": [0, 10, 80]}, "Category" :  [ "Daddy's Girl" ]
             },
-            "cute pink bra": {
+            "cute pink bra": { // 10
                 "Name": "cute pink bra", "ShortDesc": "a cute {COLOR} bra with tiny hearts on it",
                 "LongDesc": "This cute bra has tiny white &#9825; on it and a delicate little bow in the middle.",
                 "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl" ]
             },
-            "cute pink panties": {
+            "cute pink panties": { // 5
                 "Name": "cute pink panties", "ShortDesc": "a pair of cute {COLOR} pink panties",
                 "LongDesc": "On the surface these cute pink panties look quite demure, but they have 'I @@color:pink;&#9825;@@ Daddy!' written across the backside.",
                 "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 200, "Style": "RARE", "Type" : "CLOTHING",
@@ -416,6 +469,12 @@ window.App.Data.Clothes = {
                     "Sailing"       : [10,0,0]
                     },
                 "Category" :  [ "Pirate Slut" ]
+            },
+            "pistol brace": { // 9
+                "Name": "pistol brace", "ShortDesc": "a {COLOR} leather pistol brace",
+                "LongDesc": "More of a belt than anything else, it can hold pistols if you find any.",
+                "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
+                "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -20, 10], "Swashbuckling" : [ 10, 0, 0 ]}, "Category" :  [ "Pirate Slut", "BDSM" ]
             },
             "fishnet tights": { // 10
                 "Name": "fishnet tights", "ShortDesc": "a pair of {COLOR} fishnet stockings",
@@ -471,6 +530,43 @@ window.App.Data.Clothes = {
                 "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
             },
+// BDSM
+            "nipple rings": { // 9
+                "Name": "nipple rings", "ShortDesc": "a pair of silver nipple rings joined by a chain",
+                "LongDesc": "These rings are connected by a chain that is designed to torment and tug on the wearers nipples.",
+                "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "silver", "Price": 150, "Style": "RARE", "Type" : "ACCESSORY",
+                "WearEffect": {"WillPower": [0, -5, 80], "Perversion": [0, 5, 30]}, "Category" :  [ "BDSM" ]
+            },
+            "nipple clamps": { // 6
+                "Name": "nipple clamps", "ShortDesc": "a pair of silver nipple clamps",
+                "LongDesc": "These sterling silver nipple clamps are designed to inflict punishment... or perhaps arousal?",
+                "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "silver", "Price": 100, "Style": "UNCOMMON", "Type" : "ACCESSORY",
+                "WearEffect": {"WillPower": [0, -5, 80], "Perversion": [0, 5, 30]}, "Category" :  [ "BDSM" ]
+            },
+            "training corset": { // 10
+                "Name": "training corset", "ShortDesc": "a whale boned {COLOR} training corset",
+                "LongDesc": "This garment borders on a torture device. It's designed to slim and shape a woman's waist and push up her bust.",
+                "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200, "Style": "UNCOMMON", "Type" : "ACCESSORY",
+                "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -20, 10]}, "Category" :  [ "BDSM" ]
+            },
+            "bondage corset": { // 15
+                "Name": "bondage corset", "ShortDesc": "a steel boned {COLOR} leather bondage corset",
+                "LongDesc": "This corset is made of strong leather and boned with steel. It has various straps and locks to ensure it must be worn at all times.",
+                "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 400, "Style": "RARE", "Type" : "ACCESSORY",
+                "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -25, 0]}, "Category" :  [ "Pirate Slut", "BDSM" ]
+            },
+            "shiny knee boots": { // 10
+                "Name": "shiny knee boots", "ShortDesc": "a shiny pair of high heeled knee-high {COLOR} leather boots",
+                "LongDesc": "These fashionable leather boots are polished to a shine. Very tall and slightly intimidating.",
+                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
+                "WearEffect": {"Femininity": [0, 8, 40]}, "Category" :  [ "Pirate Slut", "BDSM" ]
+            },
+            "large plug": { // 9
+                "Name": "large plug", "ShortDesc": "a thick {COLOR} anal plug",
+                "LongDesc": "The perfect accessory for the horny masochist, or just good for keeping your arse ready to be used.",
+                "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
+                "WearEffect": {"Perversion": [0, 10, 70], "AssFucking" : [10, 10, 80]}, Category : [ "BDSM" ]
+            },
 // Other Styles
             "cheap wig": {
                 "Name": "cheap wig", "ShortDesc": "a short {COLOR} wig",
@@ -511,18 +607,6 @@ window.App.Data.Clothes = {
                 "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Price": 200, "Style": "COMMON", "Type" : "ACCESSORY", "Locked": 1,
                 "WearEffect": {"WillPower": [0, -5, 50], "Perversion": [0, 5, 30]}
             },
-            "nipple clamps": {
-                "Name": "nipple clamps", "ShortDesc": "a pair of silver nipple clamps",
-                "LongDesc": "These sterling silver nipple clamps are designed to inflict punishment... or perhaps arousal?",
-                "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "silver", "Price": 100, "Style": "COMMON", "Type" : "ACCESSORY",
-                "WearEffect": {"WillPower": [0, -5, 80], "Perversion": [0, 5, 30]}
-            },
-            "nipple rings": {
-                "Name": "nipple rings", "ShortDesc": "a pair of silver nipple rings joined by a chain",
-                "LongDesc": "These rings are connected by a chain that is designed to torment and tug on the wearers nipples.",
-                "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "silver", "Price": 150, "Style": "COMMON", "Type" : "ACCESSORY",
-                "WearEffect": {"WillPower": [0, -5, 80], "Perversion": [0, 5, 30]}
-            },
             "chemise": {
                 "Name": "chemise", "ShortDesc": "a plain {COLOR} cotton chemise",
                 "LongDesc": "A brief slip designed to cover the breasts under clothes. Not very supportive at all.",
@@ -544,20 +628,8 @@ window.App.Data.Clothes = {
             "fashion corset": {
                 "Name": "fashion corset", "ShortDesc": "a tightly bound {COLOR} silk and lace corset",
                 "LongDesc": "This corset is made from silk and lace, more fashionable than functional, but it still tightly binds your waist and lifts your breasts.",
-                "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200,"Style": "COMMON", "Type" : "ACCESSORY",
+                "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200,"Style": "UNCOMMON", "Type" : "ACCESSORY",
                 "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -10, 17]}
-            },
-            "training corset": {
-                "Name": "training corset", "ShortDesc": "a whale boned {COLOR} training corset",
-                "LongDesc": "This garment borders on a torture device. It's designed to slim and shape a woman's waist and push up her bust.",
-                "Slot": "Corset", "Restrict": ["Corset"], "Color": "white", "Price": 200, "Style": "COMMON", "Type" : "ACCESSORY",
-                "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -20, 10]}
-            },
-            "bondage corset": {
-                "Name": "bondage corset", "ShortDesc": "a steel boned {COLOR} leather bondage corset",
-                "LongDesc": "This corset is made of strong leather and boned with steel. It has various straps and locks to ensure it must be worn at all times.",
-                "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 400, "Style": "COMMON", "Type" : "ACCESSORY",
-                "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -25, 0]}
             },
             "cotton bloomers": {
                 "Name": "cotton bloomers", "ShortDesc": "a pair of {COLOR} cotton bloomers",
@@ -587,12 +659,6 @@ window.App.Data.Clothes = {
                 "Name": "worn boots", "ShortDesc": "a worn pair of {COLOR} boots",
                 "LongDesc": "These boots are decidedly ugly. More functional than fashionable.",
                 "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "brown", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING"
-            },
-            "knee boots": {
-                "Name": "knee boots", "ShortDesc": "a pair of knee-high {COLOR} leather heeled boots",
-                "LongDesc": "These fashionable leather boots go with almost any outfit.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 8, 40]}
             },
             "short heels": {
                 "Name": "short heels", "ShortDesc": "a pair of short {COLOR} heels",
@@ -695,12 +761,6 @@ window.App.Data.Clothes = {
                 "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]},
                 "SkillBonus": {"Cooking": [20, 20, 0], "Cleaning": [20, 20, 0]}
             },
-            "large plug": {
-                "Name": "large plug", "ShortDesc": "a large {COLOR} butt plug",
-                "LongDesc": "This large butt plug can be worn in your ass to help loosen your sissy hole for use.",
-                "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Price": 200, "Style": "COMMON", "Type" : "ACCESSORY",
-                "WearEffect": {"Perversion": [0, 10, 40], "AssFucking": [0, 20, 30]}
-            },
             "cat tail": {
                 "Name": "cat tail", "ShortDesc": "a long furry {COLOR} cat tail anal plug",
                 "LongDesc": "This large anal plug has a long furry cat tail attached to it. Wearing it will loosen your asshole and probably attract animal lovers.",
@@ -764,22 +824,44 @@ window.App.Data.Cosmetics = {
             }
         };
 
-// BOX TYPE     MINIMUM     BONUS ROLL
-// COMMON       0           0
-// UNCOMMON     20          10
-// RARE         30          20
-// LEGENDARY    50          30
+// BOX TYPE     MINIMUM     BONUS ROLL  COLOR
+// COMMON       0           0           grey
+// UNCOMMON     20          10          lime
+// RARE         30          20          cyan
+// LEGENDARY    50          30          orange
 window.App.Data.LootBoxes = {
     "common sissy loot box": {
-        "Name": "cute pink loot box",
-        "ShortDesc": "@@color:pink;A cute pink loot box@@",
-        "LongDesc": "This small pink box sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
-        "Message": "With unrestrained passion you tear open the loot box to find...\n\n",
+        "Name": "common sissy chest",
+        "ShortDesc": "@@color:grey;A small gift box shaped like a treasure chest@@",
+        "LongDesc": "This small pink treasure chest sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
+        "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
         "Type": "LOOT_BOX",
         "Charges": 1,
         // Effect : [ TABLE, Minimum Roll, Bonus to roll
         "UseEffect": { "LootBox": ["SISSY_BIMBO", 0, 0]},
-        "Price": 1
+        "Price": 0
+    },
+    "uncommon pirate loot box": {
+        "Name": "uncommon pirate chest",
+        "ShortDesc": "@@color:lime;A studded iron treasure chest emblazoned with a skull and bones@@",
+        "LongDesc": "This treasure chest is banded and studded with iron rivets. It has a white skull and bones on its top and smells faintly of the sea.",
+        "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+        "Type": "LOOT_BOX",
+        "Charges": 1,
+        // Effect : [ TABLE, Minimum Roll, Bonus to roll
+        "UseEffect": { "LootBox": ["PIRATE_BDSM", 20, 10]},
+        "Price": 0
+    },
+    "common food loot box": {
+        "Name": "common food chest",
+        "ShortDesc": "@@color:grey;A small crate used for storing foodstuff@@",
+        "LongDesc": "This small crate looks rather shoddy and the contents rattle when you shake it.",
+        "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+        "Type": "LOOT_BOX",
+        "Charges": 1,
+        // Effect : [ TABLE, Minimum Roll, Bonus to roll
+        "UseEffect": { "LootBox": ["FOOD", 0, 0]},
+        "Price": 0
     }
 };
 
