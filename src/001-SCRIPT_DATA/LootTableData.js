@@ -80,7 +80,7 @@ window.App.Data.LootTables =
         ] },
     30 :  {
         "LOOT" : [
-            { "TYPE": "FOOD", "QTY": 6, "TAG" : "cheep wine"  },
+            { "TYPE": "FOOD", "QTY": 6, "TAG" : "cheap wine"  },
             { "TYPE": "FOOD", "QTY": 2, "TAG" : "bread and cheese"}
         ] },
     40 :  {

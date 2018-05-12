@@ -100,6 +100,27 @@ window.App.JobEngine = new function() {
         return (this.GetAvailableJobs(Player, Giver).length != 0) || (this.GetUnavailableJobs(Player,Giver).length != 0);
     };
 
+    /**
+     * @param {App.Entity.Player} Player
+     * @param {string} Flag
+     * @returns {boolean}
+     */
+
+    this.HasJobFlag = function(Player, Flag)
+    {
+        return Player.JobFlags.hasOwnProperty(Flag) != false;
+    };
+
+    /**
+     * @param {App.Entity.Player} Player
+     * @param {string} Flag
+     * @param {*} Value
+     */
+    this.SetJobFlag = function(Player, Flag, Value)
+    {
+      Player.JobFlags[Flag] = Value;
+    };
+
     //this.Init(window.App.Data.JobData);
 };
 

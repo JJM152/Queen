@@ -72,7 +72,8 @@ window.App.Entity.Player = function (){
             "Costume":          0,
             "Shoes":            window.App.Item.Factory("CLOTHES", "worn boots"),
             "Butt":             0,
-            "Penis":            window.App.Item.Factory("CLOTHES", "chastity cage")
+            "Penis":            window.App.Item.Factory("CLOTHES", "chastity cage"),
+            "Weapon":           0
         };
 
         this.NPCS = {
@@ -716,6 +717,7 @@ window.App.Entity.Player = function (){
 
     this.AdjustXP = function (Type, StatName, Amount, Limiter) {
         Amount = Math.ceil(Amount); // No floats.
+        console.debug("AdjustXP: Type="+Type+",Stat="+StatName+",Amount="+Amount+",Limit="+Limiter);
 
         if ((Amount > 0) && (this.GetStat(Type, StatName) >= Limiter) && (Limiter != 0)) return;
         if ((Amount < 0) && (this.GetStat(Type, StatName) <= Limiter) && (Limiter != 0)) return;
@@ -728,6 +730,7 @@ window.App.Entity.Player = function (){
         if (Type == "SKILL") this.SkillsXP[StatName] += Amount;
         if (Type == "BODY")  this.BodyXP[StatName] += Amount;
 
+        console.debug("AdjustXP: Adjusted by "+Amount);
     };
 
     this.AdjustStatXP = function (StatName, Amount, Limiter) {
@@ -947,7 +950,7 @@ window.App.Entity.Player = function (){
      */
     this.OwnsWardrobeItem = function(ItemDict)
     {
-        if (ItemDict["TYPE"] != "CLOTHES") return false;
+        if ((ItemDict["TYPE"] != "CLOTHES") || (ItemDict["TYPE"] != "WEAPON")) return false;
         if (this.Wardrobe.filter( function(o){return o.Name() == ItemDict["TAG"];}).length > 0 ) return true;
         var Slot = window.App.Data.Clothes[ItemDict["TAG"]]["Slot"];
         if ((this.Equipment[Slot] === undefined) || (this.Equipment[Slot] == 0)) return false;
@@ -1114,7 +1117,7 @@ window.App.Entity.Player = function (){
 
         var Item = window.App.Item.Factory(Category, Name, Count);
 
-        if (Category == "CLOTHES") {
+        if (Category == "CLOTHES" || Category == "WEAPON" ) {
             this.Wardrobe.push(Item);
             if (Opt == "WEAR") this.Wear(Item);
             return;
@@ -1166,8 +1169,6 @@ window.App.Entity.Player = function (){
             } else if (prop == "AddItem") {
                 this.AddItem(Effects[prop][0], Effects[prop][1], Effects[prop][2]);
             }
-
-            return "";
         }
     };
 
