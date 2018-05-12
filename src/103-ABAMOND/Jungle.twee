@@ -4,9 +4,11 @@ flow over your senses. Off in the distance you can make out the path back to the
 looms ahead.
 
 <<set _JE = window.App.JobEngine; >>\
-<<if (_JE.HasJobFlag($Player, "RUINS_FOUND") == false || _JE_HasJobFlag($Player, "COVE_FOUND") == false) && $Player.GetItemByName("worn machete") !== 'undefined'>>\
-With the @@color;purple:worn machete@@ in your hands, you could hack a path through the underbrush if you wanted to.
+<<if (_JE.HasJobFlag($Player, "RUINS_FOUND") == false || _JE.HasJobFlag($Player, "COVE_FOUND") == false) && $Player.IsEquipped("worn machete")>>\
+With the @@color:purple;worn machete@@ in your hands, you could hack a path through the underbrush if you wanted to.
 
 <<jobLinks "JUNGLE" 1>>
 <</if>>\
-@@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[Hidden Cove|HiddenCove]] | [[Into the Ruins|Ruins]]
+@@color:lime;Travel@@: [[Lonely Pier|Abamond]] \
+<<if _JE.HasJobFlag($Player, "COVE_FOUND")>>| [[Hidden Cove|HiddenCove]] <</if>>\
+<<if _JE.HasJobFlag($Player, "RUINS_FOUND")>>| [[Into the Ruins|Ruins]]<</if>>

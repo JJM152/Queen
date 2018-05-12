@@ -401,6 +401,9 @@ window.App.Job = function(Data) {
                         ReqString = "@@color:red;Missing item '" + Name + "' x" + Value + "@@";
                     }
                     break;
+                case "EQUIPPED":
+                    return Player.IsEquipped(Name);
+                    break;
                 case "STYLE_CATEGORY":
                     if (this._Cmp( Player.GetStyleSpecRating(Name), Value, Condition) == false ){
                         StatusFlag = false;

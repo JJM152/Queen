@@ -1,6 +1,6 @@
-window.App = window.App || { Data: { }, Entity: { } };
+App = App || { Data: { }, Entity: { } };
 
-window.App.Item = new function() {
+App.Item = new function() {
 
         this.Factory = function(Type, Name, Count) {
 
@@ -41,7 +41,6 @@ window.App.Item = new function() {
         };
 
     /**
-     *
      * @param ItemID {string}
      * @param Player {App.Entity.Player}
      * @returns {string}
@@ -54,11 +53,16 @@ window.App.Item = new function() {
             var Minimum = Effect[1];
             var Bonus = Effect[2];
             var DiceRoll    = Math.floor(Math.random() * 100);
-            var Table = window.App.Data.LootTables[Type];
+            var Table = App.Data.LootTables[Type];
             var output = "";
 
             console.log("DoLootBox: Type="+Type+", Minimum="+Minimum+", Bonus="+Bonus);
             DiceRoll = ( DiceRoll + Bonus) < Minimum ? Minimum : (DiceRoll + Bonus);
+
+            if (Player.HasHex("TREASURE_FINDER")) {
+                DiceRoll += Player.VoodooEffects["TREASURE_FINDER"];
+                Player.RemoveHex("TREASURE_FINDER");
+            }
 
             for (var prop in Table) {
                 if (!Table.hasOwnProperty(prop)) continue;
