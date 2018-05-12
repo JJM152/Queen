@@ -99,26 +99,36 @@ window.App.Data.NPCS = {
                     "hair is still full and he sports a salt-and-pepper colored beard."
             },
             "Petey" : {
-                "Name": "Petey O'Bannon",
+                "Name": "Petey",
                 "Mood": 40,
                 "Wealth": 40,
                 "DailyMood": 0,
                 "Lust": 40,
                 "DailyLust": 10,
-                "Title": "NPC_NAME, 'Re-purposed Goods Specialist'",
+                "Title": "NPC_NAME O'Bannon, 'Re-purposed Goods Specialist'",
                 "LongDesc": "NPC_NAME is a friendly looking middle aged man with a shock of red hair and a heavy smattering of freckles across his face. He's always game to make a deal or a trade, or just serve up a cold ale.",
                 "Store": "SMUGGLERS"
             },
             "Georgina" : {
-                "Name": "Georgina Littlehales",
+                "Name": "Georgina",
                 "Mood": 40,
                 "Wealth": 40,
                 "DailyMood": 0,
                 "Lust": 40,
                 "DailyLust": 10,
-                "Title": "NPC_NAME, Bar Wench",
+                "Title": "NPC_NAME Littlehales, Bar Wench",
                 "LongDesc": "NPC_NAME is an older, but still attractive woman, with long flowing black hair and a truly stupendous bust that is only enhanced by her corseted dress. She can usually be found busily tending to orders, or just casually chatting up a regular.",
                 "Store": "PEACOCK"
+            },
+            "Paola" : {
+                "Name": "Paola",
+                "Mood": 40,
+                "Wealth": 40,
+                "DailyMood": 0,
+                "Lust": 40,
+                "DailyLust": 10,
+                "Title": "NPC_NAME St. Marie, Voodoo Priestess",
+                "LongDesc": "This intimidatingly tall black woman is dressed in an odd assortment of coloured cloth and garish jewelry. Her pendulous breasts jiggle and shake in their attempt to free themselves from the confines of her loose tube-top whenever she breaks out into a hearty laugh.",
             }
 };
 

@@ -1,10 +1,10 @@
-window.App = window.App || { Data: { }, Entity: { } };
+App = App || { Data: { }, Entity: { } };
 
 /**
  * The basic player object.
  * @constructor
  */
-window.App.Entity.Player = function (){
+App.Entity.Player = function (){
     // Player Basic Variables
     this.OriginalName = "Joseph";
     this.SlaveName = "Josie";
@@ -25,6 +25,7 @@ window.App.Entity.Player = function (){
     this.debugMode = false;
 
     this.JobFlags = { };
+    this.VoodooEffects = { };
     this.QuestFlags = { "Q001": "ACTIVE" }; // Default Quest.
 
     this.History = {
@@ -1001,6 +1002,20 @@ window.App.Entity.Player = function (){
         return this.Equipment[Slot];
     };
 
+    /**
+     * Search equipped items
+     * @param {string} Name
+     * @returns {boolean}
+     */
+    this.IsEquipped = function(Name) {
+        for (var prop in this.Equipment) {
+            if (!this.Equipment.hasOwnProperty(prop)) continue;
+            if (this.Equipment[prop] == 0) continue;
+            if (this.Equipment[prop].Name() == Name) return true;
+        }
+        return false;
+    };
+
     this.Wear = function (item) {
         for (var i = 0; i < item.Restrict().length; i++) this.Remove(this.Equipment[item.Restrict()[i]]);
         this.Equipment[item.Slot()] = item;
@@ -1207,5 +1222,23 @@ window.App.Entity.Player = function (){
         var t = this.GetHistory(Type, Flag);
         this.History[Type][Flag] = (t + Amount);
     };
+
+// Voodoo
+    /**
+     * @param {string} Hex
+     * @returns {boolean}
+     */
+    this.HasHex = function(Hex) {
+        return this.VoodooEffects.hasOwnProperty(Hex) != false;
+    };
+
+    this.SetHex = function(Hex, Value) {
+        this.VoodooEffects[Hex] = Value;
+    };
+
+    this.RemoveHex = function(Hex) {
+        delete this.VoodooEffects[Hex];
+    };
+
 };
 
