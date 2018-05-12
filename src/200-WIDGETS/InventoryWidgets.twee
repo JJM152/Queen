@@ -75,7 +75,7 @@
 	<td colspan=2><h3>@@color:yellow;Inventory - Potions and Drugs@@</h3></td>
 	<td colspan=2 style="text-align:right"><<click "Food">>
 		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
-	<</click>> | @@color:grey;Potions@@ | <<click "Quest">>
+	<</click>> | @@color:grey;Potions@@ | <<click "Quest & Loot">>
 		<<replace "#InventoryUI">><<InventoryTable "quest">><</replace>>
 	<</click>></td>
 <<else>>
