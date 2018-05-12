@@ -11,6 +11,7 @@ window.App.Item = new function() {
             if (Type == "FOOD") d = window.App.Data.Food[Name];
             if (Type == "COSMETICS") d = window.App.Data.Cosmetics[Name];
             if (Type == "CLOTHES") d = window.App.Data.Clothes[Name];
+            if (Type == "WEAPON") d = window.App.Data.Clothes[Name];
             if (Type == "STORE") d = window.App.Data.Stores[Name];
 			if (Type == "NPC") d = window.App.Data.NPCS[Name];
             if (Type == "QUEST") d = window.App.Data.QuestItems[Name];
@@ -18,8 +19,9 @@ window.App.Item = new function() {
 
             if (d == 0 || (typeof d === 'undefined')) alert("Factory Failed: (" + Type + "," + Name + "," + Count + ")");
 
-
+            // might change this in the future, for now weapons are "clothing"
             if (Type == "CLOTHES") o = new this.Clothing(d);
+            if (Type == "WEAPON") o = new this.Clothing(d);
 
 			if (Type == "NPC") o = new window.App.Entity.NPC(d);
 
@@ -158,6 +160,7 @@ window.App.Item = new function() {
 // ACCESSORY    3       6           9       12
 // CLOTHING     5       10          15      20
 // ONE PIECE    10      20          30      40
+            /** @returns {number} */
             this.Style = function () {
                 var bonus = {
                     "ACCESSORY" : { "COMMON" : 3, "UNCOMMON" : 6, "RARE" : 9, "LEGENDARY" : 12 },
@@ -165,6 +168,7 @@ window.App.Item = new function() {
                     "ONE PIECE" : { "COMMON" : 10, "UNCOMMON" : 20, "RARE" : 30, "LEGENDARY" : 40 }
                 };
 
+                if (this.Type() == "WEAPON") return 0;
                 return bonus[this.Type()][this.o["Style"]];
             };
             /**

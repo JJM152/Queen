@@ -327,6 +327,13 @@ The style and fashion of your clothing is <<= window.App.PR.pClothing($Player) >
 	<td><<WearingChange "Penis">></td>
 	<td><<WearingRemove "Penis">></td>
 </tr>
+<tr>
+    <td><<wlink "Weapon">></td>
+	<td><<= $Player.PrintEquipment("Weapon") >></td>
+	<td><<WearingExa "Weapon">></td>
+	<td><<WearingChange "Weapon">></td>
+	<td><<WearingRemove "Weapon">></td>
+</tr>
 </tbody>
 </table>
 <</nobr>><</widget>>

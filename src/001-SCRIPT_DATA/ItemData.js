@@ -837,6 +837,13 @@ window.App.Data.Clothes = {
                 "LongDesc": "This dainty little ribbon is meant to be tied on a sissy clit for decoration.",
                 "Slot": "Penis", "Restrict": ["Penis"], "Color": "pink", "Price": 300, "Style": "COMMON", "Type" : "ACCESSORY",
                 "WearEffect": {"Femininity": [0, 10, 30]}
+            },
+// Weapons
+            "worn machete": {
+                "Name": "worn machete", "ShortDesc": "@@color:purple;a well worn machete@@",
+                "LongDesc": "This large blade is 32cm long and has a slightly curved angle to it. It's not really a knife, but more like an axe. In a fight you could use it similar to a short sword.",
+                "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Price": 200, "Style": "NONE", "Type" : "WEAPON",
+                "WearEffect": { }
             }
         };
 
@@ -939,4 +946,5 @@ window.App.Data.QuestItems = {
             "LongDesc": "This leather portfolio is bound with string and contains numerous drawings of naked women engaged in various acts of fornication using all sorts of implements. You wonder why this was at the bottom of your girlfriends closet?",
             "Type": "QUEST"
         }
+
 };

@@ -1,2 +1,12 @@
 :: Jungle
+The jungles of Abamond are dark, luscious and imposing. All around you the sounds and scents of the untamed wilderness seem to \
+flow over your senses. Off in the distance you can make out the path back to the @@color:gold;'Lonely Pier'@@ and the dark jungle \
+looms ahead.
+
+<<set _JE = window.App.JobEngine; >>\
+<<if (_JE.HasJobFlag($Player, "RUINS_FOUND") == false || _JE_HasJobFlag($Player, "COVE_FOUND") == false) && $Player.GetItemByName("worn machete") !== 'undefined'>>\
+With the @@color;purple:worn machete@@ in your hands, you could hack a path through the underbrush if you wanted to.
+
+<<jobLinks "JUNGLE" 1>>
+<</if>>\
 @@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[Hidden Cove|HiddenCove]] | [[Into the Ruins|Ruins]]
