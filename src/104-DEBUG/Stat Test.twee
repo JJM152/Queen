@@ -1,4 +1,4 @@
 :: Stat Test
 [[Hormones to 100|Stat Test][$Player.CoreStats["Hormones"] to 100]] | [[Next Day|Stat Test][$Player.NextDay();]]
 [[Cabin]] | [[IslaHarbor]] | [[GoldenIsle]] | [[Abamond]] | [[PortRoyale]] | [[PassageTest]]
-[[HiddenCove]]
+[[HiddenCove]] | [[Ruins]] | [[TreasureRoom]]

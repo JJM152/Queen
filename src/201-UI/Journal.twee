@@ -9,12 +9,13 @@
 No active quests.
 <<else>>\
 <<for _i = 0; _i < _QLA.length; _i++>>\
+<<if (_QLA[_i]["JOURNAL_ENTRY"] != "HIDDEN")>>\
 <<set _NPC = $Player.GetNPC(_QLA[_i]["GIVER"]);>>\
 //<<print "[" +_NPC.pName() + " - " + _QLA[_i]["Title"] + "]";>>//
 <<print window.App.PR.pQuestDialog(_QLA[_i]["ID"], "JOURNAL_ENTRY", $Player, _NPC);>>
 <<if _QLA[_i]["CHECKS"].length != 0>>\
 <<print window.App.PR.pQuestRequirements(_QLA[_i]["ID"], $Player) + "\n";>>
-<<else>>
+<</if>>\
 <</if>>\
 <</for>>\
 <</if>>\
@@ -25,10 +26,11 @@ No completed quests.
 
 <<else>>\
 <<for _i = 0; _i < _QLC.length; _i++>>\
+<<if (_QLC[_i]["JOURNAL_COMPLETE"] != "HIDDEN")>>\
 <<set _NPC = $Player.GetNPC(_QLC[_i]["GIVER"]);>>\
 //<<print "[" +_NPC.pName() + " - "  + _QLC[_i]["Title"] + "]";>>//
 <<print window.App.PR.pQuestDialog(_QLC[_i]["ID"], "JOURNAL_COMPLETE", $Player, _NPC);>>
-
+<</if>>
 
 <</for>>\
 <</if>>

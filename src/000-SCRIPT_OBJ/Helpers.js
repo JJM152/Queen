@@ -313,6 +313,11 @@ window.App.PR = new function() {
                         Val = ((Player.GetHairColor() == Name) == checks[i]["VALUE"]);
                         pString = "Hair color - "+Name;
                         break;
+                    case "QUEST_ITEM":
+                        bMeter = false;
+                        pString = App.Data.QuestItems[Name]["ShortDesc"];
+                        Val = (typeof Player.GetItemByName(Name) !== 'undefined');
+                        break;
                 }
 
                 if (bMeter == true) {

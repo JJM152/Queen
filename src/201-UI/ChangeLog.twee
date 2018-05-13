@@ -1,6 +1,42 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
 
+!!!0.3 - 05/13/2018
+!!!!General
+* Added 'Loot Boxes' to the game. They can be awarded from quests, or from doing certain jobs well. Opening them up will give you a random reward.
+* Loot boxes can now be found in your inventory under Quest & Loot
+* Refactored the source code in github to make adding quests, jobs easier to maintain.
+* Added some food, sissy and pirate loot boxes to the game (look for them at certain npcs that have jobs)
+* Added a 'WEAPON' slot to the player. Weapons can be equipped in the wardrobe like normal equipment.
+* More items added to gain.
+* Gothic lolita outfit descriptions provided by @@color:deepPink;littleslavegirl@@.
+* Added a text passage for winning the game with low power by @@color:deepPink;mightyakira@@.
+* Enhancements to job engine and quest engine to support increased complexity.
+* Many bug fixes!
+
+!!!!Salty Mermaid
+* Loot Box at the Captain's whoring job.
+* Loot Box at the Galley (helping out)
+
+!!!!Isla Harbor
+* Added two new quests to Bosun.
+* Loot box at the Mascot job.
+
+!!!!Abamond
+* You can now explore the jungle, assuming you have a tool that will let you clear the foliage.
+* The hidden cove now has a resident, Paola St. Marie. She is a voodoo priestess and has a fetch quest and some special services (hexes).
+* Added quest to Paola St. Marie.
+* Added descriptions for the Ruins and Treasure room (nothing interactive yet).
+
+!!!!Golden Isle
+* Added Docks, Smugglers Den.
+* Added Portside description and General Store (Golden Goods).
+
+!!!!Port Royale
+* Added descriptions to the Shipwright, Fortune Teller and Lusty Lass.
+* You can whore at the Lusty Lass. The customers pay more.
+
+
 !!!0.2 - 05/09/2018
 !!!!General
 * Rounding bug with Journal quest tracker fixed.
@@ -14,7 +50,7 @@
 * Reduced quest requirements for the 'Build a Better Bimbo' chain.
 * Reduced bust requirement for First Mate whoring job.
 * Hide game status panel during intro.
-* Added examine item button to store (thanks dcancer for github contribution)
+* Added examine item button to store (thanks @@color:deepPink;dcancer@@ for github contribution)
 
 !!!!Isla Harbor
 * Added Waitress Job to tavern.
