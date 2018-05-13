@@ -81,6 +81,11 @@ window.App.QuestEngine = new function() {
             case "HAIR_COLOR":
                 if ( (Player.GetHairColor() == Key) != Value) return false;
                 break;
+            case "QUEST_ITEM":
+                var o = Player.GetItemByName(Key);
+                if (typeof o === 'undefined') return false;
+                if (o.Charges() < Value ) return false;
+                break;
 
         }
         return true;
@@ -109,9 +114,10 @@ window.App.QuestEngine = new function() {
      */
     this.CompleteQuest = function (Player, QuestID, ChoiceItem) {
         Player.QuestFlags[QuestID] = "COMPLETED";
-        var r = window.App.Data.Quests[QuestID]["REWARD"];
-        var p = window.App.Data.Quests[QuestID]["POST"];
-        var i = 0;
+        var r = App.Data.Quests[QuestID]["REWARD"];
+        var p = App.Data.Quests[QuestID]["POST"];
+        var c = App.Data.Quests[QuestID]["CHECKS"];
+        var i;
 
         for (i = 0; i < r.length; i++) {
             if (r[i]["REWARD_TYPE"] != "ITEM_CHOICE") {
@@ -121,10 +127,52 @@ window.App.QuestEngine = new function() {
             }
         }
 
-        for (i = 0; i < p.length; i++) Player.QuestFlags[p[i]["NAME"]] = p[i]["VALUE"];
+        for (i = 0; i < p.length; i++) this._DoTriggers(p[i], Player);
+
+        for (i = 0; i < c.length; i++) {
+            if (c[i]["TYPE"] == 'QUEST_ITEM') {
+                var o = Player.GetItemByName(c[i]["NAME"]);
+                if (o !== 'undefined' ) Player.DeleteItem(o);
+            }
+        }
+    };
+
+    /**
+     * Accept the quest and process triggers.
+     * @param {App.Entity.Player} Player
+     * @param {string} QuestID
+     */
+    this.AcceptQuest = function ( Player, QuestID) {
+        this.SetQuestFlag(Player, QuestID, "ACTIVE");
+        if (App.Data.Quests[QuestID].hasOwnProperty("ON_ACCEPT")) {
+            var a = App.Data.Quests[QuestID]["ON_ACCEPT"];
+            for (var i = 0; i < a.length; i++) this._DoTriggers(a[i], Player);
+        }
 
     };
 
+    /**
+     * Do stuff
+     * @param {*} postCheck
+     * @param {App.Entity.Player} Player
+     * @private
+     */
+    this._DoTriggers = function( postCheck, Player ) {
+        var Type, Name, Value;
+        Type  = postCheck["TYPE"];
+        Name  = postCheck["NAME"];
+        Value = postCheck["VALUE"];
+
+        switch(Type) {
+            case 'QUEST_FLAG':
+                Player.QuestFlags[Name] = Value;
+                break;
+            case 'JOB_FLAG':
+                Player.JobFlags[Name] = Value;
+                break;
+        }
+
+    };
     /**
      * Gives a reward to a player.
      * @param {App.Entity.Player} Player
@@ -188,15 +236,28 @@ window.App.QuestEngine = new function() {
     this.QuestAvailable = function (Player, QuestID) {
         if ((this.QuestCompleted(Player, QuestID) == true) || (this.QuestActive(Player, QuestID) == true)) return false;
         var PRE = window.App.Data.Quests[QuestID]["PRE"];
-        for (var i = 0; i < PRE.length; i++)
-            if (!this.QuestCompleted(Player, PRE[i])) return false;
+        var Type, Name, Value;
+
+        for (var i = 0; i < PRE.length; i++) {
+            Type    = PRE[i]["TYPE"];
+            Name    = PRE[i]["NAME"];
+            Value   = PRE[i]["VALUE"];
+
+            switch(Type) {
+                case "QUEST_FLAG":
+                    if (typeof Player.QuestFlags[Name] === 'undefined') return false;
+                    return (Player.QuestFlags[Name] == Value);
+                break;
+            }
+        }
+
         return true;
     };
 
     /**
      * Returns if the quest has been completed.
      * @param {App.Entity.Player} Player
-     * @param {string} QuestID
+     * @param {*} QuestID
      * @returns {boolean}
      */
     this.QuestCompleted = function (Player, QuestID) {

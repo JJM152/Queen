@@ -1,7 +1,7 @@
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
-App.Data.JobData["PEACOCK_WAITRESS"] = {
+App.Data.JobData["ISLA_MASCOT"] = {
     "ID": "ISLA_MASCOT", "TITLE": "Store Mascot", "GIVER": "IslaShopKeeper", "PAY" : 40,
     "RATING" : 3, // of 5
     "PHASES" : [ 1, 2, 3 ],

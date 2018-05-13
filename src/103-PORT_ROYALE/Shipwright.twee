@@ -1,2 +1,9 @@
 :: ShipWright
+The dry-docks and shipyard are here on the far end of the harbor. A large building contains the warehouse and sleeping quarters of \
+the shipwrights and various laborers that work here and to the left of that is the dry dock.
+
+There is currently no ship being built.
+
+<<NPC "Gulliver">>
+
 @@color:lime;Travel@@: [[The Docks|PortRoyale]]

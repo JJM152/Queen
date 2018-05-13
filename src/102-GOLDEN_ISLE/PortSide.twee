@@ -1,2 +1,8 @@
 :: Portside
-@@color:lime;Travel@@: [[Docks|GoldenIsle]] | [[General Goods Store|GI_GeneralGoods]] | [[The Saucy Slattern|GI_CheapBrothel]] | [[The Bazzar|Bazzar]] | [[Guard Station|GI_GuardStation]]
+The @@color:gold;'Portside District'@@ is the bustling hub of this settlement. From this location most of the amenities that the common \
+pirate or freebooter could desire can be accessed. Of particular note are two major establishments, the @@color:gold;'Golden Goods'@@ general store \
+and the @@color:gold;'Saucy Slattern'@@ brothel, that are right next to each other, conveniently so you suppose. Off in the distance you can see \
+a large arch with a sign hanging over it that says simply @@color:gold;'The Bazzar'@@ - no wonder what is in there, and further along up the hill \
+you can see a guard house that marks the check point into the more affluent @@color:gold;'High Hill District'@@
+
+@@color:lime;Travel@@: [[Docks|GoldenIsle]] | [[Golden Goods|GI_GeneralGoods]] | [[The Saucy Slattern|GI_CheapBrothel]] | [[The Bazzar|Bazzar]] | [[Guard Station|GI_GuardStation]]

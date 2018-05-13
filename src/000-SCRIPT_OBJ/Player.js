@@ -88,7 +88,13 @@ App.Entity.Player = function (){
             "Jarvis" :              window.App.Item.Factory("NPC",     "Jarvis"),
             "LordRowe":             window.App.Item.Factory("NPC",     "LordRowe"),
             "Petey":                window.App.Item.Factory("NPC",     "Petey"),
-            "Georgina":             window.App.Item.Factory("NPC",     "Georgina")
+            "Georgina":             window.App.Item.Factory("NPC",     "Georgina"),
+            "Paola":                window.App.Item.Factory("NPC",     "Paola"),
+            "Steve":                window.App.Item.Factory("NPC",     "Steve"),
+            "Gulliver":             window.App.Item.Factory("NPC",     "Gulliver"),
+            "Blanche":              window.App.Item.Factory("NPC",     "Blanche"),
+            "Simone":               window.App.Item.Factory("NPC",     "Simone"),
+            "LustyLassCustomers":   window.App.Item.Factory("NPC",     "LustyLassCustomers")
         };
 
         /**
@@ -108,7 +114,8 @@ App.Entity.Player = function (){
             "ISLATAVERN":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "ISLASTORE":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "SMUGGLERS":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
+            "PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "GOLDEN_GOODS":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
         };
     };
 

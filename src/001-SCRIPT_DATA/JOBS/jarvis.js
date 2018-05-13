@@ -34,7 +34,7 @@ App.Data.JobData["JARV01"] =  {
             "RESULTS" : [
                 {"A":  25, "TEXT": "NPC_NAME seems to sober up momentarily and he gives you a weary look. Was that a @@little bit too much@@ perhaps?"},
                 {"A":  50, "TEXT": "You're not entirely confident, but you think you @@did a good enough job@@ getting NPC_NAME ready to go."},
-                {"A": 500, "TEXT": "You are surprised by @@how easily it is@@ to turn this old goat on. You feel his cock practically surge in your hand and hear his breath hitch in his throat."}
+                {"A": 500, "TEXT": "You are @@surprised by how easy@@ it is to turn this old goat on. You feel his cock practically surge in your hand and hear his breath hitch in his throat."}
             ],
             "END" : "Without warning he grabs one of your turgid nipples and gives it a firm twist, causing you to gasp out loud. A wicked grin comes across his face and he roughly pushes you down to your knees. It's obvious what he wants."
         },

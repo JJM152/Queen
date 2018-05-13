@@ -669,6 +669,11 @@ window.App.PR = new function() {
                         Val = ((Player.GetHairColor() == Name) == checks[i]["VALUE"]);
                         pString = "Hair color - "+Name;
                         break;
+                    case "QUEST_ITEM":
+                        bMeter = false;
+                        pString = App.Data.QuestItems[Name]["ShortDesc"];
+                        Val = (typeof Player.GetItemByName(Name) !== 'undefined');
+                        break;
                 }
 
                 if (bMeter == true) {
@@ -2819,7 +2824,13 @@ App.Entity.Player = function (){
             "Jarvis" :              window.App.Item.Factory("NPC",     "Jarvis"),
             "LordRowe":             window.App.Item.Factory("NPC",     "LordRowe"),
             "Petey":                window.App.Item.Factory("NPC",     "Petey"),
-            "Georgina":             window.App.Item.Factory("NPC",     "Georgina")
+            "Georgina":             window.App.Item.Factory("NPC",     "Georgina"),
+            "Paola":                window.App.Item.Factory("NPC",     "Paola"),
+            "Steve":                window.App.Item.Factory("NPC",     "Steve"),
+            "Gulliver":             window.App.Item.Factory("NPC",     "Gulliver"),
+            "Blanche":              window.App.Item.Factory("NPC",     "Blanche"),
+            "Simone":               window.App.Item.Factory("NPC",     "Simone"),
+            "LustyLassCustomers":   window.App.Item.Factory("NPC",     "LustyLassCustomers")
         };
 
         /**
@@ -2839,7 +2850,8 @@ App.Entity.Player = function (){
             "ISLATAVERN":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "ISLASTORE":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "SMUGGLERS":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
+            "PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "GOLDEN_GOODS":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
         };
     };
 
@@ -4057,6 +4069,11 @@ window.App.QuestEngine = new function() {
             case "HAIR_COLOR":
                 if ( (Player.GetHairColor() == Key) != Value) return false;
                 break;
+            case "QUEST_ITEM":
+                var o = Player.GetItemByName(Key);
+                if (typeof o === 'undefined') return false;
+                if (o.Charges() < Value ) return false;
+                break;
 
         }
         return true;
@@ -4085,9 +4102,10 @@ window.App.QuestEngine = new function() {
      */
     this.CompleteQuest = function (Player, QuestID, ChoiceItem) {
         Player.QuestFlags[QuestID] = "COMPLETED";
-        var r = window.App.Data.Quests[QuestID]["REWARD"];
-        var p = window.App.Data.Quests[QuestID]["POST"];
-        var i = 0;
+        var r = App.Data.Quests[QuestID]["REWARD"];
+        var p = App.Data.Quests[QuestID]["POST"];
+        var c = App.Data.Quests[QuestID]["CHECKS"];
+        var i;
 
         for (i = 0; i < r.length; i++) {
             if (r[i]["REWARD_TYPE"] != "ITEM_CHOICE") {
@@ -4097,10 +4115,52 @@ window.App.QuestEngine = new function() {
             }
         }
 
-        for (i = 0; i < p.length; i++) Player.QuestFlags[p[i]["NAME"]] = p[i]["VALUE"];
+        for (i = 0; i < p.length; i++) this._DoTriggers(p[i], Player);
+
+        for (i = 0; i < c.length; i++) {
+            if (c[i]["TYPE"] == 'QUEST_ITEM') {
+                var o = Player.GetItemByName(c[i]["NAME"]);
+                if (o !== 'undefined' ) Player.DeleteItem(o);
+            }
+        }
+    };
+
+    /**
+     * Accept the quest and process triggers.
+     * @param {App.Entity.Player} Player
+     * @param {string} QuestID
+     */
+    this.AcceptQuest = function ( Player, QuestID) {
+        this.SetQuestFlag(Player, QuestID, "ACTIVE");
+        if (App.Data.Quests[QuestID].hasOwnProperty("ON_ACCEPT")) {
+            var a = App.Data.Quests[QuestID]["ON_ACCEPT"];
+            for (var i = 0; i < a.length; i++) this._DoTriggers(a[i], Player);
+        }
 
     };
 
+    /**
+     * Do stuff
+     * @param {*} postCheck
+     * @param {App.Entity.Player} Player
+     * @private
+     */
+    this._DoTriggers = function( postCheck, Player ) {
+        var Type, Name, Value;
+        Type  = postCheck["TYPE"];
+        Name  = postCheck["NAME"];
+        Value = postCheck["VALUE"];
+
+        switch(Type) {
+            case 'QUEST_FLAG':
+                Player.QuestFlags[Name] = Value;
+                break;
+            case 'JOB_FLAG':
+                Player.JobFlags[Name] = Value;
+                break;
+        }
+
+    };
     /**
      * Gives a reward to a player.
      * @param {App.Entity.Player} Player
@@ -4164,15 +4224,28 @@ window.App.QuestEngine = new function() {
     this.QuestAvailable = function (Player, QuestID) {
         if ((this.QuestCompleted(Player, QuestID) == true) || (this.QuestActive(Player, QuestID) == true)) return false;
         var PRE = window.App.Data.Quests[QuestID]["PRE"];
-        for (var i = 0; i < PRE.length; i++)
-            if (!this.QuestCompleted(Player, PRE[i])) return false;
+        var Type, Name, Value;
+
+        for (var i = 0; i < PRE.length; i++) {
+            Type    = PRE[i]["TYPE"];
+            Name    = PRE[i]["NAME"];
+            Value   = PRE[i]["VALUE"];
+
+            switch(Type) {
+                case "QUEST_FLAG":
+                    if (typeof Player.QuestFlags[Name] === 'undefined') return false;
+                    return (Player.QuestFlags[Name] == Value);
+                break;
+            }
+        }
+
         return true;
     };
 
     /**
      * Returns if the quest has been completed.
      * @param {App.Entity.Player} Player
-     * @param {string} QuestID
+     * @param {*} QuestID
      * @returns {boolean}
      */
     this.QuestCompleted = function (Player, QuestID) {
@@ -4506,6 +4579,57 @@ window.App.Data.NPCS = {
                 "DailyLust": 10,
                 "Title": "NPC_NAME St. Marie, Voodoo Priestess",
                 "LongDesc": "This intimidatingly tall black woman is dressed in an odd assortment of coloured cloth and garish jewelry. Her pendulous breasts jiggle and shake in their attempt to free themselves from the confines of her loose tube-top whenever she breaks out into a hearty laugh.",
+            },
+            "Steve" : {
+                "Name": "Captain Steve",
+                "Mood": 40,
+                "Wealth": 40,
+                "DailyMood": 0,
+                "Lust": 40,
+                "DailyLust": 10,
+                "Title": "NPC_NAME, Retired",
+                "LongDesc": "This older gentlemen purports to have once been a fierce pirate Captain. The 'Kracken' that hangs in his shop being one of his so called legendary conquests. Despite how dubious this claim seems, and other than the occasional tall tale, he's more or less an honest merchant - for a retired pirate.",
+                "Store" : "GOLDEN_GOODS"
+            },
+            "Gulliver" : {
+                "Name": "Gulliver",
+                "Mood": 40,
+                "Wealth": 40,
+                "DailyMood": 0,
+                "Lust": 40,
+                "DailyLust": 10,
+                "Title": "NPC_NAME, Master Shipwright",
+                "LongDesc": "A hale and hearty man in his late 30s, NPC_NAME has a broad smile and even broader shoulders. The man is infact so massively built that if you don't know his profession, you'd assume he was a soldier or pirate of some sort.",
+            },
+            "Blanche" : {
+                "Name": "Madame Blanche",
+                "Mood": 40,
+                "Wealth": 40,
+                "DailyMood": 0,
+                "Lust": 40,
+                "DailyLust": 10,
+                "Title": "NPC_NAME, Fortune Teller Extraordinaire",
+                "LongDesc": "An older woman dressed like a gypsy, with long curly black hair a pair of gigantic gold hoop earrings. You have no idea if she can really tell the future or not, but she's clearly doing her best to live up to the stereotypes.",
+            },
+            "Simone" : {
+                "Name": "Simone",
+                "Mood": 40,
+                "Wealth": 40,
+                "DailyMood": 0,
+                "Lust": 40,
+                "DailyLust": 10,
+                "Title": "'Sultry' NPC_NAME, Madame",
+                "LongDesc": "For a woman in her 40s, NPC_NAME clearly lives up to her nickname of 'Sultry'. She has a fine, voluptuous figure with heaving breasts and a pronounced arse, both of which are barely contained by her flimsy evening gown. Her bright red hair is done up in a bun, which shows off the curve of her slender neck.",
+            },
+            "LustyLassCustomers" : {
+                "Name" : "Lusty Lass Customer", // This is a place holder and not meant to be used as an actual NPC.
+                "Mood" : 50,
+                "Wealth" : 50,
+                "DailyMood" : -1,
+                "Lust" : 100,
+                "DailyLust" : 5,
+                "Title" : "Customers of the Lusty Lass",
+                "LongDesc" : "A step above the common scum you're used to spreading your arse-cheeks for."
             }
 };
 
@@ -6287,7 +6411,7 @@ window.App.Data.Clothes = {
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl" ]
             },
             "cute pink panties": { // 5
-                "Name": "cute pink panties", "ShortDesc": "a pair of cute {COLOR} pink panties",
+                "Name": "cute pink panties", "ShortDesc": "a pair of cute {COLOR} panties",
                 "LongDesc": "On the surface these cute pink panties look quite demure, but they have 'I @@color:pink;&#9825;@@ Daddy!' written across the backside.",
                 "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 200, "Style": "RARE", "Type" : "CLOTHING",
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl" ]
@@ -6300,19 +6424,19 @@ window.App.Data.Clothes = {
                 "Category" : [ "Pirate Slut" ]
             },
             "pirate boots": { //10
-                "Name": "pirate boots", "ShortDesc": "a pair of very tall thigh-high {COLOR} leather boots",
+                "Name": "pirate boots", "ShortDesc": "very tall thigh-high {COLOR} leather boots",
                 "LongDesc": "The heels on these boots are outrageously high and pointed. The supple and shiny leather comes up to your mid thigh and folds over on itself.",
                 "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
                 "Category" : [ "Pirate Slut", "BDSM" ], "WearEffect": {"Femininity": [0, 8, 40]}
             },
             "pirate bra": { //15
-                "Name": "pirate bra", "ShortDesc": "a {COLOR} push-up bra emblazoned with the skull and bones",
+                "Name": "pirate bra", "ShortDesc": "a {COLOR} push-up bra with the Jolly Roger",
                 "LongDesc": "This sexy silk bra is fringed with gold and has a skull and bones, the traditional symbol of piracy emblazoned on the right breast cup.",
                 "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
             },
             "pirate thong": { //15
-                "Name": "pirate thong", "ShortDesc": "a {COLOR} thong emblazoned with the skull and bones",
+                "Name": "pirate thong", "ShortDesc": "a {COLOR} thong with the Jolly Roger",
                 "LongDesc": "This t-back thong gently separates your arse cheeks, making them more prominent and luscious looking. It has the phrase 'Plunder my Booty' written across the rear waistband and a small skull and bones embroidered on the crotch.",
                 "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
                 "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
@@ -6434,7 +6558,7 @@ window.App.Data.Clothes = {
                 "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 60, "Style": "LEGENDARY", "Type" : "ACCESSORY",
                 "WearEffect": {"Femininity": [0, 10, 80]}, "Category" : [ "Gothic Lolita" ]
             },
-            "gothic Collar": { // 9
+            "gothic collar": { // 9
                 "Name": "Black gothic collar", "ShortDesc": " a {COLOR} ribbon-lined leather collar emblazoned with the word 'SLAVE' burned into it.",
                 "LongDesc": "A snug leather collar lined on both sides in black lace, slave is burned into the leather to remind you exactly what you are..",
                 "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Price": 50, "Style": "RARE", "Type" : "ACCESSORY",
@@ -6751,7 +6875,7 @@ window.App.Data.Cosmetics = {
 // UNCOMMON     20          10          lime
 // RARE         30          20          cyan
 // LEGENDARY    50          30          orange
-window.App.Data.LootBoxes = {
+App.Data.LootBoxes = {
     "common sissy loot box": {
         "Name": "common sissy chest",
         "ShortDesc": "@@color:grey;A small gift box shaped like a treasure chest@@",
@@ -6761,6 +6885,17 @@ window.App.Data.LootBoxes = {
         "Charges": 1,
         // Effect : [ TABLE, Minimum Roll, Bonus to roll
         "UseEffect": { "LootBox": ["SISSY_BIMBO", 0, 0]},
+        "Price": 0
+    },
+    "rare sissy loot box": {
+        "Name": "rare sissy chest",
+        "ShortDesc": "@@color:cyan;A large gift box shaped like a treasure chest@@",
+        "LongDesc": "This small pink treasure chest sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
+        "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+        "Type": "LOOT_BOX",
+        "Charges": 1,
+        // Effect : [ TABLE, Minimum Roll, Bonus to roll
+        "UseEffect": { "LootBox": ["SISSY_BIMBO", 30, 20]},
         "Price": 0
     },
     "uncommon pirate loot box": {
@@ -6784,10 +6919,21 @@ window.App.Data.LootBoxes = {
         // Effect : [ TABLE, Minimum Roll, Bonus to roll
         "UseEffect": { "LootBox": ["FOOD", 0, 0]},
         "Price": 0
+    },
+    "rare food loot box": {
+        "Name": "rare food chest",
+        "ShortDesc": "@@color:cyan;A large crate used for storing foodstuff@@",
+        "LongDesc": "This small crate looks rather shoddy and the contents rattle when you shake it.",
+        "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+        "Type": "LOOT_BOX",
+        "Charges": 1,
+        // Effect : [ TABLE, Minimum Roll, Bonus to roll
+        "UseEffect": { "LootBox": ["FOOD", 30, 20]},
+        "Price": 0
     }
 };
 
-window.App.Data.QuestItems = {
+App.Data.QuestItems = {
         "isla harbor mansion key": {
             "Name": "isla harbor mansion key",
             "ShortDesc": "@@color:purple;isla harbor mansion key@@",
@@ -6805,7 +6951,19 @@ window.App.Data.QuestItems = {
             "ShortDesc": "@@color:purple;a portfolio of pornographic drawings@@",
             "LongDesc": "This leather portfolio is bound with string and contains numerous drawings of naked women engaged in various acts of fornication using all sorts of implements. You wonder why this was at the bottom of your girlfriends closet?",
             "Type": "QUEST"
-        }
+        },
+        "smugglers rum cask": {
+            "Name": "smugglers rum cask",
+            "ShortDesc": "@@color:purple;a cask of Smuggler's Rum@@",
+            "LongDesc": "This small cask is filled with to the brim with the popular rum from the Smuggler's Den on Golden Isle.",
+            "Type": "QUEST"
+        },
+        "bag of mojo": {
+            "Name": "bag of mojo",
+            "ShortDesc": "@@color:purple;a bag of mojo@@",
+            "LongDesc": "You have no idea what's inside this bag and at this point you're too afraid to ask.",
+            "Type": "QUEST"
+            }
 
 };
 /* twine-user-script #11: "cookie.js" */
@@ -7135,7 +7293,7 @@ App.Data.JobData["COOK03"] = {
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
-App.Data.JobData["PEACOCK_WAITRESS"] = {
+App.Data.JobData["ISLA_MASCOT"] = {
     "ID": "ISLA_MASCOT", "TITLE": "Store Mascot", "GIVER": "IslaShopKeeper", "PAY" : 40,
     "RATING" : 3, // of 5
     "PHASES" : [ 1, 2, 3 ],
@@ -7403,7 +7561,7 @@ App.Data.JobData["JARV01"] =  {
             "RESULTS" : [
                 {"A":  25, "TEXT": "NPC_NAME seems to sober up momentarily and he gives you a weary look. Was that a @@little bit too much@@ perhaps?"},
                 {"A":  50, "TEXT": "You're not entirely confident, but you think you @@did a good enough job@@ getting NPC_NAME ready to go."},
-                {"A": 500, "TEXT": "You are surprised by @@how easily it is@@ to turn this old goat on. You feel his cock practically surge in your hand and hear his breath hitch in his throat."}
+                {"A": 500, "TEXT": "You are @@surprised by how easy@@ it is to turn this old goat on. You feel his cock practically surge in your hand and hear his breath hitch in his throat."}
             ],
             "END" : "Without warning he grabs one of your turgid nipples and gives it a firm twist, causing you to gasp out loud. A wicked grin comes across his face and he roughly pushes you down to your knees. It's obvious what he wants."
         },
@@ -9460,448 +9618,641 @@ window.App.Data.LootTables =
             ] }
     }
 };
-/* twine-user-script #23: "QuestData.js" */
-window.App = window.App || { Data: { }, Entity: { } };
+/* twine-user-script #23: "blanche_quests.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Quests = App.Data.Quests || { };
 
-window.App.Data.Quests  = {
-            "Q001": {
-                "ID": "Q001", "Title": "Price of Freedom - Part 1",
-                "GIVER": "Captain",
-                "PRE": [
-                    // Flags that are required to trigger quest.
-                ],
-                "POST": [
-                    {"NAME": "Q001b", "VALUE": "ACTIVE"}
-                ],
-                "CHECKS": [
-                    // Conditions that must be satisfied to complete the quest.
-                ],
-                "REWARD": [
-                    // Rewards given when quest is completed.
-                ],
-                "PREREQ": "Said when you don't have the pre-req for the quest.",
-                "INTRO": "Some intro text goes here",
-                "MIDDLE": "This is what gets displayed when you are doing the quest.",
-                "FINISH": "NPC_NAME says, @@color:cyan;\"Well now slut, I see you're not walking funny after all that ass raping - you must be a natural for this kind of work.\"@@\n\n" +
-                "He laughs menacingly at his own bad joke and continues, @@color:cyan;\"I mentioned to you that there was a way off this ship... well other than the gang plank and that's " +
-                "simple. All you need to do is earn enough coin for me to replace your faggot ass with a good and proper whore. About@@ @@color:gold;50 grand@@ @@color:cyan;should cover it.@@\n\n"+
-                "That's a huge amount of money. Colossal even. You have no idea how you're supposed to earn it... is this some kind of sick joke?\n\n" +
-                "He continues, @@color:cyan;Until then... familiarize yourself with the ship and the crew. I'm sure they'll be familiarizing themselves with your slutty holes sooner or later.\"@@\n\n"+
-                "An ominous statement for sure, particularly given the last few days. Still, even if the Captain is just messing with you, there must be a way to get this blasted collar off your neck. "+
-                "Maybe you should walk around and talk to the crew...",
-                "JOURNAL_ENTRY": "You have been kidnapped and forced to become the on board prostitute to a ship full of scurvy sea dogs. " +
-                "The Captain of the ship had mentioned to you that it might be possible to purchase your freedom. You should go and speak to him.",
-                "JOURNAL_COMPLETE": "NPC_NAME has offered to let you buy your freedom for the sum of 50,000 coins. It's an enormous amount of money to earn, particularly for " +
-                "an inexperienced sissy-whore, but other than looking out for some way to escape, you don't think there is any other way to get away from this life."
-            },
-            "Q001b": {
-                "ID": "Q001b", "Title": "Price of Freedom - Part 2",
-                "GIVER": "Captain",
-                "PRE": [
-                    "Q001"
-                ],
-                "POST": [
-                    {"NAME": "GAME_WON", "VALUE": 1}
-                ],
-                "CHECKS": [
-                    {"TYPE": "MONEY", "NAME": "MONEY", "VALUE": 50000}
-                ],
-                "REWARD": [],
-                "PREREQ": "Said when you don't have the pre-req for the quest.",
-                "INTRO": "Some intro text goes here",
-                "MIDDLE": "NPC_NAME says, \"Ah, if it isn't little PLAYER_NAME, everyone's favorite sissy slut.\n" +
-                    "He looks your body up and down, you think you detect a faint boner beginning to grow in his trousers.\n" +
-                    "NPC_NAME continues, \"Managed to earn that coin yet, have we? If not then what are you waiting for? An idle whore earns nothing but a stiff kick to the arse as they say.\"",
-                "FINISH": "NPC_NAME looks at you, his eyes filled with amazement. He says, \"I honestly didn't think you'd manage to do it and I have to say that I'm " +
-                    "almost sad you did. You were a fine whore PLAYER_NAME, for a sissy anyways. Well, a deal's a deal. I'll take those coins and get that collar off your neck.\"\n" +
-                    "NPC_NAME thinks for a moment and then continues, \"Of course, you're welcome to stay on and keep working the deck for as long as you want. Some of the lads have grown " +
-                    "quite fond of you, or at least your holes.\"\n\n" +
-                    "You do your best to maintain a poker face, acting like your actually considering the offer as you hand over the coin. Of course, you have no intention of staying one " +
-                    "second longer than necessary. NPC_NAME waves his signet ring over your neck and the collar drops off with a loud thud. It's been a torturous experience, but now " +
-                    "you are finally free.",
-                "JOURNAL_ENTRY": "NPC_NAME has promised your freedom for the queenly sum of 50,000 coins. It's a seemingly insurmountable amount of money for you to gather, "+
-                    "particularly as a slave to the pirates on the Salty Mermaid. However, it seems to be your only way of getting free... unless another opportunity presents itself.",
-                "JOURNAL_COMPLETE": "You managed to scrounge up the coins required to buy your freedom. Now that it has come to this... what will you do?"
-            },
-            "BOARDINGPASS": {
-                "ID": "BOARDINGPASS", "Title": "Boarding Pass",
-                "GIVER": "Captain",
-                "PRE": [
-                    "PRE_BOARDINGPASS"
-                ],
-                "POST": [
-                ],
-                "CHECKS": [
-                    {"TYPE": "NPC_MOOD", "NAME": "Crew", "VALUE": 90},
-					{"TYPE": "NPC_MOOD", "NAME": "FirstMate", "VALUE": 90},
-					{"TYPE": "NPC_MOOD", "NAME": "Cook", "VALUE": 90},
-					{"TYPE": "NPC_MOOD", "NAME": "Quartermaster", "VALUE": 90}
-                ],
-                "REWARD": [
-                    // Rewards given when quest is completed.
-                ],
-                "INTRO": "NPC_NAME says, \"Ah, what can I do for you slut? Wait... you want to leave the ship?\"\n\n"+
-				"NPC_NAME busts out into peals of laughter. After an uncomfortably long minute, he gathers his composure.\n\n"+
-				"NPC_NAME says, \"You know that the @@color:orange;geas on that slave collar@@ won't let you get more than a mile or two away from me so long as I wear "+
-				"the control ring, right? Look, I'm not opposed to giving you some shore leave, but that comes after your duties are finished. "+
-				"Make sure everyone, and I mean ''everyone'' on board has gotten their fill of your holes first. Then come back to me and I'll grant you leave.\"\n\n"+
-				"You weren't sure what you were expecting, but as NPC_NAME dismisses you from his quarters, you feel a depressing tiredness settle over your body. "+
-				"Just the sheer volume of dicks you'll have to service to meet his demands would daunt an experienced whore, let alone a reluctant sissy like yourself.",
-                "MIDDLE": "NPC_NAME says, \"So, how is it PLAYER_NAME? What are you doing wasting your time around here when there are still cocks to be sucked on deck.\"",
-                "FINISH": "NPC_NAME says, \"You've done a hell of a job PLAYER_NAME. A hell of a job. I'm actually surprised you can still walk after all the cocks "+
-				"you've taken up your ass these last weeks.\"\n\n"+
-				"NPC_NAME chuckles to himself and continues.\n\n"+
-				"NPC_NAME says, \"Anyway, your leave is granted. Remember - if you get more than a couple of miles away from me however that collar around your neck "+
-				"will rip your stupid bimbo head right off. Boy, that'd be a sight to see... just don't be sucking a dick when it happens... HA!\"",
-				"JOURNAL_ENTRY" : "You've been told by NPC_NAME that if you want to be able to take leave liberty when the @@color:cyan;Salty Mermaid@@ is "+
-				"at port then you'll first have to make sure that every man aboard the ship is @@color:DeepPink;cheered@@ by your sexual services.",
-				"JOURNAL_COMPLETE" : "After what seemed like countless days filled with crazed fucking, you managed to completely sexually satisfy "+
-				"every man on board the ship. Doing so, NPC_NAME deigned to grant you a special pass that will allow you to leave the ship. However if "+
-				"you get too far away from the Captain, the magical geas on your collar will surely end your life. Be careful."
-            },
-            "Q002": {
-                "ID": "Q002", "Title": "Tools of the Trade - Part 1",
-                "GIVER": "FirstMate",
-                "PRE": [
-                    // Flags that are required to trigger quest.
-                ],
-                "POST": [
-                    // Flags that are set when quest is completed.
-                ],
-                "CHECKS": [
-                    {"TYPE": "NPC_MOOD", "NAME": "Crew", "VALUE": 41}
-                ],
-                "REWARD": [
-                    {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "hair accessories", "AMOUNT": 40},
-                    {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "hair products", "AMOUNT": 40},
-                    {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "basic makeup", "AMOUNT": 60},
-                    {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "bonnet", "AMOUNT": 1},
-                    {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "cotton bra", "AMOUNT": 1},
-                    {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "short heels", "AMOUNT": 1}
-                ],
-                "PREREQ": "Said when you don't have the pre-req for the quest.",
-                "INTRO": "NPC_NAME says, \"The crew on the Salty Mermaid are a ravenously horny lot, but even they have standards and frankly, you don't really meet them. " +
-                "If you ever want to earn enough money to buy your freedom, then you'll need to focus on improving your appearance. It's pretty simple really, " +
-                "the higher your @@color:DeepPink;Beauty@@ and @@color:cyan;Style@@ are, the more money you will earn. Even a sissy like you can at least wear sexy clothes " +
-                "and put on make-up to be more attractive. If you go and improve the @@color:lime;Mood@@ of the crew, I'll give you some items that can help you earn money. \"",
-                "MIDDLE": "NPC_NAME says, \"Hey PLAYER_NAME... what are you doing wasting your time here when you should be on deck making the crew happy? Come back to me when you've " +
-                "improved their @@color:lime;Mood@@ and then we'll talk.\"",
-                "FINISH": "NPC_NAME says, \"I've heard that you've been out on deck whoring up a storm. Good, that's what you're supposed to do. You'll find that the crew is more " +
-                "generous with their coin if you both look good and perform well, so here, have these, they'll help.\"",
-                "JOURNAL_ENTRY": "You've been tasked by NPC_NAME to go forth and improve the @@color:lime;Mood@@ of the crew... obviously by letting them fuck you. " +
-                "If you manage to complete this task, then NPC_NAME has promised to give you some items that will enhance your @@color:DeepPink;Beauty@@ and @@color:cyan;Style@@, " +
-                "making it easier for you to earn more coin.",
-                "JOURNAL_COMPLETE": "It was difficult, but after hours spent humiliating and degrading yourself as the personal fuck-toy for the crew of the Salty Mermaid, " +
-                "you managed to make them happy enough for NPC_NAME give you his reward. It was an ominous first step into your life as a sissy prostitute."
-            },
-            "Q003": {
-                "ID": "Q003", "Title": "Tools of the Trade - Part 2",
-                "GIVER": "FirstMate",
-                "PRE": [
-                    "Q002"
-                ],
-                "POST": [
-                    // Flags that are set when quest is completed.
-                ],
-                "CHECKS": [
-                    {"TYPE": "NPC_MOOD", "NAME": "Cook", "VALUE": 81}
-                ],
-                "REWARD": [
-                    {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "milkdew melon", "AMOUNT": 3},
-                    {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "butter gourd", "AMOUNT": 3},
-                    {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "silk bra", "AMOUNT": 1},
-                    {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "frilly bloomers", "AMOUNT": 1}
-                ],
-                "PREREQ": "Said when you don't have the pre-req for the quest.",
-                "INTRO": "NPC_NAME says, \"Not bad slut, you did pretty good keeping the crew entertained but if you want to survive on this ship then you'll need to " +
-                "also get the favor of the officers. Take @@color:cyan;Cookie@@ for instance. That fat tub of lard controls the galley on this tub and if you get on his " +
-                "bad side, then you'll be eating gruel and cum for the rest of your life. Go and get on his @@color:cyan;good side@@ and then come back.",
-                "MIDDLE": "NPC_NAME says, \"Hey PLAYER_NAME... what are you doing wasting your time here when you should be getting on @@color:cyan;Cookie's@@ good side? Come back to me when you've " +
-                "improved his @@color:magenta;Mood@@ and then we'll talk.\"",
-                "FINISH": "NPC_NAME says, \"I've heard that @@color:cyan;Cookie's@@ taken a liking to you. That's good. You've probably noticed that the more people like you, the more " +
-                "services they are willing to offer. That holds true for everyone really, if you think about it. Anyway, now that he's willing to occasionally feed you " +
-                "better grub and not just his filthy cock, you'll have a better chance of lasting on this ship. Just be careful, some food has... certain side effects. " +
-                "Why don't you experiment with these and see?\"",
-                "JOURNAL_ENTRY": "You've been tasked by NPC_NAME get on @@color:cyan;Cookie's@@ good side. You'll need to make sure he's @@color:magenta;really cheerful@@.",
-                "JOURNAL_COMPLETE": "It was difficult, but after days spent granting \"favors\" for Cookie in the galley, he's become quite fond of you. In the end it " +
-                "paid off because not only did NPC_NAME give you a small reward, but now @@color:cyan;Cookie@@ will occasionally sell you higher quality food."
-            },
-            "Q004": {
-                "ID": "Q004", "Title": "Tools of the Trade - Part 3",
-                "GIVER": "FirstMate",
-                "PRE": [
-                    "Q003"
-                ],
-                "POST": [
-                    // Flags that are set when quest is completed.
-                ],
-                "CHECKS": [
-                    {"TYPE": "NPC_MOOD", "NAME": "Quartermaster", "VALUE": 81}
-                ],
-                "REWARD": [
-                    {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "face cream", "AMOUNT": 3},
-                    {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "fairy dust", "AMOUNT": 3},
-                    {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "silk stockings", "AMOUNT": 1},
-                    {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "frilly dress", "AMOUNT": 1}
-                ],
-                "PREREQ": "Said when you don't have the pre-req for the quest.",
-                "INTRO": "NPC_NAME says, \"By now you should know the score. I won't waste any time explaining it to you, go and get @@color:cyan;Julius@@ on your side. He's a strange one " +
-                "to be sure. More interested in his experiments than anything else... although, I wouldn't trust your asshole around him if you're passed out. You know what I mean.",
-                "MIDDLE": "NPC_NAME says, \"Hey PLAYER_NAME}... what are you doing wasting your time here when you should be getting on @@color:magenta;Julius's@@ good side? Come back to me when you've " +
-                "improved his @@color:magenta;Mood@@ and then we'll talk.\"",
-                "FINISH": "NPC_NAME says, \"I've heard that @@color:cyan;Julius's@@ taken a liking to you. Just like @@color:cyan;Cookie@@, getting on his good side will make it so " +
-                "that he offers you more drugs for sale and at cheaper prices as well. You'll need those drugs if you want to be able to optimize your earning potential. " +
-                "Here, have these samples and you'll see what I mean. Just be careful, using too many drugs will increase your @@color:yellow;Toxicity@@, basically they're poison. " +
-                "Just as you'd expect, if you're poisoned, not only will you not heal effectively, but you'll eventually take damage over time.",
-                "JOURNAL_ENTRY": "You've been tasked by NPC_NAME get on @@color:cyan;Julius's@@ good side. You'll need to make sure he's @@color:magenta;really cheerful@@.",
-                "JOURNAL_COMPLETE": "It was difficult, but after days spent granting \"favors\" for Julius in the cargo hold, he's become quite fond of you. In the end it " +
-                "paid off because not only did NPC_NAME give you a small reward, but now @@color:cyan;Julius@@ will occasionally sell you higher quality drugs."
-            },
-            "Q005": {
-                "ID": "Q005", "Title": "Build a Better Bimbo - Part 1",
-                "GIVER": "Captain",
-                "PRE": [],
-                "POST": [
-                    // Flags that are set when quest is completed.
-                ],
-                "CHECKS": [
-                    {"TYPE": "STAT_BODY", "NAME": "Bust", "VALUE": 11},
-                    {"TYPE": "STAT_BODY", "NAME": "Lips", "VALUE": 32},
-                    {"TYPE": "STAT_BODY", "NAME": "Ass", "VALUE": 11}
-                ],
-                "REWARD": [
-                    {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "fashion corset", "AMOUNT": 1},
-                    {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "pirate hat", "AMOUNT": 1}
-                ],
-                "INTRO": "NPC_NAME says, \"You're going to have a lot of trouble earning the coin you need looking like that.\"\n\n" +
-                "He looks you up and down, it's obvious he isn't pleased by what he sees.\n\n" +
-                "NPC_NAME clears his throat and continues, \"It's like this PLAYER_NAME, a whore's earning potential is a combination of both her " +
-                "skills and looks. You can get the skills by practice, but the looks... well that's a whole other story.\"\n\n" +
-                "You're not quite sure you like the direction this conversation is heading in, but it's hard to deny the logic of it. Even you wouldn't " +
-                "fuck yourself (as a girl) looking how you do.\n\n" +
-                "\"Anyway,\" says NPC_NAME, \"There are some ways to get around this. We're a pirate ship, so we smuggle a lot of goods and some of those goods " +
-                "have some pretty serious effects on the human body - why don't you see if @@color:cyan;Julius@@ or @@color:cyan;Cookie@@ have anything they can sell " +
-                "you that might help. If you come back to me with some @@color:yellow;ample breasts@@, @@color:yellow;feminine lips@@ and at least a @@color:yellow;small ass@@ " +
-                "then even I might fuck you... and I have to tell ya, I pay a lot better than the crew.\"\n\n" +
-                "You consider NPC_NAME's offer. You're not sure if you want to alter your body that much, but earning the money for your freedom takes priority...",
-                "MIDDLE": "NPC_NAME takes one look at you and says, \"Hmm, what is it? Not quite there yet are we? Come back to me when you at least " +
-                "resemble something close to a proper slut.\"",
-                "FINISH": "NPC_NAME says, \"Oooer, lookie here. Our little PLAYER_NAME is turning into a right and proper bimbo slut. With a body like that you'll " +
-                "find yourself earning far more coin than usual. Men will pay a lot more to fuck a huge pair of tits, or a large jiggling ass and of course, a pair of " +
-                "massive cock sucking lips is a great advertisement for your dick sucking skills.\"\n\n" +
-                "You know that he's just stating the obvious, but from where you stand you've witnessed it first hand. As your \"womanly assets\" have grown, so has your financial assets. " +
-                "It's shameful, but you have to admit that taking NPC_NAME's advice has paid off... literally.\n\n" +
-                "NPC_NAME looks at you and smiles, \"Here slut, have a little something to help you on your way, and if you ever want to earn some good coin " +
-                "stop by my cabin for some 'play time'.\"",
-                "JOURNAL_ENTRY": "You've been told to increase your physical assets so that you have some @@color:yellow;shapely breasts@@, " +
-                "@@color:yellow;puckered lips@@ and at least a @@color:yellow;rounded ass@@. Doing so will increase your favor with the Captain.",
-                "JOURNAL_COMPLETE": "You've discovered that the food and drugs you consume can alter your body in the most amazing ways. " +
-                "Through trial and error you managed to increase the size of your breasts, lips and ass to proportions where your customers are willing to pay " +
-                "far more for your services than before. In addition to this, the Captain will now be available as a potential customer."
-            },
-            "Q006": {
-                "ID": "Q006", "Title": "Build a Better Bimbo - Part 2",
-                "GIVER": "Captain",
-                "PRE": [
-                    "Q005"
-                ],
-                "POST": [
-                    // Flags that are set when quest is completed.
-                ],
-                "CHECKS": [
-                    {"TYPE": "STAT_BODY", "NAME": "Face", "VALUE": 39},
-                    {"TYPE": "STAT_BODY", "NAME": "-Waist", "VALUE": 40},
-                    {"TYPE": "STAT_BODY", "NAME": "Hair", "VALUE": 20}
-                ],
-                "REWARD": [
-                    {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "healing potion", "AMOUNT": 3},
-                    {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "face cream", "AMOUNT": 10},
-                    {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "hair tonic", "AMOUNT": 10}
-                ],
-                "INTRO": "NPC_NAME says, \"Well, if it isn't the crews favorite sissy. You're definitely looking a better these days, but I think you " +
-                "could do better. No, you will do better.\"\n\n" +
-                "NPC_NAME gets an evil glare in his eye as he looks you up and down. He slowly reaches out a hand, cupping one of your breasts and giving it a firm squeeze.\n\n" +
-                "NPC_NAME says, \"Not bad, not bad at all. But that face... that waist and that hair. It just simply doesn't do. Go and get some more work done slut, that's " +
-                "an order from the Captain. Return when you're looking a bit more presentable and I'll give ye a fine little present.\"\n\n" +
-                "NPC_NAME has made good on his offers so far and his advice, as much as you hate it, has helped you earn a fair amount of coin. What should you do?",
-                "MIDDLE": "NPC_NAME takes one look at you and says, \"Hmm, what is it? Not quite there yet are we? Come back to me when you at least " +
-                "resemble something close to a proper slut.\"",
-                "FINISH": "NPC_NAME says, \"Not bad, not bad. That face won't win you any prizes... well, at least not yet, but we can discuss that later. Still, you've come a " +
-                "long way from when you started aboard this ship, and I dare say you have quite a bit further to go until you can buy your freedom. But never mind that, take these " +
-                "items. They'll help you perform your duties and increase your earning potential.\"",
-                "JOURNAL_ENTRY": "The Captain has told you to improve your physical appearance some more - namely your @@color:yellow;face@@, @@color:magenta;waist@@ and @@color:green;hair@@. " +
-                "If you satisfy his inspection, he's promised to give you some more items that could help you earn more coin.",
-                "JOURNAL_COMPLETE": "It wasn't easy, but you managed to satisfy the Captain's requirements for improving your physical appearance. You have to say, that you do agree with him in " +
-                "one regard - looking as you do now, the amount of money you earn from whoring out your holes has improved dramatically from when you started... back when you still had some " +
-                "vague sense of manhood. You just hope that after you're free that you can find a way to reverse all the transformations you've gone through."
-            },
-            "Q007": {
-                "ID": "Q007", "Title": "Build a Better Bimbo - Part 3",
-                "GIVER": "Captain",
-                "PRE": [
-                    "Q006"
-                ],
-                "POST": [
-                    // Flags that are set when quest is completed.
-                ],
-                "CHECKS": [
-                    {"TYPE": "STAT_BODY", "NAME": "Bust", "VALUE": 39},
-                    {"TYPE": "STAT_BODY", "NAME": "Ass", "VALUE": 39},
-                    {"TYPE": "STAT_BODY", "NAME": "-Waist", "VALUE": 30},
-                    {"TYPE": "STAT_BODY", "NAME": "Face", "VALUE": 59},
-                    {"TYPE": "STAT_BODY", "NAME": "Lips", "VALUE": 54}
-                ],
-                "REWARD": [
-                    {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "knee boots", "AMOUNT": 1},
-                    {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "silk blouse", "AMOUNT": 1},
-                    {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "leather shorts", "AMOUNT": 1},
-                    {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "milkdew melon", "AMOUNT": 4},
-                    {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "butter gourd", "AMOUNT": 4},
-                    {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "honey mead", "AMOUNT": 4},
-                    {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "succubus philtre", "AMOUNT": 1},
-                    {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "nereid philtre", "AMOUNT": 1}
+App.Data.Quests["VOODOO_PICKUP"] = {
+    "ID": "VOODOO_PICKUP", "Title": "Voodoo Supplies",
+    "GIVER": "Blanche",
+    "PRE": [
+        // Flags that are required to trigger quest.
+        { "TYPE" : "QUEST_FLAG", "NAME" : "PAOLA_FETCH", "VALUE" : "ACTIVE" }
+    ],
+    "POST": [
+        // Flags that are set when quest is completed.
+    ],
+    "CHECKS": [
+        {"TYPE": "FLAG", "NAME": "PAOLA_FETCH", "VALUE": "ACTIVE" }
+    ],
+    "ON_ACCEPT" : [
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "ITEM", "TYPE": "QUEST", "NAME": "bag of mojo", "AMOUNT": 1}
+    ],
+    "INTRO": "",
+    "MIDDLE" : "",
+    "FINISH":
+        "NPC_NAME says, \"So that crazy witch finally sent someone to pick this feral shit up, did she? Don't look at me like that, if you had this bag of rotting "+
+        "garbage festering in your house, you'd be mad too.\"\n\n"+
+        "She sighs sadly and then reaches behind a counter to retrieve a large brown bag. You swear it's dripping with... well, something.\n\n"+
+        "\"Just get this out of my sight, please!\" she pleads as she pushes the bag into your hands."
+    ,
+    // Don't display in journal.
+    "JOURNAL_ENTRY": "HIDDEN",
+    "JOURNAL_COMPLETE": "HIDDEN"
+};
+/* twine-user-script #24: "bosun_quests.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Quests = App.Data.Quests || { };
 
-                ],
-                "INTRO": "NPC_NAME says, \"Right, PLAYER_NAME, I was wondering when you'd come to see me...\"\n\n" +
-                "NPC_NAME deftly puts an arm around your shoulder and leads you to his desk. He takes a seat and pulls you down into his lap.\n\n" +
-                "NPC_NAME says, \"So my little sissy girl, did you come for play time or are you finally ready to take the next step?\"\n\n" +
-                "\"The next step?\" @@color:DeepPink;you say@@, curious as to what the Captain has planned...\n\n" +
-                "NPC_NAME chortles and cups your breasts with his hands as he grinds his crotch into your ass on his lap. The ring on his finger glows and despite yourself, you " +
-                "feel a flush of arousal course through your body. You let out a small gasp and a moan as his nimble fingers start pulling on your stiff nipples.\n\n" +
-                "\"It's easy, well for an easy slut like you...\" he says, \"Let's just consider it an expansion of existing assets... Grow your tits into @@color:cyan;truly huge@@ fuck pillows, " +
-                "@@color:cyan;inflate that ass@@ until it's irresistibly fuckable and lastly, get some @@color:magenta;cock sucking lips@@ on a @@color:magenta;pretty face@@.\"\n\n" +
-                "His words swim around in your head and as he continues to fondle and arouse you, the idea of becoming even more of a perfect fuck doll starts to enrapture your brain.\n\n" +
-                "NPC_NAME gropes you, causing you to gasp and then he adds, \"Do this for me my little fuckslut and I'll give you a very nice reward.",
-                "MIDDLE": "NPC_NAME commands that you stand in front of him and kneel. Once you are on your knees he begins his inspection, thoroughly prodding and groping your slutty body.\n\n" +
-                "NPC_NAME says, \"You're not quite ready slut, but you're coming along nicely. Keep at it and make me proud.\"",
-                "FINISH": "You enter NPC_NAME's quarter and assume a position of submission at his feet. You know this is what he prefers and it's come to be almost what you prefer as well. He " +
-                "walks over to inspect you, his hand freeing your massive tits from your clothes and his fingers pulling painfully on your nipples. You find it both humiliating as well as erotic. " +
-                "NPC_NAME commands you to bend over his desk and he unclothes your bottom, giving it a sound slap to watch it jiggle. He chuckles to himself, seemingly amused and does it again. The " +
-                "impromptu spanking turns you on and you involuntarily feel your sissy fuckhole start to gape - an action that doesn't go unnoticed by the Captain.\n\n" +
-                "NPC_NAME says, \"Getting turned on by this much? My, you really are turning into a proper bimbo slut, aren't you? Don't worry, I'll give you what you need.\"\n\n" +
-                "He then proceeds to fish his massive cock out of pants and press the stiffening member against your slutty asshole. It doesn't take long before he's worked his tool up into " +
-                "your rectum and is pounding away at you furiously. The feeling of his engorged member rampaging inside you turns your already horny body into overdrive and within minutes you are " +
-                "gasping and panting in a mixture of pleasure and pain. \"You love this cock don't you?\" NPC_NAME asks you as he slaps your ass. When you're late in responding, he slaps it harder causing " +
-                "you to yelp out a hasty, \"@@color:DeepPink;YES SIR!@@\" to which he responds, \"What is it you love slut?\" This time you don't delay and scream out, \"@@color:DeepPink;YOUR COCK UP MY BUTT SIR! I LOVE IT! I LOVE COCK!@@\" " +
-                "This seems to satisfy NPC_NAME as he picks up the pace, plowing your butt hole with abandon. He grabs your hair, pulling your head backwards and driving his thick dick deep inside you. " +
-                "The sensation is intense, the pain and the humiliation adding a dark undertone that sends you over the edge, your own sissy clit leaking cum onto the floor as NPC_NAME deposits load after " +
-                "load of hot jizz up your ravaged ass.\n\n" +
-                "Once you've collected yourself, you find the Captain throwing something at you.\n\n" +
-                "\"Here, take this,\" he says. \"You'll find it useful and as a top tier slut, you should always be advertising your wares.\"",
-                "JOURNAL_ENTRY": "The Captain has told you to improve your physical appearance some more - namely your @@color:magenta;face@@, @@color:cyan;ass@@, @@color:cyan;tits@@ and @@color:magenta;lips@@. " +
-                "If you satisfy his inspection, he's promised to give you a reward... you hope it's one you'll like.",
-                "JOURNAL_COMPLETE": "You managed to complete the Captain's quest and in the process have been turned into almost the perfect fuck doll. From when you started, a slightly boyish " +
-                "looking young man, you've ended up as a slutty bimbo with huge tits, a jiggling ass and a pair of lips that could suck off a horse. Very few \"natural\" women could compete with " +
-                "you when it comes to looks and technique, it'd be fitting to say that you're a Queen of a Whore."
-            },
-            "STRIPPING": {
-                "ID": "STRIPPING", "Title": "The Casting Couch",
-                "GIVER": "Cook",
-                "PRE": [
-                    "Q005"
-                ],
-                "POST": [
-                    // Flags that are set when quest is completed.
-                ],
-                "CHECKS": [
-                    {"TYPE": "STAT_SKILL", "NAME": "Dancing", "VALUE": 20},
-                    {"TYPE": "STAT_CORE", "NAME": "Fitness", "VALUE": 30},
-                    {"TYPE": "STAT_CORE", "NAME": "Femininity", "VALUE": 30},
-                    {"TYPE": "STAT_SKILL", "NAME" : "Seduction", "VALUE" : 30}
-                ],
-                "REWARD": [
-                    {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "stripper costume", "AMOUNT": 1},
-                    {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "hair accessories", "AMOUNT": 20},
-                    {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "hair products", "AMOUNT": 20},
-                    {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "expensive makeup", "AMOUNT": 30}
-                ],
-                "INTRO": "NPC_NAME says, \"Nice to see you're putting some meat on those bones PLAYER_NAME.\" He eyes you up and down, his gaze lingering on your tits and ass. "+
-                "\"And I gotta say, it's all going to the right places too.\"\n\n"+
-                "You know what NPC_NAME is talking about - the rare food and drugs on board the @@color:cyan;Salty Mermaid@@ have started to make dramatic alterations to your body, "+
-                "right down to a hormonal level. You'd almost wouldn't believe such dramatic changes were possible, but the pBUST tits you are dragging around beg otherwise. If only you could "+
-                "find some more wholesome source of nourishment... but maybe it's too late? NPC_NAME interrupts these thoughts and continues speaking.\n\n"+
-                "\"If you feel like earning some extra coin, then you might consider putting on a show.\" He motions across the Galley dining room to a small raised dias against the aft wall. "+
-                "NPC_NAME says, \"We used to have a proper slut on crew and she'd put on the best stripping and burlesque shows for the boys in the evening. It'd really drive them wild and make "+
-                "horny as hell. You might think about it.\"\n\n"+
-                "As humiliating as it sounds, being a dancing girl is probably a step up from a whore. Still, chances are with the way you are looking these days there isn't really that "+
-                "much of a difference. Still, you wonder if the tips would be good...\n\n"+
-                "NPC_NAME says, \"You can use the stage to practice in the mornings and when you think you've got a decent routine come back and see me. I'll give you an 'audition' and if you pass "+
-                "then I'll let you perform during the evenings for some extra coin. You may also want to think about getting in better shape - although your dance practice might help with that you "+
-                "could also benefit from doing some more physical labor. Maybe something down in the cargo hold?\"",
-                "MIDDLE": "NPC_NAME says, \"Don't take it the wrong way sweet tits, but I don't think you have the right 'stuff' yet in order to make it on stage. Keep working on it and come back.\"",
-                "FINISH": "You approach NPC_NAME and request that he give you your 'audition' for the role of the only sissy-stripper on board the @@color:cyan;Salty Mermaid@@. NPC_NAME and half of the "+
-                "kitchen staff take up seats around the Galley as you get on the stage. One of the cooks, an older man with a strange hat begins to play a raunchy tune on an even older piano that has been "+
-                "recently rolled into place. You start off your gyrations a little awkwardly, trying to get in tune with the music. Each time it comes up to an exclamation, you make sure to stick out either "+
-                "your pBUST tits or pASS ass with a shake and a jiggle to put extra emphasis on them. As the song progresses you start taking off more and more clothes, trying to do it in a flirty and teasing "+
-                "way, smiling and winking at the audience. By now the men are clapping their hands and hooting as you are gyrating your pBUST tits at them, each nipple has a small tassel firmly attached to it "+
-                "and you are swinging them counter clockwise in an alternating motion. By now everyone is fully into the show and although you're still quite the novice you feel that you have a good grasp of "+
-                "how this should work. You finish off by bending over, your pBUST tits dangling towards the floor and simulating getting butt fucked in tempo to the beat of the music. As you grope and fondle "+
-                "yourself and let out a series of moans, the audience is getting increasingly agitated. It's no mistake that they all want to fuck you right now.\n\n"+
-                "You finish the show with a wink and a blown kiss to the crowd and they all applaud as you fetch your discarded clothing. NPC_NAME comes up to you and says, \"Well done PLAYER_NAME. "+
-                "I had my doubts when I first saw you, but you're going to be a fine slut for this crew. Here take these, they'll help you perform better on stage... oh and by the way, you now "+
-                "can come here and put on shows during the evenings every day. Just be careful, you might drive the men so wild that they'll fuck your asshole inside out!\"",
-                "JOURNAL_ENTRY": "NPC_NAME has told you that you can @@color:orange;use the stage in the Galley to practice your dancing in the mornings@@. If you improve your abilities enough "+
-                "then you will be able to put on shows in the evening for tips.",
-                "JOURNAL_COMPLETE": "Your 'audition' for the cooking crew was a wild success. You bumped and wiggled yourself into their hearts, or at least you made their dicks hard for you. From now "+
-                    "on you can perform on the stage during the evenings for extra coin and to raise the lust of the crew."
-            },
-        "THEBACKDOOR": {
-            "ID": "THEBACKDOOR", "Title": "The Backdoor",
-            "GIVER": "Jarvis",
-            "PRE": [
-                // Flags that are required to trigger quest.
-            ],
-            "POST": [
-                // Flags that are set when quest is completed.
-            ],
-            "CHECKS": [
-                {"TYPE": "FLAG", "NAME": "FuckedJarvisSilly", "VALUE": true}
-            ],
-            "REWARD": [
-            ],
-            "PREREQ": "Said when you don't have the pre-req for the quest.",
-            "INTRO": "You approach NPC_NAME and give him what you hope is a graceful curtsy.\n\n\"@@color:DeepPink;Excuse me sir@@\", you speak, \"@@color:DeepPink;Is there anyway I could come and visit his Lordship? It's a matter of urgent importance.@@\"\n\n"+
-            "NPC_NAME takes one look at you and raises his eyebrow. \"@@color:Cyan;Sorry miss, but his Lordship is not currently taking visitors@@\". He pauses for a moment and then adds, \"@@color:Cyan;Or accepting services, of a particular kind...@@\"\n\n"+
-            "It's pretty obvious that the stuffy old bastard means that the Governor isn't looking for a whore. You're not sure if you should be insulted or not, particularly considering how you've been spending your "+
-            "time recently. In any case, you'll have to come up with some sort of plan in order to gain access to the Governor.",
-            "MIDDLE": "NPC_NAME says, \"@@color:Cyan;Sorry@@ PLAYER_NAME... @@color:Cyan;but the Governor is still not taking visitors. Please come back in a few days.@@\"",
-            "FINISH": "Should never show up.",
-            "JOURNAL_ENTRY": "There must be some way to gain access to the Governor or at least entrance to the Mansion after hours. You'll have to keep your eyes open for an opportunity.",
-            "JOURNAL_COMPLETE": "Using a combination of alcohol and your whorish skills, you were able to completely exhaust Jarvis and loot him of his house key. You can now come and go into the mansion after dark via the back door."
-        },
-    "DADDYSGIRL": {
-        "ID": "DADDYSGIRL", "Title": "Daddy's Little Girl",
+App.Data.Quests["ISLA_TAVERN01"] = {
+    "ID": "ISLA_TAVERN01", "Title": "Customer Relations",
+    "GIVER": "IslaTavernKeeper",
+    "PRE": [
+        // Flags that are required to trigger quest.
+    ],
+    "POST": [
+        // Flags that are set when quest is completed.
+    ],
+    "CHECKS": [
+        {"TYPE": "NPC_MOOD", "NAME": "IslaTavernKeeper", "VALUE": 90},
+        {"TYPE": "NPC_MOOD", "NAME": "IslaShopKeeper", "VALUE": 90}
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "ITEM", "TYPE": "LOOT_BOX", "NAME": "rare food loot box", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM", "TYPE": "LOOT_BOX", "NAME": "rare sissy loot box", "AMOUNT":  1}
+    ],
+    "INTRO":  "NPC_NAME says, \"Hey there PLAYER_NAME... Have I seen you around here before? You look somewhat familiar to me. Ah, never you mind me "+
+              "I must be mistaken. Well, anyway, business has been dull around here lately, both for me and my lady @@color:cyan;Heddy@@. No matter what we "+
+              "do, we just can't seem to get any customers these days!\"\n\n"+
+              "Well, you think to yourself, if he could only stop pirates from abducting them than his business might not be so bad...\n\n"+
+              "\"Anyway,\" he continues, \"We could use some help and a pretty young thing like yourself might be just the help we need. Why don't you "+
+              "work a few shifts in our establishments and if you do a good enough job, I'll make it worth your while!\"\n\n"+
+              "Definitely not the most disgusting offer anyone's made to you recently, so this might be worth looking into.",
+    "MIDDLE": "NPC_NAME says, \"Well, PLAYER_NAME, it's coming along, but we're not quite there yet. Keep at it though, I'm sure you'll have our establishments bursting with customers in no time!\"",
+    "FINISH": "NPC_NAME says, \"Good job PLAYER_NAME! I knew you could do it and @@color:cyan;Heddy@@ and me are happier than a couple of pigs in shit! " +
+              "Here, take this for your troubles and come back and see me sometime. I could always use a couple more favors.\"",
+    "JOURNAL_ENTRY": "You've been asked by NPC_NAME to help out his and his girlfriends establishments on @@color:gold;Isla Harbor@@. Work some jobs, do well, and make them happy.",
+    "JOURNAL_COMPLETE": "It wasn't the worst work you done, in fact it was delightfully boring. In any case, you now find yourself in NPC_NAME's good graces."
+};
+
+App.Data.Quests["ISLA_TAVERN02"] = {
+    "ID": "ISLA_TAVERN02", "Title": "Smuggler's Run",
+    "GIVER": "IslaTavernKeeper",
+    "PRE": [
+        // Flags that are required to trigger quest.
+        { "TYPE" : "QUEST_FLAG", "NAME" : "ISLA_TAVERN01", "VALUE" : "COMPLETED" }
+    ],
+    "POST": [
+        // Flags that are set when quest is completed.
+    ],
+    "CHECKS": [
+        {"TYPE": "QUEST_ITEM", "NAME": "smugglers rum cask", "VALUE": 1 }
+    ],
+    "ON_ACCEPT" : [
+        { "TYPE" : "QUEST_FLAG", "NAME" : "SMUGGLER_PICKUP", "VALUE" : "ACTIVE" }
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "ITEM", "TYPE": "WEAPON", "NAME": "worn machete", "AMOUNT": 1}
+    ],
+    "INTRO": "NPC_NAME says, \"Why hello again PLAYER_NAME. You were telling me that you're part of a crew that sails around these islands, right? Well I could use a little favor.\"\n\n"+
+             "He gestures to the shelf behind him and continues speaking, \"I'm nearly out of my best seller, 'Smuggler's Rum'! I have a deal with @@color:cyan;Petey O'Bannon@@ on @@color:gold;Golden Isle@@, he's supposed "+
+             "to regularly ship me a resupply, but lately they've stopped coming. Can you go and find out what's the problem and maybe bring me back a cask o' his special rum?\"",
+    "MIDDLE": "NPC_NAME says, \"How's it going PLAYER_NAME? Did you get my rum off of old Petey yet?\"",
+    "FINISH": "NPC_NAME says, \"Thanks PLAYER_NAME! I'm practically down to my last drop and there are plenty of thirsty scaliwags around these parts! Since you seem to be the handy type, why "+
+              "don't you take this.\"\n\n"+
+              "He reaches behind his bar and pulls out a @@color:purple;worn machete@@. You momentarily jump back in surprise!\n\n"+
+              "NPC_NAME chuckles to himself. \"Don't be afraid, I'm giving this to you nice and proper. It's served me well back when I was a freebooter. An all around handy tool and good "+
+              "for a fight when you're in a pinch."
+    ,
+    "JOURNAL_ENTRY": "NPC_NAME on @@color:gold;Isla Harbor@@ wants you to collect a cask of Smuggler's Rum from @@color:cyan;Petey O'Bannon@@ on @@color:gold;Golden Isle@@.",
+    "JOURNAL_COMPLETE": "You fetched a cask of Smuggler's Rum for NPC_NAME and he rewarded you with a @@color:purple;worn machete@@. It's a useful tool for any pirate or explorer."
+};
+
+/* twine-user-script #25: "cookie._quests.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Quests = App.Data.Quests || { };
+
+App.Data.Quests["STRIPPING"] = {
+    "ID": "STRIPPING", "Title": "The Casting Couch",
+    "GIVER": "Cook",
+    "PRE": [
+        { "TYPE" : "QUEST_FLAG", "NAME" : "Q005", "VALUE" : "COMPLETED" }
+    ],
+    "POST": [
+        // Flags that are set when quest is completed.
+    ],
+    "CHECKS": [
+        {"TYPE": "STAT_SKILL", "NAME": "Dancing", "VALUE": 20},
+        {"TYPE": "STAT_CORE", "NAME": "Fitness", "VALUE": 30},
+        {"TYPE": "STAT_CORE", "NAME": "Femininity", "VALUE": 30},
+        {"TYPE": "STAT_SKILL", "NAME" : "Seduction", "VALUE" : 30}
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "stripper costume", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "hair accessories", "AMOUNT": 20},
+        {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "hair products", "AMOUNT": 20},
+        {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "expensive makeup", "AMOUNT": 30}
+    ],
+    "INTRO": "NPC_NAME says, \"Nice to see you're putting some meat on those bones PLAYER_NAME.\" He eyes you up and down, his gaze lingering on your tits and ass. "+
+    "\"And I gotta say, it's all going to the right places too.\"\n\n"+
+    "You know what NPC_NAME is talking about - the rare food and drugs on board the @@color:cyan;Salty Mermaid@@ have started to make dramatic alterations to your body, "+
+    "right down to a hormonal level. You'd almost wouldn't believe such dramatic changes were possible, but the pBUST tits you are dragging around beg otherwise. If only you could "+
+    "find some more wholesome source of nourishment... but maybe it's too late? NPC_NAME interrupts these thoughts and continues speaking.\n\n"+
+    "\"If you feel like earning some extra coin, then you might consider putting on a show.\" He motions across the Galley dining room to a small raised dias against the aft wall. "+
+    "NPC_NAME says, \"We used to have a proper slut on crew and she'd put on the best stripping and burlesque shows for the boys in the evening. It'd really drive them wild and make "+
+    "horny as hell. You might think about it.\"\n\n"+
+    "As humiliating as it sounds, being a dancing girl is probably a step up from a whore. Still, chances are with the way you are looking these days there isn't really that "+
+    "much of a difference. Still, you wonder if the tips would be good...\n\n"+
+    "NPC_NAME says, \"You can use the stage to practice in the mornings and when you think you've got a decent routine come back and see me. I'll give you an 'audition' and if you pass "+
+    "then I'll let you perform during the evenings for some extra coin. You may also want to think about getting in better shape - although your dance practice might help with that you "+
+    "could also benefit from doing some more physical labor. Maybe something down in the cargo hold?\"",
+    "MIDDLE": "NPC_NAME says, \"Don't take it the wrong way sweet tits, but I don't think you have the right 'stuff' yet in order to make it on stage. Keep working on it and come back.\"",
+    "FINISH": "You approach NPC_NAME and request that he give you your 'audition' for the role of the only sissy-stripper on board the @@color:cyan;Salty Mermaid@@. NPC_NAME and half of the "+
+    "kitchen staff take up seats around the Galley as you get on the stage. One of the cooks, an older man with a strange hat begins to play a raunchy tune on an even older piano that has been "+
+    "recently rolled into place. You start off your gyrations a little awkwardly, trying to get in tune with the music. Each time it comes up to an exclamation, you make sure to stick out either "+
+    "your pBUST tits or pASS ass with a shake and a jiggle to put extra emphasis on them. As the song progresses you start taking off more and more clothes, trying to do it in a flirty and teasing "+
+    "way, smiling and winking at the audience. By now the men are clapping their hands and hooting as you are gyrating your pBUST tits at them, each nipple has a small tassel firmly attached to it "+
+    "and you are swinging them counter clockwise in an alternating motion. By now everyone is fully into the show and although you're still quite the novice you feel that you have a good grasp of "+
+    "how this should work. You finish off by bending over, your pBUST tits dangling towards the floor and simulating getting butt fucked in tempo to the beat of the music. As you grope and fondle "+
+    "yourself and let out a series of moans, the audience is getting increasingly agitated. It's no mistake that they all want to fuck you right now.\n\n"+
+    "You finish the show with a wink and a blown kiss to the crowd and they all applaud as you fetch your discarded clothing. NPC_NAME comes up to you and says, \"Well done PLAYER_NAME. "+
+    "I had my doubts when I first saw you, but you're going to be a fine slut for this crew. Here take these, they'll help you perform better on stage... oh and by the way, you now "+
+    "can come here and put on shows during the evenings every day. Just be careful, you might drive the men so wild that they'll fuck your asshole inside out!\"",
+    "JOURNAL_ENTRY": "NPC_NAME has told you that you can @@color:orange;use the stage in the Galley to practice your dancing in the mornings@@. If you improve your abilities enough "+
+    "then you will be able to put on shows in the evening for tips.",
+    "JOURNAL_COMPLETE": "Your 'audition' for the cooking crew was a wild success. You bumped and wiggled yourself into their hearts, or at least you made their dicks hard for you. From now "+
+    "on you can perform on the stage during the evenings for extra coin and to raise the lust of the crew."
+};
+
+/* twine-user-script #26: "jarvis_quests.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Quests = App.Data.Quests || { };
+
+App.Data.Quests["THEBACKDOOR"] = {
+    "ID": "THEBACKDOOR", "Title": "The Backdoor",
+    "GIVER": "Jarvis",
+    "PRE": [
+        // Flags that are required to trigger quest.
+    ],
+    "POST": [
+        // Flags that are set when quest is completed.
+    ],
+    "CHECKS": [
+        {"TYPE": "FLAG", "NAME": "FuckedJarvisSilly", "VALUE": true}
+    ],
+    "REWARD": [
+    ],
+    "PREREQ": "Said when you don't have the pre-req for the quest.",
+    "INTRO": "You approach NPC_NAME and give him what you hope is a graceful curtsy.\n\n\"@@color:DeepPink;Excuse me sir@@\", you speak, \"@@color:DeepPink;Is there anyway I could come and visit his Lordship? It's a matter of urgent importance.@@\"\n\n"+
+    "NPC_NAME takes one look at you and raises his eyebrow. \"@@color:Cyan;Sorry miss, but his Lordship is not currently taking visitors@@\". He pauses for a moment and then adds, \"@@color:Cyan;Or accepting services, of a particular kind...@@\"\n\n"+
+    "It's pretty obvious that the stuffy old bastard means that the Governor isn't looking for a whore. You're not sure if you should be insulted or not, particularly considering how you've been spending your "+
+    "time recently. In any case, you'll have to come up with some sort of plan in order to gain access to the Governor.",
+    "MIDDLE": "NPC_NAME says, \"@@color:Cyan;Sorry@@ PLAYER_NAME... @@color:Cyan;but the Governor is still not taking visitors. Please come back in a few days.@@\"",
+    "FINISH": "Should never show up.",
+    "JOURNAL_ENTRY": "There must be some way to gain access to the Governor or at least entrance to the Mansion after hours. You'll have to keep your eyes open for an opportunity.",
+    "JOURNAL_COMPLETE": "Using a combination of alcohol and your whorish skills, you were able to completely exhaust Jarvis and loot him of his house key. You can now come and go into the mansion after dark via the back door."
+};
+/* twine-user-script #27: "kipler_quests.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Quests = App.Data.Quests || { };
+
+App.Data.Quests["Q002"] = {
+    "ID": "Q002", "Title": "Tools of the Trade - Part 1",
+    "GIVER": "FirstMate",
+    "PRE": [
+        // Flags that are required to trigger quest.
+    ],
+    "POST": [
+        // Flags that are set when quest is completed.
+    ],
+    "CHECKS": [
+        {"TYPE": "NPC_MOOD", "NAME": "Crew", "VALUE": 41}
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "hair accessories", "AMOUNT": 40},
+        {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "hair products", "AMOUNT": 40},
+        {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "basic makeup", "AMOUNT": 60},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "bonnet", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "cotton bra", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "short heels", "AMOUNT": 1}
+    ],
+    "PREREQ": "Said when you don't have the pre-req for the quest.",
+    "INTRO": "NPC_NAME says, \"The crew on the Salty Mermaid are a ravenously horny lot, but even they have standards and frankly, you don't really meet them. " +
+    "If you ever want to earn enough money to buy your freedom, then you'll need to focus on improving your appearance. It's pretty simple really, " +
+    "the higher your @@color:DeepPink;Beauty@@ and @@color:cyan;Style@@ are, the more money you will earn. Even a sissy like you can at least wear sexy clothes " +
+    "and put on make-up to be more attractive. If you go and improve the @@color:lime;Mood@@ of the crew, I'll give you some items that can help you earn money. \"",
+    "MIDDLE": "NPC_NAME says, \"Hey PLAYER_NAME... what are you doing wasting your time here when you should be on deck making the crew happy? Come back to me when you've " +
+    "improved their @@color:lime;Mood@@ and then we'll talk.\"",
+    "FINISH": "NPC_NAME says, \"I've heard that you've been out on deck whoring up a storm. Good, that's what you're supposed to do. You'll find that the crew is more " +
+    "generous with their coin if you both look good and perform well, so here, have these, they'll help.\"",
+    "JOURNAL_ENTRY": "You've been tasked by NPC_NAME to go forth and improve the @@color:lime;Mood@@ of the crew... obviously by letting them fuck you. " +
+    "If you manage to complete this task, then NPC_NAME has promised to give you some items that will enhance your @@color:DeepPink;Beauty@@ and @@color:cyan;Style@@, " +
+    "making it easier for you to earn more coin.",
+    "JOURNAL_COMPLETE": "It was difficult, but after hours spent humiliating and degrading yourself as the personal fuck-toy for the crew of the Salty Mermaid, " +
+    "you managed to make them happy enough for NPC_NAME give you his reward. It was an ominous first step into your life as a sissy prostitute."
+};
+
+App.Data.Quests["Q003"] = {
+    "ID": "Q003", "Title": "Tools of the Trade - Part 2",
+    "GIVER": "FirstMate",
+    "PRE": [
+        { "TYPE" : "QUEST_FLAG", "NAME" : "Q002", "VALUE" : "COMPLETED" }
+    ],
+    "POST": [
+        // Flags that are set when quest is completed.
+    ],
+    "CHECKS": [
+        {"TYPE": "NPC_MOOD", "NAME": "Cook", "VALUE": 81}
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "milkdew melon", "AMOUNT": 3},
+        {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "butter gourd", "AMOUNT": 3},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "silk bra", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "frilly bloomers", "AMOUNT": 1}
+    ],
+    "PREREQ": "Said when you don't have the pre-req for the quest.",
+    "INTRO": "NPC_NAME says, \"Not bad slut, you did pretty good keeping the crew entertained but if you want to survive on this ship then you'll need to " +
+    "also get the favor of the officers. Take @@color:cyan;Cookie@@ for instance. That fat tub of lard controls the galley on this tub and if you get on his " +
+    "bad side, then you'll be eating gruel and cum for the rest of your life. Go and get on his @@color:cyan;good side@@ and then come back.",
+    "MIDDLE": "NPC_NAME says, \"Hey PLAYER_NAME... what are you doing wasting your time here when you should be getting on @@color:cyan;Cookie's@@ good side? Come back to me when you've " +
+    "improved his @@color:magenta;Mood@@ and then we'll talk.\"",
+    "FINISH": "NPC_NAME says, \"I've heard that @@color:cyan;Cookie's@@ taken a liking to you. That's good. You've probably noticed that the more people like you, the more " +
+    "services they are willing to offer. That holds true for everyone really, if you think about it. Anyway, now that he's willing to occasionally feed you " +
+    "better grub and not just his filthy cock, you'll have a better chance of lasting on this ship. Just be careful, some food has... certain side effects. " +
+    "Why don't you experiment with these and see?\"",
+    "JOURNAL_ENTRY": "You've been tasked by NPC_NAME get on @@color:cyan;Cookie's@@ good side. You'll need to make sure he's @@color:magenta;really cheerful@@.",
+    "JOURNAL_COMPLETE": "It was difficult, but after days spent granting \"favors\" for Cookie in the galley, he's become quite fond of you. In the end it " +
+    "paid off because not only did NPC_NAME give you a small reward, but now @@color:cyan;Cookie@@ will occasionally sell you higher quality food."
+};
+
+App.Data.Quests["Q004"] = {
+    "ID": "Q004", "Title": "Tools of the Trade - Part 3",
+    "GIVER": "FirstMate",
+    "PRE": [
+        { "TYPE" : "QUEST_FLAG", "NAME" : "Q003", "VALUE" : "COMPLETED" }
+    ],
+    "POST": [
+        // Flags that are set when quest is completed.
+    ],
+    "CHECKS": [
+        {"TYPE": "NPC_MOOD", "NAME": "Quartermaster", "VALUE": 81}
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "face cream", "AMOUNT": 3},
+        {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "fairy dust", "AMOUNT": 3},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "silk stockings", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "frilly dress", "AMOUNT": 1}
+    ],
+    "PREREQ": "Said when you don't have the pre-req for the quest.",
+    "INTRO": "NPC_NAME says, \"By now you should know the score. I won't waste any time explaining it to you, go and get @@color:cyan;Julius@@ on your side. He's a strange one " +
+    "to be sure. More interested in his experiments than anything else... although, I wouldn't trust your asshole around him if you're passed out. You know what I mean.",
+    "MIDDLE": "NPC_NAME says, \"Hey PLAYER_NAME}... what are you doing wasting your time here when you should be getting on @@color:magenta;Julius's@@ good side? Come back to me when you've " +
+    "improved his @@color:magenta;Mood@@ and then we'll talk.\"",
+    "FINISH": "NPC_NAME says, \"I've heard that @@color:cyan;Julius's@@ taken a liking to you. Just like @@color:cyan;Cookie@@, getting on his good side will make it so " +
+    "that he offers you more drugs for sale and at cheaper prices as well. You'll need those drugs if you want to be able to optimize your earning potential. " +
+    "Here, have these samples and you'll see what I mean. Just be careful, using too many drugs will increase your @@color:yellow;Toxicity@@, basically they're poison. " +
+    "Just as you'd expect, if you're poisoned, not only will you not heal effectively, but you'll eventually take damage over time.",
+    "JOURNAL_ENTRY": "You've been tasked by NPC_NAME get on @@color:cyan;Julius's@@ good side. You'll need to make sure he's @@color:magenta;really cheerful@@.",
+    "JOURNAL_COMPLETE": "It was difficult, but after days spent granting \"favors\" for Julius in the cargo hold, he's become quite fond of you. In the end it " +
+    "paid off because not only did NPC_NAME give you a small reward, but now @@color:cyan;Julius@@ will occasionally sell you higher quality drugs."
+};
+/* twine-user-script #28: "lord_rowe_quests.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Quests = App.Data.Quests || { };
+
+App.Data.Quests["DADDYSGIRL"] =  {
+    "ID": "DADDYSGIRL", "Title": "Daddy's Little Girl",
         "GIVER": "LordRowe",
         "PRE": [
-            // Flags that are required to trigger quest.
-        ],
+        // Flags that are required to trigger quest.
+    ],
         "POST": [
-            // Flags that are set when quest is completed.
-        ],
+        // Flags that are set when quest is completed.
+    ],
         "CHECKS": [
-            {"TYPE": "STYLE_CATEGORY", "NAME": "Daddy's Girl", "VALUE": 100 },
-            {"TYPE": "HAIR_STYLE", "NAME": "cute pig tails", "VALUE": true },
-            {"TYPE": "HAIR_COLOR", "NAME": "blond", "VALUE": true }
-        ],
+        {"TYPE": "STYLE_CATEGORY", "NAME": "Daddy's Girl", "VALUE": 100 },
+        {"TYPE": "HAIR_STYLE", "NAME": "cute pig tails", "VALUE": true },
+        {"TYPE": "HAIR_COLOR", "NAME": "blond", "VALUE": true }
+    ],
         "REWARD": [
-        ],
+    ],
         "PREREQ": "Said when you don't have the pre-req for the quest.",
         "INTRO": "You walk up to NPC_NAME and give him a deep curtsy, taking special care to thrust out your pBUST cleavage to draw his eye. He looks up at you apprehensively and for a moment you can catch the tiredness in his eyes. Clearly he has been losing sleep over the disappearance of his daughter.\n\n" +
-        "You introduce yourself and step forward. @@color:DeepPink;\"Excuse me my Lord, but I've come to ask for a boon@@,\" you state as NPC_NAME eyes you up and down. It's clear from the look on his face that he has already surmised much about your current station in life.\n\n" +
-        "\"@@color:Cyan;And what would a 'lady' such as yourself need from me? Can't you see that I am lost in my grief for my precious missing daughter? Begone harlot!@@\" he exclaims, his hands motioning for the door.\n\n"+
-        "That could have gone better. Perhaps there might be some other way to get his attention, such as preying on his obsession with GF_NAME...",
+    "You introduce yourself and step forward. @@color:DeepPink;\"Excuse me my Lord, but I've come to ask for a boon@@,\" you state as NPC_NAME eyes you up and down. It's clear from the look on his face that he has already surmised much about your current station in life.\n\n" +
+    "\"@@color:Cyan;And what would a 'lady' such as yourself need from me? Can't you see that I am lost in my grief for my precious missing daughter? Begone harlot!@@\" he exclaims, his hands motioning for the door.\n\n"+
+    "That could have gone better. Perhaps there might be some other way to get his attention, such as preying on his obsession with GF_NAME...",
 
         "MIDDLE": "NPC_NAME says, \"@@color:Cyan;I thought I told you to leave. Be gone and leave me to my grief!@@\"",
         "FINISH": "NPC_NAME looks up from his desk and takes you in. For a moment he seems puzzled and it's obvious that your superficial resemblance to GF_NAME was playing on his mind.\n\n" +
-            "\"@@color:Cyan;Excuse me my dear, but why are you here? Did you get lost?@@\" he asks. Without hesitating you flounce your way over and sit on his lap, \"@@color:DeepPink;Oooph!@@\" you let out in an high voice, followed quickly by a girlish giggle.\n\n"+
-            "\"@@color:DeepPink;Sowwy... It wooks wike I wost my Daddy and I can't find him anywhere. Hey mistah, would you be my new Daddy?@@\" you say, while making a show of wiggling your butt on NPC_NAME's lap. It doesn't take long before you feel something hard pushing back.\n\n" +
-            "\"@@color:Cyan;What a shame little one... I'm sure we can come to some sort of... agreement.@@\" he replies, his hands gently encircling your waist. You giggle again lightly and return his embrace.\n\n" +
-            "It appears your attire, a perfect mix between perversity and coquettishness has captured his attention. Now what do you do?",
+    "\"@@color:Cyan;Excuse me my dear, but why are you here? Did you get lost?@@\" he asks. Without hesitating you flounce your way over and sit on his lap, \"@@color:DeepPink;Oooph!@@\" you let out in an high voice, followed quickly by a girlish giggle.\n\n"+
+    "\"@@color:DeepPink;Sowwy... It wooks wike I wost my Daddy and I can't find him anywhere. Hey mistah, would you be my new Daddy?@@\" you say, while making a show of wiggling your butt on NPC_NAME's lap. It doesn't take long before you feel something hard pushing back.\n\n" +
+    "\"@@color:Cyan;What a shame little one... I'm sure we can come to some sort of... agreement.@@\" he replies, his hands gently encircling your waist. You giggle again lightly and return his embrace.\n\n" +
+    "It appears your attire, a perfect mix between perversity and coquettishness has captured his attention. Now what do you do?",
         "JOURNAL_ENTRY": "NPC_NAME seems caught up in his grief for his missing daughter. Perhaps if you were to alter your appearance in a way that might draw out his 'fatherly' instincts, he might become more compliant?",
         "JOURNAL_COMPLETE": "It seems that @@color:Cyan;Lord Rowe's@@ obsession with GF_NAME had a rather 'abnormal' aspect to it. Once you changed your appearance, he was more than happy to listen to you... so long as you sit on his lap like a good little girl. In addition, you can gain access to his study at any hour of the day."
-    }
-    };
-/* twine-user-script #24: "StoreData.js" */
+};
+
+/* twine-user-script #29: "paola_quests.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Quests = App.Data.Quests || { };
+
+App.Data.Quests["PAOLA_FETCH"] = {
+    "ID": "PAOLA_FETCH", "Title": "Voodoo Supplies",
+    "GIVER": "Paola",
+    "PRE": [ ],
+    "POST": [ ],
+    "CHECKS": [
+        {"TYPE": "QUEST_ITEM", "NAME": "bag of mojo", "VALUE": 1 }
+    ],
+    "ON_ACCEPT" : [
+        { "TYPE" : "QUEST_FLAG", "NAME" : "VOODOO_PICKUP", "VALUE" : "ACTIVE" }
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "MONEY", "AMOUNT": 200 }
+    ],
+    "INTRO":
+        "NPC_NAME laughs heartily as you approach. \"You be seekin' the great powah of NPC_NAME eh???\"\n\n"+
+        "You're not sure if that statement is true or not, but... maybe? The strange brown woman continues her speech.\n\n" +
+        "\"Ah well, I can't be doin' mah hexin' until I restock mah mojo, ya ken wot I mean?\"\n\n"+
+        "You're not actually sure what she means, but you suspect that if you were to bring her some 'mojo' she might be able to do some magic for you?\n\n"+
+        "NPC_NAME says, \"Find that white bitty @@color:cyan;Blanche@@ in @@color:gold;Port Royale@@ and get me my mojo!"
+        ,
+    "FINISH":
+        "NPC_NAME says, \"Thanks be PLAYER_NAME! I be scraping da bottem o' da barrel, but now with dis, mah mojo is back!\"\n\n"+
+        "She throws back her head and cackles to herself, her massive mammaries shaking like two giant globes of jello.\n\n"+
+        "NPC_NAME says, \"If yee be wantin' the gifts o' the spirits, let me know and I'll be castin' dem hexes full on ya bet!\""
+        ,
+    "JOURNAL_ENTRY":
+        "NPC_NAME on @@color:gold;Abamond@@ wants your help in replenishing her 'mojo', whatever that means. Supposedly someone named "+
+        "@@color:cyan;Blanche@@ in @@color:gold;Port Royale@@ has it?",
+    "JOURNAL_COMPLETE": "You fetched a bag of mojo NPC_NAME. She will now provide some specialized 'voodoo' services."
+};
+/* twine-user-script #30: "petey_quests.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Quests = App.Data.Quests || { };
+
+App.Data.Quests["SMUGGLER_PICKUP"] = {
+    "ID": "SMUGGLER_PICKUP", "Title": "Smuggler's Run - The Pickup",
+    "GIVER": "Petey",
+    "PRE": [
+        // Flags that are required to trigger quest.
+        { "TYPE" : "QUEST_FLAG", "NAME" : "ISLA_TAVERN02", "VALUE" : "ACTIVE" }
+    ],
+    "POST": [
+        // Flags that are set when quest is completed.
+    ],
+    "CHECKS": [
+        {"TYPE": "FLAG", "NAME": "ISLA_TAVERN02", "VALUE": "ACTIVE" }
+    ],
+    "ON_ACCEPT" : [
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "ITEM", "TYPE": "QUEST", "NAME": "smugglers rum cask", "AMOUNT": 1},
+        {"REWARD_TYPE": "MONEY", "AMOUNT": 200 }
+    ],
+    "INTRO": "",
+    "MIDDLE" : "",
+    "FINISH": "NPC_NAME says, \"Aye PLAYER_NAME, I have that delivery for @@color:cyan;Bosun@@ right behind the bar. Be sure to tell him I'll have the next "+
+        "delivery on time. Sorry for the hassle, take this gold from me as payment for your time.\""
+    ,
+    // Don't display in journal.
+    "JOURNAL_ENTRY": "HIDDEN",
+    "JOURNAL_COMPLETE": "HIDDEN"
+};
+/* twine-user-script #31: "reginald_quests.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Quests = App.Data.Quests || { };
+
+App.Data.Quests["Q001"] = {
+    "ID": "Q001", "Title": "Price of Freedom - Part 1",
+    "GIVER": "Captain",
+    "PRE": [
+        // Flags that are required to trigger quest.
+    ],
+    "POST": [
+        { "TYPE" : "QUEST_FLAG", "NAME": "Q001b", "VALUE": "ACTIVE"}
+    ],
+    "CHECKS": [
+        // Conditions that must be satisfied to complete the quest.
+    ],
+    "REWARD": [
+        // Rewards given when quest is completed.
+    ],
+    "PREREQ": "Said when you don't have the pre-req for the quest.",
+    "INTRO": "Some intro text goes here",
+    "MIDDLE": "This is what gets displayed when you are doing the quest.",
+    "FINISH": "NPC_NAME says, @@color:cyan;\"Well now slut, I see you're not walking funny after all that ass raping - you must be a natural for this kind of work.\"@@\n\n" +
+    "He laughs menacingly at his own bad joke and continues, @@color:cyan;\"I mentioned to you that there was a way off this ship... well other than the gang plank and that's " +
+    "simple. All you need to do is earn enough coin for me to replace your faggot ass with a good and proper whore. About@@ @@color:gold;50 grand@@ @@color:cyan;should cover it.@@\n\n"+
+    "That's a huge amount of money. Colossal even. You have no idea how you're supposed to earn it... is this some kind of sick joke?\n\n" +
+    "He continues, @@color:cyan;Until then... familiarize yourself with the ship and the crew. I'm sure they'll be familiarizing themselves with your slutty holes sooner or later.\"@@\n\n"+
+    "An ominous statement for sure, particularly given the last few days. Still, even if the Captain is just messing with you, there must be a way to get this blasted collar off your neck. "+
+    "Maybe you should walk around and talk to the crew...",
+    "JOURNAL_ENTRY": "You have been kidnapped and forced to become the on board prostitute to a ship full of scurvy sea dogs. " +
+    "The Captain of the ship had mentioned to you that it might be possible to purchase your freedom. You should go and speak to him.",
+    "JOURNAL_COMPLETE": "NPC_NAME has offered to let you buy your freedom for the sum of 50,000 coins. It's an enormous amount of money to earn, particularly for " +
+    "an inexperienced sissy-whore, but other than looking out for some way to escape, you don't think there is any other way to get away from this life."
+};
+
+App.Data.Quests["Q001b"] = {
+    "ID": "Q001b", "Title": "Price of Freedom - Part 2",
+    "GIVER": "Captain",
+    "PRE": [
+        { "TYPE" : "QUEST_FLAG", "NAME" : "Q001", "VALUE" : "COMPLETED" }
+    ],
+    "POST": [
+        { "TYPE" : "QUEST_FLAG", "NAME": "GAME_WON", "VALUE": 1}
+    ],
+    "CHECKS": [
+        {"TYPE": "MONEY", "NAME": "MONEY", "VALUE": 50000}
+    ],
+    "REWARD": [],
+    "PREREQ": "Said when you don't have the pre-req for the quest.",
+    "INTRO": "Some intro text goes here",
+    "MIDDLE": "NPC_NAME says, \"Ah, if it isn't little PLAYER_NAME, everyone's favorite sissy slut.\n" +
+    "He looks your body up and down, you think you detect a faint boner beginning to grow in his trousers.\n" +
+    "NPC_NAME continues, \"Managed to earn that coin yet, have we? If not then what are you waiting for? An idle whore earns nothing but a stiff kick to the arse as they say.\"",
+    "FINISH": "NPC_NAME looks at you, his eyes filled with amazement. He says, \"I honestly didn't think you'd manage to do it and I have to say that I'm " +
+    "almost sad you did. You were a fine whore PLAYER_NAME, for a sissy anyways. Well, a deal's a deal. I'll take those coins and get that collar off your neck.\"\n" +
+    "NPC_NAME thinks for a moment and then continues, \"Of course, you're welcome to stay on and keep working the deck for as long as you want. Some of the lads have grown " +
+    "quite fond of you, or at least your holes.\"\n\n" +
+    "You do your best to maintain a poker face, acting like your actually considering the offer as you hand over the coin. Of course, you have no intention of staying one " +
+    "second longer than necessary. NPC_NAME waves his signet ring over your neck and the collar drops off with a loud thud. It's been a torturous experience, but now " +
+    "you are finally free.",
+    "JOURNAL_ENTRY": "NPC_NAME has promised your freedom for the queenly sum of 50,000 coins. It's a seemingly insurmountable amount of money for you to gather, "+
+    "particularly as a slave to the pirates on the Salty Mermaid. However, it seems to be your only way of getting free... unless another opportunity presents itself.",
+    "JOURNAL_COMPLETE": "You managed to scrounge up the coins required to buy your freedom. Now that it has come to this... what will you do?"
+};
+
+App.Data.Quests["BOARDINGPASS"] = {
+    "ID": "BOARDINGPASS", "Title": "Boarding Pass",
+    "GIVER": "Captain",
+    "PRE": [
+        { "TYPE" : "QUEST_FLAG", "NAME" : "PRE_BOARDINGPASS", "VALUE" : "COMPLETED" }
+    ],
+    "POST": [
+    ],
+    "CHECKS": [
+        {"TYPE": "NPC_MOOD", "NAME": "Crew", "VALUE": 90},
+        {"TYPE": "NPC_MOOD", "NAME": "FirstMate", "VALUE": 90},
+        {"TYPE": "NPC_MOOD", "NAME": "Cook", "VALUE": 90},
+        {"TYPE": "NPC_MOOD", "NAME": "Quartermaster", "VALUE": 90}
+    ],
+    "REWARD": [
+        // Rewards given when quest is completed.
+    ],
+    "INTRO": "NPC_NAME says, \"Ah, what can I do for you slut? Wait... you want to leave the ship?\"\n\n"+
+    "NPC_NAME busts out into peals of laughter. After an uncomfortably long minute, he gathers his composure.\n\n"+
+    "NPC_NAME says, \"You know that the @@color:orange;geas on that slave collar@@ won't let you get more than a mile or two away from me so long as I wear "+
+    "the control ring, right? Look, I'm not opposed to giving you some shore leave, but that comes after your duties are finished. "+
+    "Make sure everyone, and I mean ''everyone'' on board has gotten their fill of your holes first. Then come back to me and I'll grant you leave.\"\n\n"+
+    "You weren't sure what you were expecting, but as NPC_NAME dismisses you from his quarters, you feel a depressing tiredness settle over your body. "+
+    "Just the sheer volume of dicks you'll have to service to meet his demands would daunt an experienced whore, let alone a reluctant sissy like yourself.",
+    "MIDDLE": "NPC_NAME says, \"So, how is it PLAYER_NAME? What are you doing wasting your time around here when there are still cocks to be sucked on deck.\"",
+    "FINISH": "NPC_NAME says, \"You've done a hell of a job PLAYER_NAME. A hell of a job. I'm actually surprised you can still walk after all the cocks "+
+    "you've taken up your ass these last weeks.\"\n\n"+
+    "NPC_NAME chuckles to himself and continues.\n\n"+
+    "NPC_NAME says, \"Anyway, your leave is granted. Remember - if you get more than a couple of miles away from me however that collar around your neck "+
+    "will rip your stupid bimbo head right off. Boy, that'd be a sight to see... just don't be sucking a dick when it happens... HA!\"",
+    "JOURNAL_ENTRY" : "You've been told by NPC_NAME that if you want to be able to take leave liberty when the @@color:cyan;Salty Mermaid@@ is "+
+    "at port then you'll first have to make sure that every man aboard the ship is @@color:DeepPink;cheered@@ by your sexual services.",
+    "JOURNAL_COMPLETE" : "After what seemed like countless days filled with crazed fucking, you managed to completely sexually satisfy "+
+    "every man on board the ship. Doing so, NPC_NAME deigned to grant you a special pass that will allow you to leave the ship. However if "+
+    "you get too far away from the Captain, the magical geas on your collar will surely end your life. Be careful."
+};
+
+App.Data.Quests["Q005"] = {
+    "ID": "Q005", "Title": "Build a Better Bimbo - Part 1",
+    "GIVER": "Captain",
+    "PRE": [],
+    "POST": [
+        // Flags that are set when quest is completed.
+    ],
+    "CHECKS": [
+        {"TYPE": "STAT_BODY", "NAME": "Bust", "VALUE": 11},
+        {"TYPE": "STAT_BODY", "NAME": "Lips", "VALUE": 32},
+        {"TYPE": "STAT_BODY", "NAME": "Ass", "VALUE": 11}
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "fashion corset", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "pirate hat", "AMOUNT": 1}
+    ],
+    "INTRO": "NPC_NAME says, \"You're going to have a lot of trouble earning the coin you need looking like that.\"\n\n" +
+    "He looks you up and down, it's obvious he isn't pleased by what he sees.\n\n" +
+    "NPC_NAME clears his throat and continues, \"It's like this PLAYER_NAME, a whore's earning potential is a combination of both her " +
+    "skills and looks. You can get the skills by practice, but the looks... well that's a whole other story.\"\n\n" +
+    "You're not quite sure you like the direction this conversation is heading in, but it's hard to deny the logic of it. Even you wouldn't " +
+    "fuck yourself (as a girl) looking how you do.\n\n" +
+    "\"Anyway,\" says NPC_NAME, \"There are some ways to get around this. We're a pirate ship, so we smuggle a lot of goods and some of those goods " +
+    "have some pretty serious effects on the human body - why don't you see if @@color:cyan;Julius@@ or @@color:cyan;Cookie@@ have anything they can sell " +
+    "you that might help. If you come back to me with some @@color:yellow;ample breasts@@, @@color:yellow;feminine lips@@ and at least a @@color:yellow;small ass@@ " +
+    "then even I might fuck you... and I have to tell ya, I pay a lot better than the crew.\"\n\n" +
+    "You consider NPC_NAME's offer. You're not sure if you want to alter your body that much, but earning the money for your freedom takes priority...",
+    "MIDDLE": "NPC_NAME takes one look at you and says, \"Hmm, what is it? Not quite there yet are we? Come back to me when you at least " +
+    "resemble something close to a proper slut.\"",
+    "FINISH": "NPC_NAME says, \"Oooer, lookie here. Our little PLAYER_NAME is turning into a right and proper bimbo slut. With a body like that you'll " +
+    "find yourself earning far more coin than usual. Men will pay a lot more to fuck a huge pair of tits, or a large jiggling ass and of course, a pair of " +
+    "massive cock sucking lips is a great advertisement for your dick sucking skills.\"\n\n" +
+    "You know that he's just stating the obvious, but from where you stand you've witnessed it first hand. As your \"womanly assets\" have grown, so has your financial assets. " +
+    "It's shameful, but you have to admit that taking NPC_NAME's advice has paid off... literally.\n\n" +
+    "NPC_NAME looks at you and smiles, \"Here slut, have a little something to help you on your way, and if you ever want to earn some good coin " +
+    "stop by my cabin for some 'play time'.\"",
+    "JOURNAL_ENTRY": "You've been told to increase your physical assets so that you have some @@color:yellow;shapely breasts@@, " +
+    "@@color:yellow;puckered lips@@ and at least a @@color:yellow;rounded ass@@. Doing so will increase your favor with the Captain.",
+    "JOURNAL_COMPLETE": "You've discovered that the food and drugs you consume can alter your body in the most amazing ways. " +
+    "Through trial and error you managed to increase the size of your breasts, lips and ass to proportions where your customers are willing to pay " +
+    "far more for your services than before. In addition to this, the Captain will now be available as a potential customer."
+};
+
+App.Data.Quests["Q006"] = {
+    "ID": "Q006", "Title": "Build a Better Bimbo - Part 2",
+    "GIVER": "Captain",
+    "PRE": [
+        { "TYPE" : "QUEST_FLAG", "NAME" : "Q005", "VALUE" : "COMPLETED" }
+    ],
+    "POST": [
+        // Flags that are set when quest is completed.
+    ],
+    "CHECKS": [
+        {"TYPE": "STAT_BODY", "NAME": "Face", "VALUE": 39},
+        {"TYPE": "STAT_BODY", "NAME": "-Waist", "VALUE": 40},
+        {"TYPE": "STAT_BODY", "NAME": "Hair", "VALUE": 20}
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "healing potion", "AMOUNT": 3},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "face cream", "AMOUNT": 10},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "hair tonic", "AMOUNT": 10}
+    ],
+    "INTRO": "NPC_NAME says, \"Well, if it isn't the crews favorite sissy. You're definitely looking a better these days, but I think you " +
+    "could do better. No, you will do better.\"\n\n" +
+    "NPC_NAME gets an evil glare in his eye as he looks you up and down. He slowly reaches out a hand, cupping one of your breasts and giving it a firm squeeze.\n\n" +
+    "NPC_NAME says, \"Not bad, not bad at all. But that face... that waist and that hair. It just simply doesn't do. Go and get some more work done slut, that's " +
+    "an order from the Captain. Return when you're looking a bit more presentable and I'll give ye a fine little present.\"\n\n" +
+    "NPC_NAME has made good on his offers so far and his advice, as much as you hate it, has helped you earn a fair amount of coin. What should you do?",
+    "MIDDLE": "NPC_NAME takes one look at you and says, \"Hmm, what is it? Not quite there yet are we? Come back to me when you at least " +
+    "resemble something close to a proper slut.\"",
+    "FINISH": "NPC_NAME says, \"Not bad, not bad. That face won't win you any prizes... well, at least not yet, but we can discuss that later. Still, you've come a " +
+    "long way from when you started aboard this ship, and I dare say you have quite a bit further to go until you can buy your freedom. But never mind that, take these " +
+    "items. They'll help you perform your duties and increase your earning potential.\"",
+    "JOURNAL_ENTRY": "The Captain has told you to improve your physical appearance some more - namely your @@color:yellow;face@@, @@color:magenta;waist@@ and @@color:green;hair@@. " +
+    "If you satisfy his inspection, he's promised to give you some more items that could help you earn more coin.",
+    "JOURNAL_COMPLETE": "It wasn't easy, but you managed to satisfy the Captain's requirements for improving your physical appearance. You have to say, that you do agree with him in " +
+    "one regard - looking as you do now, the amount of money you earn from whoring out your holes has improved dramatically from when you started... back when you still had some " +
+    "vague sense of manhood. You just hope that after you're free that you can find a way to reverse all the transformations you've gone through."
+};
+
+App.Data.Quests["Q007"] =  {
+    "ID": "Q007", "Title": "Build a Better Bimbo - Part 3",
+    "GIVER": "Captain",
+    "PRE": [
+        { "TYPE" : "QUEST_FLAG", "NAME" : "Q006", "VALUE" : "COMPLETED" }
+    ],
+    "POST": [
+        // Flags that are set when quest is completed.
+    ],
+    "CHECKS": [
+        {"TYPE": "STAT_BODY", "NAME": "Bust", "VALUE": 39},
+        {"TYPE": "STAT_BODY", "NAME": "Ass", "VALUE": 39},
+        {"TYPE": "STAT_BODY", "NAME": "-Waist", "VALUE": 30},
+        {"TYPE": "STAT_BODY", "NAME": "Face", "VALUE": 59},
+        {"TYPE": "STAT_BODY", "NAME": "Lips", "VALUE": 54}
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "shiny knee boots", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "silk blouse", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "leather shorts", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "milkdew melon", "AMOUNT": 4},
+        {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "butter gourd", "AMOUNT": 4},
+        {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "honey mead", "AMOUNT": 4},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "succubus philtre", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "nereid philtre", "AMOUNT": 1}
+
+    ],
+    "INTRO": "NPC_NAME says, \"Right, PLAYER_NAME, I was wondering when you'd come to see me...\"\n\n" +
+    "NPC_NAME deftly puts an arm around your shoulder and leads you to his desk. He takes a seat and pulls you down into his lap.\n\n" +
+    "NPC_NAME says, \"So my little sissy girl, did you come for play time or are you finally ready to take the next step?\"\n\n" +
+    "\"The next step?\" @@color:DeepPink;you say@@, curious as to what the Captain has planned...\n\n" +
+    "NPC_NAME chortles and cups your breasts with his hands as he grinds his crotch into your ass on his lap. The ring on his finger glows and despite yourself, you " +
+    "feel a flush of arousal course through your body. You let out a small gasp and a moan as his nimble fingers start pulling on your stiff nipples.\n\n" +
+    "\"It's easy, well for an easy slut like you...\" he says, \"Let's just consider it an expansion of existing assets... Grow your tits into @@color:cyan;truly huge@@ fuck pillows, " +
+    "@@color:cyan;inflate that ass@@ until it's irresistibly fuckable and lastly, get some @@color:magenta;cock sucking lips@@ on a @@color:magenta;pretty face@@.\"\n\n" +
+    "His words swim around in your head and as he continues to fondle and arouse you, the idea of becoming even more of a perfect fuck doll starts to enrapture your brain.\n\n" +
+    "NPC_NAME gropes you, causing you to gasp and then he adds, \"Do this for me my little fuckslut and I'll give you a very nice reward.",
+    "MIDDLE": "NPC_NAME commands that you stand in front of him and kneel. Once you are on your knees he begins his inspection, thoroughly prodding and groping your slutty body.\n\n" +
+    "NPC_NAME says, \"You're not quite ready slut, but you're coming along nicely. Keep at it and make me proud.\"",
+    "FINISH": "You enter NPC_NAME's quarter and assume a position of submission at his feet. You know this is what he prefers and it's come to be almost what you prefer as well. He " +
+    "walks over to inspect you, his hand freeing your massive tits from your clothes and his fingers pulling painfully on your nipples. You find it both humiliating as well as erotic. " +
+    "NPC_NAME commands you to bend over his desk and he unclothes your bottom, giving it a sound slap to watch it jiggle. He chuckles to himself, seemingly amused and does it again. The " +
+    "impromptu spanking turns you on and you involuntarily feel your sissy fuckhole start to gape - an action that doesn't go unnoticed by the Captain.\n\n" +
+    "NPC_NAME says, \"Getting turned on by this much? My, you really are turning into a proper bimbo slut, aren't you? Don't worry, I'll give you what you need.\"\n\n" +
+    "He then proceeds to fish his massive cock out of pants and press the stiffening member against your slutty asshole. It doesn't take long before he's worked his tool up into " +
+    "your rectum and is pounding away at you furiously. The feeling of his engorged member rampaging inside you turns your already horny body into overdrive and within minutes you are " +
+    "gasping and panting in a mixture of pleasure and pain. \"You love this cock don't you?\" NPC_NAME asks you as he slaps your ass. When you're late in responding, he slaps it harder causing " +
+    "you to yelp out a hasty, \"@@color:DeepPink;YES SIR!@@\" to which he responds, \"What is it you love slut?\" This time you don't delay and scream out, \"@@color:DeepPink;YOUR COCK UP MY BUTT SIR! I LOVE IT! I LOVE COCK!@@\" " +
+    "This seems to satisfy NPC_NAME as he picks up the pace, plowing your butt hole with abandon. He grabs your hair, pulling your head backwards and driving his thick dick deep inside you. " +
+    "The sensation is intense, the pain and the humiliation adding a dark undertone that sends you over the edge, your own sissy clit leaking cum onto the floor as NPC_NAME deposits load after " +
+    "load of hot jizz up your ravaged ass.\n\n" +
+    "Once you've collected yourself, you find the Captain throwing something at you.\n\n" +
+    "\"Here, take this,\" he says. \"You'll find it useful and as a top tier slut, you should always be advertising your wares.\"",
+    "JOURNAL_ENTRY": "The Captain has told you to improve your physical appearance some more - namely your @@color:magenta;face@@, @@color:cyan;ass@@, @@color:cyan;tits@@ and @@color:magenta;lips@@. " +
+    "If you satisfy his inspection, he's promised to give you a reward... you hope it's one you'll like.",
+    "JOURNAL_COMPLETE": "You managed to complete the Captain's quest and in the process have been turned into almost the perfect fuck doll. From when you started, a slightly boyish " +
+    "looking young man, you've ended up as a slutty bimbo with huge tits, a jiggling ass and a pair of lips that could suck off a horse. Very few \"natural\" women could compete with " +
+    "you when it comes to looks and technique, it'd be fitting to say that you're a Queen of a Whore."
+};
+/* twine-user-script #32: "StoreData.js" */
 window.App = window.App || { Data: { }, Entity: { } };
 
 window.App.Data.Stores =  {
@@ -9981,8 +10332,24 @@ window.App.Data.Stores =  {
             { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
         ]
     },
+    "GOLDEN_GOODS" : {
+        "ID" : "GOLDEN_GOODS",    "NAME" : "Golden Goods",  "OPEN" : [0, 1, 2, 3 ], "RESTOCK" : 7,
+        "INVENTORY" : [
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",         "QTY":   12,     "MAX":   12,  "PRICE":    16, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
+            { "CATEGORY":   "COMMON",   "TYPE": "FOOD",         "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    },
+            { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":   10,     "MAX":   10,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "basic makeup"           },
+            { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":   10,     "MAX":   10,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "hair products"          },
+            { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",        "QTY":    8,     "MAX":    8,  "PRICE":    50, "MOOD":  0,   "LOCK": 0,  "TAG" : "medicinal herbs"        },
+            { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   300, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate boots"           },
+            { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   200, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate bra"             },
+            { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   200, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate thong"           },
+            { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":   100, "MOOD":  0,   "LOCK": 0,  "TAG" : "milkdew melon"          },
+            { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":   100, "MOOD":  0,   "LOCK": 0,  "TAG" : "honey mead"             },
+            { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":   140, "MOOD":  0,   "LOCK": 0,  "TAG" : "butter gourd"           }
+        ]
+    },
 };
-/* twine-user-script #25: "Story JavaScript" */
+/* twine-user-script #33: "Story JavaScript" */
 //Sugarcube config
 Config.history.controls = false;
 Config.history.maxStates = 1;</script><tw-passagedata pid="1" name="Cabin" tags="" position="100,100">&lt;&lt;set $InIntro = 0&gt;&gt;\
@@ -9994,7 +10361,7 @@ There is a large wooden wardrobe here that contains spare clothes and a vanity a
 @@color:yellow;Action@@: &lt;&lt;if $Player.Phase &lt; 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] == $Player.GetMaxStat(&quot;STAT&quot;,&quot;Energy&quot;);&gt;&gt;@@color:grey;[Rest]@@&lt;&lt;else&gt;&gt;[[Rest]]&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;
 @@color:lime;Travel@@: [[Deck]]
 
-&lt;&lt;if $Player.debugMode != false&gt;&gt;[[Stat Test]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Captain" tags="" position="225,100">The captains quarters are spacious, at least by the standards of this ship. There is a large glass window against the aft side of the room and plush velvet drapes hanging from the walls. The furniture itself is old, but well maintained and the Captain is known for his expensive tastes.
+&lt;&lt;if $Player.debugMode != false&gt;&gt;[[Cheat Room|Stat Test]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Captain" tags="" position="225,100">The captains quarters are spacious, at least by the standards of this ship. There is a large glass window against the aft side of the room and plush velvet drapes hanging from the walls. The furniture itself is old, but well maintained and the Captain is known for his expensive tastes.
 
 &lt;&lt;NPC &quot;Captain&quot;&gt;&gt;
 
@@ -10120,7 +10487,13 @@ The tavern is bustling and lively with many patrons clamoring for drink and food
 &lt;&lt;else&gt;&gt;\
 @@color:lime;Travel@@: [[The Docks|IslaHarbor]] | @@color:grey;[General Store]@@ | @@color:grey;[Governors Mansion]@@
 &lt;&lt;/if&gt;&gt;\
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="Bazzar" tags="" position="1225,225">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="21" name="GI_CheapBrothel" tags="" position="100,350">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="22" name="GI_Clothiers" tags="" position="225,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="23" name="GI_DanceHall" tags="" position="350,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="24" name="GI_GeneralGoods" tags="" position="475,350">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="25" name="GI_GovernorsMansion" tags="" position="600,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="26" name="GI_GuardStation" tags="" position="725,350">@@color:lime;Travel@@: [[Portside District|Portside]] | [[Jail House|GI_Jail]] | [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="27" name="GI_Jail" tags="" position="850,350">@@color:lime;Travel@@: [[Guard Station|GI_GuardStation]]</tw-passagedata><tw-passagedata pid="28" name="GI_Salon" tags="" position="975,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="29" name="GoldenIsle" tags="" position="1100,350">You stand amongst a twisting warren of piers that stretches out into the harbor at the leeward side of the island. For many \
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="Bazzar" tags="" position="1225,225">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="21" name="GI_CheapBrothel" tags="" position="100,350">@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="22" name="GI_Clothiers" tags="" position="225,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="23" name="GI_DanceHall" tags="" position="350,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="24" name="GI_GeneralGoods" tags="" position="475,350">This cramped shop hsa a distinctly nautical theme to it - a displaced rusty anchor, a fishermans net, a bizarrely shaped carcass \
+of some unidentified sea creature purported to be a &#39;Kracken-kin&#39;. It&#39;d be rather funny if it wasn&#39;t for the fact that this is \
+the only major shop in the area.
+
+&lt;&lt;NPC &quot;Steve&quot;&gt;&gt;
+
+@@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="25" name="GI_GovernorsMansion" tags="" position="600,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="26" name="GI_GuardStation" tags="" position="725,350">@@color:lime;Travel@@: [[Portside District|Portside]] | [[Jail House|GI_Jail]] | [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="27" name="GI_Jail" tags="" position="850,350">@@color:lime;Travel@@: [[Guard Station|GI_GuardStation]]</tw-passagedata><tw-passagedata pid="28" name="GI_Salon" tags="" position="975,350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="29" name="GoldenIsle" tags="" position="1100,350">You stand amongst a twisting warren of piers that stretches out into the harbor at the leeward side of the island. For many \
 years this bustling settlement has been a haven of sorts for all sorts of pirate crews that ply their dastardly trade up \
 and down the Lost Coast. Off in the distance you see the entrance to the @@color:gold;&#39;Portside District&#39;@@, the main hub of the \
 settlement and further back on the hill, overlooking it all, the manor of the former Governor, now occupied by one of the most infamous \
@@ -10129,7 +10502,13 @@ pirates to ever set sail, @@color:cyan;&#39;Black Bertie&#39;@@.
 Set back from the wharf is a large multi-story building and from within you can hear the sounds of what appears to be a lively \
 crowd of sailors, likely up to no good. A swinging sign hanging from an awning denotes it as @@color:gold;&#39;The Smuggler&#39;s Den&#39;@@.
 
-@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Smuggler&#39;s Den|SmugglersDen]] | [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="30" name="HighHill" tags="" position="1225,350">@@color:lime;Travel@@: [[Guard Station|GI_GuardStation]] | [[Madame Yvonne&#39;s Salon|GI_Salon]] | [[Bella&#39;s Boudoir|GI_Clothiers]] | [[Minxy&#39;s Dance Hall|GI_DanceHall]] | [[The Governor&#39;s Mansion|GI_GovernorsMansion]]</tw-passagedata><tw-passagedata pid="31" name="Portside" tags="" position="100,475">@@color:lime;Travel@@: [[Docks|GoldenIsle]] | [[General Goods Store|GI_GeneralGoods]] | [[The Saucy Slattern|GI_CheapBrothel]] | [[The Bazzar|Bazzar]] | [[Guard Station|GI_GuardStation]]</tw-passagedata><tw-passagedata pid="32" name="SmugglersDen" tags="" position="225,475">The nondescript outer appearance of this tavern-cum-black market hides an interior that can only be described as \
+@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Smuggler&#39;s Den|SmugglersDen]] | [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="30" name="HighHill" tags="" position="1225,350">@@color:lime;Travel@@: [[Guard Station|GI_GuardStation]] | [[Madame Yvonne&#39;s Salon|GI_Salon]] | [[Bella&#39;s Boudoir|GI_Clothiers]] | [[Minxy&#39;s Dance Hall|GI_DanceHall]] | [[The Governor&#39;s Mansion|GI_GovernorsMansion]]</tw-passagedata><tw-passagedata pid="31" name="Portside" tags="" position="100,475">The @@color:gold;&#39;Portside District&#39;@@ is the bustling hub of this settlement. From this location most of the amenities that the common \
+pirate or freebooter could desire can be accessed. Of particular note are two major establishments, the @@color:gold;&#39;Golden Goods&#39;@@ general store \
+and the @@color:gold;&#39;Saucy Slattern&#39;@@ brothel, that are right next to each other, conveniently so you suppose. Off in the distance you can see \
+a large arch with a sign hanging over it that says simply @@color:gold;&#39;The Bazzar&#39;@@ - no wonder what is in there, and further along up the hill \
+you can see a guard house that marks the check point into the more affluent @@color:gold;&#39;High Hill District&#39;@@
+
+@@color:lime;Travel@@: [[Docks|GoldenIsle]] | [[Golden Goods|GI_GeneralGoods]] | [[The Saucy Slattern|GI_CheapBrothel]] | [[The Bazzar|Bazzar]] | [[Guard Station|GI_GuardStation]]</tw-passagedata><tw-passagedata pid="32" name="SmugglersDen" tags="" position="225,475">The nondescript outer appearance of this tavern-cum-black market hides an interior that can only be described as \
 &#39;fading opulence&#39;, which is surprising given the clientele. It appears that the Den is owned by a now retired \
 former pirate captain and his taste (or lack thereof) for fine art and furniture has made itself part of the overall \
 aesthetic.
@@ -10138,6 +10517,7 @@ The main floor of the establishment is dedicated to a bar and simple market, wit
 for &#39;special&#39; activities and meetings. You probably don&#39;t want to know what.
 
 &lt;&lt;NPC &quot;Petey&quot;&gt;&gt;
+
 @@color:lime;Travel@@: [[Docks|GoldenIsle]]</tw-passagedata><tw-passagedata pid="33" name="Abamond" tags="" position="350,475">The sole pier on Abamond is a megalith is referred to by the locals as the @@color:gold;&#39;Lonely Pier&#39;@@ - it is a structure of \
 unknown origins that has been around for longer than anyone can possibly remember and hints at the previously &#39;occupied&#39; nature \
 of this now desolate island. From the sandy shale of this beach you can see a vast jungle ahead of you, denser than you could \
@@ -10148,13 +10528,14 @@ hewed out of stone by the force of the waves.
 that you cannot find any purchase to climb. Despite that you do notice that there are some small openings, caves by the look of it, \
 that dot the meridian between the sandy beach and the cliffs above. Off in the distance you can still see the massive @@color:gold;&#39;Lonely Pier&#39;@@.
 
-@@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[Explore the caves|OceanCave]]</tw-passagedata><tw-passagedata pid="35" name="HiddenCove" tags="" position="600,475">This hidden cove is easily missed from the sea, being concealed between two massive sheer rock faces and a small atoll of overgrown trees. The path \
+@@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[Explore the caves|OceanCave]]</tw-passagedata><tw-passagedata pid="35" name="HiddenCove" tags="" position="600,475">&lt;&lt;set _Quest = window.App.QuestEngine; &gt;&gt;\
+This hidden cove is easily missed from the sea, being concealed between two massive sheer rock faces and a small atoll of overgrown trees. The path \
 from the jungle leads to a small secluded beach, the waves lazily drifting against it&#39;s rocky shore. It&#39;s apparent that someone has made a camp \
 here recently as you can still see the remains of a cooking fire with several fish bones strewn haphazardly near by.
 
 &lt;&lt;NPC &quot;Paola&quot;&gt;&gt;
-@@color:yellow;Action@@: [[Purchase a Voodoo Hex|VoodooMenu]]
-
+&lt;&lt;if _Quest.GetQuestFlag($Player, &quot;PAOLA_FETCH&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: [[Purchase a Voodoo Hex|VoodooMenu]]
+&lt;&lt;/if&gt;&gt;
 @@color:lime;Travel@@: [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="36" name="Jungle" tags="" position="725,475">The jungles of Abamond are dark, luscious and imposing. All around you the sounds and scents of the untamed wilderness seem to \
 flow over your senses. Off in the distance you can make out the path back to the @@color:gold;&#39;Lonely Pier&#39;@@ and the dark jungle \
 looms ahead.
@@ -10171,7 +10552,25 @@ With the @@color:purple;worn machete@@ in your hands, you could hack a path thro
 than the occasional rock or wall covered with lichen you don&#39;t see any signs of life. A brief exploration has led you to conclude that there are some \
 deeper tunnels that you could explore, if you were so inclined.
 
-@@color:lime;Travel@@: [[Far Beach|FarBeach]] | @@color:grey;Explore the Caverns below Abamond@@</tw-passagedata><tw-passagedata pid="38" name="Ruins" tags="" position="975,475">@@color:lime;Travel@@: [[Into the Jungle|Jungle]] | [[Treasure Room|TreasureRoom]]</tw-passagedata><tw-passagedata pid="39" name="TreasureRoom" tags="" position="1100,475">@@color:lime;Travel@@: [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="40" name="VoodooMenu" tags="" position="1225,475">@@color:cyan;Paola@@ says, &quot;Ah luv, ye be wanting a bit o&#39; me special juju do ya? Tis no worry, so long as ye pay up right and good!&quot;
+@@color:lime;Travel@@: [[Far Beach|FarBeach]] | @@color:grey;Explore the Caverns below Abamond@@</tw-passagedata><tw-passagedata pid="38" name="Ruins" tags="" position="975,475">These ruins look to belong to an ancient civilization, likely the one who built the megalithic pier that has made this island a \
+stop off point for ships traveling the Lost Coast. Deep jungle surrounds you on all sides and giant pieces of masonry peek out \
+from the underbrush at every angle.
+
+A large central building draws your attention and you cautiously make your way towards it. The exterior is overgrown with vines and \
+you quickly and swiftly cut them away to get inside. Once there your nose is overcome with a scent that you did not expect - is that \
+jasmine and honey? You shake your head to clear your thoughts and inspect the room around you - It&#39;s dark and hard to see, but you \
+think you make out various pictographs etched into the walls. There are shards of pottery and other unidentifiable items littering the ground.
+
+It makes you wonder if there are perhaps still useful items inside this ruin to recover?
+
+@@color:lime;Travel@@: [[Into the Jungle|Jungle]] | [[Treasure Room|TreasureRoom]]</tw-passagedata><tw-passagedata pid="39" name="TreasureRoom" tags="" position="1100,475">After a long and arduous trek you&#39;ve finally made your way into the deepest and most secure part of the ancient ruins. Obviously \
+this chamber was of some importance to be so deeply recessed into the complex, but what impresses you most is the care that went \
+into the architecture - it has a large clean marble floor (where did they get that from?) and several columns around the \
+perimeter of the room reach skywards towards an arched dome.
+
+Towards the back of the room you see a small opening, upon inspecting it, it appears to be a secret tunnel leading back to the surface.
+
+@@color:lime;Travel@@: [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="40" name="VoodooMenu" tags="" position="1225,475">@@color:cyan;Paola@@ says, &quot;Ah luv, ye be wanting a bit o&#39; me special juju do ya? Tis no worry, so long as ye pay up right and good!&quot;
 
 &lt;span id=&quot;voodooMenu&quot;&gt;@@color:yellow;Paola&#39;s House of Voodoo and Curse Emporium@@
 
@@ -10223,7 +10622,13 @@ When you finally come too, you feel lighter and your proportions are noticeably 
 &lt;/span&gt;
 
 @@color:cyan;Interact@@: [[Exit|HiddenCove]]</tw-passagedata><tw-passagedata pid="41" name="Casino" tags="" position="100,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="42" name="CourtesansGuild" tags="" position="225,600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="43" name="EntertainmentDistrict" tags="" position="350,600">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[The Grand Casino|Casino]] | [[Jezzebelles|PR_DanceHall]] | [[Green Gryphon|PR_FancyTavern]] | [[Sindee Rella&#39;s Sexorium and Slut Show|XXXShow]] |
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[[Port Royale Gifts|GiftShop]]</tw-passagedata><tw-passagedata pid="44" name="FortuneTeller" tags="" position="475,600">@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="45" name="GiftShop" tags="" position="600,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="46" name="GreatMarket" tags="" position="725,600">An endless array of sounds and smells assaults your senses as you step foot into the grand plaza that plays host to the daily \
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[[Port Royale Gifts|GiftShop]]</tw-passagedata><tw-passagedata pid="44" name="FortuneTeller" tags="" position="475,600">The interior of this shop is small and dark, with the lights casting deep shadows, possibly by design. From the walls hang various \
+tapestries of obvious an exotic nature and of purported mystical significance. In the middle of the main area of the shop is a table \
+with a massive &#39;crystal ball&#39;, behind which sits the proprietor and self proclaimed psychic.
+
+&lt;&lt;NPC &quot;Blanche&quot;&gt;&gt;
+
+@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="45" name="GiftShop" tags="" position="600,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="46" name="GreatMarket" tags="" position="725,600">An endless array of sounds and smells assaults your senses as you step foot into the grand plaza that plays host to the daily \
 @@color:gold;&#39;Great Market of Port Royale&#39;@@. Colourful tents and stands dot the landscape with vendors loudly hawking their wares \
 and shoppers scurrying around like angry ants. Here and there around the plaza are the entrances to other establishments - \
 a stately tavern named the @@color:gold;&#39;Grey Peacock&#39;@@, a small hovel with a hanging sign proclaiming it as @@color:gold;&#39;Madam Blanche&#39;s Fortunes and Divining&#39;@@ \
@@ -10232,7 +10637,15 @@ and a large multi-story brothel, painted in bright red with lettering reading @@
 Further down the road is the open gateway to the @@color:gold;&#39;Entertainment District&#39;@@ and to the left of that is the guarded portcullis \
 that leads to the @@color:gold;&#39;Wealthy District&#39;@@.
 
-@@color:lime;Travel@@: [[The Docks|PortRoyale]] | [[Madame Blanche&#39;s|FortuneTeller]] | [[Grey Peacock|PR_Tavern]] | [[Lusty Lass|PR_CheapBrothel]] | [[The Entertainment District|EntertainmentDistrict]] | [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="47" name="PR_CheapBrothel" tags="" position="850,600">@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="48" name="PR_Clothier" tags="" position="975,600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="49" name="PR_DanceHall" tags="" position="1100,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="50" name="PR_FancyTavern" tags="" position="1225,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="51" name="PR_GovernorsMansion" tags="" position="100,725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="52" name="PR_GuardHouse" tags="" position="225,725">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[Jail House|PR_Jail]] | [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="53" name="PR_Jail" tags="" position="350,725">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="54" name="PR_RareGoods" tags="" position="475,725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="55" name="PR_Tavern" tags="" position="600,725">The @@color:gold;&#39;Grey Peacock&#39;@@ is one of the more popular taverns in @@color:gold;&#39;Port Royale&#39;@@, well known for both it&#39;s wholesome food and \
+@@color:lime;Travel@@: [[The Docks|PortRoyale]] | [[Madame Blanche&#39;s|FortuneTeller]] | [[Grey Peacock|PR_Tavern]] | [[Lusty Lass|PR_CheapBrothel]] | [[The Entertainment District|EntertainmentDistrict]] | [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="47" name="PR_CheapBrothel" tags="" position="850,600">For a place that caters to a lower class crowd, the @@color:gold;&#39;Lusty Lass&#39;@@ is a notch above the rest. The interior is modest, but \
+well maintained - the beds are clean, the food is decent and the drinks aren&#39;t watered down. The bottom floor of the building consists \
+of a small bar and waiting area for clients, while the upstairs hosts a variety of rooms for &#39;conducting business&#39;.
+
+&lt;&lt;NPC &quot;Simone&quot;&gt;&gt;
+
+@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;customMenuLink &quot;Whore&quot; &quot;LustyLassCustomers&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;
+
+@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="48" name="PR_Clothier" tags="" position="975,600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="49" name="PR_DanceHall" tags="" position="1100,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="50" name="PR_FancyTavern" tags="" position="1225,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="51" name="PR_GovernorsMansion" tags="" position="100,725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="52" name="PR_GuardHouse" tags="" position="225,725">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[Jail House|PR_Jail]] | [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="53" name="PR_Jail" tags="" position="350,725">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="54" name="PR_RareGoods" tags="" position="475,725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="55" name="PR_Tavern" tags="" position="600,725">The @@color:gold;&#39;Grey Peacock&#39;@@ is one of the more popular taverns in @@color:gold;&#39;Port Royale&#39;@@, well known for both it&#39;s wholesome food and \
 stiff drinks. The clientele tends to be a step up from the common rabble that you&#39;d find in other places since mostly their have their needs met \
 by the numerous street-side stands in the @@color:gold;&#39;Great Market&#39;@@ and the decor and settings represent that.
 
@@ -10246,7 +10659,14 @@ goods back and forth.
 A large building attached to a massive dry-dock is to the north, it&#39;s obviously a shipyard of some sort and beyond that a \
 twisting road leads to the famous @@color:gold;&#39;Great Market&#39;@@.
 
-@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Shipwright|ShipWright]] | [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="57" name="ShipWright" tags="" position="850,725">@@color:lime;Travel@@: [[The Docks|PortRoyale]]</tw-passagedata><tw-passagedata pid="58" name="WealthyDistrict" tags="" position="975,725">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]] | [[Lady Selene&#39;s School for Courtesans|CourtesansGuild]] | [[Veronica&#39;s Secret|PR_Clothier]] | [[David Jone&#39;s Locker|PR_RareGoods]] | 
+@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Shipwright|ShipWright]] | [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="57" name="ShipWright" tags="" position="850,725">The dry-docks and shipyard are here on the far end of the harbor. A large building contains the warehouse and sleeping quarters of \
+the shipwrights and various laborers that work here and to the left of that is the dry dock.
+
+There is currently no ship being built.
+
+&lt;&lt;NPC &quot;Gulliver&quot;&gt;&gt;
+
+@@color:lime;Travel@@: [[The Docks|PortRoyale]]</tw-passagedata><tw-passagedata pid="58" name="WealthyDistrict" tags="" position="975,725">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]] | [[Lady Selene&#39;s School for Courtesans|CourtesansGuild]] | [[Veronica&#39;s Secret|PR_Clothier]] | [[David Jone&#39;s Locker|PR_RareGoods]] | 
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[[The Governor&#39;s Mansion|PR_GovernorsMansion]]</tw-passagedata><tw-passagedata pid="59" name="XXXShow" tags="" position="1100,725">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="60" name="PassageTest" tags="" position="1225,725">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;click &quot;PIRATE_PRACTICE&quot; &quot;Combat&quot;&gt;&gt;
 &lt;&lt;set $MenuAction = &quot;PIRATE_PRACTICE&quot;;&gt;&gt;
@@ -10255,7 +10675,7 @@ twisting road leads to the famous @@color:gold;&#39;Great Market&#39;@@.
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/click&gt;&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="Stat Test" tags="" position="100,850">[[Hormones to 100|Stat Test][$Player.CoreStats[&quot;Hormones&quot;] to 100]] | [[Next Day|Stat Test][$Player.NextDay();]]
 [[Cabin]] | [[IslaHarbor]] | [[GoldenIsle]] | [[Abamond]] | [[PortRoyale]] | [[PassageTest]]
-[[HiddenCove]]</tw-passagedata><tw-passagedata pid="62" name="InventoryWidgets" tags="widget" position="225,850">&lt;&lt;widget &quot;InspectItem&quot;&gt;&gt;&lt;&lt;set _Item = $Player.GetItemById($args[0]); &gt;&gt;\
+[[HiddenCove]] | [[Ruins]] | [[TreasureRoom]]</tw-passagedata><tw-passagedata pid="62" name="InventoryWidgets" tags="widget" position="225,850">&lt;&lt;widget &quot;InspectItem&quot;&gt;&gt;&lt;&lt;set _Item = $Player.GetItemById($args[0]); &gt;&gt;\
 &lt;table class=&quot;.MyTable&quot; style=&quot;width:750px;&quot;&gt;
 &lt;tbody&gt;
 	&lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;&lt;h3&gt;@@color:yellow;Inspecting - @@&lt;&lt;= _Item.Description()&gt;&gt;&lt;/h3&gt;&lt;/td&gt;
@@ -11055,7 +11475,7 @@ The fetish appeal of your body is &lt;&lt;print window.App.PR.pFetish($Player);&
 &lt;&lt;print window.App.PR.pQuestDialog(_ID, &quot;INTRO&quot;, $Player, _NPC); &gt;&gt;
 
 @@.cmdButton;&lt;&lt;button &quot;Accept&quot;&gt;&gt;\
-&lt;&lt;run _QE.SetQuestFlag($Player, _ID, &quot;ACTIVE&quot;)&gt;&gt;\
+&lt;&lt;run _QE.AcceptQuest($Player, _ID)&gt;&gt;\
 &lt;&lt;replace &quot;#QuestUI&quot;&gt;&gt;&lt;&lt;questList&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/button&gt;&gt;@@   @@.cmdButton;&lt;&lt;button &quot;Decline&quot;&gt;&gt;&lt;&lt;replace &quot;#QuestUI&quot;&gt;&gt;&lt;&lt;questList&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/button&gt;&gt;@@
 &lt;&lt;else&gt;&gt;\
 &lt;&lt;if _QE.CanCompleteQuest($Player, _ID) == 0&gt;&gt;\
@@ -11067,7 +11487,7 @@ The fetish appeal of your body is &lt;&lt;print window.App.PR.pFetish($Player);&
 &lt;&lt;else&gt;&gt;\
 &lt;&lt;print window.App.PR.pQuestDialog(_ID, &quot;FINISH&quot;, $Player, _NPC); &gt;&gt;
 
-&lt;&lt;if $args[0][&quot;REWARD&quot;].length != 0&gt;&gt;
+&lt;&lt;if $args[0][&quot;REWARD&quot;].length != 0&gt;&gt;\
 @@color:DeepPink;Quest Rewards@@:
 &lt;&lt;set _Rewards = window.App.PR.pQuestRewards(_ID) &gt;&gt;\
 &lt;&lt;set $ChoiceItem to 0&gt;&gt;\
@@ -11076,11 +11496,13 @@ The fetish appeal of your body is &lt;&lt;print window.App.PR.pFetish($Player);&
 &lt;&lt;set _Choices = _QE.GetQuestRewards(_ID, &quot;ITEM_CHOICE&quot;);&gt;&gt;\
 &lt;&lt;if _Choices.length &gt; 0&gt;&gt;\
 @@color:Cyan;Pick One@@:
+&lt;ul&gt;
 &lt;&lt;for _i = 0; _i &lt; _Choices.length;_i++&gt;&gt;\
 &lt;&lt;if _i == 0&gt;&gt;\
-* &lt;&lt;print &#39;&lt;&lt;radiobutton &quot;$ChoiceItem&quot;  &quot;&#39;+_Choices[_i][&quot;NAME&quot;] +&#39;&quot; checked&gt;&gt; &#39; + window.App.PR.pItemDesc(_Choices[_i][&quot;TYPE&quot;], _Choices[_i][&quot;NAME&quot;], _Choices[_i][&quot;AMOUNT&quot;]) &gt;&gt;&lt;&lt;else&gt;&gt;\
-* &lt;&lt;print &#39;&lt;&lt;radiobutton &quot;$ChoiceItem&quot;  &quot;&#39;+_Choices[_i][&quot;NAME&quot;] +&#39;&quot;&gt;&gt; &#39; + window.App.PR.pItemDesc(_Choices[_i][&quot;TYPE&quot;], _Choices[_i][&quot;NAME&quot;], _Choices[_i][&quot;AMOUNT&quot;]) &gt;&gt;&lt;&lt;/if&gt;&gt;\
+&lt;li&gt;&lt;&lt;print &#39;&lt;&lt;radiobutton &quot;$ChoiceItem&quot;  &quot;&#39;+_Choices[_i][&quot;NAME&quot;] +&#39;&quot; checked&gt;&gt; &#39; + window.App.PR.pItemDesc(_Choices[_i][&quot;TYPE&quot;], _Choices[_i][&quot;NAME&quot;], _Choices[_i][&quot;AMOUNT&quot;]) &gt;&gt;&lt;/li&gt;&lt;&lt;else&gt;&gt;\
+&lt;li&gt;&lt;&lt;print &#39;&lt;&lt;radiobutton &quot;$ChoiceItem&quot;  &quot;&#39;+_Choices[_i][&quot;NAME&quot;] +&#39;&quot;&gt;&gt; &#39; + window.App.PR.pItemDesc(_Choices[_i][&quot;TYPE&quot;], _Choices[_i][&quot;NAME&quot;], _Choices[_i][&quot;AMOUNT&quot;]) &gt;&gt;&lt;/li&gt;&lt;&lt;/if&gt;&gt;\
 &lt;&lt;/for&gt;&gt;\
+&lt;/ul&gt;
 &lt;&lt;/if&gt;&gt;\
 &lt;&lt;/if&gt;&gt;
 @@.cmdButton;&lt;&lt;button &quot;Complete Quest&quot; $GameBookmark&gt;&gt;\
@@ -11485,6 +11907,42 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;&lt;/nobr&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="85" name="ChangeLog" tags="custom-menu" position="600,1100">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 
+!!!0.3 - 05/13/2018
+!!!!General
+* Added &#39;Loot Boxes&#39; to the game. They can be awarded from quests, or from doing certain jobs well. Opening them up will give you a random reward.
+* Loot boxes can now be found in your inventory under Quest &amp; Loot
+* Refactored the source code in github to make adding quests, jobs easier to maintain.
+* Added some food, sissy and pirate loot boxes to the game (look for them at certain npcs that have jobs)
+* Added a &#39;WEAPON&#39; slot to the player. Weapons can be equipped in the wardrobe like normal equipment.
+* More items added to gain.
+* Gothic lolita outfit descriptions provided by @@color:deepPink;littleslavegirl@@.
+* Added a text passage for winning the game with low power by @@color:deepPink;mightyakira@@.
+* Enhancements to job engine and quest engine to support increased complexity.
+* Many bug fixes!
+
+!!!!Salty Mermaid
+* Loot Box at the Captain&#39;s whoring job.
+* Loot Box at the Galley (helping out)
+
+!!!!Isla Harbor
+* Added two new quests to Bosun.
+* Loot box at the Mascot job.
+
+!!!!Abamond
+* You can now explore the jungle, assuming you have a tool that will let you clear the foliage.
+* The hidden cove now has a resident, Paola St. Marie. She is a voodoo priestess and has a fetch quest and some special services (hexes).
+* Added quest to Paola St. Marie.
+* Added descriptions for the Ruins and Treasure room (nothing interactive yet).
+
+!!!!Golden Isle
+* Added Docks, Smugglers Den.
+* Added Portside description and General Store (Golden Goods).
+
+!!!!Port Royale
+* Added descriptions to the Shipwright, Fortune Teller and Lusty Lass.
+* You can whore at the Lusty Lass. The customers pay more.
+
+
 !!!0.2 - 05/09/2018
 !!!!General
 * Rounding bug with Journal quest tracker fixed.
@@ -11498,7 +11956,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 * Reduced quest requirements for the &#39;Build a Better Bimbo&#39; chain.
 * Reduced bust requirement for First Mate whoring job.
 * Hide game status panel during intro.
-* Added examine item button to store (thanks dcancer for github contribution)
+* Added examine item button to store (thanks @@color:deepPink;dcancer@@ for github contribution)
 
 !!!!Isla Harbor
 * Added Waitress Job to tavern.
@@ -11520,7 +11978,73 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="86" name="Combat" tags="custom-menu" position="725,1100">&lt;&lt;combatPanel $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="87" name="Examine" tags="custom-menu" position="850,1100">&lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.ShortDesc())&gt;&gt;
 &lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.LongDesc())&gt;&gt;
 
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="88" name="GameOver" tags="" position="975,1100">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="89" name="GameWon" tags="custom-menu" position="1100,1100">You won the game. Great moves. Proud of you.</tw-passagedata><tw-passagedata pid="90" name="Inventory" tags="custom-menu" position="1225,1100">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="88" name="GameOver" tags="" position="975,1100">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="89" name="GameWon" tags="custom-menu" position="1100,1100">&lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;WillPower&quot;) &lt; 50&gt;&gt;&lt;!-- Contributed by mightyakira @ TFGamesSite Forums --&gt;
+You daintily walk into the captain’s cabins and kneels before Captain Reginald, all on your own accord. You have learnt \
+much from your time with the crew and captain of the Mermaid, it’s almost your second nature now to act exactly the way \
+everybody aboard wants you to act.
+
+You prostrate yourself in front of Captain Reginald, and looks up to him with your slut puppy eyes; “Master! I have come\
+ to present you a sum of 50,000 coins for my freedom!” You tell the captain proudly and with gusto.
+
+Captain Reginald looks at you, his eyes filled with amazement. He says, “I honestly have never thought you’d be able to \
+do it, and I have to say that I am almost sad that you actually managed the impossible. You were a fine whore &lt;&lt;= $Player.SlaveName&gt;&gt;\
+, perhaps even finer than a real woman. Well, I don’t go back on my words and I’ll take those coins and get that collar \
+off your neck.”
+
+Captain Reginald waves his signet ring over your neck and the collar drops off with a loud thud. But somehow you really \
+don’t feel any relief, instead, you feel more sadness and uncertainty now knowing that you will soon be leaving the \
+Captain, the crew, and the Mermaid, the people you’ve gotten so fond to and have treated you oh so *well*.
+
+Captain Reginald thinks for a moment and the says to you, “Some of the lads – and me – to be perfectly honest with you, \
+have grown quite fond of you, or at least your holes.”
+
+You look up to the captain sweetly and smiles. He continues with a smirk, “How about a wager, my little minx? Why don’t \
+you serve me one last time, and this time as a free girl? And if I cum first, I will give you back half your coins to \
+help you on your way. But if you cum first, I will officially name you the Cabin Girl of the Salty Mermaid and welcome \
+you as a free member of our crew.”
+
+Hearing this, you think that no matter how this turns out, it’s a win-win for you. In any case, you are going to get your\
+ freedom, but now you may even get half of the coins back! Or, you will be the happy little cabin girl for the Mermaid \
+forever, but free nonetheless…
+
+“Of course, Master! I can serve you one last time, that much I can do at the very least, Master!” You respond happily to \
+Captain Reginald and struts over to him. You do it in exactly the way that you know Captain Reginald loves and yanks at \
+his trousers with your teeth to free his cock, which is at half mast. You decide to use your cute mouth pussy to draw him \
+to full mast.
+
+You are basically on auto-pilot at this point, this was all a learnt behaviour reinforced by the hundreds to thousands of \
+times you have already done this, you bob up and down on him with your love pillows wrapped firmly around him and you hum \
+a pretty song to massage his length with delight. Why did you even fight this at the start? You think to yourself, why were \
+you ever such a prude to not have enjoyed doing this to everybody?
+
+You suck and lick up and down Captain Reginald’s cock for about two minutes and you already feel your own orgasm building \
+up simply from your mouth pussy, you best start presenting your ass if you still want to win this wager, you think to \
+yourself. You let go of his cock reluctantly, it’s now at full mast, you give it a quick lick one last time and a little \
+kiss on the head to show your love and devotion.
+
+Captain Reginald simply sits there, having not moved much at all and lets you serve him completely. You smile sweetly at \
+him and turns around to present your puckered ass pussy, you plant yourself face first into his desk and asks in your sugary \
+voice, “Please f*** me, Master!”
+
+He stands, not saying a thing and approaches you with his well lubricated cock. Without warning, he slams into your sphincter, \
+anticipating this, you push back as hard as you possibly can to pleasure him. Though this was also your downfall, by this point, \
+you know every vein and every crevice of his cock off by heart and a single thrust into you was too much. Immediately you have a \
+little orgasm and your clitty leaks a little spurt of cum. You have lost, and Captain Reginald knows this just by your shiver \
+and puckering of your ass pussy.
+
+“Seems like you will be staying with us after all, my little Cabin Girl. Guess this was not the last time you serve me, after all.”
+
+Hearing this, your heart fills with relief and delight for some reason. Having found security for your future with the \
+Salty Mermaid. Determined to finish what you have started, you continue to push back against Captain Reginald and every thrust \
+gives you a tiny orgasm. Eventually your skill in ass f***ing has the desired effect on Captain Reginald, he grabs your shoulders \
+and gives you a push deep into your ass and it feels like he is unloading buckets directly into your tummy. Afterwards, he sinks \
+back to his chair, and you kneel to clean him up.
+
+You are now free, and it looks like you’ve already found employment! You strut confidently towards the exit of Captain Reginald’s \
+cabin, towards your new life.
+&lt;&lt;else&gt;&gt;
+You won, hurrah!
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="90" name="Inventory" tags="custom-menu" position="1225,1100">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
 &lt;&lt;set _Drugs = $Player.GetItemByTypes([&quot;potion&quot;]);&gt;&gt;\
 &lt;&lt;set _Quests = $Player.GetItemByTypes([&quot;QUEST&quot;, &quot;LOOT_BOX&quot;]);&gt;&gt;
 &lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="91" name="Jobs" tags="custom-menu" position="100,1225">&lt;&lt;nobr&gt;&gt;
@@ -11550,12 +12074,13 @@ Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="86" name=
 No active quests.
 &lt;&lt;else&gt;&gt;\
 &lt;&lt;for _i = 0; _i &lt; _QLA.length; _i++&gt;&gt;\
+&lt;&lt;if (_QLA[_i][&quot;JOURNAL_ENTRY&quot;] != &quot;HIDDEN&quot;)&gt;&gt;\
 &lt;&lt;set _NPC = $Player.GetNPC(_QLA[_i][&quot;GIVER&quot;]);&gt;&gt;\
 //&lt;&lt;print &quot;[&quot; +_NPC.pName() + &quot; - &quot; + _QLA[_i][&quot;Title&quot;] + &quot;]&quot;;&gt;&gt;//
 &lt;&lt;print window.App.PR.pQuestDialog(_QLA[_i][&quot;ID&quot;], &quot;JOURNAL_ENTRY&quot;, $Player, _NPC);&gt;&gt;
 &lt;&lt;if _QLA[_i][&quot;CHECKS&quot;].length != 0&gt;&gt;\
 &lt;&lt;print window.App.PR.pQuestRequirements(_QLA[_i][&quot;ID&quot;], $Player) + &quot;\n&quot;;&gt;&gt;
-&lt;&lt;else&gt;&gt;
+&lt;&lt;/if&gt;&gt;\
 &lt;&lt;/if&gt;&gt;\
 &lt;&lt;/for&gt;&gt;\
 &lt;&lt;/if&gt;&gt;\
@@ -11566,10 +12091,11 @@ No completed quests.
 
 &lt;&lt;else&gt;&gt;\
 &lt;&lt;for _i = 0; _i &lt; _QLC.length; _i++&gt;&gt;\
+&lt;&lt;if (_QLC[_i][&quot;JOURNAL_COMPLETE&quot;] != &quot;HIDDEN&quot;)&gt;&gt;\
 &lt;&lt;set _NPC = $Player.GetNPC(_QLC[_i][&quot;GIVER&quot;]);&gt;&gt;\
 //&lt;&lt;print &quot;[&quot; +_NPC.pName() + &quot; - &quot;  + _QLC[_i][&quot;Title&quot;] + &quot;]&quot;;&gt;&gt;//
 &lt;&lt;print window.App.PR.pQuestDialog(_QLC[_i][&quot;ID&quot;], &quot;JOURNAL_COMPLETE&quot;, $Player, _NPC);&gt;&gt;
-
+&lt;&lt;/if&gt;&gt;
 
 &lt;&lt;/for&gt;&gt;\
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="93" name="Player Score" tags="widget" position="350,1225">&lt;&lt;widget &quot;score&quot;&gt;&gt;\

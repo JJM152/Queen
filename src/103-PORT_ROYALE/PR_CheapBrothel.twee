@@ -1,2 +1,10 @@
 :: PR_CheapBrothel
+For a place that caters to a lower class crowd, the @@color:gold;'Lusty Lass'@@ is a notch above the rest. The interior is modest, but \
+well maintained - the beds are clean, the food is decent and the drinks aren't watered down. The bottom floor of the building consists \
+of a small bar and waiting area for clients, while the upstairs hosts a variety of rooms for 'conducting business'.
+
+<<NPC "Simone">>
+
+@@color:yellow;Action@@: <<if $Player.GetStat("STAT","Energy") < 1 or $Player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<customMenuLink "Whore" "LustyLassCustomers">><</if>>
+
 @@color:lime;Travel@@: [[Great Market|GreatMarket]]

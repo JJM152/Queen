@@ -1,2 +1,8 @@
 :: FortuneTeller
+The interior of this shop is small and dark, with the lights casting deep shadows, possibly by design. From the walls hang various \
+tapestries of obvious an exotic nature and of purported mystical significance. In the middle of the main area of the shop is a table \
+with a massive 'crystal ball', behind which sits the proprietor and self proclaimed psychic.
+
+<<NPC "Blanche">>
+
 @@color:lime;Travel@@: [[Great Market|GreatMarket]]
