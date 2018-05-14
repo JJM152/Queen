@@ -8,4 +8,4 @@ There is a large wooden wardrobe here that contains spare clothes and a vanity a
 @@color:yellow;Action@@: <<if $Player.Phase < 3>><<if $Player.CoreStats["Energy"] == $Player.GetMaxStat("STAT","Energy");>>@@color:grey;[Rest]@@<<else>>[[Rest]]<</if>><<else>>[[Sleep]]<</if>>
 @@color:lime;Travel@@: [[Deck]]
 
-<<if $Player.debugMode != false>>[[Cheat Room|Stat Test]]<</if>>
+<<if $Player.debugMode != false>>[[Cheat Room|DebugPassage]]<</if>>
