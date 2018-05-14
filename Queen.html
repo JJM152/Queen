@@ -1400,14 +1400,14 @@ App.Item = new function() {
 
 
 /* twine-user-script #4: "JobEngine.js" */
-window.App = window.App || { Data: { }, Entity: { } };
+App = App || { Data: { }, Entity: { } };
 
 /**
  * This class manages the "job" system. Basically short term repeatable quests.
  * They are not tracked by the journal and focus mostly on earning cheap rewards and flavor text.
  * @constructor
  */
-window.App.JobEngine = new function() {
+App.JobEngine = new function() {
 
     /** @type {Array.<App.Job>}
      * @private */
@@ -1426,7 +1426,7 @@ window.App.JobEngine = new function() {
 
     /**
      * Lists all jobs at person/location
-     * @param {window.App.Entity.Player} Player
+     * @param {App.Entity.Player} Player
      * @param {string} Giver
      * @returns {Array.<Job>}
      */
@@ -1451,7 +1451,7 @@ window.App.JobEngine = new function() {
     };
     /**
      * Lists all AVAILABLE jobs at a person
-     * @param {window.App.Entity.Player} Player
+     * @param {App.Entity.Player} Player
      * @param {string} Giver
      * @returns {Array.<Job>}
      */
@@ -1523,7 +1523,7 @@ window.App.JobEngine = new function() {
       Player.JobFlags[Flag] = Value;
     };
 
-    //this.Init(window.App.Data.JobData);
+    //this.Init(App.Data.JobData);
 };
 
 /**
@@ -1531,7 +1531,7 @@ window.App.JobEngine = new function() {
  * @param {Object} Data
  * @constructor
  */
-window.App.Job = function(Data) {
+App.Job = function(Data) {
 
     /** @type {boolean}
      *  @private */
@@ -1600,7 +1600,7 @@ window.App.Job = function(Data) {
      */
     this.Intro      = function(Player, Npc) {
         if (this.Requirements(Player, Npc) == false) return "@@color:red;Requirements not met.@@";
-        return  window.App.PR.TokenizeString(Player, Npc, this._JobData["INTRO"]);
+        return  App.PR.TokenizeString(Player, Npc, this._JobData["INTRO"]);
     };
 
     /**
@@ -1635,7 +1635,7 @@ window.App.Job = function(Data) {
         if (Opt) return Output;
 
         for (var i = 0; i < this._JobData["RATING"];i++) Output += " &#9733;";
-        Output = window.App.PR.ColorizeString(this._JobData["RATING"], Output, 5);
+        Output = App.PR.ColorizeString(this._JobData["RATING"], Output, 5);
 
         var Time    = this._GetCost("TIME");
         var Energy  = this._GetCost("STAT", "Energy");
@@ -1742,9 +1742,9 @@ window.App.Job = function(Data) {
                     if (this._Cmp( Player.GetStat(Type, Name), Value, Condition) == false) {
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
-                            ReqString = window.App.PR.ColorizeString(Value, Name + " stat is too high");
+                            ReqString = App.PR.ColorizeString(Value, Name + " stat is too high");
                         } else {
-                            ReqString = window.App.PR.ColorizeString(Value, Name + " stat is too low");
+                            ReqString = App.PR.ColorizeString(Value, Name + " stat is too low");
                         }
                     }
                     break;
@@ -1752,9 +1752,9 @@ window.App.Job = function(Data) {
                     if (this._Cmp( Player.GetStat(Type, Name), Value, Condition) == false) {
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
-                            ReqString = window.App.PR.ColorizeString(Value, Name  + " skill is too high");
+                            ReqString = App.PR.ColorizeString(Value, Name  + " skill is too high");
                         } else {
-                            ReqString = window.App.PR.ColorizeString(Value, Name + " skill is too low");
+                            ReqString = App.PR.ColorizeString(Value, Name + " skill is too low");
                         }
                     }
                     break;
@@ -1762,9 +1762,9 @@ window.App.Job = function(Data) {
                     if (this._Cmp( Player.GetStat(Type, Name), Value, Condition) == false) {
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
-                            ReqString = window.App.PR.ColorizeString(Value, "Too much "+ Name);
+                            ReqString = App.PR.ColorizeString(Value, "Too much "+ Name);
                         } else {
-                            ReqString = window.App.PR.ColorizeString(Value, "Not enough " + Name);
+                            ReqString = App.PR.ColorizeString(Value, "Not enough " + Name);
                         }
                     }
                     break;
@@ -1780,9 +1780,9 @@ window.App.Job = function(Data) {
                         if (this._Cmp( NPC.GetStat(Name), Value, Condition ) == false) {
                             StatusFlag = false;
                             if (Condition == "lt" || Condition == "lte" ) {
-                                ReqString = window.App.PR.ColorizeString(Value, NPC.Name() +"'s " + Name  + " is too high");
+                                ReqString = App.PR.ColorizeString(Value, NPC.Name() +"'s " + Name  + " is too high");
                             } else {
-                                ReqString = window.App.PR.ColorizeString(Value, NPC.Name() + "'s " + Name + " is too low");
+                                ReqString = App.PR.ColorizeString(Value, NPC.Name() + "'s " + Name + " is too low");
                             }
                         }
                     }
@@ -1790,7 +1790,7 @@ window.App.Job = function(Data) {
                 case "QUEST":
                     if (this._Cmp( Player.QuestFlags[Name], Value, Condition) == false) {
 
-                        ReqString += "@@color:gold;Quest '"+ window.App.Data.Quests[Name]["Title"]+"' not complete@@";
+                        ReqString += "@@color:gold;Quest '"+ App.Data.Quests[Name]["Title"]+"' not complete@@";
                         StatusFlag = false;
                     }
                     break;
@@ -1810,9 +1810,9 @@ window.App.Job = function(Data) {
                     if (this._Cmp( Player.GetStyleSpecRating(Name), Value, Condition) == false ){
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
-                            ReqString = window.App.PR.ColorizeString(Value, "Too much style '"+Name+"'");
+                            ReqString = App.PR.ColorizeString(Value, "Too much style '"+Name+"'");
                         } else {
-                            ReqString = window.App.PR.ColorizeString(Value, "Not enough style '"+Name+"'");
+                            ReqString = App.PR.ColorizeString(Value, "Not enough style '"+Name+"'");
                         }
                     }
                     break;
@@ -1820,9 +1820,9 @@ window.App.Job = function(Data) {
                     if (this._Cmp( Player.Style(), Value, Condition) == false) {
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
-                            ReqString = window.App.PR.ColorizeString(Value, "Style and Grooming too high");
+                            ReqString = App.PR.ColorizeString(Value, "Style and Grooming too high");
                         } else {
-                            ReqString = window.App.PR.ColorizeString(Value, "Style and Grooming too low");
+                            ReqString = App.PR.ColorizeString(Value, "Style and Grooming too low");
                         }
                     }
                     break;
@@ -1992,7 +1992,7 @@ window.App.Job = function(Data) {
 
         for (var i = 0; i < this._JobData["SCENES"].length; i++) {
             /** @type {App.Scene} Scene */
-            var Scene = new window.App.Scene(Player, NPC, this._JobData["SCENES"][i], Results);
+            var Scene = new App.Scene(Player, NPC, this._JobData["SCENES"][i], Results);
             Results = Scene.Results(); //Pass along results from previous scenes to future scenes.
             this._SceneBuffer.push(Scene);
         }
@@ -2018,7 +2018,7 @@ window.App.Job = function(Data) {
          * @param {string} a
          * @returns {string}
          */
-        var Colorize = function(a) { return  (typeof a !== 'undefined') ? window.App.PR.ColorizeString(Percent, a.slice(2,-2), 100) : ""; };
+        var Colorize = function(a) { return  (typeof a !== 'undefined') ? App.PR.ColorizeString(Percent, a.slice(2,-2), 100) : ""; };
 
         for ( var i = 0; i < this._JobData["JOB_RESULTS"].length; i++)
             if (Percent <= this._JobData["JOB_RESULTS"][i][Tag])
@@ -2071,7 +2071,7 @@ window.App.Job = function(Data) {
         if (String.indexOf("JOB_RESULTS") != -1) { // Kludge because replace evaluates function even if no pattern match. Dumb.
             String = String.replace(/JOB_RESULTS/g, this._PrintJobResults());
         }
-        String = window.App.PR.TokenizeString(Player, NPC, String);
+        String = App.PR.TokenizeString(Player, NPC, String);
         return String;
     };
 
@@ -2109,13 +2109,13 @@ window.App.Job = function(Data) {
 
 /**
  * Stores and plays a "scene" from a job.
- * @param {window.App.Entity.Player} Player
- * @param {window.App.Entity.NPC} NPC
+ * @param {App.Entity.Player} Player
+ * @param {App.Entity.NPC} NPC
  * @param {object} SceneData
  * @param {object} Checks
  * @constructor
  */
-window.App.Scene = function(Player, NPC, SceneData, Checks) {
+App.Scene = function(Player, NPC, SceneData, Checks) {
 
     /** @type {boolean}
      *  @private */
@@ -2366,11 +2366,11 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
                 break;
             case "STORE":
                 if (this._Player.StoreInventory[Name]["INVENTORY"].length < 1) {
-                    window.App.StoreEngine.OpenStore(this._Player, this._NPC);
+                    App.StoreEngine.OpenStore(this._Player, this._NPC);
                 }
                 
-                if (Opt == "LOCK") window.App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 1);
-                if (Opt == "UNLOCK") window.App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 0);
+                if (Opt == "LOCK") App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 1);
+                if (Opt == "UNLOCK") App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 0);
                 break;
             case "NPC_STAT":
                 this._NPC.AdjustStat(Name, Value);
@@ -2460,7 +2460,7 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
          * @param {string} a
          * @returns {string}
          */
-        var Colorize = function(a) { return  (typeof a !== 'undefined') ? window.App.PR.ColorizeString(Percent, a.slice(2,-2), 100) : ""; };
+        var Colorize = function(a) { return  (typeof a !== 'undefined') ? App.PR.ColorizeString(Percent, a.slice(2,-2), 100) : ""; };
 
         for ( var i = 0; i < this._SceneData["RESULTS"].length; i++)
             if ( Percent <= this._SceneData["RESULTS"][i][Tag] )
@@ -2495,7 +2495,7 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
     this._Tokenize = function(String)
     {
         String = String.replace(/JOB_PAY/g, this.Pay());
-        String = window.App.PR.TokenizeString(this._Player, this._NPC, String);
+        String = App.PR.TokenizeString(this._Player, this._NPC, String);
         return String;
     };
 
@@ -4882,7 +4882,786 @@ var Store = function(Player, NPC, StoreData) {
     this.StockInventory();
 
 };
-/* twine-user-script #15: "GameData.js" */
+/* twine-user-script #15: "bimbo_clothes.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Clothes = App.Data.Clothes || { };
+
+// STYLE TABLE
+// TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
+// ACCESSORY    3       6           9       12
+// CLOTHING     5       10          15      20
+// ONE PIECE    10      20          30      40
+
+// WIG SLOT
+
+// HAT SLOT
+
+// NECK SLOT
+
+// NIPPLES SLOT
+
+// BRA SLOT
+App.Data.Clothes["bimbo bra"] = { // +15
+    "Name": "bimbo bra", "ShortDesc": "a {COLOR} push-up bra trimmed with lace and studded with rhinestones",
+    "LongDesc": "This sexy bra is designed to push up and display your assets in the most provocative way possible. The lace and shiny rhinestones there are for maximum eye-catching appeal.",
+    "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
+};
+
+// CORSET SLOT
+
+// PANTY SLOT
+App.Data.Clothes["bimbo thong"] = { //15
+    "Name": "bimbo thong", "ShortDesc": "a {COLOR} thong with 'I @@color:pink;&#9825;@@ Cum! written on the crotch' ",
+    "LongDesc": "This tiny thong is practically a g-string. The advertisement printed on it leaves no doubt to any onlookers as to what you're all about.",
+    "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
+};
+
+// STOCKINGS SLOT
+
+// SHIRT SLOT
+
+// PANTS SLOT
+
+// DRESS SLOT
+App.Data.Clothes["micro dress"] = { // +40
+    "Name": "sexy micro dress", "ShortDesc": "a figure hugging {COLOR} micro dress",
+    "LongDesc": "This dress is made out of some exotic material that hugs every curve of your body. It's so humiliatingly short that your genitals are half open for everyone and the top has several strategic holes to present multiple views of your chest.",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 1000, "Style": "LEGENDARY", "Type" : "ONE PIECE",
+    "WearEffect": {"Femininity": [0, 15, 60], "Seduction" : [10,0,0]}, Category : [ "Bimbo" ]
+};
+// COSTUME SLOT
+
+// SHOES SLOT
+App.Data.Clothes["tall heels"] = { // +10
+    "Name": "tall heels", "ShortDesc": "a pair of very tall {COLOR} platform heels",
+    "LongDesc": "The heels on these sexy shoes are so tall that you prance and waddle, shaking your ass everywhere you walk.",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 60]}, Category : [ "Bimbo", "Sexy Dancer", "High Class Whore" ]
+};
+
+App.Data.Clothes["bimbo heels"] = { // +15
+    "Name": "bimbo heels", "ShortDesc": "a pair of outrageously tall {COLOR} platform heels",
+    "LongDesc": "The heels on these platform shoes are so tall that you prance and waddle, shaking your ass, everywhere you walk.",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Price": 300, "Style": "RARE", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 60]}, Category : [ "Bimbo", "Sexy Dancer" ]
+};
+
+// BUTT SLOT
+App.Data.Clothes["small plug"] = { // +9
+    "Name": "small plug", "ShortDesc": "a small anal plug with a heart-shaped {COLOR} faux gem",
+    "LongDesc": "This tiny little plug is designed be worn in your ass. The fake gem is there for decoration because everyone is going to be looking at it..",
+    "Slot": "Butt", "Restrict": ["Butt"], "Color": "pink", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": {"Perversion": [0, 10, 40]}, Category : [ "Bimbo", "Sexy Dancer", "High Class Whore", "Ordinary" ]
+};
+
+// PENIS SLOT
+
+// WEAPON SLOT (huh?)
+
+/* twine-user-script #16: "bondage_clothes.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Clothes = App.Data.Clothes || { };
+
+// STYLE TABLE
+// TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
+// ACCESSORY    3       6           9       12
+// CLOTHING     5       10          15      20
+// ONE PIECE    10      20          30      40
+
+// WIG SLOT
+
+// HAT SLOT
+
+// NECK SLOT
+App.Data.Clothes["collar"] = { // +3
+    "Name": "collar", "ShortDesc": "a leather slave collar",
+    "LongDesc": "This thick leather collar is worn to remind everyone that the wearer is a slave.",
+    "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Price": 200, "Style": "COMMON", "Type" : "ACCESSORY", "Locked": 1,
+    "WearEffect": {"WillPower": [0, -5, 50], "Perversion": [0, 5, 30]}, "Category" :  [ "BDSM" ]
+};
+
+// NIPPLES SLOT
+App.Data.Clothes["nipple rings"] = { // +9
+    "Name": "nipple rings", "ShortDesc": "a pair of silver nipple rings joined by a chain",
+    "LongDesc": "These rings are connected by a chain that is designed to torment and tug on the wearers nipples.",
+    "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "silver", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": {"WillPower": [0, -5, 70], "Perversion": [0, 5, 40]}, "Category" :  [ "BDSM" ]
+};
+
+App.Data.Clothes["nipple clamps"] = { // +6
+    "Name": "nipple clamps", "ShortDesc": "a pair of silver nipple clamps",
+    "LongDesc": "These sterling silver nipple clamps are designed to inflict punishment... or perhaps arousal?",
+    "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "silver", "Price": 100, "Style": "UNCOMMON", "Type" : "ACCESSORY",
+    "WearEffect": {"WillPower": [0, -5, 80], "Perversion": [0, 5, 30]}, "Category" :  [ "BDSM" ]
+};
+
+// BRA SLOT
+
+// CORSET SLOT
+App.Data.Clothes["training corset"] = { // +10
+    "Name": "training corset", "ShortDesc": "a whale boned {COLOR} training corset",
+    "LongDesc": "This garment borders on a torture device. It's designed to slim and shape a woman's waist and push up her bust.",
+    "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200, "Style": "UNCOMMON", "Type" : "ACCESSORY",
+    "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -20, 10]}, "Category" :  [ "BDSM" ]
+};
+
+App.Data.Clothes["bondage corset"] = { // +15
+    "Name": "bondage corset", "ShortDesc": "a steel boned {COLOR} leather bondage corset",
+    "LongDesc": "This corset is made of strong leather and boned with steel. It has various straps and locks to ensure it must be worn at all times.",
+    "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 400, "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -25, 0]}, "Category" :  [ "Pirate Slut", "BDSM" ]
+};
+
+// PANTY SLOT
+
+// STOCKINGS SLOT
+
+// SHIRT SLOT
+
+// PANTS SLOT
+
+// DRESS SLOT
+
+// COSTUME SLOT
+
+// SHOES SLOT
+App.Data.Clothes["shiny knee boots"] = { // +10
+    "Name": "shiny knee boots", "ShortDesc": "a shiny pair of high heeled knee-high {COLOR} leather boots",
+    "LongDesc": "These fashionable leather boots are polished to a shine. Very tall and slightly intimidating.",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 8, 40]}, "Category" :  [ "Pirate Slut", "BDSM" ]
+};
+
+// BUTT SLOT
+App.Data.Clothes["large plug"] = { // +9
+    "Name": "large plug", "ShortDesc": "a thick {COLOR} anal plug",
+    "LongDesc": "The perfect accessory for the horny masochist, or just good for keeping your arse ready to be used.",
+    "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": {"Perversion": [0, 10, 70], "AssFucking" : [10, 10, 80]}, Category : [ "BDSM" ]
+};
+
+// PENIS SLOT
+App.Data.Clothes["chastity cage"] = { // +3
+    "Name": "chastity cage", "ShortDesc": "a metal and leather chastity device",
+    "LongDesc": "This cruel device constricts and crushes your genitals. Wearing it is not only painful but probably bad for your health.",
+    "Slot": "Penis", "Restrict": ["Penis"], "Color": "black", "Price": 300, "Style": "COMMON", "Type" : "ACCESSORY", "Locked": 1,
+    "WearEffect": { "Perversion": [0, 10, 30], "Penis": [0, -15, 0], "Balls": [0, -15, 0]}, Category : [ "BDSM" ]
+};
+
+// WEAPON SLOT (huh?)
+
+/* twine-user-script #17: "daddys_girl_clothes.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Clothes = App.Data.Clothes || { };
+
+// STYLE TABLE
+// TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
+// ACCESSORY    3       6           9       12
+// CLOTHING     5       10          15      20
+// ONE PIECE    10      20          30      40
+
+// WIG SLOT
+App.Data.Clothes["pigtail wig"] = { // +9
+    "Name": "pigtail wig", "ShortDesc": "a {COLOR} wig with pigtails and accessories",
+        "LongDesc": "This high quality wig is done up in pigtails fashioned with little heart accessories that have 'I @@color:pink;&#9825;@@ Daddy!' written on them.",
+        "Slot": "Wig", "Restrict": ["Wig"], "Color": "blond", "Price": 150, "Style": "RARE", "Type" : "ACCESSORY",
+        "HairLength": 60, "HairStyle": "cute pig tails", "HairBonus": 60, "Category" : [ "Daddy's Girl" ]
+};
+
+// HAT SLOT
+
+
+// NECK SLOT
+
+
+// NIPPLES SLOT
+
+// BRA SLOT
+App.Data.Clothes["cute pink bra"] = { // +10
+    "Name": "cute pink bra", "ShortDesc": "a cute {COLOR} bra with tiny hearts on it",
+        "LongDesc": "This cute bra has tiny white &#9825; on it and a delicate little bow in the middle.",
+        "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl" ]
+};
+
+// CORSET SLOT
+App.Data.Clothes["pistol brace"] = { // +9
+    "Name": "pistol brace", "ShortDesc": "a {COLOR} leather pistol brace",
+    "LongDesc": "More of a belt than anything else, it can hold pistols if you find any.",
+    "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -20, 10], "Swashbuckling" : [ 10, 0, 0 ]}, "Category" :  [ "Pirate Slut", "BDSM" ]
+};
+
+// PANTY SLOT
+App.Data.Clothes["cute pink panties"] = { // +15
+    "Name": "cute pink panties", "ShortDesc": "a pair of cute {COLOR} panties",
+        "LongDesc": "On the surface these cute pink panties look quite demure, but they have 'I @@color:pink;&#9825;@@ Daddy!' written across the backside.",
+        "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 200, "Style": "RARE", "Type" : "CLOTHING",
+        "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl" ]
+};
+
+// STOCKINGS SLOT
+App.Data.Clothes["pink knee socks"] = { // +10
+    "Name": "pink knee socks", "ShortDesc": "a pair of {COLOR} knee socks",
+        "LongDesc": "These pink socks come up right to your knee and have little ties to hold them up.",
+        "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "pink", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl", "Ordinary", "Bimbo" ]
+};
+
+App.Data.Clothes["white knee socks"] = { // +10
+    "Name": "pink knee socks", "ShortDesc": "a pair of {COLOR} knee socks",
+        "LongDesc": "These white socks come up right to your knee and have little ties to hold them up.",
+        "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "white", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl", "Ordinary" ]
+};
+
+// SHIRT SLOT
+App.Data.Clothes["pink t-shirt"] = { // +20
+    "Name": "pink t-shirt", "ShortDesc": "a naughty {COLOR} t-shirt",
+        "LongDesc": "This t-shirt is cut short, designed to show off a lot of under-boob. It says '@@color:pink;&#9825;@@Daddy's Little Cumslut'@@color:pink;&#9825;@@ on it.",
+        "Slot": "Shirt", "Restrict": ["Shirt", "Dress", "Costume"], "Color": "pink", "Price": 500, "Style": "LEGENDARY", "Type" : "CLOTHING",
+        "WearEffect": {"Femininity": [0, 5, 30], "Perversion" : [ 0, 5, 50]}, "Category" :  [ "Daddy's Girl" ]
+};
+
+// PANTS SLOT
+App.Data.Clothes["pink tartan"] = { // +20
+    "Name": "pink tartan", "ShortDesc": "a very short {COLOR} tartan schoolgirl's skirt",
+        "LongDesc": "This pleated skirt is pink with a black and deep purple tartan pattern. It's incredibly short. Way too short.",
+        "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "pink", "Price": 500, "Style": "LEGENDARY", "Type" : "CLOTHING",
+        "WearEffect": {"Femininity": [0, 5, 60], "Perversion" : [ 0, 5, 50]}, "Category" :  [ "Daddy's Girl", "Sexy Dancer", "Bimbo" ]
+};
+
+// DRESS SLOT
+App.Data.Clothes["pink gingham dress"] = { // +40
+    "Name": "pink gingham dress", "ShortDesc": "a super short {COLOR} gingham dress",
+        "LongDesc": "This dress has a girly gingham pattern with white lace collar trim. Normally it'd look quite demure, but it's so short it barely covers your arse and it has a very prominent cleavage window to show off your assets.",
+        "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 800, "Style": "LEGENDARY", "Type" : "ONE PIECE",
+        "WearEffect": {"Femininity": [0, 10, 80]}, "Category" :  [ "Daddy's Girl" ]
+};
+
+// COSTUME SLOT
+
+// SHOES SLOT
+
+// BUTT SLOT
+
+// PENIS SLOT
+
+// WEAPON SLOT (huh?)
+/* twine-user-script #18: "gothic_lolita_clothes.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Clothes = App.Data.Clothes || { };
+// Gothic Lolita Style, contributed by 'littleslavegirl' @ wwww.tfgamessite.com Forums
+
+// STYLE TABLE
+// TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
+// ACCESSORY    3       6           9       12
+// CLOTHING     5       10          15      20
+// ONE PIECE    10      20          30      40
+
+// WIG SLOT
+
+// HAT SLOT
+App.Data.Clothes["black flower hairpin"] = { // +12
+    "Name": "red and black flower hair pin", "ShortDesc": "a red and {COLOR} flower",
+    "LongDesc": "A black rose that adorns your hair, a trio of black ribbons hang down to which are attached 3 blood red stars.",
+    "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 60, "Style": "LEGENDARY", "Type" : "ACCESSORY",
+    "WearEffect": {"Femininity": [0, 10, 80]}, "Category" : [ "Gothic Lolita" ]
+};
+
+// NECK SLOT
+App.Data.Clothes["gothic collar"] = { // +9
+    "Name": "Black gothic collar", "ShortDesc": " a {COLOR} ribbon-lined leather collar emblazoned with the word 'SLAVE' burned into it.",
+    "LongDesc": "A snug leather collar lined on both sides in black lace, slave is burned into the leather to remind you exactly what you are..",
+    "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Price": 50, "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Gothic Lolita" ]
+};
+
+// NIPPLES SLOT
+
+// BRA SLOT
+App.Data.Clothes["gothic black bra"] = { // +10
+    "Name": "black bra", "ShortDesc": "a {COLOR} lace gothic style bra",
+    "LongDesc": "A sexy black lace gothic style bra.",
+    "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 10, 60]}, "Category" : [ "Gothic Lolita", "BIMBO", "Sexy Dancer" ]
+};
+
+// CORSET SLOT
+
+// PANTY SLOT
+App.Data.Clothes["black panties"] = { // +10
+    "Name": "black panties", "ShortDesc": "a pair of {COLOR} black panties",
+    "LongDesc": "Black sexy silk panties just asking for someone to remove them.",
+    "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 10, 60]}, "Category" : [  "Gothic Lolita", "BIMBO", "Sexy Dancer" ]
+};
+
+App.Data.Clothes["gothic frilly bloomers"] = { // +15
+    "Name": "frilly bloomers", "ShortDesc": "a pair of frilly {COLOR} cotton bloomers",
+    "LongDesc": "These bloomers are cut short and have a frilly bottom.",
+    "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 150, "Style": "RARE", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Gothic Lolita" ]
+};
+
+// STOCKINGS SLOT
+App.Data.Clothes["gothic striped stockings"] = { // +15
+    "Name": "black stockings", "ShortDesc": "a pair of {COLOR} and purple striped stockings",
+    "LongDesc": "These stockings come up over your knees. They are striped, black and purple, with a slight lacey top that is adorned with tiny black roses.",
+    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 75, "Style": "RARE", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 10, 60]}, "Category" : [ "Gothic Lolita" ]
+};
+
+// SHIRT SLOT
+
+// PANTS SLOT
+
+// DRESS SLOT
+App.Data.Clothes["gothic frilly dress"] = { // +40
+    "Name": "black gothic dress", "ShortDesc": "a {COLOR} gothic dress",
+    "LongDesc": "A short sleeved snug black knee length dress. Lace along the the collar, sleeves and along the bottom of the heavily petticoated skirt that bounces with every step you take.",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Price": 250, "Style": "LEGENDARY", "Type" : "ONE PIECE",
+    "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Gothic Lolita" ]
+};
+
+// COSTUME SLOT
+
+// SHOES SLOT
+App.Data.Clothes["black boots"] = { // +15
+    "Name": "black high heeled boots", "ShortDesc": "A pair of black knee length heeled boots",
+    "LongDesc": "A pair of knee high black boots with a 5 inch heel and 1 inch platform. Red stars dangle from the zipper.",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 125, "Style": "RARE", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 50]}, "Category" : [ "Gothic Lolita", "Sexy Dancer" ]
+};
+
+App.Data.Clothes["black platform mary janes"] = { // +15
+    "Name": "black platform mary janes", "ShortDesc": "a pair of {COLOR} platform mary janes",
+    "LongDesc": "These black platform shoes have Have red stars for the buckles at the ankles and a chunky platform heel. Difficult to walk in but sexy.",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Gothic Lolita" ]
+};
+
+// BUTT SLOT
+
+// PENIS SLOT
+
+// WEAPON SLOT (huh?)
+
+/* twine-user-script #19: "pirate_slut_clothes.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Clothes = App.Data.Clothes || { };
+
+// STYLE TABLE
+// TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
+// ACCESSORY    3       6           9       12
+// CLOTHING     5       10          15      20
+// ONE PIECE    10      20          30      40
+
+// WIG SLOT
+
+// HAT SLOT
+App.Data.Clothes["pirate hat"] = { // +12
+    "Name": "pirate hat", "ShortDesc": "a cute little pirate hat",
+    "LongDesc": "This cute little pirate hat is the perfect accessory for a sissy pirate slut.",
+    "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 100, "Style": "LEGENDARY", "Type" : "ACCESSORY",
+    "Category" : [ "Pirate Slut" ]
+};
+
+// NECK SLOT
+
+
+// NIPPLES SLOT
+
+// BRA SLOT
+App.Data.Clothes["pirate bra"] = { // +15
+    "Name": "pirate bra", "ShortDesc": "a {COLOR} push-up bra with the Jolly Roger",
+    "LongDesc": "This sexy silk bra is fringed with gold and has a skull and bones, the traditional symbol of piracy emblazoned on the right breast cup.",
+    "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
+};
+
+// CORSET SLOT
+
+// PANTY SLOT
+App.Data.Clothes["pirate thong"] = { // +15
+    "Name": "pirate thong", "ShortDesc": "a {COLOR} thong with the Jolly Roger",
+    "LongDesc": "This t-back thong gently separates your arse cheeks, making them more prominent and luscious looking. It has the phrase 'Plunder my Booty' written across the rear waistband and a small skull and bones embroidered on the crotch.",
+    "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
+};
+
+// STOCKINGS SLOT
+App.Data.Clothes["fishnet tights"] = { // +10
+    "Name": "fishnet tights", "ShortDesc": "a pair of {COLOR} fishnet stockings",
+    "LongDesc": "These fishnet tights wrap themselves perfectly to your legs. The feeling is quite exquisite.",
+    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 400, "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 60]}, "Category" :  [ "Pirate Slut", "BDSM", "Naughty Nun", "Bimbo", "High Class Whore", "Slutty Lady" ]
+};
+
+App.Data.Clothes["fishnet stockings"] = { // +10
+    "Name": "fishnet stockings", "ShortDesc": "a pair of {COLOR} fishnet stockings",
+    "LongDesc": "These fishnet stockings are topped with black lace and held up by garter straps.",
+    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 500, "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 60]}, "Category" :  [ "Pirate Slut", "BDSM", "Naughty Nun", "Bimbo", "High Class Whore", "Slutty Lady", "Sexy Dancer" ]
+};
+
+// SHIRT SLOT
+
+
+// PANTS SLOT
+
+
+// DRESS SLOT
+App.Data.Clothes["pirate waistcoat"] = { // +40
+    "Name": "pirate waistcoat", "ShortDesc": "a short {COLOR} velvet waistcoat",
+    "LongDesc": "This tiny waistcoat only has one button, leaving your cleavage exposed. It's also quite short, with the coat tails only barely covering your ass and leaving your front entirely exposed.",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Price": 1100, "Style": "LEGENDARY", "Type" : "ONE PIECE",
+    "WearEffect": { "Femininity": [0, 10, 80], "Seduction": [10,0,0], "Swashbuckling": [10,0,0], "Navigating": [10,0,0], "Sailing": [10,0,0] }, "Category" :  [ "Pirate Slut" ]
+};
+
+// COSTUME SLOT
+
+// SHOES SLOT
+App.Data.Clothes["pirate boots"] = { // +10
+    "Name": "pirate boots", "ShortDesc": "very tall thigh-high {COLOR} leather boots",
+    "LongDesc": "The heels on these boots are outrageously high and pointed. The supple and shiny leather comes up to your mid thigh and folds over on itself.",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "Category" : [ "Pirate Slut", "BDSM" ], "WearEffect": {"Femininity": [0, 8, 40]}
+};
+
+// BUTT SLOT
+
+// PENIS SLOT
+
+// WEAPON SLOT (huh?)
+
+/* twine-user-script #20: "sissy_lolita_clothes.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Clothes = App.Data.Clothes || { };
+
+// STYLE TABLE
+// TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
+// ACCESSORY    3       6           9       12
+// CLOTHING     5       10          15      20
+// ONE PIECE    10      20          30      40
+
+// WIG SLOT
+
+// HAT SLOT
+App.Data.Clothes["pink head bow"] = { // +6
+    "Name": "pink head bow", "ShortDesc": "a cute {COLOR} bow",
+    "LongDesc": "This pink bow is a cute accessory that makes you feel like a little girl.",
+    "Slot": "Hat", "Restrict": ["Hat"], "Color": "pink", "Price": 60, "Style": "UNCOMMON", "Type" : "ACCESSORY",
+    "WearEffect": {"Femininity": [0, 10, 50]}, "Category" : [ "Sissy Lolita", "Daddy's Girl" ]
+};
+
+// NECK SLOT
+App.Data.Clothes["sissy collar"] = { // +9
+    "Name": "sissy collar", "ShortDesc": "a {COLOR} fur-lined leather collar emblazoned with the word 'SISSY' in rhinestones.",
+    "LongDesc": "This thick collar is made of sturdy leather and lined with soft fur, making it somewhat tolerable to wear... if it wasn't for the word 'SISSY' writ large in shiny faux gems across it.",
+    "Slot": "Neck", "Restrict": ["Neck"], "Color": "pink", "Price": 50, "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Sissy Lolita" ]
+};
+
+// NIPPLES SLOT
+
+// BRA SLOT
+App.Data.Clothes["striped bra"] = { // +10
+    "Name": "striped bra", "ShortDesc": "a {COLOR} and white striped bra",
+        "LongDesc": "This cute little number is exceptionally girly, perfect for a little sissy baby.",
+        "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Sissy Lolita" ]
+};
+
+// CORSET SLOT
+
+// PANTY SLOT
+App.Data.Clothes["striped panties"] = { // +10
+    "Name": "striped panties", "ShortDesc": "a pair of {COLOR} and white striped panties",
+        "LongDesc": "This cute little number is exceptionally girly, perfect for a little sissy baby.",
+        "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Sissy Lolita" ]
+};
+
+App.Data.Clothes["frilly bloomers"] = { // +15
+    "Name": "frilly bloomers", "ShortDesc": "a pair of frilly {COLOR} cotton bloomers",
+        "LongDesc": "These bloomers are cut short and have a frilly bottom, perfect for a little sissy girl.",
+        "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 150, "Style": "RARE", "Type" : "CLOTHING",
+        "WearEffect": {"Femininity": [0, 10, 70]}, "Category" :  [ "Sissy Lolita" ]
+};
+
+// STOCKINGS SLOT
+App.Data.Clothes["striped stockings"] = { // +10
+    "Name": "striped stockings", "ShortDesc": "a pair of {COLOR} and white striped stockings",
+        "LongDesc": "These cute striped stockings have adorable little pink bows at the top.",
+        "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "pink", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Sissy Lolita", "Bimbo" ]
+};
+// SHIRT SLOT
+
+// PANTS SLOT
+
+// DRESS SLOT
+App.Data.Clothes["frilly dress"] = { // +20
+    "Name": "frilly dress", "ShortDesc": "a cute frilly {COLOR} dress",
+    "LongDesc": "This dress is all ruffles and lace. Perfect for attire for a dedicated sissy girl.",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 250, "Style": "UNCOMMON", "Type" : "ONE PIECE",
+    "WearEffect": {"Femininity": [0, 10, 70]}, "Category" :  [ "Sissy Lolita" ]
+};
+
+// COSTUME SLOT
+
+// SHOES SLOT
+App.Data.Clothes["pink mary janes"] = { // +10
+    "Name": "pink mary janes", "ShortDesc": "a pair of low heeled {COLOR} mary janes",
+        "LongDesc": "These girly shoes have bows on the ankles and a short heel making them easy to walk in.",
+        "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Price": 125, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "WearEffect": {"Femininity": [0, 5, 50]}, "Category" : [ "Sissy Lolita", "Daddy's Girl" ]
+};
+
+App.Data.Clothes["pink platform mary janes"] = { // +15
+    "Name": "pink platform mary janes", "ShortDesc": "a pair of {COLOR} platform mary janes",
+        "LongDesc": "These girly shoes have bows on the ankles and a chunky platform heel. Difficult to walk in but both sexy and girly.",
+        "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Price": 200, "Style": "RARE", "Type" : "CLOTHING",
+        "WearEffect": {"Femininity": [0, 10, 70]}, "Category" :  [ "Sissy Lolita", "Daddy's Girl" ]
+};
+// BUTT SLOT
+
+// PENIS SLOT
+
+// WEAPON SLOT (huh?)
+/* twine-user-script #21: "uncatagorized_clothes.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Clothes = App.Data.Clothes || { };
+
+// STYLE TABLE
+// TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
+// ACCESSORY    3       6           9       12
+// CLOTHING     5       10          15      20
+// ONE PIECE    10      20          30      40
+
+// WIG SLOT
+App.Data.Clothes["cheap wig"] = {
+    "Name": "cheap wig", "ShortDesc": "a short {COLOR} wig",
+    "LongDesc": "This cheap wig is made out of badly dyed horse hair.",
+    "Slot": "Wig", "Restrict": ["Wig"], "Color": "black", "Price": 50, "Style": "COMMON", "Type" : "ACCESSORY",
+    "HairLength": 30, "HairStyle": "a short bob", "HairBonus": 30
+};
+
+App.Data.Clothes["wig"] = {
+    "Name": "wig", "ShortDesc": "a long {COLOR} wig",
+    "LongDesc": "This wig is made from human hair and of quite a fine quality.",
+    "Slot": "Wig", "Restrict": ["Wig"], "Color": "blond", "Price": 150, "Style": "UNCOMMON", "Type" : "ACCESSORY",
+    "HairLength": 60, "HairStyle": "loose curls", "HairBonus": 60
+};
+
+App.Data.Clothes["exotic wig"] = {
+    "Name": "exotic wig", "ShortDesc": "an exotic {COLOR} wig",
+    "LongDesc": "This exotic wig is made of finely dyed human hair and strung with jewels.",
+    "Slot": "Wig", "Restrict": ["Wig"], "Color": "purple", "Price": 300, "Style": "RARE", "Type" : "ACCESSORY",
+    "HairLength": 80, "HairStyle": "twin tails", "HairBonus": 90
+};
+// HAT SLOT
+App.Data.Clothes["bonnet"] = {
+    "Name": "bonnet", "ShortDesc": "a frilly {COLOR} bonnet",
+    "LongDesc": "This frilly little bonnet is a dainty accessory sure to give off a girlish demeanor.",
+    "Slot": "Hat", "Restrict": ["Hat"], "Color": "pink", "Price": 100, "Style": "RARE", "Type" : "ACCESSORY"
+};
+
+App.Data.Clothes["cat ears"] = {
+    "Name": "cat ears", "ShortDesc": "a pair of fluffy {COLOR} cat ears",
+    "LongDesc": "These large furry cat ears are attached by a headband to be worn.",
+    "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY"
+};
+
+// NECK SLOT
+App.Data.Clothes["choker"] = {
+    "Name": "choker", "ShortDesc": "a {COLOR} silk choker",
+    "LongDesc": "This thin choker is made of silk and designed to accentuate a delicate neck.",
+    "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Price": 50, "Style": "COMMON", "Type" : "ACCESSORY"
+};
+
+// NIPPLES SLOT
+
+// BRA SLOT
+App.Data.Clothes["chemise"] = {
+    "Name": "chemise", "ShortDesc": "a plain {COLOR} cotton chemise",
+    "LongDesc": "A brief slip designed to cover the breasts under clothes. Not very supportive at all.",
+    "Slot": "Bra", "Restrict": ["Bra"], "Color": "white", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 20]}
+};
+
+App.Data.Clothes["cotton bra"] = {
+    "Name": "cotton bra", "ShortDesc": "a {COLOR} cotton bra trimmed with lace",
+    "LongDesc": "A regular sized bra designed to contain and support female breasts. It offers modest support and a small amount of sexual appeal.",
+    "Slot": "Bra", "Restrict": ["Bra"], "Color": "white", "Price": 100, "Style": "COMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 30]}
+};
+
+App.Data.Clothes["silk bra"] = {
+    "Name": "silk bra", "ShortDesc": "a sexy {COLOR} silk bra with lace trim",
+    "LongDesc": "This expensive undergarment is designed to accentuate and display a woman's chest with lustful appeal.",
+    "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Price": 200, "Style": "COMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 50]}
+};
+
+// CORSET SLOT
+App.Data.Clothes["fashion corset"] = {
+    "Name": "fashion corset", "ShortDesc": "a tightly bound {COLOR} silk and lace corset",
+    "LongDesc": "This corset is made from silk and lace, more fashionable than functional, but it still tightly binds your waist and lifts your breasts.",
+    "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200,"Style": "UNCOMMON", "Type" : "ACCESSORY",
+    "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -10, 17]}
+};
+
+// PANTY SLOT
+App.Data.Clothes["cotton bloomers"] = {
+    "Name": "cotton bloomers", "ShortDesc": "a pair of {COLOR} cotton bloomers",
+    "LongDesc": "The most basic of undergarments. No frills and almost zero sex appeal.",
+    "Slot": "Panty", "Restrict": ["Panty"], "Color": "white", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 20]}
+};
+
+App.Data.Clothes["sheer bloomers"] = {
+    "Name": "sheer bloomers", "ShortDesc": "a pair of sheer {COLOR} silk and lace bloomers",
+    "LongDesc": "Made from sheer silk, they're smooth against your skin and decidedly sexy.",
+    "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 50]}
+};
+
+// STOCKINGS SLOT
+App.Data.Clothes["cotton stockings"] = {
+    "Name": "cotton stockings", "ShortDesc": "a pair of {COLOR} cotton stockings",
+    "LongDesc": "Basic stockings, held up with string ties.",
+    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "white", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 20]}
+};
+
+App.Data.Clothes["silk stockings"] = {
+    "Name": "silk stockings", "ShortDesc": "a pair of {COLOR} silk stockings and garters",
+    "LongDesc": "Luxurious and sexy silk stockings held up with garters.",
+    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 40]}
+};
+
+// SHIRT SLOT
+App.Data.Clothes["cotton blouse"] = {
+    "Name": "cotton blouse", "ShortDesc": "a {COLOR} cotton blouse",
+    "LongDesc": "This simple cotton blouse is made from rough cotton.",
+    "Slot": "Shirt", "Restrict": ["Shirt", "Dress", "Costume"], "Color": "white", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 20]}
+};
+
+App.Data.Clothes["silk blouse"] = {
+    "Name": "silk blouse", "ShortDesc": "a low cut {COLOR} silk blouse",
+    "LongDesc": "This elegant silk blouse is cut daringly low.",
+    "Slot": "Shirt", "Restrict": ["Shirt", "Dress", "Costume"], "Color": "white", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 40]}
+};
+
+// PANTS SLOT
+App.Data.Clothes["leather pants"] = {
+    "Name": "leather pants", "ShortDesc": "a pair of {COLOR} leather pants",
+    "LongDesc": "These leather pants are incredibly tight and designed to show off your ass.",
+    "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "black", "Price": 200, "Style": "COMMON", "Type" : "CLOTHING"
+};
+
+App.Data.Clothes["leather shorts"] = {
+    "Name": "leather shorts", "ShortDesc": "a pair of low rise {COLOR} leather shorts",
+    "LongDesc": "These tight leather shorts ride up in all the right places.",
+    "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING"
+};
+
+// DRESS SLOT
+App.Data.Clothes["cotton dress"] = {
+    "Name": "cotton dress", "ShortDesc": "a {COLOR} cotton dress",
+    "LongDesc": "This simple cotton dress is made from rough cotton.",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "blue", "Price": 50, "Style": "COMMON", "Type" : "ONE PIECE",
+    "WearEffect": {"Femininity": [0, 5, 20]}
+};
+App.Data.Clothes["sundress"] = {
+    "Name": "sundress", "ShortDesc": "a cute {COLOR} floral sundress",
+    "LongDesc": "This soft sundress has a cute floral pattern that is exceptionally girly.",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 100, "Style": "UNCOMMON", "Type" : "ONE PIECE",
+    "WearEffect": {"Femininity": [0, 5, 50]}
+};
+App.Data.Clothes["sexy dress"] = {
+    "Name": "sexy dress", "ShortDesc": "a sexy {COLOR} mini dress",
+    "LongDesc": "This daringly short dress hugs your body and lets everyone know it's for sale.",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "ONE PIECE",
+    "WearEffect": {"Femininity": [0, 15, 60],  "Seduction" : [10,0,0]}
+};
+
+// COSTUME SLOT
+App.Data.Clothes["stripper costume"] = {
+    "Name": "stripper costume", "ShortDesc": "a tacky looking {COLOR} stripper costume",
+    "LongDesc": "This costume consists of a two piece outfit with accessories that is designed to mimic a navy officers uniform, if the navy was a service filled with "+
+    "brazen whores. The skirt is flared and too low, showing off your bottom. The top is tight and mostly open, it has patches that can be pulled off to reveal tassels hanging "+
+    "off your tits from pasties that are shaped like anchors. Instead of sleeves or a collar it has little accessories designed to look like them, including the epaulets of the navy "+
+    "suit jacket.",
+    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "white", "Price": 450, "Style": "UNCOMMON", "Type" : "ONE PIECE",
+    "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]}, "SkillBonus": {"Dancing": [10, 20, 0], "Singing": [10, 10, 0]}
+};
+App.Data.Clothes["burlesque costume"] = {
+    "Name": "burlesque costume", "ShortDesc": "a fancy {COLOR} burlesque costume",
+    "LongDesc": "This costume is typical of the many burlesque dancers that entertain customers in taverns throughout the land. It has a variety of accessories and flair designed to be torn off as you strip.",
+    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "red", "Price": 450, "Style": "UNCOMMON", "Type" : "ONE PIECE",
+    "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]}, "SkillBonus": {"Dancing": [10, 20, 0], "Singing": [10, 10, 0]}
+};
+
+App.Data.Clothes["maid costume"] = {
+    "Name": "maid costume", "ShortDesc": "a frilly {COLOR} maid uniform",
+    "LongDesc": "This is a typical maid costume that has been altered to showcase your ass and chest.",
+    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Price": 450, "Style": "UNCOMMON", "Type" : "ONE PIECE",
+    "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]}, "SkillBonus": {"Cooking": [20, 20, 0], "Cleaning": [20, 20, 0]}
+};
+
+// SHOES SLOT
+App.Data.Clothes["worn boots"] = {
+    "Name": "worn boots", "ShortDesc": "a worn pair of {COLOR} boots",
+    "LongDesc": "These boots are decidedly ugly. More functional than fashionable.",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "brown", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING"
+};
+
+App.Data.Clothes["short heels"] = {
+    "Name": "short heels", "ShortDesc": "a pair of short {COLOR} heels",
+    "LongDesc": "These dainty shoes have a small kitten heel. Not too hard to walk in.",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 100, "Style": "COMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 5, 20]}
+};
+
+App.Data.Clothes["medium heels"] = {
+    "Name": "medium heels", "ShortDesc": "a pair of medium {COLOR} heels",
+    "LongDesc": "These shoes have a medium height heel that causes you to roll your ass as you walk.",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 8, 40]}
+};
+
+// BUTT SLOT
+App.Data.Clothes["cat tail"] = {
+    "Name": "cat tail", "ShortDesc": "a long furry {COLOR} cat tail anal plug",
+    "LongDesc": "This large anal plug has a long furry cat tail attached to it. Wearing it will loosen your asshole and probably attract animal lovers.",
+    "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Price": 300, "Style": "COMMON", "Type" : "ACCESSORY",
+    "WearEffect": {"Perversion": [0, 10, 50], "AssFucking": [0, 20, 30]}
+};
+
+// PENIS SLOT
+App.Data.Clothes["cock ribbon"] = {
+    "Name": "cock ribbon", "ShortDesc": "a cute little {COLOR} ribbon",
+    "LongDesc": "This dainty little ribbon is meant to be tied on a sissy clit for decoration.",
+    "Slot": "Penis", "Restrict": ["Penis"], "Color": "pink", "Price": 300, "Style": "COMMON", "Type" : "ACCESSORY",
+    "WearEffect": {"Femininity": [0, 10, 30]}
+};
+
+// WEAPON SLOT (huh?)
+App.Data.Clothes["worn machete"] = {
+    "Name": "worn machete", "ShortDesc": "@@color:purple;a well worn machete@@",
+    "LongDesc": "This large blade is 32cm long and has a slightly curved angle to it. It's not really a knife, but more like an axe. In a fight you could use it similar to a short sword.",
+    "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Price": 200, "Style": "NONE", "Type" : "WEAPON",
+    "WearEffect": { }
+};
+/* twine-user-script #22: "GameData.js" */
 window.App = window.App || { Data: { }, Entity: { } };
 
 window.App.Data.NPCS = {
@@ -6416,10 +7195,10 @@ window.App.Data.Encounters = {
                 "ENEMIES" : [ { "ENEMY" : "PIRATE_A", "MIN" : 1, "MAX" : 1 }]}
         ]
 };
-/* twine-user-script #16: "ItemData.js" */
-window.App = window.App || { Data: { }, Entity: { } };
+/* twine-user-script #23: "ItemData.js" */
+App = App || { Data: { }, Entity: { } };
 
-window.App.Data.Drugs = {
+App.Data.Drugs = {
             "nereid philtre": {
                 "Name": "nereid philtre",
                 "ShortDesc": "Philter of Nereid Tears",
@@ -6541,732 +7320,7 @@ window.App.Data.Drugs = {
             }
         };
 
-window.App.Data.Food = {
-            "bread crust": {
-                "Name": "bread crust",
-                "ShortDesc": "A stale crust of bread",
-                "LongDesc": "This piece of bread has seen better days... about 5 days ago. It's still edible however.",
-                "Message": "You bite into the bread. It's as hard as a rock, but eventually you manage to chew and swallow it.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [5, 10, 0] },
-                "Price": 1
-            },
-            "slave gruel": {
-                "Name": "slave gruel",
-                "ShortDesc": "Slave gruel mixed with semen",
-                "LongDesc": "This watery looking gruel smells and tastes disgusting. The crew has 'donated' some extra nutrition to it.",
-                "Message": "You wrinkle your nose and drink down the disgusting drool. You gag occasionally as thick clumps of rancid cum slide down your throat.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [5, 50, 0], "WillPower": [0, -25, 0], "Perversion": [0, 25, 0], "Hormones" : [0, 100, 0]},
-                "Price": 1
-            },
-            "grog": {
-                "Name": "grog",
-                "ShortDesc": "Low Quality Grog",
-                "LongDesc": "It's the typical alcoholic drink that pirates and mariners drink on long trips. It'll keep you hydrated and won't make you too sick.",
-                "Message": "You tip back the crude swill. It has an unpleasant taste.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [3, 15, 0], "Toxicity": [5, 0, 0]},
-                "Price": 1
-            },
-            "beer": {
-                "Name": "beer",
-                "ShortDesc": "Common Beer",
-                "LongDesc": "The typical beverage of choice for most men and some women. It's refreshingly cool and with a malty aftertaste.",
-                "Message": "You tip back the beer and have a drink. It's refreshing.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [3, 20, 0], "Toxicity": [2, 0, 0]},
-                "Price": 2
-            },
-            "smugglers ale": {
-                "Name": "smugglers ale",
-                "ShortDesc": "A pint of Smuggler's Ale",
-                "LongDesc": "Only brewed and sold on Golden Isle, this dark ale has a tangy, almost fruit after taste.",
-                "Message": "You tip back the ale and have a drink. It's refreshing.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [5, 20, 0], "Toxicity": [1, 0, 0]},
-                "Price": 10
-            },
-            "cheap wine": {
-                "Name": "cheap wine",
-                "ShortDesc": "Cheap Wine",
-                "LongDesc": "Not the best quality wine, but palatable and in abundant supply.",
-                "Message": "The wine has a deep red color and an almost sweet after taste.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [5, 20, 0], "Toxicity": [3, 0, 0]},
-                "Price": 2
-            },
-            "bread and cheese": {
-                "Name": "bread and cheese",
-                "ShortDesc": "A serving of bread with cheese",
-                "LongDesc": "Standard and relatively wholesome food.",
-                "Message": "The bread has a very yeasty taste and the cheese a sharp bite.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [20, 20, 0], "Toxicity": [-5, 0, 0]},
-                "Price": 5
-            },
-            "roast fish": {
-                "Name": "roast fish",
-                "ShortDesc": "A roasted fish",
-                "LongDesc": "A local type of fish, roasted on a stick.",
-                "Message": "You take a bite of the fish and chew. It's bland, but wholesome.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [20, 20, 0], "Toxicity": [-5, 0, 0]},
-                "Price": 5
-            },
-            "rum": {
-                "Name": "rum",
-                "ShortDesc": "A bottle of Rum",
-                "LongDesc": "This cheap rum is made from sugarcane.",
-                "Message": "You tip back the bottle and have a drink. It burns going down and fills your stomach with fire.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [3, 10, 0], "Toxicity": [5, 0, 0], "WillPower" : [ 0, 10, 0 ]},
-                "Price": 5
-            },
-            "starfruit": {
-                "Name": "starfruit",
-                "ShortDesc": "Strange starfruit",
-                "LongDesc": "This slightly pink starfruit is pulpy and contains many black seeds. It has a fragrant and intoxicating smell.",
-                "Message": "You take a bite out of the starfruit and savor it's sweet, but citrus taste. You feel your body filling with energy.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [15, 50, 0],  "Energy": [1, 0, 0], "Hormones": [0, 500, 0]},
-                "Price": 20
-            },
-            "mystery stew": {
-                "Name": "mystery stew",
-                "ShortDesc": "A deep brown stew of unidentifiable origin",
-                "LongDesc": "This stew is so dark as to practically be mud. It has bits of unidentifiable meat and vegetables (you think?) floating in it.",
-                "Message": "The stew tastes surprisingly better than you thought and certainly better than it looks.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [10, 100, 0]},
-                "Price": 5
-            },
-            "milkdew melon": {
-                "Name": "milkdew melon",
-                "ShortDesc": "Milkdew Melon",
-                "LongDesc": "This rare melon has a milky white interior. It's has a sweet, but creamy taste.",
-                "Message": "You crack the melon open and eat the contents. It tastes delicious and thick white juice dribbles down your chin.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {
-                    "Nutrition": [20, 50, 0],
-                    "Bust": [0, 100, 0],
-                    "Hormones": [0, 200, 0],
-                    "Perversion": [0, 50, 0]
-                },
-                "Price": 25
-            },
-            "honey mead": {
-                "Name": "honey mead",
-                "ShortDesc": "Bzzangr Honey Mead",
-                "LongDesc": "A common drink along the Lingering Coast, made from the honey of giant Bzzangr insects.",
-                "Message": "The mead has a delicious taste that tingles your tongue and lips.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [20, 50, 0], "Lips": [0, 100, 0]},
-                "Price": 25
-            },
-            "butter gourd": {
-                "Name": "butter gourd",
-                "ShortDesc": "An oddly shaped gourd vegetable",
-                "LongDesc": "The flesh of this vegetable can easily be eaten raw and it has a pleasant, almost buttery flavor and texture.",
-                "Message": "You break open the gourd and dig into the fleshy interior. It's surprisingly smooth and melts in your mouth like butter or pure fat.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [20, 200, 0], "Ass": [0, 100, 0], "Hips": [0, 100, 0]},
-                "Price": 35
-            },
-            "pink peach": {
-                "Name": "pink peach",
-                "ShortDesc": "A brightly colored pink peach",
-                "LongDesc": "This brightly colored fruit has a sweet and musky scent. It's bulbous exterior is dimpled with purple specks.",
-                "Message": "You bite into the peach and savor the sweetness of the fruit. You feel almost as if it has a calming, or curative effect on you.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [20, 100, 0], "Hormones" : [0, 100, 0], "Toxicity" : [-40, 0, 0] },
-                "Price": 25
-            },
-            "fortified wine": {
-                "Name": "fortified wine",
-                "ShortDesc": "@@color:purple;A dusty bottle of fortified wine@@",
-                "LongDesc": "This dusty old bottle has an almost illegible label, but you can make out that it appears to be extremely fortified (highly alcoholic) wine",
-                "Message": "You tip back the bottle and have a drink. It burns going down and fills your stomach with fire. Holy shit that's strong!",
-                "Type": "food",
-                "Quest" : true,
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [10, 10, 0], "Toxicity": [25, 0, 0], "WillPower" : [ 0, 20, 0 ]},
-                "Price": 500
-            },
-            "red plum": {
-                "Name": "red plum",
-                "ShortDesc": "A dazzlingly bright red plum",
-                "LongDesc": "This unusual plum is bright red and cool to the touch. It's so ripe that it practically oozes sweetness.",
-                "Message": "You bite into the plum and instantly you are overcome with a wave of euphoria. You momentarily lose yourself as the sweet juices drip down your chin.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [20, 100, 0], "Toxicity" : [-80, 0, 0], "Health": [10, 0, 0] },
-                "Price": 25
-            },
-            "purple mushrooms": {
-                "Name": "purple mushroom",
-                "ShortDesc": "A handful of rare purple mushrooms",
-                "LongDesc": "These mushrooms range in shapes from small and skinny to rather large specimens. Their caps are bright purple and spotted with darker purple blotches. These are safe to eat, right?",
-                "Message": "You ingest the mushrooms. They don't have much of a taste, but they definitely seem to have some 'kick' to them. You hope this wasn't a foolish idea...",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [5, 20, 0], "Toxicity" : [ 20, 0, 0], "Hormones": [-5, -200, 0],
-                              "Penis" : [0,200,0], "Balls" : [0, 200,0] },
-                "Price": 25
-            },
-            "ambrosia": {
-                "Name": "ambrosia",
-                "ShortDesc": "A dark green bottle of ambrosia",
-                "LongDesc": "Ambrosia is known far and wide as the 'Food of the Gods'. Legends tell that it is brewed by Sea Nymphs in their under water caves, but how that is possible you have no idea.",
-                "Message": "You uncork the bottle imbibe the potent brew. Words fail to describe how overwhelmingly good it tastes. You feel yourself filled with vigour and strength!",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [100, 100, 0], "Toxicity" : [-200, 0, 0], "Health": [100, 0, 0],
-                              "WillPower" : [ 0, 100, 0 ] },
-                "Price": 500
-            },
-            "pirates plunder": {
-                "Name": "pirates plunder",
-                "ShortDesc": "A flagon of 'Pirates Plunder'",
-                "LongDesc": "No one knows the origin of this legendary drink, but Pirates up and down the Lost Coast swear by it's effects. A single flagon is said to turn the most pathetic land lubber into a half way decent pirate. Could that possibly be true?",
-                "Message": "You tip back the flagon and drink deeply of the 'Pirates Plunder'. The taste is like nothing you've had before, dark, stormy and violent.",
-                "Type": "food",
-                "Charges": 1,
-                "UseEffect": {"Nutrition": [20, 50, 0], "Toxicity" : [50, 0, 0], "Sailing": [0, 300, 0],
-                              "Navigating" : [ 0, 300, 0 ], "Swashbuckling" : [ 0, 300, 0 ] },
-                "Price": 500
-            }
-};
-
-// STYLE TABLE
-// TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
-// ACCESSORY    3       6           9       12
-// CLOTHING     5       10          15      20
-// ONE PIECE    10      20          30      40
-window.App.Data.Clothes = {
-// Sissy Lolita Style
-            "pink head bow": {
-                "Name": "pink head bow", "ShortDesc": "a cute {COLOR} bow",
-                "LongDesc": "This pink bow is a cute accessory that makes you feel like a little girl.",
-                "Slot": "Hat", "Restrict": ["Hat"], "Color": "pink", "Price": 60, "Style": "UNCOMMON", "Type" : "ACCESSORY",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" : [ "Sissy Lolita", "Daddy's Girl" ]
-            },
-            "sissy collar": {
-                "Name": "sissy collar", "ShortDesc": "a {COLOR} fur-lined leather collar emblazoned with the word 'SISSY' in rhinestones.",
-                "LongDesc": "This thick collar is made of sturdy leather and lined with soft fur, making it somewhat tolerable to wear... if it wasn't for the word 'SISSY' writ large in shiny faux gems across it.",
-                "Slot": "Neck", "Restrict": ["Neck"], "Color": "pink", "Price": 50, "Style": "RARE", "Type" : "ACCESSORY",
-                "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Sissy Lolita" ]
-            },
-            "striped bra": {
-                "Name": "striped bra", "ShortDesc": "a {COLOR} and white striped bra",
-                "LongDesc": "This cute little number is exceptionally girly, perfect for a little sissy baby.",
-                "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Sissy Lolita" ]
-            },
-            "striped panties": {
-                "Name": "striped panties", "ShortDesc": "a pair of {COLOR} and white striped panties",
-                "LongDesc": "This cute little number is exceptionally girly, perfect for a little sissy baby.",
-                "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Sissy Lolita" ]
-            },
-            "frilly bloomers": {
-                "Name": "frilly bloomers", "ShortDesc": "a pair of frilly {COLOR} cotton bloomers",
-                "LongDesc": "These bloomers are cut short and have a frilly bottom, perfect for a little sissy girl.",
-                "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 150, "Style": "RARE", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 70]}, "Category" :  [ "Sissy Lolita" ]
-            },
-            "striped stockings": {
-                "Name": "striped stockings", "ShortDesc": "a pair of {COLOR} and white striped stockings",
-                "LongDesc": "These cute striped stockings have adorable little pink bows at the top.",
-                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "pink", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Sissy Lolita", "Bimbo" ]
-            },
-            "frilly dress": {
-                "Name": "frilly dress", "ShortDesc": "a cute frilly {COLOR} dress",
-                "LongDesc": "This dress is all ruffles and lace. Perfect for attire for a dedicated sissy girl.",
-                "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 250, "Style": "UNCOMMON", "Type" : "ONE PIECE",
-                "WearEffect": {"Femininity": [0, 10, 70]}, "Category" :  [ "Sissy Lolita" ]
-            },
-            "pink mary janes": {
-                "Name": "pink mary janes", "ShortDesc": "a pair of low heeled {COLOR} mary janes",
-                "LongDesc": "These girly shoes have bows on the ankles and a short heel making them easy to walk in.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Price": 125, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 50]}, "Category" : [ "Sissy Lolita", "Daddy's Girl" ]
-            },
-            "pink platform mary janes": {
-                "Name": "pink platform mary janes", "ShortDesc": "a pair of {COLOR} platform mary janes",
-                "LongDesc": "These girly shoes have bows on the ankles and a chunky platform heel. Difficult to walk in but both sexy and girly.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Price": 200, "Style": "RARE", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 70]}, "Category" :  [ "Sissy Lolita", "Daddy's Girl" ]
-            },
-// Daddy's Girl style
-            "pigtail wig": {
-                "Name": "pigtail wig", "ShortDesc": "a {COLOR} wig with pigtails and accessories",
-                "LongDesc": "This high quality wig is done up in pigtails fashioned with little heart accessories that have 'I @@color:pink;&#9825;@@ Daddy!' written on them.",
-                "Slot": "Wig", "Restrict": ["Wig"], "Color": "blond", "Price": 150, "Style": "RARE", "Type" : "ACCESSORY",
-                "HairLength": 60, "HairStyle": "cute pig tails", "HairBonus": 60, "Category" : [ "Daddy's Girl" ]
-            },
-            "pink knee socks": { // 10
-                "Name": "pink knee socks", "ShortDesc": "a pair of {COLOR} knee socks",
-                "LongDesc": "These pink socks come up right to your knee and have little ties to hold them up.",
-                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "pink", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl", "Ordinary", "Bimbo" ]
-            },
-            "white knee socks": { // 10
-                "Name": "pink knee socks", "ShortDesc": "a pair of {COLOR} knee socks",
-                "LongDesc": "These white socks come up right to your knee and have little ties to hold them up.",
-                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "white", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl", "Ordinary" ]
-            },
-            "pink gingham dress": {
-                "Name": "pink gingham dress", "ShortDesc": "a super short {COLOR} gingham dress",
-                "LongDesc": "This dress has a girly gingham pattern with white lace collar trim. Normally it'd look quite demure, but it's so short it barely covers your arse and it has a very prominent cleavage window to show off your assets.",
-                "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 800, "Style": "LEGENDARY", "Type" : "ONE PIECE",
-                "WearEffect": {"Femininity": [0, 10, 80]}, "Category" :  [ "Daddy's Girl" ]
-            },
-            "cute pink bra": { // 10
-                "Name": "cute pink bra", "ShortDesc": "a cute {COLOR} bra with tiny hearts on it",
-                "LongDesc": "This cute bra has tiny white &#9825; on it and a delicate little bow in the middle.",
-                "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl" ]
-            },
-            "cute pink panties": { // 5
-                "Name": "cute pink panties", "ShortDesc": "a pair of cute {COLOR} panties",
-                "LongDesc": "On the surface these cute pink panties look quite demure, but they have 'I @@color:pink;&#9825;@@ Daddy!' written across the backside.",
-                "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 200, "Style": "RARE", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl" ]
-            },
-// Pirate Slut
-            "pirate hat": { // 12
-                "Name": "pirate hat", "ShortDesc": "a cute little pirate hat",
-                "LongDesc": "This cute little pirate hat is the perfect accessory for a sissy pirate slut.",
-                "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 100, "Style": "LEGENDARY", "Type" : "ACCESSORY",
-                "Category" : [ "Pirate Slut" ]
-            },
-            "pirate boots": { //10
-                "Name": "pirate boots", "ShortDesc": "very tall thigh-high {COLOR} leather boots",
-                "LongDesc": "The heels on these boots are outrageously high and pointed. The supple and shiny leather comes up to your mid thigh and folds over on itself.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "Category" : [ "Pirate Slut", "BDSM" ], "WearEffect": {"Femininity": [0, 8, 40]}
-            },
-            "pirate bra": { //15
-                "Name": "pirate bra", "ShortDesc": "a {COLOR} push-up bra with the Jolly Roger",
-                "LongDesc": "This sexy silk bra is fringed with gold and has a skull and bones, the traditional symbol of piracy emblazoned on the right breast cup.",
-                "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
-            },
-            "pirate thong": { //15
-                "Name": "pirate thong", "ShortDesc": "a {COLOR} thong with the Jolly Roger",
-                "LongDesc": "This t-back thong gently separates your arse cheeks, making them more prominent and luscious looking. It has the phrase 'Plunder my Booty' written across the rear waistband and a small skull and bones embroidered on the crotch.",
-                "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
-            },
-            "pirate waistcoat": { // 40
-                "Name": "pirate waistcoat", "ShortDesc": "a short {COLOR} velvet waistcoat",
-                "LongDesc": "This tiny waistcoat only has one button, leaving your cleavage exposed. It's also quite short, with the coat tails only barely covering your ass and leaving your front entirely exposed.",
-                "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Price": 1100, "Style": "LEGENDARY", "Type" : "ONE PIECE",
-                "WearEffect": {
-                    "Femininity"    : [0, 10, 80],
-                    "Seduction"     : [10,0,0],
-                    "Swashbuckling" : [10,0,0],
-                    "Navigating"    : [10,0,0],
-                    "Sailing"       : [10,0,0]
-                    },
-                "Category" :  [ "Pirate Slut" ]
-            },
-            "pistol brace": { // 9
-                "Name": "pistol brace", "ShortDesc": "a {COLOR} leather pistol brace",
-                "LongDesc": "More of a belt than anything else, it can hold pistols if you find any.",
-                "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
-                "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -20, 10], "Swashbuckling" : [ 10, 0, 0 ]}, "Category" :  [ "Pirate Slut", "BDSM" ]
-            },
-            "fishnet tights": { // 10
-                "Name": "fishnet tights", "ShortDesc": "a pair of {COLOR} fishnet stockings",
-                "LongDesc": "These fishnet tights wrap themselves perfectly to your legs. The feeling is quite exquisite.",
-                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 400, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 60]}, "Category" :  [ "Pirate Slut", "BDSM", "Naughty Nun", "Bimbo", "High Class Whore", "Slutty Lady" ]
-            },
-            "fishnet stockings": { // 10
-                "Name": "fishnet stockings", "ShortDesc": "a pair of {COLOR} fishnet stockings",
-                "LongDesc": "These fishnet stockings are topped with black lace and held up by garter straps.",
-                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 500, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 60]}, "Category" :  [ "Pirate Slut", "BDSM", "Naughty Nun", "Bimbo", "High Class Whore", "Slutty Lady", "Sexy Dancer" ]
-            },
-// Bimbo
-            "tall heels": { // 10
-                "Name": "tall heels", "ShortDesc": "a pair of very tall {COLOR} platform heels",
-                "LongDesc": "The heels on these sexy shoes are so tall that you prance and waddle, shaking your ass everywhere you walk.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 60]}, Category : [ "Bimbo", "Sexy Dancer", "High Class Whore" ]
-            },
-            "bimbo heels": { // 15
-                "Name": "bimbo heels", "ShortDesc": "a pair of outrageously tall {COLOR} platform heels",
-                "LongDesc": "The heels on these platform shoes are so tall that you prance and waddle, shaking your ass, everywhere you walk.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Price": 300, "Style": "RARE", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 60]}, Category : [ "Bimbo", "Sexy Dancer" ]
-            },
-            "micro dress": { // 40
-                "Name": "sexy micro dress",
-                "ShortDesc": "a figure hugging {COLOR} micro dress",
-                "LongDesc": "This dress is made out of some exotic material that hugs every curve of your body. It's so humiliatingly short that your genitals are half open for everyone and the top has several strategic holes to present multiple views of your chest.",
-                "Slot": "Dress",
-                "Restrict": ["Shirt", "Pants", "Dress", "Costume"],
-                "Color": "pink",
-                "Price": 1000,
-                "Style": "LEGENDARY", "Type" : "ONE PIECE",
-                "WearEffect": {"Femininity": [0, 15, 60], "Seduction" : [10,0,0]}, Category : [ "Bimbo" ]
-            },
-            "small plug": { // 9
-                "Name": "small plug", "ShortDesc": "a small anal plug with a heart-shaped {COLOR} faux gem",
-                "LongDesc": "This tiny little plug is designed be worn in your ass. The fake gem is there for decoration because everyone is going to be looking at it..",
-                "Slot": "Butt", "Restrict": ["Butt"], "Color": "pink", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
-                "WearEffect": {"Perversion": [0, 10, 40]}, Category : [ "Bimbo", "Sexy Dancer", "High Class Whore", "Ordinary" ]
-            },
-            "bimbo bra": { //15
-                "Name": "bimbo bra", "ShortDesc": "a {COLOR} push-up bra trimmed with lace and studded with rhinestones",
-                "LongDesc": "This sexy bra is designed to push up and display your assets in the most provocative way possible. The lace and shiny rhinestones there are for maximum eye-catching appeal.",
-                "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
-            },
-            "bimbo thong": { //15
-                "Name": "bimbo thong", "ShortDesc": "a {COLOR} thong with 'I @@color:pink;&#9825;@@ Cum! written on the crotch' ",
-                "LongDesc": "This tiny thong is practically a g-string. The advertisement printed on it leaves no doubt to any onlookers as to what you're all about.",
-                "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
-            },
-// BDSM
-            "nipple rings": { // 9
-                "Name": "nipple rings", "ShortDesc": "a pair of silver nipple rings joined by a chain",
-                "LongDesc": "These rings are connected by a chain that is designed to torment and tug on the wearers nipples.",
-                "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "silver", "Price": 150, "Style": "RARE", "Type" : "ACCESSORY",
-                "WearEffect": {"WillPower": [0, -5, 80], "Perversion": [0, 5, 30]}, "Category" :  [ "BDSM" ]
-            },
-            "nipple clamps": { // 6
-                "Name": "nipple clamps", "ShortDesc": "a pair of silver nipple clamps",
-                "LongDesc": "These sterling silver nipple clamps are designed to inflict punishment... or perhaps arousal?",
-                "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "silver", "Price": 100, "Style": "UNCOMMON", "Type" : "ACCESSORY",
-                "WearEffect": {"WillPower": [0, -5, 80], "Perversion": [0, 5, 30]}, "Category" :  [ "BDSM" ]
-            },
-            "training corset": { // 10
-                "Name": "training corset", "ShortDesc": "a whale boned {COLOR} training corset",
-                "LongDesc": "This garment borders on a torture device. It's designed to slim and shape a woman's waist and push up her bust.",
-                "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200, "Style": "UNCOMMON", "Type" : "ACCESSORY",
-                "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -20, 10]}, "Category" :  [ "BDSM" ]
-            },
-            "bondage corset": { // 15
-                "Name": "bondage corset", "ShortDesc": "a steel boned {COLOR} leather bondage corset",
-                "LongDesc": "This corset is made of strong leather and boned with steel. It has various straps and locks to ensure it must be worn at all times.",
-                "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 400, "Style": "RARE", "Type" : "ACCESSORY",
-                "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -25, 0]}, "Category" :  [ "Pirate Slut", "BDSM" ]
-            },
-            "shiny knee boots": { // 10
-                "Name": "shiny knee boots", "ShortDesc": "a shiny pair of high heeled knee-high {COLOR} leather boots",
-                "LongDesc": "These fashionable leather boots are polished to a shine. Very tall and slightly intimidating.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 8, 40]}, "Category" :  [ "Pirate Slut", "BDSM" ]
-            },
-            "large plug": { // 9
-                "Name": "large plug", "ShortDesc": "a thick {COLOR} anal plug",
-                "LongDesc": "The perfect accessory for the horny masochist, or just good for keeping your arse ready to be used.",
-                "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
-                "WearEffect": {"Perversion": [0, 10, 70], "AssFucking" : [10, 10, 80]}, Category : [ "BDSM" ]
-            },
-// Gothic Lolita Style, contributed by 'littleslavegirl' @ wwww.tfgamessite.com Forums
-            "black flower hairpin": { // 12
-                "Name": "red and black flower hair pin", "ShortDesc": "a red and {COLOR} flower",
-                "LongDesc": "A black rose that adorns your hair, a trio of black ribbons hang down to which are attached 3 blood red stars.",
-                "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 60, "Style": "LEGENDARY", "Type" : "ACCESSORY",
-                "WearEffect": {"Femininity": [0, 10, 80]}, "Category" : [ "Gothic Lolita" ]
-            },
-            "gothic collar": { // 9
-                "Name": "Black gothic collar", "ShortDesc": " a {COLOR} ribbon-lined leather collar emblazoned with the word 'SLAVE' burned into it.",
-                "LongDesc": "A snug leather collar lined on both sides in black lace, slave is burned into the leather to remind you exactly what you are..",
-                "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Price": 50, "Style": "RARE", "Type" : "ACCESSORY",
-                "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Gothic Lolita" ]
-            },
-            "gothic black bra": { // 10
-                "Name": "black bra", "ShortDesc": "a {COLOR} lace gothic style bra",
-                "LongDesc": "A sexy black lace gothic style bra.",
-                "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 60]}, "Category" : [ "Gothic Lolita", "BIMBO", "Sexy Dancer" ]
-            },
-            "black panties": { // 10
-                "Name": "black panties", "ShortDesc": "a pair of {COLOR} black panties",
-                "LongDesc": "Black sexy silk panties just asking for someone to remove them.",
-                "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 60]}, "Category" : [  "Gothic Lolita", "BIMBO", "Sexy Dancer" ]
-            },
-            "gothic frilly bloomers": { // 15
-                "Name": "frilly bloomers", "ShortDesc": "a pair of frilly {COLOR} cotton bloomers",
-                "LongDesc": "These bloomers are cut short and have a frilly bottom.",
-                "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 150, "Style": "RARE", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Gothic Lolita" ]
-            },
-            "gothic striped stockings": { // 15
-                "Name": "black stockings", "ShortDesc": "a pair of {COLOR} and purple striped stockings",
-                "LongDesc": "These stockings come up over your knees. They are striped, black and purple, with a slight lacey top that is adorned with tiny black roses.",
-                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 75, "Style": "RARE", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 60]}, "Category" : [ "Gothic Lolita" ]
-            },
-            "gothic frilly dress": { // 40
-                "Name": "black gothic dress", "ShortDesc": "a {COLOR} gothic dress",
-                "LongDesc": "A short sleeved snug black knee length dress. Lace along the the collar, sleeves and along the bottom of the heavily petticoated skirt that bounces with every step you take.",
-                "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Price": 250, "Style": "LEGENDARY", "Type" : "ONE PIECE",
-                "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Gothic Lolita" ]
-            },
-            "black boots": { // 15
-                "Name": "black high heeled boots", "ShortDesc": "A pair of black knee length heeled boots",
-                "LongDesc": "A pair of knee high black boots with a 5 inch heel and 1 inch platform. Red stars dangle from the zipper.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 125, "Style": "RARE", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 50]}, "Category" : [ "Gothic Lolita", "Sexy Dancer" ]
-            },
-            "black platform mary janes": { // 15
-                "Name": "black platform mary janes", "ShortDesc": "a pair of {COLOR} platform mary janes",
-                "LongDesc": "These black platform shoes have Have red stars for the buckles at the ankles and a chunky platform heel. Difficult to walk in but sexy.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Gothic Lolita" ]
-            },
-// Other Styles
-            "cheap wig": {
-                "Name": "cheap wig", "ShortDesc": "a short {COLOR} wig",
-                "LongDesc": "This cheap wig is made out of badly dyed horse hair.",
-                "Slot": "Wig", "Restrict": ["Wig"], "Color": "black", "Price": 50, "Style": "COMMON", "Type" : "ACCESSORY",
-                "HairLength": 30, "HairStyle": "a short bob", "HairBonus": 30
-            },
-            "wig": {
-                "Name": "wig", "ShortDesc": "a long {COLOR} wig",
-                "LongDesc": "This wig is made from human hair and of quite a fine quality.",
-                "Slot": "Wig", "Restrict": ["Wig"], "Color": "blond", "Price": 150, "Style": "UNCOMMON", "Type" : "ACCESSORY",
-                "HairLength": 60, "HairStyle": "loose curls", "HairBonus": 60
-            },
-            "exotic wig": {
-                "Name": "exotic wig", "ShortDesc": "an exotic {COLOR} wig",
-                "LongDesc": "This exotic wig is made of finely dyed human hair and strung with jewels.",
-                "Slot": "Wig", "Restrict": ["Wig"], "Color": "purple", "Price": 300, "Style": "RARE", "Type" : "ACCESSORY",
-                "HairLength": 80, "HairStyle": "twin tails", "HairBonus": 90
-            },
-            "bonnet": {
-                "Name": "bonnet", "ShortDesc": "a frilly {COLOR} bonnet",
-                "LongDesc": "This frilly little bonnet is a dainty accessory sure to give off a girlish demeanor.",
-                "Slot": "Hat", "Restrict": ["Hat"], "Color": "pink", "Price": 100, "Style": "RARE", "Type" : "ACCESSORY"
-            },
-            "cat ears": {
-                "Name": "cat ears", "ShortDesc": "a pair of fluffy {COLOR} cat ears",
-                "LongDesc": "These large furry cat ears are attached by a headband to be worn.",
-                "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY"
-            },
-            "choker": {
-                "Name": "choker", "ShortDesc": "a {COLOR} silk choker",
-                "LongDesc": "This thin choker is made of silk and designed to accentuate a delicate neck.",
-                "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Price": 50, "Style": "COMMON", "Type" : "ACCESSORY"
-            },
-            "collar": {
-                "Name": "collar", "ShortDesc": "a leather slave collar",
-                "LongDesc": "This thick leather collar is worn to remind everyone that the wearer is a slave.",
-                "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Price": 200, "Style": "COMMON", "Type" : "ACCESSORY", "Locked": 1,
-                "WearEffect": {"WillPower": [0, -5, 50], "Perversion": [0, 5, 30]}
-            },
-            "chemise": {
-                "Name": "chemise", "ShortDesc": "a plain {COLOR} cotton chemise",
-                "LongDesc": "A brief slip designed to cover the breasts under clothes. Not very supportive at all.",
-                "Slot": "Bra", "Restrict": ["Bra"], "Color": "white", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 20]}
-            },
-            "cotton bra": {
-                "Name": "cotton bra", "ShortDesc": "a {COLOR} cotton bra trimmed with lace",
-                "LongDesc": "A regular sized bra designed to contain and support female breasts. It offers modest support and a small amount of sexual appeal.",
-                "Slot": "Bra", "Restrict": ["Bra"], "Color": "white", "Price": 100, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 30]}
-            },
-            "silk bra": {
-                "Name": "silk bra", "ShortDesc": "a sexy {COLOR} silk bra with lace trim",
-                "LongDesc": "This expensive undergarment is designed to accentuate and display a woman's chest with lustful appeal.",
-                "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Price": 200, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 50]}
-            },
-            "fashion corset": {
-                "Name": "fashion corset", "ShortDesc": "a tightly bound {COLOR} silk and lace corset",
-                "LongDesc": "This corset is made from silk and lace, more fashionable than functional, but it still tightly binds your waist and lifts your breasts.",
-                "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200,"Style": "UNCOMMON", "Type" : "ACCESSORY",
-                "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -10, 17]}
-            },
-            "cotton bloomers": {
-                "Name": "cotton bloomers", "ShortDesc": "a pair of {COLOR} cotton bloomers",
-                "LongDesc": "The most basic of undergarments. No frills and almost zero sex appeal.",
-                "Slot": "Panty", "Restrict": ["Panty"], "Color": "white", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 20]}
-            },
-            "sheer bloomers": {
-                "Name": "sheer bloomers", "ShortDesc": "a pair of sheer {COLOR} silk and lace bloomers",
-                "LongDesc": "Made from sheer silk, they're smooth against your skin and decidedly sexy.",
-                "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 50]}
-            },
-            "cotton stockings": {
-                "Name": "cotton stockings", "ShortDesc": "a pair of {COLOR} cotton stockings",
-                "LongDesc": "Basic stockings, held up with string ties.",
-                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "white", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 20]}
-            },
-            "silk stockings": {
-                "Name": "silk stockings", "ShortDesc": "a pair of {COLOR} silk stockings and garters",
-                "LongDesc": "Luxurious and sexy silk stockings held up with garters.",
-                "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 40]}
-            },
-            "worn boots": {
-                "Name": "worn boots", "ShortDesc": "a worn pair of {COLOR} boots",
-                "LongDesc": "These boots are decidedly ugly. More functional than fashionable.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "brown", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING"
-            },
-            "short heels": {
-                "Name": "short heels", "ShortDesc": "a pair of short {COLOR} heels",
-                "LongDesc": "These dainty shoes have a small kitten heel. Not too hard to walk in.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 100, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 20]}
-            },
-            "medium heels": {
-                "Name": "medium heels", "ShortDesc": "a pair of medium {COLOR} heels",
-                "LongDesc": "These shoes have a medium height heel that causes you to roll your ass as you walk.",
-                "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 8, 40]}
-            },
-            "cotton blouse": {
-                "Name": "cotton blouse", "ShortDesc": "a {COLOR} cotton blouse",
-                "LongDesc": "This simple cotton blouse is made from rough cotton.",
-                "Slot": "Shirt", "Restrict": ["Shirt", "Dress", "Costume"], "Color": "white", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 20]}
-            },
-            "silk blouse": {
-                "Name": "silk blouse", "ShortDesc": "a low cut {COLOR} silk blouse",
-                "LongDesc": "This elegant silk blouse is cut daringly low.",
-                "Slot": "Shirt", "Restrict": ["Shirt", "Dress", "Costume"], "Color": "white", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
-                "WearEffect": {"Femininity": [0, 5, 40]}
-            },
-            "leather pants": {
-                "Name": "leather pants", "ShortDesc": "a pair of {COLOR} leather pants",
-                "LongDesc": "These leather pants are incredibly tight and designed to show off your ass.",
-                "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "black", "Price": 200, "Style": "COMMON", "Type" : "CLOTHING"
-            },
-            "leather shorts": {
-                "Name": "leather shorts", "ShortDesc": "a pair of low rise {COLOR} leather shorts",
-                "LongDesc": "These tight leather shorts ride up in all the right places.",
-                "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING"
-            },
-            "cotton dress": {
-                "Name": "cotton dress",
-                "ShortDesc": "a {COLOR} cotton dress",
-                "LongDesc": "This simple cotton dress is made from rough cotton.",
-                "Slot": "Dress",
-                "Restrict": ["Shirt", "Pants", "Dress", "Costume"],
-                "Color": "blue",
-                "Price": 50,
-                "Style": "COMMON", "Type" : "ONE PIECE",
-                "WearEffect": {"Femininity": [0, 5, 20]}
-            },
-            "sundress": {
-                "Name": "sundress", "ShortDesc": "a cute {COLOR} floral sundress",
-                "LongDesc": "This soft sundress has a cute floral pattern that is exceptionally girly.",
-                "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 100, "Style": "UNCOMMON", "Type" : "ONE PIECE",
-                "WearEffect": {"Femininity": [0, 5, 50]}
-            },
-            "sexy dress": {
-                "Name": "sexy dress",
-                "ShortDesc": "a sexy {COLOR} mini dress",
-                "LongDesc": "This daringly short dress hugs your body and lets everyone know it's for sale.",
-                "Slot": "Dress",
-                "Restrict": ["Shirt", "Pants", "Dress", "Costume"],
-                "Color": "black",
-                "Price": 250,
-                "Style": "UNCOMMON", "Type" : "ONE PIECE",
-                "WearEffect": {"Femininity": [0, 15, 60],  "Seduction" : [10,0,0]}
-            },
-            "stripper costume": {
-                "Name": "stripper costume",
-                "ShortDesc": "a tacky looking {COLOR} stripper costume",
-                "LongDesc": "This costume consists of a two piece outfit with accessories that is designed to mimic a navy officers uniform, if the navy was a service filled with "+
-                "brazen whores. The skirt is flared and too low, showing off your bottom. The top is tight and mostly open, it has patches that can be pulled off to reveal tassels hanging "+
-                "off your tits from pasties that are shaped like anchors. Instead of sleeves or a collar it has little accessories designed to look like them, including the epaulets of the navy "+
-                "suit jacket.",
-                "Slot": "Costume",
-                "Restrict": ["Shirt", "Pants", "Dress", "Costume"],
-                "Color": "white",
-                "Price": 450,
-                "Style": "UNCOMMON", "Type" : "ONE PIECE",
-                "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]},
-                "SkillBonus": {"Dancing": [10, 20, 0], "Singing": [10, 10, 0]}
-            },
-            "burlesque costume": {
-                "Name": "burlesque costume",
-                "ShortDesc": "a fancy {COLOR} burlesque costume",
-                "LongDesc": "This costume is typical of the many burlesque dancers that entertain customers in taverns throughout the land. It has a variety of accessories and flair designed to be torn off as you strip.",
-                "Slot": "Costume",
-                "Restrict": ["Shirt", "Pants", "Dress", "Costume"],
-                "Color": "red",
-                "Price": 450,
-                "Style": "UNCOMMON", "Type" : "ONE PIECE",
-                "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]},
-                "SkillBonus": {"Dancing": [10, 20, 0], "Singing": [10, 10, 0]}
-            },
-            "maid costume": {
-                "Name": "maid costume",
-                "ShortDesc": "a frilly {COLOR} maid uniform",
-                "LongDesc": "This is a typical maid costume that has been altered to showcase your ass and chest.",
-                "Slot": "Costume",
-                "Restrict": ["Shirt", "Pants", "Dress", "Costume"],
-                "Color": "black",
-                "Price": 450,
-                "Style": "UNCOMMON", "Type" : "ONE PIECE",
-                "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]},
-                "SkillBonus": {"Cooking": [20, 20, 0], "Cleaning": [20, 20, 0]}
-            },
-            "cat tail": {
-                "Name": "cat tail", "ShortDesc": "a long furry {COLOR} cat tail anal plug",
-                "LongDesc": "This large anal plug has a long furry cat tail attached to it. Wearing it will loosen your asshole and probably attract animal lovers.",
-                "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Price": 300, "Style": "COMMON", "Type" : "ACCESSORY",
-                "WearEffect": {"Perversion": [0, 10, 50], "AssFucking": [0, 20, 30]}
-            },
-            "chastity cage": {
-                "Name": "chastity cage", "ShortDesc": "a metal and leather chastity device",
-                "LongDesc": "This cruel device constricts and crushes your genitals. Wearing it is not only painful but probably bad for your health.",
-                "Slot": "Penis", "Restrict": ["Penis"], "Color": "black", "Price": 300, "Style": "COMMON", "Type" : "ACCESSORY", "Locked": 1,
-                "WearEffect": {
-                    "Perversion": [0, 10, 30],
-                    "Penis": [0, -15, 0],
-                    "Balls": [0, -15, 0]
-                }
-            },
-            "cock ribbon": {
-                "Name": "cock ribbon", "ShortDesc": "a cute little {COLOR} ribbon",
-                "LongDesc": "This dainty little ribbon is meant to be tied on a sissy clit for decoration.",
-                "Slot": "Penis", "Restrict": ["Penis"], "Color": "pink", "Price": 300, "Style": "COMMON", "Type" : "ACCESSORY",
-                "WearEffect": {"Femininity": [0, 10, 30]}
-            },
-// Weapons
-            "worn machete": {
-                "Name": "worn machete", "ShortDesc": "@@color:purple;a well worn machete@@",
-                "LongDesc": "This large blade is 32cm long and has a slightly curved angle to it. It's not really a knife, but more like an axe. In a fight you could use it similar to a short sword.",
-                "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Price": 200, "Style": "NONE", "Type" : "WEAPON",
-                "WearEffect": { }
-            }
-        };
-
-window.App.Data.Cosmetics = {
+App.Data.Cosmetics = {
             "hair accessories": {
                 "Name": "haircare accessories",
                 "ShortDesc": "hair accessories [x5]",
@@ -7305,68 +7359,6 @@ window.App.Data.Cosmetics = {
             }
         };
 
-// BOX TYPE     MINIMUM     BONUS ROLL  COLOR
-// COMMON       0           0           grey
-// UNCOMMON     20          10          lime
-// RARE         30          20          cyan
-// LEGENDARY    50          30          orange
-App.Data.LootBoxes = {
-    "common sissy loot box": {
-        "Name": "common sissy chest",
-        "ShortDesc": "@@color:grey;A small gift box shaped like a treasure chest@@",
-        "LongDesc": "This small pink treasure chest sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
-        "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
-        "Type": "LOOT_BOX",
-        "Charges": 1,
-        // Effect : [ TABLE, Minimum Roll, Bonus to roll
-        "UseEffect": { "LootBox": ["SISSY_BIMBO", 0, 0]},
-        "Price": 0
-    },
-    "rare sissy loot box": {
-        "Name": "rare sissy chest",
-        "ShortDesc": "@@color:cyan;A large gift box shaped like a treasure chest@@",
-        "LongDesc": "This small pink treasure chest sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
-        "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
-        "Type": "LOOT_BOX",
-        "Charges": 1,
-        // Effect : [ TABLE, Minimum Roll, Bonus to roll
-        "UseEffect": { "LootBox": ["SISSY_BIMBO", 30, 20]},
-        "Price": 0
-    },
-    "uncommon pirate loot box": {
-        "Name": "uncommon pirate chest",
-        "ShortDesc": "@@color:lime;A studded iron treasure chest emblazoned with a skull and bones@@",
-        "LongDesc": "This treasure chest is banded and studded with iron rivets. It has a white skull and bones on its top and smells faintly of the sea.",
-        "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
-        "Type": "LOOT_BOX",
-        "Charges": 1,
-        // Effect : [ TABLE, Minimum Roll, Bonus to roll
-        "UseEffect": { "LootBox": ["PIRATE_BDSM", 20, 10]},
-        "Price": 0
-    },
-    "common food loot box": {
-        "Name": "common food chest",
-        "ShortDesc": "@@color:grey;A small crate used for storing foodstuff@@",
-        "LongDesc": "This small crate looks rather shoddy and the contents rattle when you shake it.",
-        "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
-        "Type": "LOOT_BOX",
-        "Charges": 1,
-        // Effect : [ TABLE, Minimum Roll, Bonus to roll
-        "UseEffect": { "LootBox": ["FOOD", 0, 0]},
-        "Price": 0
-    },
-    "rare food loot box": {
-        "Name": "rare food chest",
-        "ShortDesc": "@@color:cyan;A large crate used for storing foodstuff@@",
-        "LongDesc": "This small crate looks rather shoddy and the contents rattle when you shake it.",
-        "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
-        "Type": "LOOT_BOX",
-        "Charges": 1,
-        // Effect : [ TABLE, Minimum Roll, Bonus to roll
-        "UseEffect": { "LootBox": ["FOOD", 30, 20]},
-        "Price": 0
-    }
-};
 
 App.Data.QuestItems = {
         "isla harbor mansion key": {
@@ -7401,7 +7393,231 @@ App.Data.QuestItems = {
             }
 
 };
-/* twine-user-script #17: "cookie.js" */
+/* twine-user-script #24: "items_food.js" */
+App = App || { Data: { }, Entity: { } };
+
+App.Data.Food = {
+    "bread crust": {
+        "Name": "bread crust",
+        "ShortDesc": "A stale crust of bread",
+        "LongDesc": "This piece of bread has seen better days... about 5 days ago. It's still edible however.",
+        "Message": "You bite into the bread. It's as hard as a rock, but eventually you manage to chew and swallow it.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [5, 10, 0] },
+        "Price": 1
+    },
+    "slave gruel": {
+        "Name": "slave gruel",
+        "ShortDesc": "Slave gruel mixed with semen",
+        "LongDesc": "This watery looking gruel smells and tastes disgusting. The crew has 'donated' some extra nutrition to it.",
+        "Message": "You wrinkle your nose and drink down the disgusting drool. You gag occasionally as thick clumps of rancid cum slide down your throat.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [5, 50, 0], "WillPower": [0, -25, 0], "Perversion": [0, 25, 0], "Hormones" : [0, 100, 0]},
+        "Price": 1
+    },
+    "grog": {
+        "Name": "grog",
+        "ShortDesc": "Low Quality Grog",
+        "LongDesc": "It's the typical alcoholic drink that pirates and mariners drink on long trips. It'll keep you hydrated and won't make you too sick.",
+        "Message": "You tip back the crude swill. It has an unpleasant taste.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [3, 15, 0], "Toxicity": [5, 0, 0]},
+        "Price": 1
+    },
+    "beer": {
+        "Name": "beer",
+        "ShortDesc": "Common Beer",
+        "LongDesc": "The typical beverage of choice for most men and some women. It's refreshingly cool and with a malty aftertaste.",
+        "Message": "You tip back the beer and have a drink. It's refreshing.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [3, 20, 0], "Toxicity": [2, 0, 0]},
+        "Price": 2
+    },
+    "smugglers ale": {
+        "Name": "smugglers ale",
+        "ShortDesc": "A pint of Smuggler's Ale",
+        "LongDesc": "Only brewed and sold on Golden Isle, this dark ale has a tangy, almost fruit after taste.",
+        "Message": "You tip back the ale and have a drink. It's refreshing.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [5, 20, 0], "Toxicity": [1, 0, 0]},
+        "Price": 10
+    },
+    "cheap wine": {
+        "Name": "cheap wine",
+        "ShortDesc": "Cheap Wine",
+        "LongDesc": "Not the best quality wine, but palatable and in abundant supply.",
+        "Message": "The wine has a deep red color and an almost sweet after taste.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [5, 20, 0], "Toxicity": [3, 0, 0]},
+        "Price": 2
+    },
+    "bread and cheese": {
+        "Name": "bread and cheese",
+        "ShortDesc": "A serving of bread with cheese",
+        "LongDesc": "Standard and relatively wholesome food.",
+        "Message": "The bread has a very yeasty taste and the cheese a sharp bite.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [20, 20, 0], "Toxicity": [-5, 0, 0]},
+        "Price": 5
+    },
+    "roast fish": {
+        "Name": "roast fish",
+        "ShortDesc": "A roasted fish",
+        "LongDesc": "A local type of fish, roasted on a stick.",
+        "Message": "You take a bite of the fish and chew. It's bland, but wholesome.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [20, 20, 0], "Toxicity": [-5, 0, 0]},
+        "Price": 5
+    },
+    "rum": {
+        "Name": "rum",
+        "ShortDesc": "A bottle of Rum",
+        "LongDesc": "This cheap rum is made from sugarcane.",
+        "Message": "You tip back the bottle and have a drink. It burns going down and fills your stomach with fire.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [3, 10, 0], "Toxicity": [5, 0, 0], "WillPower" : [ 0, 10, 0 ]},
+        "Price": 5
+    },
+    "starfruit": {
+        "Name": "starfruit",
+        "ShortDesc": "Strange starfruit",
+        "LongDesc": "This slightly pink starfruit is pulpy and contains many black seeds. It has a fragrant and intoxicating smell.",
+        "Message": "You take a bite out of the starfruit and savor it's sweet, but citrus taste. You feel your body filling with energy.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [15, 50, 0],  "Energy": [1, 0, 0], "Hormones": [0, 500, 0]},
+        "Price": 20
+    },
+    "mystery stew": {
+        "Name": "mystery stew",
+        "ShortDesc": "A deep brown stew of unidentifiable origin",
+        "LongDesc": "This stew is so dark as to practically be mud. It has bits of unidentifiable meat and vegetables (you think?) floating in it.",
+        "Message": "The stew tastes surprisingly better than you thought and certainly better than it looks.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [10, 100, 0]},
+        "Price": 5
+    },
+    "milkdew melon": {
+        "Name": "milkdew melon",
+        "ShortDesc": "Milkdew Melon",
+        "LongDesc": "This rare melon has a milky white interior. It's has a sweet, but creamy taste.",
+        "Message": "You crack the melon open and eat the contents. It tastes delicious and thick white juice dribbles down your chin.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {
+            "Nutrition": [20, 50, 0],
+            "Bust": [0, 100, 0],
+            "Hormones": [0, 200, 0],
+            "Perversion": [0, 50, 0]
+        },
+        "Price": 25
+    },
+    "honey mead": {
+        "Name": "honey mead",
+        "ShortDesc": "Bzzangr Honey Mead",
+        "LongDesc": "A common drink along the Lingering Coast, made from the honey of giant Bzzangr insects.",
+        "Message": "The mead has a delicious taste that tingles your tongue and lips.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [20, 50, 0], "Lips": [0, 100, 0]},
+        "Price": 25
+    },
+    "butter gourd": {
+        "Name": "butter gourd",
+        "ShortDesc": "An oddly shaped gourd vegetable",
+        "LongDesc": "The flesh of this vegetable can easily be eaten raw and it has a pleasant, almost buttery flavor and texture.",
+        "Message": "You break open the gourd and dig into the fleshy interior. It's surprisingly smooth and melts in your mouth like butter or pure fat.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [20, 200, 0], "Ass": [0, 100, 0], "Hips": [0, 100, 0]},
+        "Price": 35
+    },
+    "pink peach": {
+        "Name": "pink peach",
+        "ShortDesc": "A brightly colored pink peach",
+        "LongDesc": "This brightly colored fruit has a sweet and musky scent. It's bulbous exterior is dimpled with purple specks.",
+        "Message": "You bite into the peach and savor the sweetness of the fruit. You feel almost as if it has a calming, or curative effect on you.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [20, 100, 0], "Hormones" : [0, 100, 0], "Toxicity" : [-40, 0, 0] },
+        "Price": 25
+    },
+    "fortified wine": {
+        "Name": "fortified wine",
+        "ShortDesc": "@@color:purple;A dusty bottle of fortified wine@@",
+        "LongDesc": "This dusty old bottle has an almost illegible label, but you can make out that it appears to be extremely fortified (highly alcoholic) wine",
+        "Message": "You tip back the bottle and have a drink. It burns going down and fills your stomach with fire. Holy shit that's strong!",
+        "Type": "food",
+        "Quest" : true,
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [10, 10, 0], "Toxicity": [25, 0, 0], "WillPower" : [ 0, 20, 0 ]},
+        "Price": 500
+    },
+    "red plum": {
+        "Name": "red plum",
+        "ShortDesc": "A dazzlingly bright red plum",
+        "LongDesc": "This unusual plum is bright red and cool to the touch. It's so ripe that it practically oozes sweetness.",
+        "Message": "You bite into the plum and instantly you are overcome with a wave of euphoria. You momentarily lose yourself as the sweet juices drip down your chin.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [20, 100, 0], "Toxicity" : [-80, 0, 0], "Health": [10, 0, 0] },
+        "Price": 25
+    },
+    "purple mushrooms": {
+        "Name": "purple mushroom",
+        "ShortDesc": "A handful of rare purple mushrooms",
+        "LongDesc": "These mushrooms range in shapes from small and skinny to rather large specimens. Their caps are bright purple and spotted with darker purple blotches. These are safe to eat, right?",
+        "Message": "You ingest the mushrooms. They don't have much of a taste, but they definitely seem to have some 'kick' to them. You hope this wasn't a foolish idea...",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [5, 20, 0], "Toxicity" : [ 20, 0, 0], "Hormones": [-5, -200, 0],
+            "Penis" : [0,200,0], "Balls" : [0, 200,0] },
+        "Price": 25
+    },
+    "ambrosia": {
+        "Name": "ambrosia",
+        "ShortDesc": "A dark green bottle of ambrosia",
+        "LongDesc": "Ambrosia is known far and wide as the 'Food of the Gods'. Legends tell that it is brewed by Sea Nymphs in their under water caves, but how that is possible you have no idea.",
+        "Message": "You uncork the bottle imbibe the potent brew. Words fail to describe how overwhelmingly good it tastes. You feel yourself filled with vigour and strength!",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [100, 100, 0], "Toxicity" : [-200, 0, 0], "Health": [100, 0, 0],
+            "WillPower" : [ 0, 100, 0 ] },
+        "Price": 500
+    },
+    "pirates plunder": {
+        "Name": "pirates plunder",
+        "ShortDesc": "A flagon of 'Pirates Plunder'",
+        "LongDesc": "No one knows the origin of this legendary drink, but Pirates up and down the Lost Coast swear by it's effects. A single flagon is said to turn the most pathetic land lubber into a half way decent pirate. Could that possibly be true?",
+        "Message": "You tip back the flagon and drink deeply of the 'Pirates Plunder'. The taste is like nothing you've had before, dark, stormy and violent.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [20, 50, 0], "Toxicity" : [50, 0, 0], "Sailing": [0, 300, 0],
+            "Navigating" : [ 0, 300, 0 ], "Swashbuckling" : [ 0, 300, 0 ] },
+        "Price": 500
+    },
+    "purple sucker": {
+        "Name": "erotic sucker",
+        "ShortDesc": "A erotic purple sucker",
+        "LongDesc": "This large sucker is shaped like a realistic penis, complete with veins and a flared head. The tag advertises the flavor as 'grape and semen'",
+        "Message": "Suck... suck... slurp... gasp. Mmm. Fruity, but slightly salty.",
+        "Type": "food",
+        "Charges": 1,
+        "UseEffect": {"Nutrition": [5, 10, 0], "Penis" : [0,50,0], "Lips" : [0, 50,0], "Perversion" : [0, 50,0] },
+        "Price": 100
+    },
+};
+/* twine-user-script #25: "cookie.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -7724,7 +7940,7 @@ App.Data.JobData["COOK03"] = {
     "JOB_RESULTS" : [ ]
 };
 
-/* twine-user-script #18: "isla_general_store.js" */
+/* twine-user-script #26: "isla_general_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -7827,7 +8043,7 @@ App.Data.JobData["ISLA_MASCOT"] = {
         {"A": 500, "TEXT": "You definitely did a @@good job@@ and the pay reflects that."}
     ]
 };
-/* twine-user-script #19: "isla_tavern.js" */
+/* twine-user-script #27: "isla_tavern.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -7959,7 +8175,7 @@ App.Data.JobData["ISLA_WAITRESS"] = {
     "END" : "Finally, your shift in the tavern is over. NPC_NAME comes up to you and hands you your pay for the night, JOB_PAY coins.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #20: "jarvis.js" */
+/* twine-user-script #28: "jarvis.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -8078,7 +8294,7 @@ App.Data.JobData["JARV01"] =  {
     ]
 
 };
-/* twine-user-script #21: "julius.js" */
+/* twine-user-script #29: "julius.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -8268,7 +8484,7 @@ App.Data.JobData["QUAR02"] = {
         "NPC_NAME tosses a small bag of JOB_PAY coins at you and then waves you on his way, continuing to furiously study at his notes.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #22: "jungle.js" */
+/* twine-user-script #30: "jungle.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -8391,7 +8607,7 @@ App.Data.JobData["JUNGLE01"] = {
     "JOB_RESULTS" : [ ]
 
 };
-/* twine-user-script #23: "kipler.js" */
+/* twine-user-script #31: "kipler.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -9027,7 +9243,7 @@ App.Data.JobData["MATE04"] =  {
 
 };
 
-/* twine-user-script #24: "lord_rowe.js" */
+/* twine-user-script #32: "lord_rowe.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -9132,7 +9348,7 @@ App.Data.JobData["GOV01"] = {
     "\"@@color:cyan;Come back some time dear,@@\" he says after catching his breath. You nod eagerly and tell him you always have time to play with 'Daddy' before taking your leave.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #25: "mermaid_galley.js" */
+/* twine-user-script #33: "mermaid_galley.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -9367,7 +9583,7 @@ App.Data.JobData["STRP02"] = {
 
 };
 
-/* twine-user-script #26: "port_royale_peacock.js" */
+/* twine-user-script #34: "port_royale_peacock.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -9500,7 +9716,7 @@ App.Data.JobData["PEACOCK_WAITRESS"] = {
     "JOB_RESULTS" : [ ]
 };
 
-/* twine-user-script #27: "reginald.js" */
+/* twine-user-script #35: "reginald.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -9843,77 +10059,66 @@ App.Data.JobData["CAPT01"] = {
     "You'd almost be offended if it wasn't for the fact that what he said was essentially true. You pick up your poor and battered body and head for the door.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #28: "LootTableData.js" */
-window.App = window.App || { Data: { }, Entity: { } };
+/* twine-user-script #36: "food_lootbox.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.LootBoxes = App.Data.LootBoxes || { };
+App.Data.LootTables = App.Data.LootTables || { };
 
+// BOX TYPE     MINIMUM     BONUS ROLL  COLOR
+// COMMON       0           0           grey
+// UNCOMMON     20          10          lime
+// RARE         30          20          cyan
+// LEGENDARY    50          30          orange
 
-window.App.Data.LootTables =
-{
-  "SISSY_BIMBO" :
-  {
-      10 :  {
-                "LOOT" : [
-                    { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
-                    { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5}
-                ] },
-      20 :  {
-                "LOOT" : [
-                    { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
-                    { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5},
-                    { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 5},
-                    { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 5}
-                ] },
-      30 :  {
-                "LOOT" : [
-                    { "TYPE" : "CLOTHES", "TAG" : "pink head bow", "QTY" : 1}
-                ] },
-      40 :  {
-                "LOOT" : [
-                    { "TYPE" : "CLOTHES", "TAG" : "striped panties", "QTY" : 1}
-                ] },
-      50 :  {
-                "LOOT" : [
-                    { "TYPE" : "CLOTHES", "TAG" : "striped bra", "QTY" : 1}
-                ] },
-      60 :  {
-                "LOOT" : [
-                    { "TYPE" : "CLOTHES", "TAG" : "striped stockings", "QTY" : 1}
-                ] },
-      70 :  {
-                "LOOT" : [
-                    { "TYPE" : "CLOTHES", "TAG" : "bimbo bra", "QTY" : 1}
-                ] },
-      80 :  {
-                "LOOT" : [
-                    { "TYPE" : "CLOTHES", "TAG" : "bimbo thong", "QTY" : 1}
-                ] },
-      90 :  {
-                "LOOT" : [
-                    { "TYPE" : "CLOTHES", "TAG" : "pink mary janes", "QTY" : 1}
-                ] },
-      100 :  {
-                "LOOT" : [
-                    { "TYPE" : "CLOTHES", "TAG" : "pink knee socks", "QTY" : 1},
-                    { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1}
-                ] },
-      110 :  {
-                "LOOT" : [
-                    { "TYPE" : "CLOTHES", "TAG" : "frilly dress", "QTY" : 1},
-                    { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1}
-                ] },
-      120 :  {
-                "LOOT" : [
-                    { "TYPE" : "CLOTHES", "TAG" : "pink platform mary janes", "QTY" : 1},
-                    { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2}
-                ] },
-      130 :  {
-                "LOOT" : [
-                    { "TYPE" : "CLOTHES", "TAG" : "sissy collar", "QTY" : 1},
-                    { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 3 }
-                ] }
-  },
-"FOOD" :
-{
+App.Data.LootBoxes["common food loot box"] =  {
+    "Name": "common food chest",
+    "ShortDesc": "@@color:grey;A small crate used for storing foodstuff@@",
+    "LongDesc": "This small crate looks rather shoddy and the contents rattle when you shake it.",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 1,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["FOOD", 0, 0]},
+    "Price": 0
+};
+
+App.Data.LootBoxes["uncommon food loot box"] =  {
+    "Name": "uncommon food chest",
+    "ShortDesc": "@@color:lime;A crate used for storing foodstuff@@",
+    "LongDesc": "This crate looks rather shoddy and the contents rattle when you shake it.",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 1,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["FOOD", 20, 10]},
+    "Price": 0
+};
+
+App.Data.LootBoxes["rare food loot box"] =  {
+    "Name": "rare food chest",
+    "ShortDesc": "@@color:cyan;A large crate used for storing foodstuff@@",
+    "LongDesc": "This large crate looks rather shoddy and the contents rattle when you shake it.",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 2,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["FOOD", 30, 20]},
+    "Price": 0
+};
+
+App.Data.LootBoxes["legendary food loot box"] =  {
+    "Name": "legendary food chest",
+    "ShortDesc": "@@color:orange;A large crate used for storing foodstuff@@",
+    "LongDesc": "This large crate looks rather shoddy and the contents rattle when you shake it.",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 3,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["FOOD", 50, 30]},
+    "Price": 0
+};
+
+App.Data.LootTables["FOOD"] = {
     10 :  {
         "LOOT" : [
             { "TYPE": "FOOD", "QTY": 4, "TAG" : "slave gruel"  },
@@ -9971,7 +10176,7 @@ window.App.Data.LootTables =
         ] },
     100 :  {
         "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "starfruit",  "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 2},
             { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
             { "TYPE" : "FOOD", "TAG" : "red plum",   "QTY" : 2}
         ] },
@@ -9988,72 +10193,378 @@ window.App.Data.LootTables =
         "LOOT" : [
             { "TYPE" : "FOOD", "TAG" : "ambrosia", "QTY" : 1}
         ] }
-},
-    "PIRATE_BDSM" :
-    {
-        10 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "fishnet tights", "QTY" : 1}
-            ] },
-        20 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "fishnet tights", "QTY" : 1},
-                { "TYPE" : "CLOTHES", "TAG" : "fishnet stockings", "QTY" : 1}
-            ] },
-        30 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "pirate bra", "QTY" : 1}
-            ] },
-        40 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "pirate thong", "QTY" : 1}
-            ] },
-        50 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "nipple clamps", "QTY" : 1}
-            ] },
-        60 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "training corset", "QTY" : 1}
-            ] },
-        70 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "bondage corset", "QTY" : 1}
-            ] },
-        80 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "shiny knee boots", "QTY" : 1}
-            ] },
-        85 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "nipple rings", "QTY" : 1}
-            ] },
-        90 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "pirate boots", "QTY" : 1}
-            ] },
-        100 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "large plug", "QTY" : 1}
-            ] },
-        110 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "pirate hat", "QTY" : 1},
-                { "TYPE" : "FOOD", "TAG" : "rum", "QTY" : 6}
-            ] },
-        120 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "pistol brace", "QTY" : 1},
-                { "TYPE" : "FOOD", "TAG" : "pirates plunder", "QTY" : 2}
-            ] },
-        130 :  {
-            "LOOT" : [
-                { "TYPE" : "CLOTHES", "TAG" : "pirate waistcoat", "QTY" : 1},
-                { "TYPE" : "FOOD", "TAG" : "pirates plunder", "QTY" : 3 }
-            ] }
-    }
 };
-/* twine-user-script #29: "blanche_quests.js" */
+
+/* twine-user-script #37: "lolita_sissy_lootbox.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.LootBoxes = App.Data.LootBoxes || { };
+App.Data.LootTables = App.Data.LootTables || { };
+
+// BOX TYPE     MINIMUM     BONUS ROLL  COLOR
+// COMMON       0           0           grey
+// UNCOMMON     20          10          lime
+// RARE         30          20          cyan
+// LEGENDARY    50          30          orange
+
+App.Data.LootBoxes["common lolita loot box"] = {
+    "Name": "common lolita chest",
+    "ShortDesc": "@@color:grey;A small novelty bag shaped like a teddy bear@@",
+    "LongDesc": "This small pink bag is shaped like a stuffed toy and opens with a drawstring on it's back. Wonder what's inside?",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 1,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["LOLITA_SISSY", 0, 0]},
+    "Price": 0
+};
+
+App.Data.LootBoxes["uncommon lolita loot box"] = {
+    "Name": "uncommon lolita chest",
+    "ShortDesc": "@@color:lime;A novelty bag shaped like a teddy bear@@",
+    "LongDesc": "This pink bag is shaped like a stuffed toy and opens with a drawstring on it's back. Wonder what's inside?",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 1,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["LOLITA_SISSY", 20, 10]},
+    "Price": 0
+};
+
+App.Data.LootBoxes["rare lolita loot box"] = {
+    "Name": "rare lolita chest",
+    "ShortDesc": "@@color:cyan;A large novelty bag shaped like a teddy bear@@",
+    "LongDesc": "This large pink bag is shaped like a stuffed toy and opens with a drawstring on it's back. Wonder what's inside?",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 2,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["LOLITA_SISSY", 30, 20]},
+    "Price": 0
+};
+
+App.Data.LootBoxes["legendary lolita loot box"] = {
+    "Name": "legendary lolita chest",
+    "ShortDesc": "@@color:orange;A huge novelty bag shaped like a teddy bear@@",
+    "LongDesc": "This huge pink bag is shaped like a stuffed toy and opens with a drawstring on it's back. Wonder what's inside?",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 3,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["LOLITA_SISSY", 50, 30]},
+    "Price": 0
+};
+
+App.Data.LootTables["LOLITA_SISSY"] =  {
+    10 :  {
+        "LOOT" : [
+            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
+            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5}
+        ] },
+    20 :  {
+        "LOOT" : [
+            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
+            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5},
+            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 5},
+            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 5}
+        ] },
+    30 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pink head bow", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 1}
+        ] },
+    40 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "striped panties", "QTY" : 1}
+        ] },
+    45 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "white knee socks", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 1}
+        ] },
+    50 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "striped bra", "QTY" : 1}
+        ] },
+    60 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "striped stockings", "QTY" : 1}
+        ] },
+    70 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "cute pink bra", "QTY" : 1}
+        ] },
+    80 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "cute pink panties", "QTY" : 1}
+        ] },
+    90 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pink mary janes", "QTY" : 1}
+        ] },
+    100 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pink knee socks", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1}
+        ] },
+    110 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pink platform mary janes", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1}
+        ] },
+    120 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pink t-shirt", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 1}
+        ] },
+    130 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pink tartan", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 2}
+        ] }
+};
+/* twine-user-script #38: "pirate_bdsm_lootbox.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.LootBoxes = App.Data.LootBoxes || { };
+App.Data.LootTables = App.Data.LootTables || { };
+
+// BOX TYPE     MINIMUM     BONUS ROLL  COLOR
+// COMMON       0           0           grey
+// UNCOMMON     20          10          lime
+// RARE         30          20          cyan
+// LEGENDARY    50          30          orange
+
+App.Data.LootBoxes["common pirate loot box"] = {
+    "Name": "common pirate chest",
+    "ShortDesc": "@@color:grey;A studded iron treasure chest emblazoned with a skull and bones@@",
+    "LongDesc": "This treasure chest is banded and studded with iron rivets. It has a white skull and bones on its top and smells faintly of the sea.",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 1,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["PIRATE_BDSM", 0, 0]},
+    "Price": 0
+};
+
+App.Data.LootBoxes["uncommon pirate loot box"] = {
+    "Name": "uncommon pirate chest",
+    "ShortDesc": "@@color:lime;A studded iron treasure chest emblazoned with a skull and bones@@",
+    "LongDesc": "This treasure chest is banded and studded with iron rivets. It has a white skull and bones on its top and smells faintly of the sea.",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 2,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["PIRATE_BDSM", 20, 10]},
+    "Price": 0
+};
+
+App.Data.LootBoxes["rare pirate loot box"] = {
+    "Name": "rare pirate chest",
+    "ShortDesc": "@@color:cyan;A studded iron treasure chest emblazoned with a skull and bones@@",
+    "LongDesc": "This treasure chest is banded and studded with iron rivets. It has a white skull and bones on its top and smells faintly of the sea.",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 3,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["PIRATE_BDSM", 30, 20]},
+    "Price": 0
+};
+
+App.Data.LootBoxes["legendary pirate loot box"] = {
+    "Name": "legendary pirate chest",
+    "ShortDesc": "@@color:orange;A studded iron treasure chest emblazoned with a skull and bones@@",
+    "LongDesc": "This treasure chest is banded and studded with iron rivets. It has a white skull and bones on its top and smells faintly of the sea.",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 1,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["PIRATE_BDSM", 50, 30]},
+    "Price": 0
+};
+
+App.Data.LootTables["PIRATE_BDSM"] =  {
+    10 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "fishnet tights", "QTY" : 1}
+        ] },
+    20 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "fishnet tights", "QTY" : 1},
+            { "TYPE" : "CLOTHES", "TAG" : "fishnet stockings", "QTY" : 1}
+        ] },
+    30 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pirate bra", "QTY" : 1}
+        ] },
+    40 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pirate thong", "QTY" : 1}
+        ] },
+    50 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "nipple clamps", "QTY" : 1}
+        ] },
+    60 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "training corset", "QTY" : 1}
+        ] },
+    70 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "bondage corset", "QTY" : 1}
+        ] },
+    80 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "shiny knee boots", "QTY" : 1}
+        ] },
+    85 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "nipple rings", "QTY" : 1}
+        ] },
+    90 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pirate boots", "QTY" : 1}
+        ] },
+    100 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "large plug", "QTY" : 1}
+        ] },
+    110 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pirate hat", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "rum", "QTY" : 6}
+        ] },
+    120 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pistol brace", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "pirates plunder", "QTY" : 2}
+        ] },
+    130 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pirate waistcoat", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "pirates plunder", "QTY" : 3 }
+        ] }
+};
+/* twine-user-script #39: "sissy_bimbo_lootbox.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.LootBoxes = App.Data.LootBoxes || { };
+App.Data.LootTables = App.Data.LootTables || { };
+
+// BOX TYPE     MINIMUM     BONUS ROLL  COLOR
+// COMMON       0           0           grey
+// UNCOMMON     20          10          lime
+// RARE         30          20          cyan
+// LEGENDARY    50          30          orange
+
+App.Data.LootBoxes["common sissy loot box"] = {
+    "Name": "common sissy chest",
+    "ShortDesc": "@@color:grey;A small gift box shaped like a treasure chest@@",
+    "LongDesc": "This small pink treasure chest sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 1,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["SISSY_BIMBO", 0, 0]},
+    "Price": 0
+};
+
+App.Data.LootBoxes["uncommon sissy loot box"] = {
+    "Name": "uncommon sissy chest",
+    "ShortDesc": "@@color:lime;A gift box shaped like a treasure chest@@",
+    "LongDesc": "This pink treasure chest sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 1,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["SISSY_BIMBO", 20, 10]},
+    "Price": 0
+};
+
+App.Data.LootBoxes["rare sissy loot box"] = {
+    "Name": "rare sissy chest",
+    "ShortDesc": "@@color:cyan;A large gift box shaped like a treasure chest@@",
+    "LongDesc": "This large pink treasure chest sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 2,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["SISSY_BIMBO", 30, 20]},
+    "Price": 0
+};
+
+App.Data.LootBoxes["legendary sissy loot box"] = {
+    "Name": "legendary sissy chest",
+    "ShortDesc": "@@color:orange;A huge gift box shaped like a treasure chest@@",
+    "LongDesc": "This huge pink treasure chest sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 3,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["SISSY_BIMBO", 50, 30]},
+    "Price": 0
+};
+
+App.Data.LootTables["SISSY_BIMBO"] =  {
+    10 :  {
+        "LOOT" : [
+            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
+            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5}
+        ] },
+    20 :  {
+        "LOOT" : [
+            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
+            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5},
+            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 5},
+            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 5}
+        ] },
+    30 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pink head bow", "QTY" : 1}
+        ] },
+    40 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "striped panties", "QTY" : 1}
+        ] },
+    50 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "striped bra", "QTY" : 1}
+        ] },
+    60 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "striped stockings", "QTY" : 1}
+        ] },
+    70 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "bimbo bra", "QTY" : 1}
+        ] },
+    80 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "bimbo thong", "QTY" : 1}
+        ] },
+    90 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pink mary janes", "QTY" : 1}
+        ] },
+    100 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pink knee socks", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1}
+        ] },
+    110 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "frilly dress", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1}
+        ] },
+    120 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "pink platform mary janes", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2}
+        ] },
+    130 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "sissy collar", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 3 }
+        ] }
+};
+/* twine-user-script #40: "blanche_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10087,7 +10598,7 @@ App.Data.Quests["VOODOO_PICKUP"] = {
     "JOURNAL_ENTRY": "HIDDEN",
     "JOURNAL_COMPLETE": "HIDDEN"
 };
-/* twine-user-script #30: "bosun_quests.js" */
+/* twine-user-script #41: "bosun_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10155,7 +10666,7 @@ App.Data.Quests["ISLA_TAVERN02"] = {
     "JOURNAL_COMPLETE": "You fetched a cask of Smuggler's Rum for NPC_NAME and he rewarded you with a @@color:purple;worn machete@@. It's a useful tool for any pirate or explorer."
 };
 
-/* twine-user-script #31: "cookie._quests.js" */
+/* twine-user-script #42: "cookie._quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10211,7 +10722,7 @@ App.Data.Quests["STRIPPING"] = {
     "on you can perform on the stage during the evenings for extra coin and to raise the lust of the crew."
 };
 
-/* twine-user-script #32: "jarvis_quests.js" */
+/* twine-user-script #43: "jarvis_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10239,7 +10750,7 @@ App.Data.Quests["THEBACKDOOR"] = {
     "JOURNAL_ENTRY": "There must be some way to gain access to the Governor or at least entrance to the Mansion after hours. You'll have to keep your eyes open for an opportunity.",
     "JOURNAL_COMPLETE": "Using a combination of alcohol and your whorish skills, you were able to completely exhaust Jarvis and loot him of his house key. You can now come and go into the mansion after dark via the back door."
 };
-/* twine-user-script #33: "kipler_quests.js" */
+/* twine-user-script #44: "kipler_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10343,7 +10854,7 @@ App.Data.Quests["Q004"] = {
     "JOURNAL_COMPLETE": "It was difficult, but after days spent granting \"favors\" for Julius in the cargo hold, he's become quite fond of you. In the end it " +
     "paid off because not only did NPC_NAME give you a small reward, but now @@color:cyan;Julius@@ will occasionally sell you higher quality drugs."
 };
-/* twine-user-script #34: "lord_rowe_quests.js" */
+/* twine-user-script #45: "lord_rowe_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10379,7 +10890,7 @@ App.Data.Quests["DADDYSGIRL"] =  {
         "JOURNAL_COMPLETE": "It seems that @@color:Cyan;Lord Rowe's@@ obsession with GF_NAME had a rather 'abnormal' aspect to it. Once you changed your appearance, he was more than happy to listen to you... so long as you sit on his lap like a good little girl. In addition, you can gain access to his study at any hour of the day."
 };
 
-/* twine-user-script #35: "paola_quests.js" */
+/* twine-user-script #46: "paola_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10414,7 +10925,7 @@ App.Data.Quests["PAOLA_FETCH"] = {
         "@@color:cyan;Blanche@@ in @@color:gold;Port Royale@@ has it?",
     "JOURNAL_COMPLETE": "You fetched a bag of mojo NPC_NAME. She will now provide some specialized 'voodoo' services."
 };
-/* twine-user-script #36: "petey_quests.js" */
+/* twine-user-script #47: "petey_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10446,7 +10957,7 @@ App.Data.Quests["SMUGGLER_PICKUP"] = {
     "JOURNAL_ENTRY": "HIDDEN",
     "JOURNAL_COMPLETE": "HIDDEN"
 };
-/* twine-user-script #37: "reginald_quests.js" */
+/* twine-user-script #48: "reginald_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10687,7 +11198,7 @@ App.Data.Quests["Q007"] =  {
     "looking young man, you've ended up as a slutty bimbo with huge tits, a jiggling ass and a pair of lips that could suck off a horse. Very few \"natural\" women could compete with " +
     "you when it comes to looks and technique, it'd be fitting to say that you're a Queen of a Whore."
 };
-/* twine-user-script #38: "StoreData.js" */
+/* twine-user-script #49: "StoreData.js" */
 window.App = window.App || { Data: { }, Entity: { } };
 
 window.App.Data.Stores =  {
@@ -10784,7 +11295,7 @@ window.App.Data.Stores =  {
         ]
     },
 };
-/* twine-user-script #39: "rot_lib.js" */
+/* twine-user-script #50: "rot_lib.js" */
 // Wrap rot.js code due to Twine's environment
 (function (window, define, exports) {
     /*
@@ -16200,7 +16711,7 @@ window.App.Data.Stores =  {
     }));
 
 }).call(window, window);
-/* twine-user-script #40: "Story JavaScript" */
+/* twine-user-script #51: "Story JavaScript" */
 //Sugarcube config
 Config.history.controls = false;
 Config.history.maxStates = 1;</script><tw-passagedata pid="1" name="Cabin" tags="" position="100,100">&lt;&lt;set $InIntro = 0&gt;&gt;\
@@ -16212,7 +16723,7 @@ There is a large wooden wardrobe here that contains spare clothes and a vanity a
 @@color:yellow;Action@@: &lt;&lt;if $Player.Phase &lt; 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] == $Player.GetMaxStat(&quot;STAT&quot;,&quot;Energy&quot;);&gt;&gt;@@color:grey;[Rest]@@&lt;&lt;else&gt;&gt;[[Rest]]&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;
 @@color:lime;Travel@@: [[Deck]]
 
-&lt;&lt;if $Player.debugMode != false&gt;&gt;[[Cheat Room|Stat Test]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Captain" tags="" position="225,100">The captains quarters are spacious, at least by the standards of this ship. There is a large glass window against the aft side of the room and plush velvet drapes hanging from the walls. The furniture itself is old, but well maintained and the Captain is known for his expensive tastes.
+&lt;&lt;if $Player.debugMode != false&gt;&gt;[[Cheat Room|DebugPassage]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Captain" tags="" position="225,100">The captains quarters are spacious, at least by the standards of this ship. There is a large glass window against the aft side of the room and plush velvet drapes hanging from the walls. The furniture itself is old, but well maintained and the Captain is known for his expensive tastes.
 
 &lt;&lt;NPC &quot;Captain&quot;&gt;&gt;
 
@@ -16526,9 +17037,13 @@ There is currently no ship being built.
 &lt;&lt;if not tags().contains(&quot;custom-menu&quot;)&gt;&gt;
 &lt;&lt;set $GameBookmark = passage(); &gt;&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/click&gt;&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="62" name="Stat Test" tags="" position="225,850">[[Hormones to 100|Stat Test][$Player.CoreStats[&quot;Hormones&quot;] to 100]] | [[Next Day|Stat Test][$Player.NextDay();]]
+&lt;&lt;/click&gt;&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="62" name="DebugPassage" tags="" position="225,850">@@color:gold;Tweak Menu@@
+[[Hormones to 100|Stat Test][$Player.CoreStats[&quot;Hormones&quot;] to 100]] | [[Next Day|Stat Test][$Player.NextDay();]]
+@@color:lime;Travel Menu@@
 [[Cabin]] | [[IslaHarbor]] | [[GoldenIsle]] | [[Abamond]] | [[PortRoyale]] | [[PassageTest]]
-[[HiddenCove]] | [[Ruins]] | [[TreasureRoom]]</tw-passagedata><tw-passagedata pid="63" name="InventoryWidgets" tags="widget" position="350,850">&lt;&lt;widget &quot;InspectItem&quot;&gt;&gt;&lt;&lt;set _Item = $Player.GetItemById($args[0]); &gt;&gt;\
+[[HiddenCove]] | [[Ruins]] | [[TreasureRoom]]
+@@color:Cyan;Endings Menu@@
+[[Money Best Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 100;]] | [[Money Average Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 50;]] | [[Money Worst Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 30;]]</tw-passagedata><tw-passagedata pid="63" name="InventoryWidgets" tags="widget" position="350,850">&lt;&lt;widget &quot;InspectItem&quot;&gt;&gt;&lt;&lt;set _Item = $Player.GetItemById($args[0]); &gt;&gt;\
 &lt;table class=&quot;.MyTable&quot; style=&quot;width:750px;&quot;&gt;
 &lt;tbody&gt;
 	&lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;&lt;h3&gt;@@color:yellow;Inspecting - @@&lt;&lt;= _Item.Description()&gt;&gt;&lt;/h3&gt;&lt;/td&gt;
@@ -17831,76 +18346,10 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="87" name="Combat" tags="custom-menu" position="850,1100">&lt;&lt;combatPanel $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="88" name="Examine" tags="custom-menu" position="975,1100">&lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.ShortDesc())&gt;&gt;
 &lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.LongDesc())&gt;&gt;
 
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="89" name="GameOver" tags="" position="1100,1100">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="90" name="GameWon" tags="custom-menu" position="1225,1100">&lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;WillPower&quot;) &lt; 50&gt;&gt;&lt;!-- Contributed by mightyakira @ TFGamesSite Forums --&gt;
-You daintily walk into the captain’s cabins and kneels before Captain Reginald, all on your own accord. You have learnt \
-much from your time with the crew and captain of the Mermaid, it’s almost your second nature now to act exactly the way \
-everybody aboard wants you to act.
-
-You prostrate yourself in front of Captain Reginald, and looks up to him with your slut puppy eyes; “Master! I have come\
- to present you a sum of 50,000 coins for my freedom!” You tell the captain proudly and with gusto.
-
-Captain Reginald looks at you, his eyes filled with amazement. He says, “I honestly have never thought you’d be able to \
-do it, and I have to say that I am almost sad that you actually managed the impossible. You were a fine whore &lt;&lt;= $Player.SlaveName&gt;&gt;\
-, perhaps even finer than a real woman. Well, I don’t go back on my words and I’ll take those coins and get that collar \
-off your neck.”
-
-Captain Reginald waves his signet ring over your neck and the collar drops off with a loud thud. But somehow you really \
-don’t feel any relief, instead, you feel more sadness and uncertainty now knowing that you will soon be leaving the \
-Captain, the crew, and the Mermaid, the people you’ve gotten so fond to and have treated you oh so *well*.
-
-Captain Reginald thinks for a moment and the says to you, “Some of the lads – and me – to be perfectly honest with you, \
-have grown quite fond of you, or at least your holes.”
-
-You look up to the captain sweetly and smiles. He continues with a smirk, “How about a wager, my little minx? Why don’t \
-you serve me one last time, and this time as a free girl? And if I cum first, I will give you back half your coins to \
-help you on your way. But if you cum first, I will officially name you the Cabin Girl of the Salty Mermaid and welcome \
-you as a free member of our crew.”
-
-Hearing this, you think that no matter how this turns out, it’s a win-win for you. In any case, you are going to get your\
- freedom, but now you may even get half of the coins back! Or, you will be the happy little cabin girl for the Mermaid \
-forever, but free nonetheless…
-
-“Of course, Master! I can serve you one last time, that much I can do at the very least, Master!” You respond happily to \
-Captain Reginald and struts over to him. You do it in exactly the way that you know Captain Reginald loves and yanks at \
-his trousers with your teeth to free his cock, which is at half mast. You decide to use your cute mouth pussy to draw him \
-to full mast.
-
-You are basically on auto-pilot at this point, this was all a learnt behaviour reinforced by the hundreds to thousands of \
-times you have already done this, you bob up and down on him with your love pillows wrapped firmly around him and you hum \
-a pretty song to massage his length with delight. Why did you even fight this at the start? You think to yourself, why were \
-you ever such a prude to not have enjoyed doing this to everybody?
-
-You suck and lick up and down Captain Reginald’s cock for about two minutes and you already feel your own orgasm building \
-up simply from your mouth pussy, you best start presenting your ass if you still want to win this wager, you think to \
-yourself. You let go of his cock reluctantly, it’s now at full mast, you give it a quick lick one last time and a little \
-kiss on the head to show your love and devotion.
-
-Captain Reginald simply sits there, having not moved much at all and lets you serve him completely. You smile sweetly at \
-him and turns around to present your puckered ass pussy, you plant yourself face first into his desk and asks in your sugary \
-voice, “Please f*** me, Master!”
-
-He stands, not saying a thing and approaches you with his well lubricated cock. Without warning, he slams into your sphincter, \
-anticipating this, you push back as hard as you possibly can to pleasure him. Though this was also your downfall, by this point, \
-you know every vein and every crevice of his cock off by heart and a single thrust into you was too much. Immediately you have a \
-little orgasm and your clitty leaks a little spurt of cum. You have lost, and Captain Reginald knows this just by your shiver \
-and puckering of your ass pussy.
-
-“Seems like you will be staying with us after all, my little Cabin Girl. Guess this was not the last time you serve me, after all.”
-
-Hearing this, your heart fills with relief and delight for some reason. Having found security for your future with the \
-Salty Mermaid. Determined to finish what you have started, you continue to push back against Captain Reginald and every thrust \
-gives you a tiny orgasm. Eventually your skill in ass f***ing has the desired effect on Captain Reginald, he grabs your shoulders \
-and gives you a push deep into your ass and it feels like he is unloading buckets directly into your tummy. Afterwards, he sinks \
-back to his chair, and you kneel to clean him up.
-
-You are now free, and it looks like you’ve already found employment! You strut confidently towards the exit of Captain Reginald’s \
-cabin, towards your new life.
-&lt;&lt;else&gt;&gt;
-You won, hurrah!
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="Inventory" tags="custom-menu" position="100,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="89" name="Inventory" tags="custom-menu" position="1100,1100">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
 &lt;&lt;set _Drugs = $Player.GetItemByTypes([&quot;potion&quot;]);&gt;&gt;\
 &lt;&lt;set _Quests = $Player.GetItemByTypes([&quot;QUEST&quot;, &quot;LOOT_BOX&quot;]);&gt;&gt;
-&lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="92" name="Jobs" tags="custom-menu" position="225,1225">&lt;&lt;nobr&gt;&gt;
+&lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="90" name="Jobs" tags="custom-menu" position="1225,1100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;
 &lt;&lt;set _JA = _JE.GetAvailableJobs($Player, $MenuAction);&gt;&gt;
@@ -17917,7 +18366,7 @@ You won, hurrah!
 &lt;&lt;print _JU[_i].Intro($Player, _NPC); &gt;&gt;&lt;br/&gt;
   &lt;&lt;if _JU[_i].Available($Player, _NPC)&gt;&gt;@@.cmdButton;&lt;&lt;jobButton _JU[_i]&gt;&gt;@@&lt;&lt;else&gt;&gt;@@.cmdDisabledButton;&lt;&lt;jobButton _JU[_i]&gt;&gt;@@&lt;&lt;/if&gt;&gt;&lt;br/&gt;
 &lt;&lt;/for&gt;&gt;&lt;/span&gt;&lt;&lt;/nobr&gt;&gt;
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="93" name="Journal" tags="custom-menu" position="350,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="Journal" tags="custom-menu" position="100,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 
 @@color:DeepPink;Active Quests@@
 &lt;&lt;set _QE = window.App.QuestEngine;&gt;&gt;\
@@ -17951,7 +18400,7 @@ No completed quests.
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;/for&gt;&gt;\
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="94" name="Player Score" tags="widget" position="475,1225">&lt;&lt;widget &quot;score&quot;&gt;&gt;\
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="92" name="Player Score" tags="widget" position="225,1225">&lt;&lt;widget &quot;score&quot;&gt;&gt;\
 @@color:DeepPink;&quot;&lt;&lt;= $Player.SlaveName &gt;&gt;&quot;@@
 &lt;span id=&quot;DayCount&quot;&gt;Day &lt;&lt;print $Player.Day; &gt;&gt;, &lt;&lt;print $Player.GetPhase(1); &gt;&gt;&lt;/span&gt;.
 Coins: &lt;span id=&quot;Money&quot;&gt;&lt;&lt;print $Player.Money&gt;&gt;&lt;/span&gt;
@@ -17994,14 +18443,14 @@ Coins: &lt;span id=&quot;Money&quot;&gt;&lt;&lt;print $Player.Money&gt;&gt;&lt;/
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="Quests" tags="custom-menu" position="600,1225">&lt;span id=&quot;QuestUI&quot;&gt;&lt;&lt;questList&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="96" name="Rest" tags="custom-menu" position="725,1225">&lt;&lt;run $Player.Rest();&gt;&gt;You recline leisurely in your room. There isn&#39;t much to do so you after a few minutes you find yourself napping and trying to escape into your fantasies...
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="93" name="Quests" tags="custom-menu" position="350,1225">&lt;span id=&quot;QuestUI&quot;&gt;&lt;&lt;questList&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="94" name="Rest" tags="custom-menu" position="475,1225">&lt;&lt;run $Player.Rest();&gt;&gt;You recline leisurely in your room. There isn&#39;t much to do so you after a few minutes you find yourself napping and trying to escape into your fantasies...
 
 You wake up not long after, feeling slightly more energetic.
 
 &lt;&lt;if $Player.SleepLog.length != 0&gt;&gt;&lt;&lt;for _i to 0; _i lt $Player.SleepLog.length; _i++&gt;&gt;\
 &lt;&lt;print $Player.SleepLog[_i]&gt;&gt;&lt;br/&gt;&lt;&lt;/for&gt;&gt;&lt;&lt;/if&gt;&gt;\
 @@color:cyan;Interact@@: [[Exit|Cabin]]
-@@color:yellow;Action@@: &lt;&lt;if $Player.Phase != 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] &lt; $Player.GetMaxStat(&quot;STAT&quot;, &quot;Energy&quot;)&gt;&gt;[[Continue Resting|Rest]]&lt;&lt;else&gt;&gt;@@color:grey;[Continue Resting]@@&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="97" name="Rules" tags="custom-menu" position="850,1225">@@color:yellow;Rules O&#39; the Sea@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:yellow;Action@@: &lt;&lt;if $Player.Phase != 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] &lt; $Player.GetMaxStat(&quot;STAT&quot;, &quot;Energy&quot;)&gt;&gt;[[Continue Resting|Rest]]&lt;&lt;else&gt;&gt;@@color:grey;[Continue Resting]@@&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="Rules" tags="custom-menu" position="600,1225">@@color:yellow;Rules O&#39; the Sea@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &#39;&#39;Don&#39;t Die&#39;&#39;
 There are multiple ways to die in this game. Combat and fighting, either with the crew or with other pirates or enemies can end your life. \
 In addition to this you must monitor your health and nutrition. Be careful of taking drugs or magical potions and avoid tiring yourself out too much.
@@ -18038,12 +18487,12 @@ Resting and sleeping will heal you if you are not poisoned or starving. There ar
 
 &#39;&#39;Skill Checks&#39;&#39;
 Don&#39;t worry too much about these. They are important for tracking your progress, but most rewards are given on a sliding scale. You can still progress at most activities even if your \
-skills are low. You just won&#39;t get as much reward.</tw-passagedata><tw-passagedata pid="98" name="SelfJobs" tags="custom-menu" position="975,1225">&lt;&lt;nobr&gt;&gt;
+skills are low. You just won&#39;t get as much reward.</tw-passagedata><tw-passagedata pid="96" name="SelfJobs" tags="custom-menu" position="725,1225">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;
 &lt;&lt;printJobResult $MenuAction&gt;&gt;
 &lt;&lt;set $MenuAction = 0;&gt;&gt;&lt;&lt;/nobr&gt;&gt;
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="Shop" tags="custom-menu" position="1100,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
-&lt;&lt;storeInventory $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="100" name="Skills" tags="custom-menu" position="1225,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="97" name="Shop" tags="custom-menu" position="850,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+&lt;&lt;storeInventory $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="98" name="Skills" tags="custom-menu" position="975,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &lt;table class=&quot;#score-table&quot;&gt;
 &lt;tbody&gt;
 &lt;tr&gt;&lt;td colspan=&quot;6&quot; style=&quot;border-bottom: 1px solid&quot;&gt;@@color:yellow;Piracy Skills@@&lt;/td&gt;&lt;/tr&gt;
@@ -18080,13 +18529,13 @@ skills are low. You just won&#39;t get as much reward.</tw-passagedata><tw-passa
 &lt;td colspan=&quot;4&quot;&gt; &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;</tw-passagedata><tw-passagedata pid="101" name="Sleep" tags="custom-menu" position="100,1350">&lt;&lt;if $Player.Phase &gt;= 3&gt;&gt;&lt;&lt;run $Player.NextDay(); &gt;&gt;&lt;&lt;/if&gt;&gt;\
+&lt;/table&gt;</tw-passagedata><tw-passagedata pid="99" name="Sleep" tags="custom-menu" position="1100,1225">&lt;&lt;if $Player.Phase &gt;= 3&gt;&gt;&lt;&lt;run $Player.NextDay(); &gt;&gt;&lt;&lt;/if&gt;&gt;\
 Night finally comes and you drag yourself off to bed. Within moments of laying down your tired body succumbs to sleep.
 
 &lt;&lt;if $Player.SleepLog.length != 0&gt;&gt;&lt;&lt;for _i to 0; _i lt $Player.SleepLog.length; _i++&gt;&gt;\
 &lt;&lt;print $Player.SleepLog[_i]&gt;&gt;&lt;br/&gt;&lt;&lt;/for&gt;&gt;&lt;&lt;/if&gt;&gt;\
 
-@@color:cyan;Interact@@: [[Wake up|Cabin]]</tw-passagedata><tw-passagedata pid="102" name="StoryCaption" tags="" position="225,1350">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if ($Player != undefined) &amp;&amp; $InIntro != 1&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="103" name="Whore" tags="custom-menu" position="350,1350">&lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;\
+@@color:cyan;Interact@@: [[Wake up|Cabin]]</tw-passagedata><tw-passagedata pid="100" name="StoryCaption" tags="" position="1225,1225">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if ($Player != undefined) &amp;&amp; $InIntro != 1&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="101" name="Whore" tags="custom-menu" position="100,1350">&lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;\
 &lt;&lt;set _PR = window.App.PR;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
 @@.custom-table;&lt;table style=&quot;border: 1px solid black;&quot;&gt;
@@ -18158,7 +18607,193 @@ The crew of the Salty Mermaid are for the most part filthy, violent and poor. No
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;@@&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="104" name="Start" tags="" position="475,1350">&lt;&lt;set $GameBookmark = passage(); &gt;&gt;
+&lt;/table&gt;@@&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="102" name="GameOver" tags="" position="225,1350">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="103" name="GameWon" tags="custom-menu" position="350,1350">&lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;WillPower&quot;) &lt;= 40&gt;&gt;&lt;!-- Contributed by mightyakira @ TFGamesSite Forums --&gt;
+You daintily walk into the captain’s cabins and kneel before Captain Reginald, all on your own accord. You have learnt \
+much from your time with the crew and captain of the Mermaid, it’s almost your second nature now to act exactly the way \
+everybody aboard wants you to act.
+
+You prostrate yourself in front of Captain Reginald, and looks up to him with your slut puppy eyes; “Master! I have come\
+ to present you a sum of 50,000 coins for my freedom!” You tell the captain proudly and with gusto.
+
+Captain Reginald looks at you, his eyes filled with amazement. He says, “I honestly have never thought you’d be able to \
+do it, and I have to say that I am almost sad that you actually managed the impossible. You were a fine whore &lt;&lt;= $Player.SlaveName&gt;&gt;\
+, perhaps even finer than a real woman. Well, I don’t go back on my words and I’ll take those coins and get that collar \
+off your neck.”
+
+Captain Reginald waves his signet ring over your neck and the collar drops off with a loud thud. But somehow you really \
+don’t feel any relief, instead, you feel more sadness and uncertainty now knowing that you will soon be leaving the \
+Captain, the crew, and the Mermaid, the people you’ve gotten so fond to and have treated you oh so *well*.
+
+Captain Reginald thinks for a moment and the says to you, “Some of the lads – and me – to be perfectly honest with you, \
+have grown quite fond of you, or at least your holes.”
+
+You look up to the captain sweetly and smiles. He continues with a smirk, “How about a wager, my little minx? Why don’t \
+you serve me one last time, and this time as a free girl? And if I cum first, I will give you back half your coins to \
+help you on your way. But if you cum first, I will officially name you the Cabin Girl of the Salty Mermaid and welcome \
+you as a free member of our crew.”
+
+Hearing this, you think that no matter how this turns out, it’s a win-win for you. In any case, you are going to get your\
+ freedom, but now you may even get half of the coins back! Or, you will be the happy little cabin girl for the Mermaid \
+forever, but free nonetheless…
+
+“Of course, Master! I can serve you one last time, that much I can do at the very least, Master!” You respond happily to \
+Captain Reginald and struts over to him. You do it in exactly the way that you know Captain Reginald loves and yanks at \
+his trousers with your teeth to free his cock, which is at half mast. You decide to use your cute mouth pussy to draw him \
+to full mast.
+
+You are basically on auto-pilot at this point, this was all a learnt behaviour reinforced by the hundreds to thousands of \
+times you have already done this, you bob up and down on him with your love pillows wrapped firmly around him and you hum \
+a pretty song to massage his length with delight. Why did you even fight this at the start? You think to yourself, why were \
+you ever such a prude to not have enjoyed doing this to everybody?
+
+You suck and lick up and down Captain Reginald’s cock for about two minutes and you already feel your own orgasm building \
+up simply from your mouth pussy, you best start presenting your ass if you still want to win this wager, you think to \
+yourself. You let go of his cock reluctantly, it’s now at full mast, you give it a quick lick one last time and a little \
+kiss on the head to show your love and devotion.
+
+Captain Reginald simply sits there, having not moved much at all and lets you serve him completely. You smile sweetly at \
+him and turns around to present your puckered ass pussy, you plant yourself face first into his desk and asks in your sugary \
+voice, “Please fuck me, Master!”
+
+He stands, not saying a thing and approaches you with his well lubricated cock. Without warning, he slams into your sphincter, \
+anticipating this, you push back as hard as you possibly can to pleasure him. Though this was also your downfall, by this point, \
+you know every vein and every crevice of his cock off by heart and a single thrust into you was too much. Immediately you have a \
+little orgasm and your clitty leaks a little spurt of cum. You have lost, and Captain Reginald knows this just by your shiver \
+and puckering of your ass pussy.
+
+“Seems like you will be staying with us after all, my little Cabin Girl. Guess this was not the last time you serve me, after all.”
+
+Hearing this, your heart fills with relief and delight for some reason. Having found security for your future with the \
+Salty Mermaid. Determined to finish what you have started, you continue to push back against Captain Reginald and every thrust \
+gives you a tiny orgasm. Eventually your skill in ass fucking has the desired effect on Captain Reginald, he grabs your shoulders \
+and gives you a push deep into your ass and it feels like he is unloading buckets directly into your tummy. Afterwards, he sinks \
+back to his chair, and you kneel to clean him up.
+
+You are now free, and it looks like you’ve already found employment! You strut confidently towards the exit of Captain Reginald’s \
+cabin, towards your new life.
+&lt;&lt;else&gt;&gt;\
+&lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;WillPower&quot;) &lt;= 70&gt;&gt;&lt;!-- Contributed by mightyakira @ TFGamesSite Forums --&gt;
+You daintily walk into the captain’s cabins and kneel before Captain Reginald, as the captain always wants you to do. You have \
+learnt much from your time with the crew and captain of the Mermaid, and you know you will only make it worse for yourself if \
+you don’t do exactly what they want you to act.
+
+You look up to Captain Reginald from on your knees and present him with a large bag full of coins on your hands; “Master, I \
+have come to buy my freedom. I have made as you have requested, the full amount of 50,000 coins.” You tell the captain nervously.
+
+Captain Reginald looks at you, his eyes filled with amazement. He says, “I honestly have never thought you’d be able to do it, and \
+I have to say that I am almost sad that you actually managed the impossible. You were a fine whore &lt;&lt;= $Player.SlaveName&gt;&gt;, perhaps almost \
+as fine as a real woman. Well, I don’t go back on my words and I’ll take those coins and get that collar off your neck.”
+
+Captain Reginald waves his signet ring over your neck and the collar drops off with a loud thud. But somehow you don’t really feel \
+much different from before, the only difference was the weight on your neck.
+
+Before you got up from your knees, Captain Reginald speaks up, “Some of the lads on my ship, have grown quite fond of you, or at \
+least your holes, as you surely already know.”
+
+You look to the captain and smiles, over time the crew has treated you better than they did at first, the relationships between \
+you and everybody aboard has only turned for the better with time, or at least now that you think about it. Captain Reginald \
+continues with a smirk, “How about a wager, my little whore? Why don’t you serve me one last time, and this time as a free girl? \
+If I were to cum first, I will give you back half your coins to help you on your way. But if you cum first, I will officially name \
+you the Cabin Girl of the Salty Mermaid and welcome you as a free member of our crew.”
+
+Hearing this, your heart pounds in your chest. You don’t really want to refuse his offer as you fear that he may go back on his \
+word, but accepting may not be the best course of action to take either… But half of 50,000 coins is sure a lot of coins…
+
+Seeing that there really isn’t a choice but to accept, you tell the captain, “Master, I will take the wager.”
+
+You prance over to him out of practiced precision, you yank his trousers with your teeth to free his cock, which is at half-mast. \
+You decide to use your mouth to draw him to full-mast. Using your practiced skills and learnt behaviour, you bob up and down on him \
+with your lips wrapped firmly around him and gives him a lick up and down his shaft every now and then. You’ve been doing this \
+basically everyday for the past god knows how long, and you’ve almost come to enjoy it, the smell, the taste, and your award…
+
+You suck and lick up and down Captain Reginald’s cock for about two minutes before Captain Reginald puts his hand on your face and \
+strokes almost lovingly. “Don’t you think there is much more fun to be had?” Says the captain. You let go of his cock with a loud pop \
+and give it a quick lick before you get up and start to present yourself to the captain.
+
+Captain Reginald simply sits there, having not moved much at all and lets you serve him completely. You smile at him and straddle him \
+on the chair, he wraps his hands around your waist and positions you in the perfect posture for full access to your ass. You ask in \
+your sweet voice, “Please fuck me, Master!”
+
+He pushes you down on him hard, and you almost orgasm just from that one thrust, that was a close one. You push back in time for \
+each of his thrusts, though this was not as effective as doing you from behind as your toes could barely reach the ground for any \
+force in your pushes. After about another 5 minutes of rough fucking, you can feel Captain Reginald’s cock quiver a little inside \
+you, with every thrust however, you are also growing ever closer to orgasm. Eventually your skill, or perhaps Captain Reginald’s \
+skill, has achieved the desired effect, he grabs your waists and pulls you into him and you feel him unloading buckets directly into \
+your tummy. Though almost at the same time as this happened, you were also over come with a tiny orgasm.
+
+Afterwards, he sinks back to his chair, and you resume your kneeling position to clean him up, as a good whore should do. \
+Captain Reginald puts his hand on your head and says, “Looks to me like this was a draw, don’t you think?”
+
+“Mhmm.” You hum as you can’t really tell who won either.
+
+“Maybe we should do this again to determine who’s the winner later, don’t you think?”
+
+“Mhmm.” You look up to him and agree with competing again later. In the meantime, however, you should finish cleaning his cock.
+
+What is freedom? Is it to walk by your own accord and making your own decisions? Or perhaps it is also freedom to follow the command \
+of your master on your own accord? At this point, you don’t really know…
+&lt;&lt;else&gt;&gt;&lt;!-- Contributed by mightyakira @ TFGamesSite Forums --&gt;
+You walk towards the captain’s cabins with your coins, you once thought this would impossible, but you’ve been able to do it somehow \
+with your sanity intact, the amount of torturous experience you had to go through to make 50,000 coins… But you freedom is so close \
+that you can almost taste it… Of course, it tastes nothing like the semen that you are so used to…
+
+You walk towards the captain’s cabins and knocks upon it before you enter. You stand there confidently and walks towards \
+Captain Reginald, sitting behind his desk. You slam the bag of coins upon his desk. “There! I have earned my freedom, within that \
+bag is 50,000 coins.”
+
+Captain Reginald looks at you wide eyed, both amazement and almost a certain amusement. He says, “I honestly have never thought \
+you’d be able to do it, and I have to say that I’m almost sad that you actually managed the impossible. You made a fine whore &lt;&lt;= $Player.SlaveName&gt;&gt;, \
+for a sissy that is. Well, I don’t go back on my words and I’ll take those coins and get that collar off your neck.”
+
+Captain Reginald waves his signet ring over your neck and the collar drops off with a loud thud. You are suddenly filled with relief \
+and the feeling of freedom you have so long been missing. You can’t wait to get off this ship and return to your old life, away from all \
+these pirates and… semen. You start to walk towards the door to your freedom.
+
+Captain Reginald speaks up: “And now as a free man, perhaps you’d like to wager with me? How does it sound that I should give back to you, \
+half of these coins you’ve made?”
+
+Intrigued, you swing around facing the captain, “And the catch?”
+
+“Why don’t you come over here, and serve me one last time? And the catch is, if I were to cum first, I will give you back half your coins to \
+help you on your way. But if you cum first, I will take you back under my wing as our new Cabin Girl? As a free crew member of course.”
+
+You think for a moment and…
+&lt;span id =&quot;wagerChoice&quot;&gt;&lt;&lt;click &quot;I will accept your wager&quot;&gt;&gt;&lt;&lt;replace &quot;#wagerChoice&quot;&gt;&gt;
+You decide that there is no way you will lose, with your experience as one of the finest whores on the seas, and your knowledge of what \
+almost everybody on this ship’s every desire. “I will accept your wager, Captain.”
+
+“Well then, get to it, my little minx.” Captain Reginald sits back on his chair and presents you his crotch.
+
+You strut over and kneels before the captain, in a fluid motion yanks back his trousers with your teeth and finds his cock at half-mast. \
+You have done this hundreds, upon thousands of times with many men, you give his cock a quick lick and start sucking in earnest. Your \
+skill and gusto extracts a moan from the captain.
+
+Now he’s ready and at full-mast, you stand up and stands over Captain Reginald, you start to guide his cock towards your sphincter. To \
+tease him further, you start to sway and letting just his tip into you while you move back up immediately when he responds a little. Seeing \
+this, Captain Reginald wraps his hands around your waist, “Alright, I think this is quite enough.” He pushes you directly down towards him, \
+burying his cock deep inside you. That was a close one as you had almost orgasmed just from that.
+
+Though it seems that Captain Reginald is also very close to giving your award… the coins, of course! After a few minutes of pleasuring him \
+exactly how he likes it, Captain Reginald pushes you down in one last thrust and unloads buckets directly into your ass, and it seems that \
+you have won, though an extremely close wager.
+
+The captain sighs, “Oh well, a wager is a wager. Here is 25,000 coins, possibly the most I’ve ever spent on a whore. Though it seems it was \
+well worth it. But my offer of course stands for you at any time if you wish to come back, I’ll have the cabin ready for you.”
+
+You smile as a gesture, though you know you won’t ever be coming back. You take your share of the coins and walks towards your freedom, towards your new life.
+&lt;&lt;/replace&gt;&gt;&lt;&lt;/click&gt;&gt;
+&lt;&lt;click &quot;No thank you&quot;&gt;&gt;&lt;&lt;replace &quot;#wagerChoice&quot;&gt;&gt;
+You decide taking a wager this risky with your body being the way it is, is too dangerous. It’s best not to take any risk at this point \
+when your freedom is so close, you can make those coins back someday doing honest work without whoring yourself out.
+
+“No thank you, Captain Reginald. I’d rather not wager anything at this point.” You say with a poker face, acting like you have seriously considered the offer.
+
+Captain Reginald seems somewhat disappointed almost, “Well, I won’t keep you here. But know if you ever wish to have a spot on my crew again, I will keep a spot, just for you.”
+
+Of course, you have no intention of staying a second longer nor the intention of ever coming back again. You nod, and start walking towards the open air that is your freedom.
+&lt;&lt;/replace&gt;&gt;&lt;&lt;/click&gt;&gt;&lt;/span&gt;
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="104" name="Start" tags="" position="475,1350">&lt;&lt;set $GameBookmark = passage(); &gt;&gt;
 @@color:deepPink;Queen of the Seas@@ is designed to be an RPG like transformation game with @@color:red;heavy non-consentual themes@@. \
 If this type of game bothers you then playing this game is not recommended.
 

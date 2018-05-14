@@ -1,11 +1,11 @@
-window.App = window.App || { Data: { }, Entity: { } };
+App = App || { Data: { }, Entity: { } };
 
 /**
  * This class manages the "job" system. Basically short term repeatable quests.
  * They are not tracked by the journal and focus mostly on earning cheap rewards and flavor text.
  * @constructor
  */
-window.App.JobEngine = new function() {
+App.JobEngine = new function() {
 
     /** @type {Array.<App.Job>}
      * @private */
@@ -24,7 +24,7 @@ window.App.JobEngine = new function() {
 
     /**
      * Lists all jobs at person/location
-     * @param {window.App.Entity.Player} Player
+     * @param {App.Entity.Player} Player
      * @param {string} Giver
      * @returns {Array.<Job>}
      */
@@ -49,7 +49,7 @@ window.App.JobEngine = new function() {
     };
     /**
      * Lists all AVAILABLE jobs at a person
-     * @param {window.App.Entity.Player} Player
+     * @param {App.Entity.Player} Player
      * @param {string} Giver
      * @returns {Array.<Job>}
      */
@@ -121,7 +121,7 @@ window.App.JobEngine = new function() {
       Player.JobFlags[Flag] = Value;
     };
 
-    //this.Init(window.App.Data.JobData);
+    //this.Init(App.Data.JobData);
 };
 
 /**
@@ -129,7 +129,7 @@ window.App.JobEngine = new function() {
  * @param {Object} Data
  * @constructor
  */
-window.App.Job = function(Data) {
+App.Job = function(Data) {
 
     /** @type {boolean}
      *  @private */
@@ -198,7 +198,7 @@ window.App.Job = function(Data) {
      */
     this.Intro      = function(Player, Npc) {
         if (this.Requirements(Player, Npc) == false) return "@@color:red;Requirements not met.@@";
-        return  window.App.PR.TokenizeString(Player, Npc, this._JobData["INTRO"]);
+        return  App.PR.TokenizeString(Player, Npc, this._JobData["INTRO"]);
     };
 
     /**
@@ -233,7 +233,7 @@ window.App.Job = function(Data) {
         if (Opt) return Output;
 
         for (var i = 0; i < this._JobData["RATING"];i++) Output += " &#9733;";
-        Output = window.App.PR.ColorizeString(this._JobData["RATING"], Output, 5);
+        Output = App.PR.ColorizeString(this._JobData["RATING"], Output, 5);
 
         var Time    = this._GetCost("TIME");
         var Energy  = this._GetCost("STAT", "Energy");
@@ -340,9 +340,9 @@ window.App.Job = function(Data) {
                     if (this._Cmp( Player.GetStat(Type, Name), Value, Condition) == false) {
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
-                            ReqString = window.App.PR.ColorizeString(Value, Name + " stat is too high");
+                            ReqString = App.PR.ColorizeString(Value, Name + " stat is too high");
                         } else {
-                            ReqString = window.App.PR.ColorizeString(Value, Name + " stat is too low");
+                            ReqString = App.PR.ColorizeString(Value, Name + " stat is too low");
                         }
                     }
                     break;
@@ -350,9 +350,9 @@ window.App.Job = function(Data) {
                     if (this._Cmp( Player.GetStat(Type, Name), Value, Condition) == false) {
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
-                            ReqString = window.App.PR.ColorizeString(Value, Name  + " skill is too high");
+                            ReqString = App.PR.ColorizeString(Value, Name  + " skill is too high");
                         } else {
-                            ReqString = window.App.PR.ColorizeString(Value, Name + " skill is too low");
+                            ReqString = App.PR.ColorizeString(Value, Name + " skill is too low");
                         }
                     }
                     break;
@@ -360,9 +360,9 @@ window.App.Job = function(Data) {
                     if (this._Cmp( Player.GetStat(Type, Name), Value, Condition) == false) {
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
-                            ReqString = window.App.PR.ColorizeString(Value, "Too much "+ Name);
+                            ReqString = App.PR.ColorizeString(Value, "Too much "+ Name);
                         } else {
-                            ReqString = window.App.PR.ColorizeString(Value, "Not enough " + Name);
+                            ReqString = App.PR.ColorizeString(Value, "Not enough " + Name);
                         }
                     }
                     break;
@@ -378,9 +378,9 @@ window.App.Job = function(Data) {
                         if (this._Cmp( NPC.GetStat(Name), Value, Condition ) == false) {
                             StatusFlag = false;
                             if (Condition == "lt" || Condition == "lte" ) {
-                                ReqString = window.App.PR.ColorizeString(Value, NPC.Name() +"'s " + Name  + " is too high");
+                                ReqString = App.PR.ColorizeString(Value, NPC.Name() +"'s " + Name  + " is too high");
                             } else {
-                                ReqString = window.App.PR.ColorizeString(Value, NPC.Name() + "'s " + Name + " is too low");
+                                ReqString = App.PR.ColorizeString(Value, NPC.Name() + "'s " + Name + " is too low");
                             }
                         }
                     }
@@ -388,7 +388,7 @@ window.App.Job = function(Data) {
                 case "QUEST":
                     if (this._Cmp( Player.QuestFlags[Name], Value, Condition) == false) {
 
-                        ReqString += "@@color:gold;Quest '"+ window.App.Data.Quests[Name]["Title"]+"' not complete@@";
+                        ReqString += "@@color:gold;Quest '"+ App.Data.Quests[Name]["Title"]+"' not complete@@";
                         StatusFlag = false;
                     }
                     break;
@@ -408,9 +408,9 @@ window.App.Job = function(Data) {
                     if (this._Cmp( Player.GetStyleSpecRating(Name), Value, Condition) == false ){
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
-                            ReqString = window.App.PR.ColorizeString(Value, "Too much style '"+Name+"'");
+                            ReqString = App.PR.ColorizeString(Value, "Too much style '"+Name+"'");
                         } else {
-                            ReqString = window.App.PR.ColorizeString(Value, "Not enough style '"+Name+"'");
+                            ReqString = App.PR.ColorizeString(Value, "Not enough style '"+Name+"'");
                         }
                     }
                     break;
@@ -418,9 +418,9 @@ window.App.Job = function(Data) {
                     if (this._Cmp( Player.Style(), Value, Condition) == false) {
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
-                            ReqString = window.App.PR.ColorizeString(Value, "Style and Grooming too high");
+                            ReqString = App.PR.ColorizeString(Value, "Style and Grooming too high");
                         } else {
-                            ReqString = window.App.PR.ColorizeString(Value, "Style and Grooming too low");
+                            ReqString = App.PR.ColorizeString(Value, "Style and Grooming too low");
                         }
                     }
                     break;
@@ -590,7 +590,7 @@ window.App.Job = function(Data) {
 
         for (var i = 0; i < this._JobData["SCENES"].length; i++) {
             /** @type {App.Scene} Scene */
-            var Scene = new window.App.Scene(Player, NPC, this._JobData["SCENES"][i], Results);
+            var Scene = new App.Scene(Player, NPC, this._JobData["SCENES"][i], Results);
             Results = Scene.Results(); //Pass along results from previous scenes to future scenes.
             this._SceneBuffer.push(Scene);
         }
@@ -616,7 +616,7 @@ window.App.Job = function(Data) {
          * @param {string} a
          * @returns {string}
          */
-        var Colorize = function(a) { return  (typeof a !== 'undefined') ? window.App.PR.ColorizeString(Percent, a.slice(2,-2), 100) : ""; };
+        var Colorize = function(a) { return  (typeof a !== 'undefined') ? App.PR.ColorizeString(Percent, a.slice(2,-2), 100) : ""; };
 
         for ( var i = 0; i < this._JobData["JOB_RESULTS"].length; i++)
             if (Percent <= this._JobData["JOB_RESULTS"][i][Tag])
@@ -669,7 +669,7 @@ window.App.Job = function(Data) {
         if (String.indexOf("JOB_RESULTS") != -1) { // Kludge because replace evaluates function even if no pattern match. Dumb.
             String = String.replace(/JOB_RESULTS/g, this._PrintJobResults());
         }
-        String = window.App.PR.TokenizeString(Player, NPC, String);
+        String = App.PR.TokenizeString(Player, NPC, String);
         return String;
     };
 
@@ -707,13 +707,13 @@ window.App.Job = function(Data) {
 
 /**
  * Stores and plays a "scene" from a job.
- * @param {window.App.Entity.Player} Player
- * @param {window.App.Entity.NPC} NPC
+ * @param {App.Entity.Player} Player
+ * @param {App.Entity.NPC} NPC
  * @param {object} SceneData
  * @param {object} Checks
  * @constructor
  */
-window.App.Scene = function(Player, NPC, SceneData, Checks) {
+App.Scene = function(Player, NPC, SceneData, Checks) {
 
     /** @type {boolean}
      *  @private */
@@ -964,11 +964,11 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
                 break;
             case "STORE":
                 if (this._Player.StoreInventory[Name]["INVENTORY"].length < 1) {
-                    window.App.StoreEngine.OpenStore(this._Player, this._NPC);
+                    App.StoreEngine.OpenStore(this._Player, this._NPC);
                 }
                 
-                if (Opt == "LOCK") window.App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 1);
-                if (Opt == "UNLOCK") window.App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 0);
+                if (Opt == "LOCK") App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 1);
+                if (Opt == "UNLOCK") App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 0);
                 break;
             case "NPC_STAT":
                 this._NPC.AdjustStat(Name, Value);
@@ -1058,7 +1058,7 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
          * @param {string} a
          * @returns {string}
          */
-        var Colorize = function(a) { return  (typeof a !== 'undefined') ? window.App.PR.ColorizeString(Percent, a.slice(2,-2), 100) : ""; };
+        var Colorize = function(a) { return  (typeof a !== 'undefined') ? App.PR.ColorizeString(Percent, a.slice(2,-2), 100) : ""; };
 
         for ( var i = 0; i < this._SceneData["RESULTS"].length; i++)
             if ( Percent <= this._SceneData["RESULTS"][i][Tag] )
@@ -1093,7 +1093,7 @@ window.App.Scene = function(Player, NPC, SceneData, Checks) {
     this._Tokenize = function(String)
     {
         String = String.replace(/JOB_PAY/g, this.Pay());
-        String = window.App.PR.TokenizeString(this._Player, this._NPC, String);
+        String = App.PR.TokenizeString(this._Player, this._NPC, String);
         return String;
     };
 

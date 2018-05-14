@@ -1,4 +1,8 @@
-:: Stat Test
+:: DebugPassage
+@@color:gold;Tweak Menu@@
 [[Hormones to 100|Stat Test][$Player.CoreStats["Hormones"] to 100]] | [[Next Day|Stat Test][$Player.NextDay();]]
+@@color:lime;Travel Menu@@
 [[Cabin]] | [[IslaHarbor]] | [[GoldenIsle]] | [[Abamond]] | [[PortRoyale]] | [[PassageTest]]
 [[HiddenCove]] | [[Ruins]] | [[TreasureRoom]]
+@@color:Cyan;Endings Menu@@
+[[Money Best Win|GameWon][$Player.CoreStats["WillPower"] = 100;]] | [[Money Average Win|GameWon][$Player.CoreStats["WillPower"] = 50;]] | [[Money Worst Win|GameWon][$Player.CoreStats["WillPower"] = 30;]]
