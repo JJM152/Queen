@@ -854,10 +854,10 @@ App.Entity.Player = function (){
         if ((this.GetStat("STAT", "Hormones") > 100) && this.GetStatXP("STAT", "Hormones") > 0 ) {
             HormoneShift = ( this.GetStat("STAT", "Hormones") - 100 );
             this.AdjustBodyXP("Face",   HormoneShift            ,     40);
-            this.AdjustBodyXP("Bust",   HormoneShift            ,     20);
-            this.AdjustBodyXP("Lips",   HormoneShift            ,     50);
-            this.AdjustBodyXP("Ass",    HormoneShift            ,     20);
-            this.AdjustBodyXP("Hips",   HormoneShift            ,     20);
+            this.AdjustBodyXP("Bust",   HormoneShift            ,      5);
+            this.AdjustBodyXP("Lips",   HormoneShift            ,     40);
+            this.AdjustBodyXP("Ass",    HormoneShift            ,     10);
+            this.AdjustBodyXP("Hips",   HormoneShift            ,     10);
             this.AdjustBodyXP("Penis", (HormoneShift * -1.0)    ,      1);
             this.AdjustBodyXP("Balls", (HormoneShift * -1.0)    ,      0);
         } else {

@@ -35,7 +35,7 @@ App.Data.JobData["CAPT01"] = {
             "POST" : [ ],
             "START" :
             "Nothing out of the regular here, it seems a good blow job is what most of these pirate "+
-            "scum want. Just as you're about to comply however, $n reaches out and backhands you across the face!\n\n"+
+            "scum want. Just as you're about to comply however, NPC_NAME reaches out and backhands you across the face!\n\n"+
             "\"Stupid slut!\" he bellows at you. \"When I give you a command, you immediately answer 'Yes master!'. Do you understand?\"\n\n"+
             "@@color:DeepPink;\"Yes master!\"@@ you respond as you lower yourself to your knees before NPC_NAME. "+
             "It's humiliating, but it's better than getting belted across the side of the face again.",
