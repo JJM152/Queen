@@ -1,4 +1,4 @@
-:: SelfJobs [custom-ui]
+:: SelfJobs [custom-menu]
 <<nobr>>
 <<set _JE = window.App.JobEngine;>>
 <<printJobResult $MenuAction>>
