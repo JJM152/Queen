@@ -31,6 +31,12 @@ App.Data.Clothes["pirate bra"] = { // +15
 };
 
 // CORSET SLOT
+App.Data.Clothes["pistol brace"] = { // +9
+    "Name": "pistol brace", "ShortDesc": "a {COLOR} leather pistol brace",
+    "LongDesc": "More of a belt than anything else, it can hold pistols if you find any.",
+    "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -20, 10], "Swashbuckling" : [ 10, 0, 0 ]}, "Category" :  [ "Pirate Slut", "BDSM" ]
+};
 
 // PANTY SLOT
 App.Data.Clothes["pirate thong"] = { // +15

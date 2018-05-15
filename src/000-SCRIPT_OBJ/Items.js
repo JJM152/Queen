@@ -80,11 +80,12 @@ App.Item = new function() {
 
                         if ( (Items[i]["TYPE"] == "CLOTHES") && (Player.OwnsWardrobeItem(Items[i]) == true)) {
                             // We own this already. Give some cash.
-                            var coins = Math.floor((obj.Price() * 0.5))
+                            var coins = Math.floor((obj.Price() * 0.5));
                             Player.AdjustMoney( coins );
                             output += coins + " gold coins.\n";
                         } else {
-                            output += obj.Description() + "\n";
+                            output += obj.Description();
+                            output += Items[i]["QTY"] > 1 ? "x"+Items[i]["QTY"]+"\n" : "\n";
                             Player.AddItem(Items[i]["TYPE"], Items[i]["TAG"], Items[i]["QTY"]);
                         }
                     }

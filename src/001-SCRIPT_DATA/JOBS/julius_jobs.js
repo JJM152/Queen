@@ -61,7 +61,7 @@ App.Data.JobData["QUAR01"] =  {
             "RESULTS" : [ ]
         }
     ],
-    "END" : "NPC_NAME comes up to you and says, \"JOB_RESULTS\" He then hands you JOB_PAY coins.",
+    "END" : "NPC_NAME comes up to you and says, \"JOB_RESULTS\" He then hands you some coins.",
     "JOB_RESULTS" : [
         { "A" :  25,  "TEXT" : "Well, I guess that's @@better than nothing@@." },
         { "A" :  50, "TEXT" : "Hmm... @@not too bad@@. You certainly know your way around a broom." },
@@ -184,6 +184,6 @@ App.Data.JobData["QUAR02"] = {
         }
     ],
     "END" :
-        "NPC_NAME tosses a small bag of JOB_PAY coins at you and then waves you on his way, continuing to furiously study at his notes.",
+        "NPC_NAME tosses a small bag of coins at you and then waves you on his way, continuing to furiously study at his notes.",
     "JOB_RESULTS" : [ ]
 };

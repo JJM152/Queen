@@ -186,3 +186,4 @@ Of course, you have no intention of staying a second longer nor the intention of
 <</replace>><</click>></span>
 <</if>>
 <</if>>
+<<if $Player.debugMode == true>>[[Cheat Room|DebugPassage]]<</if>>

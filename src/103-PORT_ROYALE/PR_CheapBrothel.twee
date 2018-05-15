@@ -4,7 +4,5 @@ well maintained - the beds are clean, the food is decent and the drinks aren't w
 of a small bar and waiting area for clients, while the upstairs hosts a variety of rooms for 'conducting business'.
 
 <<NPC "Simone">>
-
-@@color:yellow;Action@@: <<if $Player.GetStat("STAT","Energy") < 1 or $Player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<customMenuLink "Whore" "LustyLassCustomers">><</if>>
-
+<<if window.App.QuestEngine.GetQuestFlag($Player, "SIMONE_MISSING_FRIEND") == "COMPLETED">>@@color:yellow;Action@@: <<if $Player.GetStat("STAT","Energy") < 1 or $Player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<customMenuLink "Whore" "LustyLassCustomers">><</if>><br><</if>>
 @@color:lime;Travel@@: [[Great Market|GreatMarket]]

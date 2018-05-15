@@ -175,7 +175,7 @@ App.Data.JobData["MATE01"] =  {
     "......\n"+
     ".........\n"+
     "You wake up later, mostly naked, covered in semen and oil and with cum matted on your face, in your hair and leaking "+
-    "out of your abused asshole. On the floor next to you, you find JOB_PAY coins.\n\n"+
+    "out of your abused asshole. On the floor next to you, you find some coins.\n\n"+
     "NPC_NAME is nowhere to be seen.",
     "JOB_RESULTS" : [ ]
 };

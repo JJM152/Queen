@@ -1,8 +1,8 @@
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
-App.Data.JobData["PEACOCK_WAITRESS"] = {
-    "ID": "PEACOCK_WAITRESS", "TITLE": "Wench For Hire", "GIVER": "Georgina", "PAY" : 40,
+App.Data.JobData["ISLA_WAITRESS"] = {
+    "ID": "ISLA_WAITRESS", "TITLE": "Wench For Hire", "GIVER": "IslaTavernKeeper", "PAY" : 40,
     "RATING" : 3, // of 5
     "PHASES" : [ 1 ],
     "DAYS"   : 1,
@@ -12,7 +12,7 @@ App.Data.JobData["PEACOCK_WAITRESS"] = {
     "REQUIREMENTS" : [
         { "TYPE" : "STYLE", "NAME" : "STYLE", "VALUE" : 50, "CONDITION" : "gte" }
     ],
-    "START" :   "NPC_NAME smiles at you brightly and takes your hand in greeting.\n\n"+
+    "START" :   "NPC_NAME eyes you up and down, muttering to himself and then nods slowly in your direction.\n\n"+
     "\"@@color:cyan;The job's easy enough lass, so don't worry if you don't have much experience at wenching. So long as you don't "+
     "screw up too badly, you'll get paid@@\", he says.\n\n"+
     "That's a relief. For once it seems you can get paid some coin without having to suck a dick... or five.\n\n"+
@@ -126,7 +126,6 @@ App.Data.JobData["PEACOCK_WAITRESS"] = {
                 {"C1": 500, "TEXT": "Using everything you know, you prance and strut your stuff across the bar. You tease and flirt with the crowd, exposing brief glimpses of your pBUST tits and pASS ass to them and riling them up into a sexual frenzy. By the end of your routine they are @@practically showering you with coins@@."} ]
         }
     ],
-    "END" : "Finally, your shift in the tavern is over. NPC_NAME comes up to you and hands you your pay for the night, JOB_PAY coins.",
+    "END" : "Finally, your shift in the tavern is over. NPC_NAME comes up to you and hands you your pay for the night.",
     "JOB_RESULTS" : [ ]
 };
-

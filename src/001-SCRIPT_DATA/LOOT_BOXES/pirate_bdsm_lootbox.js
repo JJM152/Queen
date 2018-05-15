@@ -26,7 +26,7 @@ App.Data.LootBoxes["uncommon pirate loot box"] = {
     "LongDesc": "This treasure chest is banded and studded with iron rivets. It has a white skull and bones on its top and smells faintly of the sea.",
     "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
     "Type": "LOOT_BOX",
-    "Charges": 2,
+    "Charges":1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
     "UseEffect": { "LootBox": ["PIRATE_BDSM", 20, 10]},
     "Price": 0
@@ -38,7 +38,7 @@ App.Data.LootBoxes["rare pirate loot box"] = {
     "LongDesc": "This treasure chest is banded and studded with iron rivets. It has a white skull and bones on its top and smells faintly of the sea.",
     "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
     "Type": "LOOT_BOX",
-    "Charges": 3,
+    "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
     "UseEffect": { "LootBox": ["PIRATE_BDSM", 30, 20]},
     "Price": 0

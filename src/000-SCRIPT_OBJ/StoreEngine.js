@@ -76,6 +76,7 @@ var Store = function(Player, NPC, StoreData) {
            return ((Item["LOCK"] != 1) && (Item["CATEGORY"] == Category) && (Mood >= Item["MOOD"]));
         });
 
+        //return Inventory; // Show item, but no buy.
         return Inventory.filter(function (Item) { return Player.OwnsWardrobeItem(Item) == false});
     };
 
@@ -109,6 +110,7 @@ var Store = function(Player, NPC, StoreData) {
         this._Player.AdjustMoney((this.GetPrice(Item) * -1.0));
     };
 
+    /* FIXME: Let's make this trigger for the SHIP whenever you land at a port. But not otherwise. */
     this.StockInventory = function()
     {
         if ( ( this._Player.StoreInventory[this._Data["ID"]]["LAST_STOCKED"] == 0)

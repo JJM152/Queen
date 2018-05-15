@@ -632,7 +632,6 @@ App.Job = function(Data) {
      */
     this._PrintJobResults = function() {
         var Checks = this._SceneBuffer[this._SceneBuffer.length-1].Results();
-        console.log(JSON.stringify(Checks)+"\n");
         var cKeys = Object.keys(Checks);
         var Results = [ ];
 
@@ -650,7 +649,38 @@ App.Job = function(Data) {
     this._PrintPay = function() {
         var Pay = this._JobData["PAY"];
         for (var i = 0; i < this._SceneBuffer.length; i++) Pay += this._SceneBuffer[i].Pay();
-        return "@@color:yellow;"+Pay+"@@";
+        return (Pay > 0) ? "@@color:yellow;"+Pay+"@@" : "";
+    };
+
+
+    /**
+     * Print all of the items earned in this job
+     * @returns {string}
+     * @private
+     */
+    this._SummarizeJob = function()
+    {
+        var items = [ ];
+        var i;
+        var Pay = this._JobData["PAY"];
+
+        // Check for coins;
+        for (i = 0; i < this._SceneBuffer.length; i++) Pay += this._SceneBuffer[i].Pay();
+
+        if (Pay > 0) {
+            items.push("\n@@color:cyan;Your receive some items:@@");
+            items.push("@@color:yellow;"+Pay+" coins@@");
+        }
+
+        for ( i = 0; i < this._SceneBuffer.length; i++)
+        {
+            if (this._SceneBuffer[i].RewardItems().length > 0) {
+                if (items.length == 0) items.push("\n@@color:cyan;Your receive some items:@@");
+                items.push.apply(items, this._SceneBuffer[i].RewardItems());
+            }
+        }
+        if (items.length > 0 ) return items.join("\n") + "\n";
+        return "";
     };
 
     /**
@@ -690,7 +720,9 @@ App.Job = function(Data) {
      * @returns {string}
      */
     this.PrintEnd = function(Player, NPC) {
-        return this._JobData["END"] == "" ? "" :  this._Tokenize(Player, NPC, this._JobData["END"])+ "\n";
+        var JobEnd = this._JobData["END"] == "" ? "" :  this._Tokenize(Player, NPC, this._JobData["END"])+ "\n";
+        if (this._SummarizeJob() != "") JobEnd += this._SummarizeJob();
+        return JobEnd;
     };
 
     /**
@@ -743,16 +775,22 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
      *  @private */
     this._Checks    = Checks || { };
 
+    /** @type {Array.<string>}
+     *  @private */
+    this._RewardItems = [ ];
+
     /** @returns {string} */
-    this.Id         = function() { return this._SceneData["ID"]; };
+    this.Id          = function() { return this._SceneData["ID"]; };
     /** @returns {boolean} */
-    this.Triggered  = function() { return (this._Triggered != false && this._StrBuffer != ""); };
+    this.Triggered   = function() { return (this._Triggered != false && this._StrBuffer != ""); };
     /** @returns {string} */
-    this.Print      = function() { return (this._StrBuffer != "") ? this._StrBuffer + "\n" : ""; };
+    this.Print       = function() { return (this._StrBuffer != "") ? this._StrBuffer + "\n" : ""; };
     /** @returns {number} */
-    this.Pay        = function() { return this._Pay; };
+    this.Pay         = function() { return this._Pay; };
     /** @returns {object} */
-    this.Results    = function() { return this._Checks; };
+    this.Results     = function() { return this._Checks; };
+    /** @returns {Array.<string>} */
+    this.RewardItems = function() { return this._RewardItems; };
 
     /** @private
      *  @param {number} X
@@ -839,6 +877,11 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                     return this._Cmp(this._Player.JobFlags[Name], Math.ceil(Value * Math.random()), Condition);
                 return this._Cmp(this._Player.JobFlags[Name], Value, Condition);
                 break;
+            case "STAT_CORE":
+                if ((typeof Opt !== 'undefined') && (Opt == "RANDOM"))
+                    return this._Cmp(this._Player.GetStatPercent("STAT", Name), Math.ceil((100 * Math.random())+1), Condition);
+                return this._Cmp(this._Player.GetStatPercent("STAT", Name), Value, Condition);
+                break;
             case "STAT_BODY":
                 if ((typeof Opt !== 'undefined') && (Opt == "RANDOM"))
                     return this._Cmp(this._Player.GetStatPercent("BODY", Name), Math.ceil((100 * Math.random())+1), Condition);
@@ -921,7 +964,9 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
         switch(Type)
         {
             case "MONEY":
+
                 this._Pay += Value;
+                this.Debug("this._Pay=",this._Pay.toString());
                 this._Player.AdjustMoney(Value);
                 break;
             case "FOOD":
@@ -929,9 +974,11 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
             case "CLOTHES":
             case "COSMETICS":
             case "LOOT_BOX":
+                this._RewardItems.push( App.PR.pItemDesc(Type, Name, Value, true));
                 this._Player.AddItem(Type, Name, Value, Opt);
                 break;
             case "QUEST_ITEM":
+                this._RewardItems.push( App.PR.pItemDesc(Type, Name, Value, true));
                 this._Player.AddItem("QUEST", Name, Value, Opt);
                 break;
             case "STAT_XP":

@@ -1,6 +1,6 @@
-window.App = window.App || { Data: { }, Entity: { } };
+App = App || { Data: { }, Entity: { } };
 
-window.App.PR = new function() {
+App.PR = new function() {
 
     /**
      * Fetch a rating for a statistic/value
@@ -11,7 +11,7 @@ window.App.PR = new function() {
      */
 	    this.GetRating = function (Type, Value, Colorize) {
             Colorize    = Colorize || false;
-            var Rating  = window.App.Data.Ratings[Type];
+            var Rating  = App.Data.Ratings[Type];
 
             for (var prop in Rating) {
                 if (!Rating.hasOwnProperty(prop)) continue;
@@ -33,7 +33,7 @@ window.App.PR = new function() {
         this.GetAdjective = function(Type, Stat, Value)
         {
             var Ratings = this.GetStatConfig(Type)[Stat]["LEVELING"];
-            var Arr = window.App.Data.Lists.ColorScale;
+            var Arr = App.Data.Lists.ColorScale;
             for (var prop in Ratings) {
                 if (!Ratings.hasOwnProperty(prop)) continue;
                 if (Value <= prop)
@@ -70,9 +70,9 @@ window.App.PR = new function() {
      * @returns {*}
      */
         this.GetStatConfig = function (Type) {
-            if (Type == "STAT") return window.App.Data.Lists.StatConfig;
-            if (Type == "SKILL") return window.App.Data.Lists.SkillConfig;
-            if (Type == "BODY") return window.App.Data.Lists.BodyConfig;
+            if (Type == "STAT") return App.Data.Lists.StatConfig;
+            if (Type == "SKILL") return App.Data.Lists.SkillConfig;
+            if (Type == "BODY") return App.Data.Lists.BodyConfig;
         };
 
     /**
@@ -86,7 +86,12 @@ window.App.PR = new function() {
                 //return "@@color:" + this.ColorScale(Value, Opt) + ";" + String + "@@("+Value+")";
                 return "@@color:" + this.ColorScale(Value, Opt) + ";" + String + "@@";
         };
-
+    /**
+     * Used to colorize a string with colors corresponding to the meter scheme.
+     * @param {number} n the value to rate the color on.
+     * @param {string} s the string to colorize
+     * @returns {string}
+     */
 		this.ColorizeMeter = function (n, s) {
                 var Colors = ["red", "brown", "yellow", "cyan", "lime"];
                 var cIndex = Math.max(0, Math.min(Math.round(((n / 20) - 1)), 4));
@@ -101,7 +106,7 @@ window.App.PR = new function() {
      */
         this.ColorScale = function(Value, Opt) {
             var Max = Opt || 100;
-            var Arr = window.App.Data.Lists.ColorScale;
+            var Arr = App.Data.Lists.ColorScale;
             if (Value > Opt ) Value = Opt;
             return Arr[Math.floor( Math.max(0, Math.min((Arr.length * (Value/Max)-1),(Arr.length-1))))];
         };
@@ -176,7 +181,7 @@ window.App.PR = new function() {
 
     /**
      * Convert Hips Stat into CM.
-     * @param {window.App.Entity.Player} Player
+     * @param {App.Entity.Player} Player
      * @returns {number}
      */
         this.HipsInCM = function (Player) { return this.StatToCM(Player, "Hips"); };
@@ -239,7 +244,7 @@ window.App.PR = new function() {
      * @param {App.Entity.Player} Player
      * @param {string} NPC - String, ID of the NPC in Player.NPCS array.
      */
-        this.pQuestDialog = function(QuestID, Stage, Player, NPC) { return this.TokenizeString(Player, NPC, window.App.Data.Quests[QuestID][Stage]); };
+        this.pQuestDialog = function(QuestID, Stage, Player, NPC) { return this.TokenizeString(Player, NPC, App.Data.Quests[QuestID][Stage]); };
 
     /**
      * Prints out the requirements for completion of a quest.
@@ -249,7 +254,7 @@ window.App.PR = new function() {
      */
         this.pQuestRequirements = function(QuestID, Player)
 		{
-			var checks = window.App.Data.Quests[QuestID]["CHECKS"];
+			var checks = App.Data.Quests[QuestID]["CHECKS"];
 			var Out = [];
 			var Meter = "";
             var Percent = 0;
@@ -358,7 +363,7 @@ window.App.PR = new function() {
 
         this.pQuestRewards = function(QuestID)
 		{
-			var Rewards = window.App.Data.Quests[QuestID]["REWARD"];
+			var Rewards = App.Data.Quests[QuestID]["REWARD"];
 			var Output = [ ];
 			var oItem;
 
@@ -366,7 +371,7 @@ window.App.PR = new function() {
 			{
 				if (Rewards[i]["REWARD_TYPE"] == "MONEY") Output.push( "@@color:yellow;"+ Rewards[i]["AMOUNT"] + " coins@@.");
 				if (Rewards[i]["REWARD_TYPE"] == "ITEM" ) {
-					oItem = window.App.Item.Factory( Rewards[i]["TYPE"], Rewards[i]["NAME"], Rewards[i]["AMOUNT"]);
+					oItem = App.Item.Factory( Rewards[i]["TYPE"], Rewards[i]["NAME"], Rewards[i]["AMOUNT"]);
 					Output.push( oItem.Description() + " x " + Rewards[i]["AMOUNT"]);
 				}
 			}
@@ -374,9 +379,18 @@ window.App.PR = new function() {
 			return Output;
 		};
 
-        this.pItemDesc = function(ItemType, ItemTag, ItemAmount)
+    /**
+     * Print the description of an item.
+     * @param {string} ItemType
+     * @param {string} ItemTag
+     * @param {number} ItemAmount
+     * @param {boolean} Opt
+     * @returns {string}
+     */
+        this.pItemDesc = function(ItemType, ItemTag, ItemAmount, Opt)
 		{
-			var oItem = window.App.Item.Factory( ItemType, ItemTag, ItemAmount);
+			var oItem = App.Item.Factory( ItemType, ItemTag, ItemAmount);
+            if ((typeof Opt !== 'undefined') && ItemAmount > 1) return oItem.Description() + "x"+ItemAmount;
 			return oItem.Description();
 		};
 
@@ -673,6 +687,6 @@ window.App.PR = new function() {
         };
 
     this.pSkillName = function (Skill) {
-        return window.App.Data.Lists["SkillDictionary"][Skill];
+        return App.Data.Lists["SkillDictionary"][Skill];
     };
 };

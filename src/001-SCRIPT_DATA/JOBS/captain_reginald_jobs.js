@@ -336,7 +336,7 @@ App.Data.JobData["CAPT01"] = {
         }
 
     ],
-    "END" : "NPC_NAME hands you a small pouch filled with JOB_PAY coins and says, \"Don't just lay there, your job is over so see yourself out whore.\"\n\n"+
+    "END" : "NPC_NAME hands you a small pouch filled with coins and says, \"Don't just lay there, your job is over so see yourself out whore.\"\n\n"+
     "You'd almost be offended if it wasn't for the fact that what he said was essentially true. You pick up your poor and battered body and head for the door.",
     "JOB_RESULTS" : [ ]
 };

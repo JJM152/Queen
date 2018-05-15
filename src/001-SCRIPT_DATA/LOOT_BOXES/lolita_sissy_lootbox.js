@@ -38,7 +38,7 @@ App.Data.LootBoxes["rare lolita loot box"] = {
     "LongDesc": "This large pink bag is shaped like a stuffed toy and opens with a drawstring on it's back. Wonder what's inside?",
     "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
     "Type": "LOOT_BOX",
-    "Charges": 2,
+    "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
     "UseEffect": { "LootBox": ["LOLITA_SISSY", 30, 20]},
     "Price": 0
@@ -50,7 +50,7 @@ App.Data.LootBoxes["legendary lolita loot box"] = {
     "LongDesc": "This huge pink bag is shaped like a stuffed toy and opens with a drawstring on it's back. Wonder what's inside?",
     "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
     "Type": "LOOT_BOX",
-    "Charges": 3,
+    "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
     "UseEffect": { "LootBox": ["LOLITA_SISSY", 50, 30]},
     "Price": 0

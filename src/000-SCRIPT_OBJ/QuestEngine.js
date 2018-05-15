@@ -183,6 +183,8 @@ window.App.QuestEngine = new function() {
             Player.AdjustMoney(QuestReward["AMOUNT"]);
         } else if (QuestReward["REWARD_TYPE"] == "ITEM") {
             Player.AddItem(QuestReward["TYPE"], QuestReward["NAME"], QuestReward["AMOUNT"]);
+        } else if (QuestReward["REWARD_TYPE"] == "MOOD") {
+            Player.GetNPC(QuestReward["NAME"]).AdjustStat("Mood",QuestReward["AMOUNT"]);
         }
     };
 

@@ -38,7 +38,7 @@ App.Data.LootBoxes["rare food loot box"] =  {
     "LongDesc": "This large crate looks rather shoddy and the contents rattle when you shake it.",
     "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
     "Type": "LOOT_BOX",
-    "Charges": 2,
+    "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
     "UseEffect": { "LootBox": ["FOOD", 30, 20]},
     "Price": 0
@@ -50,7 +50,7 @@ App.Data.LootBoxes["legendary food loot box"] =  {
     "LongDesc": "This large crate looks rather shoddy and the contents rattle when you shake it.",
     "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
     "Type": "LOOT_BOX",
-    "Charges": 3,
+    "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
     "UseEffect": { "LootBox": ["FOOD", 50, 30]},
     "Price": 0

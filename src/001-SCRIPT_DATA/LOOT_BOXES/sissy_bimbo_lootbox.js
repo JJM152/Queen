@@ -38,7 +38,7 @@ App.Data.LootBoxes["rare sissy loot box"] = {
     "LongDesc": "This large pink treasure chest sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
     "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
     "Type": "LOOT_BOX",
-    "Charges": 2,
+    "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
     "UseEffect": { "LootBox": ["SISSY_BIMBO", 30, 20]},
     "Price": 0
@@ -50,7 +50,7 @@ App.Data.LootBoxes["legendary sissy loot box"] = {
     "LongDesc": "This huge pink treasure chest sports an attractive heart pattern and is wrapped with a shiny white ribbon and bow.",
     "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
     "Type": "LOOT_BOX",
-    "Charges": 3,
+    "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
     "UseEffect": { "LootBox": ["SISSY_BIMBO", 50, 30]},
     "Price": 0

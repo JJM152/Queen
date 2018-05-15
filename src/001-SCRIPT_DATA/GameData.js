@@ -170,6 +170,7 @@ window.App.Data.NPCS = {
                 "DailyLust": 10,
                 "Title": "'Sultry' NPC_NAME, Madame",
                 "LongDesc": "For a woman in her 40s, NPC_NAME clearly lives up to her nickname of 'Sultry'. She has a fine, voluptuous figure with heaving breasts and a pronounced arse, both of which are barely contained by her flimsy evening gown. Her bright red hair is done up in a bun, which shows off the curve of her slender neck.",
+                "Store" : "LUSTY_LASS"
             },
             "LustyLassCustomers" : {
                 "Name" : "Lusty Lass Customer", // This is a place holder and not meant to be used as an actual NPC.
@@ -180,6 +181,7 @@ window.App.Data.NPCS = {
                 "DailyLust" : 5,
                 "Title" : "Customers of the Lusty Lass",
                 "LongDesc" : "A step above the common scum you're used to spreading your arse-cheeks for."
+
             }
 };
 

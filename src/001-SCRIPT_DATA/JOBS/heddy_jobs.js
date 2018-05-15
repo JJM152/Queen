@@ -93,7 +93,7 @@ App.Data.JobData["ISLA_MASCOT"] = {
             "RESULTS" : [ ]
         }
     ],
-    "END" : "NPC_NAME comes up to you and hands you your pay for the shift, JOB_PAY coins. JOB_RESULTS",
+    "END" : "NPC_NAME comes up to you and hands you your pay for the shift. JOB_RESULTS",
     "JOB_RESULTS" : [
         {"A":  33, "TEXT": "It seems that she was a @@little disappointed@@ in the turn out, but hey at least you still got paid."},
         {"A":  66, "TEXT": "It appears you did @@reasonably well@@ and the pay reflects that."},

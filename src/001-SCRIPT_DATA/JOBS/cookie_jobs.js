@@ -131,7 +131,7 @@ App.Data.JobData["COOK01"] = {
             "RESULTS" : [ ]
         }
     ],
-    "END" : "Finally, your shift in the galley is over. NPC_NAME comes up to you and says, \"JOB_RESULTS\" He then hands you JOB_PAY coins.",
+    "END" : "Finally, your shift in the galley is over. NPC_NAME comes up to you and says, \"JOB_RESULTS\" He then hands you some coins.",
     "JOB_RESULTS" : [
         { "A" :  25,  "TEXT" : "Your @@cooking was pretty horrible@@, don't complain about the pay." },
         { "A" :  50, "TEXT" : "Your @@cooking was passable@@, but then again these slobs here aren't used to fine chow anyway." },

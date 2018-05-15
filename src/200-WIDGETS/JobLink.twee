@@ -10,7 +10,6 @@
 <<widget "jobLinks">><<nobr>>
 <<set _JE = window.App.JobEngine;>>
 <<set _JL = _JE.GetAvailableLocationJobs($Player, $args[0]);>>
-<<run console.log(_JL); >>
 <<if $args[1] == 1 && _JL.length >= 1>>@@color:yellow;Action@@: <</if>>
 <<for _i = 0; _i < _JL.length; _i++>>
 <<if _JL[_i].Ready($Player) == true>>

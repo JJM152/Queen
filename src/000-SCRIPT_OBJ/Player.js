@@ -99,7 +99,7 @@ App.Entity.Player = function (){
 
         /**
          * @param NpcName {string}
-         * @returns {*}
+         * @returns {App.Entity.NPC}
          */
         this.GetNPC = function(NpcName ){
           if (!this.NPCS.hasOwnProperty(NpcName))
@@ -115,7 +115,8 @@ App.Entity.Player = function (){
             "ISLASTORE":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "SMUGGLERS":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "GOLDEN_GOODS":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
+            "GOLDEN_GOODS":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "LUSTY_LASS":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
         };
     };
 
@@ -327,7 +328,7 @@ App.Entity.Player = function (){
         Scaling = Scaling || false;
         var Target      = this.CalculateSkillTarget(Name, Difficulty, Type);
         var DiceRoll    = ( Math.floor(Math.random() * 100) + 1);
-        var Mod         = (DiceRoll  / Target); // 0.01 - 2.1
+        var Mod       = Math.max(0.25, Math.min((DiceRoll  / Target), 2.0)); // 0.25 - 2.0
 
         console.log("StatRoll(" + Name + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " Mod="+Mod+"\n");
 
@@ -958,11 +959,13 @@ App.Entity.Player = function (){
      */
     this.OwnsWardrobeItem = function(ItemDict)
     {
-        if ((ItemDict["TYPE"] != "CLOTHES") || (ItemDict["TYPE"] != "WEAPON")) return false;
-        if (this.Wardrobe.filter( function(o){return o.Name() == ItemDict["TAG"];}).length > 0 ) return true;
-        var Slot = window.App.Data.Clothes[ItemDict["TAG"]]["Slot"];
-        if ((this.Equipment[Slot] === undefined) || (this.Equipment[Slot] == 0)) return false;
-        if (this.Equipment[Slot].Name() == ItemDict["TAG"]) return true;
+        if ((ItemDict["TYPE"] == "CLOTHES") || (ItemDict["TYPE"] == "WEAPON")) {
+            if (this.Wardrobe.filter( function(o){return o.Name() == ItemDict["TAG"];}).length > 0 ) return true;
+            var Slot = window.App.Data.Clothes[ItemDict["TAG"]]["Slot"];
+            if ((this.Equipment[Slot] === undefined) || (this.Equipment[Slot] == 0)) return false;
+            if (this.Equipment[Slot].Name() == ItemDict["TAG"]) return true;
+        }
+        return false;
     };
 
     /**

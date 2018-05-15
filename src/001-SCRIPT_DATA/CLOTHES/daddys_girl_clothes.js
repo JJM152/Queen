@@ -27,17 +27,11 @@ App.Data.Clothes["pigtail wig"] = { // +9
 App.Data.Clothes["cute pink bra"] = { // +10
     "Name": "cute pink bra", "ShortDesc": "a cute {COLOR} bra with tiny hearts on it",
         "LongDesc": "This cute bra has tiny white &#9825; on it and a delicate little bow in the middle.",
-        "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 150, "Style": "UNCOMMON", "Type" : "CLOTHING",
         "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl" ]
 };
 
 // CORSET SLOT
-App.Data.Clothes["pistol brace"] = { // +9
-    "Name": "pistol brace", "ShortDesc": "a {COLOR} leather pistol brace",
-    "LongDesc": "More of a belt than anything else, it can hold pistols if you find any.",
-    "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
-    "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -20, 10], "Swashbuckling" : [ 10, 0, 0 ]}, "Category" :  [ "Pirate Slut", "BDSM" ]
-};
 
 // PANTY SLOT
 App.Data.Clothes["cute pink panties"] = { // +15

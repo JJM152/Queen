@@ -177,6 +177,7 @@ window.App.Entity.NPC = function(Data) {
 			{
                 this.Data[Stat] = Math.ceil(Math.max(0, Math.min((this.Data[Stat]+Number), 100)));
 			};
+
     /**
      * Get the value of an NPC stat.
      * @param {string} Stat
