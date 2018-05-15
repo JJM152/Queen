@@ -94,7 +94,9 @@ App.Entity.Player = function (){
             "Gulliver":             window.App.Item.Factory("NPC",     "Gulliver"),
             "Blanche":              window.App.Item.Factory("NPC",     "Blanche"),
             "Simone":               window.App.Item.Factory("NPC",     "Simone"),
-            "LustyLassCustomers":   window.App.Item.Factory("NPC",     "LustyLassCustomers")
+            "LustyLassCustomers":   window.App.Item.Factory("NPC",     "LustyLassCustomers"),
+            "Charmaine":            window.App.Item.Factory("NPC",     "Charmaine"),
+            "SlatternCustomers":    window.App.Item.Factory("NPC",     "SlatternCustomers")
         };
 
         /**
@@ -1280,7 +1282,8 @@ App.Entity.Player = function (){
                     this.VoodooEffects[prop]--;
                     if (this.VoodooEffects[prop] <= 0) {
                         delete this.VoodooEffects["PIRATES_PROWESS"];
-                        this.SleepLog.push("You feel the effects of your pirates luck leave you...")
+                        delete this.VoodooEffects["PIRATES_PROWESS_DURATION"];
+                        this.SleepLog.push("You feel the effects of your pirates skill leave you...")
                     }
             }
         }

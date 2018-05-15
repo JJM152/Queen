@@ -1,6 +1,38 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
 
+!!!0.4 - 05/16/2018
+!!!!General
+* Added the skeleton for a 'Rogue-like' game. You can find the barely functional prototype in Abamond.
+* Added a summary status to jobs. You now get notified at the bottom of the page with items/money awarded.
+* Fixed a bug where Captain Reginald was referred to as Cookie.
+* Fixed a bug where clicking on your journal, skills or inventory while in the job result page would cause an error.
+* Refactored a huge amount of javascript data files. People who are following the project on github will definitely notice.
+* Added some more job engine capabilities.
+* Added some more capabilities to voodoo hex system.
+* Added two new ending dialogs courtesy of @@color:deepPink;mightyakira@@
+* Toned down hormone shift a bit. It caps earlier than before.
+* Added some more TF items and clothes.
+* Fixed bug with shop that no one noticed. Ahem.
+
+!!!!Abamond
+* Added new Hex to Paola. It will increase your skill checks for a while...
+* Added the stub for the Cavern Exploration mini-game to the Ocean Cave.
+
+!!!!Golden Isle
+* The Saucy Slattern is now open for business. You can whore there if you've completed the boarding pass quest.
+* Charmaine the Madam overseas the sluts there. Description courtesy of @@color:deepPink;Nynfeenia@@
+* Description added for Bazaar (no content yet)
+
+!!!!Port Royale
+* The Lusty Lass now has a shop.
+* Simone at the Lusty Lass will now sell some rare @@color:pink;Daddy's Girl@@ clothing, if you get her mood high enough.
+* She now also has a quest to complete.
+* You can no longer whore there unless you complete her quest first.
+* She also has a job on offer now, which will allow you to raise her mood if you do well on it. It's hard so practice a lot.
+* Doing well on her jobs can eventually earn you an uncommon loot box with daddy's girl or sissy lolita items in it.
+* The entertainment district has a description now, a hint of things to come.
+
 !!!0.3 - 05/13/2018
 !!!!General
 * Added 'Loot Boxes' to the game. They can be awarded from quests, or from doing certain jobs well. Opening them up will give you a random reward.

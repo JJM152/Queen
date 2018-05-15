@@ -1,2 +1,10 @@
 :: GI_CheapBrothel
+The @@color:gold;'Saucy Slattern'@@ is the place to be if your a pirate in need of a good rut, or even a bad one. The quality of \
+the whores at this establishment reflects the relative wealth (or lack thereof) of the patrons and it shows not only there, but \
+in the furnishings and decor of the waiting area. Everything is plush, with rich velvets and dark wood, but also shabby and \
+worn down. Still, despite what goes on here, the place is clean. The proprietor clearly cares about such appearances, as \
+meager as they are.
+
+<<NPC "Charmaine">>
+<<if window.App.QuestEngine.GetQuestFlag($Player, "BOARDING_PASS") == "COMPLETED">>@@color:yellow;Action@@: <<if $Player.GetStat("STAT","Energy") < 1 or $Player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<customMenuLink "Whore" "SlatternCustomers">><</if>><br><</if>>
 @@color:lime;Travel@@: [[Portside District|Portside]]
