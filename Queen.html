@@ -10059,7 +10059,66 @@ App.Data.JobData["CAPT01"] = {
     "You'd almost be offended if it wasn't for the fact that what he said was essentially true. You pick up your poor and battered body and head for the door.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #36: "food_lootbox.js" */
+/* twine-user-script #36: "basic_starter_lootbox.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.LootBoxes = App.Data.LootBoxes || { };
+App.Data.LootTables = App.Data.LootTables || { };
+
+// BOX TYPE     MINIMUM     BONUS ROLL  COLOR
+// COMMON       0           0           grey
+// UNCOMMON     20          10          lime
+// RARE         30          20          cyan
+// LEGENDARY    50          30          orange
+
+App.Data.LootBoxes["basic starter loot box"] = {
+    "Name": "basic starter chest",
+    "ShortDesc": "@@color:pink;A small box with a big pink bow over it@@",
+    "LongDesc": "This small box is shaped like a giftbox you used to give to your fiancee and opens with a big bow on it's top. Wonder what's inside?",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 1,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["BASIC_STARTER", 0, 0]},
+    "Price": 0
+};
+
+App.Data.LootTables["BASIC_STARTER"] =  {
+    10 :  {
+        "LOOT" : [
+            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 20},
+            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 20},
+            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 20},
+            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 20},
+            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 3},
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 3},
+            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 3},
+            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 25},
+            { "TYPE" : "FOOD", "TAG" : "pink peach", "QTY" : 3},
+            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 3},
+            { "TYPE" : "DRUGS", "TAG" : "healing potion", "QTY" : 5},
+            { "TYPE" : "DRUGS", "TAG" : "hair tonic", "QTY" : 3},
+            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 3},
+            { "TYPE" : "DRUGS", "TAG" : "siren elixir", "QTY" : 3}
+        ] },
+    80 :  {
+        "LOOT" : [
+            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 20},
+            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 20},
+            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 20},
+            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 20},
+            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 3},
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 3},
+            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 3},
+            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 25},
+            { "TYPE" : "FOOD", "TAG" : "pink peach", "QTY" : 3},
+            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 3},
+            { "TYPE" : "DRUGS", "TAG" : "healing potion", "QTY" : 5},
+            { "TYPE" : "DRUGS", "TAG" : "hair tonic", "QTY" : 3},
+            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 3},
+            { "TYPE" : "DRUGS", "TAG" : "siren elixir", "QTY" : 3}
+        ] }
+};
+/* twine-user-script #37: "food_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -10195,7 +10254,7 @@ App.Data.LootTables["FOOD"] = {
         ] }
 };
 
-/* twine-user-script #37: "lolita_sissy_lootbox.js" */
+/* twine-user-script #38: "lolita_sissy_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -10322,7 +10381,7 @@ App.Data.LootTables["LOLITA_SISSY"] =  {
             { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 2}
         ] }
 };
-/* twine-user-script #38: "pirate_bdsm_lootbox.js" */
+/* twine-user-script #39: "pirate_bdsm_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -10443,7 +10502,70 @@ App.Data.LootTables["PIRATE_BDSM"] =  {
             { "TYPE" : "FOOD", "TAG" : "pirates plunder", "QTY" : 3 }
         ] }
 };
-/* twine-user-script #39: "sissy_bimbo_lootbox.js" */
+/* twine-user-script #40: "premium_starter_lootbox.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.LootBoxes = App.Data.LootBoxes || { };
+App.Data.LootTables = App.Data.LootTables || { };
+
+// BOX TYPE     MINIMUM     BONUS ROLL  COLOR
+// COMMON       0           0           grey
+// UNCOMMON     20          10          lime
+// RARE         30          20          cyan
+// LEGENDARY    50          30          orange
+
+App.Data.LootBoxes["premium starter loot box"] = {
+    "Name": "premium starter chest",
+    "ShortDesc": "@@color:purple;A big box with a big purple bow over it@@",
+    "LongDesc": "This sparkling big box is shaped like a giftbox you used to give to your fiancee and opens with a big bow on it's top. Wonder what's inside?",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 1,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["PREMIUM_STARTER", 0, 0]},
+    "Price": 0
+};
+
+App.Data.LootTables["PREMIUM_STARTER"] =  {
+    10 :  {
+        "LOOT" : [
+            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 50},
+            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 50},
+            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 50},
+            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 50},
+            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 50},
+            { "TYPE" : "FOOD", "TAG" : "pink peach", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 10},
+            { "TYPE" : "DRUGS", "TAG" : "healing potion", "QTY" : 15},
+            { "TYPE" : "DRUGS", "TAG" : "hair tonic", "QTY" : 10},
+            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 10},
+            { "TYPE" : "DRUGS", "TAG" : "siren elixir", "QTY" : 15},
+            { "TYPE" : "DRUGS", "TAG" : "nereid philtre", "QTY" : 3},
+            { "TYPE" : "DRUGS", "TAG" : "succubus philtre", "QTY" : 3}
+        ] },
+    100 :  {
+        "LOOT" : [
+            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 50},
+            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 50},
+            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 50},
+            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 50},
+            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 50},
+            { "TYPE" : "FOOD", "TAG" : "pink peach", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 10},
+            { "TYPE" : "DRUGS", "TAG" : "healing potion", "QTY" : 15},
+            { "TYPE" : "DRUGS", "TAG" : "hair tonic", "QTY" : 10},
+            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 10},
+            { "TYPE" : "DRUGS", "TAG" : "siren elixir", "QTY" : 15},
+            { "TYPE" : "DRUGS", "TAG" : "nereid philtre", "QTY" : 3},
+            { "TYPE" : "DRUGS", "TAG" : "succubus philtre", "QTY" : 3}
+        ] }        
+};
+/* twine-user-script #41: "sissy_bimbo_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -10564,7 +10686,7 @@ App.Data.LootTables["SISSY_BIMBO"] =  {
             { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 3 }
         ] }
 };
-/* twine-user-script #40: "blanche_quests.js" */
+/* twine-user-script #42: "blanche_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10598,7 +10720,7 @@ App.Data.Quests["VOODOO_PICKUP"] = {
     "JOURNAL_ENTRY": "HIDDEN",
     "JOURNAL_COMPLETE": "HIDDEN"
 };
-/* twine-user-script #41: "bosun_quests.js" */
+/* twine-user-script #43: "bosun_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10666,7 +10788,7 @@ App.Data.Quests["ISLA_TAVERN02"] = {
     "JOURNAL_COMPLETE": "You fetched a cask of Smuggler's Rum for NPC_NAME and he rewarded you with a @@color:purple;worn machete@@. It's a useful tool for any pirate or explorer."
 };
 
-/* twine-user-script #42: "cookie._quests.js" */
+/* twine-user-script #44: "cookie._quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10722,7 +10844,7 @@ App.Data.Quests["STRIPPING"] = {
     "on you can perform on the stage during the evenings for extra coin and to raise the lust of the crew."
 };
 
-/* twine-user-script #43: "jarvis_quests.js" */
+/* twine-user-script #45: "jarvis_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10750,7 +10872,7 @@ App.Data.Quests["THEBACKDOOR"] = {
     "JOURNAL_ENTRY": "There must be some way to gain access to the Governor or at least entrance to the Mansion after hours. You'll have to keep your eyes open for an opportunity.",
     "JOURNAL_COMPLETE": "Using a combination of alcohol and your whorish skills, you were able to completely exhaust Jarvis and loot him of his house key. You can now come and go into the mansion after dark via the back door."
 };
-/* twine-user-script #44: "kipler_quests.js" */
+/* twine-user-script #46: "kipler_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10854,7 +10976,7 @@ App.Data.Quests["Q004"] = {
     "JOURNAL_COMPLETE": "It was difficult, but after days spent granting \"favors\" for Julius in the cargo hold, he's become quite fond of you. In the end it " +
     "paid off because not only did NPC_NAME give you a small reward, but now @@color:cyan;Julius@@ will occasionally sell you higher quality drugs."
 };
-/* twine-user-script #45: "lord_rowe_quests.js" */
+/* twine-user-script #47: "lord_rowe_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10890,7 +11012,7 @@ App.Data.Quests["DADDYSGIRL"] =  {
         "JOURNAL_COMPLETE": "It seems that @@color:Cyan;Lord Rowe's@@ obsession with GF_NAME had a rather 'abnormal' aspect to it. Once you changed your appearance, he was more than happy to listen to you... so long as you sit on his lap like a good little girl. In addition, you can gain access to his study at any hour of the day."
 };
 
-/* twine-user-script #46: "paola_quests.js" */
+/* twine-user-script #48: "paola_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10925,7 +11047,7 @@ App.Data.Quests["PAOLA_FETCH"] = {
         "@@color:cyan;Blanche@@ in @@color:gold;Port Royale@@ has it?",
     "JOURNAL_COMPLETE": "You fetched a bag of mojo NPC_NAME. She will now provide some specialized 'voodoo' services."
 };
-/* twine-user-script #47: "petey_quests.js" */
+/* twine-user-script #49: "petey_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -10957,7 +11079,7 @@ App.Data.Quests["SMUGGLER_PICKUP"] = {
     "JOURNAL_ENTRY": "HIDDEN",
     "JOURNAL_COMPLETE": "HIDDEN"
 };
-/* twine-user-script #48: "reginald_quests.js" */
+/* twine-user-script #50: "reginald_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -11198,7 +11320,7 @@ App.Data.Quests["Q007"] =  {
     "looking young man, you've ended up as a slutty bimbo with huge tits, a jiggling ass and a pair of lips that could suck off a horse. Very few \"natural\" women could compete with " +
     "you when it comes to looks and technique, it'd be fitting to say that you're a Queen of a Whore."
 };
-/* twine-user-script #49: "StoreData.js" */
+/* twine-user-script #51: "StoreData.js" */
 window.App = window.App || { Data: { }, Entity: { } };
 
 window.App.Data.Stores =  {
@@ -11295,7 +11417,7 @@ window.App.Data.Stores =  {
         ]
     },
 };
-/* twine-user-script #50: "rot_lib.js" */
+/* twine-user-script #52: "rot_lib.js" */
 // Wrap rot.js code due to Twine's environment
 (function (window, define, exports) {
     /*
@@ -16711,7 +16833,7 @@ window.App.Data.Stores =  {
     }));
 
 }).call(window, window);
-/* twine-user-script #51: "Story JavaScript" */
+/* twine-user-script #53: "Story JavaScript" */
 //Sugarcube config
 Config.history.controls = false;
 Config.history.maxStates = 1;</script><tw-passagedata pid="1" name="Cabin" tags="" position="100,100">&lt;&lt;set $InIntro = 0&gt;&gt;\
@@ -18842,7 +18964,22 @@ outside of your social class that such a relationship, if it should be known, wo
 Despite this challenge, and despite @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;&#39;s@@ rather sheltered upbringing, the two of you have agreed to elope. You meet tonight \
 to discuss the plan.
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]&lt;/span&gt;</tw-passagedata><tw-passagedata pid="106" name="Intro2" tags="" position="725,1350">You wait until nightfall and meet @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]&lt;/span&gt;
+
+
+&lt;&lt;nobr&gt;&gt;
+If you wish to have a easier start you can choose one of the 2 starter gifts here. &lt;span id=&quot;starterBox&quot;&gt; 
+&lt;&lt;click &quot;basic&quot;&gt;&gt;
+    &lt;&lt;run $Player.AddItem(&quot;LOOT_BOX&quot;, &quot;basic starter loot box&quot;, 1);&gt;&gt;
+    &lt;&lt;replace &quot;#starterBox&quot;&gt;&gt;@@color:yellow;basic starter loot box@@&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/click&gt;&gt; |
+&lt;&lt;click &quot;premium&quot;&gt;&gt;
+   &lt;&lt;run $Player.AddItem(&quot;LOOT_BOX&quot;, &quot;premium starter loot box&quot;, 1);&gt;&gt;
+    &lt;&lt;replace &quot;#starterBox&quot;&gt;&gt;@@color:yellow;premium starter loot box@@&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/click&gt;&gt;&lt;/span&gt;.
+&lt;&lt;/nobr&gt;&gt;
+Be aware this is basically cheating and not the intended way to play. The basic starter box gives you a few supplies to have the first few body changes faster and not to worry about food for the first week or 2.
+The premium box gives you ALOT of supplies and should make basically the whole game a breeze.</tw-passagedata><tw-passagedata pid="106" name="Intro2" tags="" position="725,1350">You wait until nightfall and meet @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
 &lt;&lt;nobr&gt;&gt;
 &lt;span id=&quot;flirting&quot;&gt;
 &lt;&lt;click &quot;serenading her&quot;&gt;&gt;

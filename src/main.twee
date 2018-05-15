@@ -71,6 +71,21 @@ to discuss the plan.
 <span id="nextPage">@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]</span>
 
 
+<<nobr>>
+If you wish to have a easier start you can choose one of the 2 starter gifts here. <span id="starterBox"> 
+<<click "basic">>
+    <<run $Player.AddItem("LOOT_BOX", "basic starter loot box", 1);>>
+    <<replace "#starterBox">>@@color:yellow;basic starter loot box@@<</replace>>
+<</click>> |
+<<click "premium">>
+   <<run $Player.AddItem("LOOT_BOX", "premium starter loot box", 1);>>
+    <<replace "#starterBox">>@@color:yellow;premium starter loot box@@<</replace>>
+<</click>></span>.
+<</nobr>>
+Be aware this is basically cheating and not the intended way to play. The basic starter box gives you a few supplies to have the first few body changes faster and not to worry about food for the first week or 2.
+The premium box gives you ALOT of supplies and should make basically the whole game a breeze.
+
+
 :: Intro2
 You wait until nightfall and meet @@color:Pink;<<= $Player.GirlfriendName>>@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
 <<nobr>>
