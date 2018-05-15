@@ -168,6 +168,23 @@ App.Data.Clothes["stripper costume"] = {
     "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "white", "Price": 450, "Style": "UNCOMMON", "Type" : "ONE PIECE",
     "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]}, "SkillBonus": {"Dancing": [10, 20, 0], "Singing": [10, 10, 0]}
 };
+
+App.Data.Clothes["landlubber costume"] = {
+    "Name": "landlubber costume", "ShortDesc": "A perverted {COLOR} school girl outfit",
+    "LongDesc": "This costume consists of a two-piece outfit with accessories that is designed to mimic a perverts dream of a school uniform. It has a skirt that has holes where the anus and penis are "+
+    "as well as on the shirt where the cutouts are over the nipples. And the material of it goes invisible when it becomes wet, which is a favourite of the crew.",
+    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "white", "Price": 450, "Style": "COMMON", "Type" : "ONE PIECE",
+    "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]},
+};
+
+App.Data.Clothes["pathetic loser costume"] = {
+    "Name": "pathetic loser costume", "ShortDesc": "A perverted {COLOR} clown outfit",
+    "LongDesc": "This costume consists of a full-blown clown outfit including red glue on nose. It makes one look ridiculous but also sexy since it is tight at the right places so that it shows of "+
+    "one's assets. Also, there are undoubtedly some people that have always dreamed of fucking a clown.",
+    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "red", "Price": 450, "Style": "COMMON", "Type" : "ONE PIECE",
+    "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]},
+};
+
 App.Data.Clothes["burlesque costume"] = {
     "Name": "burlesque costume", "ShortDesc": "a fancy {COLOR} burlesque costume",
     "LongDesc": "This costume is typical of the many burlesque dancers that entertain customers in taverns throughout the land. It has a variety of accessories and flair designed to be torn off as you strip.",
