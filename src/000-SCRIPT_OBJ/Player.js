@@ -895,7 +895,7 @@ App.Entity.Player = function (){
         this.ApplyClothingEffects();
 
         //Level remaining stats
-        if ( this.GetStatXP("STAT", "Nutrition") > 150) this.AdjustBodyXP("Waist", (150 - this.GetStatXP("STAT", "Nutrition"))); // Get Fatter!?
+        if ( this.GetStatXP("STAT", "Nutrition") > 150) this.AdjustBodyXP("Waist", (this.GetStatXP("STAT", "Nutrition")-150)); // Get Fatter!?
         this.LevelStatGroup("BODY");
         this.LevelStatGroup("SKILL");
 
@@ -908,11 +908,17 @@ App.Entity.Player = function (){
         this.SailDays = (this.SailDays + 1) > 49 ? 1 : (this.SailDays + 1);
         this.Phase = 0;
 
+        // Going hungry, lose some belly fat.
+        if (this.CoreStats["Nutrition"] < 50) {
+            this.AdjustBodyXP("Waist", -25);
+        }
+
+        // Starving. Yikes.
         if (this.CoreStats["Nutrition"] < 20) {
             this.SleepLog.push("@@color:red;You are starving!@@");
             this.AdjustStat("Energy", -1); // Reduce Energy.
             this.AdjustStat("Health", -15);
-            this.AdjustBodyXP("Waist", -50, 30);
+            this.AdjustBodyXP("Waist", -50);
         }
 
         // Decrease voodoo effects
