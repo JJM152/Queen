@@ -5603,6 +5603,23 @@ App.Data.Clothes["stripper costume"] = {
     "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "white", "Price": 450, "Style": "UNCOMMON", "Type" : "ONE PIECE",
     "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]}, "SkillBonus": {"Dancing": [10, 20, 0], "Singing": [10, 10, 0]}
 };
+
+App.Data.Clothes["landlubber costume"] = {
+    "Name": "landlubber costume", "ShortDesc": "A perverted {COLOR} school girl outfit",
+    "LongDesc": "This costume consists of a two-piece outfit with accessories that is designed to mimic a perverts dream of a school uniform. It has a skirt that has holes where the anus and penis are "+
+    "as well as on the shirt where the cutouts are over the nipples. And the material of it goes invisible when it becomes wet, which is a favourite of the crew.",
+    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "white", "Price": 450, "Style": "COMMON", "Type" : "ONE PIECE",
+    "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]},
+};
+
+App.Data.Clothes["pathetic loser costume"] = {
+    "Name": "pathetic loser costume", "ShortDesc": "A perverted {COLOR} clown outfit",
+    "LongDesc": "This costume consists of a full-blown clown outfit including red glue on nose. It makes one look ridiculous but also sexy since it is tight at the right places so that it shows of "+
+    "one's assets. Also, there are undoubtedly some people that have always dreamed of fucking a clown.",
+    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "red", "Price": 450, "Style": "COMMON", "Type" : "ONE PIECE",
+    "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]},
+};
+
 App.Data.Clothes["burlesque costume"] = {
     "Name": "burlesque costume", "ShortDesc": "a fancy {COLOR} burlesque costume",
     "LongDesc": "This costume is typical of the many burlesque dancers that entertain customers in taverns throughout the land. It has a variety of accessories and flair designed to be torn off as you strip.",
@@ -10059,66 +10076,7 @@ App.Data.JobData["CAPT01"] = {
     "You'd almost be offended if it wasn't for the fact that what he said was essentially true. You pick up your poor and battered body and head for the door.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #36: "basic_starter_lootbox.js" */
-App = App || { Data: { }, Entity: { } };
-App.Data.LootBoxes = App.Data.LootBoxes || { };
-App.Data.LootTables = App.Data.LootTables || { };
-
-// BOX TYPE     MINIMUM     BONUS ROLL  COLOR
-// COMMON       0           0           grey
-// UNCOMMON     20          10          lime
-// RARE         30          20          cyan
-// LEGENDARY    50          30          orange
-
-App.Data.LootBoxes["basic starter loot box"] = {
-    "Name": "basic starter chest",
-    "ShortDesc": "@@color:pink;A small box with a big pink bow over it@@",
-    "LongDesc": "This small box is shaped like a giftbox you used to give to your fiancee and opens with a big bow on it's top. Wonder what's inside?",
-    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
-    "Type": "LOOT_BOX",
-    "Charges": 1,
-    // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["BASIC_STARTER", 0, 0]},
-    "Price": 0
-};
-
-App.Data.LootTables["BASIC_STARTER"] =  {
-    10 :  {
-        "LOOT" : [
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 20},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 20},
-            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 20},
-            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 20},
-            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 3},
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 3},
-            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 3},
-            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 25},
-            { "TYPE" : "FOOD", "TAG" : "pink peach", "QTY" : 3},
-            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 3},
-            { "TYPE" : "DRUGS", "TAG" : "healing potion", "QTY" : 5},
-            { "TYPE" : "DRUGS", "TAG" : "hair tonic", "QTY" : 3},
-            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 3},
-            { "TYPE" : "DRUGS", "TAG" : "siren elixir", "QTY" : 3}
-        ] },
-    80 :  {
-        "LOOT" : [
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 20},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 20},
-            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 20},
-            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 20},
-            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 3},
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 3},
-            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 3},
-            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 25},
-            { "TYPE" : "FOOD", "TAG" : "pink peach", "QTY" : 3},
-            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 3},
-            { "TYPE" : "DRUGS", "TAG" : "healing potion", "QTY" : 5},
-            { "TYPE" : "DRUGS", "TAG" : "hair tonic", "QTY" : 3},
-            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 3},
-            { "TYPE" : "DRUGS", "TAG" : "siren elixir", "QTY" : 3}
-        ] }
-};
-/* twine-user-script #37: "food_lootbox.js" */
+/* twine-user-script #36: "food_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -10254,6 +10212,61 @@ App.Data.LootTables["FOOD"] = {
         ] }
 };
 
+/* twine-user-script #37: "landlubber_lootbox.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.LootBoxes = App.Data.LootBoxes || { };
+App.Data.LootTables = App.Data.LootTables || { };
+
+// BOX TYPE     MINIMUM     BONUS ROLL  COLOR
+// COMMON       0           0           grey
+// UNCOMMON     20          10          lime
+// RARE         30          20          cyan
+// LEGENDARY    50          30          orange
+
+App.Data.LootBoxes["landlubber chest"] = {
+    "Name": "Landlubber chest",
+    "ShortDesc": "@@color:pink;A small box with a big pink bow over it@@",
+    "LongDesc": "This small box is shaped like a giftbox you used to give to your fiancee and opens with a big bow on it's top. Wonder what's inside?",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 1,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["LANDLUBBER", 0, 0]},
+    "Price": 0
+};
+
+App.Data.LootTables["LANDLUBBER"] =  {
+    10 :  {
+        "LOOT" : [
+            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 15},
+            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 15},
+            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 15},
+            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 5},
+            { "TYPE" : "FOOD", "TAG" : "cheap wine", "QTY" : 5},
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 5},
+            { "TYPE" : "DRUGS", "TAG" : "medicinal herbs", "QTY" : 5},
+            { "TYPE" : "DRUGS", "TAG" : "pixie dust", "QTY" : 5},
+            { "TYPE" : "CLOTHES", "TAG" : "wig", "QTY" : 1},
+            { "TYPE" : "CLOTHES", "TAG" : "choker", "QTY" : 1},
+            { "TYPE" : "CLOTHES", "TAG" : "landlubber costume", "QTY" : 1}           
+        ] },
+    80 :  {
+        "LOOT" : [
+            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 15},
+            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 15},
+            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 20},
+            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 5},
+            { "TYPE" : "FOOD", "TAG" : "cheap wine", "QTY" : 5},
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 5},
+            { "TYPE" : "DRUGS", "TAG" : "medicinal herbs", "QTY" : 5},
+            { "TYPE" : "DRUGS", "TAG" : "pixie dust", "QTY" : 5},
+            { "TYPE" : "CLOTHES", "TAG" : "wig", "QTY" : 1},
+            { "TYPE" : "CLOTHES", "TAG" : "choker", "QTY" : 1},
+            { "TYPE" : "CLOTHES", "TAG" : "landlubber costume", "QTY" : 1} 
+        ] }
+};
 /* twine-user-script #38: "lolita_sissy_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
@@ -10381,7 +10394,73 @@ App.Data.LootTables["LOLITA_SISSY"] =  {
             { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 2}
         ] }
 };
-/* twine-user-script #39: "pirate_bdsm_lootbox.js" */
+/* twine-user-script #39: "pathetic_loser_lootbox.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.LootBoxes = App.Data.LootBoxes || { };
+App.Data.LootTables = App.Data.LootTables || { };
+
+// BOX TYPE     MINIMUM     BONUS ROLL  COLOR
+// COMMON       0           0           grey
+// UNCOMMON     20          10          lime
+// RARE         30          20          cyan
+// LEGENDARY    50          30          orange
+
+App.Data.LootBoxes["pathetic loser chest"] = {
+    "Name": "Pathetic loser chest",
+    "ShortDesc": "@@color:purple;A big box with a big purple bow over it@@",
+    "LongDesc": "This sparkling big box is shaped like a giftbox you used to give to your fiancee and opens with a big bow on it's top. Wonder what's inside?",
+    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
+    "Type": "LOOT_BOX",
+    "Charges": 1,
+    // Effect : [ TABLE, Minimum Roll, Bonus to roll
+    "UseEffect": { "LootBox": ["PATHETIC_LOSER", 0, 0]},
+    "Price": 0
+};
+
+App.Data.LootTables["PATHETIC_LOSER"] =  {
+    10 :  {
+        "LOOT" : [
+            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 20},
+            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 20},
+            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 10},
+            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 15},
+            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 15},
+            { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 5},
+            { "TYPE" : "FOOD", "TAG" : "red plum", "QTY" : 5},
+            { "TYPE" : "FOOD", "TAG" : "cheap wine", "QTY" : 5},
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 5},
+            { "TYPE" : "DRUGS", "TAG" : "medicinal herbs", "QTY" : 5},
+            { "TYPE" : "DRUGS", "TAG" : "healing potion", "QTY" : 5},
+            { "TYPE" : "DRUGS", "TAG" : "pixie dust", "QTY" : 10},
+            { "TYPE" : "CLOTHES", "TAG" : "wig", "QTY" : 1},
+            { "TYPE" : "CLOTHES", "TAG" : "choker", "QTY" : 1},
+            { "TYPE" : "CLOTHES", "TAG" : "fishnet tights", "QTY" : 1},
+            { "TYPE" : "CLOTHES", "TAG" : "pathetic loser costume", "QTY" : 1}
+
+        ] },
+    100 :  {
+        "LOOT" : [
+            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 20},
+            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 20},
+            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 10},
+            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 15},
+            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 15},
+            { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 5},
+            { "TYPE" : "FOOD", "TAG" : "red plum", "QTY" : 5},
+            { "TYPE" : "FOOD", "TAG" : "cheap wine", "QTY" : 5},
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 5},
+            { "TYPE" : "DRUGS", "TAG" : "medicinal herbs", "QTY" : 5},
+            { "TYPE" : "DRUGS", "TAG" : "healing potion", "QTY" : 5},
+            { "TYPE" : "DRUGS", "TAG" : "pixie dust", "QTY" : 10},
+            { "TYPE" : "CLOTHES", "TAG" : "wig", "QTY" : 1},
+            { "TYPE" : "CLOTHES", "TAG" : "choker", "QTY" : 1},
+            { "TYPE" : "CLOTHES", "TAG" : "fishnet tights", "QTY" : 1},
+            { "TYPE" : "CLOTHES", "TAG" : "pathetic loser costume", "QTY" : 1}
+        ] }        
+};
+/* twine-user-script #40: "pirate_bdsm_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -10501,69 +10580,6 @@ App.Data.LootTables["PIRATE_BDSM"] =  {
             { "TYPE" : "CLOTHES", "TAG" : "pirate waistcoat", "QTY" : 1},
             { "TYPE" : "FOOD", "TAG" : "pirates plunder", "QTY" : 3 }
         ] }
-};
-/* twine-user-script #40: "premium_starter_lootbox.js" */
-App = App || { Data: { }, Entity: { } };
-App.Data.LootBoxes = App.Data.LootBoxes || { };
-App.Data.LootTables = App.Data.LootTables || { };
-
-// BOX TYPE     MINIMUM     BONUS ROLL  COLOR
-// COMMON       0           0           grey
-// UNCOMMON     20          10          lime
-// RARE         30          20          cyan
-// LEGENDARY    50          30          orange
-
-App.Data.LootBoxes["premium starter loot box"] = {
-    "Name": "premium starter chest",
-    "ShortDesc": "@@color:purple;A big box with a big purple bow over it@@",
-    "LongDesc": "This sparkling big box is shaped like a giftbox you used to give to your fiancee and opens with a big bow on it's top. Wonder what's inside?",
-    "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
-    "Type": "LOOT_BOX",
-    "Charges": 1,
-    // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["PREMIUM_STARTER", 0, 0]},
-    "Price": 0
-};
-
-App.Data.LootTables["PREMIUM_STARTER"] =  {
-    10 :  {
-        "LOOT" : [
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 50},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 50},
-            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 50},
-            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 50},
-            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 10},
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 10},
-            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 10},
-            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 50},
-            { "TYPE" : "FOOD", "TAG" : "pink peach", "QTY" : 10},
-            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 10},
-            { "TYPE" : "DRUGS", "TAG" : "healing potion", "QTY" : 15},
-            { "TYPE" : "DRUGS", "TAG" : "hair tonic", "QTY" : 10},
-            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 10},
-            { "TYPE" : "DRUGS", "TAG" : "siren elixir", "QTY" : 15},
-            { "TYPE" : "DRUGS", "TAG" : "nereid philtre", "QTY" : 3},
-            { "TYPE" : "DRUGS", "TAG" : "succubus philtre", "QTY" : 3}
-        ] },
-    100 :  {
-        "LOOT" : [
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 50},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 50},
-            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 50},
-            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 50},
-            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 10},
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 10},
-            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 10},
-            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 50},
-            { "TYPE" : "FOOD", "TAG" : "pink peach", "QTY" : 10},
-            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 10},
-            { "TYPE" : "DRUGS", "TAG" : "healing potion", "QTY" : 15},
-            { "TYPE" : "DRUGS", "TAG" : "hair tonic", "QTY" : 10},
-            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 10},
-            { "TYPE" : "DRUGS", "TAG" : "siren elixir", "QTY" : 15},
-            { "TYPE" : "DRUGS", "TAG" : "nereid philtre", "QTY" : 3},
-            { "TYPE" : "DRUGS", "TAG" : "succubus philtre", "QTY" : 3}
-        ] }        
 };
 /* twine-user-script #41: "sissy_bimbo_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
@@ -18928,13 +18944,40 @@ As the new &quot;Cabin Girl&quot; of the Salty Mermaid, can you manage to raise 
 
 @@color:cyan;You must be 18 years of age or older to play this game.@@ Click the link below to agree and start the game.
 
-[[I am 18 years of age or older.|Intro1]]
+[[I am 18 years of age or older.|Difficulty]]
 
 @@color:yellow;Additional Links...@@
-[[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | &lt;a href=&quot;https://www.tfgamessite.com/index.php?module=viewgame&amp;id=1680&quot;&gt;IGDB Entry&lt;/a&gt; | &lt;a href=&quot;https://github.com/JJM152/Queen&quot;&gt;GitHub Repository&lt;/a&gt;</tw-passagedata><tw-passagedata pid="105" name="Intro1" tags="" position="600,1350">&lt;&lt;set $Player = new window.App.Entity.Player();&gt;&gt;\
+[[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | &lt;a href=&quot;https://www.tfgamessite.com/index.php?module=viewgame&amp;id=1680&quot;&gt;IGDB Entry&lt;/a&gt; | &lt;a href=&quot;https://github.com/JJM152/Queen&quot;&gt;GitHub Repository&lt;/a&gt;</tw-passagedata><tw-passagedata pid="105" name="Difficulty" tags="" position="600,1350">&lt;&lt;set $Player = new window.App.Entity.Player();&gt;&gt;\
 &lt;&lt;set $InIntro = 1;&gt;&gt;\
 &lt;&lt;run $Player.Init(); &gt;&gt;\
+You can choose between 3 difficulty levels. 
+@@color:lightGreen;Normal@@ is the normal game without bonus loot at the beginning and how it is intended to be played.
+@@color:pink;Landlubber@@ is a slightly easier version where you get some food and a bit of clothing to start off.
+@@color:purple;Pathetic loser@@ is the easiest version where you get quite a bit of food and some healing and more clothes.
+
+If you choose @@color:pink;Landlubber@@ or @@color:purple;Pathetic loser@@ you will get a loot chest at the start of the game which you can redeem for your bonus items. (Check Inventory --&gt; Quest &amp; Loot)
+
 &lt;&lt;nobr&gt;&gt;
+&lt;span id=&quot;difficulty&quot;&gt; 
+&lt;&lt;click &quot;normal&quot;&gt;&gt;
+    &lt;&lt;replace &quot;#difficulty&quot;&gt;&gt;Enjoy your @@color:lightGreen;normal@@ adventure!&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Intro|Intro1]]&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/click&gt;&gt; |
+
+&lt;&lt;click &quot;Landlubber&quot;&gt;&gt;
+    &lt;&lt;run $Player.AddItem(&quot;LOOT_BOX&quot;, &quot;landlubber chest&quot;, 1);&gt;&gt;
+    &lt;&lt;replace &quot;#difficulty&quot;&gt;&gt;You are a @@color:pink;landlubber@@!&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Intro|Intro1]]&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/click&gt;&gt; |
+
+&lt;&lt;click &quot;Pathetic loser&quot;&gt;&gt;
+   &lt;&lt;run $Player.AddItem(&quot;LOOT_BOX&quot;, &quot;pathetic loser chest&quot;, 1);&gt;&gt;
+    &lt;&lt;replace &quot;#difficulty&quot;&gt;&gt;You are a @@color:purple;pathetic loser@@!&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Intro|Intro1]]&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/click&gt;&gt;&lt;/span&gt;
+&lt;&lt;/nobr&gt;&gt;
+
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select a difficulty to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="106" name="Intro1" tags="" position="725,1350">&lt;&lt;nobr&gt;&gt;
 Your name is @@color:yellow;&lt;&lt;= $Player.OriginalName &gt;&gt; Smythe@@, the middle son of an &lt;span id=&quot;familyJob&quot;&gt;
 &lt;&lt;click &quot;farmer&quot;&gt;&gt;
     &lt;&lt;run $Player.AdjustStat(&quot;Fitness&quot;, 10);&gt;&gt;
@@ -18964,22 +19007,7 @@ outside of your social class that such a relationship, if it should be known, wo
 Despite this challenge, and despite @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;&#39;s@@ rather sheltered upbringing, the two of you have agreed to elope. You meet tonight \
 to discuss the plan.
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]&lt;/span&gt;
-
-
-&lt;&lt;nobr&gt;&gt;
-If you wish to have a easier start you can choose one of the 2 starter gifts here. &lt;span id=&quot;starterBox&quot;&gt; 
-&lt;&lt;click &quot;basic&quot;&gt;&gt;
-    &lt;&lt;run $Player.AddItem(&quot;LOOT_BOX&quot;, &quot;basic starter loot box&quot;, 1);&gt;&gt;
-    &lt;&lt;replace &quot;#starterBox&quot;&gt;&gt;@@color:yellow;basic starter loot box@@&lt;&lt;/replace&gt;&gt;
-&lt;&lt;/click&gt;&gt; |
-&lt;&lt;click &quot;premium&quot;&gt;&gt;
-   &lt;&lt;run $Player.AddItem(&quot;LOOT_BOX&quot;, &quot;premium starter loot box&quot;, 1);&gt;&gt;
-    &lt;&lt;replace &quot;#starterBox&quot;&gt;&gt;@@color:yellow;premium starter loot box@@&lt;&lt;/replace&gt;&gt;
-&lt;&lt;/click&gt;&gt;&lt;/span&gt;.
-&lt;&lt;/nobr&gt;&gt;
-Be aware this is basically cheating and not the intended way to play. The basic starter box gives you a few supplies to have the first few body changes faster and not to worry about food for the first week or 2.
-The premium box gives you ALOT of supplies and should make basically the whole game a breeze.</tw-passagedata><tw-passagedata pid="106" name="Intro2" tags="" position="725,1350">You wait until nightfall and meet @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]&lt;/span&gt;</tw-passagedata><tw-passagedata pid="107" name="Intro2" tags="" position="850,1350">You wait until nightfall and meet @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
 &lt;&lt;nobr&gt;&gt;
 &lt;span id=&quot;flirting&quot;&gt;
 &lt;&lt;click &quot;serenading her&quot;&gt;&gt;
@@ -19008,7 +19036,7 @@ can begin a new chapter as man and wife.
 
 @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ looks at you with wistful eyes as she listens to your story. It&#39;s clear she&#39;s as eager as you are to depart tonight!
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="107" name="Intro3" tags="" position="850,1350">With haste you depart to the docks, entering the sole tavern on the island. The hour is late so there are not many patrons around and @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ is wearing an overly large \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="108" name="Intro3" tags="" position="975,1350">With haste you depart to the docks, entering the sole tavern on the island. The hour is late so there are not many patrons around and @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ is wearing an overly large \
 cowl to hide her appearance. It wouldn&#39;t do for anyone to see the Governor&#39;s daughter in such a place. Out of the corner of your eye a man waves at you. You recognize him as the gentle-sir you \
 spoke to yesterday, a fellow by the name of @@color:cyan;Reginald@@. You make your way to his table and take a seat.
 
@@ -19020,7 +19048,7 @@ On board the ship, @@color:cyan;Captain Reginald@@ shows you to your quarters, i
 takes his leave. You and @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ look at each other, both of you thinking about what you can finally do now that you&#39;re alone and have some \
 privacy. Emboldened, you share a celebratory toast. The ale is bitter, but still cool. Just as you put your first cup down, a wave of light-headedness crashes into you...
 
-[[It all goes dark...|Intro4]]</tw-passagedata><tw-passagedata pid="108" name="Intro4" tags="" position="975,1350">Wake up, eyes are blurry. Your head feels groggy, your pulse is high and you&#39;re sweating. Your hands are tied and you&#39;re laying on the ground. You try to struggle against your bonds and \
+[[It all goes dark...|Intro4]]</tw-passagedata><tw-passagedata pid="109" name="Intro4" tags="" position="1100,1350">Wake up, eyes are blurry. Your head feels groggy, your pulse is high and you&#39;re sweating. Your hands are tied and you&#39;re laying on the ground. You try to struggle against your bonds and \
 take stock of your situation, but your ears are ringing. Slowly, the world seems to come back into focus...
 
 @@color:deepPink;&quot;Ahhh... AHHH... Oh....&quot;@@
@@ -19042,7 +19070,7 @@ no longer virgin cunt, the motion and the force sending her into a screaming org
 The rest of the evening is a blur... clearly your drinks were spiked and something, it must be a drug of some sort, is controlling your actions. After all, there&#39;s no way you could possibly enjoy \
 being raped by a man!
 
-[[Pass out into the welcoming blackness...|Intro5]]</tw-passagedata><tw-passagedata pid="109" name="Intro5" tags="" position="1100,1350">Some time later you wake up naked in a small cell. Your body is in pain and your smell like a sewer. You make a tentative gesture to probe your bottom and wince. You have no idea how many \
+[[Pass out into the welcoming blackness...|Intro5]]</tw-passagedata><tw-passagedata pid="110" name="Intro5" tags="" position="1225,1350">Some time later you wake up naked in a small cell. Your body is in pain and your smell like a sewer. You make a tentative gesture to probe your bottom and wince. You have no idea how many \
 cocks you took up there last night (was it last night?) and you shudder when you realize the remnants are still dripping out of your open arsehole.
 
 Before long a pirate (clearly these men are pirates!) comes by to feed you. You plead for information about @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@, but he just taunts you that \
@@ -19066,7 +19094,7 @@ cell door closed.
     &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Days pass...|Intro6]]&lt;&lt;/replace&gt;&gt;
 &lt;&lt;/click&gt;&gt;&lt;/span&gt;
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="110" name="Intro6" tags="" position="1225,1350">After what seems like ages @@color:cyan;Captain Reginald@@ and his First mate come and visit you. The first mate is a large black giant by the name of @@color:cyan;Kipler@@ and you do your best \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="111" name="Intro6" tags="" position="100,1475">After what seems like ages @@color:cyan;Captain Reginald@@ and his First mate come and visit you. The first mate is a large black giant by the name of @@color:cyan;Kipler@@ and you do your best \
  to avoid looking at him too much, your mind recalling brief snatches of your first night on the ship and what he did to you. The Captain approaches you and you boldly take the chance to dash past him. \
  It lasts all of a second before you find yourself crashing to the floor, a crippling pain coursing through your body and an intense feeling of pressure constricting your throat.
 
@@ -19090,7 +19118,7 @@ while the two of you are both being ass raped by burly pirates.
 
 Broken, beaten and exhausted, you are literally dragged and thrown back into your cell. @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ had stopped making noises hours ago. You fear the worst.
 
-[[Succumb to the pain|Intro7]]</tw-passagedata><tw-passagedata pid="111" name="Intro7" tags="" position="100,1475">Two days later you&#39;re led from your cell to the Captain&#39;s quarters by the First Mate. Once there, he explains that you&#39;re now part of the crew, their live-in &quot;Cabin Girl&quot; and that \
+[[Succumb to the pain|Intro7]]</tw-passagedata><tw-passagedata pid="112" name="Intro7" tags="" position="225,1475">Two days later you&#39;re led from your cell to the Captain&#39;s quarters by the First Mate. Once there, he explains that you&#39;re now part of the crew, their live-in &quot;Cabin Girl&quot; and that \
 your new name is going to be @@color:deepPink;&quot;&lt;&lt;= $Player.SlaveName&gt;&gt;&quot;@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women&#39;s clothes \
 and you sigh internally. You shouldn&#39;t have expected anything else after the treatment you&#39;ve been given so far. Still, as embarrassing as it is, it&#39;s not as bad as being naked all the time.
 

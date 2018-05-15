@@ -29,15 +29,46 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
 
 @@color:cyan;You must be 18 years of age or older to play this game.@@ Click the link below to agree and start the game.
 
-[[I am 18 years of age or older.|Intro1]]
+[[I am 18 years of age or older.|Difficulty]]
 
 @@color:yellow;Additional Links...@@
 [[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | <a href="https://www.tfgamessite.com/index.php?module=viewgame&id=1680">IGDB Entry</a> | <a href="https://github.com/JJM152/Queen">GitHub Repository</a>
 
-:: Intro1
+
+:: Difficulty
 <<set $Player = new window.App.Entity.Player();>>\
 <<set $InIntro = 1;>>\
 <<run $Player.Init(); >>\
+You can choose between 3 difficulty levels. 
+@@color:lightGreen;Normal@@ is the normal game without bonus loot at the beginning and how it is intended to be played.
+@@color:pink;Landlubber@@ is a slightly easier version where you get some food and a bit of clothing to start off.
+@@color:purple;Pathetic loser@@ is the easiest version where you get quite a bit of food and some healing and more clothes.
+
+If you choose @@color:pink;Landlubber@@ or @@color:purple;Pathetic loser@@ you will get a loot chest at the start of the game which you can redeem for your bonus items. (Check Inventory --> Quest & Loot)
+
+<<nobr>>
+<span id="difficulty"> 
+<<click "normal">>
+    <<replace "#difficulty">>Enjoy your @@color:lightGreen;normal@@ adventure!<</replace>>
+    <<replace "#nextPage">>[[Intro|Intro1]]<</replace>>
+<</click>> |
+
+<<click "Landlubber">>
+    <<run $Player.AddItem("LOOT_BOX", "landlubber chest", 1);>>
+    <<replace "#difficulty">>You are a @@color:pink;landlubber@@!<</replace>>
+    <<replace "#nextPage">>[[Intro|Intro1]]<</replace>>
+<</click>> |
+
+<<click "Pathetic loser">>
+   <<run $Player.AddItem("LOOT_BOX", "pathetic loser chest", 1);>>
+    <<replace "#difficulty">>You are a @@color:purple;pathetic loser@@!<</replace>>
+    <<replace "#nextPage">>[[Intro|Intro1]]<</replace>>
+<</click>></span>
+<</nobr>>
+
+<span id="nextPage">@@color:cyan;Select a difficulty to continue@@</span>
+
+:: Intro1
 <<nobr>>
 Your name is @@color:yellow;<<= $Player.OriginalName >> Smythe@@, the middle son of an <span id="familyJob">
 <<click "farmer">>
@@ -69,21 +100,6 @@ Despite this challenge, and despite @@color:Pink;<<= $Player.GirlfriendName>>'s@
 to discuss the plan.
 
 <span id="nextPage">@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]</span>
-
-
-<<nobr>>
-If you wish to have a easier start you can choose one of the 2 starter gifts here. <span id="starterBox"> 
-<<click "basic">>
-    <<run $Player.AddItem("LOOT_BOX", "basic starter loot box", 1);>>
-    <<replace "#starterBox">>@@color:yellow;basic starter loot box@@<</replace>>
-<</click>> |
-<<click "premium">>
-   <<run $Player.AddItem("LOOT_BOX", "premium starter loot box", 1);>>
-    <<replace "#starterBox">>@@color:yellow;premium starter loot box@@<</replace>>
-<</click>></span>.
-<</nobr>>
-Be aware this is basically cheating and not the intended way to play. The basic starter box gives you a few supplies to have the first few body changes faster and not to worry about food for the first week or 2.
-The premium box gives you ALOT of supplies and should make basically the whole game a breeze.
 
 
 :: Intro2
