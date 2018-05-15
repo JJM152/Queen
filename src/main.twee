@@ -38,34 +38,40 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
 <<set $Player = new window.App.Entity.Player();>>\
 <<set $InIntro = 1;>>\
 <<run $Player.Init(); >>\
-You can choose between 3 difficulty levels. 
-@@color:lightGreen;Normal@@ is the normal game without bonus loot at the beginning and how it is intended to be played.
-@@color:pink;Landlubber@@ is a slightly easier version where you get some food and a bit of clothing to start off.
-@@color:purple;Pathetic loser@@ is the easiest version where you get quite a bit of food and some healing and more clothes.
+<span id="difficulty">\
+!!!!Select a Difficulty
+<<click "Normal">>\
+    <<run $Player.difficultySetting = 0;>>\
+    <<replace "#difficulty">>\
+    @@color:lightGreen;Normal difficulty selected.@@
+    Normal skill and stat rolls. (+0)
 
-If you choose @@color:pink;Landlubber@@ or @@color:purple;Pathetic loser@@ you will get a loot chest at the start of the game which you can redeem for your bonus items. (Check Inventory --> Quest & Loot)
-
-<<nobr>>
-<span id="difficulty"> 
-<<click "normal">>
-    <<replace "#difficulty">>Enjoy your @@color:lightGreen;normal@@ adventure!<</replace>>
-    <<replace "#nextPage">>[[Intro|Intro1]]<</replace>>
-<</click>> |
-
-<<click "Landlubber">>
+    [[Continue|Intro1]]
+    <</replace>>\
+<</click>> - @@color:lightGreen;Default Setting@@ - //The way the author intended it.//
+<<click "Landlubber">>\
+    <<run $Player.difficultySetting = 1;>>\
     <<run $Player.AddItem("LOOT_BOX", "landlubber chest", 1);>>
-    <<replace "#difficulty">>You are a @@color:pink;landlubber@@!<</replace>>
-    <<replace "#nextPage">>[[Intro|Intro1]]<</replace>>
-<</click>> |
+    <<replace "#difficulty">>\
+    @@color:pink;Landlubber difficulty selected.@@
+    A small bonus to all sorts of skill and stat rolls (+5)
+    Check your inventory under the @@color:yellow;Quest & Loot@@ tab for a free gift.
 
-<<click "Pathetic loser">>
-   <<run $Player.AddItem("LOOT_BOX", "pathetic loser chest", 1);>>
-    <<replace "#difficulty">>You are a @@color:purple;pathetic loser@@!<</replace>>
-    <<replace "#nextPage">>[[Intro|Intro1]]<</replace>>
-<</click>></span>
-<</nobr>>
+    [[Continue|Intro1]]
+    <</replace>>\
+<</click>> - @@color:pink;Easier Setting@@ - //Because you're really kind of lame.//
+<<click "Pathetic Loser">>\
+    <<run $Player.difficultySetting = 2;>>\
+    <<run $Player.AddItem("LOOT_BOX", "pathetic loser chest", 1);>>\
+    <<replace "#difficulty">>\
+    @@color:purple;Pathetic Loser difficulty selected.@@
+    A big bonus to all sorts of skill and stat rolls (+10)
+    Check your inventory under the @@color:yellow;Quest & Loot@@ tab for a free gift.
 
-<span id="nextPage">@@color:cyan;Select a difficulty to continue@@</span>
+    [[Continue|Intro1]]
+    <</replace>>\
+<</click>> - @@color:purple;Even Easier Setting@@ - //The name says it all.//
+</span>
 
 :: Intro1
 <<nobr>>

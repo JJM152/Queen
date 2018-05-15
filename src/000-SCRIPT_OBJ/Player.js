@@ -23,6 +23,7 @@ App.Entity.Player = function (){
     this.LastUsedMakeup = "minimal";
     this.LastUsedHair = "boy cut";
     this.debugMode = false;
+    this.difficultySetting = 1;
 
     this.JobFlags = { };
     this.VoodooEffects = { };
@@ -311,7 +312,9 @@ App.Entity.Player = function (){
     this._RollBonus = function(Type, Name) {
       var bonus = 0;
 
-        if (this.VoodooEffects.hasOwnProperty("PIRATES_PROWESS")) bonus += this.VoodooEffects["PIRATES_PROWESS"];
+        if (this.VoodooEffects.hasOwnProperty("PIRATES_PROWESS") && Type == "SKILL") bonus += this.VoodooEffects["PIRATES_PROWESS"];
+        if (this.difficultySetting == 1) bonus += 5;
+        if (this.difficultySetting == 2) bonus += 10;
 
         return bonus;
     };
@@ -346,6 +349,7 @@ App.Entity.Player = function (){
         Scaling = Scaling || false;
         var Target      = this.CalculateSkillTarget(Name, Difficulty, Type);
         var DiceRoll    = ( Math.floor(Math.random() * 100) + 1);
+        DiceRoll += this._RollBonus("STAT", Name);
         var Mod       = Math.max(0.25, Math.min((DiceRoll  / Target), 2.0)); // 0.25 - 2.0
 
         console.log("StatRoll(" + Name + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " Mod="+Mod+"\n");
