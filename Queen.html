@@ -3083,6 +3083,7 @@ App.Entity.Player = function (){
         var Synergy     = this.GetSynergyBonus(SkillName);
 
         DiceRoll += Math.max(0, Math.min(Synergy, 100)); // Cap 100
+        DiceRoll += this._RollBonus("SKILL", SkillName);
 
         var BaseXp      = Math.max(10, Math.min((Difficulty - this.GetStat("SKILL", SkillName)), 50));
         var XpMod       = Math.max(0.25, Math.min((DiceRoll  / Target), 2.0)); // 0.25 - 2.0
@@ -3095,6 +3096,21 @@ App.Entity.Player = function (){
         if (Scaling == true) return XpMod;
         if (DiceRoll >= Target ) return 1;
         return 0;
+    };
+
+    /**
+     *
+     * @param {string} Type
+     * @param {string} Name
+     * @returns {number}
+     * @private
+     */
+    this._RollBonus = function(Type, Name) {
+      var bonus = 0;
+
+        if (this.VoodooEffects.hasOwnProperty("PIRATES_PROWESS")) bonus += this.VoodooEffects["PIRATES_PROWESS"];
+
+        return bonus;
     };
 
     /**
@@ -4049,6 +4065,23 @@ App.Entity.Player = function (){
         delete this.VoodooEffects[Hex];
     };
 
+    this.EndHexDuration = function() {
+
+        for(var prop in this.VoodooEffects) {
+
+            if (!this.VoodooEffects.hasOwnProperty(prop)) continue;
+
+            switch(prop) {
+
+                case "PIRATES_PROWESS_DURATION":
+                    this.VoodooEffects[prop]--;
+                    if (this.VoodooEffects[prop] <= 0) {
+                        delete this.VoodooEffects["PIRATES_PROWESS"];
+                        this.SleepLog.push("You feel the effects of your pirates luck leave you...")
+                    }
+            }
+        }
+    }
 };
 
 /* twine-user-script #7: "QuestEngine.js" */
@@ -17255,9 +17288,9 @@ Towards the back of the room you see a small opening, upon inspecting it, it app
 
 &lt;span id=&quot;voodooMenu&quot;&gt;@@color:yellow;Paola&#39;s House of Voodoo and Curse Emporium@@
 
-@@color:lime;Treasure Finder@@ - @@color:yellow;(MINOR)@@
-You will get slightly better stuff out of the next loot box you open.
-&lt;&lt;if (($Player.GetStat(&quot;BODY&quot;, &quot;Bust&quot;) &lt; 4) || ($Player.GetStat(&quot;BODY&quot;, &quot;Ass&quot;) &lt; 4) || ($Player.GetStat(&quot;BODY&quot;, &quot;Hips&quot;) &lt; 4))&gt;&gt;\
+@@color:yellow;Treasure Finder@@
+You will get slightly better stuff out of the next loot box you open than you would have normally.
+@@color:lime;(Rank 1)@@ &lt;&lt;if (($Player.GetStat(&quot;BODY&quot;, &quot;Bust&quot;) &lt; 4) || ($Player.GetStat(&quot;BODY&quot;, &quot;Ass&quot;) &lt; 4) || ($Player.GetStat(&quot;BODY&quot;, &quot;Hips&quot;) &lt; 4))&gt;&gt;\
 @@.disabledStoreButton;&lt;&lt;button &quot;BUY&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@ Cost: @@color:red;&amp;dArr;Bust@@ @@color:red;&amp;dArr;Ass@@ @@color:red;&amp;dArr;Hips@@ - @@color:red;Stats too low!@@\
 &lt;&lt;else&gt;&gt;\
 &lt;&lt;if $Player.HasHex(&quot;TREASURE_FINDER&quot;)&gt;&gt;\
@@ -17277,10 +17310,7 @@ When you finally come too, you feel lighter and your proportions are noticeably 
 &lt;&lt;/button&gt;&gt;@@ Cost: @@color:red;&amp;dArr;Bust@@ @@color:red;&amp;dArr;Ass@@ @@color:red;&amp;dArr;Hips@@ \
 &lt;&lt;/if&gt;&gt;\
 &lt;&lt;/if&gt;&gt;
-
-@@color:lime;Treasure Finder@@ - @@color:yellow;(MAJOR)@@
-You will get much better stuff out of the next loot box you open.
-&lt;&lt;if (($Player.GetStat(&quot;BODY&quot;, &quot;Bust&quot;) &lt; 8) || ($Player.GetStat(&quot;BODY&quot;, &quot;Ass&quot;) &lt; 8) || ($Player.GetStat(&quot;BODY&quot;, &quot;Hips&quot;) &lt; 8))&gt;&gt;\
+@@color:cyan;(Rank 2)@@ &lt;&lt;if (($Player.GetStat(&quot;BODY&quot;, &quot;Bust&quot;) &lt; 8) || ($Player.GetStat(&quot;BODY&quot;, &quot;Ass&quot;) &lt; 8) || ($Player.GetStat(&quot;BODY&quot;, &quot;Hips&quot;) &lt; 8))&gt;&gt;\
 @@.disabledStoreButton;&lt;&lt;button &quot;BUY&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@ Cost: @@color:red;&amp;dArr;&amp;dArr;Bust@@ @@color:red;&amp;dArr;&amp;dArr;Ass@@ @@color:red;&amp;dArr;&amp;dArr;Hips@@ - @@color:red;Stats too low!@@\
 &lt;&lt;else&gt;&gt;\
 &lt;&lt;if $Player.HasHex(&quot;TREASURE_FINDER&quot;)&gt;&gt;\
@@ -17299,10 +17329,62 @@ When you finally come too, you feel lighter and your proportions are noticeably 
 &lt;&lt;run $Player.SetHex(&quot;TREASURE_FINDER&quot;, 30)&gt;&gt;\
 &lt;&lt;/button&gt;&gt;@@ Cost: @@color:red;&amp;dArr;&amp;dArr;Bust@@ @@color:red;&amp;dArr;&amp;dArr;Ass@@ @@color:red;&amp;dArr;&amp;dArr;Hips@@ \
 &lt;&lt;/if&gt;&gt;\
+&lt;&lt;/if&gt;&gt;
+
+@@color:yellow;Pirate&#39;s Prowess@@
+You will gain a bonus on skill checks for a time...
+@@color:lime;(Rank 1)@@ &lt;&lt;if (($Player.GetStat(&quot;BODY&quot;, &quot;Face&quot;) &lt; 4) || ($Player.GetStat(&quot;STAT&quot;, &quot;WillPower&quot;) &lt; 4))&gt;&gt;\
+@@.disabledStoreButton;&lt;&lt;button &quot;BUY&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@ Cost: @@color:red;&amp;dArr;Face@@ @@color:red;&amp;dArr;Willpower@@ - @@color:red;Stats too low!@@\
+&lt;&lt;else&gt;&gt;\
+&lt;&lt;if $Player.HasHex(&quot;PIRATES_PROWESS&quot;)&gt;&gt;\
+@@.disabledStoreButton;&lt;&lt;button &quot;BUY&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@ Cost: @@color:red;&amp;dArr;Face@@ @@color:red;&amp;dArr;Willpower@@ - @@color:red;You already have this effect!@@\
+&lt;&lt;else&gt;&gt;\
+@@.storeButton;&lt;&lt;button &quot;BUY&quot;&gt;&gt;\
+&lt;&lt;replace &quot;#voodooMenu&quot;&gt;&gt;\
+@@color:cyan;Paola@@ pulls out a strange item from her voluminous skirt, it looks like a monkey&#39;s paw. She waves it in front of her face and then over \
+your head, like she&#39;s testing for something. Finally she puts her hand on your face and you feel a warm sensation flowing out of your body... you get \
+momentarily dizzy and then you convulse on the floor.
+
+When you finally come too, you feel lighter and your proportions are noticeably smaller.&lt;&lt;/replace&gt;&gt;\
+&lt;&lt;run $Player.AdjustBody(&quot;Face&quot;, -4)&gt;&gt;\
+&lt;&lt;run $Player.AdjustStat(&quot;WillPower&quot;, -4)&gt;&gt;\
+&lt;&lt;run $Player.SetHex(&quot;PIRATES_PROWESS_BONUS&quot;, 10)&gt;&gt;\
+&lt;&lt;run $Player.SetHex(&quot;PIRATES_PROWESS_DURATION&quot;, 2)&gt;&gt;\
+&lt;&lt;/button&gt;&gt;@@ Cost: @@color:red;&amp;dArr;Bust@@ @@color:red;&amp;dArr;Ass@@ @@color:red;&amp;dArr;Hips@@ \
+&lt;&lt;/if&gt;&gt;\
+&lt;&lt;/if&gt;&gt;
+@@color:cyan;(Rank 2)@@ &lt;&lt;if (($Player.GetStat(&quot;BODY&quot;, &quot;Face&quot;) &lt; 8) || ($Player.GetStat(&quot;STAT&quot;, &quot;WillPower&quot;) &lt; 8))&gt;&gt;\
+@@.disabledStoreButton;&lt;&lt;button &quot;BUY&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@ Cost: @@color:red;&amp;dArr;&amp;dArr;Bust@@ @@color:red;&amp;dArr;&amp;dArr;Ass@@ @@color:red;&amp;dArr;&amp;dArr;Hips@@ - @@color:red;Stats too low!@@\
+&lt;&lt;else&gt;&gt;\
+&lt;&lt;if $Player.HasHex(&quot;PIRATES_PROWESS&quot;)&gt;&gt;\
+@@.disabledStoreButton;&lt;&lt;button &quot;BUY&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@ Cost: @@color:red;&amp;dArr;&amp;dArr;Bust@@ @@color:red;&amp;dArr;&amp;dArr;Ass@@ @@color:red;&amp;dArr;&amp;dArr;Hips@@ - @@color:red;You already have this effect!@@\
+&lt;&lt;else&gt;&gt;\
+@@.storeButton;&lt;&lt;button &quot;BUY&quot;&gt;&gt;\
+&lt;&lt;replace &quot;#voodooMenu&quot;&gt;&gt;\
+@@color:cyan;Paola@@ pulls out a strange item from her voluminous skirt, it looks like a monkey&#39;s paw. She waves it in front of her face and then over \
+your head, like she&#39;s testing for something. Finally she puts her hand on your face and you feel a warm sensation flowing out of your body... you get \
+momentarily dizzy and then you convulse on the floor.
+
+When you finally come too, you feel lighter and your proportions are noticeably smaller.&lt;&lt;/replace&gt;&gt;\
+&lt;&lt;run $Player.AdjustBody(&quot;Face&quot;, -8)&gt;&gt;\
+&lt;&lt;run $Player.AdjustStat(&quot;WillPower&quot;, -8)&gt;&gt;\
+&lt;&lt;run $Player.SetHex(&quot;PIRATES_PROWESS_DURATION&quot;, 5)&gt;&gt;\
+&lt;&lt;/button&gt;&gt;@@ Cost: @@color:red;&amp;dArr;&amp;dArr;Bust@@ @@color:red;&amp;dArr;&amp;dArr;Ass@@ @@color:red;&amp;dArr;&amp;dArr;Hips@@ \
+&lt;&lt;/if&gt;&gt;\
 &lt;&lt;/if&gt;&gt;\
 &lt;/span&gt;
 
-@@color:cyan;Interact@@: [[Exit|HiddenCove]]</tw-passagedata><tw-passagedata pid="42" name="Casino" tags="" position="225,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="43" name="CourtesansGuild" tags="" position="350,600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="44" name="EntertainmentDistrict" tags="" position="475,600">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[The Grand Casino|Casino]] | [[Jezzebelles|PR_DanceHall]] | [[Green Gryphon|PR_FancyTavern]] | [[Sindee Rella&#39;s Sexorium and Slut Show|XXXShow]] |
+@@color:cyan;Interact@@: [[Exit|HiddenCove]]</tw-passagedata><tw-passagedata pid="42" name="Casino" tags="" position="225,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="43" name="CourtesansGuild" tags="" position="350,600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="44" name="EntertainmentDistrict" tags="" position="475,600">The @@color:gold;&#39;Entertainment District&#39;@@ of @@color:gold;&#39;Port Royale&#39;@@ is known far and wide as the ultimate destination for leisure \
+pursuits of a more &#39;colorful&#39; (and often highly illegal) nature. The local government tends to operate rather laxly when it comes to commerce \
+and moral standing and as such many activities that are simply banned on the mainland can be found here.
+
+The large multi-tiered fountain in front of the @@color:gold;&#39;Grand Casino&#39;@@ dominates the main plaza, to the left of it is the famous \
+@@color:gold;&#39;Green Gryphon&#39;@@ tavern, a popular watering hole for wealthy tourists. Across the promenade sits two other popular attractions - \
+@@color:gold;&#39;Jezzebelle&#39;s&#39;@@, a popular dance hall and @@color:gold;Sindee Rella&#39;s Sexorium and Slut Show@@. The names of these \
+establishments alone are enough for you to imagine what goes on inside. Down the hill you can see the @@color:gold;&#39;Great Market&#39;@@ and it&#39;s \
+numerous hawkers and bustling crowds.
+
+@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[The Grand Casino|Casino]] | [[Jezzebelle&#39;s|PR_DanceHall]] | [[Green Gryphon|PR_FancyTavern]] | [[Sindee Rella&#39;s Sexorium and Slut Show|XXXShow]] |
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[[Port Royale Gifts|GiftShop]]</tw-passagedata><tw-passagedata pid="45" name="FortuneTeller" tags="" position="600,600">The interior of this shop is small and dark, with the lights casting deep shadows, possibly by design. From the walls hang various \
 tapestries of obvious an exotic nature and of purported mystical significance. In the middle of the main area of the shop is a table \
 with a massive &#39;crystal ball&#39;, behind which sits the proprietor and self proclaimed psychic.

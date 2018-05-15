@@ -284,6 +284,7 @@ App.Entity.Player = function (){
         var Synergy     = this.GetSynergyBonus(SkillName);
 
         DiceRoll += Math.max(0, Math.min(Synergy, 100)); // Cap 100
+        DiceRoll += this._RollBonus("SKILL", SkillName);
 
         var BaseXp      = Math.max(10, Math.min((Difficulty - this.GetStat("SKILL", SkillName)), 50));
         var XpMod       = Math.max(0.25, Math.min((DiceRoll  / Target), 2.0)); // 0.25 - 2.0
@@ -296,6 +297,21 @@ App.Entity.Player = function (){
         if (Scaling == true) return XpMod;
         if (DiceRoll >= Target ) return 1;
         return 0;
+    };
+
+    /**
+     *
+     * @param {string} Type
+     * @param {string} Name
+     * @returns {number}
+     * @private
+     */
+    this._RollBonus = function(Type, Name) {
+      var bonus = 0;
+
+        if (this.VoodooEffects.hasOwnProperty("PIRATES_PROWESS")) bonus += this.VoodooEffects["PIRATES_PROWESS"];
+
+        return bonus;
     };
 
     /**
@@ -897,6 +913,8 @@ App.Entity.Player = function (){
             this.AdjustBodyXP("Waist", -50, 30);
         }
 
+        // Decrease voodoo effects
+        this.EndHexDuration();
         this.NPCNextDay();
 
     }; // NextDay
@@ -1250,5 +1268,22 @@ App.Entity.Player = function (){
         delete this.VoodooEffects[Hex];
     };
 
+    this.EndHexDuration = function() {
+
+        for(var prop in this.VoodooEffects) {
+
+            if (!this.VoodooEffects.hasOwnProperty(prop)) continue;
+
+            switch(prop) {
+
+                case "PIRATES_PROWESS_DURATION":
+                    this.VoodooEffects[prop]--;
+                    if (this.VoodooEffects[prop] <= 0) {
+                        delete this.VoodooEffects["PIRATES_PROWESS"];
+                        this.SleepLog.push("You feel the effects of your pirates luck leave you...")
+                    }
+            }
+        }
+    }
 };
 
