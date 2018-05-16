@@ -1090,22 +1090,23 @@ App.Item = new function() {
         };
 
     /**
-     * @param ItemID {string}
-     * @param Player {App.Entity.Player}
+     * Open a loot box!
+     * @param {App.Entity.Player} Player
+     * @param {string} Type
+     * @param {number} Minimum
+     * @param Bonus
      * @returns {string}
+     * @constructor
      */
-        this.DoLootBox = function( ItemID, Player) {
-            var LootBox = Player.GetItemById(ItemID);
-            console.log(LootBox);
-            var Effect = LootBox.UseEffect()["LootBox"];
-            var Type = Effect[0];
-            var Minimum = Effect[1];
-            var Bonus = Effect[2];
-            var DiceRoll    = Math.floor(Math.random() * 100);
-            var Table = App.Data.LootTables[Type];
-            var output = "";
+        this.DoLootBox = function( Player, Type, Minimum, Bonus) {
 
+            var DiceRoll    = Math.floor(Math.random() * 100);
+            var Table       = App.Data.LootTables[Type];
+            var output      = "";
+
+            if (Player.debugMode == true)
             console.log("DoLootBox: Type="+Type+", Minimum="+Minimum+", Bonus="+Bonus);
+
             DiceRoll = ( DiceRoll + Bonus) < Minimum ? Minimum : (DiceRoll + Bonus);
 
             if (Player.HasHex("TREASURE_FINDER")) {
@@ -1286,6 +1287,8 @@ App.Item = new function() {
             var timestamp = new Date().getTime();
             this._id = this.Data["Name"] + ":" + timestamp;
 
+            this._messageBuffer = [ ];
+
             this.Id = function () {
                 return this._id;
             };
@@ -1298,11 +1301,11 @@ App.Item = new function() {
             this.Examine = function (Player) {
                 var Output = this.Data["LongDesc"];
                 var Usages = Player.GetHistory("ITEMS", this.Name());
-                var Effects = Object.keys(this.Data["UseEffect"] || {});
+/*                var Effects = Object.keys(this.Data["UseEffect"] || {});*/
 
                 if (Usages == 0) return Output;
 
-                Output += "\n\n";
+ /*               Output += "\n\n";
                 var max = Math.min(Usages, Effects.length);
                 var EDict = [ ];
 
@@ -1313,7 +1316,7 @@ App.Item = new function() {
                     } else {
                         Output +=  "@@color:red;&dArr;"+Effects[i]+"@@ ";
                     }
-                }
+                }*/
                 return Output;
             };
 
@@ -1326,14 +1329,35 @@ App.Item = new function() {
 
             /** @returns {*}*/
             this.UseEffect = function () {
-                return this.Data["UseEffect"];
+                return this.Data["Effects"];
             };
+
+            /**
+             * Apply all effects of this consumable item.
+             * @param {App.Entity.Player} Player
+             * @constructor
+             */
+            this.ApplyEffects = function(Player) {
+
+                if (this.Data.hasOwnProperty("Effects") == false) return;
+                var tmp;
+                for (var i = 0; i < this.Data["Effects"].length;i++) {
+                    if (Player.debugMode == true) console.log("Applying effect: "+this.Data["Effects"][i]);
+                    tmp = App.Data.EffectLib[this.Data["Effects"][i]]["FUN"](Player);
+                    if ((typeof tmp !== 'undefined') && (tmp != "")) this._messageBuffer.push(tmp);
+                }
+
+            };
+
             /** This message is printed when a player uses an item
              * @returns {string} */
             this.Message = function (Player) {
                 var Output = this.Data["Message"];
                 var Usages = Player.GetHistory("ITEMS", this.Name());
-                var Effects = Object.keys(this.Data["UseEffect"]);
+
+                if (this._messageBuffer.length > 0)
+                Output += this._messageBuffer.join("\n");
+/*                var Effects = Object.keys(this.Data["UseEffect"]);
                 console.log("Item usages:" + Usages);
                 if (Usages >= Effects.length ) return Output;
 
@@ -1346,7 +1370,7 @@ App.Item = new function() {
                 }
 
                 if (Effects[Usages] != "LootBox")
-                Output = Output + "\n\nYou learn something... This item has an effect: " +EffectLearn;
+                Output = Output + "\n\nYou learn something... This item has an effect: " +EffectLearn;*/
                 return Output;
             };
 
@@ -2395,7 +2419,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 this._Player.AddItem(Type, Name, Value, Opt);
                 break;
             case "QUEST_ITEM":
-                this._RewardItems.push( App.PR.pItemDesc(Type, Name, Value, true));
+                this._RewardItems.push( App.PR.pItemDesc("QUEST", Name, Value, true));
                 this._Player.AddItem("QUEST", Name, Value, Opt);
                 break;
             case "STAT_XP":
@@ -3534,19 +3558,23 @@ App.Entity.Player = function (){
     };
 
     this.AdjustStat = function (StatName, Amount) {
+        if (this.debugMode) console.log("AdjustStat: Name="+StatName+", Amount="+Amount);
         this.CoreStats[StatName] = this.GetCapStat("STAT", StatName, ( this.CoreStats[StatName] + Amount));
     };
 
     this.AdjustBody = function (StatName, Amount) {
+        if (this.debugMode) console.log("AdjustBody: Name="+StatName+", Amount="+Amount);
         this.BodyStats[StatName] = this.GetCapStat("BODY", StatName, ( this.BodyStats[StatName] + Amount));
     };
 
     this.AdjustSkill = function (StatName, Amount) {
+        if (this.debugMode) console.log("AdjustSkill: Name="+StatName+", Amount="+Amount);
         this.Skills[StatName] = this.GetCapStat("SKILL", StatName, ( this.Skills[StatName] + Amount));
     };
 
     this.AdjustXP = function (Type, StatName, Amount, Limiter) {
         Amount = Math.ceil(Amount); // No floats.
+        if (this.debugMode)
         console.debug("AdjustXP: Type="+Type+",Stat="+StatName+",Amount="+Amount+",Limit="+Limiter);
 
         if ((Amount > 0) && (this.GetStat(Type, StatName) >= Limiter) && (Limiter != 0)) return;
@@ -3559,7 +3587,7 @@ App.Entity.Player = function (){
         if (Type == "STAT")  this.CoreStatsXP[StatName] += Amount;
         if (Type == "SKILL") this.SkillsXP[StatName] += Amount;
         if (Type == "BODY")  this.BodyXP[StatName] += Amount;
-
+        if (this.debugMode)
         console.debug("AdjustXP: Adjusted by "+Amount);
     };
 
@@ -4033,9 +4061,12 @@ App.Entity.Player = function (){
     this.UseItem = function (ItemId) {
         var o = this.GetItemById(ItemId);
         this.AddHistory("ITEMS", o.Name(), 1);
-        this.ApplyEffects(o.UseEffect());
+        //this.ApplyEffects(o.UseEffect());
+        o.ApplyEffects(this);
+        var msg = o.Message(this);
         o.RemoveCharge(1);
         if (o.Charges() <= 0) this.DeleteItem(o);
+        return msg;
     };
 
     this.pBodyChange = function (BodyPart, Direction) {
@@ -5797,9 +5828,9 @@ App.Data.Clothes["worn machete"] = {
     "WearEffect": { }
 };
 /* twine-user-script #22: "GameData.js" */
-window.App = window.App || { Data: { }, Entity: { } };
+App = App || { Data: { }, Entity: { } };
 
-window.App.Data.NPCS = {
+App.Data.NPCS = {
 			"Crew" : {
 				"Name" : "Crew", // This is a place holder and not meant to be used as an actual NPC.
 				"Mood" : 0,
@@ -6004,7 +6035,7 @@ window.App.Data.NPCS = {
             }
 };
 
-window.App.Data.Names = {
+App.Data.Names = {
             "Male": ["Ailen", "Aldritch", "Allan", "Arnold", "Austyn", "Ayden",
                 "Bobby", "Brennan", "Brewster", "Brod", "Barthon",
                 "Cal", "Clifford", "Colby", "Conner", "Creighton", "Cruz",
@@ -6050,7 +6081,7 @@ window.App.Data.Names = {
                 "Zoe"]
         };
 
-window.App.Data.Lists = {
+App.Data.Lists = {
             "SkillSynergy" : {
                 "HandJobs"      : [ { "TYPE" : "BODY", "NAME" : "Face" ,        "BONUS" : 0.50},
                                     { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.25}],
@@ -7013,7 +7044,7 @@ window.App.Data.Lists = {
                              "#A901DB", "#DF01D7", "#DF01A5"]
 		};
 
-window.App.Data.Ratings = {
+App.Data.Ratings = {
             "Lust": {
                 20: "Content", 40: "Satisfied", 60: "Horny",
                 80: "Lustful", 99: "Aggressive", 100: "Overpowering"
@@ -7291,7 +7322,7 @@ window.App.Data.Ratings = {
             }
         };
 
-window.App.Data.Enemies = {
+App.Data.Enemies = {
   "PIRATE_A" : {
       "NAME" : "Pirate", "CATEGORY" : "PIRATES", "CLASSIFICATION" : "MINOR",
       "TITLE" : "A swarthy ENEMY wielding WEAPON", "GENDER" : "MALE", "MaxHealth" : 60, "MaxEnergy" : 3,
@@ -7312,7 +7343,7 @@ window.App.Data.Enemies = {
 
 };
 
-window.App.Data.CombatSkills = {
+App.Data.CombatSkills = {
     "Slash" : {
         "NAME" : "Slash", "COST" : 0, "SKILL" : "Swashbuckling", "TYPE" : "BLADED_MELEE", "COOL_DOWN" : 0,
         "VERB" : [ "slash at ENEMY", "slashes at you"], "TRIGGERS" : [ ], "EFFECTS" : [ ]
@@ -7344,7 +7375,7 @@ window.App.Data.CombatSkills = {
 
 };
 
-window.App.Data.Encounters = {
+App.Data.Encounters = {
     "PIRATE_PRACTICE" :
         [
             {   "CHANCE" : 100,
@@ -7352,7 +7383,787 @@ window.App.Data.Encounters = {
                 "ENEMIES" : [ { "ENEMY" : "PIRATE_A", "MIN" : 1, "MAX" : 1 }]}
         ]
 };
-/* twine-user-script #23: "items_cosmetics.js" */
+/* twine-user-script #23: "effect_lib.js" */
+App = App || { Data: { }, Entity: { } };
+
+App.Data.EffectLib = {
+    "NEREID_PHILTRE" : { 
+        "FUN" :/** @param {App.Entity.Player} p */ 
+            function(p) {
+                p.AdjustStat('Hormones', 5);
+                p.AdjustStat('Femininity', 5);
+                p.AdjustStat('Toxicity', 50);
+                p.AdjustStatXP('Femininity', 100);
+                p.AdjustStatXP('WillPower', 200);
+                p.AdjustStatXP('Hormones', 300);
+                p.AdjustBodyXP('Face', 500);
+                p.AdjustBodyXP('Hair', 500);
+                p.AdjustBodyXP('Lips', 500);
+                p.AdjustBodyXP('Waist', -500);
+                p.AdjustSkillXP('Dancing', 500);
+                p.AdjustSkillXP('Singing', 500);
+                p.AdjustSkillXP('Seduction', 500);
+        },
+        "VALUE" : 2000,
+        "KNOWLEDGE" : [ "Female Hormones ++++", "Femininity Up +++", "Femininity XP +++", "Toxicity Up ---",
+                        "Face Prettier ++++", "Hair Growth ++++", "Lips Fuller ++++", "WillPower Up +++",
+                        "Waist Narrower ++++", "Dancing XP ++++", "Singing XP ++++", "Seduction XP ++++" ]
+    },
+    "SUCCUBUS_PHILTRE" : {
+        "FUN" :/** @param {App.Entity.Player} p */
+            function(p) {
+            p.AdjustStat('Hormones', 5);
+            p.AdjustStat('Femininity', 5);
+            p.AdjustStat('Toxicity', 50);
+            p.AdjustStatXP('Femininity', 300);
+            p.AdjustStatXP('WillPower', 200);
+            p.AdjustStatXP('Hormones', 300);
+            p.AdjustStatXP('Perversion', 500);
+            p.AdjustBodyXP('Bust', 500);
+            p.AdjustBodyXP('Ass', 500);
+            p.AdjustBodyXP('Hips', 500);
+            p.AdjustBodyXP('Waist', -500);
+            p.AdjustSkillXP('Seduction', 500);
+        },
+        "VALUE" : 2000,
+        "KNOWLEDGE" : [ "Female Hormones ++++", "Femininity Up +++", "Femininity XP +++", "Toxicity Up ---",
+            "Bust Growth ++++", "Ass Growth ++++", "Hips Wider ++++", "WillPower Up +++",
+            "Waist Narrower ++++", "Perversion XP ----", "Seduction XP ++++" ]
+    },
+    "SIREN_ELIXIR" : {
+        "FUN" :/** @param {App.Entity.Player} p */
+            function(p) {
+            p.AdjustStatXP('WillPower', 200);
+            p.AdjustStatXP('Hormones', 200);
+            p.AdjustStatXP('Perversion', -200);
+            p.AdjustBodyXP('Face', 100);
+            p.AdjustBodyXP('Bust', 100);
+            p.AdjustBodyXP('Hips', 100);
+            p.AdjustBodyXP('Ass', 100);
+            p.AdjustBodyXP('Waist', -100);
+            p.AdjustBodyXP('Hair', 100);
+        },
+        "VALUE" : 500,
+        "KNOWLEDGE" : [ "Female Hormones +++", "Face Prettier ++",
+            "Bust Growth ++", "Ass Growth ++", "Hips Wider ++", "WillPower Up +++",
+            "Waist Narrower ++", "Perversion Down ++++" ]
+    },
+//======================================
+    /** CORE STATS **/
+//======================================
+    /** ENERGY */
+    "ENERGY_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Energy', 1); },
+        "VALUE" : 20, "KNOWLEDGE" : [ "Energy Up +" ]
+    },    
+    "ENERGY_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+          function(p) { p.AdjustStat('Energy', 3); }, 
+        "VALUE" : 50, "KNOWLEDGE" : [ "Energy Up ++" ]
+    },
+    "ENERGY_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Energy', 5); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Energy Up +++" ]
+    },
+    "ENERGY_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Energy', 8); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Energy Up ++++" ]
+    },
+    /** TOXICITY */
+    "TOXICITY_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Toxicity', 10); },
+        "VALUE" : 0, "KNOWLEDGE" : [ "Toxicity Up -" ]
+    },
+    "TOXICITY_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Toxicity', 30); },
+        "VALUE" : 0, "KNOWLEDGE" : [ "Toxicity Up --" ]
+    },
+    "TOXICITY_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Toxicity', 50); },
+        "VALUE" : 0, "KNOWLEDGE" : [ "Toxicity Up ---" ]
+    },
+    "TOXICITY_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Toxicity', 80); },
+        "VALUE" : 0, "KNOWLEDGE" : [ "Toxicity Up ----" ]
+    },
+    "PURGE_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Toxicity', -30); },
+        "VALUE" : 20, "KNOWLEDGE" : [ "Toxicity Down +" ]
+    },
+    "PURGE_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Toxicity', -50); },
+        "VALUE" : 40, "KNOWLEDGE" : [ "Toxicity Down ++" ]
+    },
+    "PURGE_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Toxicity', -80); },
+        "VALUE" : 80, "KNOWLEDGE" : [ "Toxicity Down +++" ]
+    },
+    "PURGE_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Toxicity', -120); },
+        "VALUE" : 160, "KNOWLEDGE" : [ "Toxicity Down ++++" ]
+    },
+    /** WILLPOWER */
+    "BREAK_WILL_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('WillPower', -50); },
+        "VALUE" : 0, "KNOWLEDGE" : [ "WillPower Down -" ]
+    },
+    "BREAK_WILL_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('WillPower', -100); },
+        "VALUE" : 0, "KNOWLEDGE" : [ "WillPower Down --" ]
+    },
+    "BREAK_WILL_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('WillPower', -200); },
+        "VALUE" : 0, "KNOWLEDGE" : [ "WillPower Down ---" ]
+    },
+    "BREAK_WILL_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('WillPower', -400); },
+        "VALUE" : 0, "KNOWLEDGE" : [ "WillPower Down ----" ]
+    },
+    "BOLSTER_WILL_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('WillPower', 50); },
+        "VALUE" : 75, "KNOWLEDGE" : [ "WillPower Up +" ]
+    },
+    "BOLSTER_WILL_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('WillPower', 100); },
+        "VALUE" :150, "KNOWLEDGE" : [ "WillPower Up ++" ]
+    },
+    "BOLSTER_WILL_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('WillPower', 200); },
+        "VALUE" : 300, "KNOWLEDGE" : [ "WillPower Up +++" ]
+    },
+    "BOLSTER_WILL_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('WillPower', 400); },
+        "VALUE" : 600, "KNOWLEDGE" : [ "WillPower Up ++++" ]
+    },    
+    /** NUTRITION */
+    "NUTRITION_WEAK" : {
+    "FUN" : /** @param {App.Entity.Player} p */
+        function(p) { p.AdjustStat('Nutrition', 5); },
+    "VALUE" : 5, "KNOWLEDGE" : [ "Nutrition Up" ]
+    },
+    "NUTRITION_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Nutrition', 10); },
+        "VALUE" : 10, "KNOWLEDGE" : [ "Nutrition Up +" ]
+    },
+    "NUTRITION_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Nutrition', 20); },
+        "VALUE" : 20, "KNOWLEDGE" : [ "Nutrition Up ++" ]
+    },
+    "NUTRITION_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Nutrition', 50); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Nutrition Up +++" ]
+    },
+    "NUTRITION_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Nutrition', 100); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Nutrition Up ++++" ]
+    },
+    "NUTRITION_XP_WEAK" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('Nutrition', 10); },
+        "VALUE" : 5, "KNOWLEDGE" : [ "Satiation Up" ]
+    },
+    "NUTRITION_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Nutrition', 25); },
+        "VALUE" : 10, "KNOWLEDGE" : [ "Satiation Up +" ]
+    },
+    "NUTRITION_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Nutrition', 50); },
+        "VALUE" : 20, "KNOWLEDGE" : [ "Satiation Up ++" ]
+    },
+    "NUTRITION_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Nutrition', 100); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Satiation Up +++" ]
+    },
+    "NUTRITION_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Nutrition', 200); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Satiation Up ++++" ]
+    },    
+    /** HEALTH **/
+    "HEAL_COMMON" : {
+    "FUN" : /** @param {App.Entity.Player} p */
+        function(p) { p.AdjustStat('Health', 20); },
+    "VALUE" : 20, "KNOWLEDGE" : [ "Health Up +" ]
+    },
+    "HEAL_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Health', 40); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Health Up ++" ]
+    },
+    "HEAL_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Health', 75); p.AdjustStat('Toxicity', -50); },
+        "VALUE" : 150, "KNOWLEDGE" : [ "Health Up +++" ]
+    },
+    "HEAL_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Health', 100); p.AdjustStat('Toxicity', -100); },
+        "VALUE" : 300, "KNOWLEDGE" : [ "Health Up ++++" ]
+    },
+    /** HORMONES */
+    "MALE_HORMONE_XP_COMMON" : {
+    "FUN" : /** @param {App.Entity.Player} p */
+        function(p) { p.AdjustStatXP('Hormones', -50); },
+    "VALUE" : 25, "KNOWLEDGE" : [ "Male Hormones +" ]
+    },
+    "MALE_HORMONE_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('Hormones', -100); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Male Hormones ++" ]
+    },
+    "MALE_HORMONE_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('Hormones', -200); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Male Hormones +++" ]
+    },
+    "MALE_HORMONE_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('Hormones', -400); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Male Hormones ++++" ]
+    },
+    "FEMALE_HORMONE_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('Hormones', 50); },
+        "VALUE" : 10, "KNOWLEDGE" : [ "Female Hormones +" ]
+    },
+    "FEMALE_HORMONE_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('Hormones', 100); },
+        "VALUE" : 20, "KNOWLEDGE" : [ "Female Hormones ++" ]
+    },
+    "FEMALE_HORMONE_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('Hormones', 200); },
+        "VALUE" : 40, "KNOWLEDGE" : [ "Female Hormones +++" ]
+    },
+    "FEMALE_HORMONE_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStatXP('Hormones', 400); },
+        "VALUE" : 80, "KNOWLEDGE" : [ "Female Hormones ++++" ]
+    },
+    /** PERVERSION **/
+    "PERVERSION_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Perversion', 25); },
+        "VALUE" : 10, "KNOWLEDGE" : [ "Perversion Up +" ]
+    },
+    "PERVERSION_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Perversion', 50); },
+        "VALUE" : 20, "KNOWLEDGE" : [ "Perversion Up ++" ]
+    },
+    "PERVERSION_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Perversion', 100); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Perversion Up +++" ]
+    },
+    "PERVERSION_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Perversion', 200); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Perversion Up ++++" ]
+    },    
+//======================================
+    /** BODY STATS **/
+//======================================
+    /** HEIGHT */
+    "SHRINK_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Height', -50); },
+        "VALUE" : 15, "KNOWLEDGE" : [ "Height Down -" ]
+    },
+    "SHRINK_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Height', -100); },
+        "VALUE" : 30, "KNOWLEDGE" : [ "Height Down --" ]
+    },
+    "SHRINK_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Height', -200); },
+        "VALUE" : 60, "KNOWLEDGE" : [ "Height Down ---" ]
+    },
+    "SHRINK_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Height', -400); },
+        "VALUE" : 120, "KNOWLEDGE" : [ "Height Down ----" ]
+    },
+    /** HAIR */
+    "HAIR_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Hair', 50); },
+        "VALUE" : 25, "KNOWLEDGE" : [ "Hair Growth +" ]
+    },
+    "HAIR_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Hair', 100); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Hair Growth ++" ]
+    },
+    "HAIR_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Hair', 200); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Hair Growth +++" ]
+    },
+    "HAIR_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Hair', 400); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Hair Growth ++++" ]
+    },
+    /** FACE */
+    "FACE_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Face', 50); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Face Prettier +" ]
+    },
+    "FACE_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Face', 100); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Face Prettier ++" ]
+    },
+    "FACE_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Face', 200); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Face Prettier +++" ]
+    },
+    "FACE_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Face', 400); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Face Prettier ++++" ]
+    },
+    /** BUST */
+    "BUST_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Bust', 50); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Bust Grow +" ]
+    },
+    "BUST_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Bust', 100); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Bust Grow ++" ]
+    },
+    "BUST_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Bust', 200); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Bust Grow +++" ]
+    },
+    "BUST_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Bust', 400); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Bust Grow ++++" ]
+    },
+    /** ASS */
+    "ASS_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Ass', 50); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Ass Grow +" ]
+    },
+    "ASS_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Ass', 100); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Ass Grow ++" ]
+    },
+    "ASS_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Ass', 200); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Ass Grow +++" ]
+    },
+    "ASS_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Ass', 400); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Ass Grow ++++" ]
+    },
+    /** HIPS */
+    "HIPS_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Hips', 50); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Hips Wider +" ]
+    },
+    "HIPS_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Hips', 100); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Hips Wider ++" ]
+    },
+    "HIPS_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Hips', 200); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Hips Wider +++" ]
+    },
+    "HIPS_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Hips', 400); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Hips Wider ++++" ]
+    },    
+    /** LIPS */
+    "LIPS_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Lips', 50); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Lips Plumper +" ]
+    },
+    "LIPS_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Lips', 100); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Lips Plumper ++" ]
+    },
+    "LIPS_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Lips', 200); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Lips Plumper +++" ]
+    },
+    "LIPS_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Lips', 400); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Lips Plumper ++++" ]
+    },
+    /** PENIS */
+    "PENIS_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Penis', 50); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Penis Grow +" ]
+    },
+    "PENIS_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Penis', 100); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Penis Grow ++" ]
+    },
+    "PENIS_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Penis', 200); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Penis Grow +++" ]
+    },
+    "PENIS_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Penis', 400); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Penis Grow ++++" ]
+    },
+    /** BALLS */
+    "BALLS_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Balls', 50); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Balls Grow +" ]
+    },
+    "BALLS_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Balls', 100); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Balls Grow ++" ]
+    },
+    "BALLS_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Balls', 200); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Balls Grow +++" ]
+    },
+    "BALLS_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustBodyXP('Balls', 400); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Balls Grow ++++" ]
+    },
+//======================================
+    /** SKILLS **/
+//======================================
+    /** SAILING */
+    "SAILING_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustSkillXP('Sailing', 50); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Sailing XP +" ]
+    },
+    "SAILING_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustSkillXP('Sailing', 100); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Sailing XP ++" ]
+    },
+    "SAILING_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustSkillXP('Sailing', 200); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Sailing XP +++" ]
+    },
+    "SAILING_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustSkillXP('Sailing', 400); },
+        "VALUE" : 800, "KNOWLEDGE" : [ "Sailing XP ++++" ]
+    },
+    /** SWASHBUCKLING */
+    "SWASHBUCKLING_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustSkillXP('Swashbuckling', 50); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Swashbuckling XP +" ]
+    },
+    "SWASHBUCKLING_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustSkillXP('Swashbuckling', 100); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Swashbuckling XP ++" ]
+    },
+    "SWASHBUCKLING_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustSkillXP('Swashbuckling', 200); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Swashbuckling XP +++" ]
+    },
+    "SWASHBUCKLING_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustSkillXP('Swashbuckling', 400); },
+        "VALUE" : 800, "KNOWLEDGE" : [ "Swashbuckling XP ++++" ]
+    },
+    /** NAVIGATING */
+    "NAVIGATING_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustSkillXP('Navigating', 50); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Navigating XP +" ]
+    },
+    "NAVIGATING_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustSkillXP('Navigating', 100); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Navigating XP ++" ]
+    },
+    "NAVIGATING_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustSkillXP('Navigating', 200); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Navigating XP +++" ]
+    },
+    "NAVIGATING_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustSkillXP('Navigating', 400); },
+        "VALUE" : 800, "KNOWLEDGE" : [ "Navigating XP ++++" ]
+    },
+//======================================
+    /** FOOD **/
+//======================================
+    "SLAVE_GRUEL" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) {
+                p.AdjustStat('Nutrition', 15);
+                p.AdjustStatXP('Nutrition', 75);
+                p.AdjustStatXP('WillPower', -25);
+                p.AdjustStatXP('Perversion', 50);
+                p.AdjustStatXP('Hormones', 50);
+            },
+        "VALUE" : 30, 
+        "KNOWLEDGE" : [ "Nutrition Up ++", "Satiation +++", "WillPower Down -", 
+                        "Perversion Up +", "Female Hormones ++"]
+    },
+    "SNACK" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.AdjustStat('Nutrition', 5);p.AdjustStatXP('Nutrition', 10); },
+        "VALUE" : 10,
+        "KNOWLEDGE" : [ "Nutrition Up", "Satiation Up +" ]
+    },
+    "LIGHT_WHOLESOME_MEAL" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { 
+            p.AdjustStat('Nutrition', 10);
+            p.AdjustStatXP('Nutrition', 25);
+            p.AdjustStat('Toxicity', -5);
+        },
+        "VALUE" : 30,
+        "KNOWLEDGE" : [ "Nutrition Up +", "Satiation Up +", "Toxicity Down" ]
+    },
+    "WHOLESOME_MEAL" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) {
+            p.AdjustStat('Nutrition', 20);
+            p.AdjustStatXP('Nutrition', 50);
+            p.AdjustStat('Toxicity', -10);
+        },
+        "VALUE" : 60,
+        "KNOWLEDGE" : [ "Nutrition Up ++", "Satiation Up ++", "Toxicity Down" ]
+    },
+    "LIGHT_ALCOHOL" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) {
+                p.AdjustStat('Nutrition', 5);
+                p.AdjustStatXP('Nutrition', 15);
+                p.AdjustStat('Toxicity', 5);
+            },
+        "VALUE" : 20,
+        "KNOWLEDGE" : [ "Nutrition Up", "Satiation Up", "Toxicity Up" ]        
+    },
+    "HARD_ALCOHOL" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) {
+            p.AdjustStat('Nutrition', 5);
+            p.AdjustStatXP('Nutrition', 10);
+            p.AdjustStat('Toxicity', 30);
+            p.AdjustStatXP('WillPower', 50);
+        },
+        "VALUE" : 100,
+        "KNOWLEDGE" : [ "Nutrition Up", "Satiation Up", "Toxicity Up --", "WillPower Up +" ]
+    },
+//======================================
+    /** LOOT BOXES **/
+//======================================    
+    /** FOOD BOX */
+    "FOOD_LOOT_BOX_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "FOOD", 0, 0); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box +" ]
+    },
+    "FOOD_LOOT_BOX_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "FOOD", 20, 10); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box ++" ]
+    },
+    "FOOD_LOOT_BOX_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "FOOD", 30, 20); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box +++" ]
+    },
+    "FOOD_LOOT_BOX_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "FOOD", 50, 30); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box ++++" ]
+    },
+    /** LANDLUBBER BOX */
+    "LANDLUBBER_LOOT_BOX_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "LANDLUBBER", 0, 0); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box +" ]
+    },
+    "LANDLUBBER_LOOT_BOX_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "LANDLUBBER", 20, 10); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box ++" ]
+    },
+    "LANDLUBBER_LOOT_BOX_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "LANDLUBBER", 30, 20); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box +++" ]
+    },
+    "LANDLUBBER_LOOT_BOX_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "LANDLUBBER", 50, 30); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box ++++" ]
+    },
+    /** LOLITA_SISSY BOX */
+    "LOLITA_SISSY_LOOT_BOX_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "LOLITA_SISSY", 0, 0); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box +" ]
+    },
+    "LOLITA_SISSY_LOOT_BOX_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "LOLITA_SISSY", 20, 10); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box ++" ]
+    },
+    "LOLITA_SISSY_LOOT_BOX_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "LOLITA_SISSY", 30, 20); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box +++" ]
+    },
+    "LOLITA_SISSY_LOOT_BOX_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "LOLITA_SISSY", 50, 30); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box ++++" ]
+    },
+    /** PATHETIC_LOSER BOX */
+    "PATHETIC_LOSER_LOOT_BOX_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "PATHETIC_LOSER", 0, 0); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box +" ]
+    },
+    "PATHETIC_LOSER_LOOT_BOX_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "PATHETIC_LOSER", 20, 10); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box ++" ]
+    },
+    "PATHETIC_LOSER_LOOT_BOX_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "PATHETIC_LOSER", 30, 20); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box +++" ]
+    },
+    "PATHETIC_LOSER_LOOT_BOX_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "PATHETIC_LOSER", 50, 30); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box ++++" ]
+    },
+    /** PIRATE_BDSM BOX */
+    "PIRATE_BDSM_LOOT_BOX_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "PIRATE_BDSM", 0, 0); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box +" ]
+    },
+    "PIRATE_BDSM_LOOT_BOX_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "PIRATE_BDSM", 20, 10); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box ++" ]
+    },
+    "PIRATE_BDSM_LOOT_BOX_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "PIRATE_BDSM", 30, 20); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box +++" ]
+    },
+    "PIRATE_BDSM_LOOT_BOX_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "PIRATE_BDSM", 50, 30); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box ++++" ]
+    },
+    /** SISSY_BIMBO BOX */
+    "SISSY_BIMBO_LOOT_BOX_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "SISSY_BIMBO", 0, 0); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box +" ]
+    },
+    "SISSY_BIMBO_LOOT_BOX_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "SISSY_BIMBO", 20, 10); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box ++" ]
+    },
+    "SISSY_BIMBO_LOOT_BOX_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "SISSY_BIMBO", 30, 20); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box +++" ]
+    },
+    "SISSY_BIMBO_LOOT_BOX_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { return App.Item.DoLootBox(p, "SISSY_BIMBO", 50, 30); },
+        "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box ++++" ]
+    }
+};
+/* twine-user-script #24: "items_cosmetics.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.Cosmetics = {
@@ -7393,7 +8204,7 @@ App.Data.Cosmetics = {
         "Price": 6
     }
 };
-/* twine-user-script #24: "items_drugs.js" */
+/* twine-user-script #25: "items_drugs.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.Drugs = {
@@ -7404,17 +8215,7 @@ App.Data.Drugs = {
         "Message": "You quaff the philter. For a moment you feel the bite of the sea... and then tranquility so sublime you lose yourself to it.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {
-            "Hormones": [5, 300, 0],
-            "Femininity": [5, 100, 0],
-            "Face": [0, 500, 0],
-            "Lips": [0, 500, 0],
-            "Hair": [6, 600, 0],
-            "Waist" : [0,-500,0],
-            "WillPower": [-5, -200, 0],
-            "Toxicity": [50, 0, 0]
-        },
-        "Price": 500
+        "Effects": [ "NEREID_PHILTRE" ]
     },
     "succubus philtre": {
         "Name": "succubus philtre",
@@ -7423,18 +8224,7 @@ App.Data.Drugs = {
         "Message": "You quaff the philter. Almost instantly a deep feeling of arousal surfaces and your mind is filled with perverted thoughts.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {
-            "Hormones": [5, 500, 0],
-            "Femininity": [5, 100, 0],
-            "Bust": [5, 500, 0],
-            "Ass": [5, 500, 0],
-            "Hips": [5, 500, 0],
-            "Waist": [-5, -500, 0],
-            "Perversion": [6, 600, 0],
-            "WillPower": [-10, -500, 0],
-            "Toxicity": [50, 0, 0]
-        },
-        "Price": 500
+        "Effects": [ "SUCCUBUS_PHILTRE" ]
     },
     "pixie dust": {
         "Name": "pixie dust",
@@ -7443,8 +8233,7 @@ App.Data.Drugs = {
         "Message": "You snort the pixie dust up your nostril. After a few moments of dizziness you feel yourself invigorated with energy!",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Energy": [3, 0, 0], "Height" : [0,-100,0], "WillPower": [0, -50, 0], "Toxicity": [10, 0, 0]},
-        "Price": 10
+        "Effects": [ "ENERGY_UNCOMMON", "SHRINK_UNCOMMON", "TOXICITY_COMMON", "BREAK_WILL_COMMON" ]
     },
     "fairy dust": {
         "Name": "fairy dust",
@@ -7453,8 +8242,7 @@ App.Data.Drugs = {
         "Message": "You snort the fairy dust up your nostril. After a few moments of dizziness you start giggling madly and feel yourself invigorated with energy!",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Energy": [2, 0, 0], "WillPower": [0, -50, 0], "Toxicity": [10, 0, 0], "Height" : [0,-50,0], "Hormones" : [0,100,0] },
-        "Price": 5
+        "Effects": [ "ENERGY_COMMON", "SHRINK_COMMON", "TOXICITY_COMMON", "BREAK_WILL_COMMON" ]
     },
     "medicinal herbs": {
         "Name": "medicinal herbs",
@@ -7463,8 +8251,7 @@ App.Data.Drugs = {
         "Message": "You apply the herbs to your wounds and feel slightly better.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Health": [10, 0, 0], "Toxicity": [3, 0, 0]},
-        "Price": 10
+        "Effects" : [ "HEAL_COMMON", "TOXICITY_COMMON" ]
     },
     "healing potion" : {
         "Name": "healing potion",
@@ -7473,8 +8260,7 @@ App.Data.Drugs = {
         "Message": "You gulp down the potion. It's sickly sweet, like a viscous syrup made from pure sugar. Within moments you feel the effects as your body starts to rejuvenate.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Health": [30, 0, 0], "Toxicity": [-20, 0, 0], "Nutrition" : [20, 0, 0]},
-        "Price": 50
+        "Effects" : [ "HEAL_COMMON", "PURGE_COMMON", "NUTRITION_UNCOMMON" ]
     },
     "hair tonic": {
         "Name": "hair tonic",
@@ -7483,8 +8269,7 @@ App.Data.Drugs = {
         "Message": "You pour the tonic over your head and massage it into your scalp. Moments later you feel a burning and itching sensation.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Hair": [0, 100, 0], "Toxicity": [20, 0, 0]},
-        "Price": 10
+        "Effects" : [ "HAIR_UNCOMMON", "TOXICITY_COMMON" ]
     },
     "siren elixir": {
         "Name": "siren elixir",
@@ -7493,8 +8278,7 @@ App.Data.Drugs = {
         "Message": "You drink the elixir in one gulp and sense a feeling of peace flow through you. It has a faint, bittersweet taste.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"WillPower" : [0,200,0], "Perversion" : [0,-200,0], "Hormones" : [0,200,0], "Face" : [0,200,0], "Bust" : [0,200,0], "Waist" : [0,-100,0], "Ass" : [0,200,0], "Hair": [0, 200, 0], "Toxicity": [100, 0, 0]},
-        "Price": 100
+        "Effects" : [ "SIREN_ELIXIR" ]
     },
     "khafkir": {
         "Name": "khafkir",
@@ -7503,8 +8287,7 @@ App.Data.Drugs = {
         "Message": "You tip back the bottle and take a drink. Surprisingly it doesn't burn, but instead tastes earthy and strong.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Health": [20, 0, 0], "Nutrition" : [10,0,0], "Hormones" : [0,-200,0], "Toxicity": [5, 0, 0]},
-        "Price": 20
+        "Effects" : [ "HEAL_COMMON", "NUTRITION_COMMON", "MALE_HORMONE_XP_RARE", "TOXICITY_UNCOMMON" ]
     },
     "face cream": {
         "Name": "face cream",
@@ -7513,34 +8296,14 @@ App.Data.Drugs = {
         "Message": "You rub the lightly tan cream into your face. It has an earthy, almost nutty scent. Your face feels refreshed.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Face" : [0,100,0], "Hormones" : [0,100,0],  "Toxicity": [5, 0, 0]},
-        "Price": 30
+        "Effects" : [ "FACE_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
     }
 };
-/* twine-user-script #25: "items_food.js" */
+/* twine-user-script #26: "items_food.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.Food = {
-    "bread crust": {
-        "Name": "bread crust",
-        "ShortDesc": "A stale crust of bread",
-        "LongDesc": "This piece of bread has seen better days... about 5 days ago. It's still edible however.",
-        "Message": "You bite into the bread. It's as hard as a rock, but eventually you manage to chew and swallow it.",
-        "Type": "food",
-        "Charges": 1,
-        "UseEffect": {"Nutrition": [5, 10, 0] },
-        "Price": 1
-    },
-    "slave gruel": {
-        "Name": "slave gruel",
-        "ShortDesc": "Slave gruel mixed with semen",
-        "LongDesc": "This watery looking gruel smells and tastes disgusting. The crew has 'donated' some extra nutrition to it.",
-        "Message": "You wrinkle your nose and drink down the disgusting drool. You gag occasionally as thick clumps of rancid cum slide down your throat.",
-        "Type": "food",
-        "Charges": 1,
-        "UseEffect": {"Nutrition": [5, 50, 0], "WillPower": [0, -25, 0], "Perversion": [0, 25, 0], "Hormones" : [0, 100, 0]},
-        "Price": 1
-    },
+    /** ALCOHOL */
     "grog": {
         "Name": "grog",
         "ShortDesc": "Low Quality Grog",
@@ -7548,8 +8311,7 @@ App.Data.Food = {
         "Message": "You tip back the crude swill. It has an unpleasant taste.",
         "Type": "food",
         "Charges": 1,
-        "UseEffect": {"Nutrition": [3, 15, 0], "Toxicity": [5, 0, 0]},
-        "Price": 1
+        "Effects" : [ "LIGHT_ALCOHOL" ]
     },
     "beer": {
         "Name": "beer",
@@ -7558,8 +8320,7 @@ App.Data.Food = {
         "Message": "You tip back the beer and have a drink. It's refreshing.",
         "Type": "food",
         "Charges": 1,
-        "UseEffect": {"Nutrition": [3, 20, 0], "Toxicity": [2, 0, 0]},
-        "Price": 2
+        "Effects" : [ "LIGHT_ALCOHOL" ]
     },
     "smugglers ale": {
         "Name": "smugglers ale",
@@ -7568,8 +8329,7 @@ App.Data.Food = {
         "Message": "You tip back the ale and have a drink. It's refreshing.",
         "Type": "food",
         "Charges": 1,
-        "UseEffect": {"Nutrition": [5, 20, 0], "Toxicity": [1, 0, 0]},
-        "Price": 10
+        "Effects" : [ "LIGHT_ALCOHOL", "ENERGY_COMMON" ]
     },
     "cheap wine": {
         "Name": "cheap wine",
@@ -7578,28 +8338,7 @@ App.Data.Food = {
         "Message": "The wine has a deep red color and an almost sweet after taste.",
         "Type": "food",
         "Charges": 1,
-        "UseEffect": {"Nutrition": [5, 20, 0], "Toxicity": [3, 0, 0]},
-        "Price": 2
-    },
-    "bread and cheese": {
-        "Name": "bread and cheese",
-        "ShortDesc": "A serving of bread with cheese",
-        "LongDesc": "Standard and relatively wholesome food.",
-        "Message": "The bread has a very yeasty taste and the cheese a sharp bite.",
-        "Type": "food",
-        "Charges": 1,
-        "UseEffect": {"Nutrition": [20, 20, 0], "Toxicity": [-5, 0, 0]},
-        "Price": 5
-    },
-    "roast fish": {
-        "Name": "roast fish",
-        "ShortDesc": "A roasted fish",
-        "LongDesc": "A local type of fish, roasted on a stick.",
-        "Message": "You take a bite of the fish and chew. It's bland, but wholesome.",
-        "Type": "food",
-        "Charges": 1,
-        "UseEffect": {"Nutrition": [20, 20, 0], "Toxicity": [-5, 0, 0]},
-        "Price": 5
+        "Effects" : [ "LIGHT_ALCOHOL" ]
     },
     "rum": {
         "Name": "rum",
@@ -7608,73 +8347,7 @@ App.Data.Food = {
         "Message": "You tip back the bottle and have a drink. It burns going down and fills your stomach with fire.",
         "Type": "food",
         "Charges": 1,
-        "UseEffect": {"Nutrition": [3, 10, 0], "Toxicity": [5, 0, 0], "WillPower" : [ 0, 10, 0 ]},
-        "Price": 5
-    },
-    "starfruit": {
-        "Name": "starfruit",
-        "ShortDesc": "Strange starfruit",
-        "LongDesc": "This slightly pink starfruit is pulpy and contains many black seeds. It has a fragrant and intoxicating smell.",
-        "Message": "You take a bite out of the starfruit and savor it's sweet, but citrus taste. You feel your body filling with energy.",
-        "Type": "food",
-        "Charges": 1,
-        "UseEffect": {"Nutrition": [15, 50, 0],  "Energy": [1, 0, 0], "Hormones": [0, 500, 0]},
-        "Price": 20
-    },
-    "mystery stew": {
-        "Name": "mystery stew",
-        "ShortDesc": "A deep brown stew of unidentifiable origin",
-        "LongDesc": "This stew is so dark as to practically be mud. It has bits of unidentifiable meat and vegetables (you think?) floating in it.",
-        "Message": "The stew tastes surprisingly better than you thought and certainly better than it looks.",
-        "Type": "food",
-        "Charges": 1,
-        "UseEffect": {"Nutrition": [10, 100, 0]},
-        "Price": 5
-    },
-    "milkdew melon": {
-        "Name": "milkdew melon",
-        "ShortDesc": "Milkdew Melon",
-        "LongDesc": "This rare melon has a milky white interior. It's has a sweet, but creamy taste.",
-        "Message": "You crack the melon open and eat the contents. It tastes delicious and thick white juice dribbles down your chin.",
-        "Type": "food",
-        "Charges": 1,
-        "UseEffect": {
-            "Nutrition": [20, 50, 0],
-            "Bust": [0, 100, 0],
-            "Hormones": [0, 200, 0],
-            "Perversion": [0, 50, 0]
-        },
-        "Price": 25
-    },
-    "honey mead": {
-        "Name": "honey mead",
-        "ShortDesc": "Bzzangr Honey Mead",
-        "LongDesc": "A common drink along the Lingering Coast, made from the honey of giant Bzzangr insects.",
-        "Message": "The mead has a delicious taste that tingles your tongue and lips.",
-        "Type": "food",
-        "Charges": 1,
-        "UseEffect": {"Nutrition": [20, 50, 0], "Lips": [0, 100, 0]},
-        "Price": 25
-    },
-    "butter gourd": {
-        "Name": "butter gourd",
-        "ShortDesc": "An oddly shaped gourd vegetable",
-        "LongDesc": "The flesh of this vegetable can easily be eaten raw and it has a pleasant, almost buttery flavor and texture.",
-        "Message": "You break open the gourd and dig into the fleshy interior. It's surprisingly smooth and melts in your mouth like butter or pure fat.",
-        "Type": "food",
-        "Charges": 1,
-        "UseEffect": {"Nutrition": [20, 200, 0], "Ass": [0, 100, 0], "Hips": [0, 100, 0]},
-        "Price": 35
-    },
-    "pink peach": {
-        "Name": "pink peach",
-        "ShortDesc": "A brightly colored pink peach",
-        "LongDesc": "This brightly colored fruit has a sweet and musky scent. It's bulbous exterior is dimpled with purple specks.",
-        "Message": "You bite into the peach and savor the sweetness of the fruit. You feel almost as if it has a calming, or curative effect on you.",
-        "Type": "food",
-        "Charges": 1,
-        "UseEffect": {"Nutrition": [20, 100, 0], "Hormones" : [0, 100, 0], "Toxicity" : [-40, 0, 0] },
-        "Price": 25
+        "Effects" : [ "HARD_ALCOHOL" ]
     },
     "fortified wine": {
         "Name": "fortified wine",
@@ -7684,8 +8357,56 @@ App.Data.Food = {
         "Type": "food",
         "Quest" : true,
         "Charges": 1,
-        "UseEffect": {"Nutrition": [10, 10, 0], "Toxicity": [25, 0, 0], "WillPower" : [ 0, 20, 0 ]},
+        "Effects" : [ "HARD_ALCOHOL" ],
         "Price": 500
+    },
+    /** NORMAL FOOD **/
+    "mystery stew": {
+        "Name": "mystery stew",
+        "ShortDesc": "A deep brown stew of unidentifiable origin",
+        "LongDesc": "This stew is so dark as to practically be mud. It has bits of unidentifiable meat and vegetables (you think?) floating in it.",
+        "Message": "The stew tastes surprisingly better than you thought and certainly better than it looks.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects": [ "NUTRITION_UNCOMMON", "NUTRITION_XP_UNCOMMON" ]
+    },
+    "bread crust": {
+        "Name": "bread crust",
+        "ShortDesc": "A stale crust of bread",
+        "LongDesc": "This piece of bread has seen better days... about 5 days ago. It's still edible however.",
+        "Message": "You bite into the bread. It's as hard as a rock, but eventually you manage to chew and swallow it.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "SNACK" ]
+    },
+    /** WHOLESOME FOOD */
+    "bread and cheese": {
+        "Name": "bread and cheese",
+        "ShortDesc": "A serving of bread with cheese",
+        "LongDesc": "Standard and relatively wholesome food.",
+        "Message": "The bread has a very yeasty taste and the cheese a sharp bite.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_WHOLESOME_MEAL" ]
+    },
+    "roast fish": {
+        "Name": "roast fish",
+        "ShortDesc": "A roasted fish",
+        "LongDesc": "A local type of fish, roasted on a stick.",
+        "Message": "You take a bite of the fish and chew. It's bland, but wholesome.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "WHOLESOME_MEAL" ]
+    },
+    /** MAGICAL FOOD */
+    "slave gruel": {
+        "Name": "slave gruel",
+        "ShortDesc": "Slave gruel mixed with semen",
+        "LongDesc": "This watery looking gruel smells and tastes disgusting. The crew has 'donated' some extra nutrition to it.",
+        "Message": "You wrinkle your nose and drink down the disgusting drool. You gag occasionally as thick clumps of rancid cum slide down your throat.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "SLAVE_GRUEL" ]
     },
     "red plum": {
         "Name": "red plum",
@@ -7694,30 +8415,7 @@ App.Data.Food = {
         "Message": "You bite into the plum and instantly you are overcome with a wave of euphoria. You momentarily lose yourself as the sweet juices drip down your chin.",
         "Type": "food",
         "Charges": 1,
-        "UseEffect": {"Nutrition": [20, 100, 0], "Toxicity" : [-80, 0, 0], "Health": [10, 0, 0] },
-        "Price": 25
-    },
-    "purple mushrooms": {
-        "Name": "purple mushroom",
-        "ShortDesc": "A handful of rare purple mushrooms",
-        "LongDesc": "These mushrooms range in shapes from small and skinny to rather large specimens. Their caps are bright purple and spotted with darker purple blotches. These are safe to eat, right?",
-        "Message": "You ingest the mushrooms. They don't have much of a taste, but they definitely seem to have some 'kick' to them. You hope this wasn't a foolish idea...",
-        "Type": "food",
-        "Charges": 1,
-        "UseEffect": {"Nutrition": [5, 20, 0], "Toxicity" : [ 20, 0, 0], "Hormones": [-5, -200, 0],
-            "Penis" : [0,200,0], "Balls" : [0, 200,0] },
-        "Price": 25
-    },
-    "ambrosia": {
-        "Name": "ambrosia",
-        "ShortDesc": "A dark green bottle of ambrosia",
-        "LongDesc": "Ambrosia is known far and wide as the 'Food of the Gods'. Legends tell that it is brewed by Sea Nymphs in their under water caves, but how that is possible you have no idea.",
-        "Message": "You uncork the bottle imbibe the potent brew. Words fail to describe how overwhelmingly good it tastes. You feel yourself filled with vigour and strength!",
-        "Type": "food",
-        "Charges": 1,
-        "UseEffect": {"Nutrition": [100, 100, 0], "Toxicity" : [-200, 0, 0], "Health": [100, 0, 0],
-            "WillPower" : [ 0, 100, 0 ] },
-        "Price": 500
+        "Effects" : [ "PURGE_RARE", "HEAL_UNCOMMON", "NUTRITION_COMMON", "NUTRITION_XP_COMMON"]
     },
     "pirates plunder": {
         "Name": "pirates plunder",
@@ -7726,9 +8424,72 @@ App.Data.Food = {
         "Message": "You tip back the flagon and drink deeply of the 'Pirates Plunder'. The taste is like nothing you've had before, dark, stormy and violent.",
         "Type": "food",
         "Charges": 1,
-        "UseEffect": {"Nutrition": [20, 50, 0], "Toxicity" : [50, 0, 0], "Sailing": [0, 300, 0],
-            "Navigating" : [ 0, 300, 0 ], "Swashbuckling" : [ 0, 300, 0 ] },
-        "Price": 500
+        "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "TOXICITY_UNCOMMON",
+            "SWASHBUCKLING_XP_RARE", "NAVIGATING_XP_RARE", "SAILING_XP_RARE" ]
+    },
+    "ambrosia": {
+        "Name": "ambrosia",
+        "ShortDesc": "A dark green bottle of ambrosia",
+        "LongDesc": "Ambrosia is known far and wide as the 'Food of the Gods'. Legends tell that it is brewed by Sea Nymphs in their under water caves, but how that is possible you have no idea.",
+        "Message": "You uncork the bottle imbibe the potent brew. Words fail to describe how overwhelmingly good it tastes. You feel yourself filled with vigour and strength!",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "NUTRITION_LEGENDARY", "NUTRITION_XP_LEGENDARY", "PURGE_LEGENDARY", "HEAL_LEGENDARY", "BOLSTER_WILL_LEGENDARY"]
+    },
+    /** TF FOOD */
+    "starfruit": {
+        "Name": "starfruit",
+        "ShortDesc": "Strange starfruit",
+        "LongDesc": "This slightly pink starfruit is pulpy and contains many black seeds. It has a fragrant and intoxicating smell.",
+        "Message": "You take a bite out of the starfruit and savor it's sweet, but citrus taste. You feel your body filling with energy.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects": [ "NUTRITION_UNCOMMON", "NUTRITION_XP_UNCOMMON", "ENERGY_COMMON", "FEMALE_HORMONES_XP_COMMON"]
+    },
+    "milkdew melon": {
+        "Name": "milkdew melon",
+        "ShortDesc": "Milkdew Melon",
+        "LongDesc": "This rare melon has a milky white interior. It's has a sweet, but creamy taste.",
+        "Message": "You crack the melon open and eat the contents. It tastes delicious and thick white juice dribbles down your chin.",
+        "Type": "food",
+        "Charges": 1,
+        "EffectS" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "FEMALE_HORMONES_XP_COMMON", "BUST_XP_UNCOMMON", "PERVERSION_XP_COMMON" ]
+    },
+    "honey mead": {
+        "Name": "honey mead",
+        "ShortDesc": "Bzzangr Honey Mead",
+        "LongDesc": "A common drink along the Lingering Coast, made from the honey of giant Bzzangr insects.",
+        "Message": "The mead has a delicious taste that tingles your tongue and lips.",
+        "Type": "food",
+        "Charges": 1,
+        "EffectS" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "LIPS_XP_UNCOMMON" ]
+    },
+    "butter gourd": {
+        "Name": "butter gourd",
+        "ShortDesc": "An oddly shaped gourd vegetable",
+        "LongDesc": "The flesh of this vegetable can easily be eaten raw and it has a pleasant, almost buttery flavor and texture.",
+        "Message": "You break open the gourd and dig into the fleshy interior. It's surprisingly smooth and melts in your mouth like butter or pure fat.",
+        "Type": "food",
+        "Charges": 1,
+        "EffectS" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "ASS_XP_UNCOMMON", "HIPS_XP_UNCOMMON" ]
+    },
+    "pink peach": {
+        "Name": "pink peach",
+        "ShortDesc": "A brightly colored pink peach",
+        "LongDesc": "This brightly colored fruit has a sweet and musky scent. It's bulbous exterior is dimpled with purple specks.",
+        "Message": "You bite into the peach and savor the sweetness of the fruit. You feel almost as if it has a calming, or curative effect on you.",
+        "Type": "food",
+        "Charges": 1,
+        "EffectS" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "PURGE_UNCOMMON", "FEMALE_HORMONES_XP_COMMON" ]
+    },
+    "purple mushrooms": {
+        "Name": "purple mushroom",
+        "ShortDesc": "A handful of rare purple mushrooms",
+        "LongDesc": "These mushrooms range in shapes from small and skinny to rather large specimens. Their caps are bright purple and spotted with darker purple blotches. These are safe to eat, right?",
+        "Message": "You ingest the mushrooms. They don't have much of a taste, but they definitely seem to have some 'kick' to them. You hope this wasn't a foolish idea...",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "TOXICITY_UNCOMMON", "MALE_HORMONES_XP_RARE", "PENIS_XP_RARE", "BALLS_XP_RARE"]
     },
     "purple sucker": {
         "Name": "erotic sucker",
@@ -7737,11 +8498,10 @@ App.Data.Food = {
         "Message": "Suck... suck... slurp... gasp. Mmm. Fruity, but slightly salty.",
         "Type": "food",
         "Charges": 1,
-        "UseEffect": {"Nutrition": [5, 10, 0], "Penis" : [0,50,0], "Lips" : [0, 50,0], "Perversion" : [0, 50,0] },
-        "Price": 100
-    },
+        "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "LIPS_XP_UNCOMMON", "PERVERSION_XP_COMMON", "PENIS_XP_COMMON" ]
+    }
 };
-/* twine-user-script #26: "items_quest.js" */
+/* twine-user-script #27: "items_quest.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.QuestItems = {
@@ -7777,7 +8537,7 @@ App.Data.QuestItems = {
             }
 
 };
-/* twine-user-script #27: "abamond_jungle_interaction.js" */
+/* twine-user-script #28: "abamond_jungle_interaction.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -7900,7 +8660,7 @@ App.Data.JobData["JUNGLE01"] = {
     "JOB_RESULTS" : [ ]
 
 };
-/* twine-user-script #28: "bosun_job.js" */
+/* twine-user-script #29: "bosun_job.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -8032,7 +8792,7 @@ App.Data.JobData["ISLA_WAITRESS"] = {
     "END" : "Finally, your shift in the tavern is over. NPC_NAME comes up to you and hands you your pay for the night.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #29: "captain_reginald_jobs.js" */
+/* twine-user-script #30: "captain_reginald_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -8375,7 +9135,7 @@ App.Data.JobData["CAPT01"] = {
     "You'd almost be offended if it wasn't for the fact that what he said was essentially true. You pick up your poor and battered body and head for the door.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #30: "cookie_jobs.js" */
+/* twine-user-script #31: "cookie_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -8698,7 +9458,7 @@ App.Data.JobData["COOK03"] = {
     "JOB_RESULTS" : [ ]
 };
 
-/* twine-user-script #31: "georgina_jobs.js" */
+/* twine-user-script #32: "georgina_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -8831,7 +9591,7 @@ App.Data.JobData["PEACOCK_WAITRESS"] = {
     "JOB_RESULTS" : [ ]
 };
 
-/* twine-user-script #32: "heddy_jobs.js" */
+/* twine-user-script #33: "heddy_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -8934,7 +9694,7 @@ App.Data.JobData["ISLA_MASCOT"] = {
         {"A": 500, "TEXT": "You definitely did a @@good job@@ and the pay reflects that."}
     ]
 };
-/* twine-user-script #33: "jarvis_jobs.js" */
+/* twine-user-script #34: "jarvis_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -9053,7 +9813,7 @@ App.Data.JobData["JARV01"] =  {
     ]
 
 };
-/* twine-user-script #34: "julius_jobs.js" */
+/* twine-user-script #35: "julius_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -9243,7 +10003,7 @@ App.Data.JobData["QUAR02"] = {
         "NPC_NAME tosses a small bag of coins at you and then waves you on his way, continuing to furiously study at his notes.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #35: "kipler_jobs.js" */
+/* twine-user-script #36: "kipler_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -9879,7 +10639,7 @@ App.Data.JobData["MATE04"] =  {
 
 };
 
-/* twine-user-script #36: "lord_rowe_jobs.js" */
+/* twine-user-script #37: "lord_rowe_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -9984,7 +10744,7 @@ App.Data.JobData["GOV01"] = {
     "\"@@color:cyan;Come back some time dear,@@\" he says after catching his breath. You nod eagerly and tell him you always have time to play with 'Daddy' before taking your leave.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #37: "mermaid_galley_interactions.js" */
+/* twine-user-script #38: "mermaid_galley_interactions.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -10219,7 +10979,7 @@ App.Data.JobData["STRP02"] = {
 
 };
 
-/* twine-user-script #38: "simone_jobs.js" */
+/* twine-user-script #39: "simone_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -10378,7 +11138,7 @@ App.Data.JobData["SIMONE_JOB1"] = {
         "NPC_NAME fetches a small bag from behind the counter and hands it to you, it contains your pay and tips for the night.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #39: "food_lootbox.js" */
+/* twine-user-script #40: "food_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -10397,8 +11157,7 @@ App.Data.LootBoxes["common food loot box"] =  {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["FOOD", 0, 0]},
-    "Price": 0
+    "Effects" : [ "FOOD_LOOT_BOX_COMMON" ]
 };
 
 App.Data.LootBoxes["uncommon food loot box"] =  {
@@ -10409,8 +11168,7 @@ App.Data.LootBoxes["uncommon food loot box"] =  {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["FOOD", 20, 10]},
-    "Price": 0
+    "Effects" : [ "FOOD_LOOT_BOX_UNCOMMON" ]
 };
 
 App.Data.LootBoxes["rare food loot box"] =  {
@@ -10421,8 +11179,7 @@ App.Data.LootBoxes["rare food loot box"] =  {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["FOOD", 30, 20]},
-    "Price": 0
+    "Effects" : [ "FOOD_LOOT_BOX_RARE" ]
 };
 
 App.Data.LootBoxes["legendary food loot box"] =  {
@@ -10433,8 +11190,7 @@ App.Data.LootBoxes["legendary food loot box"] =  {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["FOOD", 50, 30]},
-    "Price": 0
+    "Effects" : [ "FOOD_LOOT_BOX_LEGENDARY" ]
 };
 
 App.Data.LootTables["FOOD"] = {
@@ -10455,17 +11211,17 @@ App.Data.LootTables["FOOD"] = {
         ] },
     40 :  {
         "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 6},
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 2},
             { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 4}
         ] },
     50 :  {
         "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 6},
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 3},
             { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2}
         ] },
     60 :  {
         "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 6},
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 4},
             { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2},
             { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2}
         ] },
@@ -10514,7 +11270,7 @@ App.Data.LootTables["FOOD"] = {
         ] }
 };
 
-/* twine-user-script #40: "landlubber_lootbox.js" */
+/* twine-user-script #41: "landlubber_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -10533,8 +11289,7 @@ App.Data.LootBoxes["landlubber chest"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["LANDLUBBER", 0, 0]},
-    "Price": 0
+    "Effects" : [ "LANDLUBBER_LOOT_BOX_COMMON"]
 };
 
 App.Data.LootTables["LANDLUBBER"] =  {
@@ -10542,15 +11297,13 @@ App.Data.LootTables["LANDLUBBER"] =  {
         "LOOT" : [
             { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 15},
             { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 15},
-            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 15},
-            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 10},
+            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 8},
             { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 5},
             { "TYPE" : "FOOD", "TAG" : "cheap wine", "QTY" : 5},
             { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 5},
             { "TYPE" : "DRUGS", "TAG" : "medicinal herbs", "QTY" : 5},
             { "TYPE" : "DRUGS", "TAG" : "pixie dust", "QTY" : 5},
-            { "TYPE" : "CLOTHES", "TAG" : "wig", "QTY" : 1},
-            { "TYPE" : "CLOTHES", "TAG" : "choker", "QTY" : 1},
             { "TYPE" : "CLOTHES", "TAG" : "landlubber costume", "QTY" : 1}           
         ] },
     80 :  {
@@ -10558,18 +11311,16 @@ App.Data.LootTables["LANDLUBBER"] =  {
             { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 15},
             { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 15},
             { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 20},
-            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 10},
-            { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 5},
-            { "TYPE" : "FOOD", "TAG" : "cheap wine", "QTY" : 5},
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 5},
+            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 12},
+            { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 8},
+            { "TYPE" : "FOOD", "TAG" : "cheap wine", "QTY" : 8},
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 10},
             { "TYPE" : "DRUGS", "TAG" : "medicinal herbs", "QTY" : 5},
             { "TYPE" : "DRUGS", "TAG" : "pixie dust", "QTY" : 5},
-            { "TYPE" : "CLOTHES", "TAG" : "wig", "QTY" : 1},
-            { "TYPE" : "CLOTHES", "TAG" : "choker", "QTY" : 1},
             { "TYPE" : "CLOTHES", "TAG" : "landlubber costume", "QTY" : 1} 
         ] }
 };
-/* twine-user-script #41: "lolita_sissy_lootbox.js" */
+/* twine-user-script #42: "lolita_sissy_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -10588,8 +11339,8 @@ App.Data.LootBoxes["common lolita loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["LOLITA_SISSY", 0, 0]},
-    "Price": 0
+    "Effects" : [ "LOLITA_SISSY_LOOT_BOX_COMMON"]
+
 };
 
 App.Data.LootBoxes["uncommon lolita loot box"] = {
@@ -10600,8 +11351,7 @@ App.Data.LootBoxes["uncommon lolita loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["LOLITA_SISSY", 20, 10]},
-    "Price": 0
+    "Effects" : [ "LOLITA_SISSY_LOOT_BOX_UNCOMMON"]
 };
 
 App.Data.LootBoxes["rare lolita loot box"] = {
@@ -10612,8 +11362,7 @@ App.Data.LootBoxes["rare lolita loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["LOLITA_SISSY", 30, 20]},
-    "Price": 0
+    "Effects" : [ "LOLITA_SISSY_LOOT_BOX_RARE"]
 };
 
 App.Data.LootBoxes["legendary lolita loot box"] = {
@@ -10624,8 +11373,7 @@ App.Data.LootBoxes["legendary lolita loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["LOLITA_SISSY", 50, 30]},
-    "Price": 0
+    "Effects" : [ "LOLITA_SISSY_LOOT_BOX_LEGENDARY"]
 };
 
 App.Data.LootTables["LOLITA_SISSY"] =  {
@@ -10696,7 +11444,7 @@ App.Data.LootTables["LOLITA_SISSY"] =  {
             { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 2}
         ] }
 };
-/* twine-user-script #42: "pathetic_loser_lootbox.js" */
+/* twine-user-script #43: "pathetic_loser_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -10715,8 +11463,7 @@ App.Data.LootBoxes["pathetic loser chest"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["PATHETIC_LOSER", 0, 0]},
-    "Price": 0
+    "Effects" : [ "PATHETIC_LOSER_LOOT_BOX_COMMON"]
 };
 
 App.Data.LootTables["PATHETIC_LOSER"] =  {
@@ -10762,7 +11509,7 @@ App.Data.LootTables["PATHETIC_LOSER"] =  {
             { "TYPE" : "CLOTHES", "TAG" : "pathetic loser costume", "QTY" : 1}
         ] }        
 };
-/* twine-user-script #43: "pirate_bdsm_lootbox.js" */
+/* twine-user-script #44: "pirate_bdsm_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -10781,8 +11528,7 @@ App.Data.LootBoxes["common pirate loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["PIRATE_BDSM", 0, 0]},
-    "Price": 0
+    "Effects" : [ "PIRATE_BDSM_LOOT_BOX_COMMON"]
 };
 
 App.Data.LootBoxes["uncommon pirate loot box"] = {
@@ -10793,8 +11539,7 @@ App.Data.LootBoxes["uncommon pirate loot box"] = {
     "Type": "LOOT_BOX",
     "Charges":1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["PIRATE_BDSM", 20, 10]},
-    "Price": 0
+    "Effects" : [ "PIRATE_BDSM_LOOT_BOX_UNCOMMON"]
 };
 
 App.Data.LootBoxes["rare pirate loot box"] = {
@@ -10805,8 +11550,7 @@ App.Data.LootBoxes["rare pirate loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["PIRATE_BDSM", 30, 20]},
-    "Price": 0
+    "Effects" : [ "PIRATE_BDSM_LOOT_BOX_RARE"]
 };
 
 App.Data.LootBoxes["legendary pirate loot box"] = {
@@ -10817,8 +11561,7 @@ App.Data.LootBoxes["legendary pirate loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["PIRATE_BDSM", 50, 30]},
-    "Price": 0
+    "Effects" : [ "PIRATE_BDSM_LOOT_BOX_LEGENDARY"]
 };
 
 App.Data.LootTables["PIRATE_BDSM"] =  {
@@ -10883,7 +11626,7 @@ App.Data.LootTables["PIRATE_BDSM"] =  {
             { "TYPE" : "FOOD", "TAG" : "pirates plunder", "QTY" : 3 }
         ] }
 };
-/* twine-user-script #44: "sissy_bimbo_lootbox.js" */
+/* twine-user-script #45: "sissy_bimbo_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -10902,8 +11645,7 @@ App.Data.LootBoxes["common sissy loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["SISSY_BIMBO", 0, 0]},
-    "Price": 0
+    "Effects" : [ "SISSY_BIMBO_LOOT_BOX_COMMON"]
 };
 
 App.Data.LootBoxes["uncommon sissy loot box"] = {
@@ -10914,8 +11656,7 @@ App.Data.LootBoxes["uncommon sissy loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["SISSY_BIMBO", 20, 10]},
-    "Price": 0
+    "Effects" : [ "SISSY_BIMBO_LOOT_BOX_UNCOMMON"]
 };
 
 App.Data.LootBoxes["rare sissy loot box"] = {
@@ -10926,8 +11667,7 @@ App.Data.LootBoxes["rare sissy loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["SISSY_BIMBO", 30, 20]},
-    "Price": 0
+    "Effects" : [ "SISSY_BIMBO_LOOT_BOX_RARE"]
 };
 
 App.Data.LootBoxes["legendary sissy loot box"] = {
@@ -10938,8 +11678,7 @@ App.Data.LootBoxes["legendary sissy loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["SISSY_BIMBO", 50, 30]},
-    "Price": 0
+    "Effects" : [ "SISSY_BIMBO_LOOT_BOX_LEGENDARY"]
 };
 
 App.Data.LootTables["SISSY_BIMBO"] =  {
@@ -11004,7 +11743,7 @@ App.Data.LootTables["SISSY_BIMBO"] =  {
             { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 3 }
         ] }
 };
-/* twine-user-script #45: "blanche_quests.js" */
+/* twine-user-script #46: "blanche_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -11038,7 +11777,7 @@ App.Data.Quests["VOODOO_PICKUP"] = {
     "JOURNAL_ENTRY": "HIDDEN",
     "JOURNAL_COMPLETE": "HIDDEN"
 };
-/* twine-user-script #46: "bosun_quests.js" */
+/* twine-user-script #47: "bosun_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -11106,7 +11845,7 @@ App.Data.Quests["ISLA_TAVERN02"] = {
     "JOURNAL_COMPLETE": "You fetched a cask of Smuggler's Rum for NPC_NAME and he rewarded you with a @@color:purple;worn machete@@. It's a useful tool for any pirate or explorer."
 };
 
-/* twine-user-script #47: "cookie._quests.js" */
+/* twine-user-script #48: "cookie._quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -11162,7 +11901,7 @@ App.Data.Quests["STRIPPING"] = {
     "on you can perform on the stage during the evenings for extra coin and to raise the lust of the crew."
 };
 
-/* twine-user-script #48: "jarvis_quests.js" */
+/* twine-user-script #49: "jarvis_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -11190,7 +11929,7 @@ App.Data.Quests["THEBACKDOOR"] = {
     "JOURNAL_ENTRY": "There must be some way to gain access to the Governor or at least entrance to the Mansion after hours. You'll have to keep your eyes open for an opportunity.",
     "JOURNAL_COMPLETE": "Using a combination of alcohol and your whorish skills, you were able to completely exhaust Jarvis and loot him of his house key. You can now come and go into the mansion after dark via the back door."
 };
-/* twine-user-script #49: "kipler_quests.js" */
+/* twine-user-script #50: "kipler_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -11294,7 +12033,7 @@ App.Data.Quests["Q004"] = {
     "JOURNAL_COMPLETE": "It was difficult, but after days spent granting \"favors\" for Julius in the cargo hold, he's become quite fond of you. In the end it " +
     "paid off because not only did NPC_NAME give you a small reward, but now @@color:cyan;Julius@@ will occasionally sell you higher quality drugs."
 };
-/* twine-user-script #50: "lord_rowe_quests.js" */
+/* twine-user-script #51: "lord_rowe_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -11330,7 +12069,7 @@ App.Data.Quests["DADDYSGIRL"] =  {
         "JOURNAL_COMPLETE": "It seems that @@color:Cyan;Lord Rowe's@@ obsession with GF_NAME had a rather 'abnormal' aspect to it. Once you changed your appearance, he was more than happy to listen to you... so long as you sit on his lap like a good little girl. In addition, you can gain access to his study at any hour of the day."
 };
 
-/* twine-user-script #51: "paola_quests.js" */
+/* twine-user-script #52: "paola_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -11365,7 +12104,7 @@ App.Data.Quests["PAOLA_FETCH"] = {
         "@@color:cyan;Blanche@@ in @@color:gold;Port Royale@@ has it?",
     "JOURNAL_COMPLETE": "You fetched a bag of mojo NPC_NAME. She will now provide some specialized 'voodoo' services."
 };
-/* twine-user-script #52: "petey_quests.js" */
+/* twine-user-script #53: "petey_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -11397,7 +12136,7 @@ App.Data.Quests["SMUGGLER_PICKUP"] = {
     "JOURNAL_ENTRY": "HIDDEN",
     "JOURNAL_COMPLETE": "HIDDEN"
 };
-/* twine-user-script #53: "reginald_quests.js" */
+/* twine-user-script #54: "reginald_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -11638,7 +12377,7 @@ App.Data.Quests["Q007"] =  {
     "looking young man, you've ended up as a slutty bimbo with huge tits, a jiggling ass and a pair of lips that could suck off a horse. Very few \"natural\" women could compete with " +
     "you when it comes to looks and technique, it'd be fitting to say that you're a Queen of a Whore."
 };
-/* twine-user-script #54: "simone_quests.js" */
+/* twine-user-script #55: "simone_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -11681,7 +12420,7 @@ App.Data.Quests["SIMONE_MISSING_FRIEND"] = {
     "JOURNAL_COMPLETE": "You're not too sure how you feel about handing in your fiance's hidden dildo to a complete stranger. On one hand, it's kind of disgusting, on the other hand "+
         "now you can whore out of the @@color:gold;'Lusty Lass'@@, which is... well, honestly, kind of disgusting as well. Win some, lose some."
 };
-/* twine-user-script #55: "cargo_store.js" */
+/* twine-user-script #56: "cargo_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -11700,7 +12439,7 @@ App.Data.Stores["CARGO"] = {
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  2500, "MOOD": 80,   "LOCK": 0,  "TAG" : "succubus philtre"      }
     ]
 };
-/* twine-user-script #56: "galley_store.js" */
+/* twine-user-script #57: "galley_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -11717,7 +12456,7 @@ App.Data.Stores["GALLEY"] = {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":   140, "MOOD": 80,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
-/* twine-user-script #57: "golden_goods_store.js" */
+/* twine-user-script #58: "golden_goods_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -11737,7 +12476,7 @@ App.Data.Stores["GOLDEN_GOODS"] =  {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":   140, "MOOD":  0,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
-/* twine-user-script #58: "islageneral_store.js" */
+/* twine-user-script #59: "islageneral_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -11759,7 +12498,7 @@ App.Data.Stores["ISLASTORE"] = {
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   120, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink head bow"            }
     ]
 };
-/* twine-user-script #59: "islatavern_store.js" */
+/* twine-user-script #60: "islatavern_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -11773,7 +12512,7 @@ App.Data.Stores["ISLATAVERN"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
     ]
 };
-/* twine-user-script #60: "lust_lass_store.js" */
+/* twine-user-script #61: "lust_lass_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -11804,7 +12543,7 @@ App.Data.Stores["LUSTY_LASS"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   1000, "MOOD":  90,   "LOCK": 0,  "TAG" : "pink t-shirt"        }
     ]
 };
-/* twine-user-script #61: "smugglers_store.js" */
+/* twine-user-script #62: "smugglers_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -11818,7 +12557,7 @@ App.Data.Stores["SMUGGLERS"] =  {
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",   "QTY":    4,     "MAX":    4,  "PRICE":    25, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"             }
     ]
 };
-/* twine-user-script #62: "rot_lib.js" */
+/* twine-user-script #63: "rot_lib.js" */
 // Wrap rot.js code due to Twine's environment
 (function (window, define, exports) {
     /*
@@ -17234,7 +17973,7 @@ App.Data.Stores["SMUGGLERS"] =  {
     }));
 
 }).call(window, window);
-/* twine-user-script #63: "Story JavaScript" */
+/* twine-user-script #64: "Story JavaScript" */
 //Sugarcube config
 Config.history.controls = false;
 Config.history.maxStates = 1;</script><tw-passagedata pid="1" name="Cabin" tags="" position="100,100">&lt;&lt;set $InIntro = 0&gt;&gt;\
@@ -17666,11 +18405,7 @@ There is currently no ship being built.
 	&lt;tr&gt;
 		&lt;td&gt; &lt;/td&gt;
 		&lt;td colspan=&quot;3&quot;&gt;
-			&lt;&lt;print _Item.Message($Player);&gt;&gt;\
-			&lt;&lt;if _Item.Type() == &quot;LOOT_BOX&quot;&gt;&gt;\
-			&lt;&lt;set _Tmp = window.App.Item.DoLootBox($args[0], $Player); &gt;&gt;\
-			&lt;&lt;= _Tmp&gt;&gt;&lt;&lt;/if&gt;&gt;\
-			&lt;&lt;run $Player.UseItem($args[0]);&gt;&gt;&lt;/td&gt;
+			&lt;&lt;= $Player.UseItem($args[0]);&gt;&gt;&lt;/td&gt;
 	&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;&lt;replace &quot;#PlayerScore&quot;&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/widget&gt;&gt;

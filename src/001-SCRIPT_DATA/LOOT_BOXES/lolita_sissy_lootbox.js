@@ -16,8 +16,8 @@ App.Data.LootBoxes["common lolita loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["LOLITA_SISSY", 0, 0]},
-    "Price": 0
+    "Effects" : [ "LOLITA_SISSY_LOOT_BOX_COMMON"]
+
 };
 
 App.Data.LootBoxes["uncommon lolita loot box"] = {
@@ -28,8 +28,7 @@ App.Data.LootBoxes["uncommon lolita loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["LOLITA_SISSY", 20, 10]},
-    "Price": 0
+    "Effects" : [ "LOLITA_SISSY_LOOT_BOX_UNCOMMON"]
 };
 
 App.Data.LootBoxes["rare lolita loot box"] = {
@@ -40,8 +39,7 @@ App.Data.LootBoxes["rare lolita loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["LOLITA_SISSY", 30, 20]},
-    "Price": 0
+    "Effects" : [ "LOLITA_SISSY_LOOT_BOX_RARE"]
 };
 
 App.Data.LootBoxes["legendary lolita loot box"] = {
@@ -52,8 +50,7 @@ App.Data.LootBoxes["legendary lolita loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["LOLITA_SISSY", 50, 30]},
-    "Price": 0
+    "Effects" : [ "LOLITA_SISSY_LOOT_BOX_LEGENDARY"]
 };
 
 App.Data.LootTables["LOLITA_SISSY"] =  {

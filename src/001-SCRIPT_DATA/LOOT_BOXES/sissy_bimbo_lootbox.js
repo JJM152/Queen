@@ -16,8 +16,7 @@ App.Data.LootBoxes["common sissy loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["SISSY_BIMBO", 0, 0]},
-    "Price": 0
+    "Effects" : [ "SISSY_BIMBO_LOOT_BOX_COMMON"]
 };
 
 App.Data.LootBoxes["uncommon sissy loot box"] = {
@@ -28,8 +27,7 @@ App.Data.LootBoxes["uncommon sissy loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["SISSY_BIMBO", 20, 10]},
-    "Price": 0
+    "Effects" : [ "SISSY_BIMBO_LOOT_BOX_UNCOMMON"]
 };
 
 App.Data.LootBoxes["rare sissy loot box"] = {
@@ -40,8 +38,7 @@ App.Data.LootBoxes["rare sissy loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["SISSY_BIMBO", 30, 20]},
-    "Price": 0
+    "Effects" : [ "SISSY_BIMBO_LOOT_BOX_RARE"]
 };
 
 App.Data.LootBoxes["legendary sissy loot box"] = {
@@ -52,8 +49,7 @@ App.Data.LootBoxes["legendary sissy loot box"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["SISSY_BIMBO", 50, 30]},
-    "Price": 0
+    "Effects" : [ "SISSY_BIMBO_LOOT_BOX_LEGENDARY"]
 };
 
 App.Data.LootTables["SISSY_BIMBO"] =  {

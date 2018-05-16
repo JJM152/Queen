@@ -735,19 +735,23 @@ App.Entity.Player = function (){
     };
 
     this.AdjustStat = function (StatName, Amount) {
+        if (this.debugMode) console.log("AdjustStat: Name="+StatName+", Amount="+Amount);
         this.CoreStats[StatName] = this.GetCapStat("STAT", StatName, ( this.CoreStats[StatName] + Amount));
     };
 
     this.AdjustBody = function (StatName, Amount) {
+        if (this.debugMode) console.log("AdjustBody: Name="+StatName+", Amount="+Amount);
         this.BodyStats[StatName] = this.GetCapStat("BODY", StatName, ( this.BodyStats[StatName] + Amount));
     };
 
     this.AdjustSkill = function (StatName, Amount) {
+        if (this.debugMode) console.log("AdjustSkill: Name="+StatName+", Amount="+Amount);
         this.Skills[StatName] = this.GetCapStat("SKILL", StatName, ( this.Skills[StatName] + Amount));
     };
 
     this.AdjustXP = function (Type, StatName, Amount, Limiter) {
         Amount = Math.ceil(Amount); // No floats.
+        if (this.debugMode)
         console.debug("AdjustXP: Type="+Type+",Stat="+StatName+",Amount="+Amount+",Limit="+Limiter);
 
         if ((Amount > 0) && (this.GetStat(Type, StatName) >= Limiter) && (Limiter != 0)) return;
@@ -760,7 +764,7 @@ App.Entity.Player = function (){
         if (Type == "STAT")  this.CoreStatsXP[StatName] += Amount;
         if (Type == "SKILL") this.SkillsXP[StatName] += Amount;
         if (Type == "BODY")  this.BodyXP[StatName] += Amount;
-
+        if (this.debugMode)
         console.debug("AdjustXP: Adjusted by "+Amount);
     };
 
@@ -1234,9 +1238,12 @@ App.Entity.Player = function (){
     this.UseItem = function (ItemId) {
         var o = this.GetItemById(ItemId);
         this.AddHistory("ITEMS", o.Name(), 1);
-        this.ApplyEffects(o.UseEffect());
+        //this.ApplyEffects(o.UseEffect());
+        o.ApplyEffects(this);
+        var msg = o.Message(this);
         o.RemoveCharge(1);
         if (o.Charges() <= 0) this.DeleteItem(o);
+        return msg;
     };
 
     this.pBodyChange = function (BodyPart, Direction) {

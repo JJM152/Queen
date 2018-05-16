@@ -16,8 +16,7 @@ App.Data.LootBoxes["common food loot box"] =  {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["FOOD", 0, 0]},
-    "Price": 0
+    "Effects" : [ "FOOD_LOOT_BOX_COMMON" ]
 };
 
 App.Data.LootBoxes["uncommon food loot box"] =  {
@@ -28,8 +27,7 @@ App.Data.LootBoxes["uncommon food loot box"] =  {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["FOOD", 20, 10]},
-    "Price": 0
+    "Effects" : [ "FOOD_LOOT_BOX_UNCOMMON" ]
 };
 
 App.Data.LootBoxes["rare food loot box"] =  {
@@ -40,8 +38,7 @@ App.Data.LootBoxes["rare food loot box"] =  {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["FOOD", 30, 20]},
-    "Price": 0
+    "Effects" : [ "FOOD_LOOT_BOX_RARE" ]
 };
 
 App.Data.LootBoxes["legendary food loot box"] =  {
@@ -52,8 +49,7 @@ App.Data.LootBoxes["legendary food loot box"] =  {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["FOOD", 50, 30]},
-    "Price": 0
+    "Effects" : [ "FOOD_LOOT_BOX_LEGENDARY" ]
 };
 
 App.Data.LootTables["FOOD"] = {
@@ -74,17 +70,17 @@ App.Data.LootTables["FOOD"] = {
         ] },
     40 :  {
         "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 6},
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 2},
             { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 4}
         ] },
     50 :  {
         "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 6},
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 3},
             { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2}
         ] },
     60 :  {
         "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 6},
+            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 4},
             { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2},
             { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2}
         ] },

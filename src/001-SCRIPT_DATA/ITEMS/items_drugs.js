@@ -8,17 +8,7 @@ App.Data.Drugs = {
         "Message": "You quaff the philter. For a moment you feel the bite of the sea... and then tranquility so sublime you lose yourself to it.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {
-            "Hormones": [5, 300, 0],
-            "Femininity": [5, 100, 0],
-            "Face": [0, 500, 0],
-            "Lips": [0, 500, 0],
-            "Hair": [6, 600, 0],
-            "Waist" : [0,-500,0],
-            "WillPower": [-5, -200, 0],
-            "Toxicity": [50, 0, 0]
-        },
-        "Price": 500
+        "Effects": [ "NEREID_PHILTRE" ]
     },
     "succubus philtre": {
         "Name": "succubus philtre",
@@ -27,18 +17,7 @@ App.Data.Drugs = {
         "Message": "You quaff the philter. Almost instantly a deep feeling of arousal surfaces and your mind is filled with perverted thoughts.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {
-            "Hormones": [5, 500, 0],
-            "Femininity": [5, 100, 0],
-            "Bust": [5, 500, 0],
-            "Ass": [5, 500, 0],
-            "Hips": [5, 500, 0],
-            "Waist": [-5, -500, 0],
-            "Perversion": [6, 600, 0],
-            "WillPower": [-10, -500, 0],
-            "Toxicity": [50, 0, 0]
-        },
-        "Price": 500
+        "Effects": [ "SUCCUBUS_PHILTRE" ]
     },
     "pixie dust": {
         "Name": "pixie dust",
@@ -47,8 +26,7 @@ App.Data.Drugs = {
         "Message": "You snort the pixie dust up your nostril. After a few moments of dizziness you feel yourself invigorated with energy!",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Energy": [3, 0, 0], "Height" : [0,-100,0], "WillPower": [0, -50, 0], "Toxicity": [10, 0, 0]},
-        "Price": 10
+        "Effects": [ "ENERGY_UNCOMMON", "SHRINK_UNCOMMON", "TOXICITY_COMMON", "BREAK_WILL_COMMON" ]
     },
     "fairy dust": {
         "Name": "fairy dust",
@@ -57,8 +35,7 @@ App.Data.Drugs = {
         "Message": "You snort the fairy dust up your nostril. After a few moments of dizziness you start giggling madly and feel yourself invigorated with energy!",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Energy": [2, 0, 0], "WillPower": [0, -50, 0], "Toxicity": [10, 0, 0], "Height" : [0,-50,0], "Hormones" : [0,100,0] },
-        "Price": 5
+        "Effects": [ "ENERGY_COMMON", "SHRINK_COMMON", "TOXICITY_COMMON", "BREAK_WILL_COMMON" ]
     },
     "medicinal herbs": {
         "Name": "medicinal herbs",
@@ -67,8 +44,7 @@ App.Data.Drugs = {
         "Message": "You apply the herbs to your wounds and feel slightly better.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Health": [10, 0, 0], "Toxicity": [3, 0, 0]},
-        "Price": 10
+        "Effects" : [ "HEAL_COMMON", "TOXICITY_COMMON" ]
     },
     "healing potion" : {
         "Name": "healing potion",
@@ -77,8 +53,7 @@ App.Data.Drugs = {
         "Message": "You gulp down the potion. It's sickly sweet, like a viscous syrup made from pure sugar. Within moments you feel the effects as your body starts to rejuvenate.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Health": [30, 0, 0], "Toxicity": [-20, 0, 0], "Nutrition" : [20, 0, 0]},
-        "Price": 50
+        "Effects" : [ "HEAL_COMMON", "PURGE_COMMON", "NUTRITION_UNCOMMON" ]
     },
     "hair tonic": {
         "Name": "hair tonic",
@@ -87,8 +62,7 @@ App.Data.Drugs = {
         "Message": "You pour the tonic over your head and massage it into your scalp. Moments later you feel a burning and itching sensation.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Hair": [0, 100, 0], "Toxicity": [20, 0, 0]},
-        "Price": 10
+        "Effects" : [ "HAIR_UNCOMMON", "TOXICITY_COMMON" ]
     },
     "siren elixir": {
         "Name": "siren elixir",
@@ -97,8 +71,7 @@ App.Data.Drugs = {
         "Message": "You drink the elixir in one gulp and sense a feeling of peace flow through you. It has a faint, bittersweet taste.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"WillPower" : [0,200,0], "Perversion" : [0,-200,0], "Hormones" : [0,200,0], "Face" : [0,200,0], "Bust" : [0,200,0], "Waist" : [0,-100,0], "Ass" : [0,200,0], "Hair": [0, 200, 0], "Toxicity": [100, 0, 0]},
-        "Price": 100
+        "Effects" : [ "SIREN_ELIXIR" ]
     },
     "khafkir": {
         "Name": "khafkir",
@@ -107,8 +80,7 @@ App.Data.Drugs = {
         "Message": "You tip back the bottle and take a drink. Surprisingly it doesn't burn, but instead tastes earthy and strong.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Health": [20, 0, 0], "Nutrition" : [10,0,0], "Hormones" : [0,-200,0], "Toxicity": [5, 0, 0]},
-        "Price": 20
+        "Effects" : [ "HEAL_COMMON", "NUTRITION_COMMON", "MALE_HORMONE_XP_RARE", "TOXICITY_UNCOMMON" ]
     },
     "face cream": {
         "Name": "face cream",
@@ -117,7 +89,6 @@ App.Data.Drugs = {
         "Message": "You rub the lightly tan cream into your face. It has an earthy, almost nutty scent. Your face feels refreshed.",
         "Type": "potion",
         "Charges": 1,
-        "UseEffect": {"Face" : [0,100,0], "Hormones" : [0,100,0],  "Toxicity": [5, 0, 0]},
-        "Price": 30
+        "Effects" : [ "FACE_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
     }
 };

@@ -978,7 +978,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 this._Player.AddItem(Type, Name, Value, Opt);
                 break;
             case "QUEST_ITEM":
-                this._RewardItems.push( App.PR.pItemDesc(Type, Name, Value, true));
+                this._RewardItems.push( App.PR.pItemDesc("QUEST", Name, Value, true));
                 this._Player.AddItem("QUEST", Name, Value, Opt);
                 break;
             case "STAT_XP":

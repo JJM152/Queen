@@ -41,22 +41,23 @@ App.Item = new function() {
         };
 
     /**
-     * @param ItemID {string}
-     * @param Player {App.Entity.Player}
+     * Open a loot box!
+     * @param {App.Entity.Player} Player
+     * @param {string} Type
+     * @param {number} Minimum
+     * @param Bonus
      * @returns {string}
+     * @constructor
      */
-        this.DoLootBox = function( ItemID, Player) {
-            var LootBox = Player.GetItemById(ItemID);
-            console.log(LootBox);
-            var Effect = LootBox.UseEffect()["LootBox"];
-            var Type = Effect[0];
-            var Minimum = Effect[1];
-            var Bonus = Effect[2];
-            var DiceRoll    = Math.floor(Math.random() * 100);
-            var Table = App.Data.LootTables[Type];
-            var output = "";
+        this.DoLootBox = function( Player, Type, Minimum, Bonus) {
 
+            var DiceRoll    = Math.floor(Math.random() * 100);
+            var Table       = App.Data.LootTables[Type];
+            var output      = "";
+
+            if (Player.debugMode == true)
             console.log("DoLootBox: Type="+Type+", Minimum="+Minimum+", Bonus="+Bonus);
+
             DiceRoll = ( DiceRoll + Bonus) < Minimum ? Minimum : (DiceRoll + Bonus);
 
             if (Player.HasHex("TREASURE_FINDER")) {
@@ -82,10 +83,10 @@ App.Item = new function() {
                             // We own this already. Give some cash.
                             var coins = Math.floor((obj.Price() * 0.5));
                             Player.AdjustMoney( coins );
-                            output += coins + " gold coins.\n";
+                            output += "color:yellow;"+coins + " gold coins.@@\n";
                         } else {
                             output += obj.Description();
-                            output += Items[i]["QTY"] > 1 ? "x"+Items[i]["QTY"]+"\n" : "\n";
+                            output += Items[i]["QTY"] > 1 ? "x "+Items[i]["QTY"]+"\n" : "\n";
                             Player.AddItem(Items[i]["TYPE"], Items[i]["TAG"], Items[i]["QTY"]);
                         }
                     }
@@ -237,6 +238,8 @@ App.Item = new function() {
             var timestamp = new Date().getTime();
             this._id = this.Data["Name"] + ":" + timestamp;
 
+            this._messageBuffer = [ ];
+
             this.Id = function () {
                 return this._id;
             };
@@ -249,11 +252,11 @@ App.Item = new function() {
             this.Examine = function (Player) {
                 var Output = this.Data["LongDesc"];
                 var Usages = Player.GetHistory("ITEMS", this.Name());
-                var Effects = Object.keys(this.Data["UseEffect"] || {});
+/*                var Effects = Object.keys(this.Data["UseEffect"] || {});*/
 
                 if (Usages == 0) return Output;
 
-                Output += "\n\n";
+ /*               Output += "\n\n";
                 var max = Math.min(Usages, Effects.length);
                 var EDict = [ ];
 
@@ -264,7 +267,7 @@ App.Item = new function() {
                     } else {
                         Output +=  "@@color:red;&dArr;"+Effects[i]+"@@ ";
                     }
-                }
+                }*/
                 return Output;
             };
 
@@ -277,14 +280,35 @@ App.Item = new function() {
 
             /** @returns {*}*/
             this.UseEffect = function () {
-                return this.Data["UseEffect"];
+                return this.Data["Effects"];
             };
+
+            /**
+             * Apply all effects of this consumable item.
+             * @param {App.Entity.Player} Player
+             * @constructor
+             */
+            this.ApplyEffects = function(Player) {
+
+                if (this.Data.hasOwnProperty("Effects") == false) return;
+                var tmp;
+                for (var i = 0; i < this.Data["Effects"].length;i++) {
+                    if (Player.debugMode == true) console.log("Applying effect: "+this.Data["Effects"][i]);
+                    tmp = App.Data.EffectLib[this.Data["Effects"][i]]["FUN"](Player);
+                    if ((typeof tmp !== 'undefined') && (tmp != "")) this._messageBuffer.push(tmp);
+                }
+
+            };
+
             /** This message is printed when a player uses an item
              * @returns {string} */
             this.Message = function (Player) {
                 var Output = this.Data["Message"];
                 var Usages = Player.GetHistory("ITEMS", this.Name());
-                var Effects = Object.keys(this.Data["UseEffect"]);
+
+                if (this._messageBuffer.length > 0)
+                Output += this._messageBuffer.join("\n");
+/*                var Effects = Object.keys(this.Data["UseEffect"]);
                 console.log("Item usages:" + Usages);
                 if (Usages >= Effects.length ) return Output;
 
@@ -297,7 +321,7 @@ App.Item = new function() {
                 }
 
                 if (Effects[Usages] != "LootBox")
-                Output = Output + "\n\nYou learn something... This item has an effect: " +EffectLearn;
+                Output = Output + "\n\nYou learn something... This item has an effect: " +EffectLearn;*/
                 return Output;
             };
 

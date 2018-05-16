@@ -16,8 +16,7 @@ App.Data.LootBoxes["pathetic loser chest"] = {
     "Type": "LOOT_BOX",
     "Charges": 1,
     // Effect : [ TABLE, Minimum Roll, Bonus to roll
-    "UseEffect": { "LootBox": ["PATHETIC_LOSER", 0, 0]},
-    "Price": 0
+    "Effects" : [ "PATHETIC_LOSER_LOOT_BOX_COMMON"]
 };
 
 App.Data.LootTables["PATHETIC_LOSER"] =  {

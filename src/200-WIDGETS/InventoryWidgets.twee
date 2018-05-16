@@ -35,11 +35,7 @@
 	<tr>
 		<td> </td>
 		<td colspan="3">
-			<<print _Item.Message($Player);>>\
-			<<if _Item.Type() == "LOOT_BOX">>\
-			<<set _Tmp = window.App.Item.DoLootBox($args[0], $Player); >>\
-			<<= _Tmp>><</if>>\
-			<<run $Player.UseItem($args[0]);>></td>
+			<<= $Player.UseItem($args[0]);>></td>
 	</tr>
 </tbody>
 </table><<replace "#PlayerScore">><<score>><</replace>><</widget>>

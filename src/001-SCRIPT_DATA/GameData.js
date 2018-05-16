@@ -1,6 +1,6 @@
-window.App = window.App || { Data: { }, Entity: { } };
+App = App || { Data: { }, Entity: { } };
 
-window.App.Data.NPCS = {
+App.Data.NPCS = {
 			"Crew" : {
 				"Name" : "Crew", // This is a place holder and not meant to be used as an actual NPC.
 				"Mood" : 0,
@@ -205,7 +205,7 @@ window.App.Data.NPCS = {
             }
 };
 
-window.App.Data.Names = {
+App.Data.Names = {
             "Male": ["Ailen", "Aldritch", "Allan", "Arnold", "Austyn", "Ayden",
                 "Bobby", "Brennan", "Brewster", "Brod", "Barthon",
                 "Cal", "Clifford", "Colby", "Conner", "Creighton", "Cruz",
@@ -251,7 +251,7 @@ window.App.Data.Names = {
                 "Zoe"]
         };
 
-window.App.Data.Lists = {
+App.Data.Lists = {
             "SkillSynergy" : {
                 "HandJobs"      : [ { "TYPE" : "BODY", "NAME" : "Face" ,        "BONUS" : 0.50},
                                     { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.25}],
@@ -1214,7 +1214,7 @@ window.App.Data.Lists = {
                              "#A901DB", "#DF01D7", "#DF01A5"]
 		};
 
-window.App.Data.Ratings = {
+App.Data.Ratings = {
             "Lust": {
                 20: "Content", 40: "Satisfied", 60: "Horny",
                 80: "Lustful", 99: "Aggressive", 100: "Overpowering"
@@ -1492,7 +1492,7 @@ window.App.Data.Ratings = {
             }
         };
 
-window.App.Data.Enemies = {
+App.Data.Enemies = {
   "PIRATE_A" : {
       "NAME" : "Pirate", "CATEGORY" : "PIRATES", "CLASSIFICATION" : "MINOR",
       "TITLE" : "A swarthy ENEMY wielding WEAPON", "GENDER" : "MALE", "MaxHealth" : 60, "MaxEnergy" : 3,
@@ -1513,7 +1513,7 @@ window.App.Data.Enemies = {
 
 };
 
-window.App.Data.CombatSkills = {
+App.Data.CombatSkills = {
     "Slash" : {
         "NAME" : "Slash", "COST" : 0, "SKILL" : "Swashbuckling", "TYPE" : "BLADED_MELEE", "COOL_DOWN" : 0,
         "VERB" : [ "slash at ENEMY", "slashes at you"], "TRIGGERS" : [ ], "EFFECTS" : [ ]
@@ -1545,7 +1545,7 @@ window.App.Data.CombatSkills = {
 
 };
 
-window.App.Data.Encounters = {
+App.Data.Encounters = {
     "PIRATE_PRACTICE" :
         [
             {   "CHANCE" : 100,
