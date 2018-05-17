@@ -90,5 +90,46 @@ App.Data.Drugs = {
         "Type": "potion",
         "Charges": 1,
         "Effects" : [ "FACE_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
-    }
+    },
+	"black hair dye": {
+        "Name": "black hair dye",
+        "ShortDesc": "a vial of plant based black dye",
+        "LongDesc": "This common dye product can be used to change the color of your hair.",
+        "Message": "You rub the inky mess into your hair and let it sit. Eventually you washing the remnants out and your hair has taken on a new color.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects" : [ "BLACK_HAIR_DYE" ]
+    },
+	"brown hair dye": {
+        "Name": "brown hair dye",
+        "ShortDesc": "a vial of plant based brown dye",
+        "LongDesc": "This common dye product can be used to change the color of your hair.",
+        "Message": "You rub the muddy colored mess into your hair and let it sit. Eventually you washing the remnants out and your hair has taken on a new color.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects" : [ "BROWN_HAIR_DYE" ]
+    },
+	"red hair dye": {
+        "Name": "red hair dye",
+        "ShortDesc": "a vial of plant based red dye",
+        "LongDesc": "This common dye product can be used to change the color of your hair.",
+        "Message": "You rub the ruddy mess into your hair and let it sit. Eventually you washing the remnants out and your hair has taken on a new color.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects" : [ "RED_HAIR_DYE" ]
+    },
+	"blond hair dye": {
+        "Name": "blond hair dye",
+        "ShortDesc": "a vial of strong hair bleach",
+        "LongDesc": "This foul smelling concotion can be used to remove color from your hair.",
+        "Message": "You rub the causting chemicals into your hair, trying not to burn you scalp. After suffering for a while through the fumes, you wash it out and your hair has changed color.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects" : [ "BLOND_HAIR_DYE" ]
+    }		
 };
+
+
+
+
+

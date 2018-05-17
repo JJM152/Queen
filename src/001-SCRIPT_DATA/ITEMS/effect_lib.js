@@ -1,6 +1,10 @@
 App = App || { Data: { }, Entity: { } };
 
 App.Data.EffectLib = {
+//======================================
+    /** UNIQUE POTIONS **/
+//======================================	
+	/** NEREID PHILTRE */
     "NEREID_PHILTRE" : { 
         "FUN" :/** @param {App.Entity.Player} p */ 
             function(p) {
@@ -23,6 +27,7 @@ App.Data.EffectLib = {
                         "Face Prettier ++++", "Hair Growth ++++", "Lips Fuller ++++", "WillPower Up +++",
                         "Waist Narrower ++++", "Dancing XP ++++", "Singing XP ++++", "Seduction XP ++++" ]
     },
+	/** SUCCUBUS PHILTRE */
     "SUCCUBUS_PHILTRE" : {
         "FUN" :/** @param {App.Entity.Player} p */
             function(p) {
@@ -44,6 +49,7 @@ App.Data.EffectLib = {
             "Bust Growth ++++", "Ass Growth ++++", "Hips Wider ++++", "WillPower Up +++",
             "Waist Narrower ++++", "Perversion XP ----", "Seduction XP ++++" ]
     },
+	/** SIREN ELIXIR */
     "SIREN_ELIXIR" : {
         "FUN" :/** @param {App.Entity.Player} p */
             function(p) {
@@ -775,5 +781,32 @@ App.Data.EffectLib = {
             function(p) { return App.Item.DoLootBox(p, "SISSY_BIMBO", 50, 30); },
         "VALUE" : 0,
         "KNOWLEDGE" : [ "Loot Box ++++" ]
-    }
+    },
+//======================================
+    /** OTHER ITEMS**/
+//======================================	
+    "BLACK_HAIR_DYE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.HairColor = 'black'; },
+        "VALUE" : 100,
+        "KNOWLEDGE" : [ "Dye Hair Black" ]
+    },
+	    "BROWN_HAIR_DYE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.HairColor = 'brown'; },
+        "VALUE" : 100,
+        "KNOWLEDGE" : [ "Dye Hair Brown" ]
+    },
+	    "RED_HAIR_DYE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.HairColor = 'red'; },
+        "VALUE" : 100,
+        "KNOWLEDGE" : [ "Dye Hair Red" ]
+    },
+	    "BLOND_HAIR_DYE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.HairColor = 'blond'; },
+        "VALUE" : 100,
+        "KNOWLEDGE" : [ "Dye Hair Blond" ]
+    },
 };

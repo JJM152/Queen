@@ -1132,10 +1132,10 @@ App.Item = new function() {
                             // We own this already. Give some cash.
                             var coins = Math.floor((obj.Price() * 0.5));
                             Player.AdjustMoney( coins );
-                            output += coins + " gold coins.\n";
+                            output += "color:yellow;"+coins + " gold coins.@@\n";
                         } else {
                             output += obj.Description();
-                            output += Items[i]["QTY"] > 1 ? "x"+Items[i]["QTY"]+"\n" : "\n";
+                            output += Items[i]["QTY"] > 1 ? "x "+Items[i]["QTY"]+"\n" : "\n";
                             Player.AddItem(Items[i]["TYPE"], Items[i]["TAG"], Items[i]["QTY"]);
                         }
                     }
@@ -7387,6 +7387,10 @@ App.Data.Encounters = {
 App = App || { Data: { }, Entity: { } };
 
 App.Data.EffectLib = {
+//======================================
+    /** UNIQUE POTIONS **/
+//======================================	
+	/** NEREID PHILTRE */
     "NEREID_PHILTRE" : { 
         "FUN" :/** @param {App.Entity.Player} p */ 
             function(p) {
@@ -7409,6 +7413,7 @@ App.Data.EffectLib = {
                         "Face Prettier ++++", "Hair Growth ++++", "Lips Fuller ++++", "WillPower Up +++",
                         "Waist Narrower ++++", "Dancing XP ++++", "Singing XP ++++", "Seduction XP ++++" ]
     },
+	/** SUCCUBUS PHILTRE */
     "SUCCUBUS_PHILTRE" : {
         "FUN" :/** @param {App.Entity.Player} p */
             function(p) {
@@ -7430,6 +7435,7 @@ App.Data.EffectLib = {
             "Bust Growth ++++", "Ass Growth ++++", "Hips Wider ++++", "WillPower Up +++",
             "Waist Narrower ++++", "Perversion XP ----", "Seduction XP ++++" ]
     },
+	/** SIREN ELIXIR */
     "SIREN_ELIXIR" : {
         "FUN" :/** @param {App.Entity.Player} p */
             function(p) {
@@ -8161,7 +8167,34 @@ App.Data.EffectLib = {
             function(p) { return App.Item.DoLootBox(p, "SISSY_BIMBO", 50, 30); },
         "VALUE" : 0,
         "KNOWLEDGE" : [ "Loot Box ++++" ]
-    }
+    },
+//======================================
+    /** OTHER ITEMS**/
+//======================================	
+    "BLACK_HAIR_DYE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.HairColor = 'black'; },
+        "VALUE" : 100,
+        "KNOWLEDGE" : [ "Dye Hair Black" ]
+    },
+	    "BROWN_HAIR_DYE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.HairColor = 'brown'; },
+        "VALUE" : 100,
+        "KNOWLEDGE" : [ "Dye Hair Brown" ]
+    },
+	    "RED_HAIR_DYE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.HairColor = 'red'; },
+        "VALUE" : 100,
+        "KNOWLEDGE" : [ "Dye Hair Red" ]
+    },
+	    "BLOND_HAIR_DYE" : {
+        "FUN" : /** @param {App.Entity.Player} p */
+            function(p) { p.HairColor = 'blond'; },
+        "VALUE" : 100,
+        "KNOWLEDGE" : [ "Dye Hair Blond" ]
+    },
 };
 /* twine-user-script #24: "items_cosmetics.js" */
 App = App || { Data: { }, Entity: { } };
@@ -8297,8 +8330,49 @@ App.Data.Drugs = {
         "Type": "potion",
         "Charges": 1,
         "Effects" : [ "FACE_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
-    }
+    },
+	"black hair dye": {
+        "Name": "black hair dye",
+        "ShortDesc": "a vial of plant based black dye",
+        "LongDesc": "This common dye product can be used to change the color of your hair.",
+        "Message": "You rub the inky mess into your hair and let it sit. Eventually you washing the remnants out and your hair has taken on a new color.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects" : [ "BLACK_HAIR_DYE" ]
+    },
+	"brown hair dye": {
+        "Name": "brown hair dye",
+        "ShortDesc": "a vial of plant based brown dye",
+        "LongDesc": "This common dye product can be used to change the color of your hair.",
+        "Message": "You rub the muddy colored mess into your hair and let it sit. Eventually you washing the remnants out and your hair has taken on a new color.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects" : [ "BROWN_HAIR_DYE" ]
+    },
+	"red hair dye": {
+        "Name": "red hair dye",
+        "ShortDesc": "a vial of plant based red dye",
+        "LongDesc": "This common dye product can be used to change the color of your hair.",
+        "Message": "You rub the ruddy mess into your hair and let it sit. Eventually you washing the remnants out and your hair has taken on a new color.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects" : [ "RED_HAIR_DYE" ]
+    },
+	"blond hair dye": {
+        "Name": "blond hair dye",
+        "ShortDesc": "a vial of strong hair bleach",
+        "LongDesc": "This foul smelling concotion can be used to remove color from your hair.",
+        "Message": "You rub the causting chemicals into your hair, trying not to burn you scalp. After suffering for a while through the fumes, you wash it out and your hair has changed color.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects" : [ "BLOND_HAIR_DYE" ]
+    }		
 };
+
+
+
+
+
 /* twine-user-script #26: "items_food.js" */
 App = App || { Data: { }, Entity: { } };
 
@@ -12433,10 +12507,12 @@ App.Data.Stores["CARGO"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":   150, "MOOD": 80,   "LOCK": 0,  "TAG" : "face cream"            },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":   100, "MOOD": 20,   "LOCK": 1,  "TAG" : "khafkir"               },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":   500, "MOOD": 60,   "LOCK": 1,  "TAG" : "siren elixir"          },
+		// RARE ITEMS
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":    50, "MOOD": 60,   "LOCK": 0,  "TAG" : "hair tonic"            },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",     "QTY":    2,    "MAX":    2,  "PRICE":   100, "MOOD": 60,   "LOCK": 0,  "TAG" : "starfruit"             },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  2500, "MOOD": 80,   "LOCK": 0,  "TAG" : "nereid philtre"        },
-        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  2500, "MOOD": 80,   "LOCK": 0,  "TAG" : "succubus philtre"      }
+        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  2500, "MOOD": 80,   "LOCK": 0,  "TAG" : "succubus philtre"      },
+		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":   100, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   		},
     ]
 };
 /* twine-user-script #57: "galley_store.js" */
@@ -12468,9 +12544,10 @@ App.Data.Stores["GOLDEN_GOODS"] =  {
         { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":   10,     "MAX":   10,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "basic makeup"           },
         { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":   10,     "MAX":   10,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "hair products"          },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",        "QTY":    8,     "MAX":    8,  "PRICE":    50, "MOOD":  0,   "LOCK": 0,  "TAG" : "medicinal herbs"        },
+		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    1,     "MAX":    1,  "PRICE":   100, "MOOD":  0,   "LOCK": 0,  "TAG" : "black hair dye"   	  },
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   300, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate boots"           },
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   200, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate bra"             },
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   200, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate thong"           },
+        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   200, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate bra"             },
+        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   200, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate thong"           },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":   100, "MOOD":  0,   "LOCK": 0,  "TAG" : "milkdew melon"          },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":   100, "MOOD":  0,   "LOCK": 0,  "TAG" : "honey mead"             },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":   140, "MOOD":  0,   "LOCK": 0,  "TAG" : "butter gourd"           }
@@ -12491,11 +12568,14 @@ App.Data.Stores["ISLASTORE"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   160, "MOOD":  0,   "LOCK": 0,  "TAG" : "striped bra"              },
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   160, "MOOD":  0,   "LOCK": 0,  "TAG" : "striped panties"          },
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   150, "MOOD":  0,   "LOCK": 0,  "TAG" : "striped stockings"        },
+		// RARE ITEMS
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   300, "MOOD":  0,   "LOCK": 0,  "TAG" : "frilly bloomers"          },
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   500, "MOOD":  0,   "LOCK": 0,  "TAG" : "frilly dress"             },
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   250, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink mary janes"          },
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   400, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink platform mary janes" },
-        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   120, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink head bow"            }
+        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   120, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink head bow"            },
+		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    1,     "MAX":    1,  "PRICE":   100, "MOOD":  0,   "LOCK": 0,  "TAG" : "red hair dye"   			},
+		
     ]
 };
 /* twine-user-script #60: "islatavern_store.js" */
@@ -12512,7 +12592,7 @@ App.Data.Stores["ISLATAVERN"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
     ]
 };
-/* twine-user-script #61: "lust_lass_store.js" */
+/* twine-user-script #61: "lusty_lass_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -12537,6 +12617,7 @@ App.Data.Stores["LUSTY_LASS"] = {
         // RARE ITEMS
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,     "MAX":    1,  "PRICE":   100, "MOOD": 0,   "LOCK": 0,  "TAG" : "khafkir"          },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,     "MAX":    1,  "PRICE":    50, "MOOD": 0,   "LOCK": 0,  "TAG" : "pixie dust"       },
+		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,     "MAX":    1,  "PRICE":   100, "MOOD": 0,   "LOCK": 0,  "TAG" : "blond hair dye"   },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",     "QTY":    1,     "MAX":    1,  "PRICE":   140, "MOOD": 0,   "LOCK": 0,  "TAG" : "butter gourd"     },
         // RARE CLOTHES - Mood 90+
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   1000, "MOOD":  90,   "LOCK": 0,  "TAG" : "pink tartan"         },
@@ -12554,7 +12635,7 @@ App.Data.Stores["SMUGGLERS"] =  {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"             },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    40, "MOOD":  0,   "LOCK": 0,  "TAG" : "smugglers ale"          },
-        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",   "QTY":    4,     "MAX":    4,  "PRICE":    25, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"             }
+        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",   "QTY":    4,     "MAX":    4,  "PRICE":    25, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"             },
     ]
 };
 /* twine-user-script #63: "rot_lib.js" */
@@ -20204,7 +20285,7 @@ As the new &quot;Cabin Girl&quot; of the Salty Mermaid, can you manage to raise 
     &lt;&lt;/replace&gt;&gt;\
 &lt;&lt;/click&gt;&gt; - @@color:purple;Even Easier Setting@@ - //The name says it all.//
 &lt;/span&gt;</tw-passagedata><tw-passagedata pid="106" name="Intro1" tags="" position="725,1350">&lt;&lt;nobr&gt;&gt;
-Your name is @@color:yellow;&lt;&lt;= $Player.OriginalName &gt;&gt; Smythe@@, the middle son of an &lt;span id=&quot;familyJob&quot;&gt;
+Your name is @@color:yellow;&lt;&lt;= $Player.OriginalName &gt;&gt; Smythe@@, the middle son of a &lt;span id=&quot;familyJob&quot;&gt;
 &lt;&lt;click &quot;farmer&quot;&gt;&gt;
     &lt;&lt;run $Player.AdjustStat(&quot;Fitness&quot;, 10);&gt;&gt;
     &lt;&lt;replace &quot;#familyJob&quot;&gt;&gt;@@color:yellow;farmer@@&lt;&lt;/replace&gt;&gt;

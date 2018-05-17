@@ -75,7 +75,7 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
 
 :: Intro1
 <<nobr>>
-Your name is @@color:yellow;<<= $Player.OriginalName >> Smythe@@, the middle son of an <span id="familyJob">
+Your name is @@color:yellow;<<= $Player.OriginalName >> Smythe@@, the middle son of a <span id="familyJob">
 <<click "farmer">>
     <<run $Player.AdjustStat("Fitness", 10);>>
     <<replace "#familyJob">>@@color:yellow;farmer@@<</replace>>
