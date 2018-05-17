@@ -50,6 +50,7 @@ window.App.StoreEngine = new function() {
         for (var i = 0; i < Match.length; i++)
             Match[i]["LOCK"] = Locked;
     };
+
 };
 
 /**
@@ -92,15 +93,31 @@ var Store = function(Player, NPC, StoreData) {
             });
     };
 
+    /**
+     * Can the player afford this onion? Er.. item.
+     * @param {*} Item The object that represents the stores inventory for the item
+     * @returns {boolean}
+     */
     this.PlayerCanAfford = function(Item)
     {
         return (this._Player.Money >= this.GetPrice(Item));
     };
 
+    /**
+     * Fetch the price from the Item calculator. Applies store bonus and discount for good npc mood.
+     * @param {*} Item The object that represents the stores inventory for the item
+     * @returns {number}
+     */
     this.GetPrice = function(Item)
     {
-        // Up to 50% discount with maximum NPC mood.
-        return Math.round( (Item["PRICE"] - ((Item["PRICE"] / 2) * (this._NPC.Mood() / 100))));
+
+        var price = App.Item.CalculateBasePrice( Item["TYPE"], Item["TAG"]);
+        if (typeof Item["PRICE"] !== 'undefined') price = Math.ceil( price * Item["PRICE"]);
+
+        // Up to 30% discount with maximum NPC mood. Mood must be above 50
+        var discount = Math.floor( price * 0.3);
+        return (this._NPC.Mood() > 50) ?  Math.ceil ( price - ( discount * ((this._NPC.Mood()-50)/ 50))) : price;
+
     };
 
     this.BuyItem = function(Item)

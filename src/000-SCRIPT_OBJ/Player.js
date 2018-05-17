@@ -31,8 +31,8 @@ App.Entity.Player = function (){
 
     this.History = {
         "ITEMS" : { },
-        "SEX" : { },
-        "MONEY" :{ }
+        "SEX"   : { },
+        "MONEY" : { }
     };
 
     // Game/Environment Variables

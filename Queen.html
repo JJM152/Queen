@@ -1051,20 +1051,109 @@ App = App || { Data: { }, Entity: { } };
 
 App.Item = new function() {
 
+    /**
+     *
+     * @param Type
+     * @param Name
+     * @returns {*}
+     * @private
+     */
+        this._FetchData = function(Type, Name)
+        {
+            if (Type == "DRUGS") return window.App.Data.Drugs[Name];
+            if (Type == "FOOD") return window.App.Data.Food[Name];
+            if (Type == "COSMETICS") return window.App.Data.Cosmetics[Name];
+            if (Type == "CLOTHES") return window.App.Data.Clothes[Name];
+            if (Type == "WEAPON") return window.App.Data.Clothes[Name];
+            if (Type == "STORE") return window.App.Data.Stores[Name];
+            if (Type == "NPC") return window.App.Data.NPCS[Name];
+            if (Type == "QUEST") return window.App.Data.QuestItems[Name];
+            if (Type == "LOOT_BOX") return window.App.Data.LootBoxes[Name];            
+        };
+
+    /**
+     * Automatically calculate the price of an item based on it's attributes.
+     * @param {string} Category the dictionary name
+     * @param {string} Tag the key of the item
+     * @returns {number} the price in gold coins.
+     */
+        this.CalculateBasePrice = function(Category, Tag)
+        {
+            var d = this._FetchData(Category, Tag);
+            if (d == 0 || (typeof d === 'undefined')) {
+                console.log("Error calculating price for item "+Category+":"+Tag+" - dictionary entry not found");
+                return 100;
+            }
+
+            var price = 0;
+
+            switch(Category) {
+
+                case 'DRUGS':
+                case 'FOOD':
+                    // Drugs and food have a price which is the sum of their effect values
+                    if (typeof d["Effects"] !== 'undefined') {
+                        if ( d["Effects"].length > 1 ) {
+                            price = d["Effects"].reduce(function (accumulator, effect) {
+                                return (isNaN(accumulator)) ? App.Data.EffectLib[accumulator]["VALUE"] + App.Data.EffectLib[effect]["VALUE"] :
+                                accumulator + App.Data.EffectLib[effect]["VALUE"];
+                            });
+                        } else {
+                            price = App.Data.EffectLib[d["Effects"][0]]["VALUE"];
+                        }
+                    }
+                    break;
+                case 'COSMETICS':
+                    price = (typeof d["VALUE"] !== 'undefined') ? d["VALUE"] : 25;
+                    break;
+                case 'CLOTHES':
+                    // Base price set on style.
+                    if (typeof d["Style"] !== 'undefined') {
+
+                        switch(d["Style"]) {
+                            case 'COMMON': price = 50; break;
+                            case 'UNCOMMON': price = 100; break;
+                            case 'RARE': price = 250; break;
+                            case 'LEGENDARY': price = 600; break;
+                            default: price = 50; break;
+                        }
+
+                    } else {
+                        price = 50;
+                    }
+
+                    //modify based on type
+                    if (typeof d["Type"] !== 'undefined') {
+
+                        switch(d["Type"]) {
+                            case 'ACCESSORY': price = price * 1.4; break;
+                            case 'CLOTHING' : price = price * 1.1; break;
+                            case 'ONE PIECE': price = price * 2.5; break;
+                            case 'WEAPON': price = price * 2; break;
+                        }
+                    }
+
+                    // Wigs have a special stat on them.
+                    if (typeof d["HairBonus"] !== 'undefined') price = price + (d["HairBonus"] * 2);
+
+                    // Check for Categories. Extra categories other than 1 increase price by 10% per category
+                    if (typeof d["Category"] !== 'undefined')
+                        price = (d["Category"].length > 1) ? price + ((price * 0.1) * (d["Category"].length - 1)) : price;
+
+                    // Round up
+                    price = Math.ceil(price);
+
+                    break;
+
+            }
+
+            return (price == 0 ) ? 100 : price;
+        };
+    
         this.Factory = function(Type, Name, Count) {
 
-            var d = 0;
+            var d = this._FetchData(Type, Name);
             var o;
-
-            if (Type == "DRUGS") d = window.App.Data.Drugs[Name];
-            if (Type == "FOOD") d = window.App.Data.Food[Name];
-            if (Type == "COSMETICS") d = window.App.Data.Cosmetics[Name];
-            if (Type == "CLOTHES") d = window.App.Data.Clothes[Name];
-            if (Type == "WEAPON") d = window.App.Data.Clothes[Name];
-            if (Type == "STORE") d = window.App.Data.Stores[Name];
-			if (Type == "NPC") d = window.App.Data.NPCS[Name];
-            if (Type == "QUEST") d = window.App.Data.QuestItems[Name];
-            if (Type == "LOOT_BOX") d = window.App.Data.LootBoxes[Name];
 
             if (d == 0 || (typeof d === 'undefined')) alert("Factory Failed: (" + Type + "," + Name + "," + Count + ")");
 
@@ -1094,7 +1183,7 @@ App.Item = new function() {
      * @param {App.Entity.Player} Player
      * @param {string} Type
      * @param {number} Minimum
-     * @param Bonus
+     * @param {number} Bonus
      * @returns {string}
      * @constructor
      */
@@ -2854,8 +2943,8 @@ App.Entity.Player = function (){
 
     this.History = {
         "ITEMS" : { },
-        "SEX" : { },
-        "MONEY" :{ }
+        "SEX"   : { },
+        "MONEY" : { }
     };
 
     // Game/Environment Variables
@@ -4925,6 +5014,7 @@ window.App.StoreEngine = new function() {
         for (var i = 0; i < Match.length; i++)
             Match[i]["LOCK"] = Locked;
     };
+
 };
 
 /**
@@ -4967,15 +5057,31 @@ var Store = function(Player, NPC, StoreData) {
             });
     };
 
+    /**
+     * Can the player afford this onion? Er.. item.
+     * @param {*} Item The object that represents the stores inventory for the item
+     * @returns {boolean}
+     */
     this.PlayerCanAfford = function(Item)
     {
         return (this._Player.Money >= this.GetPrice(Item));
     };
 
+    /**
+     * Fetch the price from the Item calculator. Applies store bonus and discount for good npc mood.
+     * @param {*} Item The object that represents the stores inventory for the item
+     * @returns {number}
+     */
     this.GetPrice = function(Item)
     {
-        // Up to 50% discount with maximum NPC mood.
-        return Math.round( (Item["PRICE"] - ((Item["PRICE"] / 2) * (this._NPC.Mood() / 100))));
+
+        var price = App.Item.CalculateBasePrice( Item["TYPE"], Item["TAG"]);
+        if (typeof Item["PRICE"] !== 'undefined') price = Math.ceil( price * Item["PRICE"]);
+
+        // Up to 30% discount with maximum NPC mood. Mood must be above 50
+        var discount = Math.floor( price * 0.3);
+        return (this._NPC.Mood() > 50) ?  Math.ceil ( price - ( discount * ((this._NPC.Mood()-50)/ 50))) : price;
+
     };
 
     this.BuyItem = function(Item)
@@ -5053,7 +5159,7 @@ App.Data.Clothes = App.Data.Clothes || { };
 App.Data.Clothes["bimbo bra"] = { // +15
     "Name": "bimbo bra", "ShortDesc": "a {COLOR} push-up bra trimmed with lace and studded with rhinestones",
     "LongDesc": "This sexy bra is designed to push up and display your assets in the most provocative way possible. The lace and shiny rhinestones there are for maximum eye-catching appeal.",
-    "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+    "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Style": "RARE", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
 };
 
@@ -5063,7 +5169,7 @@ App.Data.Clothes["bimbo bra"] = { // +15
 App.Data.Clothes["bimbo thong"] = { //15
     "Name": "bimbo thong", "ShortDesc": "a {COLOR} thong with 'I @@color:pink;&#9825;@@ Cum! written on the crotch' ",
     "LongDesc": "This tiny thong is practically a g-string. The advertisement printed on it leaves no doubt to any onlookers as to what you're all about.",
-    "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+    "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Style": "RARE", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Bimbo" ]
 };
 
@@ -5077,7 +5183,7 @@ App.Data.Clothes["bimbo thong"] = { //15
 App.Data.Clothes["micro dress"] = { // +40
     "Name": "sexy micro dress", "ShortDesc": "a figure hugging {COLOR} micro dress",
     "LongDesc": "This dress is made out of some exotic material that hugs every curve of your body. It's so humiliatingly short that your genitals are half open for everyone and the top has several strategic holes to present multiple views of your chest.",
-    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 1000, "Style": "LEGENDARY", "Type" : "ONE PIECE",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Style": "LEGENDARY", "Type" : "ONE PIECE",
     "WearEffect": {"Femininity": [0, 15, 60], "Seduction" : [10,0,0]}, Category : [ "Bimbo" ]
 };
 // COSTUME SLOT
@@ -5086,14 +5192,14 @@ App.Data.Clothes["micro dress"] = { // +40
 App.Data.Clothes["tall heels"] = { // +10
     "Name": "tall heels", "ShortDesc": "a pair of very tall {COLOR} platform heels",
     "LongDesc": "The heels on these sexy shoes are so tall that you prance and waddle, shaking your ass everywhere you walk.",
-    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 60]}, Category : [ "Bimbo", "Sexy Dancer", "High Class Whore" ]
 };
 
 App.Data.Clothes["bimbo heels"] = { // +15
     "Name": "bimbo heels", "ShortDesc": "a pair of outrageously tall {COLOR} platform heels",
     "LongDesc": "The heels on these platform shoes are so tall that you prance and waddle, shaking your ass, everywhere you walk.",
-    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Price": 300, "Style": "RARE", "Type" : "CLOTHING",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Style": "RARE", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 60]}, Category : [ "Bimbo", "Sexy Dancer" ]
 };
 
@@ -5101,8 +5207,8 @@ App.Data.Clothes["bimbo heels"] = { // +15
 App.Data.Clothes["small plug"] = { // +9
     "Name": "small plug", "ShortDesc": "a small anal plug with a heart-shaped {COLOR} faux gem",
     "LongDesc": "This tiny little plug is designed be worn in your ass. The fake gem is there for decoration because everyone is going to be looking at it..",
-    "Slot": "Butt", "Restrict": ["Butt"], "Color": "pink", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
-    "WearEffect": {"Perversion": [0, 10, 40]}, Category : [ "Bimbo", "Sexy Dancer", "High Class Whore", "Ordinary" ]
+    "Slot": "Butt", "Restrict": ["Butt"], "Color": "pink", "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": {"Perversion": [0, 10, 40]}, Category : [ "Bimbo", "Sexy Dancer", "High Class Whore" ]
 };
 
 // PENIS SLOT
@@ -5127,7 +5233,7 @@ App.Data.Clothes = App.Data.Clothes || { };
 App.Data.Clothes["collar"] = { // +3
     "Name": "collar", "ShortDesc": "a leather slave collar",
     "LongDesc": "This thick leather collar is worn to remind everyone that the wearer is a slave.",
-    "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Price": 200, "Style": "COMMON", "Type" : "ACCESSORY", "Locked": 1,
+    "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Style": "COMMON", "Type" : "ACCESSORY", "Locked": 1,
     "WearEffect": {"WillPower": [0, -5, 50], "Perversion": [0, 5, 30]}, "Category" :  [ "BDSM" ]
 };
 
@@ -5135,14 +5241,14 @@ App.Data.Clothes["collar"] = { // +3
 App.Data.Clothes["nipple rings"] = { // +9
     "Name": "nipple rings", "ShortDesc": "a pair of silver nipple rings joined by a chain",
     "LongDesc": "These rings are connected by a chain that is designed to torment and tug on the wearers nipples.",
-    "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "silver", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
+    "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "silver", "Style": "RARE", "Type" : "ACCESSORY",
     "WearEffect": {"WillPower": [0, -5, 70], "Perversion": [0, 5, 40]}, "Category" :  [ "BDSM" ]
 };
 
 App.Data.Clothes["nipple clamps"] = { // +6
     "Name": "nipple clamps", "ShortDesc": "a pair of silver nipple clamps",
     "LongDesc": "These sterling silver nipple clamps are designed to inflict punishment... or perhaps arousal?",
-    "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "silver", "Price": 100, "Style": "UNCOMMON", "Type" : "ACCESSORY",
+    "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "silver", "Style": "UNCOMMON", "Type" : "ACCESSORY",
     "WearEffect": {"WillPower": [0, -5, 80], "Perversion": [0, 5, 30]}, "Category" :  [ "BDSM" ]
 };
 
@@ -5152,14 +5258,14 @@ App.Data.Clothes["nipple clamps"] = { // +6
 App.Data.Clothes["training corset"] = { // +10
     "Name": "training corset", "ShortDesc": "a whale boned {COLOR} training corset",
     "LongDesc": "This garment borders on a torture device. It's designed to slim and shape a woman's waist and push up her bust.",
-    "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200, "Style": "UNCOMMON", "Type" : "ACCESSORY",
+    "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Style": "UNCOMMON", "Type" : "ACCESSORY",
     "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -20, 10]}, "Category" :  [ "BDSM" ]
 };
 
 App.Data.Clothes["bondage corset"] = { // +15
     "Name": "bondage corset", "ShortDesc": "a steel boned {COLOR} leather bondage corset",
     "LongDesc": "This corset is made of strong leather and boned with steel. It has various straps and locks to ensure it must be worn at all times.",
-    "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 400, "Style": "RARE", "Type" : "ACCESSORY",
+    "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",
     "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -25, 0]}, "Category" :  [ "Pirate Slut", "BDSM" ]
 };
 
@@ -5179,7 +5285,7 @@ App.Data.Clothes["bondage corset"] = { // +15
 App.Data.Clothes["shiny knee boots"] = { // +10
     "Name": "shiny knee boots", "ShortDesc": "a shiny pair of high heeled knee-high {COLOR} leather boots",
     "LongDesc": "These fashionable leather boots are polished to a shine. Very tall and slightly intimidating.",
-    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 8, 40]}, "Category" :  [ "Pirate Slut", "BDSM" ]
 };
 
@@ -5187,7 +5293,7 @@ App.Data.Clothes["shiny knee boots"] = { // +10
 App.Data.Clothes["large plug"] = { // +9
     "Name": "large plug", "ShortDesc": "a thick {COLOR} anal plug",
     "LongDesc": "The perfect accessory for the horny masochist, or just good for keeping your arse ready to be used.",
-    "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
+    "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",
     "WearEffect": {"Perversion": [0, 10, 70], "AssFucking" : [10, 10, 80]}, Category : [ "BDSM" ]
 };
 
@@ -5195,7 +5301,7 @@ App.Data.Clothes["large plug"] = { // +9
 App.Data.Clothes["chastity cage"] = { // +3
     "Name": "chastity cage", "ShortDesc": "a metal and leather chastity device",
     "LongDesc": "This cruel device constricts and crushes your genitals. Wearing it is not only painful but probably bad for your health.",
-    "Slot": "Penis", "Restrict": ["Penis"], "Color": "black", "Price": 300, "Style": "COMMON", "Type" : "ACCESSORY", "Locked": 1,
+    "Slot": "Penis", "Restrict": ["Penis"], "Color": "black", "Style": "COMMON", "Type" : "ACCESSORY", "Locked": 1,
     "WearEffect": { "Perversion": [0, 10, 30], "Penis": [0, -15, 0], "Balls": [0, -15, 0]}, Category : [ "BDSM" ]
 };
 
@@ -5215,7 +5321,7 @@ App.Data.Clothes = App.Data.Clothes || { };
 App.Data.Clothes["pigtail wig"] = { // +9
     "Name": "pigtail wig", "ShortDesc": "a {COLOR} wig with pigtails and accessories",
         "LongDesc": "This high quality wig is done up in pigtails fashioned with little heart accessories that have 'I @@color:pink;&#9825;@@ Daddy!' written on them.",
-        "Slot": "Wig", "Restrict": ["Wig"], "Color": "blond", "Price": 150, "Style": "RARE", "Type" : "ACCESSORY",
+        "Slot": "Wig", "Restrict": ["Wig"], "Color": "blond", "Style": "RARE", "Type" : "ACCESSORY",
         "HairLength": 60, "HairStyle": "cute pig tails", "HairBonus": 60, "Category" : [ "Daddy's Girl" ]
 };
 
@@ -5231,7 +5337,7 @@ App.Data.Clothes["pigtail wig"] = { // +9
 App.Data.Clothes["cute pink bra"] = { // +10
     "Name": "cute pink bra", "ShortDesc": "a cute {COLOR} bra with tiny hearts on it",
         "LongDesc": "This cute bra has tiny white &#9825; on it and a delicate little bow in the middle.",
-        "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 150, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Style": "UNCOMMON", "Type" : "CLOTHING",
         "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl" ]
 };
 
@@ -5241,7 +5347,7 @@ App.Data.Clothes["cute pink bra"] = { // +10
 App.Data.Clothes["cute pink panties"] = { // +15
     "Name": "cute pink panties", "ShortDesc": "a pair of cute {COLOR} panties",
         "LongDesc": "On the surface these cute pink panties look quite demure, but they have 'I @@color:pink;&#9825;@@ Daddy!' written across the backside.",
-        "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 200, "Style": "RARE", "Type" : "CLOTHING",
+        "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Style": "RARE", "Type" : "CLOTHING",
         "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl" ]
 };
 
@@ -5249,22 +5355,22 @@ App.Data.Clothes["cute pink panties"] = { // +15
 App.Data.Clothes["pink knee socks"] = { // +10
     "Name": "pink knee socks", "ShortDesc": "a pair of {COLOR} knee socks",
         "LongDesc": "These pink socks come up right to your knee and have little ties to hold them up.",
-        "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "pink", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "pink", "Style": "UNCOMMON", "Type" : "CLOTHING",
         "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl", "Ordinary", "Bimbo" ]
 };
 
 App.Data.Clothes["white knee socks"] = { // +10
     "Name": "pink knee socks", "ShortDesc": "a pair of {COLOR} knee socks",
         "LongDesc": "These white socks come up right to your knee and have little ties to hold them up.",
-        "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "white", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
-        "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl", "Ordinary" ]
+        "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "white", "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Daddy's Girl" ]
 };
 
 // SHIRT SLOT
 App.Data.Clothes["pink t-shirt"] = { // +20
     "Name": "pink t-shirt", "ShortDesc": "a naughty {COLOR} t-shirt",
         "LongDesc": "This t-shirt is cut short, designed to show off a lot of under-boob. It says '@@color:pink;&#9825;@@Daddy's Little Cumslut'@@color:pink;&#9825;@@ on it.",
-        "Slot": "Shirt", "Restrict": ["Shirt", "Dress", "Costume"], "Color": "pink", "Price": 500, "Style": "LEGENDARY", "Type" : "CLOTHING",
+        "Slot": "Shirt", "Restrict": ["Shirt", "Dress", "Costume"], "Color": "pink", "Style": "LEGENDARY", "Type" : "CLOTHING",
         "WearEffect": {"Femininity": [0, 5, 30], "Perversion" : [ 0, 5, 50]}, "Category" :  [ "Daddy's Girl" ]
 };
 
@@ -5272,7 +5378,7 @@ App.Data.Clothes["pink t-shirt"] = { // +20
 App.Data.Clothes["pink tartan"] = { // +20
     "Name": "pink tartan", "ShortDesc": "a very short {COLOR} tartan schoolgirl's skirt",
         "LongDesc": "This pleated skirt is pink with a black and deep purple tartan pattern. It's incredibly short. Way too short.",
-        "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "pink", "Price": 500, "Style": "LEGENDARY", "Type" : "CLOTHING",
+        "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "pink", "Style": "LEGENDARY", "Type" : "CLOTHING",
         "WearEffect": {"Femininity": [0, 5, 60], "Perversion" : [ 0, 5, 50]}, "Category" :  [ "Daddy's Girl", "Sexy Dancer", "Bimbo" ]
 };
 
@@ -5280,7 +5386,7 @@ App.Data.Clothes["pink tartan"] = { // +20
 App.Data.Clothes["pink gingham dress"] = { // +40
     "Name": "pink gingham dress", "ShortDesc": "a super short {COLOR} gingham dress",
         "LongDesc": "This dress has a girly gingham pattern with white lace collar trim. Normally it'd look quite demure, but it's so short it barely covers your arse and it has a very prominent cleavage window to show off your assets.",
-        "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 800, "Style": "LEGENDARY", "Type" : "ONE PIECE",
+        "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Style": "LEGENDARY", "Type" : "ONE PIECE",
         "WearEffect": {"Femininity": [0, 10, 80]}, "Category" :  [ "Daddy's Girl" ]
 };
 
@@ -5310,7 +5416,7 @@ App.Data.Clothes = App.Data.Clothes || { };
 App.Data.Clothes["black flower hairpin"] = { // +12
     "Name": "red and black flower hair pin", "ShortDesc": "a red and {COLOR} flower",
     "LongDesc": "A black rose that adorns your hair, a trio of black ribbons hang down to which are attached 3 blood red stars.",
-    "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 60, "Style": "LEGENDARY", "Type" : "ACCESSORY",
+    "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Style": "LEGENDARY", "Type" : "ACCESSORY",
     "WearEffect": {"Femininity": [0, 10, 80]}, "Category" : [ "Gothic Lolita" ]
 };
 
@@ -5318,7 +5424,7 @@ App.Data.Clothes["black flower hairpin"] = { // +12
 App.Data.Clothes["gothic collar"] = { // +9
     "Name": "Black gothic collar", "ShortDesc": " a {COLOR} ribbon-lined leather collar emblazoned with the word 'SLAVE' burned into it.",
     "LongDesc": "A snug leather collar lined on both sides in black lace, slave is burned into the leather to remind you exactly what you are..",
-    "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Price": 50, "Style": "RARE", "Type" : "ACCESSORY",
+    "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",
     "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Gothic Lolita" ]
 };
 
@@ -5328,8 +5434,8 @@ App.Data.Clothes["gothic collar"] = { // +9
 App.Data.Clothes["gothic black bra"] = { // +10
     "Name": "black bra", "ShortDesc": "a {COLOR} lace gothic style bra",
     "LongDesc": "A sexy black lace gothic style bra.",
-    "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
-    "WearEffect": {"Femininity": [0, 10, 60]}, "Category" : [ "Gothic Lolita", "BIMBO", "Sexy Dancer" ]
+    "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 10, 60]}, "Category" : [ "Gothic Lolita", "Bimbo", "Sexy Dancer" ]
 };
 
 // CORSET SLOT
@@ -5338,14 +5444,14 @@ App.Data.Clothes["gothic black bra"] = { // +10
 App.Data.Clothes["black panties"] = { // +10
     "Name": "black panties", "ShortDesc": "a pair of {COLOR} black panties",
     "LongDesc": "Black sexy silk panties just asking for someone to remove them.",
-    "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
-    "WearEffect": {"Femininity": [0, 10, 60]}, "Category" : [  "Gothic Lolita", "BIMBO", "Sexy Dancer" ]
+    "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "WearEffect": {"Femininity": [0, 10, 60]}, "Category" : [  "Gothic Lolita", "Bimbo", "Sexy Dancer" ]
 };
 
 App.Data.Clothes["gothic frilly bloomers"] = { // +15
     "Name": "frilly bloomers", "ShortDesc": "a pair of frilly {COLOR} cotton bloomers",
     "LongDesc": "These bloomers are cut short and have a frilly bottom.",
-    "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 150, "Style": "RARE", "Type" : "CLOTHING",
+    "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Style": "RARE", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Gothic Lolita" ]
 };
 
@@ -5353,7 +5459,7 @@ App.Data.Clothes["gothic frilly bloomers"] = { // +15
 App.Data.Clothes["gothic striped stockings"] = { // +15
     "Name": "black stockings", "ShortDesc": "a pair of {COLOR} and purple striped stockings",
     "LongDesc": "These stockings come up over your knees. They are striped, black and purple, with a slight lacey top that is adorned with tiny black roses.",
-    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 75, "Style": "RARE", "Type" : "CLOTHING",
+    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Style": "RARE", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 10, 60]}, "Category" : [ "Gothic Lolita" ]
 };
 
@@ -5365,7 +5471,7 @@ App.Data.Clothes["gothic striped stockings"] = { // +15
 App.Data.Clothes["gothic frilly dress"] = { // +40
     "Name": "black gothic dress", "ShortDesc": "a {COLOR} gothic dress",
     "LongDesc": "A short sleeved snug black knee length dress. Lace along the the collar, sleeves and along the bottom of the heavily petticoated skirt that bounces with every step you take.",
-    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Price": 250, "Style": "LEGENDARY", "Type" : "ONE PIECE",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Style": "LEGENDARY", "Type" : "ONE PIECE",
     "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Gothic Lolita" ]
 };
 
@@ -5375,14 +5481,14 @@ App.Data.Clothes["gothic frilly dress"] = { // +40
 App.Data.Clothes["black boots"] = { // +15
     "Name": "black high heeled boots", "ShortDesc": "A pair of black knee length heeled boots",
     "LongDesc": "A pair of knee high black boots with a 5 inch heel and 1 inch platform. Red stars dangle from the zipper.",
-    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 125, "Style": "RARE", "Type" : "CLOTHING",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "RARE", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 50]}, "Category" : [ "Gothic Lolita", "Sexy Dancer" ]
 };
 
 App.Data.Clothes["black platform mary janes"] = { // +15
     "Name": "black platform mary janes", "ShortDesc": "a pair of {COLOR} platform mary janes",
     "LongDesc": "These black platform shoes have Have red stars for the buckles at the ankles and a chunky platform heel. Difficult to walk in but sexy.",
-    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "CLOTHING",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "RARE", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Gothic Lolita" ]
 };
 
@@ -5408,7 +5514,7 @@ App.Data.Clothes = App.Data.Clothes || { };
 App.Data.Clothes["pirate hat"] = { // +12
     "Name": "pirate hat", "ShortDesc": "a cute little pirate hat",
     "LongDesc": "This cute little pirate hat is the perfect accessory for a sissy pirate slut.",
-    "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 100, "Style": "LEGENDARY", "Type" : "ACCESSORY",
+    "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Style": "LEGENDARY", "Type" : "ACCESSORY",
     "Category" : [ "Pirate Slut" ]
 };
 
@@ -5421,7 +5527,7 @@ App.Data.Clothes["pirate hat"] = { // +12
 App.Data.Clothes["pirate bra"] = { // +15
     "Name": "pirate bra", "ShortDesc": "a {COLOR} push-up bra with the Jolly Roger",
     "LongDesc": "This sexy silk bra is fringed with gold and has a skull and bones, the traditional symbol of piracy emblazoned on the right breast cup.",
-    "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+    "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Style": "RARE", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
 };
 
@@ -5429,7 +5535,7 @@ App.Data.Clothes["pirate bra"] = { // +15
 App.Data.Clothes["pistol brace"] = { // +9
     "Name": "pistol brace", "ShortDesc": "a {COLOR} leather pistol brace",
     "LongDesc": "More of a belt than anything else, it can hold pistols if you find any.",
-    "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY",
+    "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",
     "WearEffect": {"Femininity": [0, 5, 50], "Waist": [0, -20, 10], "Swashbuckling" : [ 10, 0, 0 ]}, "Category" :  [ "Pirate Slut", "BDSM" ]
 };
 
@@ -5437,7 +5543,7 @@ App.Data.Clothes["pistol brace"] = { // +9
 App.Data.Clothes["pirate thong"] = { // +15
     "Name": "pirate thong", "ShortDesc": "a {COLOR} thong with the Jolly Roger",
     "LongDesc": "This t-back thong gently separates your arse cheeks, making them more prominent and luscious looking. It has the phrase 'Plunder my Booty' written across the rear waistband and a small skull and bones embroidered on the crotch.",
-    "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 180, "Style": "RARE", "Type" : "CLOTHING",
+    "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Style": "RARE", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Pirate Slut" ]
 };
 
@@ -5445,14 +5551,14 @@ App.Data.Clothes["pirate thong"] = { // +15
 App.Data.Clothes["fishnet tights"] = { // +10
     "Name": "fishnet tights", "ShortDesc": "a pair of {COLOR} fishnet stockings",
     "LongDesc": "These fishnet tights wrap themselves perfectly to your legs. The feeling is quite exquisite.",
-    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 400, "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 60]}, "Category" :  [ "Pirate Slut", "BDSM", "Naughty Nun", "Bimbo", "High Class Whore", "Slutty Lady" ]
 };
 
 App.Data.Clothes["fishnet stockings"] = { // +10
     "Name": "fishnet stockings", "ShortDesc": "a pair of {COLOR} fishnet stockings",
     "LongDesc": "These fishnet stockings are topped with black lace and held up by garter straps.",
-    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 500, "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 60]}, "Category" :  [ "Pirate Slut", "BDSM", "Naughty Nun", "Bimbo", "High Class Whore", "Slutty Lady", "Sexy Dancer" ]
 };
 
@@ -5466,7 +5572,7 @@ App.Data.Clothes["fishnet stockings"] = { // +10
 App.Data.Clothes["pirate waistcoat"] = { // +40
     "Name": "pirate waistcoat", "ShortDesc": "a short {COLOR} velvet waistcoat",
     "LongDesc": "This tiny waistcoat only has one button, leaving your cleavage exposed. It's also quite short, with the coat tails only barely covering your ass and leaving your front entirely exposed.",
-    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Price": 1100, "Style": "LEGENDARY", "Type" : "ONE PIECE",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Style": "LEGENDARY", "Type" : "ONE PIECE",
     "WearEffect": { "Femininity": [0, 10, 80], "Seduction": [10,0,0], "Swashbuckling": [10,0,0], "Navigating": [10,0,0], "Sailing": [10,0,0] }, "Category" :  [ "Pirate Slut" ]
 };
 
@@ -5476,7 +5582,7 @@ App.Data.Clothes["pirate waistcoat"] = { // +40
 App.Data.Clothes["pirate boots"] = { // +10
     "Name": "pirate boots", "ShortDesc": "very tall thigh-high {COLOR} leather boots",
     "LongDesc": "The heels on these boots are outrageously high and pointed. The supple and shiny leather comes up to your mid thigh and folds over on itself.",
-    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
     "Category" : [ "Pirate Slut", "BDSM" ], "WearEffect": {"Femininity": [0, 8, 40]}
 };
 
@@ -5502,7 +5608,7 @@ App.Data.Clothes = App.Data.Clothes || { };
 App.Data.Clothes["pink head bow"] = { // +6
     "Name": "pink head bow", "ShortDesc": "a cute {COLOR} bow",
     "LongDesc": "This pink bow is a cute accessory that makes you feel like a little girl.",
-    "Slot": "Hat", "Restrict": ["Hat"], "Color": "pink", "Price": 60, "Style": "UNCOMMON", "Type" : "ACCESSORY",
+    "Slot": "Hat", "Restrict": ["Hat"], "Color": "pink", "Style": "UNCOMMON", "Type" : "ACCESSORY",
     "WearEffect": {"Femininity": [0, 10, 50]}, "Category" : [ "Sissy Lolita", "Daddy's Girl" ]
 };
 
@@ -5510,7 +5616,7 @@ App.Data.Clothes["pink head bow"] = { // +6
 App.Data.Clothes["sissy collar"] = { // +9
     "Name": "sissy collar", "ShortDesc": "a {COLOR} fur-lined leather collar emblazoned with the word 'SISSY' in rhinestones.",
     "LongDesc": "This thick collar is made of sturdy leather and lined with soft fur, making it somewhat tolerable to wear... if it wasn't for the word 'SISSY' writ large in shiny faux gems across it.",
-    "Slot": "Neck", "Restrict": ["Neck"], "Color": "pink", "Price": 50, "Style": "RARE", "Type" : "ACCESSORY",
+    "Slot": "Neck", "Restrict": ["Neck"], "Color": "pink", "Style": "RARE", "Type" : "ACCESSORY",
     "WearEffect": {"Femininity": [0, 10, 70]}, "Category" : [ "Sissy Lolita" ]
 };
 
@@ -5520,7 +5626,7 @@ App.Data.Clothes["sissy collar"] = { // +9
 App.Data.Clothes["striped bra"] = { // +10
     "Name": "striped bra", "ShortDesc": "a {COLOR} and white striped bra",
         "LongDesc": "This cute little number is exceptionally girly, perfect for a little sissy baby.",
-        "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "Slot": "Bra", "Restrict": ["Bra"], "Color": "pink", "Style": "UNCOMMON", "Type" : "CLOTHING",
         "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Sissy Lolita" ]
 };
 
@@ -5530,14 +5636,14 @@ App.Data.Clothes["striped bra"] = { // +10
 App.Data.Clothes["striped panties"] = { // +10
     "Name": "striped panties", "ShortDesc": "a pair of {COLOR} and white striped panties",
         "LongDesc": "This cute little number is exceptionally girly, perfect for a little sissy baby.",
-        "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 80, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Style": "UNCOMMON", "Type" : "CLOTHING",
         "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Sissy Lolita" ]
 };
 
 App.Data.Clothes["frilly bloomers"] = { // +15
     "Name": "frilly bloomers", "ShortDesc": "a pair of frilly {COLOR} cotton bloomers",
         "LongDesc": "These bloomers are cut short and have a frilly bottom, perfect for a little sissy girl.",
-        "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Price": 150, "Style": "RARE", "Type" : "CLOTHING",
+        "Slot": "Panty", "Restrict": ["Panty"], "Color": "pink", "Style": "RARE", "Type" : "CLOTHING",
         "WearEffect": {"Femininity": [0, 10, 70]}, "Category" :  [ "Sissy Lolita" ]
 };
 
@@ -5545,7 +5651,7 @@ App.Data.Clothes["frilly bloomers"] = { // +15
 App.Data.Clothes["striped stockings"] = { // +10
     "Name": "striped stockings", "ShortDesc": "a pair of {COLOR} and white striped stockings",
         "LongDesc": "These cute striped stockings have adorable little pink bows at the top.",
-        "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "pink", "Price": 75, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "pink", "Style": "UNCOMMON", "Type" : "CLOTHING",
         "WearEffect": {"Femininity": [0, 10, 50]}, "Category" :  [ "Sissy Lolita", "Bimbo" ]
 };
 // SHIRT SLOT
@@ -5556,7 +5662,7 @@ App.Data.Clothes["striped stockings"] = { // +10
 App.Data.Clothes["frilly dress"] = { // +20
     "Name": "frilly dress", "ShortDesc": "a cute frilly {COLOR} dress",
     "LongDesc": "This dress is all ruffles and lace. Perfect for attire for a dedicated sissy girl.",
-    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 250, "Style": "UNCOMMON", "Type" : "ONE PIECE",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Style": "UNCOMMON", "Type" : "ONE PIECE",
     "WearEffect": {"Femininity": [0, 10, 70]}, "Category" :  [ "Sissy Lolita" ]
 };
 
@@ -5566,14 +5672,14 @@ App.Data.Clothes["frilly dress"] = { // +20
 App.Data.Clothes["pink mary janes"] = { // +10
     "Name": "pink mary janes", "ShortDesc": "a pair of low heeled {COLOR} mary janes",
         "LongDesc": "These girly shoes have bows on the ankles and a short heel making them easy to walk in.",
-        "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Price": 125, "Style": "UNCOMMON", "Type" : "CLOTHING",
+        "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Style": "UNCOMMON", "Type" : "CLOTHING",
         "WearEffect": {"Femininity": [0, 5, 50]}, "Category" : [ "Sissy Lolita", "Daddy's Girl" ]
 };
 
 App.Data.Clothes["pink platform mary janes"] = { // +15
     "Name": "pink platform mary janes", "ShortDesc": "a pair of {COLOR} platform mary janes",
         "LongDesc": "These girly shoes have bows on the ankles and a chunky platform heel. Difficult to walk in but both sexy and girly.",
-        "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Price": 200, "Style": "RARE", "Type" : "CLOTHING",
+        "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "pink", "Style": "RARE", "Type" : "CLOTHING",
         "WearEffect": {"Femininity": [0, 10, 70]}, "Category" :  [ "Sissy Lolita", "Daddy's Girl" ]
 };
 // BUTT SLOT
@@ -5595,41 +5701,41 @@ App.Data.Clothes = App.Data.Clothes || { };
 App.Data.Clothes["cheap wig"] = {
     "Name": "cheap wig", "ShortDesc": "a short {COLOR} wig",
     "LongDesc": "This cheap wig is made out of badly dyed horse hair.",
-    "Slot": "Wig", "Restrict": ["Wig"], "Color": "black", "Price": 50, "Style": "COMMON", "Type" : "ACCESSORY",
+    "Slot": "Wig", "Restrict": ["Wig"], "Color": "black", "Style": "COMMON", "Type" : "ACCESSORY",
     "HairLength": 30, "HairStyle": "a short bob", "HairBonus": 30
 };
 
 App.Data.Clothes["wig"] = {
     "Name": "wig", "ShortDesc": "a long {COLOR} wig",
     "LongDesc": "This wig is made from human hair and of quite a fine quality.",
-    "Slot": "Wig", "Restrict": ["Wig"], "Color": "blond", "Price": 150, "Style": "UNCOMMON", "Type" : "ACCESSORY",
+    "Slot": "Wig", "Restrict": ["Wig"], "Color": "blond", "Style": "UNCOMMON", "Type" : "ACCESSORY",
     "HairLength": 60, "HairStyle": "loose curls", "HairBonus": 60
 };
 
 App.Data.Clothes["exotic wig"] = {
     "Name": "exotic wig", "ShortDesc": "an exotic {COLOR} wig",
     "LongDesc": "This exotic wig is made of finely dyed human hair and strung with jewels.",
-    "Slot": "Wig", "Restrict": ["Wig"], "Color": "purple", "Price": 300, "Style": "RARE", "Type" : "ACCESSORY",
+    "Slot": "Wig", "Restrict": ["Wig"], "Color": "purple", "Style": "RARE", "Type" : "ACCESSORY",
     "HairLength": 80, "HairStyle": "twin tails", "HairBonus": 90
 };
 // HAT SLOT
 App.Data.Clothes["bonnet"] = {
     "Name": "bonnet", "ShortDesc": "a frilly {COLOR} bonnet",
     "LongDesc": "This frilly little bonnet is a dainty accessory sure to give off a girlish demeanor.",
-    "Slot": "Hat", "Restrict": ["Hat"], "Color": "pink", "Price": 100, "Style": "RARE", "Type" : "ACCESSORY"
+    "Slot": "Hat", "Restrict": ["Hat"], "Color": "pink", "Style": "RARE", "Type" : "ACCESSORY"
 };
 
 App.Data.Clothes["cat ears"] = {
     "Name": "cat ears", "ShortDesc": "a pair of fluffy {COLOR} cat ears",
     "LongDesc": "These large furry cat ears are attached by a headband to be worn.",
-    "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Price": 200, "Style": "RARE", "Type" : "ACCESSORY"
+    "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY"
 };
 
 // NECK SLOT
 App.Data.Clothes["choker"] = {
     "Name": "choker", "ShortDesc": "a {COLOR} silk choker",
     "LongDesc": "This thin choker is made of silk and designed to accentuate a delicate neck.",
-    "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Price": 50, "Style": "COMMON", "Type" : "ACCESSORY"
+    "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Style": "COMMON", "Type" : "ACCESSORY"
 };
 
 // NIPPLES SLOT
@@ -5638,21 +5744,21 @@ App.Data.Clothes["choker"] = {
 App.Data.Clothes["chemise"] = {
     "Name": "chemise", "ShortDesc": "a plain {COLOR} cotton chemise",
     "LongDesc": "A brief slip designed to cover the breasts under clothes. Not very supportive at all.",
-    "Slot": "Bra", "Restrict": ["Bra"], "Color": "white", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING",
+    "Slot": "Bra", "Restrict": ["Bra"], "Color": "white", "Style": "COMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 20]}
 };
 
 App.Data.Clothes["cotton bra"] = {
     "Name": "cotton bra", "ShortDesc": "a {COLOR} cotton bra trimmed with lace",
     "LongDesc": "A regular sized bra designed to contain and support female breasts. It offers modest support and a small amount of sexual appeal.",
-    "Slot": "Bra", "Restrict": ["Bra"], "Color": "white", "Price": 100, "Style": "COMMON", "Type" : "CLOTHING",
+    "Slot": "Bra", "Restrict": ["Bra"], "Color": "white", "Style": "COMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 30]}
 };
 
 App.Data.Clothes["silk bra"] = {
     "Name": "silk bra", "ShortDesc": "a sexy {COLOR} silk bra with lace trim",
     "LongDesc": "This expensive undergarment is designed to accentuate and display a woman's chest with lustful appeal.",
-    "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Price": 200, "Style": "COMMON", "Type" : "CLOTHING",
+    "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Style": "COMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 50]}
 };
 
@@ -5668,14 +5774,14 @@ App.Data.Clothes["fashion corset"] = {
 App.Data.Clothes["cotton bloomers"] = {
     "Name": "cotton bloomers", "ShortDesc": "a pair of {COLOR} cotton bloomers",
     "LongDesc": "The most basic of undergarments. No frills and almost zero sex appeal.",
-    "Slot": "Panty", "Restrict": ["Panty"], "Color": "white", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING",
+    "Slot": "Panty", "Restrict": ["Panty"], "Color": "white", "Style": "COMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 20]}
 };
 
 App.Data.Clothes["sheer bloomers"] = {
     "Name": "sheer bloomers", "ShortDesc": "a pair of sheer {COLOR} silk and lace bloomers",
     "LongDesc": "Made from sheer silk, they're smooth against your skin and decidedly sexy.",
-    "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
+    "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Style": "COMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 50]}
 };
 
@@ -5683,14 +5789,14 @@ App.Data.Clothes["sheer bloomers"] = {
 App.Data.Clothes["cotton stockings"] = {
     "Name": "cotton stockings", "ShortDesc": "a pair of {COLOR} cotton stockings",
     "LongDesc": "Basic stockings, held up with string ties.",
-    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "white", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING",
+    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "white", "Style": "COMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 20]}
 };
 
 App.Data.Clothes["silk stockings"] = {
     "Name": "silk stockings", "ShortDesc": "a pair of {COLOR} silk stockings and garters",
     "LongDesc": "Luxurious and sexy silk stockings held up with garters.",
-    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
+    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Style": "COMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 40]}
 };
 
@@ -5698,14 +5804,14 @@ App.Data.Clothes["silk stockings"] = {
 App.Data.Clothes["cotton blouse"] = {
     "Name": "cotton blouse", "ShortDesc": "a {COLOR} cotton blouse",
     "LongDesc": "This simple cotton blouse is made from rough cotton.",
-    "Slot": "Shirt", "Restrict": ["Shirt", "Dress", "Costume"], "Color": "white", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING",
+    "Slot": "Shirt", "Restrict": ["Shirt", "Dress", "Costume"], "Color": "white", "Style": "COMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 20]}
 };
 
 App.Data.Clothes["silk blouse"] = {
     "Name": "silk blouse", "ShortDesc": "a low cut {COLOR} silk blouse",
     "LongDesc": "This elegant silk blouse is cut daringly low.",
-    "Slot": "Shirt", "Restrict": ["Shirt", "Dress", "Costume"], "Color": "white", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
+    "Slot": "Shirt", "Restrict": ["Shirt", "Dress", "Costume"], "Color": "white", "Style": "COMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 40]}
 };
 
@@ -5713,32 +5819,32 @@ App.Data.Clothes["silk blouse"] = {
 App.Data.Clothes["leather pants"] = {
     "Name": "leather pants", "ShortDesc": "a pair of {COLOR} leather pants",
     "LongDesc": "These leather pants are incredibly tight and designed to show off your ass.",
-    "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "black", "Price": 200, "Style": "COMMON", "Type" : "CLOTHING"
+    "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "black", "Style": "COMMON", "Type" : "CLOTHING"
 };
 
 App.Data.Clothes["leather shorts"] = {
     "Name": "leather shorts", "ShortDesc": "a pair of low rise {COLOR} leather shorts",
     "LongDesc": "These tight leather shorts ride up in all the right places.",
-    "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING"
+    "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "black", "Style": "COMMON", "Type" : "CLOTHING"
 };
 
 // DRESS SLOT
 App.Data.Clothes["cotton dress"] = {
     "Name": "cotton dress", "ShortDesc": "a {COLOR} cotton dress",
     "LongDesc": "This simple cotton dress is made from rough cotton.",
-    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "blue", "Price": 50, "Style": "COMMON", "Type" : "ONE PIECE",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "blue", "Style": "COMMON", "Type" : "ONE PIECE",
     "WearEffect": {"Femininity": [0, 5, 20]}
 };
 App.Data.Clothes["sundress"] = {
     "Name": "sundress", "ShortDesc": "a cute {COLOR} floral sundress",
     "LongDesc": "This soft sundress has a cute floral pattern that is exceptionally girly.",
-    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Price": 100, "Style": "UNCOMMON", "Type" : "ONE PIECE",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Style": "UNCOMMON", "Type" : "ONE PIECE",
     "WearEffect": {"Femininity": [0, 5, 50]}
 };
 App.Data.Clothes["sexy dress"] = {
     "Name": "sexy dress", "ShortDesc": "a sexy {COLOR} mini dress",
     "LongDesc": "This daringly short dress hugs your body and lets everyone know it's for sale.",
-    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Price": 250, "Style": "UNCOMMON", "Type" : "ONE PIECE",
+    "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Style": "UNCOMMON", "Type" : "ONE PIECE",
     "WearEffect": {"Femininity": [0, 15, 60],  "Seduction" : [10,0,0]}
 };
 
@@ -5749,7 +5855,7 @@ App.Data.Clothes["stripper costume"] = {
     "brazen whores. The skirt is flared and too low, showing off your bottom. The top is tight and mostly open, it has patches that can be pulled off to reveal tassels hanging "+
     "off your tits from pasties that are shaped like anchors. Instead of sleeves or a collar it has little accessories designed to look like them, including the epaulets of the navy "+
     "suit jacket.",
-    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "white", "Price": 450, "Style": "UNCOMMON", "Type" : "ONE PIECE",
+    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "white", "Style": "UNCOMMON", "Type" : "ONE PIECE",
     "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]}, "SkillBonus": {"Dancing": [10, 20, 0], "Singing": [10, 10, 0]}
 };
 
@@ -5757,7 +5863,7 @@ App.Data.Clothes["landlubber costume"] = {
     "Name": "landlubber costume", "ShortDesc": "A perverted {COLOR} school girl outfit",
     "LongDesc": "This costume consists of a two-piece outfit with accessories that is designed to mimic a perverts dream of a school uniform. It has a skirt that has holes where the anus and penis are "+
     "as well as on the shirt where the cutouts are over the nipples. And the material of it goes invisible when it becomes wet, which is a favourite of the crew.",
-    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "white", "Price": 450, "Style": "COMMON", "Type" : "ONE PIECE",
+    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "white", "Style": "COMMON", "Type" : "ONE PIECE",
     "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]},
 };
 
@@ -5765,21 +5871,21 @@ App.Data.Clothes["pathetic loser costume"] = {
     "Name": "pathetic loser costume", "ShortDesc": "A perverted {COLOR} clown outfit",
     "LongDesc": "This costume consists of a full-blown clown outfit including red glue on nose. It makes one look ridiculous but also sexy since it is tight at the right places so that it shows of "+
     "one's assets. Also, there are undoubtedly some people that have always dreamed of fucking a clown.",
-    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "red", "Price": 450, "Style": "COMMON", "Type" : "ONE PIECE",
+    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "red", "Style": "COMMON", "Type" : "ONE PIECE",
     "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]},
 };
 
 App.Data.Clothes["burlesque costume"] = {
     "Name": "burlesque costume", "ShortDesc": "a fancy {COLOR} burlesque costume",
     "LongDesc": "This costume is typical of the many burlesque dancers that entertain customers in taverns throughout the land. It has a variety of accessories and flair designed to be torn off as you strip.",
-    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "red", "Price": 450, "Style": "UNCOMMON", "Type" : "ONE PIECE",
+    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "red", "Style": "UNCOMMON", "Type" : "ONE PIECE",
     "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]}, "SkillBonus": {"Dancing": [10, 20, 0], "Singing": [10, 10, 0]}
 };
 
 App.Data.Clothes["maid costume"] = {
     "Name": "maid costume", "ShortDesc": "a frilly {COLOR} maid uniform",
     "LongDesc": "This is a typical maid costume that has been altered to showcase your ass and chest.",
-    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Price": 450, "Style": "UNCOMMON", "Type" : "ONE PIECE",
+    "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "black", "Style": "UNCOMMON", "Type" : "ONE PIECE",
     "WearEffect": {"Femininity": [0, 15, 60], "Perversion": [0, 5, 50]}, "SkillBonus": {"Cooking": [20, 20, 0], "Cleaning": [20, 20, 0]}
 };
 
@@ -5787,20 +5893,20 @@ App.Data.Clothes["maid costume"] = {
 App.Data.Clothes["worn boots"] = {
     "Name": "worn boots", "ShortDesc": "a worn pair of {COLOR} boots",
     "LongDesc": "These boots are decidedly ugly. More functional than fashionable.",
-    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "brown", "Price": 50, "Style": "COMMON", "Type" : "CLOTHING"
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "brown", "Style": "COMMON", "Type" : "CLOTHING"
 };
 
 App.Data.Clothes["short heels"] = {
     "Name": "short heels", "ShortDesc": "a pair of short {COLOR} heels",
     "LongDesc": "These dainty shoes have a small kitten heel. Not too hard to walk in.",
-    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 100, "Style": "COMMON", "Type" : "CLOTHING",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "COMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 5, 20]}
 };
 
 App.Data.Clothes["medium heels"] = {
     "Name": "medium heels", "ShortDesc": "a pair of medium {COLOR} heels",
     "LongDesc": "These shoes have a medium height heel that causes you to roll your ass as you walk.",
-    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Price": 150, "Style": "COMMON", "Type" : "CLOTHING",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "COMMON", "Type" : "CLOTHING",
     "WearEffect": {"Femininity": [0, 8, 40]}
 };
 
@@ -5808,7 +5914,7 @@ App.Data.Clothes["medium heels"] = {
 App.Data.Clothes["cat tail"] = {
     "Name": "cat tail", "ShortDesc": "a long furry {COLOR} cat tail anal plug",
     "LongDesc": "This large anal plug has a long furry cat tail attached to it. Wearing it will loosen your asshole and probably attract animal lovers.",
-    "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Price": 300, "Style": "COMMON", "Type" : "ACCESSORY",
+    "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Style": "COMMON", "Type" : "ACCESSORY",
     "WearEffect": {"Perversion": [0, 10, 50], "AssFucking": [0, 20, 30]}
 };
 
@@ -5816,7 +5922,7 @@ App.Data.Clothes["cat tail"] = {
 App.Data.Clothes["cock ribbon"] = {
     "Name": "cock ribbon", "ShortDesc": "a cute little {COLOR} ribbon",
     "LongDesc": "This dainty little ribbon is meant to be tied on a sissy clit for decoration.",
-    "Slot": "Penis", "Restrict": ["Penis"], "Color": "pink", "Price": 300, "Style": "COMMON", "Type" : "ACCESSORY",
+    "Slot": "Penis", "Restrict": ["Penis"], "Color": "pink", "Style": "COMMON", "Type" : "ACCESSORY",
     "WearEffect": {"Femininity": [0, 10, 30]}
 };
 
@@ -5824,7 +5930,7 @@ App.Data.Clothes["cock ribbon"] = {
 App.Data.Clothes["worn machete"] = {
     "Name": "worn machete", "ShortDesc": "@@color:purple;a well worn machete@@",
     "LongDesc": "This large blade is 32cm long and has a slightly curved angle to it. It's not really a knife, but more like an axe. In a fight you could use it similar to a short sword.",
-    "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Price": 200, "Style": "NONE", "Type" : "WEAPON",
+    "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Style": "NONE", "Type" : "WEAPON",
     "WearEffect": { }
 };
 /* twine-user-script #22: "GameData.js" */
@@ -8207,7 +8313,7 @@ App.Data.Cosmetics = {
         "Type": "hair tool",
         "Charges": 5,
         "SkillBonus": {"Styling": [5, 0, 0]},
-        "Price": 2
+        "VALUE": 20
     },
     "hair products": {
         "Name": "haircare supplies",
@@ -8216,7 +8322,7 @@ App.Data.Cosmetics = {
         "Type": "hair treatment",
         "Charges": 5,
         "SkillBonus": {"Styling": [10, 0, 0]},
-        "Price": 3
+        "VALUE": 30
     },
     "basic makeup": {
         "Name": "basic makeup",
@@ -8225,7 +8331,7 @@ App.Data.Cosmetics = {
         "Type": "basic makeup",
         "Charges": 5,
         "SkillBonus": {"Styling": [10, 0, 0]},
-        "Price": 4
+        "VALUE": 20
     },
     "expensive makeup": {
         "Name": "expensive makeup",
@@ -8234,7 +8340,7 @@ App.Data.Cosmetics = {
         "Type": "expensive makeup",
         "Charges": 5,
         "SkillBonus": {"Styling": [20, 0, 0]},
-        "Price": 6
+        "VALUE": 40
     }
 };
 /* twine-user-script #25: "items_drugs.js" */
@@ -12501,18 +12607,18 @@ App.Data.Stores = App.Data.Stores || { };
 App.Data.Stores["CARGO"] = {
     "ID" : "CARGO",     "NAME" : "Julius's Secret Stash", "OPEN" : [2, 3], "RESTOCK" : 7,
         "INVENTORY" : [
-        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    4,    "MAX":    4,  "PRICE":    50, "MOOD":  0,   "LOCK": 0,  "TAG" : "pixie dust"            },
-        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    4,    "MAX":    4,  "PRICE":    50, "MOOD": 20,   "LOCK": 0,  "TAG" : "medicinal herbs"       },
-        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    4,    "MAX":    4,  "PRICE":    25, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"            },
-        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":   150, "MOOD": 80,   "LOCK": 0,  "TAG" : "face cream"            },
-        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":   100, "MOOD": 20,   "LOCK": 1,  "TAG" : "khafkir"               },
-        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":   500, "MOOD": 60,   "LOCK": 1,  "TAG" : "siren elixir"          },
+        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    4,    "MAX":    4,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pixie dust"            },
+        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    4,    "MAX":    4,  "PRICE":  1.0, "MOOD": 20,   "LOCK": 0,  "TAG" : "medicinal herbs"       },
+        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    4,    "MAX":    4,  "PRICE":  1.0, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"            },
+        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "face cream"            },
+        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 20,   "LOCK": 1,  "TAG" : "khafkir"               },
+        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 1,  "TAG" : "siren elixir"          },
 		// RARE ITEMS
-        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":    50, "MOOD": 60,   "LOCK": 0,  "TAG" : "hair tonic"            },
-        { "CATEGORY":   "RARE",     "TYPE": "FOOD",     "QTY":    2,    "MAX":    2,  "PRICE":   100, "MOOD": 60,   "LOCK": 0,  "TAG" : "starfruit"             },
-        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  2500, "MOOD": 80,   "LOCK": 0,  "TAG" : "nereid philtre"        },
-        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  2500, "MOOD": 80,   "LOCK": 0,  "TAG" : "succubus philtre"      },
-		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":   100, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   		},
+        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 0,  "TAG" : "hair tonic"            },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",     "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 0,  "TAG" : "starfruit"             },
+        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "nereid philtre"        },
+        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "succubus philtre"      },
+		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   		}
     ]
 };
 /* twine-user-script #57: "galley_store.js" */
@@ -12522,14 +12628,14 @@ App.Data.Stores = App.Data.Stores || { };
 App.Data.Stores["GALLEY"] = {
     "ID" : "GALLEY",    "NAME" : "Salty Mermaid Galley",  "OPEN" : [0, 1, 2, 3], "RESTOCK" : 7,
     "INVENTORY" : [
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    10, "MOOD":  0,   "LOCK": 0,  "TAG" : "slave gruel"            },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    8,     "MAX":    8,  "PRICE":     8, "MOOD":  0,   "LOCK": 0,  "TAG" : "grog"                   },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":    25, "MOOD": 20,   "LOCK": 0,  "TAG" : "mystery stew"           },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    2,     "MAX":    2,  "PRICE":   100, "MOOD": 40,   "LOCK": 0,  "TAG" : "starfruit"              },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    2,     "MAX":    2,  "PRICE":   175, "MOOD": 65,   "LOCK": 0,  "TAG" : "pink peach"             },
-        { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":   100, "MOOD": 60,   "LOCK": 0,  "TAG" : "milkdew melon"          },
-        { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":   100, "MOOD": 80,   "LOCK": 0,  "TAG" : "honey mead"             },
-        { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":   140, "MOOD": 80,   "LOCK": 0,  "TAG" : "butter gourd"           }
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "slave gruel"            },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    8,     "MAX":    8,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "grog"                   },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":  1.0, "MOOD": 20,   "LOCK": 0,  "TAG" : "mystery stew"           },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD": 40,   "LOCK": 0,  "TAG" : "starfruit"              },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD": 65,   "LOCK": 0,  "TAG" : "pink peach"             },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 0,  "TAG" : "milkdew melon"          },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "honey mead"             },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
 /* twine-user-script #58: "golden_goods_store.js" */
@@ -12539,18 +12645,18 @@ App.Data.Stores = App.Data.Stores || { };
 App.Data.Stores["GOLDEN_GOODS"] =  {
     "ID" : "GOLDEN_GOODS",    "NAME" : "Golden Goods",  "OPEN" : [0, 1, 2, 3 ], "RESTOCK" : 7,
     "INVENTORY" : [
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",         "QTY":   12,     "MAX":   12,  "PRICE":    16, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",         "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    },
-        { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":   10,     "MAX":   10,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "basic makeup"           },
-        { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":   10,     "MAX":   10,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "hair products"          },
-        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",        "QTY":    8,     "MAX":    8,  "PRICE":    50, "MOOD":  0,   "LOCK": 0,  "TAG" : "medicinal herbs"        },
-		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    1,     "MAX":    1,  "PRICE":   100, "MOOD":  0,   "LOCK": 0,  "TAG" : "black hair dye"   	  },
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   300, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate boots"           },
-        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   200, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate bra"             },
-        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   200, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate thong"           },
-        { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":   100, "MOOD":  0,   "LOCK": 0,  "TAG" : "milkdew melon"          },
-        { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":   100, "MOOD":  0,   "LOCK": 0,  "TAG" : "honey mead"             },
-        { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":   140, "MOOD":  0,   "LOCK": 0,  "TAG" : "butter gourd"           }
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",         "QTY":   12,     "MAX":   12,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",         "QTY":   12,     "MAX":   12,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    },
+        { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":   10,     "MAX":   10,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "basic makeup"           },
+        { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":   10,     "MAX":   10,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "hair products"          },
+        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",        "QTY":    8,     "MAX":    8,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "medicinal herbs"        },
+		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "black hair dye"   	  },
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate boots"           },
+        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate bra"             },
+        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate thong"           },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "milkdew melon"          },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "honey mead"             },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
 /* twine-user-script #59: "islageneral_store.js" */
@@ -12560,21 +12666,21 @@ App.Data.Stores = App.Data.Stores || { };
 App.Data.Stores["ISLASTORE"] = {
     "ID" : "ISLASTORE",    "NAME" : "Isla Harbor General Store",  "OPEN" : [0, 1, 2, 3], "RESTOCK" : 7,
     "INVENTORY" : [
-        { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":    5,     "MAX":    5,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "basic makeup"             },
-        { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":    5,     "MAX":    5,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "hair products"            },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",         "QTY":    5,     "MAX":    5,  "PRICE":  1000, "MOOD":  0,   "LOCK": 0,  "TAG" : "fortified wine"           },
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   300, "MOOD":  0,   "LOCK": 0,  "TAG" : "wig"                      },
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   200, "MOOD":  0,   "LOCK": 0,  "TAG" : "sundress"                 },
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   160, "MOOD":  0,   "LOCK": 0,  "TAG" : "striped bra"              },
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   160, "MOOD":  0,   "LOCK": 0,  "TAG" : "striped panties"          },
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   150, "MOOD":  0,   "LOCK": 0,  "TAG" : "striped stockings"        },
-		// RARE ITEMS
-        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   300, "MOOD":  0,   "LOCK": 0,  "TAG" : "frilly bloomers"          },
-        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   500, "MOOD":  0,   "LOCK": 0,  "TAG" : "frilly dress"             },
-        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   250, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink mary janes"          },
-        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   400, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink platform mary janes" },
-        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   120, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink head bow"            },
-		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    1,     "MAX":    1,  "PRICE":   100, "MOOD":  0,   "LOCK": 0,  "TAG" : "red hair dye"   			},
+        { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":    5,     "MAX":    5,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "basic makeup"             },
+        { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":    5,     "MAX":    5,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "hair products"            },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",         "QTY":    5,     "MAX":    5,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "fortified wine"           },
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "wig"                      },
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "sundress"                 },
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "striped bra"              },
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "striped panties"          },
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "striped stockings"        },
+		// RARE ITEMS                                                                                1.0
+        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "frilly bloomers"          },
+        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "frilly dress"             },
+        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink mary janes"          },
+        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink platform mary janes" },
+        { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink head bow"            },
+		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "red hair dye"   		   }
 		
     ]
 };
@@ -12585,11 +12691,11 @@ App.Data.Stores = App.Data.Stores || { };
 App.Data.Stores["ISLATAVERN"] = {
     "ID" : "ISLATAVERN",    "NAME" : "Isla Harbor Tavern",  "OPEN" : [1, 2, 3, 4], "RESTOCK" : 7,
     "INVENTORY" : [
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    16, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"             },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":    50, "MOOD":  0,   "LOCK": 0,  "TAG" : "bread and cheese"       },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":    50, "MOOD":  0,   "LOCK": 0,  "TAG" : "roast fish"             },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"             },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "bread and cheese"       },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "roast fish"             },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
     ]
 };
 /* twine-user-script #61: "lusty_lass_store.js" */
@@ -12601,27 +12707,27 @@ App.Data.Stores["LUSTY_LASS"] = {
     // Simone's mood starts at 40.
     "INVENTORY" : [
         // Food
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    16, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                          },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"                    },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":    50, "MOOD":  0,   "LOCK": 0,  "TAG" : "bread and cheese"              },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":    50, "MOOD":  0,   "LOCK": 0,  "TAG" : "roast fish"                    },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                           },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",     "QTY":   12,     "MAX":   12,  "PRICE":   1.0,  "MOOD":   0,   "LOCK": 0,  "TAG" : "beer"               },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",     "QTY":   12,     "MAX":   12,  "PRICE":   1.0,  "MOOD":   0,   "LOCK": 0,  "TAG" : "cheap wine"         },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",     "QTY":    4,     "MAX":    4,  "PRICE":   1.0,  "MOOD":   0,   "LOCK": 0,  "TAG" : "bread and cheese"   },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",     "QTY":    4,     "MAX":    4,  "PRICE":   1.0,  "MOOD":   0,   "LOCK": 0,  "TAG" : "roast fish"         },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",     "QTY":   12,     "MAX":   12,  "PRICE":   1.0,  "MOOD":   0,   "LOCK": 0,  "TAG" : "rum"                },
         // Clothes COMMON/UNCOMMON - Mood 40+
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   150, "MOOD":   0,   "LOCK": 0,  "TAG" : "silk stockings"           },
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   500, "MOOD":   0,   "LOCK": 0,  "TAG" : "tall heels"               },
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":   0,   "LOCK": 0,  "TAG" : "silk stockings"     },
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":   0,   "LOCK": 0,  "TAG" : "tall heels"         },
         // Clothes UNCOMMON - Mood 50+
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   200, "MOOD":  50,   "LOCK": 0,  "TAG" : "cute pink bra"            },
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   300, "MOOD":  60,   "LOCK": 0,  "TAG" : "cute pink panties"        },
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":  50,   "LOCK": 0,  "TAG" : "cute pink bra"      },
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":  60,   "LOCK": 0,  "TAG" : "cute pink panties"  },
         // Clothes RARE - Mood 80+
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   500, "MOOD":  80,   "LOCK": 0,  "TAG" : "pigtail wig"              },
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":  80,   "LOCK": 0,  "TAG" : "pigtail wig"        },
         // RARE ITEMS
-        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,     "MAX":    1,  "PRICE":   100, "MOOD": 0,   "LOCK": 0,  "TAG" : "khafkir"          },
-        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,     "MAX":    1,  "PRICE":    50, "MOOD": 0,   "LOCK": 0,  "TAG" : "pixie dust"       },
-		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,     "MAX":    1,  "PRICE":   100, "MOOD": 0,   "LOCK": 0,  "TAG" : "blond hair dye"   },
-        { "CATEGORY":   "RARE",     "TYPE": "FOOD",     "QTY":    1,     "MAX":    1,  "PRICE":   140, "MOOD": 0,   "LOCK": 0,  "TAG" : "butter gourd"     },
+        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":   0,   "LOCK": 0,  "TAG" : "khafkir"            },
+        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":   0,   "LOCK": 0,  "TAG" : "pixie dust"         },
+		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":   0,   "LOCK": 0,  "TAG" : "blond hair dye"     },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",     "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":   0,   "LOCK": 0,  "TAG" : "butter gourd"       },
         // RARE CLOTHES - Mood 90+
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   1000, "MOOD":  90,   "LOCK": 0,  "TAG" : "pink tartan"         },
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":   1000, "MOOD":  90,   "LOCK": 0,  "TAG" : "pink t-shirt"        }
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":  90,   "LOCK": 0,  "TAG" : "pink tartan"        },
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":  90,   "LOCK": 0,  "TAG" : "pink t-shirt"       }
     ]
 };
 /* twine-user-script #62: "smugglers_store.js" */
@@ -12631,11 +12737,11 @@ App.Data.Stores = App.Data.Stores || { };
 App.Data.Stores["SMUGGLERS"] =  {
     "ID" : "SMUGGLERS",    "NAME" : "The Smuggler's Den",  "OPEN" : [ 0, 1, 2, 3, 4], "RESTOCK" : 7,
     "INVENTORY" : [
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    16, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    20, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"             },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    40, "MOOD":  0,   "LOCK": 0,  "TAG" : "smugglers ale"          },
-        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",   "QTY":    4,     "MAX":    4,  "PRICE":    25, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"             },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"             },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "smugglers ale"          },
+        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",   "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"             }
     ]
 };
 /* twine-user-script #63: "rot_lib.js" */

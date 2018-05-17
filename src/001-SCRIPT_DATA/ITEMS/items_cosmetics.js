@@ -8,7 +8,7 @@ App.Data.Cosmetics = {
         "Type": "hair tool",
         "Charges": 5,
         "SkillBonus": {"Styling": [5, 0, 0]},
-        "Price": 2
+        "VALUE": 20
     },
     "hair products": {
         "Name": "haircare supplies",
@@ -17,7 +17,7 @@ App.Data.Cosmetics = {
         "Type": "hair treatment",
         "Charges": 5,
         "SkillBonus": {"Styling": [10, 0, 0]},
-        "Price": 3
+        "VALUE": 30
     },
     "basic makeup": {
         "Name": "basic makeup",
@@ -26,7 +26,7 @@ App.Data.Cosmetics = {
         "Type": "basic makeup",
         "Charges": 5,
         "SkillBonus": {"Styling": [10, 0, 0]},
-        "Price": 4
+        "VALUE": 20
     },
     "expensive makeup": {
         "Name": "expensive makeup",
@@ -35,6 +35,6 @@ App.Data.Cosmetics = {
         "Type": "expensive makeup",
         "Charges": 5,
         "SkillBonus": {"Styling": [20, 0, 0]},
-        "Price": 6
+        "VALUE": 40
     }
 };

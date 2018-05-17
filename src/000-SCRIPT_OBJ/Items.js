@@ -2,20 +2,109 @@ App = App || { Data: { }, Entity: { } };
 
 App.Item = new function() {
 
+    /**
+     *
+     * @param Type
+     * @param Name
+     * @returns {*}
+     * @private
+     */
+        this._FetchData = function(Type, Name)
+        {
+            if (Type == "DRUGS") return window.App.Data.Drugs[Name];
+            if (Type == "FOOD") return window.App.Data.Food[Name];
+            if (Type == "COSMETICS") return window.App.Data.Cosmetics[Name];
+            if (Type == "CLOTHES") return window.App.Data.Clothes[Name];
+            if (Type == "WEAPON") return window.App.Data.Clothes[Name];
+            if (Type == "STORE") return window.App.Data.Stores[Name];
+            if (Type == "NPC") return window.App.Data.NPCS[Name];
+            if (Type == "QUEST") return window.App.Data.QuestItems[Name];
+            if (Type == "LOOT_BOX") return window.App.Data.LootBoxes[Name];            
+        };
+
+    /**
+     * Automatically calculate the price of an item based on it's attributes.
+     * @param {string} Category the dictionary name
+     * @param {string} Tag the key of the item
+     * @returns {number} the price in gold coins.
+     */
+        this.CalculateBasePrice = function(Category, Tag)
+        {
+            var d = this._FetchData(Category, Tag);
+            if (d == 0 || (typeof d === 'undefined')) {
+                console.log("Error calculating price for item "+Category+":"+Tag+" - dictionary entry not found");
+                return 100;
+            }
+
+            var price = 0;
+
+            switch(Category) {
+
+                case 'DRUGS':
+                case 'FOOD':
+                    // Drugs and food have a price which is the sum of their effect values
+                    if (typeof d["Effects"] !== 'undefined') {
+                        if ( d["Effects"].length > 1 ) {
+                            price = d["Effects"].reduce(function (accumulator, effect) {
+                                return (isNaN(accumulator)) ? App.Data.EffectLib[accumulator]["VALUE"] + App.Data.EffectLib[effect]["VALUE"] :
+                                accumulator + App.Data.EffectLib[effect]["VALUE"];
+                            });
+                        } else {
+                            price = App.Data.EffectLib[d["Effects"][0]]["VALUE"];
+                        }
+                    }
+                    break;
+                case 'COSMETICS':
+                    price = (typeof d["VALUE"] !== 'undefined') ? d["VALUE"] : 25;
+                    break;
+                case 'CLOTHES':
+                    // Base price set on style.
+                    if (typeof d["Style"] !== 'undefined') {
+
+                        switch(d["Style"]) {
+                            case 'COMMON': price = 50; break;
+                            case 'UNCOMMON': price = 100; break;
+                            case 'RARE': price = 250; break;
+                            case 'LEGENDARY': price = 600; break;
+                            default: price = 50; break;
+                        }
+
+                    } else {
+                        price = 50;
+                    }
+
+                    //modify based on type
+                    if (typeof d["Type"] !== 'undefined') {
+
+                        switch(d["Type"]) {
+                            case 'ACCESSORY': price = price * 1.4; break;
+                            case 'CLOTHING' : price = price * 1.1; break;
+                            case 'ONE PIECE': price = price * 2.5; break;
+                            case 'WEAPON': price = price * 2; break;
+                        }
+                    }
+
+                    // Wigs have a special stat on them.
+                    if (typeof d["HairBonus"] !== 'undefined') price = price + (d["HairBonus"] * 2);
+
+                    // Check for Categories. Extra categories other than 1 increase price by 10% per category
+                    if (typeof d["Category"] !== 'undefined')
+                        price = (d["Category"].length > 1) ? price + ((price * 0.1) * (d["Category"].length - 1)) : price;
+
+                    // Round up
+                    price = Math.ceil(price);
+
+                    break;
+
+            }
+
+            return (price == 0 ) ? 100 : price;
+        };
+    
         this.Factory = function(Type, Name, Count) {
 
-            var d = 0;
+            var d = this._FetchData(Type, Name);
             var o;
-
-            if (Type == "DRUGS") d = window.App.Data.Drugs[Name];
-            if (Type == "FOOD") d = window.App.Data.Food[Name];
-            if (Type == "COSMETICS") d = window.App.Data.Cosmetics[Name];
-            if (Type == "CLOTHES") d = window.App.Data.Clothes[Name];
-            if (Type == "WEAPON") d = window.App.Data.Clothes[Name];
-            if (Type == "STORE") d = window.App.Data.Stores[Name];
-			if (Type == "NPC") d = window.App.Data.NPCS[Name];
-            if (Type == "QUEST") d = window.App.Data.QuestItems[Name];
-            if (Type == "LOOT_BOX") d = window.App.Data.LootBoxes[Name];
 
             if (d == 0 || (typeof d === 'undefined')) alert("Factory Failed: (" + Type + "," + Name + "," + Count + ")");
 
@@ -45,7 +134,7 @@ App.Item = new function() {
      * @param {App.Entity.Player} Player
      * @param {string} Type
      * @param {number} Minimum
-     * @param Bonus
+     * @param {number} Bonus
      * @returns {string}
      * @constructor
      */
