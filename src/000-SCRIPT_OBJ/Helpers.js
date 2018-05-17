@@ -214,6 +214,42 @@ App.PR = new function() {
         };
 
     /**
+     * Return a string describing and coloring the effect
+     * @param {string} effect
+     * @param {*} item
+     * @returns {string}
+     */
+        this.pEffectMeter = function(effect, item)
+        {
+            var output = "";
+
+            // Build color and arrow
+            if (effect.indexOf('-') != -1 ) {
+                output = "@@color:red;"+effect+"@@";
+                output = output.replace(/-/g, '&dArr;');
+            } else
+            if (effect.indexOf('+') != -1) {
+                output = "@@color:lime;"+effect+"@@";
+                output = output.replace(/\+/g, '&uArr;');
+            } else
+            if (effect.indexOf('?') != -1) {
+                output = "@@color:lime;&uArr;"+effect+"@@";
+                if (typeof item.o['Style'] !== 'undefined') {
+                    switch(item.o['Style']) {
+                        case 'COMMON': output = output.replace(/RANK/g, "&uArr;" ); break;
+                        case 'UNCOMMON': output = output.replace(/RANK/g, "&uArr;&uArr;" ); break;
+                        case 'RARE': output = output.replace(/RANK/g, "&uArr;&uArr;&uArr;" ); break;
+                        case 'LEGENDARY': output = output.replace(/RANK/g, "&uArr;&uArr;&uArr;&uArr;" ); break;
+                    }
+                }
+            } else {
+                output = "@@color:grey;"+effect+"@@";
+                output =  output.replace(/RANK/g, "&uArr;");
+            }
+
+            return output;
+        };
+    /**
      * Print out a 10 star colorized stat meter for a skill.
      * @param {string} StatName
      * @param {App.Entity.Player} Player

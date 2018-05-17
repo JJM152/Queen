@@ -21,7 +21,7 @@
 You spy with your little eye...
 
 <<print _Item.Description() >>
-<<print _Item.Examine();>>
+<<print _Item.Examine($Player);>>
 <</widget>>
 
 <<widget "WearingExa">><<nobr>>
@@ -58,7 +58,7 @@ You spy with your little eye...
 You spy with your little eye...
 
 <<print _Item.Description() >>
-<<print _Item.Examine();>>
+<<print _Item.Examine($Player);>>
 <</widget>>
 
 <<widget "WardrobeExamine">><<nobr>>

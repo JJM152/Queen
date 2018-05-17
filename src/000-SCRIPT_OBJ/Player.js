@@ -31,6 +31,9 @@ App.Entity.Player = function (){
 
     this.History = {
         "ITEMS" : { },
+        "CLOTHING_KNOWLEDGE" : { }, // Flag to gain knowledge
+        "CLOTHING_EFFECTS_KNOWN" : { },
+        "DAYS_WORN" : { },
         "SEX"   : { },
         "MONEY" : { }
     };
@@ -315,6 +318,7 @@ App.Entity.Player = function (){
         if (this.VoodooEffects.hasOwnProperty("PIRATES_PROWESS") && Type == "SKILL") bonus += this.VoodooEffects["PIRATES_PROWESS"];
         if (this.difficultySetting == 1) bonus += 5;
         if (this.difficultySetting == 2) bonus += 10;
+        bonus += this.GetWornSkillBonus(Name)
 
         return bonus;
     };
@@ -369,7 +373,7 @@ App.Entity.Player = function (){
     this.CalculateSkillTarget = function(SkillName, Difficulty, Alternate) {
         Alternate = Alternate || "SKILL";
 
-        var SkillVal = this.GetStat(Alternate, SkillName) + this.GetWornSkillBonus(SkillName);
+        var SkillVal = this.GetStat(Alternate, SkillName);
         return (100 - Math.max(5, Math.min((50 + (SkillVal - Difficulty)), 95)));
     };
 
@@ -863,6 +867,20 @@ App.Entity.Player = function (){
     this.NextDay = function () {
         this.SleepLog = []; // Null the overnight results text log.
 
+        // Gain 'Knowledge' about worn clothes, log days worn.
+        // Apply passive effects on worn items.
+        for (var prop in this.Equipment) {
+            if (!this.Equipment.hasOwnProperty(prop)) continue;
+            if (this.Equipment[prop] == 0) continue;
+
+            if (Math.floor(Math.random() * 100) > 80)
+                this.AddHistory('CLOTHING_KNOWLEDGE', this.Equipment[prop].Name(), 1); // tracking effect knowledge
+            this.AddHistory("DAYS_WORN", this.Equipment[prop].Name(), 1); // tracking just days worn
+            this.Equipment[prop].ApplyEffects(this);
+            var logMsg = this.Equipment[prop].LearnKnowledge(this);
+            if ((typeof logMsg != 'undefined') && logMsg != "") this.SleepLog.push(logMsg);
+        }
+
         // Basic Stat Mods
         this.AdjustStat("Nutrition", -5);
         this.AdjustStat("Toxicity", -( (5 + (this.CoreStats["Fitness"] / 10)))*2);
@@ -899,8 +917,6 @@ App.Entity.Player = function (){
                 this.AdjustBodyXP("Balls", HormoneShift, this.GetStartStat("BODY", "Balls"));
             }
         }
-
-        this.ApplyClothingEffects();
 
         //Level remaining stats
         if ( this.GetStatXP("STAT", "Nutrition") > 150) this.AdjustBodyXP("Waist", (this.GetStatXP("STAT", "Nutrition")-150)); // Get Fatter!?
@@ -974,14 +990,6 @@ App.Entity.Player = function (){
         var Routes = window.App.Data.Lists["ShipRoute"];
         if (!Routes.hasOwnProperty(this.SailDays)) return 0;
         return Routes[this.SailDays];
-    };
-
-    this.ApplyClothingEffects = function () {
-        for (var prop in this.Equipment) {
-            if (!this.Equipment.hasOwnProperty(prop)) continue;
-            if (this.Equipment[prop] == 0) continue;
-            this.ApplyEffects(this.Equipment[prop].WearEffect());
-        }
     };
 
     // Equipment and Inventory Related Functions
@@ -1106,24 +1114,6 @@ App.Entity.Player = function (){
     };
 
     /**
-     * @param {string} Type
-     * @param {string} Bonus
-     * @returns {number}
-     */
-    this.GetBestItem = function (Type, Bonus) {
-        var items = this.GetItemByTypes([Type]);
-        var o = 0;
-        for (var i = 0; i < items.length; i++) {
-            if (o == 0) {
-                o = items[i];
-            } else if (items[i].GetBonus(Bonus)[0] > o.GetBonus(Bonus)[0]) {
-                o = items[i];
-            }
-        }
-        return o;
-    };
-
-    /**
      * Returns the total number of charges across all items belonging to a certain type.
      * @param {string} Type
      * @returns {number}
@@ -1185,7 +1175,6 @@ App.Entity.Player = function (){
         var ItemArray = $.grep(this.Inventory, function(o) { return o.Name() == Item.Name(); });
 
         if (ItemArray.length != 0) {
-            console.log("Charges="+Item.Charges());
             ItemArray[0].AddCharge(Item.Charges());
         } else {
             this.Inventory.push(Item);
@@ -1201,34 +1190,10 @@ App.Entity.Player = function (){
         for (var prop in this.Equipment) {
             if (!this.Equipment.hasOwnProperty(prop)) continue;
             if (this.Equipment[prop] == 0) continue;
-            if (this.Equipment[prop].HasBonus(Skill) == false) continue;
-            bonus += this.Equipment[prop].GetBonus(Skill)[0];
+            bonus += this.Equipment[prop].GetBonus(Skill);
+            if (this.debugMode == true) console.log("Found skill bonus : "+Skill+" on" + this.Equipment[prop].Name());
         }
         return 0;
-    };
-
-    /**
-     * Apply the effects of an item.
-     * @param Effects {*}
-     * @returns {string}
-     */
-    this.ApplyEffects = function (Effects) {
-        for (var prop in Effects) {
-            if (!Effects.hasOwnProperty(prop)) continue;
-
-            if (prop in this.CoreStats) {
-                this.AdjustStat(prop, Effects[prop][0]);
-                this.AdjustStatXP(prop, Effects[prop][1], Effects[prop][2]);
-            } else if (prop in this.BodyStats) {
-                this.AdjustBody(prop, Effects[prop][0]);
-                this.AdjustBodyXP(prop, Effects[prop][1], Effects[prop][2]);
-            } else if (prop in this.Skills) {
-                this.AdjustSkill(prop, Effects[prop][0]);
-                this.AdjustSkillXP(prop, Effects[prop][1], Effects[prop][2]);
-            } else if (prop == "AddItem") {
-                this.AddItem(Effects[prop][0], Effects[prop][1], Effects[prop][2]);
-            }
-        }
     };
 
     /**
@@ -1238,7 +1203,6 @@ App.Entity.Player = function (){
     this.UseItem = function (ItemId) {
         var o = this.GetItemById(ItemId);
         this.AddHistory("ITEMS", o.Name(), 1);
-        //this.ApplyEffects(o.UseEffect());
         o.ApplyEffects(this);
         var msg = o.Message(this);
         o.RemoveCharge(1);
@@ -1268,6 +1232,10 @@ App.Entity.Player = function (){
 
         var t = this.GetHistory(Type, Flag);
         this.History[Type][Flag] = (t + Amount);
+    };
+
+    this.RemoveHistory = function(Type, Flag) {
+        if ((typeof this.History[Type][Flag] !== 'undefined')) delete this.History[Type][Flag];
     };
 
 // Voodoo
