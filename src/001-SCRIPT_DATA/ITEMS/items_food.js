@@ -142,7 +142,7 @@ App.Data.Food = {
         "Message": "You take a bite out of the starfruit and savor it's sweet, but citrus taste. You feel your body filling with energy.",
         "Type": "food",
         "Charges": 1,
-        "Effects": [ "NUTRITION_UNCOMMON", "NUTRITION_XP_UNCOMMON", "ENERGY_COMMON", "FEMALE_HORMONES_XP_COMMON"]
+        "Effects": [ "NUTRITION_UNCOMMON", "NUTRITION_XP_UNCOMMON", "ENERGY_COMMON", "FEMALE_HORMONE_XP_COMMON"]
     },
     "milkdew melon": {
         "Name": "milkdew melon",
@@ -151,7 +151,7 @@ App.Data.Food = {
         "Message": "You crack the melon open and eat the contents. It tastes delicious and thick white juice dribbles down your chin.",
         "Type": "food",
         "Charges": 1,
-        "EffectS" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "FEMALE_HORMONES_XP_COMMON", "BUST_XP_UNCOMMON", "PERVERSION_XP_COMMON" ]
+        "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "BUST_XP_UNCOMMON", "PERVERSION_XP_COMMON" ]
     },
     "honey mead": {
         "Name": "honey mead",
@@ -160,7 +160,7 @@ App.Data.Food = {
         "Message": "The mead has a delicious taste that tingles your tongue and lips.",
         "Type": "food",
         "Charges": 1,
-        "EffectS" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "LIPS_XP_UNCOMMON" ]
+        "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "LIPS_XP_UNCOMMON" ]
     },
     "butter gourd": {
         "Name": "butter gourd",
@@ -169,7 +169,7 @@ App.Data.Food = {
         "Message": "You break open the gourd and dig into the fleshy interior. It's surprisingly smooth and melts in your mouth like butter or pure fat.",
         "Type": "food",
         "Charges": 1,
-        "EffectS" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "ASS_XP_UNCOMMON", "HIPS_XP_UNCOMMON" ]
+        "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "ASS_XP_UNCOMMON", "HIPS_XP_UNCOMMON" ]
     },
     "pink peach": {
         "Name": "pink peach",
@@ -178,7 +178,7 @@ App.Data.Food = {
         "Message": "You bite into the peach and savor the sweetness of the fruit. You feel almost as if it has a calming, or curative effect on you.",
         "Type": "food",
         "Charges": 1,
-        "EffectS" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "PURGE_UNCOMMON", "FEMALE_HORMONES_XP_COMMON" ]
+        "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "PURGE_UNCOMMON", "FEMALE_HORMONE_XP_COMMON" ]
     },
     "purple mushrooms": {
         "Name": "purple mushroom",
@@ -187,7 +187,7 @@ App.Data.Food = {
         "Message": "You ingest the mushrooms. They don't have much of a taste, but they definitely seem to have some 'kick' to them. You hope this wasn't a foolish idea...",
         "Type": "food",
         "Charges": 1,
-        "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "TOXICITY_UNCOMMON", "MALE_HORMONES_XP_RARE", "PENIS_XP_RARE", "BALLS_XP_RARE"]
+        "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "TOXICITY_UNCOMMON", "MALE_HORMONE_XP_RARE", "PENIS_XP_RARE", "BALLS_XP_RARE"]
     },
     "purple sucker": {
         "Name": "erotic sucker",

@@ -62,7 +62,7 @@ App.Data.Drugs = {
         "Message": "You pour the tonic over your head and massage it into your scalp. Moments later you feel a burning and itching sensation.",
         "Type": "potion",
         "Charges": 1,
-        "Effects" : [ "HAIR_UNCOMMON", "TOXICITY_COMMON" ]
+        "Effects" : [ "HAIR_XP_COMMON", "TOXICITY_COMMON" ]
     },
     "siren elixir": {
         "Name": "siren elixir",
