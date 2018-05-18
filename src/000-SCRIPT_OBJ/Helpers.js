@@ -725,4 +725,13 @@ App.PR = new function() {
     this.pSkillName = function (Skill) {
         return App.Data.Lists["SkillDictionary"][Skill];
     };
+
+    this.pShipMapIcon = function(index) {
+        if (index >= App.Data.Lists["ShipRoute"].length) index = 0; // Force reset.
+        var top = App.Data.Lists["ShipRoute"][index]["top"];
+        var left = App.Data.Lists["ShipRoute"][index]["left"];
+        console.log("Placing map icon at top="+top+", left="+left);
+        $(document).one(":passageend", function() { $("#mapIcon").css( { "top" : top, "left" : left }); });
+
+    }
 };

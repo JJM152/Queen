@@ -128,7 +128,7 @@ App.Data.NPCS = {
                 "Lust": 40,
                 "DailyLust": 10,
                 "Title": "NPC_NAME St. Marie, Voodoo Priestess",
-                "LongDesc": "This intimidatingly tall black woman is dressed in an odd assortment of coloured cloth and garish jewelry. Her pendulous breasts jiggle and shake in their attempt to free themselves from the confines of her loose tube-top whenever she breaks out into a hearty laugh.",
+                "LongDesc": "This intimidatingly tall black woman is dressed in an odd assortment of coloured cloth and garish jewelry. Her pendulous breasts jiggle and shake in their attempt to free themselves from the confines of her loose tube-top whenever she breaks out into a hearty laugh."
             },
             "Steve" : {
                 "Name": "Captain Steve",
@@ -149,7 +149,7 @@ App.Data.NPCS = {
                 "Lust": 40,
                 "DailyLust": 10,
                 "Title": "NPC_NAME, Master Shipwright",
-                "LongDesc": "A hale and hearty man in his late 30s, NPC_NAME has a broad smile and even broader shoulders. The man is infact so massively built that if you don't know his profession, you'd assume he was a soldier or pirate of some sort.",
+                "LongDesc": "A hale and hearty man in his late 30s, NPC_NAME has a broad smile and even broader shoulders. The man is infact so massively built that if you don't know his profession, you'd assume he was a soldier or pirate of some sort."
             },
             "Blanche" : {
                 "Name": "Madame Blanche",
@@ -159,7 +159,7 @@ App.Data.NPCS = {
                 "Lust": 40,
                 "DailyLust": 10,
                 "Title": "NPC_NAME, Fortune Teller Extraordinaire",
-                "LongDesc": "An older woman dressed like a gypsy, with long curly black hair a pair of gigantic gold hoop earrings. You have no idea if she can really tell the future or not, but she's clearly doing her best to live up to the stereotypes.",
+                "LongDesc": "An older woman dressed like a gypsy, with long curly black hair a pair of gigantic gold hoop earrings. You have no idea if she can really tell the future or not, but she's clearly doing her best to live up to the stereotypes."
             },
             "Simone" : {
                 "Name": "Simone",
@@ -1194,27 +1194,26 @@ App.Data.Lists = {
 			// The route the ship takes in the game.
 			"ShipRoute" : [ 
 				// Isla Harbor Port
-					{ "P" : "IslaHarbor", "X" : 0, "Y" : 0 }, { "P" : "IslaHarbor", "X" : 0, "Y" : 0 }, { "P" : "IslaHarbor", "X" : 0, "Y" : 0 }, { "P" : "IslaHarbor", "X" : 0, "Y" : 0 },
+					{ "P" : "IslaHarbor", "left" : 300, "top" : 60 }, { "P" : "IslaHarbor", "left" : 300, "top" : 60 }, { "P" : "IslaHarbor", "left" : 300, "top" : 60 }, { "P" : "IslaHarbor", "left" : 300, "top" : 60 },
 				// At Sea
-					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
-					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
+					{ "P" : "AtSea", "left" : 348, "top" : 63 }, { "P" : "AtSea", "left" : 394, "top" : 63 }, { "P" : "AtSea", "left" : 441, "top" : 70 }, { "P" : "AtSea", "left" : 488, "top" : 65 },
+					{ "P" : "AtSea", "left" : 536, "top" : 60 }, { "P" : "AtSea", "left" : 583, "top" : 60 }, { "P" : "AtSea", "left" : 630, "top" : 63 },
 				// Golden Isle Port
-					{ "P" : "GoldenIsle", "X" : 0, "Y" : 0 }, { "P" : "GoldenIsle", "X" : 0, "Y" : 0 }, { "P" : "GoldenIsle", "X" : 0, "Y" : 0 }, { "P" : "GoldenIsle", "X" : 0, "Y" : 0 },
+					{ "P" : "GoldenIsle", "left" : 630, "top" : 100 }, { "P" : "GoldenIsle", "left" : 630, "top" : 100 }, { "P" : "GoldenIsle", "left" : 630, "top" : 100 }, { "P" : "GoldenIsle", "left" : 630, "top" : 100 },
 				// At Sea
-					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
-					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
-					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, 
+					{ "P" : "AtSea", "left" : 586, "top" : 105 }, { "P" : "AtSea", "left" : 550, "top" : 113 }, { "P" : "AtSea", "left" : 505, "top" : 123 }, { "P" : "AtSea", "left" : 463, "top" : 133 },
+					{ "P" : "AtSea", "left" : 420, "top" : 140 }, { "P" : "AtSea", "left" : 380, "top" : 146 }, { "P" : "AtSea", "left" : 338, "top" : 155 }, { "P" : "AtSea", "left" : 290, "top" : 160 },
+					{ "P" : "AtSea", "left" : 248, "top" : 168 }, { "P" : "AtSea", "left" : 195, "top" : 190 },
 				// Abamond
-					{ "P" : "Abamond", "X" : 0, "Y" : 0 }, { "P" : "Abamond", "X" : 0, "Y" : 0 }, { "P" : "Abamond", "X" : 0, "Y" : 0 }, { "P" : "Abamond", "X" : 0, "Y" : 0 },
+					{ "P" : "Abamond", "left" : 192, "top" : 238 }, { "P" : "Abamond", "left" : 192, "top" : 238}, { "P" : "Abamond", "left" : 192, "top" : 238 }, { "P" : "Abamond", "left" : 192, "top" : 238 },
 				// At Sea
-					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
-					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
+					{ "P" : "AtSea", "left" : 130, "top" : 235 }, { "P" : "AtSea", "left" : 100, "top" : 270 }, { "P" : "AtSea", "left" : 135, "top" : 315 }, { "P" : "AtSea", "left" : 185, "top" : 315 },
+					{ "P" : "AtSea", "left" : 235, "top" : 328 }, { "P" : "AtSea", "left" : 280, "top" : 330 }, { "P" : "AtSea", "left" : 320, "top" : 328 }, { "P" : "AtSea", "left" : 370, "top" : 315 },
 				// Port Royale
-					{ "P" : "PortRoyale", "X" : 0, "Y" : 0 }, { "P" : "PortRoyale", "X" : 0, "Y" : 0 }, { "P" : "PortRoyale", "X" : 0, "Y" : 0 }, { "P" : "PortRoyale", "X" : 0, "Y" : 0 },
+					{ "P" : "PortRoyale", "left" : 425, "top" : 300 }, { "P" : "PortRoyale", "left" : 425, "top" : 300 }, { "P" : "PortRoyale", "left" : 425, "top" : 300 }, { "P" : "PortRoyale", "left" : 425, "top" : 300 },
 				// At Sea
-					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
-					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
-					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 } ]
+					{ "P" : "AtSea", "left" : 395, "top" : 285 }, { "P" : "AtSea", "left" : 383, "top" : 255 }, { "P" : "AtSea", "left" : 376, "top" : 225 }, { "P" : "AtSea", "left" : 368, "top" : 190 },
+					{ "P" : "AtSea", "left" : 365, "top" : 130 }, { "P" : "AtSea", "left" : 345, "top" : 90 } ]
 			,
             "ColorScale" : [ "#FF0000", "#FF0000", "#FF4000", "#FF8000", "#FFBF00", "#FFFF00", "#BFFF00",
                              "#80FF00", "#40FF00", "#01DFD7", "#0174DF", "#0101DF", "#3A01DF", "#7401DF",

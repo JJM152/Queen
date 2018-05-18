@@ -989,7 +989,7 @@ App.Entity.Player = function (){
      */
     this.GetShipLocation = function () {
         var Routes = window.App.Data.Lists["ShipRoute"];
-        if (Routes.length >= this.SailDays) this.SailDays = 0; // Shouldn't happen, but fix it if it does.
+        if (this.SailDays >= Routes.length) this.SailDays = 0; // Shouldn't happen, but fix it if it does.
 		
 		var dict = { "X" : Routes[this.SailDays]["X"], "Y" : Routes[this.SailDays] };
 		
