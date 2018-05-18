@@ -2530,7 +2530,7 @@
         ROT.Map.Cellular.prototype._getClosest = function(point, space) {
             var minPoint = null;
             var minDist = null;
-            for (k in space) {
+            for (var k in space) {
                 var p = space[k];
                 var d = (p[0] - point[0]) * (p[0] - point[0]) + (p[1] - point[1]) * (p[1] - point[1]);
                 if (minDist == null || d < minDist) {

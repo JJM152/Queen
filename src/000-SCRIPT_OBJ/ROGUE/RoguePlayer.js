@@ -73,7 +73,12 @@ App.Rogue.Player.prototype._handleKey = function(code) {
         var dir = ROT.DIRS[8][direction];
         var xy = this._xy.plus(new App.Rogue.XY(dir[0], dir[1]));
 
-        this._level.setEntity(this, xy); /* FIXME collision detection */
+        if (typeof this._level.getFreeCells()[xy] === 'undefined') {
+            /* FIXME collision detection */
+            return true;
+        }
+
+        this._level.setEntity(this, xy);
         return true;
     }
 

@@ -6,6 +6,13 @@ App.Rogue.XY = function(x, y) {
     this.y = y || 0;
 };
 
+App.Rogue.XY.prototype.setStr = function(str)
+{
+    var parts = str.split(",");
+    this.x= parseInt(parts[0]);
+    this.y = parseInt(parts[1]);
+};
+
 App.Rogue.XY.prototype.toString = function() {
     return this.x+","+this.y;
 };
