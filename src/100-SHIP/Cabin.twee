@@ -5,7 +5,8 @@ Your "Cabin" is really a converted jail cell used for holding prisoners, or in y
 There is a large wooden wardrobe here that contains spare clothes and a vanity and mirror combination for taking care of your personal appearance.
 
 @@color:cyan;Interact@@: [[Wardrobe]] | [[Vanity]] | [[Mirror]]
-@@color:yellow;Action@@: <<if $Player.Phase < 3>><<if $Player.CoreStats["Energy"] == $Player.GetMaxStat("STAT","Energy");>>@@color:grey;[Rest]@@<<else>>[[Rest]]<</if>><<else>>[[Sleep]]<</if>>
+@@color:yellow;Action@@: <<if $Player.Phase < 3>><<if $Player.CoreStats["Energy"] == $Player.GetMaxStat("STAT","Energy");>>@@color:grey;[Rest]@@<<else>>[[Rest]]<</if>><<else>>[[Sleep]]<</if>> | \
+<<if $Player.CanReStyle() == true>><<link [[Quick Makeup and Hair|Cabin]]>><<run $Player.ReStyle()>><</link>><<else>>@@color:grey;[Quick Makeup and Hair]@@<</if>>
 @@color:lime;Travel@@: [[Deck]]
 
 <<if $Player.debugMode != false>>[[Cheat Room|DebugPassage]]<</if>>

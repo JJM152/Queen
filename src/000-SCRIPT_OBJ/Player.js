@@ -11,7 +11,7 @@ App.Entity.Player = function (){
     this.GirlfriendName = "Annette";
     this.NickName = "";
     this.HairColor = "black";
-    this.HairStyle = "a boy cut";
+    this.HairStyle = "boy cut";
     this.HairBonus = 0;
     this.MakeupStyle = "plain faced";
     this.MakeupBonus = 0;
@@ -20,8 +20,8 @@ App.Entity.Player = function (){
     this.SleepLog = [];
     /** @type {number} */
     this.SailDays = 1;
-    this.LastUsedMakeup = "minimal";
-    this.LastUsedHair = "boy cut";
+    this.LastUsedMakeup = "minimal blush and lipstick";
+    this.LastUsedHair = "a spunky boy cut";
     this.debugMode = false;
     this.difficultySetting = 1;
 
@@ -394,6 +394,48 @@ App.Entity.Player = function (){
     };
 
     /**
+     * Restyle hair.
+     */
+    this.ReStyle = function()
+    {
+        if (this.CanReStyle() == false) return;
+        var lm = this.LastUsedMakeup;
+        var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0]["NAME"];
+        var lh = this.LastUsedHair;
+        var Hair = window.App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0]["NAME"];
+
+        if (this.Equipment["Wig"] != 0) {
+            this.DoStyling(this.Equipment["Wig"].Id(), Makeup);
+        } else {
+            this.DoStyling(Hair, Makeup);
+        }
+
+        this.AdjustStat("Energy", -1);
+    };
+
+    /**
+     * Simple routine to check if the player can reapply their style.
+     * @returns {boolean}
+     */
+    this.CanReStyle = function(){
+
+        if(this.CoreStats["Energy"] < 1) return false;
+        if (this.LastUsedMakeup == this.MakeupStyle) return false;
+        var m1 = (typeof this.GetItemByName('basic makeup') !== 'undefined') ? this.GetItemByName('basic makeup').Charges() : 0;
+        var m2 = (typeof this.GetItemByName('expensive makeup') !== 'undefined') ? this.GetItemByName('expensive makeup').Charges() : 0;
+        var h1 = (typeof this.GetItemByName('haircare accessories') !== 'undefined') ? this.GetItemByName('haircare accessories').Charges() : 0;
+        var h2 = (typeof this.GetItemByName('haircare supplies') !== 'undefined') ? this.GetItemByName('haircare supplies').Charges() : 0;
+        var lm = this.LastUsedMakeup;
+        var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0];
+        if ( (m1 < Makeup["RESOURCE1"]) || (m2 < Makeup["RESOURCE2"])) return false;
+
+        if (this.Equipment["Wig"] !== 0) return true;
+        var lh = this.LastUsedHair;
+        var Hair = window.App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0];
+        return ( (h1 >= Hair["RESOURCE1"]) && (h2 >= Hair["RESOURCE2"]));
+    };
+
+    /**
      * Style hair and makeup.
      * @param {string} HairID
      * @param {string} MakeupID
@@ -411,7 +453,7 @@ App.Entity.Player = function (){
             if ( this.GetItemCharges("hair tool") >= Hair["RESOURCE1"] && this.GetItemCharges("hair treatment") >= Hair["RESOURCE2"]) {
                 this.HairStyle = Hair["SHORT"];
                 this.HairBonus = this.SkillRoll("Styling", Hair["DIFFICULTY"], Hair["STYLE"], true);
-                this.LastUsedHair = Hair["NAME"];
+                this.LastUsedHair = Hair["SHORT"];
                 this.UseItemCharges("hair tool", Hair["RESOURCE1"]);
                 this.UseItemCharges("hair treatment", Hair["RESOURCE2"]);
             }
@@ -422,7 +464,7 @@ App.Entity.Player = function (){
         if ( this.GetItemCharges("basic makeup") >= Makeup["RESOURCE1"] && this.GetItemCharges("expensive makeup") >= Makeup["RESOURCE2"]) {
             this.MakeupStyle = Makeup["SHORT"];
             this.MakeupBonus = this.SkillRoll("Styling", Makeup["DIFFICULTY"], Makeup["STYLE"], true);
-            this.LastUsedMakeup = Makeup["NAME"];
+            this.LastUsedMakeup = Makeup["SHORT"];
             this.UseItemCharges("basic makeup", Makeup["RESOURCE1"]);
             this.UseItemCharges("expensive makeup", Makeup["RESOURCE2"]);
         }

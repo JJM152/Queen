@@ -3024,7 +3024,7 @@ App.Entity.Player = function (){
     this.GirlfriendName = "Annette";
     this.NickName = "";
     this.HairColor = "black";
-    this.HairStyle = "a boy cut";
+    this.HairStyle = "boy cut";
     this.HairBonus = 0;
     this.MakeupStyle = "plain faced";
     this.MakeupBonus = 0;
@@ -3033,8 +3033,8 @@ App.Entity.Player = function (){
     this.SleepLog = [];
     /** @type {number} */
     this.SailDays = 1;
-    this.LastUsedMakeup = "minimal";
-    this.LastUsedHair = "boy cut";
+    this.LastUsedMakeup = "minimal blush and lipstick";
+    this.LastUsedHair = "a spunky boy cut";
     this.debugMode = false;
     this.difficultySetting = 1;
 
@@ -3407,6 +3407,48 @@ App.Entity.Player = function (){
     };
 
     /**
+     * Restyle hair.
+     */
+    this.ReStyle = function()
+    {
+        if (this.CanReStyle() == false) return;
+        var lm = this.LastUsedMakeup;
+        var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0]["NAME"];
+        var lh = this.LastUsedHair;
+        var Hair = window.App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0]["NAME"];
+
+        if (this.Equipment["Wig"] != 0) {
+            this.DoStyling(this.Equipment["Wig"].Id(), Makeup);
+        } else {
+            this.DoStyling(Hair, Makeup);
+        }
+
+        this.AdjustStat("Energy", -1);
+    };
+
+    /**
+     * Simple routine to check if the player can reapply their style.
+     * @returns {boolean}
+     */
+    this.CanReStyle = function(){
+
+        if(this.CoreStats["Energy"] < 1) return false;
+        if (this.LastUsedMakeup == this.MakeupStyle) return false;
+        var m1 = (typeof this.GetItemByName('basic makeup') !== 'undefined') ? this.GetItemByName('basic makeup').Charges() : 0;
+        var m2 = (typeof this.GetItemByName('expensive makeup') !== 'undefined') ? this.GetItemByName('expensive makeup').Charges() : 0;
+        var h1 = (typeof this.GetItemByName('haircare accessories') !== 'undefined') ? this.GetItemByName('haircare accessories').Charges() : 0;
+        var h2 = (typeof this.GetItemByName('haircare supplies') !== 'undefined') ? this.GetItemByName('haircare supplies').Charges() : 0;
+        var lm = this.LastUsedMakeup;
+        var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0];
+        if ( (m1 < Makeup["RESOURCE1"]) || (m2 < Makeup["RESOURCE2"])) return false;
+
+        if (this.Equipment["Wig"] !== 0) return true;
+        var lh = this.LastUsedHair;
+        var Hair = window.App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0];
+        return ( (h1 >= Hair["RESOURCE1"]) && (h2 >= Hair["RESOURCE2"]));
+    };
+
+    /**
      * Style hair and makeup.
      * @param {string} HairID
      * @param {string} MakeupID
@@ -3424,7 +3466,7 @@ App.Entity.Player = function (){
             if ( this.GetItemCharges("hair tool") >= Hair["RESOURCE1"] && this.GetItemCharges("hair treatment") >= Hair["RESOURCE2"]) {
                 this.HairStyle = Hair["SHORT"];
                 this.HairBonus = this.SkillRoll("Styling", Hair["DIFFICULTY"], Hair["STYLE"], true);
-                this.LastUsedHair = Hair["NAME"];
+                this.LastUsedHair = Hair["SHORT"];
                 this.UseItemCharges("hair tool", Hair["RESOURCE1"]);
                 this.UseItemCharges("hair treatment", Hair["RESOURCE2"]);
             }
@@ -3435,7 +3477,7 @@ App.Entity.Player = function (){
         if ( this.GetItemCharges("basic makeup") >= Makeup["RESOURCE1"] && this.GetItemCharges("expensive makeup") >= Makeup["RESOURCE2"]) {
             this.MakeupStyle = Makeup["SHORT"];
             this.MakeupBonus = this.SkillRoll("Styling", Makeup["DIFFICULTY"], Makeup["STYLE"], true);
-            this.LastUsedMakeup = Makeup["NAME"];
+            this.LastUsedMakeup = Makeup["SHORT"];
             this.UseItemCharges("basic makeup", Makeup["RESOURCE1"]);
             this.UseItemCharges("expensive makeup", Makeup["RESOURCE2"]);
         }
@@ -18985,7 +19027,8 @@ Your &quot;Cabin&quot; is really a converted jail cell used for holding prisoner
 There is a large wooden wardrobe here that contains spare clothes and a vanity and mirror combination for taking care of your personal appearance.
 
 @@color:cyan;Interact@@: [[Wardrobe]] | [[Vanity]] | [[Mirror]]
-@@color:yellow;Action@@: &lt;&lt;if $Player.Phase &lt; 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] == $Player.GetMaxStat(&quot;STAT&quot;,&quot;Energy&quot;);&gt;&gt;@@color:grey;[Rest]@@&lt;&lt;else&gt;&gt;[[Rest]]&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;
+@@color:yellow;Action@@: &lt;&lt;if $Player.Phase &lt; 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] == $Player.GetMaxStat(&quot;STAT&quot;,&quot;Energy&quot;);&gt;&gt;@@color:grey;[Rest]@@&lt;&lt;else&gt;&gt;[[Rest]]&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt; | \
+&lt;&lt;if $Player.CanReStyle() == true&gt;&gt;&lt;&lt;link [[Quick Makeup and Hair|Cabin]]&gt;&gt;&lt;&lt;run $Player.ReStyle()&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;else&gt;&gt;@@color:grey;[Quick Makeup and Hair]@@&lt;&lt;/if&gt;&gt;
 @@color:lime;Travel@@: [[Deck]]
 
 &lt;&lt;if $Player.debugMode != false&gt;&gt;[[Cheat Room|DebugPassage]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="Captain" tags="" position="475,100">The captains quarters are spacious, at least by the standards of this ship. There is a large window  made of cheap glass against the aft side of the room. It is framed with plush velvet drapes drawn by gold cords.  To the left of that is a large desk that sits infront of a &lt;&lt;customMenuLink &quot;map&quot; &quot;sea&quot;&gt;&gt; of the Lost Coast. The rest of the furnishing are old, but still impressively oppulatnat. It&#39;s obvious that great care has been taken to protect them from the rough conditions at sea.
@@ -20480,7 +20523,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 		&lt;/td&gt;
 &lt;&lt;else&gt;&gt;
 	&lt;td style=&quot;text-align:center;&quot;&gt;
-	&lt;&lt;if $Player.LastUsedHair == _Hair[_i][&quot;NAME&quot;] &amp;&amp; _Wig == 0&gt;&gt;
+	&lt;&lt;if $Player.LastUsedHair == _Hair[_i][&quot;SHORT&quot;] &amp;&amp; _Wig == 0&gt;&gt;
 &lt;&lt;print &#39;&lt;&lt;radiobutton &quot;$HairStyle&quot; &quot;&#39;+_Hair[_i][&quot;NAME&quot;] +&#39;&quot; checked&gt;&gt;&#39;&gt;&gt;&lt;&lt;else&gt;&gt;&lt;&lt;print &#39;&lt;&lt;radiobutton &quot;$HairStyle&quot; &quot;&#39;+_Hair[_i][&quot;NAME&quot;] +&#39;&quot;&gt;&gt;&#39;&gt;&gt;&lt;&lt;/if&gt;&gt;
 	&lt;/td&gt;
 	&lt;td&gt;&lt;&lt;print _PR.ColorizeString(_Hair[_i][&quot;STYLE&quot;], &quot;⇑Style&quot;) + &quot; &quot;+ _Hair[_i][&quot;SHORT&quot;];&gt;&gt;&lt;/td&gt;
@@ -20529,7 +20572,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 		&lt;/td&gt;
 &lt;&lt;else&gt;&gt;
 	&lt;td style=&quot;text-align:center;&quot;&gt;
-	&lt;&lt;if $Player.LastUsedMakeup == _Makeup[_i][&quot;NAME&quot;]&gt;&gt;
+	&lt;&lt;if $Player.LastUsedMakeup == _Makeup[_i][&quot;SHORT&quot;]&gt;&gt;
 &lt;&lt;print &#39;&lt;&lt;radiobutton &quot;$MakeupStyle&quot; &quot;&#39;+_Makeup[_i][&quot;NAME&quot;] +&#39;&quot; checked&gt;&gt;&#39;&gt;&gt;&lt;&lt;else&gt;&gt;&lt;&lt;print &#39;&lt;&lt;radiobutton &quot;$MakeupStyle&quot; &quot;&#39;+_Makeup[_i][&quot;NAME&quot;] +&#39;&quot;&gt;&gt;&#39;&gt;&gt;&lt;&lt;/if&gt;&gt;
 	&lt;/td&gt;
 	&lt;td&gt;&lt;&lt;print _PR.ColorizeString(_Makeup[_i][&quot;STYLE&quot;], &quot;⇑Style&quot;) + &quot; &quot;+ _Makeup[_i][&quot;SHORT&quot;];&gt;&gt;&lt;/td&gt;

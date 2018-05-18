@@ -71,7 +71,7 @@
 		</td>
 <<else>>
 	<td style="text-align:center;">
-	<<if $Player.LastUsedHair == _Hair[_i]["NAME"] && _Wig == 0>>
+	<<if $Player.LastUsedHair == _Hair[_i]["SHORT"] && _Wig == 0>>
 <<print '<<radiobutton "$HairStyle" "'+_Hair[_i]["NAME"] +'" checked>>'>><<else>><<print '<<radiobutton "$HairStyle" "'+_Hair[_i]["NAME"] +'">>'>><</if>>
 	</td>
 	<td><<print _PR.ColorizeString(_Hair[_i]["STYLE"], "⇑Style") + " "+ _Hair[_i]["SHORT"];>></td>
@@ -120,7 +120,7 @@
 		</td>
 <<else>>
 	<td style="text-align:center;">
-	<<if $Player.LastUsedMakeup == _Makeup[_i]["NAME"]>>
+	<<if $Player.LastUsedMakeup == _Makeup[_i]["SHORT"]>>
 <<print '<<radiobutton "$MakeupStyle" "'+_Makeup[_i]["NAME"] +'" checked>>'>><<else>><<print '<<radiobutton "$MakeupStyle" "'+_Makeup[_i]["NAME"] +'">>'>><</if>>
 	</td>
 	<td><<print _PR.ColorizeString(_Makeup[_i]["STYLE"], "⇑Style") + " "+ _Makeup[_i]["SHORT"];>></td>
