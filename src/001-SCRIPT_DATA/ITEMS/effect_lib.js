@@ -1063,7 +1063,7 @@ App.Data.EffectLib = {
          @param {App.Item.Consumable} o*/
             function(o,p) { p.AdjustStatXP('WillPower',-20, 50);p.AdjustStatXP("Perversion", 20, 50); },
         "VALUE" : 0,
-        "KNOWLEDGE" : [ "Slave Breaking++", "Kinky+" ]
+        "KNOWLEDGE" : [ "Slave Breaking--", "Kinky+" ]
     },
     "WAIST_CINCHING" : {
         "FUN" : /** @param {App.Entity.Player} p
@@ -1101,7 +1101,7 @@ App.Data.EffectLib = {
                 p.AdjustBodyXP('Balls',-20, 10);
                 p.AdjustStatXP("Perversion", 20, 70); },
         "VALUE" : 0,
-        "KNOWLEDGE" : [ "Ball Breaking++", "Kinky++" ]
+        "KNOWLEDGE" : [ "Ball Breaking--", "Kinky++" ]
     },
 //======================================
     /** CLOTHING ACTIVE WORN EFFECTS **/

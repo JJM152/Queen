@@ -426,7 +426,7 @@ App.PR = new function() {
         this.pItemDesc = function(ItemType, ItemTag, ItemAmount, Opt)
 		{
 			var oItem = App.Item.Factory( ItemType, ItemTag, ItemAmount);
-            if ((typeof Opt !== 'undefined') && ItemAmount > 1) return oItem.Description() + "x"+ItemAmount;
+            if ((typeof Opt !== 'undefined') && ItemAmount > 1) return oItem.Description() + " x "+ItemAmount;
 			return oItem.Description();
 		};
 
