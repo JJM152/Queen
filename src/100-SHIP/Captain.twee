@@ -1,5 +1,5 @@
 :: Captain
-The captains quarters are spacious, at least by the standards of this ship. There is a large glass window against the aft side of the room and plush velvet drapes hanging from the walls. The furniture itself is old, but well maintained and the Captain is known for his expensive tastes.
+The captains quarters are spacious, at least by the standards of this ship. There is a large window  made of cheap glass against the aft side of the room. It is framed with plush velvet drapes drawn by gold cords.  To the left of that is a large desk that sits infront of a <<customMenuLink "map" "sea">> of the Lost Coast. The rest of the furnishing are old, but still impressively oppulatnat. It's obvious that great care has been taken to protect them from the rough conditions at sea.
 
 <<NPC "Captain">>
 

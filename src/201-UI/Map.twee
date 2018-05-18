@@ -1,0 +1,5 @@
+:: map [custom-menu]
+@@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>
+<<if $MenuAction == 'sea'>>\
+<div id='miniMap'><img id="mapId" data-passage="img_map"><img id="mapIcon" data-passage="img_ship_icon"></div>\
+<</if>>

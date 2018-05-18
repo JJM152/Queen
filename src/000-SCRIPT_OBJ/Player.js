@@ -929,7 +929,8 @@ App.Entity.Player = function (){
         this.MakeupStyle = "plain faced";
 
         this.Day++;
-        this.SailDays = (this.SailDays + 1) > 49 ? 1 : (this.SailDays + 1);
+		// What day are we on our current voyage.
+        this.SailDays = ((this.SailDays + 1) >= App.Data.Lists["ShipRoute"].length) ? 0 : (this.SailDays + 1);
         this.Phase = 0;
 
         // Going hungry, lose some belly fat.
@@ -988,8 +989,19 @@ App.Entity.Player = function (){
      */
     this.GetShipLocation = function () {
         var Routes = window.App.Data.Lists["ShipRoute"];
-        if (!Routes.hasOwnProperty(this.SailDays)) return 0;
-        return Routes[this.SailDays];
+        if (Routes.length >= this.SailDays) this.SailDays = 0; // Shouldn't happen, but fix it if it does.
+		
+		var dict = { "X" : Routes[this.SailDays]["X"], "Y" : Routes[this.SailDays] };
+		
+		switch(Routes[this.SailDays]["P"]) {
+			case 'IslaHarbor': dict["Passage"] = "IslaHarbor"; dict["Title"] = "Isla Harbor"; break;
+			case 'GoldenIsle': dict["Passage"] = "GoldenIsle"; dict["Title"] = "Golden Isle"; break;
+			case 'Abamond': dict["Passage"] = "Abamond"; dict["Title"] = "Abamond"; break;
+			case 'PortRoyale': dict["Passage"] = "PortRoyale"; dict["Title"] = "Port Royale"; break;
+			default: dict["Passage"] = ""; dict["Title"] = "";
+		}
+			
+        return dict;
     };
 
     // Equipment and Inventory Related Functions

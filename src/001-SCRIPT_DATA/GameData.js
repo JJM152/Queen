@@ -1191,24 +1191,31 @@ App.Data.Lists = {
 					"Shrink" : "Something feels strange down there... are @@color:red;&dArr;your balls smaller@@?"
 				}
 			},
-			"ShipRoute" : {
-                 1: { "TYPE" : "PORT", "NAME" : "Isla Harbor", "PASSAGE" : "IslaHarbor" },
-                 2:	{ "TYPE" : "PORT", "NAME" : "Isla Harbor", "PASSAGE" : "IslaHarbor" },
-                 3: { "TYPE" : "PORT", "NAME" : "Isla Harbor", "PASSAGE" : "IslaHarbor" },
-                 4: { "TYPE" : "PORT", "NAME" : "Isla Harbor", "PASSAGE" : "IslaHarbor" },
-				14: { "TYPE" : "PORT", "NAME" : "Golden Isle", "PASSAGE" : "GoldenIsle" },
-                15:	{ "TYPE" : "PORT", "NAME" : "Golden Isle", "PASSAGE" : "GoldenIsle" },
-                16:	{ "TYPE" : "PORT", "NAME" : "Golden Isle", "PASSAGE" : "GoldenIsle" },
-                17:	{ "TYPE" : "PORT", "NAME" : "Golden Isle", "PASSAGE" : "GoldenIsle" },
-				27: { "TYPE" : "PORT", "NAME" : "Abamond",     "PASSAGE" : "Abamond" },
-                28: { "TYPE" : "PORT", "NAME" : "Abamond",     "PASSAGE" : "Abamond" },
-                29: { "TYPE" : "PORT", "NAME" : "Abamond",     "PASSAGE" : "Abamond" },
-                30: { "TYPE" : "PORT", "NAME" : "Abamond",     "PASSAGE" : "Abamond" },
-				40: { "TYPE" : "PORT", "NAME" : "Port Royale", "PASSAGE" : "PortRoyale" },
-                41: { "TYPE" : "PORT", "NAME" : "Port Royale", "PASSAGE" : "PortRoyale" },
-                42: { "TYPE" : "PORT", "NAME" : "Port Royale", "PASSAGE" : "PortRoyale" },
-                43: { "TYPE" : "PORT", "NAME" : "Port Royale", "PASSAGE" : "PortRoyale" }
-			},
+			// The route the ship takes in the game.
+			"ShipRoute" : [ 
+				// Isla Harbor Port
+					{ "P" : "IslaHarbor", "X" : 0, "Y" : 0 }, { "P" : "IslaHarbor", "X" : 0, "Y" : 0 }, { "P" : "IslaHarbor", "X" : 0, "Y" : 0 }, { "P" : "IslaHarbor", "X" : 0, "Y" : 0 },
+				// At Sea
+					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
+					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
+				// Golden Isle Port
+					{ "P" : "GoldenIsle", "X" : 0, "Y" : 0 }, { "P" : "GoldenIsle", "X" : 0, "Y" : 0 }, { "P" : "GoldenIsle", "X" : 0, "Y" : 0 }, { "P" : "GoldenIsle", "X" : 0, "Y" : 0 },
+				// At Sea
+					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
+					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
+					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, 
+				// Abamond
+					{ "P" : "Abamond", "X" : 0, "Y" : 0 }, { "P" : "Abamond", "X" : 0, "Y" : 0 }, { "P" : "Abamond", "X" : 0, "Y" : 0 }, { "P" : "Abamond", "X" : 0, "Y" : 0 },
+				// At Sea
+					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
+					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
+				// Port Royale
+					{ "P" : "PortRoyale", "X" : 0, "Y" : 0 }, { "P" : "PortRoyale", "X" : 0, "Y" : 0 }, { "P" : "PortRoyale", "X" : 0, "Y" : 0 }, { "P" : "PortRoyale", "X" : 0, "Y" : 0 },
+				// At Sea
+					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
+					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 },
+					{ "P" : "AtSea", "X" : 0, "Y" : 0 }, { "P" : "AtSea", "X" : 0, "Y" : 0 } ]
+			,
             "ColorScale" : [ "#FF0000", "#FF0000", "#FF4000", "#FF8000", "#FFBF00", "#FFFF00", "#BFFF00",
                              "#80FF00", "#40FF00", "#01DFD7", "#0174DF", "#0101DF", "#3A01DF", "#7401DF",
                              "#A901DB", "#DF01D7", "#DF01A5"]

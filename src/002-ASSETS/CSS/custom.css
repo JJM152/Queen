@@ -158,3 +158,22 @@ input[type="text"] {
 	line-height: 1.0; !important;
 	padding: 2px 3px 2px 3px; !important;
 }
+
+#miniMap {
+	position:relative;
+	width: 800px;
+	height: 566px;
+}
+
+#mapId {
+	z-index: 10;
+	position: relative;
+}
+
+#mapIcon {
+	z-index: 20;
+	width: 60px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
