@@ -3,8 +3,8 @@ App = App || { Data: { }, Entity: { } };
 App.Data.Cosmetics = {
     "hair accessories": {
         "Name": "haircare accessories",
-        "ShortDesc": "hair accessories [x5]",
-        "LongDesc": "A collection of cheap brushes, combs, ribbons and other accessories for styling hair.",
+        "ShortDesc": "hair accessories",
+        "LongDesc": "A collection of cheap brushes, combs, ribbons and other accessories for styling hair. Usually comes in packages of 5.",
         "Type": "hair tool",
         "Charges": 5,
         "SkillBonus": {"Styling": [5, 0, 0]},
@@ -12,8 +12,8 @@ App.Data.Cosmetics = {
     },
     "hair products": {
         "Name": "haircare supplies",
-        "ShortDesc": "haircare supplies [x5]",
-        "LongDesc": "Various substances for styling and maintaining hair.",
+        "ShortDesc": "haircare supplies",
+        "LongDesc": "Various substances for styling and maintaining hair. Usually comes in packages of 5.",
         "Type": "hair treatment",
         "Charges": 5,
         "SkillBonus": {"Styling": [10, 0, 0]},
@@ -21,8 +21,8 @@ App.Data.Cosmetics = {
     },
     "basic makeup": {
         "Name": "basic makeup",
-        "ShortDesc": "basic makeup [x5]",
-        "LongDesc": "A collection of cheap makeup. Basic pigments and foundation with lipstick.",
+        "ShortDesc": "basic makeup",
+        "LongDesc": "A collection of cheap makeup. Basic pigments and foundation with lipstick. Usually comes in packages of 5.",
         "Type": "basic makeup",
         "Charges": 5,
         "SkillBonus": {"Styling": [10, 0, 0]},
@@ -30,8 +30,8 @@ App.Data.Cosmetics = {
     },
     "expensive makeup": {
         "Name": "expensive makeup",
-        "ShortDesc": "expensive makeup [x5]",
-        "LongDesc": "A collection of nice makeup. It contains attractive pigments, eyeshadow and lipstick.",
+        "ShortDesc": "expensive makeup",
+        "LongDesc": "A collection of nice makeup. It contains attractive pigments, eyeshadow and lipstick. Usually comes in packages of 5.",
         "Type": "expensive makeup",
         "Charges": 5,
         "SkillBonus": {"Styling": [20, 0, 0]},

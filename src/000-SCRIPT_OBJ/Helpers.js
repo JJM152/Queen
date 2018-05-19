@@ -733,5 +733,27 @@ App.PR = new function() {
         console.log("Placing map icon at top="+top+", left="+left);
         $(document).one(":passageend", function() { $("#mapIcon").css( { "top" : top, "left" : left }); });
 
-    }
+    };
+
+    this.pQuickChangeDropDown = function(Player) {
+
+        var buffer = [ ];
+        var options = [
+            "Best Clothes", "BDSM", "Bimbo", "Daddy's Girl", "Gothic Lolita", "High Class Lady",
+            "Naughty Nun", "Pet Girl", "Pirate Slut", "Sexy Dancer", "Sissy Lolita", "Slutty Lady"
+        ];
+
+        buffer.push("<select name=\"WardrobeQuickStyle\" style='width:160px;'>");
+
+        for (var i = 0; i < options.length; i++)
+        {
+            if (Player.LastQuickWardrobe == options[i] ) {
+                buffer.push("<option value=\""+options[i]+"\" selected=\"true\">"+options[i]+"</option>");
+            } else {
+                buffer.push("<option value=\""+options[i]+"\">"+options[i]+"</option>");
+            }
+        }
+        buffer.push("</select>");
+        return buffer.join("\n");
+    };
 };

@@ -22,6 +22,7 @@ App.Entity.Player = function (){
     this.SailDays = 1;
     this.LastUsedMakeup = "minimal blush and lipstick";
     this.LastUsedHair = "a spunky boy cut";
+    this.LastQuickWardrobe = "";
     this.debugMode = false;
     this.difficultySetting = 1;
 

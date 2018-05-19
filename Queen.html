@@ -1108,7 +1108,29 @@ App.PR = new function() {
         console.log("Placing map icon at top="+top+", left="+left);
         $(document).one(":passageend", function() { $("#mapIcon").css( { "top" : top, "left" : left }); });
 
-    }
+    };
+
+    this.pQuickChangeDropDown = function(Player) {
+
+        var buffer = [ ];
+        var options = [
+            "Best Clothes", "BDSM", "Bimbo", "Daddy's Girl", "Gothic Lolita", "High Class Lady",
+            "Naughty Nun", "Pet Girl", "Pirate Slut", "Sexy Dancer", "Sissy Lolita", "Slutty Lady"
+        ];
+
+        buffer.push("<select name=\"WardrobeQuickStyle\" style='width:160px;'>");
+
+        for (var i = 0; i < options.length; i++)
+        {
+            if (Player.LastQuickWardrobe == options[i] ) {
+                buffer.push("<option value=\""+options[i]+"\" selected=\"true\">"+options[i]+"</option>");
+            } else {
+                buffer.push("<option value=\""+options[i]+"\">"+options[i]+"</option>");
+            }
+        }
+        buffer.push("</select>");
+        return buffer.join("\n");
+    };
 };
 /* twine-user-script #3: "Items.js" */
 App = App || { Data: { }, Entity: { } };
@@ -3035,6 +3057,7 @@ App.Entity.Player = function (){
     this.SailDays = 1;
     this.LastUsedMakeup = "minimal blush and lipstick";
     this.LastUsedHair = "a spunky boy cut";
+    this.LastQuickWardrobe = "";
     this.debugMode = false;
     this.difficultySetting = 1;
 
@@ -9041,8 +9064,8 @@ App = App || { Data: { }, Entity: { } };
 App.Data.Cosmetics = {
     "hair accessories": {
         "Name": "haircare accessories",
-        "ShortDesc": "hair accessories [x5]",
-        "LongDesc": "A collection of cheap brushes, combs, ribbons and other accessories for styling hair.",
+        "ShortDesc": "hair accessories",
+        "LongDesc": "A collection of cheap brushes, combs, ribbons and other accessories for styling hair. Usually comes in packages of 5.",
         "Type": "hair tool",
         "Charges": 5,
         "SkillBonus": {"Styling": [5, 0, 0]},
@@ -9050,8 +9073,8 @@ App.Data.Cosmetics = {
     },
     "hair products": {
         "Name": "haircare supplies",
-        "ShortDesc": "haircare supplies [x5]",
-        "LongDesc": "Various substances for styling and maintaining hair.",
+        "ShortDesc": "haircare supplies",
+        "LongDesc": "Various substances for styling and maintaining hair. Usually comes in packages of 5.",
         "Type": "hair treatment",
         "Charges": 5,
         "SkillBonus": {"Styling": [10, 0, 0]},
@@ -9059,8 +9082,8 @@ App.Data.Cosmetics = {
     },
     "basic makeup": {
         "Name": "basic makeup",
-        "ShortDesc": "basic makeup [x5]",
-        "LongDesc": "A collection of cheap makeup. Basic pigments and foundation with lipstick.",
+        "ShortDesc": "basic makeup",
+        "LongDesc": "A collection of cheap makeup. Basic pigments and foundation with lipstick. Usually comes in packages of 5.",
         "Type": "basic makeup",
         "Charges": 5,
         "SkillBonus": {"Styling": [10, 0, 0]},
@@ -9068,8 +9091,8 @@ App.Data.Cosmetics = {
     },
     "expensive makeup": {
         "Name": "expensive makeup",
-        "ShortDesc": "expensive makeup [x5]",
-        "LongDesc": "A collection of nice makeup. It contains attractive pigments, eyeshadow and lipstick.",
+        "ShortDesc": "expensive makeup",
+        "LongDesc": "A collection of nice makeup. It contains attractive pigments, eyeshadow and lipstick. Usually comes in packages of 5.",
         "Type": "expensive makeup",
         "Charges": 5,
         "SkillBonus": {"Styling": [20, 0, 0]},
@@ -19853,9 +19876,8 @@ The style and fashion of your clothing is &lt;&lt;= window.App.PR.pClothing($Pla
 &lt;tr style=&quot;border-bottom:1px solid white;&quot;&gt;
     &lt;td style=&quot;width:80px;&quot;&gt;Slot&lt;/td&gt;
 	&lt;td style=&quot;width:360px;&quot;&gt;Item&lt;/td&gt;
-	&lt;td style=&quot;width:80px;&quot;&gt; &lt;/td&gt;
-	&lt;td style=&quot;width:80px;&quot;&gt; &lt;/td&gt;
-	&lt;td style=&quot;width:80px;&quot;&gt; &lt;/td&gt;
+	&lt;td colspan=2 style=&quot;width:80px;&quot;&gt;&lt;&lt;= App.PR.pQuickChangeDropDown($Player) &gt;&gt;&lt;/td&gt;
+	&lt;td style=&quot;width:80px;&quot;&gt; @@.wardrobeButton;&lt;&lt;button &quot;Go&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
     &lt;td&gt;&lt;&lt;wlink &quot;Wig&quot;&gt;&gt;&lt;/td&gt;

@@ -218,9 +218,8 @@ The style and fashion of your clothing is <<= window.App.PR.pClothing($Player) >
 <tr style="border-bottom:1px solid white;">
     <td style="width:80px;">Slot</td>
 	<td style="width:360px;">Item</td>
-	<td style="width:80px;"> </td>
-	<td style="width:80px;"> </td>
-	<td style="width:80px;"> </td>
+	<td colspan=2 style="width:80px;"><<= App.PR.pQuickChangeDropDown($Player) >></td>
+	<td style="width:80px;"> @@.wardrobeButton;<<button "Go">><</button>>@@</td>
 </tr>
 <tr>
     <td><<wlink "Wig">></td>
