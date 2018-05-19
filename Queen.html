@@ -1109,28 +1109,6 @@ App.PR = new function() {
         $(document).one(":passageend", function() { $("#mapIcon").css( { "top" : top, "left" : left }); });
 
     };
-
-    this.pQuickChangeDropDown = function(Player) {
-
-        var buffer = [ ];
-        var options = [
-            "Best Clothes", "BDSM", "Bimbo", "Daddy's Girl", "Gothic Lolita", "High Class Lady",
-            "Naughty Nun", "Pet Girl", "Pirate Slut", "Sexy Dancer", "Sissy Lolita", "Slutty Lady"
-        ];
-
-        buffer.push("<select name=\"WardrobeQuickStyle\" style='width:160px;'>");
-
-        for (var i = 0; i < options.length; i++)
-        {
-            if (Player.LastQuickWardrobe == options[i] ) {
-                buffer.push("<option value=\""+options[i]+"\" selected=\"true\">"+options[i]+"</option>");
-            } else {
-                buffer.push("<option value=\""+options[i]+"\">"+options[i]+"</option>");
-            }
-        }
-        buffer.push("</select>");
-        return buffer.join("\n");
-    };
 };
 /* twine-user-script #3: "Items.js" */
 App = App || { Data: { }, Entity: { } };
@@ -1296,6 +1274,7 @@ App.Item = new function() {
                 {
                     if (Items[i]["TYPE"] == "MONEY") {
                         Player.AdjustMoney( Items[i]["QTY"]);
+                        output += "@@color:yellow;"+coins + " gold coins.@@\n";
                         continue;
                     }
                     var obj;
@@ -1306,14 +1285,15 @@ App.Item = new function() {
                             // We own this already. Give some cash.
                             var coins = Math.floor((this.CalculateBasePrice(Items[i]["TYPE"], Items[i]["TAG"]) * 0.5));
                             Player.AdjustMoney( coins );
-                            output += "color:yellow;"+coins + " gold coins.@@\n";
+                            output += "@@color:yellow;"+coins + " gold coins.@@\n";
                         } else {
                             Player.AddItem(Items[i]["TYPE"], Items[i]["TAG"], 0);
+                            if (x == 0) {
+                                output += obj.Description();
+                                output += Items[i]["QTY"] > 1 ? "@@color:gold; x " + Items[i]["QTY"] + "@@\n" : "\n";
+                            }
                         }
                     }
-                    output += obj.Description();
-                    output += Items[i]["QTY"] > 1 ? "@@color:gold; x "+Items[i]["QTY"]+"@@\n" : "\n";
-
                 }
                 break;
             }
@@ -1645,7 +1625,8 @@ App.Item = new function() {
         /** @returns {number} */
         this.Charges = function() { return 1; }
 
-    }
+    };
+
 };
 
 
@@ -3057,7 +3038,7 @@ App.Entity.Player = function (){
     this.SailDays = 1;
     this.LastUsedMakeup = "minimal blush and lipstick";
     this.LastUsedHair = "a spunky boy cut";
-    this.LastQuickWardrobe = "";
+    this.LastQuickWardrobe = "Best Clothes";
     this.debugMode = false;
     this.difficultySetting = 1;
 
@@ -4159,11 +4140,35 @@ App.Entity.Player = function (){
     };
 
     this.Wear = function (item) {
+        console.log("Wearing...");
+        console.log(item);
         for (var i = 0; i < item.Restrict().length; i++) this.Remove(this.Equipment[item.Restrict()[i]]);
         this.Equipment[item.Slot()] = item;
         this.Wardrobe = this.Wardrobe.filter(function (o) {
             return o.Id() != item.Id();
         });
+    };
+
+    this.AutoWearCategory = function (Category)
+    {
+        for (var s in this.Equipment)
+        {
+            if (!this.Equipment.hasOwnProperty(s)) continue;
+            // Get all matching items by Category and Slot.
+            var cItems = $.grep(this.Wardrobe, function(o) { return (($.inArray(Category, o.Category()) != -1) && (o.Slot() == s)); });
+            console.log(cItems);
+            if (cItems.length < 1) continue; // Nothing matching
+
+            cItems = cItems.sort(function(a, b) { return a.Style() < b.Style(); });
+
+            if (this.Equipment[s] == 0) { // Nothing being worn, so wear it.
+                this.Wear(cItems[0]);
+            } else if ( this.Equipment[s].Category() != Category) { // Item in slot is not of the right category, so swap them.
+                this.Wear(cItems[0]);
+            } else if ( this.Equipment[s].Style() < cItems[0]) { // Item in slot has less style, so swap them.
+                this.Wear(cItems[0]);
+            }
+        }
     };
 
     this.Strip = function() {
@@ -19446,9 +19451,9 @@ There is currently no ship being built.
 	&lt;/tr&gt;
 	&lt;tr style=&quot;border-bottom:1px solid white;&quot;&gt;
 		&lt;td style=&quot;width:80px;&quot;&gt; &lt;/td&gt;
-		&lt;td style=&quot;width:400px;&quot;&gt; &lt;/td&gt;
-		&lt;td style=&quot;width:120px;&quot;&gt; &lt;/td&gt;
-		&lt;td style=&quot;width:120px;&quot;&gt; &lt;/td&gt;
+		&lt;td style=&quot;width:440px;&quot;&gt; &lt;/td&gt;
+		&lt;td style=&quot;width:80px;&quot;&gt; &lt;/td&gt;
+		&lt;td style=&quot;width:80px;&quot;&gt; &lt;/td&gt;
 	&lt;/tr&gt;	
 	&lt;tr&gt;
 		&lt;td&gt; &lt;/td&gt;
@@ -19462,19 +19467,16 @@ There is currently no ship being built.
 &lt;&lt;widget &quot;UseItem&quot;&gt;&gt;&lt;&lt;set _Item = $Player.GetItemById($args[0]); &gt;&gt;\
 &lt;table class=&quot;.MyTable&quot; style=&quot;width:750px;&quot;&gt;
 &lt;tbody&gt;
-	&lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;&lt;h3&gt;@@color:yellow;Using - @@&lt;&lt;= _Item.Description()&gt;&gt;&lt;/h3&gt;&lt;/td&gt;
-		&lt;td colspan=&quot;2&quot; style=&quot;text-align:right&quot;&gt;@@.wardrobeButton;&lt;&lt;button &quot;Back&quot;&gt;&gt;&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable $args[1]&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/button&gt;&gt;@@&lt;/td&gt;
+	&lt;tr&gt;&lt;td style=&quot;width:500px;&quot;&gt;@@color:yellow;Using - @@&lt;&lt;= _Item.Description()&gt;&gt;&lt;/td&gt;
+		&lt;td style=&quot;text-align:right;width:250px;&quot;&gt;@@.wardrobeButton;&lt;&lt;button &quot;Back&quot;&gt;&gt;&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable $args[1]&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/button&gt;&gt;@@&lt;/td&gt;
 	&lt;/tr&gt;
 	&lt;tr style=&quot;border-bottom:1px solid white;&quot;&gt;
-		&lt;td style=&quot;width:80px;&quot;&gt; &lt;/td&gt;
-		&lt;td style=&quot;width:400px;&quot;&gt; &lt;/td&gt;
-		&lt;td style=&quot;width:120px;&quot;&gt; &lt;/td&gt;
-		&lt;td style=&quot;width:120px;&quot;&gt; &lt;/td&gt;
+		&lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
 	&lt;/tr&gt;	
 	&lt;tr&gt;
-		&lt;td&gt; &lt;/td&gt;
-		&lt;td colspan=&quot;3&quot;&gt;
+		&lt;td style=&quot;width:600px;&quot;&gt;
 			&lt;&lt;= $Player.UseItem($args[0]);&gt;&gt;&lt;/td&gt;
+		&lt;td style=&quot;width:150px;text-align: right;vertical-align:top;&quot;&gt;&lt;&lt;if ((typeof _Item !== &#39;undefined&#39;) &amp;&amp; (_Item.Charges() &gt; 0));&gt;&gt;@@.wardrobeButton;&lt;&lt;button &quot;Use Again&quot;&gt;&gt;&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;UseItem $args[0] $args[1]&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/button&gt;&gt;@@&lt;&lt;else&gt;&gt;@@.disabledWardrobeButton;&lt;&lt;button &quot;Use Again&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@&lt;&lt;/if&gt;&gt;&lt;/td&gt;
 	&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;&lt;replace &quot;#PlayerScore&quot;&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/widget&gt;&gt;
@@ -19501,7 +19503,7 @@ There is currently no ship being built.
 	&lt;td colspan=2 style=&quot;text-align:right&quot;&gt;@@color:grey;Food@@ |
 	&lt;&lt;click &quot;Potions&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;potion&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
-	&lt;&lt;/click&gt;&gt; | &lt;&lt;click &quot;Quest &amp; Loot&quot;&gt;&gt;
+	&lt;&lt;/click&gt;&gt; | &lt;&lt;click &quot;Loot&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;quest&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
 	&lt;&lt;/click&gt;&gt;&lt;/td&gt;
 &lt;&lt;else&gt;&gt;
@@ -19510,7 +19512,7 @@ There is currently no ship being built.
 	&lt;td colspan=2&gt;&lt;h3&gt;@@color:yellow;Inventory - Potions and Drugs@@&lt;/h3&gt;&lt;/td&gt;
 	&lt;td colspan=2 style=&quot;text-align:right&quot;&gt;&lt;&lt;click &quot;Food&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
-	&lt;&lt;/click&gt;&gt; | @@color:grey;Potions@@ | &lt;&lt;click &quot;Quest &amp; Loot&quot;&gt;&gt;
+	&lt;&lt;/click&gt;&gt; | @@color:grey;Potions@@ | &lt;&lt;click &quot;Loot&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;quest&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
 	&lt;&lt;/click&gt;&gt;&lt;/td&gt;
 &lt;&lt;else&gt;&gt;
@@ -19521,16 +19523,16 @@ There is currently no ship being built.
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
 	&lt;&lt;/click&gt;&gt; | &lt;&lt;click &quot;Potions&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;potion&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
-	&lt;&lt;/click&gt;&gt; | @@color:grey;Quest &amp; Loot@@&lt;/td&gt;
+	&lt;&lt;/click&gt;&gt; | @@color:grey;Loot@@&lt;/td&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;/tr&gt;
 &lt;tr style=&quot;border-bottom:1px solid white;&quot;&gt;
-    &lt;td style=&quot;width:80px;&quot;&gt;Count&lt;/td&gt;
-	&lt;td style=&quot;width:400px;&quot;&gt;Item&lt;/td&gt;
-	&lt;td style=&quot;width:120px;&quot;&gt; &lt;/td&gt;
-	&lt;td style=&quot;width:120px;&quot;&gt; &lt;/td&gt;
+		&lt;td style=&quot;width:80px;&quot;&gt; &lt;/td&gt;
+		&lt;td style=&quot;width:440px;&quot;&gt; &lt;/td&gt;
+		&lt;td style=&quot;width:80px;&quot;&gt; &lt;/td&gt;
+		&lt;td style=&quot;width:80px;&quot;&gt; &lt;/td&gt;
 &lt;/tr&gt;
 &lt;&lt;if ($args[0] == &quot;food&quot;) or ($args[0] == &quot;potion&quot;) &gt;&gt;
 &lt;&lt;for _i = 0; _i lt _Items.length; _i++&gt;&gt;
@@ -19835,26 +19837,26 @@ The style and fashion of your clothing is &lt;&lt;= window.App.PR.pClothing($Pla
 
 &lt;table class=&quot;#score-table&quot;&gt;
 &lt;tbody&gt;
-&lt;tr&gt;&lt;td colspan=&quot;6&quot; style=&quot;border-bottom: 1px solid&quot;&gt;@@color:yellow;Current Fashion Breakdown@@&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan=&quot;6&quot; style=&quot;border-bottom: 1px solid&quot;&gt;@@color:yellow;Current Fashion Breakdown@@ (click a name to automatically dress that way)&lt;/td&gt;&lt;/tr&gt;
 	&lt;tr&gt;
 		&lt;td&gt;Ordinary:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Ordinary&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
-		&lt;td&gt;Pirate Slut:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Pirate Slut&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
-		&lt;td&gt;Bimbo:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Bimbo&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;&lt;link &quot;Pirate Slut&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;Pirate Slut&#39;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Pirate Slut&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;&lt;link &quot;Bimbo&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;Bimbo&#39;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Bimbo&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
 	&lt;/tr&gt;
 	&lt;tr&gt;
-		&lt;td&gt;Sissy Lolita:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Sissy Lolita&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
-		&lt;td&gt;Gothic Lolita:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Gothic Lolita&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
-		&lt;td&gt;BDSM:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;BDSM&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;&lt;link &quot;Sissy Lolita&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;Sissy Lolita&#39;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Sissy Lolita&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;&lt;link &quot;Gothic Lolita&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;Gothic Lolita&#39;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Gothic Lolita&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;&lt;link &quot;BDSM&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;BDSM&#39;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;BDSM&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
 	&lt;/tr&gt;
 	&lt;tr&gt;
-		&lt;td&gt;Daddy&#39;s Girl:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Daddy&#39;s Girl&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
-		&lt;td&gt;Naughty Nun:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Naughty Nun&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
-		&lt;td&gt;Pet Girl:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Pet Girl&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;&lt;link &quot;Daddy&#39;s Girl&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&quot;Daddy&#39;s Girl&quot;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Daddy&#39;s Girl&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;&lt;link &quot;Naughty Nun&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;Naughty Nun&#39;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Naughty Nun&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;&lt;link &quot;Pet Girl&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;Pet Girl);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Pet Girl&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
 	&lt;/tr&gt;
 	&lt;tr&gt;
-		&lt;td&gt;High Class Whore:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;High Class Whore&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
-		&lt;td&gt;Slutty Lady:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Slutty Lady&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
-		&lt;td&gt;Sexy Dancer:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Sexy Dancer&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;&lt;link &quot;High Class Whore&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;High Class Whore&#39;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;High Class Whore&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;&lt;link &quot;Slutty Lady&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;Slutty Lady&#39;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Slutty Lady&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;&lt;link &quot;Sexy Dancer&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;Sexy Dancer&#39;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Sexy Dancer&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
 	&lt;/tr&gt;	
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -19866,7 +19868,7 @@ The style and fashion of your clothing is &lt;&lt;= window.App.PR.pClothing($Pla
 &lt;tbody&gt;
 &lt;tr&gt;
 	&lt;td colspan=2&gt;&lt;h3&gt;@@color:yellow;Worn Items@@&lt;/h3&gt;&lt;/td&gt;
-	&lt;td colspan=3&gt;&lt;&lt;click &quot;Get naked&quot;&gt;&gt;
+	&lt;td colspan=3 style=&quot;text-align:right&quot;&gt;&lt;&lt;click &quot;Get naked&quot;&gt;&gt;
 		&lt;&lt;run $Player.Strip();&gt;&gt;
 		&lt;&lt;replace &quot;#WardrobeUI&quot;&gt;&gt;&lt;&lt;WearingTable&gt;&gt;&lt;&lt;/replace&gt;&gt;
 	&lt;&lt;/click&gt;&gt; | &lt;&lt;click &quot;Inspect Outfit&quot;&gt;&gt;
@@ -19876,8 +19878,9 @@ The style and fashion of your clothing is &lt;&lt;= window.App.PR.pClothing($Pla
 &lt;tr style=&quot;border-bottom:1px solid white;&quot;&gt;
     &lt;td style=&quot;width:80px;&quot;&gt;Slot&lt;/td&gt;
 	&lt;td style=&quot;width:360px;&quot;&gt;Item&lt;/td&gt;
-	&lt;td colspan=2 style=&quot;width:80px;&quot;&gt;&lt;&lt;= App.PR.pQuickChangeDropDown($Player) &gt;&gt;&lt;/td&gt;
-	&lt;td style=&quot;width:80px;&quot;&gt; @@.wardrobeButton;&lt;&lt;button &quot;Go&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@&lt;/td&gt;
+	&lt;td style=&quot;width:80px;&quot;&gt;&lt;/td&gt;
+	&lt;td style=&quot;width:80px;&quot;&gt;&lt;/td&gt;
+	&lt;td style=&quot;width:80px;&quot;&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
     &lt;td&gt;&lt;&lt;wlink &quot;Wig&quot;&gt;&gt;&lt;/td&gt;

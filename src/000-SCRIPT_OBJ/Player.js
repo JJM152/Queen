@@ -22,7 +22,7 @@ App.Entity.Player = function (){
     this.SailDays = 1;
     this.LastUsedMakeup = "minimal blush and lipstick";
     this.LastUsedHair = "a spunky boy cut";
-    this.LastQuickWardrobe = "";
+    this.LastQuickWardrobe = "Best Clothes";
     this.debugMode = false;
     this.difficultySetting = 1;
 
@@ -1124,11 +1124,35 @@ App.Entity.Player = function (){
     };
 
     this.Wear = function (item) {
+        console.log("Wearing...");
+        console.log(item);
         for (var i = 0; i < item.Restrict().length; i++) this.Remove(this.Equipment[item.Restrict()[i]]);
         this.Equipment[item.Slot()] = item;
         this.Wardrobe = this.Wardrobe.filter(function (o) {
             return o.Id() != item.Id();
         });
+    };
+
+    this.AutoWearCategory = function (Category)
+    {
+        for (var s in this.Equipment)
+        {
+            if (!this.Equipment.hasOwnProperty(s)) continue;
+            // Get all matching items by Category and Slot.
+            var cItems = $.grep(this.Wardrobe, function(o) { return (($.inArray(Category, o.Category()) != -1) && (o.Slot() == s)); });
+            console.log(cItems);
+            if (cItems.length < 1) continue; // Nothing matching
+
+            cItems = cItems.sort(function(a, b) { return a.Style() < b.Style(); });
+
+            if (this.Equipment[s] == 0) { // Nothing being worn, so wear it.
+                this.Wear(cItems[0]);
+            } else if ( this.Equipment[s].Category() != Category) { // Item in slot is not of the right category, so swap them.
+                this.Wear(cItems[0]);
+            } else if ( this.Equipment[s].Style() < cItems[0]) { // Item in slot has less style, so swap them.
+                this.Wear(cItems[0]);
+            }
+        }
     };
 
     this.Strip = function() {

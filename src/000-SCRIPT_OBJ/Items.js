@@ -161,6 +161,7 @@ App.Item = new function() {
                 {
                     if (Items[i]["TYPE"] == "MONEY") {
                         Player.AdjustMoney( Items[i]["QTY"]);
+                        output += "@@color:yellow;"+coins + " gold coins.@@\n";
                         continue;
                     }
                     var obj;
@@ -171,14 +172,15 @@ App.Item = new function() {
                             // We own this already. Give some cash.
                             var coins = Math.floor((this.CalculateBasePrice(Items[i]["TYPE"], Items[i]["TAG"]) * 0.5));
                             Player.AdjustMoney( coins );
-                            output += "color:yellow;"+coins + " gold coins.@@\n";
+                            output += "@@color:yellow;"+coins + " gold coins.@@\n";
                         } else {
                             Player.AddItem(Items[i]["TYPE"], Items[i]["TAG"], 0);
+                            if (x == 0) {
+                                output += obj.Description();
+                                output += Items[i]["QTY"] > 1 ? "@@color:gold; x " + Items[i]["QTY"] + "@@\n" : "\n";
+                            }
                         }
                     }
-                    output += obj.Description();
-                    output += Items[i]["QTY"] > 1 ? "@@color:gold; x "+Items[i]["QTY"]+"@@\n" : "\n";
-
                 }
                 break;
             }
@@ -510,7 +512,8 @@ App.Item = new function() {
         /** @returns {number} */
         this.Charges = function() { return 1; }
 
-    }
+    };
+
 };
 
 

@@ -7,9 +7,9 @@
 	</tr>
 	<tr style="border-bottom:1px solid white;">
 		<td style="width:80px;"> </td>
-		<td style="width:400px;"> </td>
-		<td style="width:120px;"> </td>
-		<td style="width:120px;"> </td>
+		<td style="width:440px;"> </td>
+		<td style="width:80px;"> </td>
+		<td style="width:80px;"> </td>
 	</tr>	
 	<tr>
 		<td> </td>
@@ -23,19 +23,16 @@
 <<widget "UseItem">><<set _Item = $Player.GetItemById($args[0]); >>\
 <table class=".MyTable" style="width:750px;">
 <tbody>
-	<tr><td colspan="2"><h3>@@color:yellow;Using - @@<<= _Item.Description()>></h3></td>
-		<td colspan="2" style="text-align:right">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
+	<tr><td style="width:500px;">@@color:yellow;Using - @@<<= _Item.Description()>></td>
+		<td style="text-align:right;width:250px;">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
 	</tr>
 	<tr style="border-bottom:1px solid white;">
-		<td style="width:80px;"> </td>
-		<td style="width:400px;"> </td>
-		<td style="width:120px;"> </td>
-		<td style="width:120px;"> </td>
+		<td colspan="2">&nbsp;</td>
 	</tr>	
 	<tr>
-		<td> </td>
-		<td colspan="3">
+		<td style="width:600px;">
 			<<= $Player.UseItem($args[0]);>></td>
+		<td style="width:150px;text-align: right;vertical-align:top;"><<if ((typeof _Item !== 'undefined') && (_Item.Charges() > 0));>>@@.wardrobeButton;<<button "Use Again">><<replace "#InventoryUI">><<UseItem $args[0] $args[1]>><</replace>><</button>>@@<<else>>@@.disabledWardrobeButton;<<button "Use Again">><</button>>@@<</if>></td>
 	</tr>
 </tbody>
 </table><<replace "#PlayerScore">><<score>><</replace>><</widget>>
@@ -62,7 +59,7 @@
 	<td colspan=2 style="text-align:right">@@color:grey;Food@@ |
 	<<click "Potions">>
 		<<replace "#InventoryUI">><<InventoryTable "potion">><</replace>>
-	<</click>> | <<click "Quest & Loot">>
+	<</click>> | <<click "Loot">>
 		<<replace "#InventoryUI">><<InventoryTable "quest">><</replace>>
 	<</click>></td>
 <<else>>
@@ -71,7 +68,7 @@
 	<td colspan=2><h3>@@color:yellow;Inventory - Potions and Drugs@@</h3></td>
 	<td colspan=2 style="text-align:right"><<click "Food">>
 		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
-	<</click>> | @@color:grey;Potions@@ | <<click "Quest & Loot">>
+	<</click>> | @@color:grey;Potions@@ | <<click "Loot">>
 		<<replace "#InventoryUI">><<InventoryTable "quest">><</replace>>
 	<</click>></td>
 <<else>>
@@ -82,16 +79,16 @@
 		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
 	<</click>> | <<click "Potions">>
 		<<replace "#InventoryUI">><<InventoryTable "potion">><</replace>>
-	<</click>> | @@color:grey;Quest & Loot@@</td>
+	<</click>> | @@color:grey;Loot@@</td>
 <</if>>
 <</if>>
 <</if>>
 </tr>
 <tr style="border-bottom:1px solid white;">
-    <td style="width:80px;">Count</td>
-	<td style="width:400px;">Item</td>
-	<td style="width:120px;"> </td>
-	<td style="width:120px;"> </td>
+		<td style="width:80px;"> </td>
+		<td style="width:440px;"> </td>
+		<td style="width:80px;"> </td>
+		<td style="width:80px;"> </td>
 </tr>
 <<if ($args[0] == "food") or ($args[0] == "potion") >>
 <<for _i = 0; _i lt _Items.length; _i++>>
