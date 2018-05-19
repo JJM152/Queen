@@ -3335,7 +3335,7 @@ App.Entity.Player = function (){
         if (this.VoodooEffects.hasOwnProperty("PIRATES_PROWESS") && Type == "SKILL") bonus += this.VoodooEffects["PIRATES_PROWESS"];
         if (this.difficultySetting == 1) bonus += 5;
         if (this.difficultySetting == 2) bonus += 10;
-        bonus += this.GetWornSkillBonus(Name)
+        bonus += this.GetWornSkillBonus(Name);
 
         return bonus;
     };
@@ -4140,8 +4140,6 @@ App.Entity.Player = function (){
     };
 
     this.Wear = function (item) {
-        console.log("Wearing...");
-        console.log(item);
         for (var i = 0; i < item.Restrict().length; i++) this.Remove(this.Equipment[item.Restrict()[i]]);
         this.Equipment[item.Slot()] = item;
         this.Wardrobe = this.Wardrobe.filter(function (o) {
@@ -4156,7 +4154,7 @@ App.Entity.Player = function (){
             if (!this.Equipment.hasOwnProperty(s)) continue;
             // Get all matching items by Category and Slot.
             var cItems = $.grep(this.Wardrobe, function(o) { return (($.inArray(Category, o.Category()) != -1) && (o.Slot() == s)); });
-            console.log(cItems);
+
             if (cItems.length < 1) continue; // Nothing matching
 
             cItems = cItems.sort(function(a, b) { return a.Style() < b.Style(); });
@@ -4198,10 +4196,31 @@ App.Entity.Player = function (){
         })[0];
     };
     this.GetItemById = function (Id) {
-        return this.Inventory.filter(function (o) {
-            return o.Id() == Id;
-        })[0];
+        var result;
+
+        var ItemList = this.Inventory.filter(function (o) {return o.Id() == Id; }); // Look in items first.
+
+        if (ItemList.length < 1) { // Now check wardrobe
+            ItemList = this.Wardrobe.filter(function(o) { return o.Id() == Id; });
+        }
+
+        if (ItemList.length < 1 ) { // Check worn stuff.
+            for (var k in this.Equipment)
+            {
+                if (!this.Equipment.hasOwnProperty(k)) continue;
+                if (this.Equipment[k] != 0) {
+                    if (this.Equipment[k].Id() == Id) {
+                        result = this.Equipment[k];
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!result && ItemList.length > 0) result = ItemList[0];
+        return result;
     };
+
     this.GetItemByTypes = function (Types) {
         return this.Inventory.filter(function (o) {
             return Types.indexOf(o.Type()) != -1;
@@ -19443,10 +19462,11 @@ There is currently no ship being built.
 &lt;&lt;if not tags().contains(&quot;custom-menu&quot;)&gt;&gt;
 &lt;&lt;set $GameBookmark = passage(); &gt;&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/click&gt;&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="65" name="InventoryWidgets" tags="widget" position="600,850">&lt;&lt;widget &quot;InspectItem&quot;&gt;&gt;&lt;&lt;set _Item = $Player.GetItemById($args[0]); &gt;&gt;\
+&lt;&lt;/click&gt;&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="65" name="InventoryWidgets" tags="widget" position="600,850">&lt;&lt;widget &quot;InspectItem&quot;&gt;&gt;\
+&lt;&lt;set _Item = $Player.GetItemById($args[0]); &gt;&gt;\
 &lt;table class=&quot;.MyTable&quot; style=&quot;width:750px;&quot;&gt;
 &lt;tbody&gt;
-	&lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;&lt;h3&gt;@@color:yellow;Inspecting - @@&lt;&lt;= _Item.Description()&gt;&gt;&lt;/h3&gt;&lt;/td&gt;
+	&lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;@@color:yellow;Inspecting - @@&lt;&lt;= _Item.Description()&gt;&gt;&lt;/td&gt;
 		&lt;td colspan=&quot;2&quot; style=&quot;text-align:right&quot;&gt;@@.wardrobeButton;&lt;&lt;button &quot;Back&quot;&gt;&gt;&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable $args[1]&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/button&gt;&gt;@@&lt;/td&gt;
 	&lt;/tr&gt;
 	&lt;tr style=&quot;border-bottom:1px solid white;&quot;&gt;
@@ -19467,16 +19487,16 @@ There is currently no ship being built.
 &lt;&lt;widget &quot;UseItem&quot;&gt;&gt;&lt;&lt;set _Item = $Player.GetItemById($args[0]); &gt;&gt;\
 &lt;table class=&quot;.MyTable&quot; style=&quot;width:750px;&quot;&gt;
 &lt;tbody&gt;
-	&lt;tr&gt;&lt;td style=&quot;width:500px;&quot;&gt;@@color:yellow;Using - @@&lt;&lt;= _Item.Description()&gt;&gt;&lt;/td&gt;
-		&lt;td style=&quot;text-align:right;width:250px;&quot;&gt;@@.wardrobeButton;&lt;&lt;button &quot;Back&quot;&gt;&gt;&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable $args[1]&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/button&gt;&gt;@@&lt;/td&gt;
+	&lt;tr&gt;&lt;td style=&quot;width:670px;&quot;&gt;@@color:yellow;Using - @@&lt;&lt;= _Item.Description()&gt;&gt;&lt;&lt;if ((typeof _Item !== &#39;undefined&#39;) &amp;&amp; ((_Item.Charges()-1) &gt; 0));&gt;&gt; (&lt;&lt;= _Item.Charges()-1 &gt;&gt;)&lt;&lt;/if&gt;&gt;&lt;/td&gt;
+		&lt;td style=&quot;text-align:right;width:80px;&quot;&gt;@@.wardrobeButton;&lt;&lt;button &quot;Back&quot;&gt;&gt;&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable $args[1]&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/button&gt;&gt;@@&lt;/td&gt;
 	&lt;/tr&gt;
 	&lt;tr style=&quot;border-bottom:1px solid white;&quot;&gt;
 		&lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
 	&lt;/tr&gt;	
 	&lt;tr&gt;
-		&lt;td style=&quot;width:600px;&quot;&gt;
+		&lt;td style=&quot;width:670px;&quot;&gt;
 			&lt;&lt;= $Player.UseItem($args[0]);&gt;&gt;&lt;/td&gt;
-		&lt;td style=&quot;width:150px;text-align: right;vertical-align:top;&quot;&gt;&lt;&lt;if ((typeof _Item !== &#39;undefined&#39;) &amp;&amp; (_Item.Charges() &gt; 0));&gt;&gt;@@.wardrobeButton;&lt;&lt;button &quot;Use Again&quot;&gt;&gt;&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;UseItem $args[0] $args[1]&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/button&gt;&gt;@@&lt;&lt;else&gt;&gt;@@.disabledWardrobeButton;&lt;&lt;button &quot;Use Again&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@&lt;&lt;/if&gt;&gt;&lt;/td&gt;
+		&lt;td style=&quot;width:80px;text-align: right;vertical-align:top;&quot;&gt;&lt;&lt;if ((typeof _Item !== &#39;undefined&#39;) &amp;&amp; (_Item.Charges() &gt; 0));&gt;&gt;@@.wardrobeButton;&lt;&lt;button &quot;Use Again&quot;&gt;&gt;&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;UseItem $args[0] $args[1]&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/button&gt;&gt;@@&lt;&lt;else&gt;&gt;@@.disabledWardrobeButton;&lt;&lt;button &quot;Use Again&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@&lt;&lt;/if&gt;&gt;&lt;/td&gt;
 	&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;&lt;replace &quot;#PlayerScore&quot;&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/widget&gt;&gt;
@@ -19499,42 +19519,95 @@ There is currently no ship being built.
 &lt;tr&gt;
 &lt;&lt;if $args[0] == &quot;food&quot;&gt;&gt;
 &lt;&lt;set _Items = $Player.GetItemByTypes([&quot;food&quot;]);&gt;&gt;
-	&lt;td colspan=2&gt;&lt;h3&gt;@@color:yellow;Inventory - Food and Drink@@&lt;/h3&gt;&lt;/td&gt;
-	&lt;td colspan=2 style=&quot;text-align:right&quot;&gt;@@color:grey;Food@@ |
+	&lt;td colspan=3 style=&quot;width:500px;&quot;&gt;@@color:yellow;Inventory - Food and Drink@@&lt;/td&gt;
+	&lt;td colspan=1 style=&quot;width:250px;text-align:right&quot;&gt;@@color:grey;Food@@ |
 	&lt;&lt;click &quot;Potions&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;potion&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
 	&lt;&lt;/click&gt;&gt; | &lt;&lt;click &quot;Loot&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;quest&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
-	&lt;&lt;/click&gt;&gt;&lt;/td&gt;
+	&lt;&lt;/click&gt;&gt; | &lt;&lt;click &quot;Gear&quot;&gt;&gt;
+        &lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;gear&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;/click&gt;&gt;&lt;/td&gt;
 &lt;&lt;else&gt;&gt;
 &lt;&lt;if $args[0] == &quot;potion&quot;&gt;&gt;
 &lt;&lt;set _Items = $Player.GetItemByTypes([&quot;potion&quot;]);&gt;&gt;
-	&lt;td colspan=2&gt;&lt;h3&gt;@@color:yellow;Inventory - Potions and Drugs@@&lt;/h3&gt;&lt;/td&gt;
-	&lt;td colspan=2 style=&quot;text-align:right&quot;&gt;&lt;&lt;click &quot;Food&quot;&gt;&gt;
+	&lt;td colspan=3 style=&quot;width:500px;&quot;&gt;@@color:yellow;Inventory - Potions and Drugs@@&lt;/td&gt;
+	&lt;td colspan=1 style=&quot;width:250px;text-align:right&quot;&gt;&lt;&lt;click &quot;Food&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
 	&lt;&lt;/click&gt;&gt; | @@color:grey;Potions@@ | &lt;&lt;click &quot;Loot&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;quest&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
-	&lt;&lt;/click&gt;&gt;&lt;/td&gt;
+	&lt;&lt;/click&gt;&gt; | &lt;&lt;click &quot;Gear&quot;&gt;&gt;
+        &lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;gear&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;/click&gt;&gt;
+    &lt;/td&gt;
 &lt;&lt;else&gt;&gt;
 &lt;&lt;if $args[0] == &quot;quest&quot;&gt;&gt;
 &lt;&lt;set _Items = $Player.GetItemByTypes([&quot;QUEST&quot;, &quot;LOOT_BOX&quot;]);&gt;&gt;
-	&lt;td colspan=2&gt;&lt;h3&gt;@@color:yellow;Inventory - Quest and Loot Items@@&lt;/h3&gt;&lt;/td&gt;
-	&lt;td colspan=2 style=&quot;text-align:right&quot;&gt;&lt;&lt;click &quot;Food&quot;&gt;&gt;
+	&lt;td colspan=3 style=&quot;width:500px;&quot;&gt;@@color:yellow;Inventory - Loot Items@@&lt;/td&gt;
+	&lt;td colspan=1 style=&quot;width:250px;text-align:right&quot;&gt;&lt;&lt;click &quot;Food&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
 	&lt;&lt;/click&gt;&gt; | &lt;&lt;click &quot;Potions&quot;&gt;&gt;
 		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;potion&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
-	&lt;&lt;/click&gt;&gt; | @@color:grey;Loot@@&lt;/td&gt;
+	&lt;&lt;/click&gt;&gt; | @@color:grey;Loot@@ | &lt;&lt;click &quot;Gear&quot;&gt;&gt;
+        &lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;gear&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;/click&gt;&gt;
+    &lt;/td&gt;
+&lt;&lt;else&gt;&gt;
+&lt;&lt;if $args[0] == &#39;gear&#39;&gt;&gt;
+&lt;&lt;set _Items = $Player.Wardrobe&gt;&gt;
+	&lt;td colspan=3 style=&quot;width:500px;&quot;&gt;@@color:yellow;Inventory - Clothing and Weapons@@&lt;/td&gt;
+	&lt;td colspan=1 style=&quot;width:250px;text-align:right&quot;&gt;&lt;&lt;click &quot;Food&quot;&gt;&gt;
+		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
+	&lt;&lt;/click&gt;&gt; | &lt;&lt;click &quot;Potions&quot;&gt;&gt;
+		&lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;potion&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
+	&lt;&lt;/click&gt;&gt;  | &lt;&lt;click &quot;Loot&quot;&gt;&gt;
+        &lt;&lt;replace &quot;#InventoryUI&quot;&gt;&gt;&lt;&lt;InventoryTable &quot;quest&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;/click&gt;&gt; | @@color:grey;Gear@@
+    &lt;/td&gt;
+&lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class=&quot;.MyTable&quot; style=&quot;width:750px;&quot;&gt;
+&lt;tbody&gt;
+
+&lt;&lt;if $args[0] == &quot;gear&quot;&gt;&gt;
 &lt;tr style=&quot;border-bottom:1px solid white;&quot;&gt;
-		&lt;td style=&quot;width:80px;&quot;&gt; &lt;/td&gt;
-		&lt;td style=&quot;width:440px;&quot;&gt; &lt;/td&gt;
-		&lt;td style=&quot;width:80px;&quot;&gt; &lt;/td&gt;
-		&lt;td style=&quot;width:80px;&quot;&gt; &lt;/td&gt;
+		&lt;td style=&quot;width:80px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+		&lt;td style=&quot;width:590px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+		&lt;td style=&quot;width:80px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
 &lt;/tr&gt;
+&lt;&lt;set _Slots = Object.keys($Player.Equipment); &gt;&gt;
+&lt;&lt;for _x = 0; _x &lt; _Slots.length; _x++&gt;&gt;
+&lt;&lt;if $Player.Equipment[_Slots[_x]] != 0&gt;&gt;
+    &lt;&lt;set _Items = [ $Player.Equipment[_Slots[_x]] ];&gt;&gt;
+    &lt;&lt;set _WardrobeItems = $Player.WardrobeItemsBySlot(_Slots[_x]); &gt;&gt;
+    &lt;&lt;if _WardrobeItems.length &gt; 0&gt;&gt;&lt;&lt;set _Items = _Items.concat(_WardrobeItems);&gt;&gt;&lt;&lt;/if&gt;&gt;
+        &lt;&lt;else&gt;&gt;
+     &lt;&lt;set _Items = $Player.WardrobeItemsBySlot(_Slots[_x]);&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;run console.log(_Items); &gt;&gt;
+&lt;&lt;if (_Items.length &gt; 0)&gt;&gt;
+&lt;&lt;for _i = 0; _i lt _Items.length; _i++&gt;&gt;
+&lt;tr&gt;
+    &lt;td style=&quot;width:80px;&quot;&gt;&lt;&lt;if _i eq 0&gt;&gt;&#39;&#39;@@color:gold;&lt;&lt;= _Slots[_x] &gt;&gt;@@&#39;&#39;&lt;&lt;/if&gt;&gt;&lt;/td&gt;
+    &lt;td style=&quot;width:590px;&quot;&gt;&lt;&lt;if _i eq 0&gt;&gt;(@@color:lime;worn@@) &lt;&lt;/if&gt;&gt;&lt;&lt;= _Items[_i].Description() &gt;&gt;&lt;/td&gt;
+    &lt;td style=&quot;text-align:right&quot;&gt;&lt;&lt;= &quot;&lt;&lt;ExamineItemButton \&quot;&quot; + _Items[_i].Id() + &quot;\&quot; \&quot;&quot; + $args[0] + &quot;\&quot; &gt;&gt;&quot; &gt;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;&lt;/for&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;/for&gt;&gt;
+&lt;&lt;/if&gt;&gt;
 &lt;&lt;if ($args[0] == &quot;food&quot;) or ($args[0] == &quot;potion&quot;) &gt;&gt;
+&lt;tr style=&quot;border-bottom:1px solid white;&quot;&gt;
+		&lt;td style=&quot;width:80px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+		&lt;td style=&quot;width:440px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+		&lt;td style=&quot;width:80px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+		&lt;td style=&quot;width:80px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
 &lt;&lt;for _i = 0; _i lt _Items.length; _i++&gt;&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;&lt;= _Items[_i].Charges() &gt;&gt;&lt;/td&gt;
@@ -19543,7 +19616,14 @@ There is currently no ship being built.
 &lt;td style=&quot;text-align:right&quot;&gt;&lt;&lt;= &quot;&lt;&lt;UseItemButton \&quot;&quot; + _Items[_i].Id() + &quot;\&quot; \&quot;&quot; + $args[0] + &quot;\&quot; &gt;&gt;&quot; &gt;&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;&lt;/for&gt;&gt;
-&lt;&lt;else&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;if $args[0] == &quot;quest&quot;&gt;&gt;
+&lt;tr style=&quot;border-bottom:1px solid white;&quot;&gt;
+		&lt;td style=&quot;width:80px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+		&lt;td style=&quot;width:440px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+		&lt;td style=&quot;width:80px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+		&lt;td style=&quot;width:80px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
 &lt;&lt;for _i = 0; _i lt _Items.length; _i++&gt;&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;&lt;= _Items[_i].Charges() &gt;&gt;&lt;/td&gt;
@@ -19555,6 +19635,20 @@ There is currently no ship being built.
 &lt;&lt;/if&gt;&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;
+
+&lt;&lt;widget &quot;DrawWardrobeInventoryLine&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;set _Items = $Player.WardrobeItemsBySlot($args[0])&gt;&gt;
+&lt;&lt;if (_Items.length &gt; 0)&gt;&gt;
+&lt;tr&gt;&lt;td style=&quot;width:80px;&quot;&gt;&amp;nbsp;&lt;/td&gt;&lt;td colspan=2 style=&quot;width:590x;&quot;&gt; @@color:yellow;&lt;&lt;= $args[0] &gt;&gt;@@&lt;/td&gt;&lt;td style=&quot;width=80px&quot;&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;
+&lt;&lt;for _i = 0; _i lt _Items.length; _i++&gt;&gt;
+&lt;tr&gt;
+    &lt;td style=&quot;width:80px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;td colspan=&quot;2&quot; style=&quot;width:590px;&quot;&gt;&lt;&lt;= _Items[_i].Description() &gt;&gt;&lt;/td&gt;
+    &lt;td style=&quot;text-align:right&quot;&gt;&lt;&lt;= &quot;&lt;&lt;ExamineItemButton \&quot;&quot; + _Items[_i].Id() + &quot;\&quot; \&quot;&quot; + $args[0] + &quot;\&quot; &gt;&gt;&quot; &gt;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;&lt;/for&gt;&gt;
+&lt;&lt;/if&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="66" name="JobLink" tags="widget" position="725,850">&lt;&lt;widget &quot;jobLink&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _JobTitle = $args[0].Title(true); &gt;&gt;
 &lt;&lt;click _JobTitle &quot;SelfJobs&quot;&gt;&gt;
@@ -20777,6 +20871,7 @@ Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="89" name=
 @@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="Inventory" tags="custom-menu" position="100,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
 &lt;&lt;set _Drugs = $Player.GetItemByTypes([&quot;potion&quot;]);&gt;&gt;\
 &lt;&lt;set _Quests = $Player.GetItemByTypes([&quot;QUEST&quot;, &quot;LOOT_BOX&quot;]);&gt;&gt;
+
 &lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="92" name="Jobs" tags="custom-menu" position="225,1225">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;

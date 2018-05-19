@@ -319,7 +319,7 @@ App.Entity.Player = function (){
         if (this.VoodooEffects.hasOwnProperty("PIRATES_PROWESS") && Type == "SKILL") bonus += this.VoodooEffects["PIRATES_PROWESS"];
         if (this.difficultySetting == 1) bonus += 5;
         if (this.difficultySetting == 2) bonus += 10;
-        bonus += this.GetWornSkillBonus(Name)
+        bonus += this.GetWornSkillBonus(Name);
 
         return bonus;
     };
@@ -1124,8 +1124,6 @@ App.Entity.Player = function (){
     };
 
     this.Wear = function (item) {
-        console.log("Wearing...");
-        console.log(item);
         for (var i = 0; i < item.Restrict().length; i++) this.Remove(this.Equipment[item.Restrict()[i]]);
         this.Equipment[item.Slot()] = item;
         this.Wardrobe = this.Wardrobe.filter(function (o) {
@@ -1140,7 +1138,7 @@ App.Entity.Player = function (){
             if (!this.Equipment.hasOwnProperty(s)) continue;
             // Get all matching items by Category and Slot.
             var cItems = $.grep(this.Wardrobe, function(o) { return (($.inArray(Category, o.Category()) != -1) && (o.Slot() == s)); });
-            console.log(cItems);
+
             if (cItems.length < 1) continue; // Nothing matching
 
             cItems = cItems.sort(function(a, b) { return a.Style() < b.Style(); });
@@ -1182,10 +1180,31 @@ App.Entity.Player = function (){
         })[0];
     };
     this.GetItemById = function (Id) {
-        return this.Inventory.filter(function (o) {
-            return o.Id() == Id;
-        })[0];
+        var result;
+
+        var ItemList = this.Inventory.filter(function (o) {return o.Id() == Id; }); // Look in items first.
+
+        if (ItemList.length < 1) { // Now check wardrobe
+            ItemList = this.Wardrobe.filter(function(o) { return o.Id() == Id; });
+        }
+
+        if (ItemList.length < 1 ) { // Check worn stuff.
+            for (var k in this.Equipment)
+            {
+                if (!this.Equipment.hasOwnProperty(k)) continue;
+                if (this.Equipment[k] != 0) {
+                    if (this.Equipment[k].Id() == Id) {
+                        result = this.Equipment[k];
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!result && ItemList.length > 0) result = ItemList[0];
+        return result;
     };
+
     this.GetItemByTypes = function (Types) {
         return this.Inventory.filter(function (o) {
             return Types.indexOf(o.Type()) != -1;

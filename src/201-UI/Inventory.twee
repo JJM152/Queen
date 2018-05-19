@@ -2,4 +2,5 @@
 @@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>\
 <<set _Drugs = $Player.GetItemByTypes(["potion"]);>>\
 <<set _Quests = $Player.GetItemByTypes(["QUEST", "LOOT_BOX"]);>>
+
 <span id="InventoryUI"><<InventoryTable "food">></span>
