@@ -189,6 +189,11 @@ App.Item = new function() {
         return (output != "" ? output : "Nothing?!?!?");
     };
 
+    this.Shop = function(ShopName)
+    {
+
+    };
+
     this.Clothing = function(d) {
         this.o = $.extend( true, {}, d );
         var timestamp = new Date().getTime();
@@ -350,6 +355,11 @@ App.Item = new function() {
             var bonus = 0;
             for (var i = 0; i < this.ActiveEffect().length;i++) bonus += App.Data.EffectLib[this.ActiveEffect()[i]]["FUN"](this,skillName);
             return bonus;
+        };
+
+        /** @returns {boolean} */
+        this.InMarket = function() {
+            return this.o["InMarket"] ? this.o["InMarket"] : true; // Default to yes.
         };
 
         // Init knowledge variable

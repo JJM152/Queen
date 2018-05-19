@@ -127,9 +127,86 @@ var Store = function(Player, NPC, StoreData) {
         this._Player.AdjustMoney((this.GetPrice(Item) * -1.0));
     };
 
+    this.GenerateMarket = function() {
+        if (this._Data["RESTOCK"] == 0) {
+            // Clear all the data...
+            this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"] = [ ];
+            this._Player.StoreInventory[this._Data["ID"]]["RARE"] = [ ];
+
+            var items = 3 + (Math.floor(Math.random() * 4)); // 3 - 6 items.
+
+            for (var i = 0; i < items; i++) {
+                var roll = (1 + (Math.floor(Math.random() * 100)));
+                var entry = { };
+                if (roll < 20 ) {  // cosmetics
+                    entry = Object.keys(App.Data.Cosmetics)[(Math.floor(Math.random() * Object.keys(App.Data.Cosmetics).length))];
+                    this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                        {"CATEGORY":   "COMMON", "TYPE": "COSMETICS", "QTY":   12, "MAX":   12, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
+                }
+
+                if (roll >= 20 && roll < 60 ) { // food
+                    entry = Object.keys(App.Data.Food)[(Math.floor(Math.random() * Object.keys(App.Data.Food).length))];
+                    var qty = (1 + (Math.floor(Math.random() * 4)));
+                    this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                        {"CATEGORY":   "COMMON", "TYPE": "FOOD", "QTY":   qty, "MAX":   qty, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
+                }
+
+                if (roll >= 60 && roll < 80) { // drugs
+                    entry = Object.keys(App.Data.Drugs)[(Math.floor(Math.random() * Object.keys(App.Data.Drugs).length))];
+                    var qty = (1 + (Math.floor(Math.random() * 4)));
+                    this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                        {"CATEGORY":   "COMMON", "TYPE": "DRUGS", "QTY":   qty, "MAX":   qty, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
+                }
+
+                if (roll >= 80 ) { // clothes
+
+                    // if roll == 100 then include legendary items
+                    if (roll == 100 ) {
+                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["IsMarket"] ? App.Data.Clothes[c]["IsMarket"] : true ); });
+                    } else {
+                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["IsMarket"] ? App.Data.Clothes[c]["IsMarket"] : true ) && App.Data.Clothes[c]["Style"] != "LEGENDARY"; });
+                    }
+
+                    if (keys && keys.length > 0 ) {
+                        var entry = keys[(Math.floor(Math.random() * Object.keys(App.Data.Cosmetics).length))];
+                        if (App.Data.Clothes[entry]["Style"] == "LEGENDARY") {
+                            this._Player.StoreInventory[this._Data["ID"]]["RARE"].push(
+                                {
+                                    "CATEGORY": "RARE",
+                                    "TYPE": "CLOTHES",
+                                    "QTY": 1,
+                                    "MAX": 1,
+                                    "PRICE": 1.3,
+                                    "MOOD": 0,
+                                    "LOCK": 0,
+                                    "TAG": entry
+                                });
+                        } else {
+                            this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                                {
+                                    "CATEGORY": "COMMON",
+                                    "TYPE": "CLOTHES",
+                                    "QTY": 1,
+                                    "MAX": 1,
+                                    "PRICE": 1.3,
+                                    "MOOD": 0,
+                                    "LOCK": 0,
+                                    "TAG": entry
+                                });
+                        }
+                    }
+                }
+
+            }
+        }
+    };
+
     /* FIXME: Let's make this trigger for the SHIP whenever you land at a port. But not otherwise. */
     this.StockInventory = function()
     {
+        // Don't stock stuff in markets
+        if (this._Data["RESTOCK"] == 0) return;
+
         if ( ( this._Player.StoreInventory[this._Data["ID"]]["LAST_STOCKED"] == 0)
             || (this._Player.StoreInventory[this._Data["ID"]]["LAST_STOCKED"] + this._Data["RESTOCK"] <= this._Player.Day) ) {
 

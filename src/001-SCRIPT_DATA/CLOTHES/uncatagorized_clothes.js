@@ -219,5 +219,5 @@ App.Data.Clothes["worn machete"] = {
     "Name": "worn machete", "ShortDesc": "@@color:purple;a well worn machete@@",
     "LongDesc": "This large blade is 32cm long and has a slightly curved angle to it. It's not really a knife, but more like an axe. In a fight you could use it similar to a short sword.",
     "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Style": "NONE", "Type" : "WEAPON",
-    "WearEffect": [ ]
+    "WearEffect": [ ], "InMarket" : false
 };

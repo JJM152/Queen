@@ -6,4 +6,5 @@ haven, it's not too surprising to see some of the wares on sale - everything fro
 some of them obviously procured much like you were. If you had the time, you'd like to shop here - although you're uncertain as \
 to what you'd find inside this warren of stalls. Perhaps treasure, perhaps junk.
 
+@@color:yellow;Action@@: <<marketLink "BAZAAR_STORE">>
 @@color:lime;Travel@@: [[Portside District|Portside]]

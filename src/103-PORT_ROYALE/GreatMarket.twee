@@ -8,4 +8,5 @@ and a large multi-story brothel, painted in bright red with lettering reading @@
 Further down the road is the open gateway to the @@color:gold;'Entertainment District'@@ and to the left of that is the guarded portcullis \
 that leads to the @@color:gold;'Wealthy District'@@.
 
+@@color:yellow;Action@@: <<marketLink "MARKET_STORE">>
 @@color:lime;Travel@@: [[The Docks|PortRoyale]] | [[Madame Blanche's|FortuneTeller]] | [[Grey Peacock|PR_Tavern]] | [[Lusty Lass|PR_CheapBrothel]] | [[The Entertainment District|EntertainmentDistrict]] | [[Guard House|PR_GuardHouse]]

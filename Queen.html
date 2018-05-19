@@ -102,7 +102,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 		<div id="init-lacking">Your browser lacks required capabilities. Please upgrade it or switch to another to continue.</div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<div id="store-area" hidden><tw-storydata name="Queen of the Seas (v 0.4)" startnode="108" creator="Tweego" creator-version="1.3.0" ifid="2281ACF9-AFF5-4833-BD11-9D4317BCE5AE" zoom="1" format="SugarCube" format-version="2.24.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "custom.css" */
+	<div id="store-area" hidden><tw-storydata name="Queen of the Seas (v 0.4)" startnode="109" creator="Tweego" creator-version="1.3.0" ifid="2281ACF9-AFF5-4833-BD11-9D4317BCE5AE" zoom="1" format="SugarCube" format-version="2.24.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "custom.css" */
 /* MY specific styles */
 
 #story-title { 
@@ -1320,6 +1320,11 @@ App.Item = new function() {
         return (output != "" ? output : "Nothing?!?!?");
     };
 
+    this.Shop = function(ShopName)
+    {
+
+    };
+
     this.Clothing = function(d) {
         this.o = $.extend( true, {}, d );
         var timestamp = new Date().getTime();
@@ -1481,6 +1486,11 @@ App.Item = new function() {
             var bonus = 0;
             for (var i = 0; i < this.ActiveEffect().length;i++) bonus += App.Data.EffectLib[this.ActiveEffect()[i]]["FUN"](this,skillName);
             return bonus;
+        };
+
+        /** @returns {boolean} */
+        this.InMarket = function() {
+            return this.o["InMarket"] ? this.o["InMarket"] : true; // Default to yes.
         };
 
         // Init knowledge variable
@@ -3135,7 +3145,9 @@ App.Entity.Player = function (){
             "Simone":               window.App.Item.Factory("NPC",     "Simone"),
             "LustyLassCustomers":   window.App.Item.Factory("NPC",     "LustyLassCustomers"),
             "Charmaine":            window.App.Item.Factory("NPC",     "Charmaine"),
-            "SlatternCustomers":    window.App.Item.Factory("NPC",     "SlatternCustomers")
+            "SlatternCustomers":    window.App.Item.Factory("NPC",     "SlatternCustomers"),
+            "BAZAAR_STORE":         window.App.Item.Factory("NPC",     "BAZAAR_STORE"),
+            "MARKET_STORE":         window.App.Item.Factory("NPC",     "MARKET_STORE")
         };
 
         /**
@@ -3157,7 +3169,9 @@ App.Entity.Player = function (){
             "SMUGGLERS":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "GOLDEN_GOODS":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "LUSTY_LASS":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
+            "LUSTY_LASS":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "MARKET_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "BAZAAR_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
         };
     };
 
@@ -5428,9 +5442,86 @@ var Store = function(Player, NPC, StoreData) {
         this._Player.AdjustMoney((this.GetPrice(Item) * -1.0));
     };
 
+    this.GenerateMarket = function() {
+        if (this._Data["RESTOCK"] == 0) {
+            // Clear all the data...
+            this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"] = [ ];
+            this._Player.StoreInventory[this._Data["ID"]]["RARE"] = [ ];
+
+            var items = 3 + (Math.floor(Math.random() * 4)); // 3 - 6 items.
+
+            for (var i = 0; i < items; i++) {
+                var roll = (1 + (Math.floor(Math.random() * 100)));
+                var entry = { };
+                if (roll < 20 ) {  // cosmetics
+                    entry = Object.keys(App.Data.Cosmetics)[(Math.floor(Math.random() * Object.keys(App.Data.Cosmetics).length))];
+                    this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                        {"CATEGORY":   "COMMON", "TYPE": "COSMETICS", "QTY":   12, "MAX":   12, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
+                }
+
+                if (roll >= 20 && roll < 60 ) { // food
+                    entry = Object.keys(App.Data.Food)[(Math.floor(Math.random() * Object.keys(App.Data.Food).length))];
+                    var qty = (1 + (Math.floor(Math.random() * 4)));
+                    this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                        {"CATEGORY":   "COMMON", "TYPE": "FOOD", "QTY":   qty, "MAX":   qty, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
+                }
+
+                if (roll >= 60 && roll < 80) { // drugs
+                    entry = Object.keys(App.Data.Drugs)[(Math.floor(Math.random() * Object.keys(App.Data.Drugs).length))];
+                    var qty = (1 + (Math.floor(Math.random() * 4)));
+                    this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                        {"CATEGORY":   "COMMON", "TYPE": "DRUGS", "QTY":   qty, "MAX":   qty, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
+                }
+
+                if (roll >= 80 ) { // clothes
+
+                    // if roll == 100 then include legendary items
+                    if (roll == 100 ) {
+                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["IsMarket"] ? App.Data.Clothes[c]["IsMarket"] : true ); });
+                    } else {
+                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["IsMarket"] ? App.Data.Clothes[c]["IsMarket"] : true ) && App.Data.Clothes[c]["Style"] != "LEGENDARY"; });
+                    }
+
+                    if (keys && keys.length > 0 ) {
+                        var entry = keys[(Math.floor(Math.random() * Object.keys(App.Data.Cosmetics).length))];
+                        if (App.Data.Clothes[entry]["Style"] == "LEGENDARY") {
+                            this._Player.StoreInventory[this._Data["ID"]]["RARE"].push(
+                                {
+                                    "CATEGORY": "RARE",
+                                    "TYPE": "CLOTHES",
+                                    "QTY": 1,
+                                    "MAX": 1,
+                                    "PRICE": 1.3,
+                                    "MOOD": 0,
+                                    "LOCK": 0,
+                                    "TAG": entry
+                                });
+                        } else {
+                            this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                                {
+                                    "CATEGORY": "COMMON",
+                                    "TYPE": "CLOTHES",
+                                    "QTY": 1,
+                                    "MAX": 1,
+                                    "PRICE": 1.3,
+                                    "MOOD": 0,
+                                    "LOCK": 0,
+                                    "TAG": entry
+                                });
+                        }
+                    }
+                }
+
+            }
+        }
+    };
+
     /* FIXME: Let's make this trigger for the SHIP whenever you land at a port. But not otherwise. */
     this.StockInventory = function()
     {
+        // Don't stock stuff in markets
+        if (this._Data["RESTOCK"] == 0) return;
+
         if ( ( this._Player.StoreInventory[this._Data["ID"]]["LAST_STOCKED"] == 0)
             || (this._Player.StoreInventory[this._Data["ID"]]["LAST_STOCKED"] + this._Data["RESTOCK"] <= this._Player.Day) ) {
 
@@ -5724,7 +5815,8 @@ App.Data.Clothes["pink gingham dress"] = { // +40
     "Name": "pink gingham dress", "ShortDesc": "a super short {COLOR} gingham dress",
         "LongDesc": "This dress has a girly gingham pattern with white lace collar trim. Normally it'd look quite demure, but it's so short it barely covers your arse and it has a very prominent cleavage window to show off your assets.",
         "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Style": "LEGENDARY", "Type" : "ONE PIECE",
-        "WearEffect": [ "FEMININE_CLOTHING" ], "Category" :  [ "Daddy's Girl" ]
+        "WearEffect": [ "FEMININE_CLOTHING" ], "Category" :  [ "Daddy's Girl" ],
+        "InMarket" : false
 };
 
 // COSTUME SLOT
@@ -6347,7 +6439,7 @@ App.Data.Clothes["worn machete"] = {
     "Name": "worn machete", "ShortDesc": "@@color:purple;a well worn machete@@",
     "LongDesc": "This large blade is 32cm long and has a slightly curved angle to it. It's not really a knife, but more like an axe. In a fight you could use it similar to a short sword.",
     "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Style": "NONE", "Type" : "WEAPON",
-    "WearEffect": [ ]
+    "WearEffect": [ ], "InMarket" : false
 };
 /* twine-user-script #24: "GameData.js" */
 App = App || { Data: { }, Entity: { } };
@@ -6554,6 +6646,28 @@ App.Data.NPCS = {
                 "DailyLust" : 5,
                 "Title" : "Customers of the Saucy Slattern",
                 "LongDesc" : "A step above the common scum you're used to spreading your arse-cheeks for."
+            },
+            "BAZAAR_STORE" : {
+                "Name": "Shop Keeper",
+                "Mood": 40,
+                "Wealth": 40,
+                "DailyMood": 0,
+                "Lust": 40,
+                "DailyLust": 0,
+                "Title": "NPC_NAME of the Bazaar",
+                "LongDesc": "Just a generic shop keeper, these guys breed like rabbits.",
+                "Store" : "BAZAAR_STORE"
+            },
+            "MARKET_STORE" : {
+                "Name": "Shop Keeper",
+                "Mood": 40,
+                "Wealth": 40,
+                "DailyMood": 0,
+                "Lust": 40,
+                "DailyLust": 0,
+                "Title": "NPC_NAME of the Great Market",
+                "LongDesc": "Just a generic shop keeper, these guys breed like rabbits.",
+                "Store" : "MARKET_STORE"
             }
 };
 
@@ -13523,7 +13637,15 @@ App.Data.Quests["SIMONE_MISSING_FRIEND"] = {
     "JOURNAL_COMPLETE": "You're not too sure how you feel about handing in your fiance's hidden dildo to a complete stranger. On one hand, it's kind of disgusting, on the other hand "+
         "now you can whore out of the @@color:gold;'Lusty Lass'@@, which is... well, honestly, kind of disgusting as well. Win some, lose some."
 };
-/* twine-user-script #59: "cargo_store.js" */
+/* twine-user-script #59: "bazaar_store.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Stores = App.Data.Stores || { };
+
+App.Data.Stores["BAZAAR_STORE"] = {
+    "ID" : "BAZAAR_STORE",    "NAME" : "The Bazaar",  "OPEN" : [0, 1, 2 ], "RESTOCK" : 0,
+    "INVENTORY" : [ ] // Generated at runtime.
+};
+/* twine-user-script #60: "cargo_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13544,7 +13666,7 @@ App.Data.Stores["CARGO"] = {
 		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   		}
     ]
 };
-/* twine-user-script #60: "galley_store.js" */
+/* twine-user-script #61: "galley_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13561,7 +13683,7 @@ App.Data.Stores["GALLEY"] = {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
-/* twine-user-script #61: "golden_goods_store.js" */
+/* twine-user-script #62: "golden_goods_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13582,7 +13704,7 @@ App.Data.Stores["GOLDEN_GOODS"] =  {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
-/* twine-user-script #62: "islageneral_store.js" */
+/* twine-user-script #63: "islageneral_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13607,7 +13729,7 @@ App.Data.Stores["ISLASTORE"] = {
 		
     ]
 };
-/* twine-user-script #63: "islatavern_store.js" */
+/* twine-user-script #64: "islatavern_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13621,7 +13743,7 @@ App.Data.Stores["ISLATAVERN"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
     ]
 };
-/* twine-user-script #64: "lusty_lass_store.js" */
+/* twine-user-script #65: "lusty_lass_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13653,7 +13775,15 @@ App.Data.Stores["LUSTY_LASS"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":  90,   "LOCK": 0,  "TAG" : "pink t-shirt"       }
     ]
 };
-/* twine-user-script #65: "smugglers_store.js" */
+/* twine-user-script #66: "market_store.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Stores = App.Data.Stores || { };
+
+App.Data.Stores["MARKET_STORE"] = {
+    "ID" : "MARKET_STORE",    "NAME" : "The Great Market",  "OPEN" : [0, 1, 2 ], "RESTOCK" : 0,
+    "INVENTORY" : [ ] // Generated at runtime.
+};
+/* twine-user-script #67: "smugglers_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13667,7 +13797,7 @@ App.Data.Stores["SMUGGLERS"] =  {
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",   "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"             }
     ]
 };
-/* twine-user-script #66: "rot_lib.js" */
+/* twine-user-script #68: "rot_lib.js" */
 // Wrap rot.js code due to Twine's environment
 (function (window, define, exports) {
     /*
@@ -19083,7 +19213,7 @@ App.Data.Stores["SMUGGLERS"] =  {
     }));
 
 }).call(window, window);
-/* twine-user-script #67: "Story JavaScript" */
+/* twine-user-script #69: "Story JavaScript" */
 //Sugarcube config
 console.log("Sugarcube Config...");
 Config.history.controls = false;
@@ -19231,6 +19361,7 @@ haven, it&#39;s not too surprising to see some of the wares on sale - everything
 some of them obviously procured much like you were. If you had the time, you&#39;d like to shop here - although you&#39;re uncertain as \
 to what you&#39;d find inside this warren of stalls. Perhaps treasure, perhaps junk.
 
+@@color:yellow;Action@@: &lt;&lt;marketLink &quot;BAZAAR_STORE&quot;&gt;&gt;
 @@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="23" name="GI_CheapBrothel" tags="" position="350,350">The @@color:gold;&#39;Saucy Slattern&#39;@@ is the place to be if your a pirate in need of a good rut, or even a bad one. The quality of \
 the whores at this establishment reflects the relative wealth (or lack thereof) of the patrons and it shows not only there, but \
 in the furnishings and decor of the waiting area. Everything is plush, with rich velvets and dark wood, but also shabby and \
@@ -19440,6 +19571,7 @@ and a large multi-story brothel, painted in bright red with lettering reading @@
 Further down the road is the open gateway to the @@color:gold;&#39;Entertainment District&#39;@@ and to the left of that is the guarded portcullis \
 that leads to the @@color:gold;&#39;Wealthy District&#39;@@.
 
+@@color:yellow;Action@@: &lt;&lt;marketLink &quot;MARKET_STORE&quot;&gt;&gt;
 @@color:lime;Travel@@: [[The Docks|PortRoyale]] | [[Madame Blanche&#39;s|FortuneTeller]] | [[Grey Peacock|PR_Tavern]] | [[Lusty Lass|PR_CheapBrothel]] | [[The Entertainment District|EntertainmentDistrict]] | [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="50" name="PR_CheapBrothel" tags="" position="1225,600">For a place that caters to a lower class crowd, the @@color:gold;&#39;Lusty Lass&#39;@@ is a notch above the rest. The interior is modest, but \
 well maintained - the beds are clean, the food is decent and the drinks aren&#39;t watered down. The bottom floor of the building consists \
 of a small bar and waiting area for clients, while the upstairs hosts a variety of rooms for &#39;conducting business&#39;.
@@ -20188,7 +20320,26 @@ Your available options are: Attract customers using your &lt;&lt;print _PR.Color
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="73" name="lateNightTeleport" tags="widget" position="350,975">&lt;&lt;widget &quot;lateNightTeleport&quot;&gt;&gt;\
 &lt;&lt;if (!tags().contains(&quot;custom-menu&quot;) &amp;&amp; !tags().contains(&quot;no-teleport&quot;))&gt;&gt;
 It&#39;s getting kind of late... [[head back to the Mermaid|Cabin]]&lt;&lt;/if&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="74" name="negotiateButton" tags="widget" position="475,975">&lt;&lt;widget negotiateButton&gt;&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="74" name="marketLink" tags="widget" position="475,975">&lt;&lt;widget &quot;marketLink&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;set _SE = window.App.StoreEngine;&gt;&gt;
+&lt;&lt;set _NPC = $Player.GetNPC($args[0]);&gt;&gt;
+&lt;&lt;if _SE.HasStore(_NPC) &amp;&amp;  _SE.IsOpen($Player, _NPC) == true &amp;&amp; $Player.Phase &lt; 4;&gt;&gt;
+    &lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] &lt; 1&gt;&gt;
+        @@color:grey;Shop - Too tired.
+    &lt;&lt;else&gt;&gt;
+        &lt;&lt;click &quot;Shop&quot; &quot;Shop&quot;&gt;&gt;
+        &lt;&lt;set _ST = _SE.OpenStore($Player, _NPC);&gt;&gt;
+        &lt;&lt;run _ST.GenerateMarket();&gt;&gt;
+        &lt;&lt;set $MenuAction = _NPC&gt;&gt;
+        &lt;&lt;run $Player.AdjustStat(&quot;Energy&quot;, -1);&gt;&gt;
+        &lt;&lt;run $Player.NextPhase(1);&gt;&gt;
+        &lt;&lt;if not tags().contains(&quot;custom-menu&quot;)&gt;&gt;&lt;&lt;set $GameBookmark = passage(); &gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/click&gt;&gt; - [@@color:lime;Time 1@@, @@color:yellow;Energy 1@@]
+    &lt;&lt;/if&gt;&gt;
+&lt;&lt;else&gt;&gt;
+    @@color:grey;Shop - closed@@
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="75" name="negotiateButton" tags="widget" position="600,975">&lt;&lt;widget negotiateButton&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _SexName = _PR.pSkillName($args[0]);&gt;&gt;
 &lt;&lt;if $Customer.HasRefused($args[0])&gt;&gt;
 @@.cmdDisabledButton;&lt;&lt;button _SexName&gt;&gt;&lt;&lt;/button&gt;&gt;@@
@@ -20261,7 +20412,7 @@ You wince as $Customer.Name refuses your offer. You may be a prostitute by circu
 &lt;&lt;/button&gt;&gt;@@
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/if&gt;&gt;&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="75" name="NegotiationPhase" tags="widget" position="600,975">&lt;&lt;widget &quot;negotiateButtons&quot;&gt;&gt;\
+&lt;&lt;/if&gt;&gt;&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="76" name="NegotiationPhase" tags="widget" position="725,975">&lt;&lt;widget &quot;negotiateButtons&quot;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;Perversion&quot;) &lt; 20 or $Player.GetStatPercent(&quot;BODY&quot;, &quot;Bust&quot;) &lt; 8&gt;&gt;
@@ -20317,7 +20468,7 @@ You keep up the act for decent amount of time and eventually it starts to have t
 &lt;&lt;else&gt;&gt;\
 @@color:yellow;Customer Attraction@@ @@color:lime;SUCCESS@@ \
 @@color:yellow;Negotiate Sex Act@@&lt;&lt;/if&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="76" name="printJobResult" tags="widget" position="725,975">&lt;&lt;widget &quot;printJobResult&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="77" name="printJobResult" tags="widget" position="850,975">&lt;&lt;widget &quot;printJobResult&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _Start = $args[0].PrintStart($Player, _NPC);&gt;&gt;
 &lt;&lt;set _Scenes = $args[0].PlayScenes($Player, _NPC); &gt;&gt;
 &lt;&lt;set _End = $args[0].PrintEnd($Player, _NPC);&gt;&gt;
@@ -20334,15 +20485,15 @@ You keep up the act for decent amount of time and eventually it starts to have t
 &lt;&lt;button &quot;COOLDOWN&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;&lt;&lt;else&gt;&gt;
 &lt;&lt;button &quot;LOCKED&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;&lt;&lt;/if&gt;&gt;
 &lt;&lt;print $args[0].ReqString($Player);&gt;&gt;&lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="77" name="printPlayerDescription" tags="widget" position="850,975">&lt;&lt;widget &quot;printPlayerDescription&quot;&gt;&gt;\
+&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="78" name="printPlayerDescription" tags="widget" position="975,975">&lt;&lt;widget &quot;printPlayerDescription&quot;&gt;&gt;\
 You stare into the mirror...
 
 You are &lt;&lt;print window.App.PR.pHeight($Player);&gt;&gt; and &lt;&lt;print window.App.PR.pFitness($Player);&gt;&gt; You have a &lt;&lt;print window.App.PR.pFace($Player);&gt;&gt; &lt;&lt;print window.App.PR.pHair($Player);&gt;&gt; &lt;&lt;print window.App.PR.pEyes($Player);&gt;&gt; You have &lt;&lt;print window.App.PR.pLips($Player);&gt;&gt; &lt;&lt;print window.App.PR.pBust($Player);&gt;&gt; &lt;&lt;print window.App.PR.pAss($Player);&gt;&gt; &lt;&lt;print window.App.PR.pHips($Player);&gt;&gt; &lt;&lt;print window.App.PR.pWaist($Player);&gt;&gt; and &lt;&lt;print window.App.PR.pFigure($Player);&gt;&gt;. You have &lt;&lt;print window.App.PR.pPenis($Player);&gt;&gt; and &lt;&lt;print window.App.PR.pBalls($Player);&gt;&gt; between your legs.
 You consider your natural beauty to be &lt;&lt;print window.App.PR.pBeauty($Player);&gt;&gt;.
 The fetish appeal of your body is &lt;&lt;print window.App.PR.pFetish($Player);&gt;&gt;.
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="78" name="printStyleDescription" tags="widget" position="975,975">&lt;&lt;widget &quot;printStyleDescription&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="79" name="printStyleDescription" tags="widget" position="1100,975">&lt;&lt;widget &quot;printStyleDescription&quot;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
-&lt;span id=&quot;StyleDesc&quot;&gt;&lt;&lt;print window.App.PR.pHair($Player);&gt;&gt; &lt;&lt;print window.App.PR.pMakeup($Player);&gt;&gt;. &lt;&lt;print &quot;The style and fashion of your clothing is &quot; +  window.App.PR.pClothing($Player)&gt;&gt;. &lt;&lt;print &quot;Your hygiene and styling is &quot; + window.App.PR.pStyle($Player); &gt;&gt;.&lt;/span&gt;&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="79" name="questDialog" tags="widget" position="1100,975">&lt;&lt;widget &quot;questDialog&quot;&gt;&gt;\
+&lt;span id=&quot;StyleDesc&quot;&gt;&lt;&lt;print window.App.PR.pHair($Player);&gt;&gt; &lt;&lt;print window.App.PR.pMakeup($Player);&gt;&gt;. &lt;&lt;print &quot;The style and fashion of your clothing is &quot; +  window.App.PR.pClothing($Player)&gt;&gt;. &lt;&lt;print &quot;Your hygiene and styling is &quot; + window.App.PR.pStyle($Player); &gt;&gt;.&lt;/span&gt;&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="80" name="questDialog" tags="widget" position="1225,975">&lt;&lt;widget &quot;questDialog&quot;&gt;&gt;\
 &lt;&lt;set _ID = $args[0][&quot;ID&quot;]&gt;&gt;\
 &lt;&lt;set _QE = window.App.QuestEngine;&gt;&gt;\
 &lt;&lt;set $ChoiceItem = 0&gt;&gt;\
@@ -20389,14 +20540,14 @@ The fetish appeal of your body is &lt;&lt;print window.App.PR.pFetish($Player);&
 &lt;&lt;/button&gt;&gt;@@
 &lt;&lt;/if&gt;&gt;\
 &lt;&lt;/if&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="80" name="questEntry" tags="widget" position="1225,975">&lt;&lt;widget &quot;questEntry&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="81" name="questEntry" tags="widget" position="100,1100">&lt;&lt;widget &quot;questEntry&quot;&gt;&gt;\
 &lt;&lt;set _QE = window.App.QuestEngine; &gt;&gt;\
 &lt;&lt;print &#39;&lt;&lt;click &quot;&#39;+$args[0][&quot;Title&quot;]+&#39;&quot;&gt;&gt;&lt;&lt;replace &quot;#QuestUI&quot;&gt;&gt;&lt;&lt;questDialog $args[0]&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/click&gt;&gt;&#39;;&gt;&gt;\
 &lt;&lt;if _QE.GetQuestFlag($Player, $args[0][&quot;ID&quot;]) == &quot;ACTIVE&quot;&gt;&gt;\
 &lt;&lt;print &quot;  @@color:lime;(IN PROGRESS)@@&quot;; &gt;&gt;&lt;&lt;/if&gt;&gt;\
 &lt;&lt;if _QE.CanCompleteQuest($Player, $args[0][&quot;ID&quot;]) == 1&gt;&gt;\
 &lt;&lt;print &quot;  @@color:DeepPink;(READY TO TURN IN!)@@&quot;;&gt;&gt;&lt;&lt;/if&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="81" name="questList" tags="widget" position="100,1100">&lt;&lt;widget &quot;questList&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="82" name="questList" tags="widget" position="225,1100">&lt;&lt;widget &quot;questList&quot;&gt;&gt;\
 &lt;&lt;set _QE = window.App.QuestEngine;&gt;&gt;\
 &lt;&lt;set _QL = _QE.GetQuests(&quot;any&quot;, $Player, $MenuAction);&gt;&gt;\
 &lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;\
@@ -20414,7 +20565,7 @@ _QE.QuestActive($Player, _QL[_i][&quot;ID&quot;])&gt;&gt;\
 &lt;&lt;/if&gt;&gt;\
 &lt;&lt;/for&gt;&gt;
 @@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="82" name="sexButton" tags="widget" position="225,1100">&lt;&lt;widget &quot;sexButton&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="83" name="sexButton" tags="widget" position="350,1100">&lt;&lt;widget &quot;sexButton&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _Cmd = window.App.Data.Lists.SexCommands[$Customer.SexAct][$args[0]]&gt;&gt;
 &lt;&lt;if $WhoreTurn &gt;= 5&gt;&gt;
 &lt;&lt;if ($Player.Skills[$Customer.SexAct] &lt; _Cmd[&quot;Basic&quot;])&gt;&gt;
@@ -20439,7 +20590,7 @@ _QE.QuestActive($Player, _QL[_i][&quot;ID&quot;])&gt;&gt;\
 &lt;&lt;/button&gt;&gt;@@
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="83" name="SexPhase" tags="widget" position="350,1100">&lt;&lt;widget &quot;sexButtons&quot;&gt;&gt;\
+&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="84" name="SexPhase" tags="widget" position="475,1100">&lt;&lt;widget &quot;sexButtons&quot;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
 &lt;&lt;if $Player.GetStat(&quot;STAT&quot;, &quot;Health&quot;) &lt; 1&gt;&gt;
 @@.cmdButton;&lt;&lt;button &quot;Game Over&quot; &quot;GameOver&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@
@@ -20494,7 +20645,7 @@ _QE.QuestActive($Player, _QL[_i][&quot;ID&quot;])&gt;&gt;\
 &lt;&lt;print _PR.pMeter($Customer.GetArousal(), 100);&gt;&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="84" name="shipPortLink" tags="widget" position="475,1100">&lt;&lt;widget shipPortLink&gt;&gt;\
+&lt;/table&gt;&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="85" name="shipPortLink" tags="widget" position="600,1100">&lt;&lt;widget shipPortLink&gt;&gt;\
 &lt;&lt;set _Port = $Player.GetShipLocation(); &gt;&gt;\
 &lt;&lt;set _Quest = window.App.QuestEngine; &gt;&gt;\
 &lt;&lt;if _Port[&quot;Passage&quot;] != &quot;&quot;&gt;&gt;\
@@ -20514,7 +20665,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;&lt;/if&gt;&gt;\
 &lt;span id=&quot;BoardingPass&quot;&gt;&lt;/span&gt;
 &lt;&lt;/if&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="85" name="storeButton" tags="widget" position="600,1100">&lt;&lt;widget &quot;storeButton&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="86" name="storeButton" tags="widget" position="725,1100">&lt;&lt;widget &quot;storeButton&quot;&gt;&gt;\
 &lt;&lt;if ($args[0][&quot;TYPE&quot;] == &quot;CLOTHES&quot;) and ($Player.OwnsWardrobeItem($args[0]) == true)&gt;&gt;@@.disabledStoreButton;&lt;&lt;button &quot;OWNED&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@\
 &lt;&lt;else&gt;&gt;\
 &lt;&lt;if ($args[0][&quot;QTY&quot;] &lt; 1) or
@@ -20529,12 +20680,13 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;&lt;/if&gt;&gt;\
 &lt;&lt;/if&gt;&gt;\
 &lt;&lt;/if&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="86" name="storeExamineButton" tags="widget" position="725,1100">&lt;&lt;widget &quot;storeExamineButton&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="87" name="storeExamineButton" tags="widget" position="850,1100">&lt;&lt;widget &quot;storeExamineButton&quot;&gt;&gt;\
 @@.storeButton;&lt;&lt;button &quot;EXAMINE&quot;&gt;&gt;\
 &lt;&lt;replace &quot;#StoreExamine&quot;&gt;&gt;\
 &lt;&lt;= _ST.PrintItemLong($args[0])&gt;&gt;&lt;&lt;/replace&gt;&gt;
 &lt;&lt;/button&gt;&gt;@@\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="87" name="storeInventory" tags="widget" position="850,1100">&lt;&lt;widget storeInventory&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="88" name="storeInventory" tags="widget" position="975,1100">&lt;&lt;widget storeInventory&gt;&gt;\
+&lt;&lt;run console.log($MenuAction);&gt;&gt;\
 &lt;&lt;set _NPC = $MenuAction&gt;&gt;\
 &lt;&lt;set _SE = window.App.StoreEngine;&gt;&gt;\
 &lt;&lt;set _ST = _SE.OpenStore($Player, _NPC);&gt;&gt;\
@@ -20592,7 +20744,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;&lt;/nobr&gt;&gt;
-&lt;span id=&quot;StoreExamine&quot;&gt;&lt;/span&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="88" name="vanityMenu" tags="widget" position="975,1100">&lt;&lt;widget &quot;vanityMenu&quot;&gt;&gt;\
+&lt;span id=&quot;StoreExamine&quot;&gt;&lt;/span&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="89" name="vanityMenu" tags="widget" position="1100,1100">&lt;&lt;widget &quot;vanityMenu&quot;&gt;&gt;\
 &lt;&lt;set _Hair = window.App.Data.Lists[&quot;HairStyles&quot;];&gt;&gt;\
 &lt;&lt;set _H1 = $Player.GetItemCharges(&quot;hair tool&quot;);&gt;&gt;\
 &lt;&lt;set _H2 = $Player.GetItemCharges(&quot;hair treatment&quot;);&gt;&gt;
@@ -20781,7 +20933,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 	&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;&lt;/nobr&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="89" name="ChangeLog" tags="custom-menu" position="1100,1100">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="90" name="ChangeLog" tags="custom-menu" position="1225,1100">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 
 !!!0.4 - 05/16/2018
 !!!!General
@@ -20887,14 +21039,14 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 * Added Waitress Job to Grey Peacock.
 
 !!!0.1 - 05/05/2018
-Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="90" name="Combat" tags="custom-menu" position="1225,1100">&lt;&lt;combatPanel $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="Examine" tags="custom-menu" position="100,1225">&lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.ShortDesc())&gt;&gt;
+Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="91" name="Combat" tags="custom-menu" position="100,1225">&lt;&lt;combatPanel $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="92" name="Examine" tags="custom-menu" position="225,1225">&lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.ShortDesc())&gt;&gt;
 &lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.LongDesc())&gt;&gt;
 
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="92" name="Inventory" tags="custom-menu" position="225,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="93" name="Inventory" tags="custom-menu" position="350,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
 &lt;&lt;set _Drugs = $Player.GetItemByTypes([&quot;potion&quot;]);&gt;&gt;\
 &lt;&lt;set _Quests = $Player.GetItemByTypes([&quot;QUEST&quot;, &quot;LOOT_BOX&quot;]);&gt;&gt;
 
-&lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="93" name="Jobs" tags="custom-menu" position="350,1225">&lt;&lt;nobr&gt;&gt;
+&lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="94" name="Jobs" tags="custom-menu" position="475,1225">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;
 &lt;&lt;set _JA = _JE.GetAvailableJobs($Player, $MenuAction);&gt;&gt;
@@ -20911,7 +21063,7 @@ Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="90" name=
 &lt;&lt;print _JU[_i].Intro($Player, _NPC); &gt;&gt;&lt;br/&gt;
   &lt;&lt;if _JU[_i].Available($Player, _NPC)&gt;&gt;@@.cmdButton;&lt;&lt;jobButton _JU[_i]&gt;&gt;@@&lt;&lt;else&gt;&gt;@@.cmdDisabledButton;&lt;&lt;jobButton _JU[_i]&gt;&gt;@@&lt;&lt;/if&gt;&gt;&lt;br/&gt;
 &lt;&lt;/for&gt;&gt;&lt;/span&gt;&lt;&lt;/nobr&gt;&gt;
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="94" name="Journal" tags="custom-menu" position="475,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="Journal" tags="custom-menu" position="600,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 
 @@color:DeepPink;Active Quests@@
 &lt;&lt;set _QE = window.App.QuestEngine;&gt;&gt;\
@@ -20945,11 +21097,11 @@ No completed quests.
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;/for&gt;&gt;\
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="map" tags="custom-menu" position="600,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="96" name="map" tags="custom-menu" position="725,1225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &lt;&lt;if $MenuAction == &#39;sea&#39;&gt;&gt;\
 &lt;div id=&#39;miniMap&#39;&gt;&lt;img id=&quot;mapId&quot; data-passage=&quot;img_map&quot;&gt;&lt;img id=&quot;mapIcon&quot; data-passage=&quot;img_ship_icon&quot;&gt;&lt;/div&gt;\
 &lt;&lt;run window.App.PR.pShipMapIcon($Player.SailDays);&gt;&gt;\
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="96" name="Player Score" tags="widget" position="725,1225">&lt;&lt;widget &quot;score&quot;&gt;&gt;\
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="97" name="Player Score" tags="widget" position="850,1225">&lt;&lt;widget &quot;score&quot;&gt;&gt;\
 @@color:DeepPink;&quot;&lt;&lt;= $Player.SlaveName &gt;&gt;&quot;@@
 &lt;span id=&quot;DayCount&quot;&gt;Day &lt;&lt;print $Player.Day; &gt;&gt;, &lt;&lt;print $Player.GetPhase(1); &gt;&gt;&lt;/span&gt;.
 Coins: &lt;span id=&quot;Money&quot;&gt;&lt;&lt;print $Player.Money&gt;&gt;&lt;/span&gt;
@@ -20992,14 +21144,14 @@ Coins: &lt;span id=&quot;Money&quot;&gt;&lt;&lt;print $Player.Money&gt;&gt;&lt;/
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="97" name="Quests" tags="custom-menu" position="850,1225">&lt;span id=&quot;QuestUI&quot;&gt;&lt;&lt;questList&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="98" name="Rest" tags="custom-menu" position="975,1225">&lt;&lt;run $Player.Rest();&gt;&gt;You recline leisurely in your room. There isn&#39;t much to do so you after a few minutes you find yourself napping and trying to escape into your fantasies...
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="98" name="Quests" tags="custom-menu" position="975,1225">&lt;span id=&quot;QuestUI&quot;&gt;&lt;&lt;questList&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="99" name="Rest" tags="custom-menu" position="1100,1225">&lt;&lt;run $Player.Rest();&gt;&gt;You recline leisurely in your room. There isn&#39;t much to do so you after a few minutes you find yourself napping and trying to escape into your fantasies...
 
 You wake up not long after, feeling slightly more energetic.
 
 &lt;&lt;if $Player.SleepLog.length != 0&gt;&gt;&lt;&lt;for _i to 0; _i lt $Player.SleepLog.length; _i++&gt;&gt;\
 &lt;&lt;print $Player.SleepLog[_i]&gt;&gt;&lt;br/&gt;&lt;&lt;/for&gt;&gt;&lt;&lt;/if&gt;&gt;\
 @@color:cyan;Interact@@: [[Exit|Cabin]]
-@@color:yellow;Action@@: &lt;&lt;if $Player.Phase != 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] &lt; $Player.GetMaxStat(&quot;STAT&quot;, &quot;Energy&quot;)&gt;&gt;[[Continue Resting|Rest]]&lt;&lt;else&gt;&gt;@@color:grey;[Continue Resting]@@&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="Rules" tags="custom-menu" position="1100,1225">@@color:yellow;Rules O&#39; the Sea@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:yellow;Action@@: &lt;&lt;if $Player.Phase != 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] &lt; $Player.GetMaxStat(&quot;STAT&quot;, &quot;Energy&quot;)&gt;&gt;[[Continue Resting|Rest]]&lt;&lt;else&gt;&gt;@@color:grey;[Continue Resting]@@&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="100" name="Rules" tags="custom-menu" position="1225,1225">@@color:yellow;Rules O&#39; the Sea@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &#39;&#39;Don&#39;t Die&#39;&#39;
 There are multiple ways to die in this game. Combat and fighting, either with the crew or with other pirates or enemies can end your life. \
 In addition to this you must monitor your health and nutrition. Be careful of taking drugs or magical potions and avoid tiring yourself out too much.
@@ -21036,12 +21188,12 @@ Resting and sleeping will heal you if you are not poisoned or starving. There ar
 
 &#39;&#39;Skill Checks&#39;&#39;
 Don&#39;t worry too much about these. They are important for tracking your progress, but most rewards are given on a sliding scale. You can still progress at most activities even if your \
-skills are low. You just won&#39;t get as much reward.</tw-passagedata><tw-passagedata pid="100" name="SelfJobs" tags="custom-menu" position="1225,1225">&lt;&lt;nobr&gt;&gt;
+skills are low. You just won&#39;t get as much reward.</tw-passagedata><tw-passagedata pid="101" name="SelfJobs" tags="custom-menu" position="100,1350">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;
 &lt;&lt;printJobResult $MenuAction&gt;&gt;
 &lt;&lt;set $MenuAction = 0;&gt;&gt;&lt;&lt;/nobr&gt;&gt;
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="101" name="Shop" tags="custom-menu" position="100,1350">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
-&lt;&lt;storeInventory $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="102" name="Skills" tags="custom-menu" position="225,1350">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="102" name="Shop" tags="custom-menu" position="225,1350">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+&lt;&lt;storeInventory $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="103" name="Skills" tags="custom-menu" position="350,1350">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &lt;table class=&quot;#score-table&quot;&gt;
 &lt;tbody&gt;
 &lt;tr&gt;&lt;td colspan=&quot;6&quot; style=&quot;border-bottom: 1px solid&quot;&gt;@@color:yellow;Piracy Skills@@&lt;/td&gt;&lt;/tr&gt;
@@ -21078,13 +21230,13 @@ skills are low. You just won&#39;t get as much reward.</tw-passagedata><tw-passa
 &lt;td colspan=&quot;4&quot;&gt; &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;</tw-passagedata><tw-passagedata pid="103" name="Sleep" tags="custom-menu" position="350,1350">&lt;&lt;if $Player.Phase &gt;= 3&gt;&gt;&lt;&lt;run $Player.NextDay(); &gt;&gt;&lt;&lt;/if&gt;&gt;\
+&lt;/table&gt;</tw-passagedata><tw-passagedata pid="104" name="Sleep" tags="custom-menu" position="475,1350">&lt;&lt;if $Player.Phase &gt;= 3&gt;&gt;&lt;&lt;run $Player.NextDay(); &gt;&gt;&lt;&lt;/if&gt;&gt;\
 Night finally comes and you drag yourself off to bed. Within moments of laying down your tired body succumbs to sleep.
 
 &lt;&lt;if $Player.SleepLog.length != 0&gt;&gt;&lt;&lt;for _i to 0; _i lt $Player.SleepLog.length; _i++&gt;&gt;\
 &lt;&lt;print $Player.SleepLog[_i]&gt;&gt;&lt;br/&gt;&lt;&lt;/for&gt;&gt;&lt;&lt;/if&gt;&gt;\
 
-@@color:cyan;Interact@@: [[Wake up|Cabin]]</tw-passagedata><tw-passagedata pid="104" name="StoryCaption" tags="" position="475,1350">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if ($Player != undefined) &amp;&amp; $InIntro != 1&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="105" name="Whore" tags="custom-menu" position="600,1350">&lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;\
+@@color:cyan;Interact@@: [[Wake up|Cabin]]</tw-passagedata><tw-passagedata pid="105" name="StoryCaption" tags="" position="600,1350">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if ($Player != undefined) &amp;&amp; $InIntro != 1&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="106" name="Whore" tags="custom-menu" position="725,1350">&lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;\
 &lt;&lt;set _PR = window.App.PR;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
 @@.custom-table;&lt;table style=&quot;border: 1px solid black;&quot;&gt;
@@ -21156,7 +21308,7 @@ The crew of the Salty Mermaid are for the most part filthy, violent and poor. No
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;@@&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="106" name="GameOver" tags="" position="725,1350">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="107" name="GameWon" tags="custom-menu" position="850,1350">&lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;WillPower&quot;) &lt;= 40&gt;&gt;&lt;!-- Contributed by mightyakira @ TFGamesSite Forums --&gt;
+&lt;/table&gt;@@&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="107" name="GameOver" tags="" position="850,1350">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="108" name="GameWon" tags="custom-menu" position="975,1350">&lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;WillPower&quot;) &lt;= 40&gt;&gt;&lt;!-- Contributed by mightyakira @ TFGamesSite Forums --&gt;
 You daintily walk into the captain’s cabins and kneel before Captain Reginald, all on your own accord. You have learnt \
 much from your time with the crew and captain of the Mermaid, it’s almost your second nature now to act exactly the way \
 everybody aboard wants you to act.
@@ -21343,7 +21495,7 @@ Of course, you have no intention of staying a second longer nor the intention of
 &lt;&lt;/replace&gt;&gt;&lt;&lt;/click&gt;&gt;&lt;/span&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;if $Player.debugMode == true&gt;&gt;[[Cheat Room|DebugPassage]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="108" name="Start" tags="" position="975,1350">&lt;&lt;set $GameBookmark = passage(); &gt;&gt;
+&lt;&lt;if $Player.debugMode == true&gt;&gt;[[Cheat Room|DebugPassage]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="109" name="Start" tags="" position="1100,1350">&lt;&lt;set $GameBookmark = passage(); &gt;&gt;
 @@color:deepPink;Queen of the Seas@@ is designed to be an RPG like transformation game with @@color:red;heavy non-consentual themes@@. \
 If this type of game bothers you then playing this game is not recommended.
 
@@ -21359,7 +21511,7 @@ As the new &quot;Cabin Girl&quot; of the Salty Mermaid, can you manage to raise 
 [[I am 18 years of age or older.|Difficulty]]
 
 @@color:yellow;Additional Links...@@
-[[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | &lt;a href=&quot;https://www.tfgamessite.com/index.php?module=viewgame&amp;id=1680&quot;&gt;IGDB Entry&lt;/a&gt; | &lt;a href=&quot;https://github.com/JJM152/Queen&quot;&gt;GitHub Repository&lt;/a&gt;</tw-passagedata><tw-passagedata pid="109" name="Difficulty" tags="" position="1100,1350">&lt;&lt;set $Player = new window.App.Entity.Player();&gt;&gt;\
+[[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | &lt;a href=&quot;https://www.tfgamessite.com/index.php?module=viewgame&amp;id=1680&quot;&gt;IGDB Entry&lt;/a&gt; | &lt;a href=&quot;https://github.com/JJM152/Queen&quot;&gt;GitHub Repository&lt;/a&gt;</tw-passagedata><tw-passagedata pid="110" name="Difficulty" tags="" position="1225,1350">&lt;&lt;set $Player = new window.App.Entity.Player();&gt;&gt;\
 &lt;&lt;set $InIntro = 1;&gt;&gt;\
 &lt;&lt;run $Player.Init(); &gt;&gt;\
 &lt;span id=&quot;difficulty&quot;&gt;\
@@ -21395,7 +21547,7 @@ As the new &quot;Cabin Girl&quot; of the Salty Mermaid, can you manage to raise 
     [[Continue|Intro1]]
     &lt;&lt;/replace&gt;&gt;\
 &lt;&lt;/click&gt;&gt; - @@color:purple;Even Easier Setting@@ - //The name says it all.//
-&lt;/span&gt;</tw-passagedata><tw-passagedata pid="110" name="Intro1" tags="" position="1225,1350">&lt;&lt;nobr&gt;&gt;
+&lt;/span&gt;</tw-passagedata><tw-passagedata pid="111" name="Intro1" tags="" position="100,1475">&lt;&lt;nobr&gt;&gt;
 Your name is @@color:yellow;&lt;&lt;= $Player.OriginalName &gt;&gt; Smythe@@, the middle son of a &lt;span id=&quot;familyJob&quot;&gt;
 &lt;&lt;click &quot;farmer&quot;&gt;&gt;
     &lt;&lt;run $Player.AdjustStat(&quot;Fitness&quot;, 10);&gt;&gt;
@@ -21425,7 +21577,7 @@ outside of your social class that such a relationship, if it should be known, wo
 Despite this challenge, and despite @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;&#39;s@@ rather sheltered upbringing, the two of you have agreed to elope. You meet tonight \
 to discuss the plan.
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]&lt;/span&gt;</tw-passagedata><tw-passagedata pid="111" name="Intro2" tags="" position="100,1475">You wait until nightfall and meet @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]&lt;/span&gt;</tw-passagedata><tw-passagedata pid="112" name="Intro2" tags="" position="225,1475">You wait until nightfall and meet @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
 &lt;&lt;nobr&gt;&gt;
 &lt;span id=&quot;flirting&quot;&gt;
 &lt;&lt;click &quot;serenading her&quot;&gt;&gt;
@@ -21454,7 +21606,7 @@ can begin a new chapter as man and wife.
 
 @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ looks at you with wistful eyes as she listens to your story. It&#39;s clear she&#39;s as eager as you are to depart tonight!
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="112" name="Intro3" tags="" position="225,1475">With haste you depart to the docks, entering the sole tavern on the island. The hour is late so there are not many patrons around and @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ is wearing an overly large \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="113" name="Intro3" tags="" position="350,1475">With haste you depart to the docks, entering the sole tavern on the island. The hour is late so there are not many patrons around and @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ is wearing an overly large \
 cowl to hide her appearance. It wouldn&#39;t do for anyone to see the Governor&#39;s daughter in such a place. Out of the corner of your eye a man waves at you. You recognize him as the gentle-sir you \
 spoke to yesterday, a fellow by the name of @@color:cyan;Reginald@@. You make your way to his table and take a seat.
 
@@ -21466,7 +21618,7 @@ On board the ship, @@color:cyan;Captain Reginald@@ shows you to your quarters, i
 takes his leave. You and @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ look at each other, both of you thinking about what you can finally do now that you&#39;re alone and have some \
 privacy. Emboldened, you share a celebratory toast. The ale is bitter, but still cool. Just as you put your first cup down, a wave of light-headedness crashes into you...
 
-[[It all goes dark...|Intro4]]</tw-passagedata><tw-passagedata pid="113" name="Intro4" tags="" position="350,1475">Wake up, eyes are blurry. Your head feels groggy, your pulse is high and you&#39;re sweating. Your hands are tied and you&#39;re laying on the ground. You try to struggle against your bonds and \
+[[It all goes dark...|Intro4]]</tw-passagedata><tw-passagedata pid="114" name="Intro4" tags="" position="475,1475">Wake up, eyes are blurry. Your head feels groggy, your pulse is high and you&#39;re sweating. Your hands are tied and you&#39;re laying on the ground. You try to struggle against your bonds and \
 take stock of your situation, but your ears are ringing. Slowly, the world seems to come back into focus...
 
 @@color:deepPink;&quot;Ahhh... AHHH... Oh....&quot;@@
@@ -21488,7 +21640,7 @@ no longer virgin cunt, the motion and the force sending her into a screaming org
 The rest of the evening is a blur... clearly your drinks were spiked and something, it must be a drug of some sort, is controlling your actions. After all, there&#39;s no way you could possibly enjoy \
 being raped by a man!
 
-[[Pass out into the welcoming blackness...|Intro5]]</tw-passagedata><tw-passagedata pid="114" name="Intro5" tags="" position="475,1475">Some time later you wake up naked in a small cell. Your body is in pain and your smell like a sewer. You make a tentative gesture to probe your bottom and wince. You have no idea how many \
+[[Pass out into the welcoming blackness...|Intro5]]</tw-passagedata><tw-passagedata pid="115" name="Intro5" tags="" position="600,1475">Some time later you wake up naked in a small cell. Your body is in pain and your smell like a sewer. You make a tentative gesture to probe your bottom and wince. You have no idea how many \
 cocks you took up there last night (was it last night?) and you shudder when you realize the remnants are still dripping out of your open arsehole.
 
 Before long a pirate (clearly these men are pirates!) comes by to feed you. You plead for information about @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@, but he just taunts you that \
@@ -21512,7 +21664,7 @@ cell door closed.
     &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Days pass...|Intro6]]&lt;&lt;/replace&gt;&gt;
 &lt;&lt;/click&gt;&gt;&lt;/span&gt;
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="115" name="Intro6" tags="" position="600,1475">After what seems like ages @@color:cyan;Captain Reginald@@ and his First mate come and visit you. The first mate is a large black giant by the name of @@color:cyan;Kipler@@ and you do your best \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="116" name="Intro6" tags="" position="725,1475">After what seems like ages @@color:cyan;Captain Reginald@@ and his First mate come and visit you. The first mate is a large black giant by the name of @@color:cyan;Kipler@@ and you do your best \
  to avoid looking at him too much, your mind recalling brief snatches of your first night on the ship and what he did to you. The Captain approaches you and you boldly take the chance to dash past him. \
  It lasts all of a second before you find yourself crashing to the floor, a crippling pain coursing through your body and an intense feeling of pressure constricting your throat.
 
@@ -21536,7 +21688,7 @@ while the two of you are both being ass raped by burly pirates.
 
 Broken, beaten and exhausted, you are literally dragged and thrown back into your cell. @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ had stopped making noises hours ago. You fear the worst.
 
-[[Succumb to the pain|Intro7]]</tw-passagedata><tw-passagedata pid="116" name="Intro7" tags="" position="725,1475">Two days later you&#39;re led from your cell to the Captain&#39;s quarters by the First Mate. Once there, he explains that you&#39;re now part of the crew, their live-in &quot;Cabin Girl&quot; and that \
+[[Succumb to the pain|Intro7]]</tw-passagedata><tw-passagedata pid="117" name="Intro7" tags="" position="850,1475">Two days later you&#39;re led from your cell to the Captain&#39;s quarters by the First Mate. Once there, he explains that you&#39;re now part of the crew, their live-in &quot;Cabin Girl&quot; and that \
 your new name is going to be @@color:deepPink;&quot;&lt;&lt;= $Player.SlaveName&gt;&gt;&quot;@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women&#39;s clothes \
 and you sigh internally. You shouldn&#39;t have expected anything else after the treatment you&#39;ve been given so far. Still, as embarrassing as it is, it&#39;s not as bad as being naked all the time.
 

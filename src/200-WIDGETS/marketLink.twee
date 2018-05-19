@@ -1,0 +1,21 @@
+:: marketLink [widget]
+<<widget "marketLink">><<nobr>>
+<<set _SE = window.App.StoreEngine;>>
+<<set _NPC = $Player.GetNPC($args[0]);>>
+<<if _SE.HasStore(_NPC) &&  _SE.IsOpen($Player, _NPC) == true && $Player.Phase < 4;>>
+    <<if $Player.CoreStats["Energy"] < 1>>
+        @@color:grey;Shop - Too tired.
+    <<else>>
+        <<click "Shop" "Shop">>
+        <<set _ST = _SE.OpenStore($Player, _NPC);>>
+        <<run _ST.GenerateMarket();>>
+        <<set $MenuAction = _NPC>>
+        <<run $Player.AdjustStat("Energy", -1);>>
+        <<run $Player.NextPhase(1);>>
+        <<if not tags().contains("custom-menu")>><<set $GameBookmark = passage(); >><</if>><</click>> - [@@color:lime;Time 1@@, @@color:yellow;Energy 1@@]
+    <</if>>
+<<else>>
+    @@color:grey;Shop - closed@@
+<</if>>
+<</nobr>>
+<</widget>>

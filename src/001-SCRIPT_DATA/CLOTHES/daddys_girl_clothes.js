@@ -77,7 +77,8 @@ App.Data.Clothes["pink gingham dress"] = { // +40
     "Name": "pink gingham dress", "ShortDesc": "a super short {COLOR} gingham dress",
         "LongDesc": "This dress has a girly gingham pattern with white lace collar trim. Normally it'd look quite demure, but it's so short it barely covers your arse and it has a very prominent cleavage window to show off your assets.",
         "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Style": "LEGENDARY", "Type" : "ONE PIECE",
-        "WearEffect": [ "FEMININE_CLOTHING" ], "Category" :  [ "Daddy's Girl" ]
+        "WearEffect": [ "FEMININE_CLOTHING" ], "Category" :  [ "Daddy's Girl" ],
+        "InMarket" : false
 };
 
 // COSTUME SLOT

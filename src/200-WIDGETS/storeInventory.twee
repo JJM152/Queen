@@ -1,5 +1,6 @@
 :: storeInventory [widget]
 <<widget storeInventory>>\
+<<run console.log($MenuAction);>>\
 <<set _NPC = $MenuAction>>\
 <<set _SE = window.App.StoreEngine;>>\
 <<set _ST = _SE.OpenStore($Player, _NPC);>>\

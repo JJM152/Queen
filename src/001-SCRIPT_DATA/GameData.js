@@ -202,6 +202,28 @@ App.Data.NPCS = {
                 "DailyLust" : 5,
                 "Title" : "Customers of the Saucy Slattern",
                 "LongDesc" : "A step above the common scum you're used to spreading your arse-cheeks for."
+            },
+            "BAZAAR_STORE" : {
+                "Name": "Shop Keeper",
+                "Mood": 40,
+                "Wealth": 40,
+                "DailyMood": 0,
+                "Lust": 40,
+                "DailyLust": 0,
+                "Title": "NPC_NAME of the Bazaar",
+                "LongDesc": "Just a generic shop keeper, these guys breed like rabbits.",
+                "Store" : "BAZAAR_STORE"
+            },
+            "MARKET_STORE" : {
+                "Name": "Shop Keeper",
+                "Mood": 40,
+                "Wealth": 40,
+                "DailyMood": 0,
+                "Lust": 40,
+                "DailyLust": 0,
+                "Title": "NPC_NAME of the Great Market",
+                "LongDesc": "Just a generic shop keeper, these guys breed like rabbits.",
+                "Store" : "MARKET_STORE"
             }
 };
 
