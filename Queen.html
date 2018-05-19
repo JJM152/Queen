@@ -384,7 +384,7 @@ App.EventHandlers = {
       $(document).on(':passagerender', function (ev) {
           if (typeof SugarCube.State !== 'undefined') {
               if (typeof SugarCube.State.variables !== 'undefined') {
-                  if (SugarCube.State.variables.Player !== 'undefined' ) {
+                  if (typeof SugarCube.State.variables.Player !== 'undefined' ) {
                       if (SugarCube.State.variables.Player.Phase >= 4) {
                           $(ev.content).wiki("<<lateNightTeleport>>");
                       }
