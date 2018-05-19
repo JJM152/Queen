@@ -6,5 +6,5 @@ worn down. Still, despite what goes on here, the place is clean. The proprietor 
 meager as they are.
 
 <<NPC "Charmaine">>
-<<if window.App.QuestEngine.GetQuestFlag($Player, "BOARDING_PASS") == "COMPLETED">>@@color:yellow;Action@@: <<if $Player.GetStat("STAT","Energy") < 1 or $Player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<customMenuLink "Whore" "SlatternCustomers">><</if>><br><</if>>
+<<if window.App.QuestEngine.GetQuestFlag($Player, "BOARDINGPASS") == "COMPLETED">>@@color:yellow;Action@@: <<if $Player.GetStat("STAT","Energy") < 1 or $Player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<customMenuLink "Whore" "SlatternCustomers">><</if>><br><</if>>
 @@color:lime;Travel@@: [[Portside District|Portside]]

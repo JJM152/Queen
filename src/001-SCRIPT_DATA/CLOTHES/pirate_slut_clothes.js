@@ -48,7 +48,7 @@ App.Data.Clothes["pirate thong"] = { // +15
 
 // STOCKINGS SLOT
 App.Data.Clothes["fishnet tights"] = { // +10
-    "Name": "fishnet tights", "ShortDesc": "a pair of {COLOR} fishnet stockings",
+    "Name": "fishnet tights", "ShortDesc": "a pair of {COLOR} fishnet tights",
     "LongDesc": "These fishnet tights wrap themselves perfectly to your legs. The feeling is quite exquisite.",
     "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
     "WearEffect": [ "FEMININE_CLOTHING" ], "Category" :  [ "Pirate Slut", "BDSM", "Naughty Nun", "Bimbo", "High Class Whore", "Slutty Lady" ]
