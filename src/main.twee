@@ -11,8 +11,10 @@ Queen of the Seas (v 0.4)
 
 :: Story JavaScript [script]
 //Sugarcube config
+console.log("Sugarcube Config...");
 Config.history.controls = false;
 Config.history.maxStates = 1;
+App.EventHandlers.Init();
 
 
 :: Start

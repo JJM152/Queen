@@ -1,4 +1,4 @@
-:: Deck
+:: Deck [no-teleport]
 This is the main deck of the Salty Mermaid. This area is usually busy during most times of the day and evening as men either go about their jobs or take the occasional break to gamble or relax. From here you can travel to other areas of the ship, or prostitute yourself for some coin.
 
 @@color:yellow;Action@@: <<if $Player.GetStat("STAT","Energy") < 1 or $Player.Phase == 4 or window.App.QuestEngine.GetQuestFlag($Player, "Q001") != "COMPLETED">>@@color:grey;[Whore]@@<<else>><<customMenuLink "Whore" "Crew">><</if>>

@@ -1,0 +1,5 @@
+:: lateNightTeleport [widget]
+<<widget "lateNightTeleport">>\
+<<if (!tags().contains("custom-menu") && !tags().contains("no-teleport"))>>
+It's getting kind of late... [[head back to the Mermaid|Cabin]]<</if>>\
+<</widget>>
