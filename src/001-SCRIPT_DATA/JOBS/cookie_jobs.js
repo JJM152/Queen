@@ -320,3 +320,53 @@ App.Data.JobData["COOK03"] = {
     "JOB_RESULTS" : [ ]
 };
 
+App.Data.JobData["COOK04"] = {
+    "ID": "COOK04", "TITLE": "Fresh Dairy in the Galley", "GIVER": "Cook", "PAY" : 0,
+    "RATING" : 3, // of 5
+    "PHASES" : [ 0 ],
+    "DAYS"   : 1,
+    "HIDDEN" : true,
+    "COST" : [
+        { "TYPE" : "TIME",  "VALUE" : 1 },
+        { "TYPE" : "STAT",  "NAME" : "Energy", "VALUE" : 1 }],
+    "REQUIREMENTS" : [
+        { "TYPE" : "BODY",      "NAME" : "Lactation",   "VALUE" :  1,   "CONDITION" : "gte" }
+    ],
+    "INTRO" :
+    "You stand next to the cauldron, stirring it with a great wooden ladle. It is full of oatmeal for the crew’s morning meal. It is a "+
+    "bit awkward today, your breasts are still swollen from your session with the first mate last night.",
+    "START" :
+    "NPC_NAME comes up behind you and grinds his groin into your backside with his hands on your hips. He leans into it and breaths into your ear "+
+    "saying, \"I think I know who's going to get a little cream for their oatmeal today. Maybe I should just put it straight up into your belly from behind right now!\". "+
+    "You smell the rum on his breath. He guffaws at his own crude joke and presses his rotund belly into you with more aggression, pinning you to the cauldron. "+
+    "With you trapped he reaches around you in a bear hug while still grinding away. As you feel his manhood hardening and pressing against you, you can not help "+
+    "but let out a bit of a squeal. He fully cups both of your pBUST breasts with his large hands, your nipples centered in his palms. He begins to roughly kneed "+
+    "your boobs as you begin to squirm frantically trying to get away from both him and the growing heat from being pressed onto the cauldron.",
+    "SCENES" : [
+        {
+            "ID" : "SCENE01",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [
+                { "TAG" : "A", "TYPE" : "BODY", "NAME" : "Bust", "DIFFICULTY" : 100, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 300, "OPT" : 0 }
+            ],
+            "POST" : [
+            ],
+            "START" :
+            "\"Whats this!\" he bellows, face askew.\n\n"+
+            "You stop your struggle as he eases back a bit to look over your shoulder at his hands grasping at your breasts. You also focus where he looks to see that his hands are wet with a white liquid. Your own breast milk you realize. \"Still?\" you think to yourself, \"What is Kipler injecting me with? What is it going to do to me in the long haul? I think my boobs never shrink back down all the way again afterwards. And why am I producing so much milk? It’s seems to be more than normal for a woman, let alone me!\".\n\n"+
+            "\"Well, well, what do we have here? Are you trying to find your place in the crew by replacing the dairy goat? Come over here!\". NPC_NAME grabs your upper arm and drags you over to the high chair. \"Sit!\" he orders, and you do. He clears any obstruction to gain access to your bounty and locks the wood tray into place. It is low, just on top your thighs. He barks, \"Sit up straight and stay still. Do not cease to do so if you don’t want to be backhanded.\" He goes and fetches a large clean oven pan and places it on the tray under your boobs.\n\n"+
+            "He fondles your your breasts and gently strokes them. Being a bit afraid you do as he said and in no time your nipples engorge and begin to drip into the pan. He teases your nipples and your breasts begin to let down. And then with a surprisingly efficient skill he proceeds to milk you like a dairy beast.\n\n"+
+            "He is firm and purposeful, but he is tender with his touch and speaks to you soothingly. You suppose he does not wish to sour the milk. After a while you begin to find that you quite enjoy the feeling, and you think under the right conditions if it was to go on long enough you might find a release into a state of bliss.\n\n"+
+            "Tug right, tug left, tug right, tug left, right, left, right, left, tug tug tug...\n\n"+
+            "You lost yourself there, but you snap back. The milk is pooling now in the pan you see. Your breasts feel lighter, and look softer. The milk being released is tapering off.\n\n"+
+            "NPC_NAME ceases to milk you, wipes his hands on his dirty apron, takes the pan and pores it into the kitchens magically cooled milk barrel. \"Not bad, Not bad at all.\" His hairy fist comes towards you with some gold coins in it and rains it over your teats onto the tray. \"Those are for you. The more you produce the more I'll pay you. A bit for enough for the captains iced coffees, and some real coin if you give me enough to to sell fresh milkshakes to the crew. Be sure to eat well now cabin COW! I guess cabin girl wasn't good enough for ya! HA-HA!\"\n\n",
+            "END" :
+                "He releases you from the chair and yells, \"Back to work, back to work!\" and gropes your ass till your back at it with the ladle.",
+            "RESULTS" : [
+            ]
+        }
+    ],
+    "END" : "",
+    "JOB_RESULTS" : [ ]
+};

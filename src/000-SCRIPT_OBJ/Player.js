@@ -224,7 +224,8 @@ App.Entity.Player = function (){
         "Penis":            0,
         "Hair":             0,
         "Height":           0,
-        "Balls":            0
+        "Balls":            0,
+        "Lactation":        0
     };
 
     this.BodyXP = {
@@ -237,7 +238,8 @@ App.Entity.Player = function (){
         "Penis":            0,
         "Hair":             0,
         "Height":           0,
-        "Balls":            0
+        "Balls":            0,
+        "Lactation":        0
     };
 
     this.Skills = {
@@ -993,6 +995,8 @@ App.Entity.Player = function (){
             this.AdjustBodyXP("Waist", -50);
         }
 
+        // Decrease Lactation (if any)
+        this.AdjustBody("Lactation", -1);
         // Decrease voodoo effects
         this.EndHexDuration();
         this.NPCNextDay();

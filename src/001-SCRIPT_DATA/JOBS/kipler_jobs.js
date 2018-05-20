@@ -106,10 +106,11 @@ App.Data.JobData["MATE01"] =  {
                 { "TAG" : "D", "TYPE" : "SKILL", "NAME" : "TitFucking", "DIFFICULTY" : 60, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 20, "OPT" : 0 }
             ],
             "POST" : [
-                { "TYPE" : "NPC_STAT",  "NAME" : "Mood",    "VALUE" :  3,   "OPT" : "TAG_D" },
-                { "TYPE" : "NPC_STAT",  "NAME" : "Lust",    "VALUE" : -5,   "OPT" : "TAG_D" },
-                { "TYPE" : "BODY_XP",   "NAME" : "Bust",    "VALUE" : 50,   "OPT" : 0 },
-                { "TYPE" : "BODY_XP",   "NAME" : "Bust",    "VALUE" : 100,  "OPT" : "RANDOM" }
+                { "TYPE" : "NPC_STAT",  "NAME" : "Mood",      "VALUE" :  3,   "OPT" : "TAG_D"  },
+                { "TYPE" : "NPC_STAT",  "NAME" : "Lust",      "VALUE" : -5,   "OPT" : "TAG_D"  },
+                { "TYPE" : "BODY_XP",   "NAME" : "Bust",      "VALUE" : 50,   "OPT" : 0        },
+                { "TYPE" : "BODY_XP",   "NAME" : "Bust",      "VALUE" : 100,  "OPT" : "RANDOM" },
+                { "TYPE" : "BODY",      "NAME" : "Lactation", "VALUE" :  2                     }
             ],
             "START" :
             "NPC_NAME finishes cumming and pushes you down on the ground, his dick flying out of your mouth with an audible \"pop\" "+

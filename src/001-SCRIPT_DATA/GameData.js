@@ -317,7 +317,7 @@ App.Data.Lists = {
                        100 : { "COST" : 2800, "STEP" : 1, "ADJECTIVE" : "angelic",      "COLOR" : 16}
                     }
                 },
-                "Lips": { "MIN" : 0, "MAX" : 100, "START" : 20, "CM_MIN" : 0, "CM_MAX": 0,
+                "Lips": { "MIN" : 0, "MAX" : 100, "START" : 28, "CM_MIN" : 0, "CM_MAX": 0,
                     "LEVELING" : {
                        5 :  { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "withered",          "COLOR" :  1},
                        10 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "wilted",            "COLOR" :  2},
@@ -362,6 +362,25 @@ App.Data.Lists = {
                        88 : { "COST" : 525, "STEP" : 1, "ADJECTIVE" : "immense",     "COLOR" : 16},
                        94 : { "COST" : 550, "STEP" : 1, "ADJECTIVE" : "enormous",    "COLOR" : 16},
                       100 : { "COST" : 575, "STEP" : 1, "ADJECTIVE" : "mountainous", "COLOR" : 16}
+                    }
+                },
+                "Lactation": { "MIN" : 0, "MAX" : 100, "START" : 0, "CM_MIN" : 0, "CM_MAX" : 0,
+                    "LEVELING" : {
+                        5 :   { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        10 :  { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        15 :  { "COST" :  125, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        20 :  { "COST" :  125, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        26 :  { "COST" :  200, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        32 :  { "COST" :  225, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        38 :  { "COST" :  250, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        46 :  { "COST" :  300, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        54 :  { "COST" :  350, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        62 :  { "COST" :  400, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        71 :  { "COST" :  450, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        80 :  { "COST" :  500, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        89 :  { "COST" :  550, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        98 :  { "COST" :  600, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        100 : { "COST" : 1500, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 }
                     }
                 },
                 "Ass": { "MIN" : 0, "MAX" : 100, "START" : 2, "CM_MIN" : 80, "CM_MAX": 130,

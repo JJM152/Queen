@@ -1,5 +1,48 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.5 - 05/20/2018
+!!!!General
+* Introduced a value algorithm governing items. Things will probably be more expensive now as their cost is going to be based on their stats. More expensive stuff is almost always better.
+* Made gruel on the ship a much better source of food to compensate for higher prices.
+* Shop keeper's will discount your purchase up to 30% if your get their mood high enough. It has to be above half way to get even a tiny discount.
+* Updated knowledge system. It now gives more feedback on what items do, including potency of those effects. It also now works on clothing so you can see their effects and properties.
+* You can now lose the game if your willpower drops too low. Same with health. Previously you could only die in whoring... not so much any more.
+* Trip durations between most islands shortened.
+* Added/itemized 'Sexy Dancer' style.
+* Added a Pet Girl outfit designed by @@color:deepPink;sirwolffe@@. Moo.
+* Added an 'effects' system and library to the game. Should allow for more interesting equipment and items.
+* Fixed a long standing bug where you could access Lord Rowe with Jarvis present and NOT have completed the Daddy's girl quest. You're supposed to use the key to sneak in at night when he's gone. Oops.
+* General enhancements to both the quest and job engines. This stuff needs a refactor/consolidation sometime in the future.
+* Added rough skeleton for lactation body stat.
+* Multiple other bug fixes.
+
+!!!!Quality of Life
+* There is now a 'gear' tab in your inventory. It shows all your equipable items. You still need to change at the wardrobe.
+* You can now continue to use items without having to select 'back' and 'use' again.
+* In the wardrobe if you select 'Inspect Outfit' you are presented with the style rating of your current outfit. Selecting a style will automatically equip your best items in that style.
+* There is a link in the cabin now to just reapply makeup and hair instead of having to select this from the vanity.
+* At 'late night', in most places except for the Mermaid, you will be given a link to instantly teleport back to your Cabin.
+* Cleaned up a lot of interfaces to make them smoother, fixed some typographical bugs in reward screens, etc.
+
+!!!!Salty Mermaid
+* Added a map to the Captain's Cabin. It shows the current course of the Mermaid. (art supplied by @@color:deepPink;mightyakira@@)
+* Keep the crew happy, or you risk a bad event.
+* Made the Lips requirements on the 'Build a Better Bimbo - Part 1' quest easier to achieve.
+* Doing Kipler's personal job will now grant you a lactation stat of (2). This decreases when you sleep by 1.
+* Cookie will milk lactating characters in the galley during the morning phase. Pay is based on breast size. (job text supplied by @@color:deepPink;sirwolffe@@)
+
+!!!!Golden Isle
+* Petey now gives out a quest to people who look like pirates...
+* You can "shop" at the Bazaar. This generates a random list of goods, potentially even rare legendary items. Shopping costs 1 energy and 1 time, but is repeatable forever. Shop till you drop.
+* Descriptions for the Guard House and Jail added.
+
+!!!!Abamond
+* Added Map generation and collision detection to 'Rouge-like' game. Not much of a game here, yet.
+
+!!!!Port Royale
+* Added 3 more jobs to Simone at the Lusty Lass. They can all reward loot boxes if you do well at them.
+* You can shop at the Great Market, just like at the Bazaar.
+* Descriptions for the Casino and Green Gryphon added.
 
 !!!0.4 - 05/16/2018
 !!!!General

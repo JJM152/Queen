@@ -3287,7 +3287,8 @@ App.Entity.Player = function (){
         "Penis":            0,
         "Hair":             0,
         "Height":           0,
-        "Balls":            0
+        "Balls":            0,
+        "Lactation":        0
     };
 
     this.BodyXP = {
@@ -3300,7 +3301,8 @@ App.Entity.Player = function (){
         "Penis":            0,
         "Hair":             0,
         "Height":           0,
-        "Balls":            0
+        "Balls":            0,
+        "Lactation":        0
     };
 
     this.Skills = {
@@ -4056,6 +4058,8 @@ App.Entity.Player = function (){
             this.AdjustBodyXP("Waist", -50);
         }
 
+        // Decrease Lactation (if any)
+        this.AdjustBody("Lactation", -1);
         // Decrease voodoo effects
         this.EndHexDuration();
         this.NPCNextDay();
@@ -5971,7 +5975,115 @@ App.Data.Clothes["black platform mary janes"] = { // +15
 
 // WEAPON SLOT (huh?)
 
-/* twine-user-script #20: "pirate_slut_clothes.js" */
+/* twine-user-script #20: "petgirl_clothes.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Clothes = App.Data.Clothes || { };
+// Cow girl clothing descriptions provided by sirwolffe @ the tfgamessite.com forums.
+
+// STYLE TABLE
+// TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
+// ACCESSORY    3       6           9       12
+// CLOTHING     5       10          15      20
+// ONE PIECE    10      20          30      40
+
+// WIG SLOT
+
+// HAT SLOT
+App.Data.Clothes["cow headband"] = { // +9
+    "Name": "cow headband", "ShortDesc": "a well crafted cowgirl headband",
+    "LongDesc": "A sturdy black hair band with cute little scrimshawed cow horns and fuzzy ears.",
+    "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect":[ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ]
+};
+
+// NECK SLOT
+App.Data.Clothes["cow collar"] = { // +9
+    "Name": "cow collar", "ShortDesc": " a cute gold cowbell and collar",
+    "LongDesc": "A shiny cowbell gently clangs from from a soft leather collar decorated with a black lace ribbon.",
+    "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ]
+};
+
+// NIPPLES SLOT
+App.Data.Clothes["nipple bells"] = { // +9
+    "Name": "nipple bells", "ShortDesc": "a pair of belled gold nipple rings",
+    "LongDesc": "These large diameter and heavy gage rings have little bells hanging from them. Their weight ceaselessly stimulates your nipples to \"full mast\".",
+    "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "gold", "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": [ "PERVERTED_CLOTHING" ], "Category" :  [ "Pet Girl", "BDSM" ]
+};
+
+// BRA SLOT
+App.Data.Clothes["cow bra"] = { // +10
+    "Name": "cow bra", "ShortDesc": "a reinforced {COLOR} comfy maternity bra",
+    "LongDesc": "In white on the right cup it says, \"got milk under spot X\". In white on the left cup is a horned bull skull over a pair of crossed milk cans, making an X.",
+    "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "WearEffect":[ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ]
+};
+
+// CORSET SLOT
+App.Data.Clothes["cow corset"] = { // +10
+    "Name": "cow corset", "ShortDesc": "a holstein patterned cup-less corset in velvet",
+    "LongDesc": "This ingeniously designed piece is built to be let out as the wearer become plumper, or safely carry a baby, while providing substantial back support.",
+    "Slot": "Corset", "Restrict": ["Corset"], "Color": "white", "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": [ "FEMININE_CLOTHING", "WAIST_CINCHING" ], "Category" :  [ "Pet Girl" ]
+};
+
+// PANTY SLOT
+App.Data.Clothes["cow panties"] = { // +10
+    "Name": "cow panties", "ShortDesc": "a high cut brief of {COLOR} silk",
+    "LongDesc": "It is trimmed in elegant black lace. The back panel proudly proclaims,\"Moo Matey!\". The front has little white satin bows. Has a tail hole.",
+    "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [  "Pet Girl" ]
+};
+
+// STOCKINGS SLOT
+App.Data.Clothes["cow stockings"] = { // +15
+    "Name": "cow stockings", "ShortDesc": "a pair of black & white vertically striped silk stockings",
+    "LongDesc": "They reach to mid-thigh, are topped off by black lace and tied with a wide white ribbon in a bow.",
+    "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Style": "RARE", "Type" : "CLOTHING",
+    "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ]
+};
+
+// SHIRT SLOT
+App.Data.Clothes["cow skirt"] = { // +20
+    "Name": "cow skirt", "ShortDesc": "a fine wool holstein patterned full skirt",
+    "LongDesc": "Hangs from the hips and just barely covers your ass when you bend forward. It doesn't if you hug your knees. Sways enticingly and flares out on spins.",
+    "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "pink", "Style": "LEGENDARY", "Type" : "CLOTHING",
+    "WearEffect": [ "FEMININE_CLOTHING", "FLIRTY" ], "Category" :  [ "Pet Girl", "Bimbo" ]
+};
+// PANTS SLOT
+
+// DRESS SLOT
+
+// COSTUME SLOT
+
+// SHOES SLOT
+App.Data.Clothes["cow boots"] = { // +20
+    "Name": "cow boots", "ShortDesc": "a pair of shiny black calf length cavalier boots",
+    "LongDesc": "These 3 inch heels sport a sleek in design with 4\" fold over on the sides and front. They have white laces up from the back of ankle to top, white felt liner and large mirrored steel buckles with ankle support strap. The front sports a hoof shaped mirrored steel toe piece.",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "LEGENDARY", "Type" : "CLOTHING",
+    "WearEffect": [ "FEMININE_CLOTHING", "FANCY_MOVES" ], "Category" : [ "Pet Girl", "Sexy Dancer" ]
+};
+
+App.Data.Clothes["black platform mary janes"] = { // +15
+    "Name": "black platform mary janes", "ShortDesc": "a pair of {COLOR} platform mary janes",
+    "LongDesc": "These black platform shoes have Have red stars for the buckles at the ankles and a chunky platform heel. Difficult to walk in but sexy.",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "RARE", "Type" : "CLOTHING",
+    "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [ "Gothic Lolita" ]
+};
+
+// BUTT SLOT
+App.Data.Clothes["cow tail"] = { // +9
+    "Name": "cow tail", "ShortDesc": "a butt plug with a {COLOR} cow tail attached ",
+    "LongDesc": "This anal plug is attached to a faux cow tail, sporting a cute little ribbon. It's warm to the touch, and sways on its own or when you walk. It feels real, is it magical? And it’s very comfortable, never accidentally slips out, and is always clean. It’s white with a black bush tip.",
+    "Slot": "Butt", "Restrict": ["Butt"], "Color": "white", "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": [ "PERVERTED_CLOTHING", "GAPE_TRAINING" ], Category : [ "Pet Girl", "BDSM" ]
+};
+// PENIS SLOT
+
+// WEAPON SLOT (huh?)
+
+/* twine-user-script #21: "pirate_slut_clothes.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Clothes = App.Data.Clothes || { };
 
@@ -6071,7 +6183,7 @@ App.Data.Clothes["steel cutlass"] = {
     "WearEffect": [], "ActiveEffect" : [ "CUT_THROAT" ], "Category" : [ "Pirate Slut"], "InMarket": false
 };
 
-/* twine-user-script #21: "sexy_dancer_clothes.js" */
+/* twine-user-script #22: "sexy_dancer_clothes.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Clothes = App.Data.Clothes || { };
 
@@ -6172,7 +6284,7 @@ App.Data.Clothes["stripper heels"] = { // +20
 
 // WEAPON SLOT (huh?)
 
-/* twine-user-script #22: "sissy_lolita_clothes.js" */
+/* twine-user-script #23: "sissy_lolita_clothes.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Clothes = App.Data.Clothes || { };
 
@@ -6267,7 +6379,7 @@ App.Data.Clothes["pink platform mary janes"] = { // +15
 // PENIS SLOT
 
 // WEAPON SLOT (huh?)
-/* twine-user-script #23: "uncatagorized_clothes.js" */
+/* twine-user-script #24: "uncatagorized_clothes.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Clothes = App.Data.Clothes || { };
 
@@ -6491,7 +6603,7 @@ App.Data.Clothes["worn machete"] = {
     "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Style": "NONE", "Type" : "WEAPON",
     "WearEffect": [ ], "InMarket" : false
 };
-/* twine-user-script #24: "GameData.js" */
+/* twine-user-script #25: "GameData.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.NPCS = {
@@ -6811,7 +6923,7 @@ App.Data.Lists = {
                        100 : { "COST" : 2800, "STEP" : 1, "ADJECTIVE" : "angelic",      "COLOR" : 16}
                     }
                 },
-                "Lips": { "MIN" : 0, "MAX" : 100, "START" : 20, "CM_MIN" : 0, "CM_MAX": 0,
+                "Lips": { "MIN" : 0, "MAX" : 100, "START" : 28, "CM_MIN" : 0, "CM_MAX": 0,
                     "LEVELING" : {
                        5 :  { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "withered",          "COLOR" :  1},
                        10 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "wilted",            "COLOR" :  2},
@@ -6856,6 +6968,25 @@ App.Data.Lists = {
                        88 : { "COST" : 525, "STEP" : 1, "ADJECTIVE" : "immense",     "COLOR" : 16},
                        94 : { "COST" : 550, "STEP" : 1, "ADJECTIVE" : "enormous",    "COLOR" : 16},
                       100 : { "COST" : 575, "STEP" : 1, "ADJECTIVE" : "mountainous", "COLOR" : 16}
+                    }
+                },
+                "Lactation": { "MIN" : 0, "MAX" : 100, "START" : 0, "CM_MIN" : 0, "CM_MAX" : 0,
+                    "LEVELING" : {
+                        5 :   { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        10 :  { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        15 :  { "COST" :  125, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        20 :  { "COST" :  125, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        26 :  { "COST" :  200, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        32 :  { "COST" :  225, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        38 :  { "COST" :  250, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        46 :  { "COST" :  300, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        54 :  { "COST" :  350, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        62 :  { "COST" :  400, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        71 :  { "COST" :  450, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        80 :  { "COST" :  500, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        89 :  { "COST" :  550, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        98 :  { "COST" :  600, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
+                        100 : { "COST" : 1500, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 }
                     }
                 },
                 "Ass": { "MIN" : 0, "MAX" : 100, "START" : 2, "CM_MIN" : 80, "CM_MAX": 130,
@@ -8075,7 +8206,7 @@ App.Data.Encounters = {
                 "ENEMIES" : [ { "ENEMY" : "PIRATE_A", "MIN" : 1, "MAX" : 1 }]}
         ]
 };
-/* twine-user-script #25: "effect_lib.js" */
+/* twine-user-script #26: "effect_lib.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.EffectLib = {
@@ -9173,7 +9304,7 @@ App.Data.EffectLib = {
          @param {App.Item.Consumable} o*/
             function(o,p) { p.AdjustBodyXP('Waist',-20, 30); },
         "VALUE" : 100,
-        "KNOWLEDGE" : [ "Waist Training+1" ]
+        "KNOWLEDGE" : [ "Waist Training+" ]
     },
     "WAIST_TRAINING" : {
         "FUN" : /** @param {App.Entity.Player} p
@@ -9289,7 +9420,7 @@ App.Data.EffectLib = {
 
 
 };
-/* twine-user-script #26: "items_cosmetics.js" */
+/* twine-user-script #27: "items_cosmetics.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.Cosmetics = {
@@ -9330,7 +9461,7 @@ App.Data.Cosmetics = {
         "VALUE": 40
     }
 };
-/* twine-user-script #27: "items_drugs.js" */
+/* twine-user-script #28: "items_drugs.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.Drugs = {
@@ -9466,7 +9597,7 @@ App.Data.Drugs = {
 
 
 
-/* twine-user-script #28: "items_food.js" */
+/* twine-user-script #29: "items_food.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.Food = {
@@ -9668,7 +9799,7 @@ App.Data.Food = {
         "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "LIPS_XP_UNCOMMON", "PERVERSION_XP_COMMON", "PENIS_XP_COMMON" ]
     }
 };
-/* twine-user-script #29: "items_quest.js" */
+/* twine-user-script #30: "items_quest.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.QuestItems = {
@@ -9709,7 +9840,7 @@ App.Data.QuestItems = {
             "Type": "QUEST"
         }
 };
-/* twine-user-script #30: "abamond_jungle_interaction.js" */
+/* twine-user-script #31: "abamond_jungle_interaction.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -9832,7 +9963,7 @@ App.Data.JobData["JUNGLE01"] = {
     "JOB_RESULTS" : [ ]
 
 };
-/* twine-user-script #31: "bosun_job.js" */
+/* twine-user-script #32: "bosun_job.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -9964,7 +10095,7 @@ App.Data.JobData["ISLA_WAITRESS"] = {
     "END" : "Finally, your shift in the tavern is over. NPC_NAME comes up to you and hands you your pay for the night.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #32: "captain_reginald_jobs.js" */
+/* twine-user-script #33: "captain_reginald_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -10307,7 +10438,7 @@ App.Data.JobData["CAPT01"] = {
     "You'd almost be offended if it wasn't for the fact that what he said was essentially true. You pick up your poor and battered body and head for the door.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #33: "cookie_jobs.js" */
+/* twine-user-script #34: "cookie_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -10630,7 +10761,57 @@ App.Data.JobData["COOK03"] = {
     "JOB_RESULTS" : [ ]
 };
 
-/* twine-user-script #34: "georgina_jobs.js" */
+App.Data.JobData["COOK04"] = {
+    "ID": "COOK04", "TITLE": "Fresh Dairy in the Galley", "GIVER": "Cook", "PAY" : 0,
+    "RATING" : 3, // of 5
+    "PHASES" : [ 0 ],
+    "DAYS"   : 1,
+    "HIDDEN" : true,
+    "COST" : [
+        { "TYPE" : "TIME",  "VALUE" : 1 },
+        { "TYPE" : "STAT",  "NAME" : "Energy", "VALUE" : 1 }],
+    "REQUIREMENTS" : [
+        { "TYPE" : "BODY",      "NAME" : "Lactation",   "VALUE" :  1,   "CONDITION" : "gte" }
+    ],
+    "INTRO" :
+    "You stand next to the cauldron, stirring it with a great wooden ladle. It is full of oatmeal for the crew’s morning meal. It is a "+
+    "bit awkward today, your breasts are still swollen from your session with the first mate last night.",
+    "START" :
+    "NPC_NAME comes up behind you and grinds his groin into your backside with his hands on your hips. He leans into it and breaths into your ear "+
+    "saying, \"I think I know who's going to get a little cream for their oatmeal today. Maybe I should just put it straight up into your belly from behind right now!\". "+
+    "You smell the rum on his breath. He guffaws at his own crude joke and presses his rotund belly into you with more aggression, pinning you to the cauldron. "+
+    "With you trapped he reaches around you in a bear hug while still grinding away. As you feel his manhood hardening and pressing against you, you can not help "+
+    "but let out a bit of a squeal. He fully cups both of your pBUST breasts with his large hands, your nipples centered in his palms. He begins to roughly kneed "+
+    "your boobs as you begin to squirm frantically trying to get away from both him and the growing heat from being pressed onto the cauldron.",
+    "SCENES" : [
+        {
+            "ID" : "SCENE01",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [
+                { "TAG" : "A", "TYPE" : "BODY", "NAME" : "Bust", "DIFFICULTY" : 100, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 300, "OPT" : 0 }
+            ],
+            "POST" : [
+            ],
+            "START" :
+            "\"Whats this!\" he bellows, face askew.\n\n"+
+            "You stop your struggle as he eases back a bit to look over your shoulder at his hands grasping at your breasts. You also focus where he looks to see that his hands are wet with a white liquid. Your own breast milk you realize. \"Still?\" you think to yourself, \"What is Kipler injecting me with? What is it going to do to me in the long haul? I think my boobs never shrink back down all the way again afterwards. And why am I producing so much milk? It’s seems to be more than normal for a woman, let alone me!\".\n\n"+
+            "\"Well, well, what do we have here? Are you trying to find your place in the crew by replacing the dairy goat? Come over here!\". NPC_NAME grabs your upper arm and drags you over to the high chair. \"Sit!\" he orders, and you do. He clears any obstruction to gain access to your bounty and locks the wood tray into place. It is low, just on top your thighs. He barks, \"Sit up straight and stay still. Do not cease to do so if you don’t want to be backhanded.\" He goes and fetches a large clean oven pan and places it on the tray under your boobs.\n\n"+
+            "He fondles your your breasts and gently strokes them. Being a bit afraid you do as he said and in no time your nipples engorge and begin to drip into the pan. He teases your nipples and your breasts begin to let down. And then with a surprisingly efficient skill he proceeds to milk you like a dairy beast.\n\n"+
+            "He is firm and purposeful, but he is tender with his touch and speaks to you soothingly. You suppose he does not wish to sour the milk. After a while you begin to find that you quite enjoy the feeling, and you think under the right conditions if it was to go on long enough you might find a release into a state of bliss.\n\n"+
+            "Tug right, tug left, tug right, tug left, right, left, right, left, tug tug tug...\n\n"+
+            "You lost yourself there, but you snap back. The milk is pooling now in the pan you see. Your breasts feel lighter, and look softer. The milk being released is tapering off.\n\n"+
+            "NPC_NAME ceases to milk you, wipes his hands on his dirty apron, takes the pan and pores it into the kitchens magically cooled milk barrel. \"Not bad, Not bad at all.\" His hairy fist comes towards you with some gold coins in it and rains it over your teats onto the tray. \"Those are for you. The more you produce the more I'll pay you. A bit for enough for the captains iced coffees, and some real coin if you give me enough to to sell fresh milkshakes to the crew. Be sure to eat well now cabin COW! I guess cabin girl wasn't good enough for ya! HA-HA!\"\n\n",
+            "END" :
+                "He releases you from the chair and yells, \"Back to work, back to work!\" and gropes your ass till your back at it with the ladle.",
+            "RESULTS" : [
+            ]
+        }
+    ],
+    "END" : "",
+    "JOB_RESULTS" : [ ]
+};
+/* twine-user-script #35: "georgina_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -10763,7 +10944,7 @@ App.Data.JobData["PEACOCK_WAITRESS"] = {
     "JOB_RESULTS" : [ ]
 };
 
-/* twine-user-script #35: "heddy_jobs.js" */
+/* twine-user-script #36: "heddy_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -10866,7 +11047,7 @@ App.Data.JobData["ISLA_MASCOT"] = {
         {"A": 500, "TEXT": "You definitely did a @@good job@@ and the pay reflects that."}
     ]
 };
-/* twine-user-script #36: "jarvis_jobs.js" */
+/* twine-user-script #37: "jarvis_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -10985,7 +11166,7 @@ App.Data.JobData["JARV01"] =  {
     ]
 
 };
-/* twine-user-script #37: "julius_jobs.js" */
+/* twine-user-script #38: "julius_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -11175,7 +11356,7 @@ App.Data.JobData["QUAR02"] = {
         "NPC_NAME tosses a small bag of coins at you and then waves you on his way, continuing to furiously study at his notes.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #38: "kipler_jobs.js" */
+/* twine-user-script #39: "kipler_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -11284,10 +11465,11 @@ App.Data.JobData["MATE01"] =  {
                 { "TAG" : "D", "TYPE" : "SKILL", "NAME" : "TitFucking", "DIFFICULTY" : 60, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 20, "OPT" : 0 }
             ],
             "POST" : [
-                { "TYPE" : "NPC_STAT",  "NAME" : "Mood",    "VALUE" :  3,   "OPT" : "TAG_D" },
-                { "TYPE" : "NPC_STAT",  "NAME" : "Lust",    "VALUE" : -5,   "OPT" : "TAG_D" },
-                { "TYPE" : "BODY_XP",   "NAME" : "Bust",    "VALUE" : 50,   "OPT" : 0 },
-                { "TYPE" : "BODY_XP",   "NAME" : "Bust",    "VALUE" : 100,  "OPT" : "RANDOM" }
+                { "TYPE" : "NPC_STAT",  "NAME" : "Mood",      "VALUE" :  3,   "OPT" : "TAG_D"  },
+                { "TYPE" : "NPC_STAT",  "NAME" : "Lust",      "VALUE" : -5,   "OPT" : "TAG_D"  },
+                { "TYPE" : "BODY_XP",   "NAME" : "Bust",      "VALUE" : 50,   "OPT" : 0        },
+                { "TYPE" : "BODY_XP",   "NAME" : "Bust",      "VALUE" : 100,  "OPT" : "RANDOM" },
+                { "TYPE" : "BODY",      "NAME" : "Lactation", "VALUE" :  2                     }
             ],
             "START" :
             "NPC_NAME finishes cumming and pushes you down on the ground, his dick flying out of your mouth with an audible \"pop\" "+
@@ -11811,7 +11993,7 @@ App.Data.JobData["MATE04"] =  {
 
 };
 
-/* twine-user-script #39: "lord_rowe_jobs.js" */
+/* twine-user-script #40: "lord_rowe_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -11916,7 +12098,7 @@ App.Data.JobData["GOV01"] = {
     "\"@@color:cyan;Come back some time dear,@@\" he says after catching his breath. You nod eagerly and tell him you always have time to play with 'Daddy' before taking your leave.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #40: "mermaid_galley_interactions.js" */
+/* twine-user-script #41: "mermaid_galley_interactions.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -12151,13 +12333,13 @@ App.Data.JobData["STRP02"] = {
 
 };
 
-/* twine-user-script #41: "simone_jobs.js" */
+/* twine-user-script #42: "simone_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
 App.Data.JobData["SIMONE_JOB1"] = {
     "ID": "SIMONE_JOB1", "TITLE": "Whoring - Handjob Specialist", "GIVER": "Simone", "PAY" : 50,
-    "RATING" : 2, // of 5
+    "RATING" : 3, // of 5
     "PHASES" : [ 2, 3 ],
     "DAYS"   : 1,
     "HIDDEN" : false,
@@ -12165,9 +12347,9 @@ App.Data.JobData["SIMONE_JOB1"] = {
         { "TYPE" : "TIME", "VALUE" : 1 },
         { "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 1 } ],
     "REQUIREMENTS" : [
-        { "TYPE" : "Skill", "NAME" : "HandJobs", "VALUE" : 50, "CONDITION" : "gte" }
+        { "TYPE" : "SKILL", "NAME" : "HandJobs", "VALUE" : 50, "CONDITION" : "gte" }
     ],
-    "INTRO" : "NPC_NAME says, \"@@color:cyan;So you think you're good at the old rub'n'tug are ya? I have a special group of clients that might be interested in you...@@\"",
+    "INTRO" : "NPC_NAME says, \"I have a special group of clients that might be interested in you... if you have the skills.\"",
     "START" :
         "NPC_NAME says, \"So here's the deal PLAYER_NAME, none of my regular girls will take the job, but I have a group of clients paying good coin "+
         "to have a bit of a party in the back room. You won't be the only entertainment for the evening, but it's been requested to supply a slut who can "+
@@ -12310,7 +12492,469 @@ App.Data.JobData["SIMONE_JOB1"] = {
         "NPC_NAME fetches a small bag from behind the counter and hands it to you, it contains your pay and tips for the night.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #42: "food_lootbox.js" */
+App.Data.JobData["SIMONE_JOB2"] = {
+    "ID": "SIMONE_JOB2", "TITLE": "Whoring - Blowjob Specialist", "GIVER": "Simone", "PAY" : 50,
+    "RATING" : 3, // of 5
+    "PHASES" : [ 2, 3 ],
+    "DAYS"   : 1,
+    "HIDDEN" : false,
+    "COST" : [
+        { "TYPE" : "TIME", "VALUE" : 1 },
+        { "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 1 } ],
+    "REQUIREMENTS" : [
+        { "TYPE" : "SKILL", "NAME" : "BlowJobs", "VALUE" : 50, "CONDITION" : "gte" }
+    ],
+    "INTRO" : "NPC_NAME says, \"I have a special group of clients that might be interested in you... if you have the skills.\"",
+    "START" :
+    "NPC_NAME says, \"So here's the deal PLAYER_NAME, none of my regular girls will take the job, but I have a group of clients paying good coin "+
+    "to have a bit of a party in the back room. You won't be the only entertainment for the evening, but it's been requested to supply a slut who can "+
+    "deep throat a monster cock and look happy about it. Swallow a little jizz here and there. You know, the usual.\"\n\n"+
+    "Yes, you think to yourself, 'the usual'.\n\n"+
+    "NPC_NAME gives you the run down on the rest of the job and ushers you into the back room."
+    ,
+    "SCENES" : [
+        {
+            // Enter into room. Flirt with men.
+            "ID" : "SCENE01",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [
+                { "TAG" : "A", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 50, "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 }
+            ],
+            "POST" : [
+                { "TYPE" : "MONEY", "NAME" : "", "VALUE" : 20, "OPT" : "TAG_A" }
+            ],
+            "START" :
+            "Inside you find several men lounging around on couches swilling drinks while various girls hang on their arms. One of those girls, a young  "+
+            "blond with smouldering eyes grabs your hand and leads you to the middle of the room. Once there she starts brushing against you while shaking her hips, "+
+            "it doesn't take you long to understand and soon the two of you are lewdly groping each other for the enjoyment of the small group."
+            ,
+            "RESULTS" : [
+                {"A":  33, "TEXT": "It @@doesn't seem to have much effect though@@ as the men seem more interested in the girls on their arms."},
+                {"A":  66, "TEXT": "You notice several pairs of eyes turn your way, it @@appears you've gotten their interest@@."},
+                {"A": 500, "TEXT": "The men seem to take @@a keen interest@@ in your little show and you think you see an erection straining against one of the men's trousers."} ],
+            "END" :
+                ""
+        },
+        {
+            // Start performing hand jobs
+            "ID" : "SCENE02",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [
+                { "TAG" : "B", "TYPE" : "SKILL", "NAME" : "BlowJobs", "DIFFICULTY" : 75, "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 } ],
+            "POST" : [
+                { "TYPE" : "MONEY", "NAME" : "", "VALUE" : 100, "OPT" : "TAG_B" }
+            ],
+            "START" :
+            "It doesn't take long after this for the evening to move on to the next, more intimate performance. Several of the other women start to disrobe and "+
+            "engage in various sex acts with the customers - a hand job here, some straight fucking in the corner. One particularly petite girl with a huge ass "+
+            "is bent over a chair and getting anally violated. It's clear what her job is for this evenings festivities.\n\n"+
+            "You start your own little 'station' in the corner, on your knees."
+            ,
+            "END" :
+                "",
+            "RESULTS" : [
+                {"B":  33, "TEXT": "You spend most of the time just fondling customers while they get ready for one of the other girls. It @@seems they just aren't that interested@@ in you."},
+                {"B":  66, "TEXT": "You start off slowly, but soon the men are starting to notice how @@good your cock sucking@@ is and before you notice it, you're pulling a significant "+
+                "number of men your way."},
+                {"B": 500, "TEXT": "The remainders of the evening passes in a blur of cocks and semen. Your skills are @@so good that you find yourself in high demand@@ and you start to worry "+
+                "if your jaw is going to lock from all the dick sucking."} ]
+        },
+        {
+            // Perversion check for cum play.
+            "ID" : "SCENE03",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [
+                { "TAG" : "C", "TYPE" : "STAT", "NAME" : "Perversion", "DIFFICULTY" : 50, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 50, "OPT" : 0 } ],
+            "POST" : [
+                { "TYPE" : "STAT_XP", "NAME" : "Perversion", "VALUE" : 100, "OPT" : "TAG_C" }
+            ],
+            "START" :
+            "Finally, the last two clients are in front of you, their cocks out and flopping free. You slowly stroke them both to hardness, using your tongue and saliva to "+
+            "lubricate their shafts. Eventually both men are sporting huge erections and you greedily start slurping on their meat poles. "+
+            "You bob your head up and down furiously, alternating between the men, until they begin shooting long ropey streams of cum into your mouth and lips."
+            ,
+            "RESULTS" : [
+                {"C":  33, "TEXT": "It's difficult to deal with and you @@struggle to remain smiling@@ while the customers blow their loads."},
+                {"C":  66, "TEXT": "You try to really put on a show for the men, smiling and making @@half hearted attempts@@ to lick their jizz from your lips. You couldn't really tell if "+
+                "they noticed your performance or not."},
+                {"C": 500, "TEXT": "You lock eyes on the men and open your mouth wide, letting their cum fall directly onto your tongue. Letting out a throaty moan you start to lap it up from "+
+                "your lips and swallow it down. The super lewd act spurs them on and soon they're rock hard and you're pumping them again. They better pay you extra for this."} ],
+            "END" :
+            "\n\nEventually everyone is spent and you find yourself covered, literally dripping with jism. You wipe some out of your eyes and then "+
+            "politely excuse yourself to clean up your face and clothes. Eventually you go to find NPC_NAME to collect your pay. She's at the front of the bar and nods when she sees you."
+        },
+        {   // If pass check 'A' and If counter is at MAX (5), reward player and set counter to 0.
+            "ID" : "SCENE04a",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "COUNTER", "NAME" : "SIMONE_LOOT", "VALUE" : 5, "CONDITION" : "gte" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
+                { "TYPE" : "FLAG",      "NAME" : "SIMONE_LOOT",              "VALUE" :   0,  "OPT" : "SET" },
+                { "TYPE" : "FLAG",      "NAME" : "SIMONE_REWARD",            "VALUE" :   1,  "OPT" : "SET" },
+                { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon dancer chest", "VALUE" :   1,  "OPT" : "" }
+            ],
+            "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\". She hands you a novelty gift bag shaped like a teddy bear, you wonder what's inside it?",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
+        {   // If passed both cooking checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
+            "ID" : "SCENE04b",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "COUNTER", "NAME" : "SIMONE_LOOT", "VALUE" : 4, "CONDITION" : "lte" },
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_REWARD",  "OPT" : "NOT_SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
+                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+            ],
+            "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
+        {   // Just unset the flag that shows we received loot and make sure we clear the counter.
+            "ID" : "SCENE04c",
+            "TRIGGERS" :[
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_REWARD", "OPT" : "SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "FLAG",   "NAME" : "SIMONE_REWARD",  "OPT" : "DELETE" }
+            ],
+            "START" : "",
+            "END" : "",
+            "RESULTS" : [ ]
+        }
+
+    ],
+    "END" :
+    "NPC_NAME says, \"Another day, another coin, eh PLAYER_NAME?\"\n\n"+
+    "NPC_NAME fetches a small bag from behind the counter and hands it to you, it contains your pay and tips for the night.",
+    "JOB_RESULTS" : [ ]
+};
+App.Data.JobData["SIMONE_JOB3"] = {
+    "ID": "SIMONE_JOB3", "TITLE": "Whoring - Tit Fucking Specialist", "GIVER": "Simone", "PAY" : 50,
+    "RATING" : 3, // of 5
+    "PHASES" : [ 2, 3 ],
+    "DAYS"   : 1,
+    "HIDDEN" : false,
+    "COST" : [
+        { "TYPE" : "TIME", "VALUE" : 1 },
+        { "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 1 } ],
+    "REQUIREMENTS" : [
+        { "TYPE" : "SKILL", "NAME" : "TitFucking", "VALUE" : 50, "CONDITION" : "gte" },
+        { "TYPE" : "BODY",  "NAME" : "BUST", "VALUE" : 20, "CONDITION" : "gte" }
+    ],
+    "INTRO" : "NPC_NAME says, \"I have a special group of clients that might be interested in you... if you have the skills.\"",
+    "START" :
+    "NPC_NAME says, \"So here's the deal PLAYER_NAME, none of my regular girls will take the job, but I have a group of clients paying good coin "+
+    "to have a bit of a party in the back room. You won't be the only entertainment for the evening, but it's been requested to supply a slut who can "+
+    "wank a good load all over her tits and look happy about it. Swallow a little jizz here and there. You know, the usual.\"\n\n"+
+    "Yes, you think to yourself, 'the usual'.\n\n"+
+    "NPC_NAME gives you the run down on the rest of the job and ushers you into the back room."
+    ,
+    "SCENES" : [
+        {
+            // Enter into room. Flirt with men.
+            "ID" : "SCENE01",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [
+                { "TAG" : "A", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 50, "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 }
+            ],
+            "POST" : [
+                { "TYPE" : "MONEY", "NAME" : "", "VALUE" : 20, "OPT" : "TAG_A" }
+            ],
+            "START" :
+            "Inside you find several men lounging around on couches swilling drinks while various girls hang on their arms. One of those girls, a young  "+
+            "blond with smouldering eyes grabs your hand and leads you to the middle of the room. Once there she starts brushing against you while shaking her hips, "+
+            "it doesn't take you long to understand and soon the two of you are lewdly groping each other for the enjoyment of the small group."
+            ,
+            "RESULTS" : [
+                {"A":  33, "TEXT": "It @@doesn't seem to have much effect though@@ as the men seem more interested in the girls on their arms."},
+                {"A":  66, "TEXT": "You notice several pairs of eyes turn your way, it @@appears you've gotten their interest@@."},
+                {"A": 500, "TEXT": "The men seem to take @@a keen interest@@ in your little show and you think you see an erection straining against one of the men's trousers."} ],
+            "END" :
+                ""
+        },
+        {
+            // Start performing hand jobs
+            "ID" : "SCENE02",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [
+                { "TAG" : "B", "TYPE" : "SKILL", "NAME" : "TitFucking", "DIFFICULTY" : 75, "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 } ],
+            "POST" : [
+                { "TYPE" : "MONEY", "NAME" : "", "VALUE" : 100, "OPT" : "TAG_B" }
+            ],
+            "START" :
+            "It doesn't take long after this for the evening to move on to the next, more intimate performance. Several of the other women start to disrobe and "+
+            "engage in various sex acts with the customers - a blow job here, some straight fucking in the corner. One particularly petite girl with a huge ass "+
+            "is bent over a chair and getting anally violated. It's clear what her job is for this evenings festivities.\n\n"+
+            "You start your own little 'station' in the corner, on your knees."
+            ,
+            "END" :
+                "",
+            "RESULTS" : [
+                {"B":  33, "TEXT": "You spend most of the time just fondling customers with your pBUST tits while they get ready for one of the other girls. It @@seems they just aren't that interested@@ in you."},
+                {"B":  66, "TEXT": "You start off slowly, but soon the men are starting to notice how @@good your tit jobs@@ are and before you notice it, you're pulling a significant "+
+                "number of men your way."},
+                {"B": 500, "TEXT": "The remainders of the evening passes in a blur of cocks and semen. Your skills are @@so good that you find yourself in high demand@@ and you start to worry "+
+                "if your arms are going to hold out or not from all the dick pumping."} ]
+        },
+        {
+            // Perversion check for cum play.
+            "ID" : "SCENE03",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [
+                { "TAG" : "C", "TYPE" : "STAT", "NAME" : "Perversion", "DIFFICULTY" : 50, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 50, "OPT" : 0 } ],
+            "POST" : [
+                { "TYPE" : "STAT_XP", "NAME" : "Perversion", "VALUE" : 100, "OPT" : "TAG_C" }
+            ],
+            "START" :
+            "Finally, the last two clients are in front of you, their cocks out and flopping free. You slowly stroke them both to hardness, using your tongue and saliva to "+
+            "lubricate their shafts. Eventually both men are sporting huge erections and the pace of your ministrations starts to increase as does their moans. "+
+            "You furiously pump their turgid cocks with your tits until they begin shooting long ropey streams of cum into your face and chest. There's so much cum, "+
+            "sticking to your face, your eye lids, your lips and of course your pBUST tits. "
+            ,
+            "RESULTS" : [
+                {"C":  33, "TEXT": "It's difficult to deal with and you @@struggle to remain smiling@@ while the customers blow their loads."},
+                {"C":  66, "TEXT": "You try to really put on a show for the men, smiling and making @@half hearted attempts@@ to lick their jizz from your breasts. You couldn't really tell if "+
+                "they noticed your performance or not."},
+                {"C": 500, "TEXT": "You lock eyes on the men and open your mouth wide, letting their cum fall directly onto your tongue. Letting out a throaty moan you start to lap it up from "+
+                "your lips and swallow it down. You bring one of your breasts to your mouth and lick up an errant pool of jizz, smiling all the while. "+
+                "The super lewd act spurs them on and soon they're rock hard and you're pumping them again. They better pay you extra for this."} ],
+            "END" :
+            "\n\nEventually everyone is spent and you find yourself covered, literally dripping with jism. You wipe some out of your eyes and then "+
+            "politely excuse yourself to clean up your face and clothes. Eventually you go to find NPC_NAME to collect your pay. She's at the front of the bar and nods when she sees you."
+        },
+        {   // If pass check 'A' and If counter is at MAX (5), reward player and set counter to 0.
+            "ID" : "SCENE04a",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "COUNTER", "NAME" : "SIMONE_LOOT", "VALUE" : 5, "CONDITION" : "gte" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
+                { "TYPE" : "FLAG",      "NAME" : "SIMONE_LOOT",              "VALUE" :   0,  "OPT" : "SET" },
+                { "TYPE" : "FLAG",      "NAME" : "SIMONE_REWARD",            "VALUE" :   1,  "OPT" : "SET" },
+                { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon sissy loot box", "VALUE" :    1,  "OPT" : "" }
+            ],
+            "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\". She hands you a novelty gift bag shaped like a teddy bear, you wonder what's inside it?",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
+        {   // If passed both cooking checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
+            "ID" : "SCENE04b",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "COUNTER", "NAME" : "SIMONE_LOOT", "VALUE" : 4, "CONDITION" : "lte" },
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_REWARD",  "OPT" : "NOT_SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
+                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+            ],
+            "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
+        {   // Just unset the flag that shows we received loot and make sure we clear the counter.
+            "ID" : "SCENE04c",
+            "TRIGGERS" :[
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_REWARD", "OPT" : "SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "FLAG",   "NAME" : "SIMONE_REWARD",  "OPT" : "DELETE" }
+            ],
+            "START" : "",
+            "END" : "",
+            "RESULTS" : [ ]
+        }
+
+    ],
+    "END" :
+    "NPC_NAME says, \"Another day, another coin, eh PLAYER_NAME?\"\n\n"+
+    "NPC_NAME fetches a small bag from behind the counter and hands it to you, it contains your pay and tips for the night.",
+    "JOB_RESULTS" : [ ]
+};
+App.Data.JobData["SIMONE_JOB4"] = {
+    "ID": "SIMONE_JOB4", "TITLE": "Whoring - Anal Specialist", "GIVER": "Simone", "PAY" : 50,
+    "RATING" : 3, // of 5
+    "PHASES" : [ 2, 3 ],
+    "DAYS"   : 1,
+    "HIDDEN" : false,
+    "COST" : [
+        { "TYPE" : "TIME", "VALUE" : 1 },
+        { "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 1 } ],
+    "REQUIREMENTS" : [
+        { "TYPE" : "SKILL", "NAME" : "AssFucking", "VALUE" : 50, "CONDITION" : "gte" }
+    ],
+    "INTRO" : "NPC_NAME says, \"I have a special group of clients that might be interested in you... if you have the skills.\"",
+    "START" :
+    "NPC_NAME says, \"So here's the deal PLAYER_NAME, none of my regular girls will take the job, but I have a group of clients paying good coin "+
+    "to have a bit of a party in the back room. You won't be the only entertainment for the evening, but it's been requested to supply a slut who can "+
+    "furious anal pounding and look happy about it. Swallow a little jizz here and there. You know, the usual.\"\n\n"+
+    "Yes, you think to yourself, 'the usual'.\n\n"+
+    "NPC_NAME gives you the run down on the rest of the job and ushers you into the back room."
+    ,
+    "SCENES" : [
+        {
+            // Enter into room. Flirt with men.
+            "ID" : "SCENE01",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [
+                { "TAG" : "A", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 50, "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 }
+            ],
+            "POST" : [
+                { "TYPE" : "MONEY", "NAME" : "", "VALUE" : 20, "OPT" : "TAG_A" }
+            ],
+            "START" :
+            "Inside you find several men lounging around on couches swilling drinks while various girls hang on their arms. One of those girls, a young  "+
+            "blond with smouldering eyes grabs your hand and leads you to the middle of the room. Once there she starts brushing against you while shaking her hips, "+
+            "it doesn't take you long to understand and soon the two of you are lewdly groping each other for the enjoyment of the small group."
+            ,
+            "RESULTS" : [
+                {"A":  33, "TEXT": "It @@doesn't seem to have much effect though@@ as the men seem more interested in the girls on their arms."},
+                {"A":  66, "TEXT": "You notice several pairs of eyes turn your way, it @@appears you've gotten their interest@@."},
+                {"A": 500, "TEXT": "The men seem to take @@a keen interest@@ in your little show and you think you see an erection straining against one of the men's trousers."} ],
+            "END" :
+                ""
+        },
+        {
+            // Start performing hand jobs
+            "ID" : "SCENE02",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [
+                { "TAG" : "B", "TYPE" : "SKILL", "NAME" : "AssFucking", "DIFFICULTY" : 75, "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 } ],
+            "POST" : [
+                { "TYPE" : "MONEY", "NAME" : "", "VALUE" : 100, "OPT" : "TAG_B" }
+            ],
+            "START" :
+            "It doesn't take long after this for the evening to move on to the next, more intimate performance. Several of the other women start to disrobe and "+
+            "engage in various sex acts with the customers - a blow job here, some straight fucking in the corner. One particularly petite girl with a huge pair of tits "+
+            "is wanking cocks on a couch. Without much warning you find yourself led by the hand and bent over a chair. It's clear what your part in tonight's festivities is.\n\n"
+            ,
+            "END" :
+                "",
+            "RESULTS" : [
+                {"B":  33, "TEXT": "You spend most of the time trying to not cry and scream as you are relentlessly anally violated. This does turn some men on,but it @@seems they most aren't that interested@@ in you."},
+                {"B":  66, "TEXT": "It's not easy, but since you've had enough practice you're able to mostly fake (you are faking, right?) enjoying the act of being ass raped. @@You're not the most popular girl here, but not the worst either.@@"},
+                {"B": 500, "TEXT": "Fortunately for you, tonight your asshole seems up to the task of the seemingly @@endless array of dicks you satisfy@@ with it. You grind and wiggle on every cock, moaning and gasping with pleasure as you've learned to do so well."} ]
+        },
+        {
+            // Perversion check for cum play.
+            "ID" : "SCENE03",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [
+                { "TAG" : "C", "TYPE" : "STAT", "NAME" : "Perversion", "DIFFICULTY" : 50, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 50, "OPT" : 0 } ],
+            "POST" : [
+                { "TYPE" : "STAT_XP", "NAME" : "Perversion", "VALUE" : 100, "OPT" : "TAG_C" }
+            ],
+            "START" :
+            "Finally, the last client is in front of you, his massive tool flopping down to his knees. You slowly stroke him to hardness, using your tongue and saliva to "+
+            "lubricate his shafts. Eventually he sports huge erections and flips you over, the head of his massive tool poking against your asshole. Thankfully the combination of all of the spit you "+
+            " placed on his rod and the use your ass has seen tonight, makes it easy for him to enter your rectum. You start pushing back against his dick while he pounds you, reaching down " +
+            "to fondle yourself, trying to get your own climax."
+            ,
+            "RESULTS" : [
+                {"C":  33, "TEXT": "It's @@difficult to deal with the pounding you're getting@@ and still get off yourself, the customer finishes off inside you, but you're left unsatisfied."},
+                {"C":  66, "TEXT": "You try to really put on a show for the man, gasping and moaning as you stroke your balls and pPENIS sissy clit. Eventually he comes hard in your ass and gives you a smile. @@Your enthusiasm was appreciated.@@" },
+                {"C": 500, "TEXT": "You furiously rub your pPENIS sissy clit while being brutally sodomized by the man. Every time he thrusts into you, it sends a shiver up your spine and causes you" +
+                "to moan like a bitch in heat. Eventually the man bottoms out in your ass, the violent force of his ejaculation sending you into your own perversion filed orgasm. He notices the mess and smile at you, it appears @@he liked how much you enjoyed the act.@@"} ],
+            "END" :
+            "\n\nEventually everyone is spent and you find yourself covered, literally dripping with jism. You wipe some out of your eyes and then "+
+            "politely excuse yourself to clean up your face and clothes. Eventually you go to find NPC_NAME to collect your pay. She's at the front of the bar and nods when she sees you."
+        },
+        {   // If pass check 'A' and If counter is at MAX (5), reward player and set counter to 0.
+            "ID" : "SCENE04a",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "COUNTER", "NAME" : "SIMONE_LOOT", "VALUE" : 5, "CONDITION" : "gte" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
+                { "TYPE" : "FLAG",      "NAME" : "SIMONE_LOOT",              "VALUE" :   0,  "OPT" : "SET" },
+                { "TYPE" : "FLAG",      "NAME" : "SIMONE_REWARD",            "VALUE" :   1,  "OPT" : "SET" },
+                { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon pirate loot box", "VALUE" :   1,  "OPT" : "" }
+            ],
+            "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\". She hands you a novelty gift bag shaped like a teddy bear, you wonder what's inside it?",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
+        {   // If passed both cooking checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
+            "ID" : "SCENE04b",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "COUNTER", "NAME" : "SIMONE_LOOT", "VALUE" : 4, "CONDITION" : "lte" },
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_REWARD",  "OPT" : "NOT_SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
+                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+            ],
+            "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
+        {   // Just unset the flag that shows we received loot and make sure we clear the counter.
+            "ID" : "SCENE04c",
+            "TRIGGERS" :[
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_REWARD", "OPT" : "SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "FLAG",   "NAME" : "SIMONE_REWARD",  "OPT" : "DELETE" }
+            ],
+            "START" : "",
+            "END" : "",
+            "RESULTS" : [ ]
+        }
+
+    ],
+    "END" :
+    "NPC_NAME says, \"Another day, another coin, eh PLAYER_NAME?\"\n\n"+
+    "NPC_NAME fetches a small bag from behind the counter and hands it to you, it contains your pay and tips for the night.",
+    "JOB_RESULTS" : [ ]
+};
+/* twine-user-script #43: "food_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -12442,7 +13086,7 @@ App.Data.LootTables["FOOD"] = {
         ] }
 };
 
-/* twine-user-script #43: "landlubber_lootbox.js" */
+/* twine-user-script #44: "landlubber_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -12492,7 +13136,7 @@ App.Data.LootTables["LANDLUBBER"] =  {
             { "TYPE" : "CLOTHES", "TAG" : "landlubber costume", "QTY" : 1} 
         ] }
 };
-/* twine-user-script #44: "lolita_sissy_lootbox.js" */
+/* twine-user-script #45: "lolita_sissy_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -12616,7 +13260,7 @@ App.Data.LootTables["LOLITA_SISSY"] =  {
             { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 2}
         ] }
 };
-/* twine-user-script #45: "pathetic_loser_lootbox.js" */
+/* twine-user-script #46: "pathetic_loser_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -12681,7 +13325,7 @@ App.Data.LootTables["PATHETIC_LOSER"] =  {
             { "TYPE" : "CLOTHES", "TAG" : "pathetic loser costume", "QTY" : 1}
         ] }        
 };
-/* twine-user-script #46: "pirate_bdsm_lootbox.js" */
+/* twine-user-script #47: "pirate_bdsm_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -12798,7 +13442,7 @@ App.Data.LootTables["PIRATE_BDSM"] =  {
             { "TYPE" : "FOOD", "TAG" : "pirates plunder", "QTY" : 3 }
         ] }
 };
-/* twine-user-script #47: "sexy_dancer_bimbo_lootbox.js" */
+/* twine-user-script #48: "sexy_dancer_bimbo_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -12923,7 +13567,7 @@ App.Data.LootTables["DANCER_BIMBO"] =  {
             { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2 }
         ] }
 };
-/* twine-user-script #48: "sissy_bimbo_lootbox.js" */
+/* twine-user-script #49: "sissy_bimbo_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -13040,7 +13684,7 @@ App.Data.LootTables["SISSY_BIMBO"] =  {
             { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 3 }
         ] }
 };
-/* twine-user-script #49: "blanche_quests.js" */
+/* twine-user-script #50: "blanche_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -13074,7 +13718,7 @@ App.Data.Quests["VOODOO_PICKUP"] = {
     "JOURNAL_ENTRY": "HIDDEN",
     "JOURNAL_COMPLETE": "HIDDEN"
 };
-/* twine-user-script #50: "bosun_quests.js" */
+/* twine-user-script #51: "bosun_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -13142,7 +13786,7 @@ App.Data.Quests["ISLA_TAVERN02"] = {
     "JOURNAL_COMPLETE": "You fetched a cask of Smuggler's Rum for NPC_NAME and he rewarded you with a @@color:purple;worn machete@@. It's a useful tool for any pirate or explorer."
 };
 
-/* twine-user-script #51: "cookie._quests.js" */
+/* twine-user-script #52: "cookie._quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -13198,7 +13842,7 @@ App.Data.Quests["STRIPPING"] = {
     "on you can perform on the stage during the evenings for extra coin and to raise the lust of the crew."
 };
 
-/* twine-user-script #52: "jarvis_quests.js" */
+/* twine-user-script #53: "jarvis_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -13226,7 +13870,7 @@ App.Data.Quests["THEBACKDOOR"] = {
     "JOURNAL_ENTRY": "There must be some way to gain access to the Governor or at least entrance to the Mansion after hours. You'll have to keep your eyes open for an opportunity.",
     "JOURNAL_COMPLETE": "Using a combination of alcohol and your whorish skills, you were able to completely exhaust Jarvis and loot him of his house key. You can now come and go into the mansion after dark via the back door."
 };
-/* twine-user-script #53: "kipler_quests.js" */
+/* twine-user-script #54: "kipler_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -13330,7 +13974,7 @@ App.Data.Quests["Q004"] = {
     "JOURNAL_COMPLETE": "It was difficult, but after days spent granting \"favors\" for Julius in the cargo hold, he's become quite fond of you. In the end it " +
     "paid off because not only did NPC_NAME give you a small reward, but now @@color:cyan;Julius@@ will occasionally sell you higher quality drugs."
 };
-/* twine-user-script #54: "lord_rowe_quests.js" */
+/* twine-user-script #55: "lord_rowe_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -13392,7 +14036,7 @@ App.Data.Quests["LORD_ROWE_DELIVERY"] = {
     "JOURNAL_ENTRY": "HIDDEN",
     "JOURNAL_COMPLETE": "HIDDEN"
 };
-/* twine-user-script #55: "paola_quests.js" */
+/* twine-user-script #56: "paola_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -13427,7 +14071,7 @@ App.Data.Quests["PAOLA_FETCH"] = {
         "@@color:cyan;Blanche@@ in @@color:gold;Port Royale@@ has it?",
     "JOURNAL_COMPLETE": "You fetched a bag of mojo NPC_NAME. She will now provide some specialized 'voodoo' services."
 };
-/* twine-user-script #56: "petey_quests.js" */
+/* twine-user-script #57: "petey_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -13503,7 +14147,7 @@ App.Data.Quests["LORD_ROWE_PORNO_DELIVERY"] = {
     "JOURNAL_COMPLETE": "You delivered the contraband book to @@color:cyan;Lord Rowe@@ and while your purse is a fair bit richer, you shudder to think of the things you learned about the man and "+
         "his decided unwholesome interest in his own daughter."
 };
-/* twine-user-script #57: "reginald_quests.js" */
+/* twine-user-script #58: "reginald_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -13744,7 +14388,7 @@ App.Data.Quests["Q007"] =  {
     "looking young man, you've ended up as a slutty bimbo with huge tits, a jiggling ass and a pair of lips that could suck off a horse. Very few \"natural\" women could compete with " +
     "you when it comes to looks and technique, it'd be fitting to say that you're a Queen of a Whore."
 };
-/* twine-user-script #58: "simone_quests.js" */
+/* twine-user-script #59: "simone_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -13787,7 +14431,7 @@ App.Data.Quests["SIMONE_MISSING_FRIEND"] = {
     "JOURNAL_COMPLETE": "You're not too sure how you feel about handing in your fiance's hidden dildo to a complete stranger. On one hand, it's kind of disgusting, on the other hand "+
         "now you can whore out of the @@color:gold;'Lusty Lass'@@, which is... well, honestly, kind of disgusting as well. Win some, lose some."
 };
-/* twine-user-script #59: "bazaar_store.js" */
+/* twine-user-script #60: "bazaar_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13795,7 +14439,7 @@ App.Data.Stores["BAZAAR_STORE"] = {
     "ID" : "BAZAAR_STORE",    "NAME" : "The Bazaar",  "OPEN" : [0, 1, 2 ], "RESTOCK" : 0,
     "INVENTORY" : [ ] // Generated at runtime.
 };
-/* twine-user-script #60: "cargo_store.js" */
+/* twine-user-script #61: "cargo_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13816,7 +14460,7 @@ App.Data.Stores["CARGO"] = {
 		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   		}
     ]
 };
-/* twine-user-script #61: "galley_store.js" */
+/* twine-user-script #62: "galley_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13833,7 +14477,7 @@ App.Data.Stores["GALLEY"] = {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
-/* twine-user-script #62: "golden_goods_store.js" */
+/* twine-user-script #63: "golden_goods_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13854,7 +14498,7 @@ App.Data.Stores["GOLDEN_GOODS"] =  {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
-/* twine-user-script #63: "islageneral_store.js" */
+/* twine-user-script #64: "islageneral_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13879,7 +14523,7 @@ App.Data.Stores["ISLASTORE"] = {
 		
     ]
 };
-/* twine-user-script #64: "islatavern_store.js" */
+/* twine-user-script #65: "islatavern_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13893,7 +14537,7 @@ App.Data.Stores["ISLATAVERN"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
     ]
 };
-/* twine-user-script #65: "lusty_lass_store.js" */
+/* twine-user-script #66: "lusty_lass_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13925,7 +14569,7 @@ App.Data.Stores["LUSTY_LASS"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":  90,   "LOCK": 0,  "TAG" : "pink t-shirt"       }
     ]
 };
-/* twine-user-script #66: "market_store.js" */
+/* twine-user-script #67: "market_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13933,7 +14577,7 @@ App.Data.Stores["MARKET_STORE"] = {
     "ID" : "MARKET_STORE",    "NAME" : "The Great Market",  "OPEN" : [0, 1, 2 ], "RESTOCK" : 0,
     "INVENTORY" : [ ] // Generated at runtime.
 };
-/* twine-user-script #67: "smugglers_store.js" */
+/* twine-user-script #68: "smugglers_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -13949,7 +14593,7 @@ App.Data.Stores["SMUGGLERS"] =  {
         { "CATEGORY":   "COMMON",   "TYPE": "WEAPON",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD": 50,   "LOCK": 1,  "TAG" : "steel cutlass"          }
     ]
 };
-/* twine-user-script #68: "rot_lib.js" */
+/* twine-user-script #69: "rot_lib.js" */
 // Wrap rot.js code due to Twine's environment
 (function (window, define, exports) {
     /*
@@ -19365,7 +20009,7 @@ App.Data.Stores["SMUGGLERS"] =  {
     }));
 
 }).call(window, window);
-/* twine-user-script #69: "Story JavaScript" */
+/* twine-user-script #70: "Story JavaScript" */
 //Sugarcube config
 console.log("Sugarcube Config...");
 Config.history.controls = false;
@@ -19724,13 +20368,20 @@ When you finally come too, you feel lighter and your proportions are noticeably 
 &lt;&lt;/if&gt;&gt;\
 &lt;/span&gt;
 
-@@color:cyan;Interact@@: [[Exit|HiddenCove]]</tw-passagedata><tw-passagedata pid="44" name="Casino" tags="" position="475,600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="45" name="CourtesansGuild" tags="" position="600,600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="46" name="EntertainmentDistrict" tags="" position="725,600">The @@color:gold;&#39;Entertainment District&#39;@@ of @@color:gold;&#39;Port Royale&#39;@@ is known far and wide as the ultimate destination for leisure \
+@@color:cyan;Interact@@: [[Exit|HiddenCove]]</tw-passagedata><tw-passagedata pid="44" name="Casino" tags="" position="475,600">Years ago this building used to be a cloister belonging to a group of nuns that were excommunicated for being heretics. No one \
+is quite sure exactly what happened, but in the aftermath the building appeared to be abandoned only to reopen a year later as \
+@@color:gold;&#39;The Grand Casino&#39;@@. Since that time the building has seen serious renovations and all traces of it&#39;s religious \
+past seem to be gone. The main floor of the building serves as room for both table games and a bar, while the back areas are \
+restricted to high roller guests. It&#39;s been rumoured that more illicit activities take place in this building, hidden far from \
+the prying eyes of the public, but no one seems to know exactly what.
+
+@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="45" name="CourtesansGuild" tags="" position="600,600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="46" name="EntertainmentDistrict" tags="" position="725,600">The @@color:gold;&#39;Entertainment District&#39;@@ of @@color:gold;&#39;Port Royale&#39;@@ is known far and wide as the ultimate destination for leisure \
 pursuits of a more &#39;colorful&#39; (and often highly illegal) nature. The local government tends to operate rather laxly when it comes to commerce \
 and moral standing and as such many activities that are simply banned on the mainland can be found here.
 
 The large multi-tiered fountain in front of the @@color:gold;&#39;Grand Casino&#39;@@ dominates the main plaza, to the left of it is the famous \
 @@color:gold;&#39;Green Gryphon&#39;@@ tavern, a popular watering hole for wealthy tourists. Across the promenade sits two other popular attractions - \
-@@color:gold;&#39;Jezzebelle&#39;s&#39;@@, a popular dance hall and @@color:gold;Sindee Rella&#39;s Sexorium and Slut Show@@. The names of these \
+@@color:gold;&#39;Jezzebelle&#39;s&#39;@@, a popular dance hall and @@color:gold;&#39;Sindee Rella&#39;s Sexorium and Slut Show@@&#39;. The names of these \
 establishments alone are enough for you to imagine what goes on inside. Down the hill you can see the @@color:gold;&#39;Great Market&#39;@@ and it&#39;s \
 numerous hawkers and bustling crowds.
 
@@ -19757,7 +20408,13 @@ of a small bar and waiting area for clients, while the upstairs hosts a variety 
 
 &lt;&lt;NPC &quot;Simone&quot;&gt;&gt;
 &lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;SIMONE_MISSING_FRIEND&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;customMenuLink &quot;Whore&quot; &quot;LustyLassCustomers&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;br&gt;&lt;&lt;/if&gt;&gt;
-@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="51" name="PR_Clothier" tags="" position="100,725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="52" name="PR_DanceHall" tags="" position="225,725">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="53" name="PR_FancyTavern" tags="" position="350,725">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="54" name="PR_GovernorsMansion" tags="" position="475,725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="55" name="PR_GuardHouse" tags="" position="600,725">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[Jail House|PR_Jail]] | [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="56" name="PR_Jail" tags="" position="725,725">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="57" name="PR_RareGoods" tags="" position="850,725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="58" name="PR_Tavern" tags="" position="975,725">The @@color:gold;&#39;Grey Peacock&#39;@@ is one of the more popular taverns in @@color:gold;&#39;Port Royale&#39;@@, well known for both it&#39;s wholesome food and \
+@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="51" name="PR_Clothier" tags="" position="100,725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="52" name="PR_DanceHall" tags="" position="225,725">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="53" name="PR_FancyTavern" tags="" position="350,725">The @@color:gold;&#39;Green Gryphon&#39;@@ is one of the older and more illustrious taverns on the island. It&#39;s position in the heart of the \
+@@color:gold;&#39;Entertainment District&#39;@@ means that it sees a healthy trade in both pleasure seekers as well as wealthy locals. The \
+building itself is three stories tall, with the main floor being reserved for dining and drinking and the upper floors containing \
+a series of suites for the more well to do travellers staying in town. The wholesome scent of freshly cooked food and the clatter of \
+plates and glasses is comforting after so long at sea.
+
+@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="54" name="PR_GovernorsMansion" tags="" position="475,725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="55" name="PR_GuardHouse" tags="" position="600,725">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[Jail House|PR_Jail]] | [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="56" name="PR_Jail" tags="" position="725,725">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="57" name="PR_RareGoods" tags="" position="850,725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="58" name="PR_Tavern" tags="" position="975,725">The @@color:gold;&#39;Grey Peacock&#39;@@ is one of the more popular taverns in @@color:gold;&#39;Port Royale&#39;@@, well known for both it&#39;s wholesome food and \
 stiff drinks. The clientele tends to be a step up from the common rabble that you&#39;d find in other places since mostly their have their needs met \
 by the numerous street-side stands in the @@color:gold;&#39;Great Market&#39;@@ and the decor and settings represent that.
 
@@ -21144,6 +21801,49 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 &lt;&lt;else&gt;&gt;\
 @@color:cyan;Interact@@: [[Wake up|Cabin]]\
 &lt;&lt;/if&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="ChangeLog" tags="custom-menu" position="100,1225">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+!!!0.5 - 05/20/2018
+!!!!General
+* Introduced a value algorithm governing items. Things will probably be more expensive now as their cost is going to be based on their stats. More expensive stuff is almost always better.
+* Made gruel on the ship a much better source of food to compensate for higher prices.
+* Shop keeper&#39;s will discount your purchase up to 30% if your get their mood high enough. It has to be above half way to get even a tiny discount.
+* Updated knowledge system. It now gives more feedback on what items do, including potency of those effects. It also now works on clothing so you can see their effects and properties.
+* You can now lose the game if your willpower drops too low. Same with health. Previously you could only die in whoring... not so much any more.
+* Trip durations between most islands shortened.
+* Added/itemized &#39;Sexy Dancer&#39; style.
+* Added a Pet Girl outfit designed by @@color:deepPink;sirwolffe@@. Moo.
+* Added an &#39;effects&#39; system and library to the game. Should allow for more interesting equipment and items.
+* Fixed a long standing bug where you could access Lord Rowe with Jarvis present and NOT have completed the Daddy&#39;s girl quest. You&#39;re supposed to use the key to sneak in at night when he&#39;s gone. Oops.
+* General enhancements to both the quest and job engines. This stuff needs a refactor/consolidation sometime in the future.
+* Added rough skeleton for lactation body stat.
+* Multiple other bug fixes.
+
+!!!!Quality of Life
+* There is now a &#39;gear&#39; tab in your inventory. It shows all your equipable items. You still need to change at the wardrobe.
+* You can now continue to use items without having to select &#39;back&#39; and &#39;use&#39; again.
+* In the wardrobe if you select &#39;Inspect Outfit&#39; you are presented with the style rating of your current outfit. Selecting a style will automatically equip your best items in that style.
+* There is a link in the cabin now to just reapply makeup and hair instead of having to select this from the vanity.
+* At &#39;late night&#39;, in most places except for the Mermaid, you will be given a link to instantly teleport back to your Cabin.
+* Cleaned up a lot of interfaces to make them smoother, fixed some typographical bugs in reward screens, etc.
+
+!!!!Salty Mermaid
+* Added a map to the Captain&#39;s Cabin. It shows the current course of the Mermaid. (art supplied by @@color:deepPink;mightyakira@@)
+* Keep the crew happy, or you risk a bad event.
+* Made the Lips requirements on the &#39;Build a Better Bimbo - Part 1&#39; quest easier to achieve.
+* Doing Kipler&#39;s personal job will now grant you a lactation stat of (2). This decreases when you sleep by 1.
+* Cookie will milk lactating characters in the galley during the morning phase. Pay is based on breast size. (job text supplied by @@color:deepPink;sirwolffe@@)
+
+!!!!Golden Isle
+* Petey now gives out a quest to people who look like pirates...
+* You can &quot;shop&quot; at the Bazaar. This generates a random list of goods, potentially even rare legendary items. Shopping costs 1 energy and 1 time, but is repeatable forever. Shop till you drop.
+* Descriptions for the Guard House and Jail added.
+
+!!!!Abamond
+* Added Map generation and collision detection to &#39;Rouge-like&#39; game. Not much of a game here, yet.
+
+!!!!Port Royale
+* Added 3 more jobs to Simone at the Lusty Lass. They can all reward loot boxes if you do well at them.
+* You can shop at the Great Market, just like at the Bazaar.
+* Descriptions for the Casino and Green Gryphon added.
 
 !!!0.4 - 05/16/2018
 !!!!General

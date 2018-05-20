@@ -1095,7 +1095,7 @@ App.Data.EffectLib = {
          @param {App.Item.Consumable} o*/
             function(o,p) { p.AdjustBodyXP('Waist',-20, 30); },
         "VALUE" : 100,
-        "KNOWLEDGE" : [ "Waist Training+1" ]
+        "KNOWLEDGE" : [ "Waist Training+" ]
     },
     "WAIST_TRAINING" : {
         "FUN" : /** @param {App.Entity.Player} p
