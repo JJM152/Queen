@@ -1,0 +1,34 @@
+:: wakeUpHandler [widget]
+<<widget "wakeUpHandler">>\
+<<if ($Player.GetNPC("Crew").Mood() < 40) && (Math.floor(Math.random() * 4) == 0)>>\
+<!-- Rape City -->\
+<<run $Player.NextPhase(2);>>\
+<<run $Player.GetNPC("Crew").AdjustStat("Mood",5);>>\
+<<run $Player.GetNPC("Crew").AdjustStat("Lust", -20);>>\
+<<run $Player.AdjustSkillXP("BlowJobs", 100); >>\
+<<run $Player.AdjustSkillXP("AssFucking", 100); >>\
+<<run $Player.AdjustStatXP("WillPower", -100); >>\
+<<run $Player.AdjustStat("Health", -10); >>\
+You are startled out of your bed by a pair of rough hands grabbing at you. Before you can even realize what's going on, you take a large slap across the face and hear a throaty chuckle.
+
+"It seems you've been neglecting your duties slut!", says a voice that you faintly place as one of the crew.
+
+Blinking back tears, you are dragged unceremoniously from your cabin and led to the main deck. Despite your protests and pleading, the pirate leans you over a railing of the ship \
+and starts tying you down with a thick hemp rope. You struggle against your bonds, but it is useless and you end up staring down into the deep blue ocean while contemplating what's \
+about to come next.
+
+You don't have long to wait before you hear a resounding call behind you, "Have at 'er boyos!" and then a tugging at your clothing. You have only a moment to contemplat the \
+crisp sea air flowing across your buttocks before you feel the first painful thrust of an engorged cock trying to work it's way up your backside. You scream out in pain, but your faceless \
+assailant just laughs and swats you across one of your cheeks. "Keep struggling girlie, it just makes it better!" he states as he continues to grind up against you, slowly working his \
+engorged member deeper into your sphincter.
+
+The rest of the morning and the afternoon proceeds in much the same way. You are raped by countless pirates up the ass, but after a while you're so beaten and broken that even after they \
+ untie you so that they can rape your face, you offer no protest. Sometime later you finally come through your haze and realize that the sun is already past the horizon and your exposed \
+ body is quite cold. You have an indescribable taste in your mouth, your backside feels like it's on fire and numerous bruises on your body, but most of all, a deep feeling of terror has \
+  settled into your heart. No matter what kind of freedom or liberties you think you have onboard this ship, at the end of the day you're their sex slave and they have no compulsions against \
+  treating you like one if you don't keep them happy.
+
+@@color:cyan;Interact@@: [[Clean yourself up and carry on...|Cabin]]\
+<<else>>\
+@@color:cyan;Interact@@: [[Wake up|Cabin]]\
+<</if>><</widget>>

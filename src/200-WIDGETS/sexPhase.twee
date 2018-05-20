@@ -2,7 +2,7 @@
 <<widget "sexButtons">>\
 <<nobr>>
 <<if $Player.GetStat("STAT", "Health") < 1>>
-@@.cmdButton;<<button "Game Over" "GameOver">><</button>>@@
+@@.cmdButton;<<button "Game Over" "DeathEnd">><</button>>@@
 <<else>>
 <<sexButton 0>>
 <<sexButton 1>>

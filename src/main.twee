@@ -14,6 +14,21 @@ Queen of the Seas (v 0.4)
 console.log("Sugarcube Config...");
 Config.history.controls = false;
 Config.history.maxStates = 1;
+// Override navigation on death.
+Config.navigation.override = function (passageName) {
+	if (State.variables.Player.GetStat("STAT", "Health") <= 0) {
+		State.temporary.followup = passageName;
+		return "DeathEnd";
+	}
+};
+// Override on mind broken.
+Config.navigation.override = function (passageName) {
+	if (State.variables.Player.GetStat("STAT", "WillPower") <= 20) {
+		State.temporary.followup = passageName;
+		return "WillPowerEnd";
+	}
+};
+
 App.EventHandlers.Init();
 
 
