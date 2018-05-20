@@ -56,6 +56,7 @@ App.Item = new function() {
                 price = (typeof d["VALUE"] !== 'undefined') ? d["VALUE"] : 25;
                 break;
             case 'CLOTHES':
+            case 'WEAPON':
                 // Base price set on style.
                 if (typeof d["Style"] !== 'undefined') {
 
@@ -78,7 +79,7 @@ App.Item = new function() {
                         case 'ACCESSORY': price = price * 1.4; break;
                         case 'CLOTHING' : price = price * 1.1; break;
                         case 'ONE PIECE': price = price * 2.5; break;
-                        case 'WEAPON': price = price * 2; break;
+                        case 'WEAPON': price = price * 3; break;
                     }
                 }
 
@@ -303,6 +304,7 @@ App.Item = new function() {
         this.Style = function () {
             var bonus = {
                 "ACCESSORY" : { "COMMON" : 3, "UNCOMMON" : 6, "RARE" : 9, "LEGENDARY" : 12 },
+                "WEAPON"    : { "COMMON" : 3, "UNCOMMON" : 6, "RARE" : 9, "LEGENDARY" : 12 },
                 "CLOTHING"  : { "COMMON" : 5, "UNCOMMON" : 10, "RARE" : 15, "LEGENDARY" : 20 },
                 "ONE PIECE" : { "COMMON" : 10, "UNCOMMON" : 20, "RARE" : 30, "LEGENDARY" : 40 }
             };
@@ -518,7 +520,8 @@ App.Item = new function() {
         this.Type = function () {
             return this.Data["Type"];
         };
-
+        /** @returns {number} */
+        this.AddCharge = function(n) { return 1; }
         /** @returns {number} */
         this.Charges = function() { return 1; }
 

@@ -90,4 +90,10 @@ App.Data.Clothes["pirate boots"] = { // +10
 // PENIS SLOT
 
 // WEAPON SLOT (huh?)
+App.Data.Clothes["steel cutlass"] = {
+    "Name": "steel cutlass", "ShortDesc": "a nasty looking {COLOR} cutlass",
+    "LongDesc": "The edge on this curved blade is wicked sharp and glints in the sun. Just holding it you feel like a real pirate.",
+    "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Style": "RARE", "Type": "WEAPON",
+    "WearEffect": [], "ActiveEffect" : [ "CUT_THROAT" ], "Category" : [ "Pirate Slut"], "InMarket": false
+};
 

@@ -130,7 +130,7 @@
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
     <td style="width:80px;"><<if _i eq 0>>''@@color:gold;<<= _Slots[_x] >>@@''<</if>></td>
-    <td style="width:590px;"><<if _i eq 0>>(@@color:lime;worn@@) <</if>><<= _Items[_i].Description() >></td>
+    <td style="width:590px;"><<if  $Player.Equipment[_Slots[_x]] eq _Items[_i]>>(@@color:lime;worn@@) <</if>><<= _Items[_i].Description() >></td>
     <td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 </tr>
 <</for>>

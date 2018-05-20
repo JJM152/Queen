@@ -1,2 +1,8 @@
 :: GI_GuardStation
+This barricaded guard station separates the lower @@color:gold;'Portside'@@ district from the more affluent @@color:gold;'High Hill'@@. It is manned \
+all hours of the day and night by a special militia that is loyal to the current ruler of the island, @@color:cyan;'Black Bertie'@@, a pirate with a \
+reputation so fearsome that few utter to whisper her name without a look over their shoulder. Set back from the main portcullis is a small Gaol, used \
+to temporarily store prisoners. The island has no need for more robust facilities, as criminals among pirates are usually either killed or simply \
+pressed into service on a passing vessel.
+
 @@color:lime;Travel@@: [[Portside District|Portside]] | [[Jail House|GI_Jail]] | [[High Hill District|HighHill]]

@@ -170,6 +170,10 @@ window.App.QuestEngine = new function() {
             case 'JOB_FLAG':
                 Player.JobFlags[Name] = Value;
                 break;
+            case 'QUEST_ITEM':
+                Player.AddItem("QUEST", Name, 0);
+                break;
+
         }
 
     };
@@ -179,13 +183,31 @@ window.App.QuestEngine = new function() {
      * @param {Object} QuestReward
      */
     this.GiveQuestReward = function (Player, QuestReward) {
-        if (QuestReward["REWARD_TYPE"] == "MONEY") {
-            Player.AdjustMoney(QuestReward["AMOUNT"]);
-        } else if (QuestReward["REWARD_TYPE"] == "ITEM") {
-            Player.AddItem(QuestReward["TYPE"], QuestReward["NAME"], QuestReward["AMOUNT"]);
-        } else if (QuestReward["REWARD_TYPE"] == "MOOD") {
-            Player.GetNPC(QuestReward["NAME"]).AdjustStat("Mood",QuestReward["AMOUNT"]);
+        var Reward    = QuestReward["REWARD_TYPE"];
+        var Type      = QuestReward["TYPE"];
+        var Name      = QuestReward["NAME"];
+        var Value     = QuestReward["AMOUNT"];
+        if (typeof Value === 'undefined') Value = QuestReward["VALUE"];
+        var NPC       = QuestReward["NPC"];
+
+        switch (Reward) {
+            case "UNLOCK_SHOP":
+                if (Player.StoreInventory[Name]["INVENTORY"].length < 1) {
+                    App.StoreEngine.OpenStore(Player, Player.GetNPC(NPC));
+                }
+                App.StoreEngine.ToggleStoreItem(Player, Name, Value, 0);
+                break;
+            case "MONEY":
+                Player.AdjustMoney(Value);
+                break;
+            case "MOOD":
+                Player.GetNPC(Name).AdjustStat("Mood", Value);
+                break;
+            case "ITEM":
+                Player.AddItem(Type, Name, Value);
+                break;
         }
+
     };
 
     /**
@@ -249,6 +271,9 @@ window.App.QuestEngine = new function() {
                 case "QUEST_FLAG":
                     if (typeof Player.QuestFlags[Name] === 'undefined') return false;
                     return (Player.QuestFlags[Name] == Value);
+                break;
+                case "STYLE_CATEGORY":
+                    return (Player.GetStyleSpecRating(Name) >= Value);
                 break;
             }
         }

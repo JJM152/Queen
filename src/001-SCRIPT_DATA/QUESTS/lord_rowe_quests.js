@@ -33,3 +33,29 @@ App.Data.Quests["DADDYSGIRL"] =  {
         "JOURNAL_COMPLETE": "It seems that @@color:Cyan;Lord Rowe's@@ obsession with GF_NAME had a rather 'abnormal' aspect to it. Once you changed your appearance, he was more than happy to listen to you... so long as you sit on his lap like a good little girl. In addition, you can gain access to his study at any hour of the day."
 };
 
+App.Data.Quests["LORD_ROWE_DELIVERY"] = {
+    "ID": "LORD_ROWE_DELIVERY", "Title": "Smuggler's Run: Special Delivery - Lord Rowe",
+    "GIVER": "LordRowe",
+    "PRE": [
+    ],
+    "POST": [
+    ],
+    "CHECKS": [
+        {"TYPE": "QUEST_ITEM", "NAME": "lolita book", "VALUE": 1 }
+    ],
+    "ON_ACCEPT" : [
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "ITEM", "TYPE": "LOOT_BOX", "NAME": "uncommon lolita loot box", "AMOUNT": 1}
+    ],
+    "INTRO": "",
+    "MIDDLE": "",
+    "FINISH": "NPC_NAME looks behind you to make sure no one is watching and then greedily takes the contraband novel from your hands. "+
+        "He then looks you dead in the eye and says, \"You were never here.\"\n\n"+
+        "So much for a thank-you, you suppose. And to think this dirty bastard was eying his own daughter like this... Before that thought can "+
+        "get much further, NPC_NAME shoves something into your hand and bids you good day. It's clear that he wants you to leave, and you don't have to guess why."
+    ,
+    // Don't display in journal.
+    "JOURNAL_ENTRY": "HIDDEN",
+    "JOURNAL_COMPLETE": "HIDDEN"
+};
