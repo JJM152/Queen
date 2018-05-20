@@ -237,25 +237,25 @@ App.Data.EffectLib = {
     "NUTRITION_XP_COMMON" : {
         "FUN" : /** @param {App.Entity.Player} p
          @param {App.Item.Consumable} o*/
-            function(o,p) { p.AdjustStat('Nutrition', 25); },
+            function(o,p) { p.AdjustStatXP('Nutrition', 25); },
         "VALUE" : 10, "KNOWLEDGE" : [ "Satiation Up+" ]
     },
     "NUTRITION_XP_UNCOMMON" : {
         "FUN" : /** @param {App.Entity.Player} p
          @param {App.Item.Consumable} o*/
-            function(o,p) { p.AdjustStat('Nutrition', 50); },
+            function(o,p) { p.AdjustStatXP('Nutrition', 50); },
         "VALUE" : 20, "KNOWLEDGE" : [ "Satiation Up++" ]
     },
     "NUTRITION_XP_RARE" : {
         "FUN" : /** @param {App.Entity.Player} p
          @param {App.Item.Consumable} o*/
-            function(o,p) { p.AdjustStat('Nutrition', 100); },
+            function(o,p) { p.AdjustStatXP('Nutrition', 100); },
         "VALUE" : 50, "KNOWLEDGE" : [ "Satiation Up+++" ]
     },
     "NUTRITION_XP_LEGENDARY" : {
         "FUN" : /** @param {App.Entity.Player} p
          @param {App.Item.Consumable} o*/
-            function(o,p) { p.AdjustStat('Nutrition', 200); },
+            function(o,p) { p.AdjustStatXP('Nutrition', 200); },
         "VALUE" : 100, "KNOWLEDGE" : [ "Satiation Up++++" ]
     },    
     /** HEALTH **/
@@ -336,25 +336,25 @@ App.Data.EffectLib = {
     "PERVERSION_XP_COMMON" : {
         "FUN" : /** @param {App.Entity.Player} p
          @param {App.Item.Consumable} o*/
-            function(o,p) { p.AdjustStat('Perversion', 25); },
+            function(o,p) { p.AdjustStatXP('Perversion', 25); },
         "VALUE" : 10, "KNOWLEDGE" : [ "Perversion Up+" ]
     },
     "PERVERSION_XP_UNCOMMON" : {
         "FUN" : /** @param {App.Entity.Player} p
          @param {App.Item.Consumable} o*/
-            function(o,p) { p.AdjustStat('Perversion', 50); },
+            function(o,p) { p.AdjustStatXP('Perversion', 50); },
         "VALUE" : 20, "KNOWLEDGE" : [ "Perversion Up++" ]
     },
     "PERVERSION_XP_RARE" : {
         "FUN" : /** @param {App.Entity.Player} p
          @param {App.Item.Consumable} o*/
-            function(o,p) { p.AdjustStat('Perversion', 100); },
+            function(o,p) { p.AdjustStatXP('Perversion', 100); },
         "VALUE" : 50, "KNOWLEDGE" : [ "Perversion Up+++" ]
     },
     "PERVERSION_XP_LEGENDARY" : {
         "FUN" : /** @param {App.Entity.Player} p
          @param {App.Item.Consumable} o*/
-            function(o,p) { p.AdjustStat('Perversion', 200); },
+            function(o,p) { p.AdjustStatXP('Perversion', 200); },
         "VALUE" : 100, "KNOWLEDGE" : [ "Perversion Up++++" ]
     },    
 //======================================
@@ -585,6 +585,31 @@ App.Data.EffectLib = {
             function(o,p) { p.AdjustBodyXP('Balls', 400); },
         "VALUE" : 400, "KNOWLEDGE" : [ "Balls Grow++++" ]
     },
+    /** WAIST */
+    "WAIST_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustBodyXP('Waist', -50); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Waist Narrower+" ]
+    },
+    "WAIST_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustBodyXP('Waist', -100); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Waist Narrower++" ]
+    },
+    "WAIST_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustBodyXP('Waist', -200); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Waist Grow+++" ]
+    },
+    "WAIST_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustBodyXP('Waist', -400); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Waist Grow++++" ]
+    },    
 //======================================
     /** SKILLS **/
 //======================================
