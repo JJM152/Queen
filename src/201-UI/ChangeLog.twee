@@ -1,5 +1,10 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.5a - 05/21/2018
+!!!!Bug Fixes
+* Fixed bug in JobEngine that was throwing an exception when trying to manipulate a body stat (this affected only Kipler's quest)
+* Reduced frequency of the crew rape scene to have a minimum interval of at least 5 days in between events, starting at day 6 of the game.
+
 !!!0.5 - 05/20/2018
 !!!!General
 * Introduced a value algorithm governing items. Things will probably be more expensive now as their cost is going to be based on their stats. More expensive stuff is almost always better.

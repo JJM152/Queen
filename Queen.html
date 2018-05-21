@@ -2671,10 +2671,10 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 this._Player.AdjustStat(Name, Value);
                 break;
             case "BODY":
-                this._Player.AdjustStat(Name, Value);
+                this._Player.AdjustBody(Name, Value);
                 break;
             case "SKILL":
-                this._Player.AdjustStat(Name, Value);
+                this._Player.AdjustSkill(Name, Value);
                 break;
             case "FLAG":
                 if (Opt == "DELETE")    delete this._Player.JobFlags[Name];
@@ -21769,15 +21769,17 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;/table&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="90" name="wakeUpHandler" tags="widget" position="1225,1100">&lt;&lt;widget &quot;wakeUpHandler&quot;&gt;&gt;\
-&lt;&lt;if ($Player.GetNPC(&quot;Crew&quot;).Mood() &lt; 40) &amp;&amp; (Math.floor(Math.random() * 4) == 0)&gt;&gt;\
+&lt;&lt;set _RAPE_FLAG = (typeof $Player.QuestFlags[&quot;CREW_RAPE&quot;] !== &#39;undefined&#39; ? $Player.QuestFlags[&quot;CREW_RAPE&quot;] : 1);&gt;&gt;\
+&lt;&lt;if ($Player.GetNPC(&quot;Crew&quot;).Mood() &lt; 40) &amp;&amp; (Math.floor(Math.random() * 4) == 0) &amp;&amp; ($Player.Day &gt;= (_RAPE_FLAG + 5));&gt;&gt;\
 &lt;!-- Rape City --&gt;\
 &lt;&lt;run $Player.NextPhase(2);&gt;&gt;\
-&lt;&lt;run $Player.GetNPC(&quot;Crew&quot;).AdjustStat(&quot;Mood&quot;,5);&gt;&gt;\
+&lt;&lt;run $Player.GetNPC(&quot;Crew&quot;).AdjustStat(&quot;Mood&quot;, 10);&gt;&gt;\
 &lt;&lt;run $Player.GetNPC(&quot;Crew&quot;).AdjustStat(&quot;Lust&quot;, -20);&gt;&gt;\
 &lt;&lt;run $Player.AdjustSkillXP(&quot;BlowJobs&quot;, 100); &gt;&gt;\
 &lt;&lt;run $Player.AdjustSkillXP(&quot;AssFucking&quot;, 100); &gt;&gt;\
 &lt;&lt;run $Player.AdjustStatXP(&quot;WillPower&quot;, -100); &gt;&gt;\
 &lt;&lt;run $Player.AdjustStat(&quot;Health&quot;, -10); &gt;&gt;\
+&lt;&lt;run $Player.QuestFlags[&quot;CREW_RAPE&quot;] = $Player.Day; &gt;&gt;\
 You are startled out of your bed by a pair of rough hands grabbing at you. Before you can even realize what&#39;s going on, you take a large slap across the face and hear a throaty chuckle.
 
 &quot;It seems you&#39;ve been neglecting your duties slut!&quot;, says a voice that you faintly place as one of the crew.
@@ -21801,6 +21803,11 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 &lt;&lt;else&gt;&gt;\
 @@color:cyan;Interact@@: [[Wake up|Cabin]]\
 &lt;&lt;/if&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="ChangeLog" tags="custom-menu" position="100,1225">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+!!!0.5a - 05/21/2018
+!!!!Bug Fixes
+* Fixed bug in JobEngine that was throwing an exception when trying to manipulate a body stat (this affected only Kipler&#39;s quest)
+* Reduced frequency of the crew rape scene to have a minimum interval of at least 5 days in between events, starting at day 6 of the game.
+
 !!!0.5 - 05/20/2018
 !!!!General
 * Introduced a value algorithm governing items. Things will probably be more expensive now as their cost is going to be based on their stats. More expensive stuff is almost always better.

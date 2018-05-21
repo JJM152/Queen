@@ -990,10 +990,10 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 this._Player.AdjustStat(Name, Value);
                 break;
             case "BODY":
-                this._Player.AdjustStat(Name, Value);
+                this._Player.AdjustBody(Name, Value);
                 break;
             case "SKILL":
-                this._Player.AdjustStat(Name, Value);
+                this._Player.AdjustSkill(Name, Value);
                 break;
             case "FLAG":
                 if (Opt == "DELETE")    delete this._Player.JobFlags[Name];

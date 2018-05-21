@@ -1,14 +1,16 @@
 :: wakeUpHandler [widget]
 <<widget "wakeUpHandler">>\
-<<if ($Player.GetNPC("Crew").Mood() < 40) && (Math.floor(Math.random() * 4) == 0)>>\
+<<set _RAPE_FLAG = (typeof $Player.QuestFlags["CREW_RAPE"] !== 'undefined' ? $Player.QuestFlags["CREW_RAPE"] : 1);>>\
+<<if ($Player.GetNPC("Crew").Mood() < 40) && (Math.floor(Math.random() * 4) == 0) && ($Player.Day >= (_RAPE_FLAG + 5));>>\
 <!-- Rape City -->\
 <<run $Player.NextPhase(2);>>\
-<<run $Player.GetNPC("Crew").AdjustStat("Mood",5);>>\
+<<run $Player.GetNPC("Crew").AdjustStat("Mood", 10);>>\
 <<run $Player.GetNPC("Crew").AdjustStat("Lust", -20);>>\
 <<run $Player.AdjustSkillXP("BlowJobs", 100); >>\
 <<run $Player.AdjustSkillXP("AssFucking", 100); >>\
 <<run $Player.AdjustStatXP("WillPower", -100); >>\
 <<run $Player.AdjustStat("Health", -10); >>\
+<<run $Player.QuestFlags["CREW_RAPE"] = $Player.Day; >>\
 You are startled out of your bed by a pair of rough hands grabbing at you. Before you can even realize what's going on, you take a large slap across the face and hear a throaty chuckle.
 
 "It seems you've been neglecting your duties slut!", says a voice that you faintly place as one of the crew.
