@@ -51,6 +51,57 @@ App.Data.EffectLib = {
             "Bust Growth++++", "Ass Growth++++", "Hips Wider++++", "WillPower Up+++",
             "Waist Narrower++++", "Perversion XP----", "Seduction XP++++" ]
     },
+    /** FEMALE MANDRAKE */
+    "FEMALE_MANDRAKE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {
+            p.AdjustStat('Hormones', 10);
+            p.AdjustStat('Femininity', 15);
+            p.AdjustStat('Toxicity', 80);
+            p.AdjustStatXP('Femininity', 200);
+            p.AdjustStatXP('WillPower', 400);
+            p.AdjustStatXP('Hormones', 300);
+            p.AdjustStatXP('Perversion', 300);
+            p.AdjustBodyXP('Lips', 300); 
+            p.AdjustBodyXP('Bust', 300);
+            p.AdjustBodyXP('Ass', 300);
+            p.AdjustBodyXP('Hips', 300);
+            p.AdjustBodyXP('Waist',-300);
+            p.AdjustSkillXP('Seduction', 500);
+        },
+        "VALUE" : 2000,
+        "KNOWLEDGE" : [ "Female Hormones++++", "Femininity Up+++", "Femininity XP+++", "Toxicity Up----",
+            "Bust Growth+++", "Ass Growth+++", "Hips Wider+++", "WillPower Up+++",
+            "Waist Narrower+++", "Lips Fuller+++", "Perversion XP+++", "Seduction XP++++" ]
+    },
+    /** MALE MANDRAKE */
+    "MALE_MANDRAKE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {
+            p.AdjustStat('Hormones', -10);
+            p.AdjustStat('Femininity', -15);
+            p.AdjustStat('Toxicity', 80);
+            p.AdjustStat('WillPower', 5)
+            p.AdjustStatXP('Femininity', -200);
+            p.AdjustStatXP('WillPower', 400);
+            p.AdjustStatXP('Hormones', -300);
+            p.AdjustStatXP('Perversion', 500);
+            p.AdjustBodyXP('Lips', -300); 
+            p.AdjustBodyXP('Bust', -300);
+            p.AdjustBodyXP('Penis', 500);
+            p.AdjustBodyXP('Balls', 500);
+            p.AdjustBodyXP('Ass', -300);
+            p.AdjustBodyXP('Hips', -300);
+            p.AdjustBodyXP('Waist', 300);
+            p.AdjustSkillXP('Seduction', -500);
+        },
+        "VALUE" : 2000,
+        "KNOWLEDGE" : [ "Female Hormones----", "Femininity Down+++", "Femininity XP---", "Toxicity Up----",
+            "Bust Growth---", "Ass Growth---", "Hips Wider---", "WillPower Up++++", "Balls XP++++",
+            "Penis XP++++", "Waist Narrower---", "Lips Fuller---", "Perversion XP+++", "Seduction XP----" ]
+    },    
 	/** SIREN ELIXIR */
     "SIREN_ELIXIR" : {
         "FUN" : /** @param {App.Entity.Player} p
