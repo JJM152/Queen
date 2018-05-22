@@ -105,7 +105,10 @@ App.Item = new function() {
         var d = this._FetchData(Type, Name);
         var o;
 
-        if (d == 0 || (typeof d === 'undefined')) alert("Factory Failed: (" + Type + "," + Name + "," + Count + ")");
+        if (d == 0 || (typeof d === 'undefined'))  { 
+			alert("Factory Failed: (" + Type + "," + Name + "," + Count + ")");
+			return
+		}
 
         // might change this in the future, for now weapons are "clothing"
         if (Type == "CLOTHES") o = new this.Clothing(d);
