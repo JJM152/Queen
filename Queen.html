@@ -9558,6 +9558,15 @@ App.Data.Drugs = {
         "Charges": 1,
         "Effects" : [ "FACE_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
     },
+     "lip balm": {
+        "Name": "lip balm",
+        "ShortDesc": "strawberry flavored lip balm",
+        "LongDesc": "This one time use lip balm smells like strawberry and makes your lips feel nice.",
+        "Message": "You rub the lip balm into your lips. It smells like natural strawberry and makes your lips tingle.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects" : [ "LIPS_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
+    },
 	"black hair dye": {
         "Name": "black hair dye",
         "ShortDesc": "a vial of plant based black dye",
@@ -9662,6 +9671,15 @@ App.Data.Food = {
         "Price": 500
     },
     /** NORMAL FOOD **/
+    "meat and beans": {
+        "Name": "meat and beans",
+        "ShortDesc": "A piece of meat with some beans in a bowl",
+        "LongDesc": "It actually smells really nice and probably fills you up quite well.",
+        "Message": "The meat is overcooked and the beans are hard but it tastes really good compared to what you have been eating so far.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects": [ "NUTRITION_RARE", "NUTRITION_XP_RARE" ]
+    },
     "mystery stew": {
         "Name": "mystery stew",
         "ShortDesc": "A deep brown stew of unidentifiable origin",
@@ -9782,6 +9800,15 @@ App.Data.Food = {
         "Type": "food",
         "Charges": 1,
         "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "PURGE_UNCOMMON", "FEMALE_HORMONE_XP_COMMON" ]
+    },
+     "mighty banana": {
+        "Name": "mighty banana",
+        "ShortDesc": "A big red banana that is shaped like a certain organ",
+        "LongDesc": "This banana was imported from a mystified island where the population is said to have dicks as long as their legs.",
+        "Message": "You take a bite from the peeled banana and realise that it has a salty aftertaste. At the same time you feel really manly and empowered",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "MALE_HORMONE_XP_UNCOMMON", "PENIS_XP_UNCOMMON", "BALLS_XP_UNCOMMON"]
     },
     "purple mushrooms": {
         "Name": "purple mushroom",
@@ -14453,6 +14480,7 @@ App.Data.Stores["CARGO"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    4,    "MAX":    4,  "PRICE":  1.0, "MOOD": 20,   "LOCK": 0,  "TAG" : "medicinal herbs"       },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    4,    "MAX":    4,  "PRICE":  1.0, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"            },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "face cream"            },
+        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 70,   "LOCK": 0,  "TAG" : "lip balm"              },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 20,   "LOCK": 1,  "TAG" : "khafkir"               },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 1,  "TAG" : "siren elixir"          },
 		// RARE ITEMS
@@ -14460,7 +14488,7 @@ App.Data.Stores["CARGO"] = {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",     "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 0,  "TAG" : "starfruit"             },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "nereid philtre"        },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "succubus philtre"      },
-		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   		}
+		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   	   }
     ]
 };
 /* twine-user-script #62: "galley_store.js" */
@@ -14476,7 +14504,9 @@ App.Data.Stores["GALLEY"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD": 40,   "LOCK": 0,  "TAG" : "starfruit"              },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD": 65,   "LOCK": 0,  "TAG" : "pink peach"             },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 0,  "TAG" : "milkdew melon"          },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 70,   "LOCK": 0,  "TAG" : "mighty banana"          },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "honey mead"             },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    3,     "MAX":    3,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "meat and beans"         },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
@@ -14497,6 +14527,7 @@ App.Data.Stores["GOLDEN_GOODS"] =  {
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate bra"             },
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate thong"           },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "milkdew melon"          },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "mighty banana"          },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "honey mead"             },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
@@ -14536,6 +14567,7 @@ App.Data.Stores["ISLATAVERN"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"             },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "bread and cheese"       },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "meat and beans"       },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "roast fish"             },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
     ]

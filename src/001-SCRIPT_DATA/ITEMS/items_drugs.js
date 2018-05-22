@@ -91,6 +91,15 @@ App.Data.Drugs = {
         "Charges": 1,
         "Effects" : [ "FACE_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
     },
+     "lip balm": {
+        "Name": "lip balm",
+        "ShortDesc": "strawberry flavored lip balm",
+        "LongDesc": "This one time use lip balm smells like strawberry and makes your lips feel nice.",
+        "Message": "You rub the lip balm into your lips. It smells like natural strawberry and makes your lips tingle.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects" : [ "LIPS_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
+    },
 	"black hair dye": {
         "Name": "black hair dye",
         "ShortDesc": "a vial of plant based black dye",
