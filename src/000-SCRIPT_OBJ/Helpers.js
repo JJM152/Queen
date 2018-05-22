@@ -90,12 +90,13 @@ App.PR = new function() {
      * Used to colorize a string with colors corresponding to the meter scheme.
      * @param {number} n the value to rate the color on.
      * @param {string} s the string to colorize
+     * @param {boolean} h HTML safe?
      * @returns {string}
      */
-		this.ColorizeMeter = function (n, s) {
+		this.ColorizeMeter = function (n, s, h) {
                 var Colors = ["red", "brown", "yellow", "cyan", "lime"];
                 var cIndex = Math.max(0, Math.min(Math.round(((n / 20) - 1)), 4));
-                return "@@color:" + Colors[cIndex] + ";" + s + "@@";
+                return h ? "<span style='color:"+ Colors[cIndex]+"'>"+s+"</span>" : "@@color:" + Colors[cIndex] + ";" + s + "@@";
         };
 
     /**
@@ -116,9 +117,10 @@ App.PR = new function() {
      * @param {number} Score - Current stat/score
      * @param {number} MaxScore - Maximum stat/score
      * @param {number} InvertMeter - reverse direction of stars relative to score so that high scores are less stars.
+     * @param {boolean} HtmlSafe
      * @returns {string}
      */
-        this.pMeter = function (Score, MaxScore, InvertMeter) {
+        this.pMeter = function (Score, MaxScore, InvertMeter, HtmlSafe) {
 				Score = Math.max(0, Math.min(Score, MaxScore));
                 var units = (MaxScore / 10);
                 var Stars = Math.floor((Score / units));
@@ -128,13 +130,13 @@ App.PR = new function() {
 
 				for (i = 0; i < Stars; i++)
 					sMeter += "&#9733;";
-				sMeter = this.ColorizeMeter(nMeter, sMeter);
+				sMeter = this.ColorizeMeter(nMeter, sMeter, HtmlSafe);
 
 				if ( (10 - Stars ) != 0) {
-					sMeter += "@@color:grey;";
+					sMeter += HtmlSafe ? "<span style=\"color:grey;\">" : "@@color:grey;";
 					for (i = 0; i < (10 - Stars); i++)
 						sMeter += "&#9733;";
-						sMeter += "@@";
+						sMeter += HtmlSafe ? "</span>" : "@@";
 					}
 
 				return "[" + sMeter + "]"
@@ -198,19 +200,21 @@ App.PR = new function() {
      * @param {string} StatName
      * @param {App.Entity.Player} Player
      * @param {number} [Invert] - reverse direction of stars relative to score so that high scores are less stars.
+     * @param {boolean} {HtmlSafe]
+     * @returns {string}
      */
-		this.pStatMeter = function(StatName, Player, Invert) {
+		this.pStatMeter = function(StatName, Player, Invert, HtmlSafe) {
             var Opt = Invert || 0;
             var StatValue = Player.GetStat("STAT", StatName);
 
             if (StatName == "Hormones" ) {
                 if (StatValue > 100 ) // Return "Female" version of this meter.
-                    return this.pMeter( (Player.GetStat("STAT", "Hormones") - 100), 100, 0);
+                    return this.pMeter( (Player.GetStat("STAT", "Hormones") - 100), 100, 0, HtmlSafe);
                 if (StatValue <= 100)
-                    return this.pMeter( (100 - StatValue), 100, 0);
+                    return this.pMeter( (100 - StatValue), 100, 0, HtmlSafe);
             }
 
-            return this.pMeter( Player.GetStat("STAT", StatName), Player.GetMaxStat("STAT", StatName), Opt);
+            return this.pMeter( Player.GetStat("STAT", StatName), Player.GetMaxStat("STAT", StatName), Opt, HtmlSafe);
         };
 
     /**
@@ -733,5 +737,10 @@ App.PR = new function() {
         console.log("Placing map icon at top="+top+", left="+left);
         $(document).one(":passageend", function() { $("#mapIcon").css( { "top" : top, "left" : left }); });
 
+    };
+
+    // Pass it an array, returns a random element of that array.
+    this.GetRandomListItem = function (List) {
+        return List[Math.floor(Math.random() * List.length)];
     };
 };

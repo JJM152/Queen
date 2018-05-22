@@ -16,15 +16,13 @@ window.App.Entity.Customer = function(Name, Mood, Lust, Coins) {
             this.Refused = [ ];
             this.Arousal = Math.ceil(Lust/2);
             this.RapeMode = false;
-            this.GetRandomListItem = function (List) {
-                return List[Math.floor(Math.random() * List.length)];
-            };
+
 
             this.pName = function() { return "@@color:cyan;"+this.Name+"@@"; };
             this.GetServiceRating = function() { return Math.max(0, Math.min(this.ServiceRating, 100)); };
             this.GetArousal = function() {return Math.max(0, Math.min(this.Arousal, 100)); };
 
-            this.SexAct = this.GetRandomListItem(window.App.Data.Lists["SexActFrequency"]);
+            this.SexAct = App.PR.GetRandomListItem(App.Data.Lists["SexActFrequency"]);
 
             this.AdjustMood = function (m) {
                 this.Mood = Math.max(0, Math.min(m, 100));
@@ -175,7 +173,7 @@ window.App.Entity.NPC = function(Data) {
      */
 			this.AdjustStat = function(Stat, Number)
 			{
-                this.Data[Stat] = Math.ceil(Math.max(0, Math.min((this.Data[Stat]+Number), 100)));
+                this.Data[Stat] = Math.ceil(Math.max(1, Math.min((this.Data[Stat]+Number), 100)));
 			};
 
     /**

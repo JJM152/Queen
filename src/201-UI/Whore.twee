@@ -1,2 +1,3 @@
 :: Whore
 <div id="WhoreUI" class="WhoreGUI"></div>
+<<run App.SlotEngine.DrawUI($Player);>>

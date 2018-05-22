@@ -256,7 +256,7 @@ input[type="text"] {
 	border-collapse: collapse;
   border: 0;
   font-size: 100%;
-  font: inherit;
+  font-family: inherit;
   vertical-align: baseline;	
 }
 .passage tr, .passage th, .passage td, .passage caption {
@@ -287,8 +287,10 @@ div.WhoreGUI {
 	width: 800px;
 	height: 400px;
 	background-color: black;
-	border: 2px solid saddlebrown;
 	position: relative;
+    border: 1px solid;
+    border-color: saddlebrown;
+    cursor: pointer;
 }
 
 div.WhoreCustomerGUI {
@@ -315,7 +317,7 @@ span.WhoreRank {
     font-size: smaller;
     position: absolute;
     top: -1px;
-    left: 123px;
+    left: 130px;
 }
 
 div.WhoreStatus {
@@ -360,6 +362,7 @@ div.WhoreSpinsLeftBox {
     font-size: medium;
     padding-left: 5px;
     padding-right: 5px;
+    overflow: hidden;
 }
 
 button.WhoreBuySpinButton {
@@ -369,6 +372,9 @@ button.WhoreBuySpinButton {
     color: yellow;
     border: 1px solid black;
     background-color: saddlebrown;
+}
+button:hover.WhoreBuySpinButton {
+    background-color: sienna;
 }
 
 span.WhoreWildcardTitle {
@@ -455,10 +461,13 @@ button.WhoreSpinButton {
     border: 1px solid black;
     background-color: saddlebrown;
 }
+button:hover.WhoreSpinButton {
+    background-color: sienna;
+}
 
 span.WhoreLootTitle {
     position:absolute;
-    top: 220px;
+    top: 215px;
     left: 10px;
     color:yellow;
     font-size: larger;
@@ -466,21 +475,37 @@ span.WhoreLootTitle {
 
 div.WhoreLootBox {
     position:absolute;
-    width: 190px;
-    height: 68px;
-    top: 245px;
+    width: 185px;
+    height: 116px;
+    top: 233px;
     left: 10px;
     background-color: black;
     font-size: medium;
+    padding-left: 5px;
+    overflow: hidden;
 }
 
+span.WhoreWantColor1 {
+    color: limegreen;
+}
+
+span.WhoreWantColor2 {
+    color: yellow;
+}
+
+span.WhoreWantColor3 {
+    color: wheat;
+}
+
+span.WhoreBonusColor {
+    color: deeppink;
+}
 span.WhoreMood {
     color: cyan;
     font-size: smaller;
     position: absolute;
     top: 20px;
     left: 10px;
-
 }
 
 div.WhoreMood {
@@ -539,7 +564,6 @@ span.WhoreWant {
 }
 
 span.WhoreWant1 {
-    color: limegreen;
     font-size: smaller;
     position: absolute;
     top: 82px;
@@ -547,26 +571,18 @@ span.WhoreWant1 {
 }
 
 span.WhoreWant2 {
-    color: yellow;
     font-size: smaller;
     position: absolute;
     top: 82px;
-    left: 82px;
+    left: 94px;
 }
 span.WhoreWant3 {
-    color: ghostwhite;
     font-size: smaller;
     position: absolute;
     top: 82px;
-    left: 100px;
+    left: 135px;
 }
-span.WhoreWant4 {
-    color: indianred;
-    font-size: smaller;
-    position: absolute;
-    top: 82px;
-    left: 134px;
-}
+
 span.WhoreBonus {
     color: yellow;
     font-size: smaller;
@@ -576,39 +592,50 @@ span.WhoreBonus {
 }
 
 span.WhoreBonusSlot {
-    color: deeppink;
     font-size: smaller;
     position: absolute;
     top: 102px;
     left: 55px;
 }
 
-#WhoreCustomer1 {
+span.BonusCatPerversion {
+    color: deepPink;
+}
+
+span.BonusCatFemininity {
+    color: limegreen;
+}
+
+span.BonusCatBeauty {
+    color: cyan;
+}
+
+#WhoreCustomer0 {
 	top: 10px;
 	left: 10px;
+}
+
+#WhoreCustomer1 {
+	top: 10px;
+	left: 205px;
 }
 
 #WhoreCustomer2 {
 	top: 10px;
-	left: 205px;
-}
-
-#WhoreCustomer3 {
-	top: 10px;
 	left: 400px;
 }
 
-#WhoreCustomer4 {
+#WhoreCustomer3 {
 	top: 155px;
 	left: 10px;
 }
 
-#WhoreCustomer5 {
+#WhoreCustomer4 {
 	top: 155px;
 	left: 205px;
 }
 
-#WhoreCustomer6 {
+#WhoreCustomer5 {
 	top: 155px;
 	left: 400px;
 }
@@ -881,12 +908,13 @@ App.PR = new function() {
      * Used to colorize a string with colors corresponding to the meter scheme.
      * @param {number} n the value to rate the color on.
      * @param {string} s the string to colorize
+     * @param {boolean} h HTML safe?
      * @returns {string}
      */
-		this.ColorizeMeter = function (n, s) {
+		this.ColorizeMeter = function (n, s, h) {
                 var Colors = ["red", "brown", "yellow", "cyan", "lime"];
                 var cIndex = Math.max(0, Math.min(Math.round(((n / 20) - 1)), 4));
-                return "@@color:" + Colors[cIndex] + ";" + s + "@@";
+                return h ? "<span style='color:"+ Colors[cIndex]+"'>"+s+"</span>" : "@@color:" + Colors[cIndex] + ";" + s + "@@";
         };
 
     /**
@@ -907,9 +935,10 @@ App.PR = new function() {
      * @param {number} Score - Current stat/score
      * @param {number} MaxScore - Maximum stat/score
      * @param {number} InvertMeter - reverse direction of stars relative to score so that high scores are less stars.
+     * @param {boolean} HtmlSafe
      * @returns {string}
      */
-        this.pMeter = function (Score, MaxScore, InvertMeter) {
+        this.pMeter = function (Score, MaxScore, InvertMeter, HtmlSafe) {
 				Score = Math.max(0, Math.min(Score, MaxScore));
                 var units = (MaxScore / 10);
                 var Stars = Math.floor((Score / units));
@@ -919,13 +948,13 @@ App.PR = new function() {
 
 				for (i = 0; i < Stars; i++)
 					sMeter += "&#9733;";
-				sMeter = this.ColorizeMeter(nMeter, sMeter);
+				sMeter = this.ColorizeMeter(nMeter, sMeter, HtmlSafe);
 
 				if ( (10 - Stars ) != 0) {
-					sMeter += "@@color:grey;";
+					sMeter += HtmlSafe ? "<span style=\"color:grey;\">" : "@@color:grey;";
 					for (i = 0; i < (10 - Stars); i++)
 						sMeter += "&#9733;";
-						sMeter += "@@";
+						sMeter += HtmlSafe ? "</span>" : "@@";
 					}
 
 				return "[" + sMeter + "]"
@@ -989,19 +1018,21 @@ App.PR = new function() {
      * @param {string} StatName
      * @param {App.Entity.Player} Player
      * @param {number} [Invert] - reverse direction of stars relative to score so that high scores are less stars.
+     * @param {boolean} {HtmlSafe]
+     * @returns {string}
      */
-		this.pStatMeter = function(StatName, Player, Invert) {
+		this.pStatMeter = function(StatName, Player, Invert, HtmlSafe) {
             var Opt = Invert || 0;
             var StatValue = Player.GetStat("STAT", StatName);
 
             if (StatName == "Hormones" ) {
                 if (StatValue > 100 ) // Return "Female" version of this meter.
-                    return this.pMeter( (Player.GetStat("STAT", "Hormones") - 100), 100, 0);
+                    return this.pMeter( (Player.GetStat("STAT", "Hormones") - 100), 100, 0, HtmlSafe);
                 if (StatValue <= 100)
-                    return this.pMeter( (100 - StatValue), 100, 0);
+                    return this.pMeter( (100 - StatValue), 100, 0, HtmlSafe);
             }
 
-            return this.pMeter( Player.GetStat("STAT", StatName), Player.GetMaxStat("STAT", StatName), Opt);
+            return this.pMeter( Player.GetStat("STAT", StatName), Player.GetMaxStat("STAT", StatName), Opt, HtmlSafe);
         };
 
     /**
@@ -1524,6 +1555,11 @@ App.PR = new function() {
         console.log("Placing map icon at top="+top+", left="+left);
         $(document).one(":passageend", function() { $("#mapIcon").css( { "top" : top, "left" : left }); });
 
+    };
+
+    // Pass it an array, returns a random element of that array.
+    this.GetRandomListItem = function (List) {
+        return List[Math.floor(Math.random() * List.length)];
     };
 };
 /* twine-user-script #4: "Items.js" */
@@ -3266,15 +3302,13 @@ window.App.Entity.Customer = function(Name, Mood, Lust, Coins) {
             this.Refused = [ ];
             this.Arousal = Math.ceil(Lust/2);
             this.RapeMode = false;
-            this.GetRandomListItem = function (List) {
-                return List[Math.floor(Math.random() * List.length)];
-            };
+
 
             this.pName = function() { return "@@color:cyan;"+this.Name+"@@"; };
             this.GetServiceRating = function() { return Math.max(0, Math.min(this.ServiceRating, 100)); };
             this.GetArousal = function() {return Math.max(0, Math.min(this.Arousal, 100)); };
 
-            this.SexAct = this.GetRandomListItem(window.App.Data.Lists["SexActFrequency"]);
+            this.SexAct = App.PR.GetRandomListItem(App.Data.Lists["SexActFrequency"]);
 
             this.AdjustMood = function (m) {
                 this.Mood = Math.max(0, Math.min(m, 100));
@@ -3425,7 +3459,7 @@ window.App.Entity.NPC = function(Data) {
      */
 			this.AdjustStat = function(Stat, Number)
 			{
-                this.Data[Stat] = Math.ceil(Math.max(0, Math.min((this.Data[Stat]+Number), 100)));
+                this.Data[Stat] = Math.ceil(Math.max(1, Math.min((this.Data[Stat]+Number), 100)));
 			};
 
     /**
@@ -5754,74 +5788,139 @@ App = App || { Data: { }, Entity: { } };
  */
 App.SlotEngine = new function() {
 
-    this.Customers = [ 1, 2, 3, 4, 5, 6 ];
-	this.Slots = [ 1, 2,3, 4, 5, 6, 7, 8, 9 ];
+    /** @type {Array.<App.SlotEngine.Customer>} */
+    this.Customers = [ ];
+    this.Rares = [ ];
+	this.Slots = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
+    this.Element = "#WhoreUI";
+    this.DataKey = "";
+    this._Spins = 6;
+    this._SelectedCustomer = 0;
+    this._Player = null;
 
-    this.DrawUI = function(ElementID) {
-        this.DrawCustomers(ElementID);
-        this.DrawSlots(ElementID);
-        this.DrawStatus(ElementID);
+    this.LoadScene = function(dataKey, Player, elementID) {
+        if (typeof elementID !== 'undefined' ) this.Element = elementID;
+        this._Player = Player;
+        this.DataKey = dataKey;
+
+        // Load the data dictionary for this scene.
+        var dict = App.Data.Whoring[dataKey];
+
+        // You can have up to 6 customers. This is largely dictated by the overall lust of the NPC container object.
+        var npc = this._Player.GetNPC(dict['NPC_TAG']);
+        var maxCustomers = Math.round(Math.max(1, Math.min( (6 * (npc.Lust()/100)), 6)));
+
+        this.Customers = [ ]; // Clear data.
+        this.Rares = [ ];
+
+        var customerObject;
+        while( this.Customers.length < maxCustomers) {
+            // We could generate a rate customer.
+            if (dict['RARES'].length > 0) {
+                if (Math.floor(Math.random() * 100) >= 90) {
+                    customerObject = new this.Customer(App.PR.GetRandomListItem(dict['RARES']));
+                    // Check to see if we already drew this rare.
+                    if (!this.Rares.includes(customerObject.Name)) {
+                        this.Customers.push(customerObject);
+                        this.Rares.push(customerObject.Name);
+                        continue;
+                    }
+                }
+            }
+
+            customerObject = new this.Customer(this.DataKey);
+            this.Customers.push(customerObject);
+        }
     };
 
-    this.DrawCustomers = function(ElementID)
-    {
-        for (var i = 0; i < this.Customers.length; i++)
-            $(ElementID).append( this._GetCustomerUI(i+1) );
+    // Render after passage in Twine.
+    this.DrawUI = function(Player) {
+        this._Player = Player;
+        $(document).one(":passageend", this._DrawUI.bind(this));
     };
 
-    this._GetCustomerUI = function(Slot) {
+    this._DrawUI = function() {
+        this.DrawCustomers();
+        this.DrawSlots();
+        this.DrawStatus();
+    };
 
-        var root =  $('<div>').addClass('WhoreCustomerGUI').attr('id', "WhoreCustomer"+Slot);
+    this.DrawCustomers = function() {
+        var i;
+        for (i = 0; i < 6; i++ )
+            $("#WhoreCustomer"+i).remove();
+
+        for (i = 0; i < this.Customers.length; i++)
+            $(this.Element).append( this._GetCustomerUI(i) );
+    };
+
+    this._GetCustomerUI = function(index) {
+
+        var ob = this.Customers[index];
+
+        var root =  $('<div>').addClass('WhoreCustomerGUI').attr('id', "WhoreCustomer"+index);
+        // Assign select customer callback
+        root.on("click", { customer : index }, this._CustomerSelectCB.bind(this));
+
         // Customer Name and Rank
-        var name = $('<span>').addClass('WhoreLabel').text("Pirate Pete");
+        var name = $('<span>').addClass('WhoreLabel').text(ob.Name);
         root.append( name );
-        var rank = $('<span>').addClass('WhoreRank').text('$$$$$');
+
+        var payText = "";
+        for (var i = 0; i < ob.Payout;i++) payText += "$";
+        var rank = $('<span>').addClass('WhoreRank').text(payText);
         root.append( rank );
 
         // Mood, Lust and Satisfaction labels and bars.
         var mood = $('<span>').addClass('WhoreMood').text('Mood');
         root.append( mood );
-        var moodBar =  $('<div>').addClass('WhoreMood').attr('id', "WhoreMood"+Slot);
+        var moodBar =  $('<div>').addClass('WhoreMood').attr('id', "WhoreMood"+index).width(ob.Mood);
         root.append( moodBar );
+
         var lust = $('<span>').addClass('WhoreLust').text('Lust ');
         root.append( lust );
-        var lustBar =  $('<div>').addClass('WhoreLust').attr('id', "WhoreLust"+Slot);
+        var lustBar =  $('<div>').addClass('WhoreLust').attr('id', "WhoreLust"+index).width(ob.Lust);
         root.append( lustBar );
+
         var satisfaction = $('<span>').addClass('WhoreSatisfaction').text('Sat.');
         root.append( satisfaction );
-        var satisfactionBar =  $('<div>').addClass('WhoreSatisfaction').attr('id', "WhoreSatisfaction"+Slot);
+        var satisfactionBar =  $('<div>').addClass('WhoreSatisfaction').attr('id', "WhoreSatisfaction"+index).width(ob.Satisfaction);
         root.append( satisfactionBar );
 
         // Wants and bonus
         var wantLabel   = $('<span>').addClass('WhoreWant').text('Wants');
         root.append( wantLabel );
 
-        var want1   = $('<span>').addClass('WhoreWant1').text('Ass');
-        root.append( want1 );
-
-        var want2   = $('<span>').addClass('WhoreWant2').text('BJ');
-        root.append( want2 );
-
-        var want3   = $('<span>').addClass('WhoreWant3').text('Tits');
-        root.append( want3 );
-
-        var want4   = $('<span>').addClass('WhoreWant4').text('Hand');
-        root.append( want4 );
+        var want, want_class;
+        for (i = 0; i < ob.Wants.length; i++) {
+            want_class = "WhoreWant" + (i+1) + " WhoreWantColor"+(i+1);
+            want   = $('<span>').addClass(want_class).text(ob.Wants[i]);
+            root.append( want );
+        }
 
         var bonusLabel  = $('<span>').addClass('WhoreBonus').text('Bonus');
         root.append( bonusLabel );
 
-        var bonusSlot  = $('<span>').addClass('WhoreBonusSlot').text('Pirate Slut');
+        var bonusSlot_class = "WhoreBonusSlot " + "BonusCat"+ob.BonusCat;
+        var bonusSlot  = $('<span>').addClass(bonusSlot_class).text(ob.Bonus);
         root.append( bonusSlot );
 
         return root;
 
     };
 
-    this.DrawSlots = function(ElementID)
+    this._CustomerSelectCB = function(e)
     {
+        console.log(e.data.customer);
+        var oldCustomer = $('#WhoreCustomer' + this._SelectedCustomer).css( 'border-color', 'saddlebrown');
+        var newCustomer = $('#WhoreCustomer' + e.data.customer).css('border-color', 'lime');
+
+        this._SelectedCustomer = e.data.customer;
+    };
+
+    this.DrawSlots = function() {
         for (var i = 0; i < this.Slots.length; i++)
-            $(ElementID).append( this._GetSlotReel(i+1) );
+            $(this.Element).append( this._GetSlotReel(i+1) );
     };
 
     this._GetSlotReel = function(Slot) {
@@ -5830,8 +5929,10 @@ App.SlotEngine = new function() {
             .attr('id', "WhoreSlot"+Slot);
     };
 
-    this.DrawStatus = function(ElementID)
-    {
+    this.DrawStatus = function() {
+
+        $('#WhoreStatusPanel').remove();
+
         var root =  $('<div>').addClass('WhoreStatus').attr('id', "WhoreStatusPanel");
         var title = $('<div>').addClass(('WhoreStatusTitle')).text('THE SALTY MERMAID');
         root.append(title);
@@ -5839,27 +5940,25 @@ App.SlotEngine = new function() {
         var spinTitle = $('<span>').addClass('WhoreSpinsLeftTitle').text('SPINS LEFT');
         root.append(spinTitle);
 
-        var spinBox = $('<div>').addClass(('WhoreSpinsLeftBox')).attr('id', "WhoreSpinsLeftBox").html('&#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026; &#10026;');
-        root.append(spinBox);
-
         var buyButton = $('<button>').addClass("WhoreBuySpinButton").text("BUY 3 SPINS FOR 1 ENERGY");
+        buyButton.on("click", this._BuyEnergyCB.bind(this));
         root.append(buyButton);
 
         var wildcardTitle = $('<span>').addClass('WhoreWildcardTitle').text('WILDCARD POWER');
         root.append(wildcardTitle);
 
         var wildcardBox = $('<div>').addClass('WhoreWildcardBox');
-        var style = $('<span>').addClass('WhoreWildcardStyle').text('Style');
+        var style = $('<span>').addClass('WhoreWildcardStyle').text('Beauty');
         wildcardBox.append( style );
-        var styleBar =  $('<div>').addClass('WhoreWildcardStyle');
+        var styleBar =  $('<div>').addClass('WhoreWildcardStyle').width(this._Player.Beauty());
         wildcardBox.append( styleBar );
         var perversion = $('<span>').addClass('WhoreWildcardPerversion').text('Perversion ');
         wildcardBox.append( perversion );
-        var perversionBar =  $('<div>').addClass('WhoreWildcardPerversion');
+        var perversionBar =  $('<div>').addClass('WhoreWildcardPerversion').width(this._Player.GetStat("STAT", "Perversion"));
         wildcardBox.append( perversionBar );
         var femininity = $('<span>').addClass('WhoreWildcardFemininity').text('Femininity');
         wildcardBox.append( femininity );
-        var femininityBar =  $('<div>').addClass('WhoreWildcardFemininity');
+        var femininityBar =  $('<div>').addClass('WhoreWildcardFemininity').width(this._Player.GetStat("STAT", "Femininity"));
         wildcardBox.append( femininityBar );
         root.append(wildcardBox);
 
@@ -5868,12 +5967,110 @@ App.SlotEngine = new function() {
 
         var lootBox = $('<div>').addClass('WhoreLootBox').attr('id', 'WhoreLootBox');
 		root.append(lootBox);
-		
+
+        // Add some default loot to test
+        var i, loot;
+        for(i = 0; i < 10; i++) {
+            loot = $('<span>').addClass("WhoreWantColor1").text('$ ');
+            lootBox.append(loot);
+        }
+
+        for(i = 0; i < 10; i++) {
+            loot = $('<span>').addClass("WhoreWantColor2").text('$ ');
+            lootBox.append(loot);
+        }
+
+        for(i = 0; i < 10; i++) {
+            loot = $('<span>').addClass("WhoreWantColor3").text('$ ');
+            lootBox.append(loot);
+        }
+
+        for(i = 0; i < 10; i++) {
+            loot = $('<span>').addClass("WhoreBonusColor").text('$ ');
+            lootBox.append(loot);
+        }
 		// Spin Button
-		var buyButton = $('<button>').addClass("WhoreSpinButton").text("SPIN AHOY!");
-        root.append(buyButton);
+		var spinButton = $('<button>').addClass("WhoreSpinButton").text("SPIN AHOY!");
+        root.append(spinButton);
 		
-        $(ElementID).append(root);
+        $(this.Element).append(root);
+
+        this._RedrawSpins();
+    };
+
+    this._RedrawSpins = function() {
+        var i, spinText = "";
+        var root = $('#WhoreStatusPanel');
+
+        for (i = 0; i < this._Spins; i++) spinText += "&#10026; "
+        var spinBox = $('<div>').addClass(('WhoreSpinsLeftBox')).attr('id', "WhoreSpinsLeftBox").html(spinText);
+
+        root.append(spinBox);
+    };
+
+    this._BuyEnergyCB = function(e) {
+
+        if (this._Spins >= 20 || this._Player.GetStat("STAT", "Energy") < 1) return;
+        this._Spins += 3;
+        this._Player.AdjustStat("Energy", -1);
+
+        // Redraw Energy bar
+        var energy = $('#Energy').html(App.PR.pStatMeter("Energy", this._Player, 0, true));
+        this._RedrawSpins();
+    };
+
+    /**
+     * This is the customer object for the game. It just holds data.
+     * @param {string} dataKey
+     * @constructor
+     */
+    this.Customer = function(dataKey) {
+        this.Name          = "Pirate Pete";    // Name of the customer.
+        this.Lust          = 1;                // Current Lust.
+        this.Mood          = 1;                // Current Mood.
+        this.Satisfaction  = 1;                // Current Satisfaction.
+        this.Payout        = 5;                // Payout on scale of 1 to 5
+        this.Bonus         = "Pirate Slut";    // Bonus Reward Category
+        this.BonusCat      = "Perversion";     // Wildcard category on bonus
+        this.Wants         = [ ];
+
+        if (typeof App.Data.Whoring === 'undefined' || App.Data.Whoring.hasOwnProperty(dataKey) == false) {
+            alert("Bad call to new Customer() : dataKey '"+dataKey+"' is undefined or missing.");
+            return;
+        }
+
+        var dict = App.Data.Whoring[dataKey];
+        console.log(dict);
+
+        // Set Name.
+        this.Name = App.PR.GetRandomListItem(dict['NAMES']);
+        if (typeof dict['TITLE'] !== 'undefined' && dict['TITLE'] != null) { this.Name = dict['TITLE'] + " " + this.Name; }
+
+        // Set the Payout
+        this.Payout = (dict['MIN_PAY'] >= dict['MAX_PAY']) ? dict['MIN_PAY'] :  dict['MIN_PAY'] + Math.floor(Math.random() * (dict['MAX_PAY'] - dict['MIN_PAY']));
+
+        // Get the NPC from the Player.
+        var npc = App.SlotEngine._Player.GetNPC(dict['NPC_TAG']);
+
+        if (typeof npc !== 'undefined') {
+            // Adjust the mood and lust of the customer by the mood of the stored associated NPC object.
+            this.Mood = Math.floor(Math.random() * ( npc.Mood() / 2));
+            this.Lust = Math.floor(Math.random() * ( npc.Lust() / 2))
+        }
+
+        // Set the Wants array of the character.
+        var tmp;
+        var count = 0;
+        while (this.Wants.length < 3) {
+            ++count;
+            tmp = App.PR.GetRandomListItem(dict["WANTS"]);
+            if (!this.Wants.includes(tmp)) this.Wants.push(tmp);
+            if (count >= 30) break;
+        }
+
+        // Set the bonus and bonus category.
+        this.Bonus = App.PR.GetRandomListItem(dict["BONUS"]);
+        this.BonusCat = App.PR.GetRandomListItem(dict["BONUS_CATS"]);
     }
 };
 /* twine-user-script #16: "StoreEngine.js" */
@@ -15117,7 +15314,120 @@ App.Data.Stores["SMUGGLERS"] =  {
         { "CATEGORY":   "COMMON",   "TYPE": "WEAPON",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD": 50,   "LOCK": 1,  "TAG" : "steel cutlass"          }
     ]
 };
-/* twine-user-script #71: "rot_lib.js" */
+/* twine-user-script #71: "salty_mermaid_whore_data.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Whoring = App.Data.Whoring || { };
+
+App.Data.Whoring["SaltyMermaid"] = {
+    // Shows in the UI as location.
+    "DESC"      : "The Salty Mermaid",
+    // Sex act weighted table.
+    "WANTS"     : [ "Hand", "Hand", "Ass", "Ass", "Ass", "Ass", "BJ", "BJ", "BJ", "BJ", "Tits", "Tits" ],
+    // Minimum payout rank.
+    "MIN_PAY"   : 1,
+    // Maximum payout rank.
+    "MAX_PAY"   : 3,
+    // Bonus payout, weighted table
+    "BONUS"     : [
+        // Style based bonuses first. (1/2 as much as body bonuses)
+        "Pirate Slut", "Pirate Slut", "Pirate Slut", "Sexy Dancer", "Bimbo",
+        // Body based bonuses (twice as many as style bonuses)
+        "Bust", "Bust", "Bust", "Bust", "Ass", "Ass", "Ass", "Face", "Face", "Lips" ],
+    "BONUS_CATS": [ "Perversion", "Perversion", "Perversion", "Femininity", "Femininity", "Beauty" ],
+    "NAMES"     : App.Data.Names["Male"],
+    "TITLE"     : "Pirate",
+    "RARES"     : [ "Reginald", "Kipler", "Cookie", "Julius" ],
+    "NPC_TAG"   : "Crew"
+};
+
+App.Data.Whoring["Reginald"] = {
+    // Shows in the UI as location.
+    "DESC"      : "The Salty Mermaid",
+    // Sex act weighted table.
+    "WANTS"     : [ "Ass", "BJ" ],
+    // Minimum payout rank.
+    "MIN_PAY"   : 3,
+    // Maximum payout rank.
+    "MAX_PAY"   : 4,
+    // Bonus payout, weighted table
+    "BONUS"     : [
+        // Style based bonuses first. (1/2 as much as body bonuses)
+        "Pirate Slut", "Pirate Slut", "BDSM", "BDSM",
+        // Body based bonuses (twice as many as style bonuses)
+        "Bust", "Bust", "Bust", "Bust", "Ass", "Ass", "Ass", "Face", "Face", "Lips" ],
+    "BONUS_CATS": [ "Perversion", "Perversion", "Perversion", "Femininity", "Femininity", "Beauty" ],
+    "NAMES"     : [ "Reginald" ],
+    "TITLE"     : "Captain",
+    "RARES"     : [ ],
+    "NPC_TAG"   : "Captain"
+};
+
+App.Data.Whoring["Kipler"] = {
+    // Shows in the UI as location.
+    "DESC"      : "The Salty Mermaid",
+    // Sex act weighted table.
+    "WANTS"     : [ "Tits", "Tits", "Ass", "BJ" ],
+    // Minimum payout rank.
+    "MIN_PAY"   : 2,
+    // Maximum payout rank.
+    "MAX_PAY"   : 3,
+    // Bonus payout, weighted table
+    "BONUS"     : [
+        // Style based bonuses first. (1/2 as much as body bonuses)
+        "Pirate Slut", "Pirate Slut", "Pet Girl", "Pet Girl",
+        // Body based bonuses (twice as many as style bonuses)
+        "Bust", "Bust", "Bust", "Bust", "Bust", "Ass", "Ass", "Ass" ],
+    "BONUS_CATS": [ "Perversion", "Perversion", "Perversion", "Femininity", "Femininity", "Beauty" ],
+    "NAMES"     : [ "Kipler" ],
+    "TITLE"     : "1st Mate",
+    "RARES"     : [ ],
+    "NPC_TAG"   : "FirstMate"
+};
+
+App.Data.Whoring["Cookie"] = {
+    // Shows in the UI as location.
+    "DESC"      : "The Salty Mermaid",
+    // Sex act weighted table.
+    "WANTS"     : [ "Ass", "Ass", "Ass", "BJ", "Tits", "Tits", "Hand" ],
+    // Minimum payout rank.
+    "MIN_PAY"   : 2,
+    // Maximum payout rank.
+    "MAX_PAY"   : 4,
+    // Bonus payout, weighted table
+    "BONUS"     : [
+        // Style based bonuses first. (1/2 as much as body bonuses)
+        "Sissy Lolita", "Sissy Lolita", "Daddy's Girl", "Daddy's Girl",
+        // Body based bonuses (twice as many as style bonuses)
+        "Bust", "Bust", "Bust", "Bust", "Ass", "Ass", "Ass", "Face", "Face", "Lips" ],
+    "BONUS_CATS": [ "Perversion", "Perversion", "Perversion", "Femininity", "Femininity", "Beauty" ],
+    "NAMES"     : [ "Cookie" ],
+    "TITLE"     : "Chef",
+    "RARES"     : [ ],
+    "NPC_TAG"   : "Cook"
+};
+
+App.Data.Whoring["Julius"] = {
+    // Shows in the UI as location.
+    "DESC"      : "The Salty Mermaid",
+    // Sex act weighted table.
+    "WANTS"     : [ "Ass", "Ass", "Ass", "BJ", "Tits", "Tits", "Hand" ],
+    // Minimum payout rank.
+    "MIN_PAY"   : 2,
+    // Maximum payout rank.
+    "MAX_PAY"   : 4,
+    // Bonus payout, weighted table
+    "BONUS"     : [
+        // Style based bonuses first. (1/2 as much as body bonuses)
+        "Pirate Slut", "Pirate Slut", "Bimbo", "Daddy's Girl",
+        // Body based bonuses (twice as many as style bonuses)
+        "Bust", "Bust", "Ass", "Ass", "Ass", "Ass", "Ass", "Ass", "Face", "Lips" ],
+    "BONUS_CATS": [ "Perversion", "Perversion", "Perversion", "Femininity", "Femininity", "Style" ],
+    "NAMES"     : [ "Julius" ],
+    "TITLE"     : "Qtr. Mstr.",
+    "RARES"     : [ ],
+    "NPC_TAG"   : "Quartermaster"
+};
+/* twine-user-script #72: "rot_lib.js" */
 // Wrap rot.js code due to Twine's environment
 (function (window, define, exports) {
     /*
@@ -20533,7 +20843,7 @@ App.Data.Stores["SMUGGLERS"] =  {
     }));
 
 }).call(window, window);
-/* twine-user-script #72: "Story JavaScript" */
+/* twine-user-script #73: "Story JavaScript" */
 //Sugarcube config
 console.log("Sugarcube Config...");
 Config.history.controls = false;
@@ -22677,7 +22987,8 @@ Night finally comes and you drag yourself off to bed. Within moments of laying d
 &lt;&lt;if $Player.SleepLog.length != 0&gt;&gt;&lt;&lt;for _i to 0; _i lt $Player.SleepLog.length; _i++&gt;&gt;\
 &lt;&lt;print $Player.SleepLog[_i]&gt;&gt;&lt;br/&gt;&lt;&lt;/for&gt;&gt;&lt;&lt;/if&gt;&gt;\
 
-&lt;&lt;wakeUpHandler&gt;&gt;</tw-passagedata><tw-passagedata pid="106" name="StoryCaption" tags="" position="725,1350">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if ($Player != undefined) &amp;&amp; $InIntro != 1&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="107" name="Whore" tags="" position="850,1350">&lt;div id=&quot;WhoreUI&quot; class=&quot;WhoreGUI&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="108" name="DeathEnd" tags="" position="975,1350">Your wounds were too much for you to endure.
+&lt;&lt;wakeUpHandler&gt;&gt;</tw-passagedata><tw-passagedata pid="106" name="StoryCaption" tags="" position="725,1350">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if ($Player != undefined) &amp;&amp; $InIntro != 1&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="107" name="Whore" tags="" position="850,1350">&lt;div id=&quot;WhoreUI&quot; class=&quot;WhoreGUI&quot;&gt;&lt;/div&gt;
+&lt;&lt;run App.SlotEngine.DrawUI($Player);&gt;&gt;</tw-passagedata><tw-passagedata pid="108" name="DeathEnd" tags="" position="975,1350">Your wounds were too much for you to endure.
 
 Game over.</tw-passagedata><tw-passagedata pid="109" name="GameOver" tags="" position="1100,1350">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="110" name="GameWon" tags="custom-menu" position="1225,1350">&lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;WillPower&quot;) &lt;= 40&gt;&gt;&lt;!-- Contributed by mightyakira @ TFGamesSite Forums --&gt;
 You daintily walk into the captain’s cabins and kneel before Captain Reginald, all on your own accord. You have learnt \
