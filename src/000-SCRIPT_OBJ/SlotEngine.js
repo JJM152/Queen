@@ -115,6 +115,16 @@ App.SlotEngine = new function() {
         wildcardBox.append( femininityBar );
         root.append(wildcardBox);
 
+		var lootTitle = $('<span>').addClass('WhoreLootTitle').text('CURRENT EARNINGS');
+        root.append(lootTitle);
+
+        var lootBox = $('<div>').addClass('WhoreLootBox').attr('id', 'WhoreLootBox');
+		root.append(lootBox);
+		
+		// Spin Button
+		var buyButton = $('<button>').addClass("WhoreSpinButton").text("SPIN AHOY!");
+        root.append(buyButton);
+		
         $(ElementID).append(root);
     }
 };

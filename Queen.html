@@ -343,7 +343,7 @@ div.WhoreStatusTitle {
 
 span.WhoreSpinsLeftTitle {
     position:absolute;
-    top: 40px;
+    top: 30px;
     left: 10px;
     color:yellow;
     font-size: larger;
@@ -352,12 +352,12 @@ span.WhoreSpinsLeftTitle {
 div.WhoreSpinsLeftBox {
     position:absolute;
     width: 180px;
-    height: 60px;
-    top: 60px;
+    height: 40px;
+    top: 50px;
     left: 10px;
     background-color: black;
     color:yellow;
-    font-size: larger;
+    font-size: medium;
     padding-left: 5px;
     padding-right: 5px;
 }
@@ -365,7 +365,7 @@ div.WhoreSpinsLeftBox {
 button.WhoreBuySpinButton {
     position: absolute;
     left: 20px;
-    top: 130px;
+    top: 96px;
     color: yellow;
     border: 1px solid black;
     background-color: saddlebrown;
@@ -373,7 +373,7 @@ button.WhoreBuySpinButton {
 
 span.WhoreWildcardTitle {
     position:absolute;
-    top: 165px;
+    top: 125px;
     left: 10px;
     color:yellow;
     font-size: larger;
@@ -382,8 +382,8 @@ span.WhoreWildcardTitle {
 div.WhoreWildcardBox {
     position:absolute;
     width: 190px;
-    height: 80px;
-    top: 185px;
+    height: 68px;
+    top: 145px;
     left: 10px;
     background-color: black;
     font-size: medium;
@@ -443,6 +443,35 @@ div.WhoreWildcardFemininity {
     top : 46px;
     left: 85px;
     border-radius: 5px;
+}
+
+
+button.WhoreSpinButton {
+    position: absolute;
+    left: 55px;
+    top: 360px;
+    color: yellow;
+	font-size: larger;
+    border: 1px solid black;
+    background-color: saddlebrown;
+}
+
+span.WhoreLootTitle {
+    position:absolute;
+    top: 220px;
+    left: 10px;
+    color:yellow;
+    font-size: larger;
+}
+
+div.WhoreLootBox {
+    position:absolute;
+    width: 190px;
+    height: 68px;
+    top: 245px;
+    left: 10px;
+    background-color: black;
+    font-size: medium;
 }
 
 span.WhoreMood {
@@ -1605,7 +1634,10 @@ App.Item = new function() {
         var d = this._FetchData(Type, Name);
         var o;
 
-        if (d == 0 || (typeof d === 'undefined')) alert("Factory Failed: (" + Type + "," + Name + "," + Count + ")");
+        if (d == 0 || (typeof d === 'undefined'))  { 
+			alert("Factory Failed: (" + Type + "," + Name + "," + Count + ")");
+			return
+		}
 
         // might change this in the future, for now weapons are "clothing"
         if (Type == "CLOTHES") o = new this.Clothing(d);
@@ -5831,6 +5863,16 @@ App.SlotEngine = new function() {
         wildcardBox.append( femininityBar );
         root.append(wildcardBox);
 
+		var lootTitle = $('<span>').addClass('WhoreLootTitle').text('CURRENT EARNINGS');
+        root.append(lootTitle);
+
+        var lootBox = $('<div>').addClass('WhoreLootBox').attr('id', 'WhoreLootBox');
+		root.append(lootBox);
+		
+		// Spin Button
+		var buyButton = $('<button>').addClass("WhoreSpinButton").text("SPIN AHOY!");
+        root.append(buyButton);
+		
         $(ElementID).append(root);
     }
 };
@@ -13074,7 +13116,7 @@ App.Data.JobData["SIMONE_JOB2"] = {
                 { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
                 { "TYPE" : "FLAG",      "NAME" : "SIMONE_LOOT",              "VALUE" :   0,  "OPT" : "SET" },
                 { "TYPE" : "FLAG",      "NAME" : "SIMONE_REWARD",            "VALUE" :   1,  "OPT" : "SET" },
-                { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon dancer chest", "VALUE" :   1,  "OPT" : "" }
+                { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon dancer loot box",    "VALUE" :   1,  "OPT" : "" }
             ],
             "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\". She hands you a novelty gift bag shaped like a teddy bear, you wonder what's inside it?",
             "END" : "",
