@@ -19,6 +19,7 @@ App.Item = new function() {
         if (Type == "NPC") return window.App.Data.NPCS[Name];
         if (Type == "QUEST") return window.App.Data.QuestItems[Name];
         if (Type == "LOOT_BOX") return window.App.Data.LootBoxes[Name];
+        if (Type == "REEL") return window.App.Data.Slots[Name];
     };
 
     /**
@@ -38,6 +39,9 @@ App.Item = new function() {
 
         switch(Category) {
 
+            case 'REEL':
+                price = (typeof d["VALUE"] !== 'undefined') ? d["VALUE"] : 500;
+                break;
             case 'DRUGS':
             case 'FOOD':
                 // Drugs and food have a price which is the sum of their effect values
@@ -120,6 +124,11 @@ App.Item = new function() {
         {
             o = new this.Store(d);
             o.Init();
+            return o;
+        }
+
+        if (Type == "REEL") {
+            o = new this.Reel(d);
             return o;
         }
 
@@ -524,12 +533,37 @@ App.Item = new function() {
             return this.Data["Type"];
         };
         /** @returns {number} */
-        this.AddCharge = function(n) { return 1; }
+        this.AddCharge = function(n) { return 1; };
         /** @returns {number} */
         this.Charges = function() { return 1; }
 
     };
 
+    this.Reel = function(d) {
+        this.Data = $.extend(true, { }, d);
+
+        var timestamp = new Date().getTime();
+        this._id = this.Data["NAME"] + ":" + timestamp;
+
+        this.Id = function () {
+            return this._id;
+        };
+        this.Name = function () {
+            return this.Data["NAME"];
+        };
+
+        this.Description = function () {
+            return this.Data["NAME"];
+        };
+
+        this.Examine = function (Player) {
+            return this.Data["DESC"];
+        };
+
+        this.Reels = function() {
+            return this.Data["DATA"];
+        }
+    }
 };
 
 
