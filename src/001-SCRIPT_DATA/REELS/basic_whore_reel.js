@@ -4,10 +4,10 @@ App.Data.Slots = App.Data.Slots || { };
 App.Data.Slots["COMMON_WHORE"] =
 {
 	"NAME"  : "Common Sissy Whore Reel",
-    "DESC"  : "This is the most basic of all whoring reels. It has a decent balance and no special effects.",
+    "DESC"  : "This is the most basic of all whoring reels. It has a slight favoritism towards Hand Jobs, but no special effects.",
     "VALUE" : 500,
     "DATA"  :
-        [ "ASS", "ASS", "TITS", "TITS", "HAND", "HAND", "BJ", "BJ" ]
+        [ "ASS", "ASS", "TITS", "TITS", "HAND", "HAND", "HAND", "HAND", "BJ", "BJ" ]
 
 };
 

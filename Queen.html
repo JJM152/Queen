@@ -2189,7 +2189,11 @@ App.Item = new function() {
 
         this.Reels = function() {
             return this.Data["DATA"];
-        }
+        };
+
+        this.Symbol = function(index) {
+            return this.Data["DATA"][index];
+        };
     }
 };
 
@@ -5892,9 +5896,16 @@ App.SlotEngine = new function() {
     this.Element = "#WhoreUI";
     this.DataKey = "";
     this._Spins = 6;
-    this._SelectedCustomer = 0;
+    this._Spinning = false;
+    this._SelectedCustomer = null;
     this._Player = null;
+    this._ActiveReels = [ ];
 
+    /**
+     * Dictionary of string tokens to css class names.
+     * @type {{ASS: string, TITS: string, BJ: string, HAND: string, FEM: string, PERV: string, BEAUTY: string}}
+     * @private
+     */
     this._SlotTypes = {
         "ASS" : "AssSlotReel",
         "TITS" : "TitsSlotReel",
@@ -5905,20 +5916,30 @@ App.SlotEngine = new function() {
         "BEAUTY" : "BeautySlotReel"
     };
 
-    // Fake Player Slots for testing.
+    this._WildCards = [
+        "FEM", "PERV", "BEAUTY"
+    ];
+
+    //region TESTING MOCKS
 
     this._Slots = [ ];
+
     this.GetSlots = function() {
         if (this._Slots.length <1 ) {
             this.Slots = [
                 App.Item.Factory('REEL', 'COMMON_WHORE', 0),
+                App.Item.Factory('REEL', 'COMMON_WHORE', 0),
                 App.Item.Factory('REEL', 'COMMON_WILDCARD', 0),
+                App.Item.Factory('REEL', 'COMMON_WHORE', 0),
                 App.Item.Factory('REEL', 'COMMON_WHORE', 0)
             ];
         }
             return this.Slots;
     };
 
+    //endregion
+
+    // region PUBLIC FUNCTIONS
     this.LoadScene = function(dataKey, Player, elementID) {
         if (typeof elementID !== 'undefined' ) this.Element = elementID;
         this._Player = Player;
@@ -5953,20 +5974,19 @@ App.SlotEngine = new function() {
             this.Customers.push(customerObject);
         }
     };
+    // endregion
 
-    // Render after passage in Twine.
-    this.DrawUI = function(Player) {
-        if (typeof Player !== 'undefined') this._Player = Player;
-        $(document).one(":passageend", this._DrawUI.bind(this));
-    };
+    // region PRIVATE FUNCTIONS
 
+    // UI SPECIFIC FUNCTIONS
     this._DrawUI = function() {
-        this.DrawCustomers();
-        this.DrawStatus();
-        this.DrawSlots();
+        this._Spinning = false;
+        this._DrawCustomers();
+        this._DrawStatus();
+        this._DrawSlots();
     };
 
-    this.DrawCustomers = function() {
+    this._DrawCustomers = function() {
         var i;
         for (i = 0; i < 6; i++ )
             $("#WhoreCustomer"+i).remove();
@@ -6030,16 +6050,7 @@ App.SlotEngine = new function() {
 
     };
 
-    this._CustomerSelectCB = function(e)
-    {
-        console.log(e.data.customer);
-        var oldCustomer = $('#WhoreCustomer' + this._SelectedCustomer).css( 'border-color', 'saddlebrown');
-        var newCustomer = $('#WhoreCustomer' + e.data.customer).css('border-color', 'lime');
-
-        this._SelectedCustomer = e.data.customer;
-    };
-
-    this.DrawSlots = function() {
+    this._DrawSlots = function() {
 
         $('#SlotContainer').remove();
         // Make slot container div.
@@ -6071,8 +6082,7 @@ App.SlotEngine = new function() {
 
         for (i = 0; i < this.GetSlots().length; i++) slots.push(this.GetSlots()[i].Reels());
 
-        console.log(slots);
-        var reels = new this.EZSlots("SlotContainer",
+        this._Reels = new this.EZSlots("SlotContainer",
                     {"reelCount": this.Slots.length,"startingSet" :[0,0,0,0,0,0,0,0,0], "winningSet" :[7,7,7,7,7,7,7,7,7], time: 3.5,
                     "symbols" : slots, "height" : 90,"width": 60, "callback" : this._SlotCB.bind(this)});
 
@@ -6083,17 +6093,12 @@ App.SlotEngine = new function() {
         }
         // Add Spin button, hook up click event.
         var spinButton = $('<button>').addClass("WhoreSpinButton").text("SPIN AHOY!");
-        spinButton.on("click", function() { reels.spin(); } );
+        spinButton.on("click", this._SpinEH.bind(this) );
         $('#WhoreStatusPanel').append(spinButton);
 
     };
 
-    this._SlotCB = function(results) {
-        console.log(results);
-    };
-
-
-    this.DrawStatus = function() {
+    this._DrawStatus = function() {
 
         $('#WhoreStatusPanel').remove();
 
@@ -6169,17 +6174,46 @@ App.SlotEngine = new function() {
         root.append(spinBox);
     };
 
-    this._BuyEnergyCB = function(e) {
-
-        if (this._Spins >= 20 || this._Player.GetStat("STAT", "Energy") < 1) return;
-        this._Spins += 3;
-        this._Player.AdjustStat("Energy", -1);
-
-        // Redraw Energy bar
-        var energy = $('#Energy').html(App.PR.pStatMeter("Energy", this._Player, 0, true));
-        this._RedrawSpins();
+    this._ModalDialog = function(message) {
+        console.log(message);
+        return false;
     };
 
+    //HELPER FUNCTIONS
+    this._GetSlotClass = function(Type) {
+        return this._SlotTypes[Type];
+    };
+
+    this._IsWild = function(token) {
+        return this._WildCards.contains(token);
+    };
+
+    this._splitReel = function(a)
+    {
+        var r = [];
+        var t = [];
+
+        for (var i = 0; i < a.length; ++i) {
+            if (i == 0) {
+                t.push(a[i]);
+                continue;
+            }
+
+            if (a[i - 1] != (a[i] - 1)) {
+                r.push(t);
+                t = [];
+            }
+
+            t.push(a[i]);
+        }
+        r.push(t);
+
+        return r;
+    };
+
+    // endregion
+
+    // region OBJECTS WITH CONSTRUCTORS
     /**
      * This is the customer object for the game. It just holds data.
      * @param {string} dataKey
@@ -6201,7 +6235,6 @@ App.SlotEngine = new function() {
         }
 
         var dict = App.Data.Whoring[dataKey];
-        console.log(dict);
 
         // Set Name.
         this.Name = App.PR.GetRandomListItem(dict['NAMES']);
@@ -6234,6 +6267,13 @@ App.SlotEngine = new function() {
         this.BonusCat = App.PR.GetRandomListItem(dict["BONUS_CATS"]);
     };
 
+    /**
+     * Gratuitously stolen from Kirk Israel and modified for this game.
+     * @param id
+     * @param useroptions
+     * @returns {{spin: spin, win: win}}
+     * @constructor
+     */
     this.EZSlots =function (id, useroptions){
         var that = this; //keep reference to function for use in callbacks
         //set some variables from the options, or with defaults.
@@ -6264,7 +6304,7 @@ App.SlotEngine = new function() {
             //make each slot window
             for(var i = 0; i < this.reelCount; i++){
                 var jqoSlider = $('<div class="slider"></div>');
-                var jqoWindow = $('<div class="window window_"'+i+'></div>');
+                var jqoWindow = $('<div class="window" id="SlotWindow_'+i+'"></div>');
                 this.scaleJqo(jqoWindow).append(jqoSlider); //make window right size and put slider in it
                 this.jqo.append(jqoWindow); //add window to main div
                 this.jqoSliders.push(jqoSlider); //keep reference to jqo of slider
@@ -6280,7 +6320,6 @@ App.SlotEngine = new function() {
         //add the various symbols - but take care to possibly add the "winner" as the symbol chosen
         this.addSymbolsToStrip = function(jqoSlider, whichReel, shouldWin, isInitialCall){
             var symbolsToUse = that.sameSymbolsEachSlot ? that.symbols : that.symbols[whichReel];
-            console.log(symbolsToUse);
             var chosen =  shouldWin ? that.winningSet[whichReel] : Math.floor(Math.random()*symbolsToUse.length);
             for(var i = 0; i < that.howManySymbolsToAppend; i++){
                 var ctr = (i == that.endingLocation) ? chosen : Math.floor(Math.random()*symbolsToUse.length);
@@ -6337,12 +6376,110 @@ App.SlotEngine = new function() {
         }
     };
 
+    //endregion
 
-    this._GetSlotClass = function(Type) {
-        console.log(Type);
-        return this._SlotTypes[Type];
-    }
+    // region CALLBACKS AND EVENT HANDLERS
+
+    // Calculate results of spin.
+    this._SlotCB = function(results) {
+        // Convert array positions back into tokens.
+        var spinResult = [];
+        var i;
+
+        for (i = 0; i < results.length; i++) spinResult.push( this.GetSlots()[i].Symbol(results[i]));
+
+        var slotMap = {
+            "ASS"       : [ ],
+            "HAND"      : [ ],
+            "BJ"        : [ ],
+            "TITS"      : [ ],
+            "WILD"      : [ ],
+            "FEM"       : [ ],
+            "PERV"      : [ ],
+            "BEAUTY"    : [ ]
+        };
+
+        // Create mapping.
+
+        var key;
+        for (key in slotMap) {
+            if (!slotMap.hasOwnProperty(key)) continue;
+            for (i = 0; i < spinResult.length; i++) {
+                if (spinResult[i] == key) slotMap[key].push(i);
+                if (this._IsWild(spinResult[i]) && slotMap[key].contains(i) == false && !this._IsWild(key)) slotMap[key].push(i); // track wilds separately
+            }
+        }
+
+        // Transform map into an array of arrays representing sequences.
+        var sequences = { };
+        for (key in slotMap) {
+            if (!slotMap.hasOwnProperty(key)) continue;
+            // We have a minimum of 3 sequential numbers in a map category
+            if (slotMap[key].length >= 3) sequences[key] = this._splitReel((slotMap[key]));
+        }
+
+        //Iterate through sequence map to calculate payout.
+        var payout = { };
+        for (key in sequences) {
+            if (!sequences.hasOwnProperty(key) ) continue;
+
+            for (i = 0; i < sequences[key].length; i++ ) {
+                if (sequences[key][i].length >= 3) {
+                    payout[key] = sequences[key][i].length; // tmp
+                }
+            }
+
+        }
+
+        this._Spinning = false;
+        console.log(spinResult);
+        console.log(slotMap);
+        console.log(sequences);
+        console.log(payout);
+    };
+
+    /**
+     * Called when you click the 'spin' button.
+     * @param {*} e
+     * @private
+     */
+    this._SpinEH = function(e) {
+        if (this._Spins <= 0) return this._ModalDialog("You are out of spins. Buy more.");
+        if (this._Spinning == true) return; // No effect if spin in process. Maybe make it play a sound later?
+        if (this._SelectedCustomer == null) return this._ModalDialog("You must select a customer to whore with first.");
+        this._Spinning = true;
+        this._Spins--;
+        this._RedrawSpins();
+        this._Reels.spin();
+    };
+
+    this._CustomerSelectCB = function(e) {
+        var oldCustomer = $('#WhoreCustomer' + this._SelectedCustomer).css( 'border-color', 'saddlebrown');
+        var newCustomer = $('#WhoreCustomer' + e.data.customer).css('border-color', 'lime');
+
+        this._SelectedCustomer = e.data.customer;
+    };
+
+    // Render after passage in Twine.
+    this.DrawUI = function(Player) {
+        if (typeof Player !== 'undefined') this._Player = Player;
+        $(document).one(":passageend", this._DrawUI.bind(this));
+    };
+
+    this._BuyEnergyCB = function(e) {
+
+        if (this._Spins >= 20 || this._Player.GetStat("STAT", "Energy") < 1) return;
+        this._Spins += 3;
+        this._Player.AdjustStat("Energy", -1);
+
+        // Redraw Energy bar
+        var energy = $('#Energy').html(App.PR.pStatMeter("Energy", this._Player, 0, true));
+        this._RedrawSpins();
+    };
+
+    // endregion
 };
+
 /* twine-user-script #16: "StoreEngine.js" */
 window.App = window.App || { Data: { }, Entity: { } };
 
@@ -15421,10 +15558,10 @@ App.Data.Slots = App.Data.Slots || { };
 App.Data.Slots["COMMON_WHORE"] =
 {
 	"NAME"  : "Common Sissy Whore Reel",
-    "DESC"  : "This is the most basic of all whoring reels. It has a decent balance and no special effects.",
+    "DESC"  : "This is the most basic of all whoring reels. It has a slight favoritism towards Hand Jobs, but no special effects.",
     "VALUE" : 500,
     "DATA"  :
-        [ "ASS", "ASS", "TITS", "TITS", "HAND", "HAND", "BJ", "BJ" ]
+        [ "ASS", "ASS", "TITS", "TITS", "HAND", "HAND", "HAND", "HAND", "BJ", "BJ" ]
 
 };
 

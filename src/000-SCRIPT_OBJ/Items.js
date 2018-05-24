@@ -562,7 +562,11 @@ App.Item = new function() {
 
         this.Reels = function() {
             return this.Data["DATA"];
-        }
+        };
+
+        this.Symbol = function(index) {
+            return this.Data["DATA"][index];
+        };
     }
 };
 
