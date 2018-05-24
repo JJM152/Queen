@@ -14,6 +14,7 @@ App.Data.Stores["GOLDEN_GOODS"] =  {
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate bra"             },
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate thong"           },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "milkdew melon"          },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "mighty banana"          },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "honey mead"             },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]

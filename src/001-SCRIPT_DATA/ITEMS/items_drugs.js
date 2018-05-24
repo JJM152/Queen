@@ -19,6 +19,24 @@ App.Data.Drugs = {
         "Charges": 1,
         "Effects": [ "SUCCUBUS_PHILTRE" ]
     },
+     "female mandrake": {
+        "Name": "female mandrake",
+        "ShortDesc": "A earthy pink root that looks like a woman",
+        "LongDesc": "This pink root looks like a voluptuous woman and smells like perfume. It is extremely rare and is said to have lifechanging consequences upon consumption.",
+        "Message": "You chew the root thoroughly and gulp it down. It fills your mouth with an earthy unpleasant feeling.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects": [ "FEMALE_MANDRAKE" ]
+    },
+       "male mandrake": {
+        "Name": "male mandrake",
+        "ShortDesc": "A earthy brown root that looks like a man",
+        "LongDesc": "This brown root looks like a strong man and smells like salt. It is extremely rare and is said to have lifechanging consequences upon consumption.",
+        "Message": "You chew the root thoroughly and gulp it down. It fills your mouth with an earthy unpleasant feeling.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects": [ "MALE_MANDRAKE" ]
+    },
     "pixie dust": {
         "Name": "pixie dust",
         "ShortDesc": "Pixie Dust",
@@ -90,6 +108,15 @@ App.Data.Drugs = {
         "Type": "potion",
         "Charges": 1,
         "Effects" : [ "FACE_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
+    },
+     "lip balm": {
+        "Name": "lip balm",
+        "ShortDesc": "strawberry flavored lip balm",
+        "LongDesc": "This one time use lip balm smells like strawberry and makes your lips feel nice.",
+        "Message": "You rub the lip balm into your lips. It smells like natural strawberry and makes your lips tingle.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects" : [ "LIPS_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
     },
 	"black hair dye": {
         "Name": "black hair dye",

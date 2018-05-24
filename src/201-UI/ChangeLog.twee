@@ -1,5 +1,8 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.5b - 05/22/2018
+* Fixed bug with Simone's "Blowjob Specialist" job not rewarding loot box when success counter was maxed.
+
 !!!0.5a - 05/21/2018
 !!!!Bug Fixes
 * Fixed bug in JobEngine that was throwing an exception when trying to manipulate a body stat (this affected only Kipler's quest)
