@@ -5895,7 +5895,7 @@ App.SlotEngine = new function() {
     this.MaxSlots = 9;
     this.Element = "#WhoreUI";
     this.DataKey = "";
-    this._Spins = 6;
+    this._Spins = 5;
     this._Spinning = false;
     this._SelectedCustomer = null;
     this._Player = null;
@@ -6109,7 +6109,7 @@ App.SlotEngine = new function() {
         var spinTitle = $('<span>').addClass('WhoreSpinsLeftTitle').text('SPINS LEFT');
         root.append(spinTitle);
 
-        var buyButton = $('<button>').addClass("WhoreBuySpinButton").text("BUY 3 SPINS FOR 1 ENERGY");
+        var buyButton = $('<button>').addClass("WhoreBuySpinButton").text("BUY 5 SPINS FOR 1 ENERGY");
         buyButton.on("click", this._BuyEnergyCB.bind(this));
         root.append(buyButton);
 
@@ -6188,8 +6188,7 @@ App.SlotEngine = new function() {
         return this._WildCards.contains(token);
     };
 
-    this._splitReel = function(a)
-    {
+    this._splitReel = function(a) {
         var r = [];
         var t = [];
 
@@ -6209,6 +6208,59 @@ App.SlotEngine = new function() {
         r.push(t);
 
         return r;
+    };
+
+    /**
+     * Return a scaled modifier based on the wildcard stat.
+     * @param wildCardType
+     * @returns {number}
+     * @private
+     */
+    this._GetWildcardBonus = function(wildCardType) {
+
+        var mod;
+        switch(wildCardType) {
+            case 'PERV' :
+                mod = this._Player.StatRoll("STAT", "Perversion", 100, 1, true);
+                break;
+            case 'FEM':
+                mod = this._Player.StatRoll("STAT", "Femininity", 100, 1, true);
+                break;
+            default:
+                mod = Math.floor( this._Player.Beauty() / 100);
+                break;
+        }
+        return mod;
+    };
+
+    this._CalculateJackpot = function(slotMap, key, slots )
+    {
+
+        // See if the customer even WANTS this.
+        var i;
+        var wantMod = 0;
+        var c = this.Customers[this._SelectedCustomer];
+        // Sex match
+        if (!this._IsWild(key) ) {
+            for (i = 0; i < c.Wants.length; i++)
+                if (c.Wants[i].toUpperCase() == key) wantMod = (i == 0) ? 1 : (i == 1) ? 0.75 : 0.5;
+        } else { // This was a wildcard match
+            wantMod = this._GetWildcardBonus(key);
+        }
+
+        if (wantMod == 0) return [ ]; // What? We didn't even WANT this. It's not a payout.
+
+        // This is the overall modifier for the pay.
+        var jackpot;
+        switch(slots.length) {
+            case 9: jackpot = 100; break;
+            case 8: jackpot = 50; break;
+            case 7: jackpot = 20; break;
+            case 6: jackpot = 12; break;
+            case 5: jackpot = 8; break;
+            case 4: jackpot = 5; break;
+            default: jackpot = 3;
+        }
     };
 
     // endregion
@@ -6419,13 +6471,13 @@ App.SlotEngine = new function() {
         }
 
         //Iterate through sequence map to calculate payout.
-        var payout = { };
+        var payout = [ ];
         for (key in sequences) {
             if (!sequences.hasOwnProperty(key) ) continue;
 
             for (i = 0; i < sequences[key].length; i++ ) {
                 if (sequences[key][i].length >= 3) {
-                    payout[key] = sequences[key][i].length; // tmp
+                    payout = payout.concat(this._CalculateJackpot(slotMap, key, sequences[key][i]));
                 }
             }
 
@@ -6469,7 +6521,7 @@ App.SlotEngine = new function() {
     this._BuyEnergyCB = function(e) {
 
         if (this._Spins >= 20 || this._Player.GetStat("STAT", "Energy") < 1) return;
-        this._Spins += 3;
+        this._Spins += 5;
         this._Player.AdjustStat("Energy", -1);
 
         // Redraw Energy bar
@@ -9380,6 +9432,57 @@ App.Data.EffectLib = {
             "Bust Growth++++", "Ass Growth++++", "Hips Wider++++", "WillPower Up+++",
             "Waist Narrower++++", "Perversion XP----", "Seduction XP++++" ]
     },
+    /** FEMALE MANDRAKE */
+    "FEMALE_MANDRAKE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {
+            p.AdjustStat('Hormones', 10);
+            p.AdjustStat('Femininity', 15);
+            p.AdjustStat('Toxicity', 80);
+            p.AdjustStatXP('Femininity', 200);
+            p.AdjustStatXP('WillPower', 400);
+            p.AdjustStatXP('Hormones', 300);
+            p.AdjustStatXP('Perversion', 300);
+            p.AdjustBodyXP('Lips', 300); 
+            p.AdjustBodyXP('Bust', 300);
+            p.AdjustBodyXP('Ass', 300);
+            p.AdjustBodyXP('Hips', 300);
+            p.AdjustBodyXP('Waist',-300);
+            p.AdjustSkillXP('Seduction', 500);
+        },
+        "VALUE" : 2000,
+        "KNOWLEDGE" : [ "Female Hormones++++", "Femininity Up+++", "Femininity XP+++", "Toxicity Up----",
+            "Bust Growth+++", "Ass Growth+++", "Hips Wider+++", "WillPower Up+++",
+            "Waist Narrower+++", "Lips Fuller+++", "Perversion XP+++", "Seduction XP++++" ]
+    },
+    /** MALE MANDRAKE */
+    "MALE_MANDRAKE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {
+            p.AdjustStat('Hormones', -10);
+            p.AdjustStat('Femininity', -15);
+            p.AdjustStat('Toxicity', 80);
+            p.AdjustStat('WillPower', 5)
+            p.AdjustStatXP('Femininity', -200);
+            p.AdjustStatXP('WillPower', 400);
+            p.AdjustStatXP('Hormones', -300);
+            p.AdjustStatXP('Perversion', 500);
+            p.AdjustBodyXP('Lips', -300); 
+            p.AdjustBodyXP('Bust', -300);
+            p.AdjustBodyXP('Penis', 500);
+            p.AdjustBodyXP('Balls', 500);
+            p.AdjustBodyXP('Ass', -300);
+            p.AdjustBodyXP('Hips', -300);
+            p.AdjustBodyXP('Waist', 300);
+            p.AdjustSkillXP('Seduction', -500);
+        },
+        "VALUE" : 2000,
+        "KNOWLEDGE" : [ "Female Hormones----", "Femininity Down+++", "Femininity XP---", "Toxicity Up----",
+            "Bust Growth---", "Ass Growth---", "Hips Wider---", "WillPower Up++++", "Balls XP++++",
+            "Penis XP++++", "Waist Narrower---", "Lips Fuller---", "Perversion XP+++", "Seduction XP----" ]
+    },    
 	/** SIREN ELIXIR */
     "SIREN_ELIXIR" : {
         "FUN" : /** @param {App.Entity.Player} p
@@ -10603,6 +10706,24 @@ App.Data.Drugs = {
         "Charges": 1,
         "Effects": [ "SUCCUBUS_PHILTRE" ]
     },
+     "female mandrake": {
+        "Name": "female mandrake",
+        "ShortDesc": "A earthy pink root that looks like a woman",
+        "LongDesc": "This pink root looks like a voluptuous woman and smells like perfume. It is extremely rare and is said to have lifechanging consequences upon consumption.",
+        "Message": "You chew the root thoroughly and gulp it down. It fills your mouth with an earthy unpleasant feeling.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects": [ "FEMALE_MANDRAKE" ]
+    },
+       "male mandrake": {
+        "Name": "male mandrake",
+        "ShortDesc": "A earthy brown root that looks like a man",
+        "LongDesc": "This brown root looks like a strong man and smells like salt. It is extremely rare and is said to have lifechanging consequences upon consumption.",
+        "Message": "You chew the root thoroughly and gulp it down. It fills your mouth with an earthy unpleasant feeling.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects": [ "MALE_MANDRAKE" ]
+    },
     "pixie dust": {
         "Name": "pixie dust",
         "ShortDesc": "Pixie Dust",
@@ -10674,6 +10795,15 @@ App.Data.Drugs = {
         "Type": "potion",
         "Charges": 1,
         "Effects" : [ "FACE_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
+    },
+     "lip balm": {
+        "Name": "lip balm",
+        "ShortDesc": "strawberry flavored lip balm",
+        "LongDesc": "This one time use lip balm smells like strawberry and makes your lips feel nice.",
+        "Message": "You rub the lip balm into your lips. It smells like natural strawberry and makes your lips tingle.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects" : [ "LIPS_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
     },
 	"black hair dye": {
         "Name": "black hair dye",
@@ -10779,6 +10909,15 @@ App.Data.Food = {
         "Price": 500
     },
     /** NORMAL FOOD **/
+    "meat and beans": {
+        "Name": "meat and beans",
+        "ShortDesc": "A piece of meat with some beans in a bowl",
+        "LongDesc": "It actually smells really nice and probably fills you up quite well.",
+        "Message": "The meat is overcooked and the beans are hard but it tastes really good compared to what you have been eating so far.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects": [ "NUTRITION_RARE", "NUTRITION_XP_RARE" ]
+    },
     "mystery stew": {
         "Name": "mystery stew",
         "ShortDesc": "A deep brown stew of unidentifiable origin",
@@ -10899,6 +11038,15 @@ App.Data.Food = {
         "Type": "food",
         "Charges": 1,
         "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "PURGE_UNCOMMON", "FEMALE_HORMONE_XP_COMMON" ]
+    },
+     "mighty banana": {
+        "Name": "mighty banana",
+        "ShortDesc": "A big red banana that is shaped like a certain organ",
+        "LongDesc": "This banana was imported from a mystified island where the population is said to have dicks as long as their legs.",
+        "Message": "You take a bite from the peeled banana and realise that it has a salty aftertaste. At the same time you feel really manly and empowered",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "MALE_HORMONE_XP_UNCOMMON", "PENIS_XP_UNCOMMON", "BALLS_XP_UNCOMMON"]
     },
     "purple mushrooms": {
         "Name": "purple mushroom",
@@ -15592,6 +15740,7 @@ App.Data.Stores["CARGO"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    4,    "MAX":    4,  "PRICE":  1.0, "MOOD": 20,   "LOCK": 0,  "TAG" : "medicinal herbs"       },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    4,    "MAX":    4,  "PRICE":  1.0, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"            },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "face cream"            },
+        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 70,   "LOCK": 0,  "TAG" : "lip balm"              },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 20,   "LOCK": 1,  "TAG" : "khafkir"               },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 1,  "TAG" : "siren elixir"          },
 		// RARE ITEMS
@@ -15599,7 +15748,7 @@ App.Data.Stores["CARGO"] = {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",     "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 0,  "TAG" : "starfruit"             },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "nereid philtre"        },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "succubus philtre"      },
-		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   		}
+		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   	   }
     ]
 };
 /* twine-user-script #64: "galley_store.js" */
@@ -15615,7 +15764,9 @@ App.Data.Stores["GALLEY"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD": 40,   "LOCK": 0,  "TAG" : "starfruit"              },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD": 65,   "LOCK": 0,  "TAG" : "pink peach"             },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 0,  "TAG" : "milkdew melon"          },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 70,   "LOCK": 0,  "TAG" : "mighty banana"          },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "honey mead"             },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    3,     "MAX":    3,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "meat and beans"         },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
@@ -15636,6 +15787,7 @@ App.Data.Stores["GOLDEN_GOODS"] =  {
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate bra"             },
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate thong"           },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "milkdew melon"          },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "mighty banana"          },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "honey mead"             },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
@@ -15675,6 +15827,7 @@ App.Data.Stores["ISLATAVERN"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"             },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "bread and cheese"       },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "meat and beans"       },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "roast fish"             },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
     ]
@@ -15732,7 +15885,10 @@ App.Data.Stores["SMUGGLERS"] =  {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "smugglers ale"          },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",   "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"             },
         // LOCKED ITEMS
-        { "CATEGORY":   "COMMON",   "TYPE": "WEAPON",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD": 50,   "LOCK": 1,  "TAG" : "steel cutlass"          }
+        { "CATEGORY":   "COMMON",   "TYPE": "WEAPON",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD": 50,   "LOCK": 1,  "TAG" : "steel cutlass"          },
+        // RARE ITEMS
+        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",   "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "female mandrake"        },
+        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",   "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "male mandrake"          }
     ]
 };
 /* twine-user-script #71: "salty_mermaid_whore_data.js" */
@@ -23264,6 +23420,9 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 &lt;&lt;else&gt;&gt;\
 @@color:cyan;Interact@@: [[Wake up|Cabin]]\
 &lt;&lt;/if&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="ChangeLog" tags="custom-menu" position="1100,1225">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+!!!0.5b - 05/22/2018
+* Fixed bug with Simone&#39;s &quot;Blowjob Specialist&quot; job not rewarding loot box when success counter was maxed.
+
 !!!0.5a - 05/21/2018
 !!!!Bug Fixes
 * Fixed bug in JobEngine that was throwing an exception when trying to manipulate a body stat (this affected only Kipler&#39;s quest)
@@ -23972,7 +24131,7 @@ cell door closed.
 &lt;&lt;click &quot;No way in hell.&quot;&gt;&gt;
     &lt;&lt;run $Player.AdjustStat(&quot;Nutrition&quot;, -60);&gt;&gt;
     &lt;&lt;replace &quot;#gruel&quot;&gt;&gt;You would @@color:red;rather starve to death@@ than eat such a perverse meal. You hastily kick the bowl over and scream in frustration. However, your complaints and wails fall on deaf ears...&lt;&lt;/replace&gt;&gt;
-    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Days pass...|Intro6]]&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Days pass...|IntroSlow1]]&lt;&lt;/replace&gt;&gt;
 &lt;&lt;/click&gt;&gt;&lt;/span&gt;
 
 &lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="127" name="Intro6" tags="" position="850,1600">After what seems like ages @@color:cyan;Captain Reginald@@ and his First mate come and visit you. The first mate is a large black giant by the name of @@color:cyan;Kipler@@ and you do your best \
@@ -24009,6 +24168,289 @@ Before you go, he has some final words for you.
 
 Your mouth almost hangs open at these words. To say this is surprising would be an understatement and for the first time you feel the faint embers of hope stirring in your breast. You&#39;re let free \
 from the Captain&#39;s quarters, not that there&#39;s anywhere for you to really go given your situation, anxiously thinking about what the future has in store for you.
+
+[[Be shown to your Cabin...|Cabin]]</tw-passagedata><tw-passagedata pid="129" name="IntroSlow1" tags="" position="1100,1600">After what seems like ages @@color:cyan;Captain Reginald@@ and a another man, a fit gentleman with well-styled hair and a close-trimmed moustache and goatee, come to visit. The Captain approaches and you shrink back, huddling against the wall and curling your legs up to your chest.
+
+@@color:cyan;&quot;Oh, but she&#39;s a bashful lass, ain&#39;t she Mister Conroy!&quot;@@ the Captain says, laughing heartily. @@color:cyan;&quot;But don&#39;t ye let her kittenish ways deceive you, man. This filly made a right big sticky mess all her own when me men claimed her ruddy rosebud!&quot;@@
+
+The gentleman -- Conroy, you assume -- looks you over. &quot;Is that so?&quot;
+
+You only stare at him, unwilling to recall how you were raped and how your body betrayed you that night.
+
+@@color:cyan;&quot;It&#39;s so!&quot;@@ the captain answers, scowling at you. @@color:cyan;&quot;Took two of me swabbies to mop up her soupy pond of clit-spit, it did. And you can see it fer yerself, Conroy, when she&#39;s up for the crew tonight,&quot;@@ says the captain, grinning. @@color:cyan;&quot;And after they&#39;ve had their fill of her, you can start yer blasted mollycoddlin&#39; if ye like.&quot;@@
+
+&quot;No, I think it&#39;s best I start tonight,&quot; Conroy counters, &quot;lest she go the way of your previous cabin-girl. And, might I say, given the potential I already see in her, that would be a truly awful waste.&quot;
+
+The Captain curses and spits. @@.color:cyan;&quot;Ah, blast ye, Conroy! You&#39;ve a way with swayin&#39; a man that I&#39;ll never ken. But this&#39;ll mean double-doings for the other bounty lass. She&#39;ll be bloated with bilge at night&#39;s end, boyo!&quot;@@
+
+You hear a wailing shriek that you recognize must be from your love, @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@! But her outcry quickly gives to dramatically loud panting and disgusting foul language from her sweet mouth, demanding her violator squeeze her breasts and pump her naughty wet cunt harder and faster.
+
+A pitiful sob bubbles out of your lips as you realize she is genuinely enjoying being defiled by these depraved brutes.
+
+&quot;I&#39;d wager that the girl will be more than up to the task,&quot; Conroy says.
+
+The Captain laughs as the lusty squeals from @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ continue to echo from somewhere above. He slaps Conroy on the back and then pivots on his foot to leave the two of you alone in the cell, cackling all the way.
+
+&quot;Let us get acquainted.&quot; Conroy sits cross-legged on the floor in front of you, mindless of the dust and grime that will surely spoil his fine trousers. &quot;My name is Conroy. It&#39;s a pleasure to meet you, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@.&quot;
+
+[[But that&#39;s not your name...|IntroSlow2]]</tw-passagedata><tw-passagedata pid="130" name="IntroSlow2" tags="" position="1225,1600">&quot;That&#39;s not my name,&quot; you say.
+
+He smiles, showing off neat white teeth. &quot;It is. You simply did not know it until now. That&#39;s the way life is sometimes, you see?&quot; He puts his palms up and shrugs. &quot;You&#39;ve learned a lot of exciting things about yourself these past few days, I&#39;d wager. Perhaps the most interesting of which is that you&#39;re truly a girl.&quot;
+
+&quot;No I&#39;m not!&quot;
+
+&quot;Yes, you are, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@. Everyone here knows it -- the Captain knew it the moment he met you and so did I. The moment I stepped into this cell, I knew you to be a delicate damsel indeed.&quot;
+
+&quot;I have a cock!&quot;
+
+He sighs. &quot;That&#39;s what makes a man, is it? I think not. What parts we have matter little to who we are inside.&quot; He scoots a little closer and frowns at you. &quot;Honestly, do you truly believe there is shame in being a lovely lass?&quot;
+
+&lt;span id=&quot;shame&quot;&gt;
+&lt;&lt;click &quot;Of course not.&quot;&gt;&gt;
+    &lt;&lt;run $Player.AdjustStat(&quot;WillPower&quot;, -5);&gt;&gt;
+    &lt;&lt;replace &quot;#shame&quot;&gt;&gt;&quot;Of course not,&quot; he agrees with a smile and nod. &quot;Girls are beautiful creatures indeed and, the truth is, men only serve to nuture you. If anyone should be ashamed, it is me, not you. I&#39;ve been remiss in my chivalrous duties!&quot;&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/click&gt;&gt;
+&lt;&lt;click &quot;No, but I&#39;m not a lovely lass.&quot;&gt;&gt;
+    &lt;&lt;run $Player.AdjustStat(&quot;WillPower&quot;, -5);&gt;&gt;
+    &lt;&lt;replace &quot;#shame&quot;&gt;&gt;&quot;Perhaps you don&#39;t see it... yet,&quot; he says, &quot;but I see it very clearly. And with a little care, I&#39;m quite certain you&#39;ll see it, too. I would be honored to help you see what a lovely lass you are indeed.&quot;&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/click&gt;&gt;
+&lt;&lt;click &quot;Girls are fragile and silly!&quot;&gt;&gt;
+    &lt;&lt;replace &quot;#shame&quot;&gt;&gt;&quot;Fragile and silly?&quot; He sighs. &quot;I simply must beg to differ. Women are the entire reason men exist at all. You are our poetry. You are the sun and the moon. Fine lasses like yourself, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@, are our very hearts. Everything we do that is neither fragile nor silly we do in your honor. And I would very much like to show you how much I respect that.&quot;&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/click&gt;&gt;
+&lt;/span&gt;
+
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="131" name="IntroSlow3" tags="" position="100,1725">Conroy sets the bucket beside him and rolls out a mat on the floor. He beckons you to come closer to him.
+
+&quot;Come now, sweet little miss,&quot; he calls, bending over and holding out his hands to you. &quot;Please humor me a moment, I promise to be a gentleman.&quot;
+
+You shake your head slowly.
+
+The echoed moans from @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ above you crescendo into a fever-pitch of delirious squeals as the love of your life apparently succumbs to yet another forceful orgasm. You bite your lip and stare at the ceiling.
+
+He smiles wistfully. &quot;I know this must be difficult for you, but she has learned a lot about herself these past few days as well, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@. It need not diminish your love for her that she has found bliss in the company of others. Indeed, if you do truly love her, perhaps you might try to consider her happiness before your own.&quot;
+
+She lets out a long shuddering whimper that is quickly cut short by a surprised mewling as she is evidentally mounted by yet another lover. Your lip trembles and you feel your body heave in dejected misery. Her fair voice trills raunchy solicitations as her obscene panting beings anew.
+
+Conroy slowly steps toward you and then kneels down. He places his arm around you and holds your head against his chest and you immediately begin to violently sob into his expensive ruffled shirt.
+
+&quot;Let yourself cry, little lovebird,&quot; he says, stroking his fingers through your hair. &quot;It&#39;s only natural that someone as sweet as you would ache so strongly for unrequited love.&quot;
+
+[[Cry yourself out...|IntroSlow4]]</tw-passagedata><tw-passagedata pid="132" name="IntroSlow4" tags="" position="225,1725">You&#39;re not certain how long you cried for, but you come to the slow realization that Conroy is washing the filth from your body with water from the bucket and a soft sponge. The water has the faint odor of roses and prickles pleasantly on your skin. He seems careless of the fact that his gentlemanly attire is soaked and begrimed from bathing you.
+
+He sits in front of you and takes your hand. Delicately, he brushes under your fingernails to clear them of dirt. He does the same with your other hand and, surprisingly, with each your feet as well. Never having experienced being treated in such a manner, you allow him to attend to you while you sit silently in a mild sort of shock.
+
+&quot;You&#39;re looking every so much more like yourself now, darling,&quot; he says, smiling a terribly winsome smile.
+
+Gawking at your arm, you discern all at once that he has somehow wiped the hair from your body!
+
+You look to him in surprise as he continues to massage your foot with the sponge. He&#39;s still smiling but his eyes aren&#39;t looking at your face. You look down to see where he&#39;s gazing and realize what he&#39;s looking at: your shivering steely rod of an erection.
+
+You cover yourself with your hands as he moves to kneel beside you. With both your hands cupping your crotch, you don&#39;t have much choice but to comply when he gently turns you onto your stomach. Immediately you feel the sponge delve between your ass cheeks and you suck in a sharp breath.
+
+&quot;Don&#39;t fret, sweetheart,&quot; he coos, &quot;I am only cleaning up the mess those mannerless men left behind. I&#39;m afraid some of us are like that, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@, so you&#39;ll have to ensure to take care of this sort of thing yourself in the future.&quot;
+
+[[Let him wash your backside.|IntroSlow5]]</tw-passagedata><tw-passagedata pid="133" name="IntroSlow5" tags="" position="350,1725">Finally, Conroy turns you over and helps you sit up with a gentle hand behind your back. Your hands still cover your rigid cock, the stiffness of which has shown no sign of abating.
+
+He sits in front of you cross-legged and grasps under your knees to pull you close to him. Your legs rest over his now and his face is mere inches from your own.
+
+&quot;I see you, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@,&quot; he says, smiling again. &quot;I knew I&#39;d find you in there.&quot; He tenderly takes your hands and pries them away from your crotch to place them onto your thighs.
+
+Your eyes go wide and you let out a gasp as one of his hands cup your sack and the other gently grasps your petrified penis. Slowly, he starts to stroke you as he stares into your eyes.
+
+&quot;I like to make sweet girls like you blush,&quot; he admits with a smirk. You feel your body tremble in response to his careful attention to your cock and balls. &quot;So adorable,&quot; he says, biting his lip. &quot;Such a fine, sweet lass you are. I can see it in your eyes. You want to be desired. You want to be looked after and, yes... lusted after.&quot;
+
+You swallow hard. Your mouth falls open and you gulp in a breath. It takes you a moment to realize that you&#39;re the one filling the room with soft panting breaths.
+
+&quot;Good girl,&quot; he says, gazing into your eyes. &quot;What a very good girl you are. All you have to do is simply let yourself enjoy it. Let me indulge you. Let the man take care of you, just as it should be.&quot;
+
+Your leg jerks involuntarily and you stifle a moan as your orgasm quickly approaches.
+
+&quot;You probably wouldn&#39;t know this, being a lovely lass yourself, but men like me would do anything for you. Our first desire is to please you. Isn&#39;t that wonderful?&quot;
+
+His hand expertly slips and twists over your shaft and his thumb tenderly caresses your engorged cockhead. You clamp your eyes shut, groan as the orgasm overwhelms you, and release yourself into his fondling hand.
+
+[[Open your eyes.|IntroSlow6]]</tw-passagedata><tw-passagedata pid="134" name="IntroSlow6" tags="" position="475,1725">When you open your eyes, you see him still smiling. He brings his hand up and looks at the glistening cum painted across his palm and fingers. Then he brings his index finger up to your mouth, a fat gooey globule of your milky semen puddled on the tip.
+
+&quot;Open,&quot; he requests with just the smallest hint of command in his tone.
+
+&lt;span id=&quot;eatit&quot;&gt;
+&lt;&lt;click &quot;Open your mouth.&quot;&gt;&gt;
+    &lt;&lt;run $Player.AdjustStat(&quot;Perversion&quot;, 5);&gt;&gt;
+		&lt;&lt;run $Player.AdjustStat(&quot;WillPower&quot;, -3);&gt;&gt;
+    &lt;&lt;replace &quot;#eatit&quot;&gt;&gt;You feel your lips part as if all on their own and he touches the cum-covered fingertip to your lips. Slowly he slides his finger into your mouth, slathering your tongue with the slimy substance, and when he puckers his lips you find yourself doing the same, so that his finger slips from your lips clean.&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[He takes your chin in his unsullied hand and smiles at you.|IntroSlow7]]&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/click&gt;&gt;
+&lt;&lt;click &quot;Shake your head.&quot;&gt;&gt;
+    &lt;&lt;replace &quot;#eatit&quot;&gt;&gt;He frowns, clearly disappointed. His eyes reflect a deep sadness and the pain of betrayal.&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[He takes your chin in his hand and smiles sadly at you.|IntroSlow7]]&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/click&gt;&gt;
+&lt;/span&gt;
+
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="135" name="IntroSlow7" tags="" position="600,1725">Conroy releases your chin but continues to stare into your eyes and you, rather mesmerized, stare back into his eyes. You feel his hands on your genitals and then hear the strain of leather and the clink of metal. When you look down, you see that he&#39;s locked your cock and balls snugly into a cramped and somewhat uncomfortable confinement device. You realize that it&#39;ll be impossible to get a proper erection with this thing on!
+
+&quot;I hope you&#39;ve taken my words to heart, sweet little miss. I do truly hope I&#39;ve helped you realize your amazing potential. I implore you to embrace your womanhood and therefore end this somber misery you&#39;ve so harshly endured for all of your tender young life. It pains me greatly to see such a beautiful young woman suffer so cruelly.&quot; He sighs and gazes deep into your eyes with tears swelling in his own. &quot;Please, I beg you to let go of these silly social precepts that are robbing you of any true joy and comfort and be yourself -- for here upon this ship, if anywhere, you have the grand opportunity to do so.&quot; He leans forward and gives you a soft kiss. &quot;You are, most truly, a fine and lovely lass. And if no one should see that truth but me -- not even you, as heartbreaking as that would be -- then I will cry to the angels and shake the very heavens for the god-damned injustice of it.&quot;
+
+
+Conroy stands and wipes the tears from his eyes. He says in a sorrowful tone, &quot;I&#39;m afraid our time is at an end, dearest girl.&quot; He unbuckles his belt and draws his stiff prick from his trousers. &quot;As crude a request as it may be, my sweet, I must beg for graciousness in returning the favor of relief from this most profane and carnel encumbrance.&quot;
+
+He steps forward and you lean back. His cock isn&#39;t much bigger than your own but it looks immense from this angle -- especially so close to your face!
+
+&quot;Generous and gentle @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@,&quot; he says with a sad pout, &quot;surely you will do me the kind consideration of relieving me of this burdensome arousal?&quot; He inches the trembling erection closer to your mouth. &quot;If I might implore those luscious lips to open and accept me, I will one day die a most grateful and fulfilled man, once shown compassion and perhaps even some sweet smidgen of love -- if but only fleeting -- by such a kindhearted and pretty lass as yourself.&quot;
+
+[[Open your mouth.|IntroSlow8yes]]
+[[Shake your head.|IntroSlow8no]]</tw-passagedata><tw-passagedata pid="136" name="IntroSlow8yes" tags="" position="725,1725">&lt;&lt;run $Player.AdjustStat(&quot;Perversion&quot;, 5);&gt;&gt;
+&lt;&lt;run $Player.AdjustStat(&quot;WillPower&quot;, -3);&gt;&gt;
+You stare in his eyes as you let your lips part. He smiles and strokes your hair. The tip of his trembling prick slides to rests upon your bottom lip, gently nudging against your top lip. He closes his eyes as you open your mouth wide and use your tongue to lure his cockhead inside.
+
+&quot;Oh, sweet @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@,&quot; he sighs. &quot;How wonderfully I do feel in your warm embrace!&quot;
+
+Conroy seems content to let you entirely control the activity as his only action is to continue to lightly brush his fingers through your hair, gently grazing your scalp with his nails as he does so. Though you have to admit to yourself that alone does feel amazing.
+
+Resolved to follow through with this, you ease his dick into your mouth. You feel the pulse of his throbbing cock on your tongue and it sends a weird shiver through your body. You&#39;re not enjoying this, of course, you&#39;re just returning the favor! Although, come to think of it, all you got was a quick handjob...
+
+You start bobbing your head back and forth. Having never received a blowjob, much less given one, you&#39;re not sure what else you&#39;re supposed to do besides... suck.
+
+&quot;Look at me, sweetie,&quot; he whispers. You look up to meet his eyes. He smiles. &quot;Good girl. Now grasp my legs with your hands -- yes, like that. See? Now you can guide yourself along.&quot; He smooths your hair back and groans in appreciation. &quot;Now use your tongue along the shaft -- oh yes, that&#39;s a sweet lass. Your spirit is showing through, young lady.&quot;
+
+You continue to stare in his eyes as you bob your head on his cock. You&#39;re almost choking on all your saliva now, but Conroy certainly seems to be enjoying it. His breaths have become ragged and his smile falters now and then to allow a soft moan.
+
+&quot;Take it as deep as you can, sweetheart.&quot; He places his hand on the back of your head. &quot;I&#39;ll help you just a little. Don&#39;t be scared, okay? Stay calm by trying to swallow me down.&quot; He urges your face into his groin and you gag when you feel his cockhead bump against the back of your throat. Again he pushes you into him. You snort and sputter. &quot;Try to swallow me,&quot; he suggests, again forcing his prick into your throat. You clap your hands to the front of his thighs and heave against the violation.
+
+He releases you and your mouth slides off his cock with a wet pop. You gasp and drool. He takes your chin in his hand and directs your gaze to his eyes again.
+
+&quot;Take a breath, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@.&quot; He strokes your hair again. &quot;You have such a strong womanly desire to please, and it&#39;s ever so endearing, but I don&#39;t want you to be uncomfortable. Please be more careful, sweetheart.&quot;
+
+With that, he presses his cock through your lips and into your mouth. You start bobbing your head again and you remember to keep looking at him despite the tears in your eyes and snot running from your nose.
+
+Your jaw starts to ache and your knees start to hurt, but several minutes later Conroy finally closes his eyes. His body trembles. He doesn&#39;t smash your face against his groin, as you feared he would, but he does hold your head in place so he can unload a surprising amount of jizz into your mouth. You flinch as the first splash hits the back of your throat and slides into your stomach with barely a swallow. The hot and slimy saltiness of it tickles the wrong taste buds, but you have no choice but to gulp down the spunk that follows.
+
+When he finally releases you, his cock is entirely clean of cum. He smiles and brushes his fingers on your cheek and then tucks himself away and fastens his trousers back up.
+
+&quot;I&#39;d wager you feel like a lovely lass now,&quot; he says, winking at you.
+
+@@color:cyan;&quot;Aye, good to see she&#39;s behavin&#39; proper-like!&quot;@@
+
+You turn, wide-eyed, to see the Captain standing at the cell entrance with his hands on his hips and a huge grin on his face. How long was he watching?!
+
+&quot;Stay sweet, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@,&quot; Conroy says, patting your head. &quot;Don&#39;t let these men turn you sour.&quot; He steps by you and stands in front of the captain with his palm out. Captain Reginald huffs but drops a bag of coins into Conroy&#39;s waiting hand.
+
+@@color:cyan;&quot;I don&#39;t know what devilry has me payin&#39; you fer gettin&#39; a day-long buttery blow from me new cabin-girl,&quot;@@ he gripes.
+
+&quot;Yes you do,&quot; he replies with a smirk. He ties the sack of coins to his belt and, after one last smile over his shoulder for you, he walks out of the cell and turns from view.
+
+The captain grins at you and gestures to your throat.
+
+[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="137" name="IntroSlow8no" tags="" position="850,1725">You slowly shake your head no.
+
+Conroy&#39;s shoulders slump and he lets out a long sigh.
+
+&quot;Are you quite sure?&quot; he asks, pouting down at you. Then his face lights up with a smile. &quot;Oh, I see!&quot; He chuckles and shakes his head. &quot;Of course a lusty lass like yourself wouldn&#39;t be satisfied with a simple caress. My apologies for being so remiss to your needs, little miss.&quot;
+
+He kneels down in front of you, grinning, and pulls a vial of clear liquid from his pocket.
+
+&quot;Lie back, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@.&quot; He unstoppers the vial. &quot;I&#39;ll make sure you&#39;re comfortable, sweetie.&quot;
+
+You realize he&#39;s gotten the impression that you want to get fucked.
+
+[[Lie back and accept it.|IntroSlow8noyes]]
+[[Shake your head &quot;no&quot; more vigorously.|IntroSlow8nono]]</tw-passagedata><tw-passagedata pid="138" name="IntroSlow8noyes" tags="" position="975,1725">&lt;&lt;run $Player.AdjustStat(&quot;Perversion&quot;, 5);&gt;&gt;
+&lt;&lt;run $Player.AdjustStat(&quot;WillPower&quot;, -3);&gt;&gt;
+You lie back and watch Conroy as he pours some of the clear liquid onto his index and middle finger. Then he lowers his hand between your legs and you feel him press the tips of his fingers right into your asshole.
+
+&quot;Ah!&quot; you cry, squirming away.
+
+&quot;Be still, darling,&quot; he says, working his fingers deeper inside you while holding you in place with the other hand firmy gripping your thigh.
+
+You groan and clench your fists as his fingers press and twirl inside you. Your head drops back onto the mat and you squeeze your eyes shut as he slowly pumps them in and out of you. The liquid he is using stings a little and tingles a lot.
+
+A sigh of relief escapes your lips when his fingers cease their invasion. You chance a look down to see that he&#39;s now coated his stiff prick with the gleaming liquid. Your eyes go wide when you see him lining his cock up for entry.
+
+What did you expect, though?
+
+You&#39;re surprised how easy the tip slips into your ass -- you suppose the previous men that used you might have something to do with that. It doesn&#39;t even hurt at all, really.
+
+Until he pushes the full length of himself inside you rather unexpectedly.
+
+&quot;Ugh!&quot; Your legs suddenly go wobbly and the back of your head smacks against the mat as flashing stars cloud your vision. You whimper as he buries his hard cock deep inside you and his hips nudge against your ass as he tries to sink in even further. He leans over you and for some reason you find yourself automatically bringing your legs up high next to his sides to allow for maximum penetration.
+
+Conroy showers your neck and shoulders with brief kisses as he starts to pump himself in and out of your spasming boycunt. His teeth catch your earlobe for a moment and he gives it a lick. Your hands slide up his forearms and grip his arms above the elbow and you lock your ankles behind his back.
+
+The rhythm becomes almost hypnotic. You find yourself pushing against him as his hot meat burrows deep in your tingling guts. Your own knob is rock-hard again, bouncing off your stomach in time with Conroy&#39;s thrusts. He growls in your ear as he fucks you.
+
+Your head is swimming. Your body is sparking and sizzling inside and out. Your toes are curled and you&#39;re whimpering and mewling the very same way you heard &lt;&lt;= $Player.GirlfriendName&gt;&gt; doing earlier. Is this what it feels like to be a girl?
+
+Conroy rumbles out a shuddering moan and locks his hips to your ass. He clutches your shoulders, squeezing you into him, grunting and gyrating on top of you. Your cock, smashed between sweaty stomachs, simply can&#39;t take it anymore. You cry out and wrap your arms around Conroy&#39;s neck as jizz sputters out of your aching shaft and makes a hot syrupy mess all over the two of you.
+
+Finally, minutes later, exhaustion overtakes you and you let your arms and legs slip from around Conroy. He stands up and you watch him tuck himself away and fasten up his trousers while you lie there in a heady bliss. Not even the icky feeling of Conroy&#39;s hot spooge bubbling out of your prickling, throbbing asshole manages to ruin your euphoria.
+
+&quot;I&#39;d wager you feel like a lovely lass now,&quot; Conroy says, winking down at you.
+
+@@color:cyan;&quot;Aye, good to see she&#39;s behavin&#39; proper-like!&quot;@@
+
+That voice is more than enough to snap you out of your post-fuck relaxation.
+
+You sit up and turn, wide-eyed, to see the Captain standing at the cell entrance with his hands on his hips and a huge grin on his face. How long was he watching?!
+
+&quot;Stay sweet, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@,&quot; Conroy says, patting your head. &quot;Don&#39;t let these men turn you sour.&quot; He steps by you and stands in front of the captain with his palm out. Captain Reginald huffs but drops a bag of coins into Conroy&#39;s waiting hand.
+
+@@color:cyan;&quot;I don&#39;t know what devilry has me payin&#39; you fer fillin&#39; up me new cabin-girl with yer hoity-toity stuck-up spunk,&quot;@@ he gripes.
+
+&quot;Yes you do,&quot; he replies with a smirk. He ties the sack of coins to his belt and, after one last smile over his shoulder for you, he walks out of the cell and turns from view.
+
+The captain grins at you and gestures to your throat.
+
+[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="139" name="IntroSlow8nono" tags="" position="1100,1725">You shake your head no more vigorously.
+
+Conroy tilts his head and then abruptly frowns.
+
+&quot;You don&#39;t want to return the favor at all, then?&quot; he asks, sounding heartbroken.
+
+&quot;No,&quot; you say, finding your voice.
+
+He stoppers the vial and slips it back into his pocket. Then he stands and tucks himself away before fastening up his trousers.
+
+@@color:cyan;&quot;Looks like you failed to straighten out this uppity whore, Conroy.&quot;@@
+
+You turn, wide-eyed, to see the Captain standing at the cell entrance with his hands on his hips and a scowl on his face. How long was he watching?!
+
+&quot;My apologies, Captain,&quot; he says. &quot;Honestly, I do see great potential in her. But she stubbornly refuses to accept the truth.&quot; He looks to you with a sad smile. &quot;Destiny brought her here, to this ship, because she has wantonly rejected every call to her fate. @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@, you&#39;re a lovely lass and I truly do hope you have the courage to accept that one day.&quot;
+
+@@color:cyan;&quot;That&#39;ll be enough of that rot, ye prophesying fiend.&quot;@@ The captain thumbs over his shoulder. @@color:cyan;&quot;Out with you, Mister Conroy. I&#39;ll have me crew pound her fate into her, I will, then we&#39;ll heave the bloated bitch to the bloody mermaids.&quot;@@
+
+Conroy steps over to Captain Reginald. &quot;She&#39;s a good lass, Captain. She just doesn&#39;t know it yet. I beg you to give her a fighting chance.&quot;
+
+The captain shoots him a sideways scowl but eventually nods. @@color:cyan;&quot;Aye, she&#39;ll have it then, Mister Conroy. I owe you as much as that, but no more! We&#39;re square and equal now, you hear?&quot;@@
+
+&quot;Thank you, Captain.&quot;
+
+After one last smile over his shoulder for you, Conroy walks out of the cell and turns from view.
+
+@@color:cyan;&quot;Yer a right stubborn cunt, don&#39;t I see it! But know you best not test me, lass.&quot;@@
+
+The captain grins at you and gestures to your throat.
+
+[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="140" name="IntroSlow9" tags="" position="1225,1725">Your hands go up to your throat to find a collar around your neck (When did that get there? Was it here all along?).
+
+@@color:cyan;&quot;So long as you have that on my little strumpet, you&#39;re not going anywhere that I don&#39;t allow. And don&#39;t you be thinking to strike out at me either, because the moment you do that voodoo curse will take yer head clean off.&quot;@@
+
+It seems that your situation is even more dire than you imagined.
+
+@@color:cyan;&quot;Now, lucky fer your gutless hide, that silly slut you so kindly delivered unto us worked herself to dead exhaustion ensuring me crew were given a proper charitable farewell. Reckon she might not get her mind back after such a powerful showin&#39;, but it ain&#39;t no loss as it ain&#39;t her mind them slavers be after.&quot;@@ He chuckles loudly at his own joke. @@color:cyan;&quot;Oh, don&#39;t give me that evil eye, lass. I&#39;m tellin&#39; you that bitch was a whore in waitin&#39; and you need have no doubt about that on account you yerself heard all the proof of it.&quot;@@
+
+The captain turns and starts out of the cell. @@color:cyan;&quot;Be back fer ya in a couple days, if I&#39;m feelin&#39; generous. Mayhaps a week or more if not.&quot;@@
+
+He chuckles and leaves the cell, locking it behind him.
+
+[[Lie down and wait.|IntroSlow10]]</tw-passagedata><tw-passagedata pid="141" name="IntroSlow10" tags="" position="100,1850">Two days later you&#39;re led from your cell to the Captain&#39;s quarters by the First Mate. Once there, he officiously explains that you&#39;re now part of the Salty Mermaid crew, as their live-in &quot;Cabin Girl&quot; of course, and that you&#39;d best get used to your name, @@color:deepPink;&quot;&lt;&lt;= $Player.SlaveName&gt;&gt;&quot;@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women&#39;s clothes and you sigh internally. You shouldn&#39;t have expected anything else after the treatment you&#39;ve been given so far. Still, as embarrassing as it is, it&#39;s not as bad as being naked all the time.
+
+Before you go, he has some final words for you.
+
+@@color:cyan;&quot;Listen wench. The faster you accept your fate, the more likely you are the survive and I can tell yee are a survivor. Lest you be thinkin&#39; Captain Reggie is a heartless bastard, I&#39;ll offer you a chance to walk free. Just get changed first and come back to see me.&quot;@@
+
+Your mouth almost hangs open at these words. To say this is surprising would be an understatement and for the first time you feel the faint embers of hope stirring in your breast. You&#39;re let free from the Captain&#39;s quarters, not that there&#39;s anywhere for you to really go given your situation, anxiously thinking about what the future has in store for you.
 
 [[Be shown to your Cabin...|Cabin]]</tw-passagedata></tw-storydata></div>
 	<script id="script-sugarcube" type="text/javascript">

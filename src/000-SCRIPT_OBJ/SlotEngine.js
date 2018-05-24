@@ -354,30 +354,40 @@ App.SlotEngine = new function() {
     this._CalculateJackpot = function(slotMap, key, slots )
     {
 
+        var c = this.Customers[this._SelectedCustomer];
+        var basePay = c.PayOut * 10; // How much pay per slot.
+
         // See if the customer even WANTS this.
         var i;
         var wantMod = 0;
-        var c = this.Customers[this._SelectedCustomer];
         // Sex match
         if (!this._IsWild(key) ) {
             for (i = 0; i < c.Wants.length; i++)
-                if (c.Wants[i].toUpperCase() == key) wantMod = (i == 0) ? 1 : (i == 1) ? 0.75 : 0.5;
+                if (c.Wants[i].toUpperCase() == key) wantMod = (i == 0) ? 1.25 : (i == 1) ? 0.75 : 0.5;
         } else { // This was a wildcard match
             wantMod = this._GetWildcardBonus(key);
         }
 
         if (wantMod == 0) return [ ]; // What? We didn't even WANT this. It's not a payout.
 
+        basePay = Math.ceil( basePay * wantMod);
+
         // This is the overall modifier for the pay.
         var jackpot;
         switch(slots.length) {
-            case 9: jackpot = 100; break;
-            case 8: jackpot = 50; break;
-            case 7: jackpot = 20; break;
-            case 6: jackpot = 12; break;
-            case 5: jackpot = 8; break;
-            case 4: jackpot = 5; break;
-            default: jackpot = 3;
+            case 9: jackpot = 10; break;
+            case 8: jackpot = 5; break;
+            case 7: jackpot = 4; break;
+            case 6: jackpot = 3; break;
+            case 5: jackpot = 2; break;
+            case 4: jackpot = 1.5; break;
+            default: jackpot = 1;
+        }
+
+        // Build results.
+        var results = [ ];
+        for (i = 0; i < slots.length; i++) {
+
         }
     };
 
