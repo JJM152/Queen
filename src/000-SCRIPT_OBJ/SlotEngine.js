@@ -13,7 +13,7 @@ App.SlotEngine = new function() {
     this.MaxSlots = 9;
     this.Element = "#WhoreUI";
     this.DataKey = "";
-    this._Spins = 6;
+    this._Spins = 5;
     this._Spinning = false;
     this._SelectedCustomer = null;
     this._Player = null;
@@ -227,7 +227,7 @@ App.SlotEngine = new function() {
         var spinTitle = $('<span>').addClass('WhoreSpinsLeftTitle').text('SPINS LEFT');
         root.append(spinTitle);
 
-        var buyButton = $('<button>').addClass("WhoreBuySpinButton").text("BUY 3 SPINS FOR 1 ENERGY");
+        var buyButton = $('<button>').addClass("WhoreBuySpinButton").text("BUY 5 SPINS FOR 1 ENERGY");
         buyButton.on("click", this._BuyEnergyCB.bind(this));
         root.append(buyButton);
 
@@ -306,8 +306,7 @@ App.SlotEngine = new function() {
         return this._WildCards.contains(token);
     };
 
-    this._splitReel = function(a)
-    {
+    this._splitReel = function(a) {
         var r = [];
         var t = [];
 
@@ -327,6 +326,59 @@ App.SlotEngine = new function() {
         r.push(t);
 
         return r;
+    };
+
+    /**
+     * Return a scaled modifier based on the wildcard stat.
+     * @param wildCardType
+     * @returns {number}
+     * @private
+     */
+    this._GetWildcardBonus = function(wildCardType) {
+
+        var mod;
+        switch(wildCardType) {
+            case 'PERV' :
+                mod = this._Player.StatRoll("STAT", "Perversion", 100, 1, true);
+                break;
+            case 'FEM':
+                mod = this._Player.StatRoll("STAT", "Femininity", 100, 1, true);
+                break;
+            default:
+                mod = Math.floor( this._Player.Beauty() / 100);
+                break;
+        }
+        return mod;
+    };
+
+    this._CalculateJackpot = function(slotMap, key, slots )
+    {
+
+        // See if the customer even WANTS this.
+        var i;
+        var wantMod = 0;
+        var c = this.Customers[this._SelectedCustomer];
+        // Sex match
+        if (!this._IsWild(key) ) {
+            for (i = 0; i < c.Wants.length; i++)
+                if (c.Wants[i].toUpperCase() == key) wantMod = (i == 0) ? 1 : (i == 1) ? 0.75 : 0.5;
+        } else { // This was a wildcard match
+            wantMod = this._GetWildcardBonus(key);
+        }
+
+        if (wantMod == 0) return [ ]; // What? We didn't even WANT this. It's not a payout.
+
+        // This is the overall modifier for the pay.
+        var jackpot;
+        switch(slots.length) {
+            case 9: jackpot = 100; break;
+            case 8: jackpot = 50; break;
+            case 7: jackpot = 20; break;
+            case 6: jackpot = 12; break;
+            case 5: jackpot = 8; break;
+            case 4: jackpot = 5; break;
+            default: jackpot = 3;
+        }
     };
 
     // endregion
@@ -537,13 +589,13 @@ App.SlotEngine = new function() {
         }
 
         //Iterate through sequence map to calculate payout.
-        var payout = { };
+        var payout = [ ];
         for (key in sequences) {
             if (!sequences.hasOwnProperty(key) ) continue;
 
             for (i = 0; i < sequences[key].length; i++ ) {
                 if (sequences[key][i].length >= 3) {
-                    payout[key] = sequences[key][i].length; // tmp
+                    payout = payout.concat(this._CalculateJackpot(slotMap, key, sequences[key][i]));
                 }
             }
 
@@ -587,7 +639,7 @@ App.SlotEngine = new function() {
     this._BuyEnergyCB = function(e) {
 
         if (this._Spins >= 20 || this._Player.GetStat("STAT", "Energy") < 1) return;
-        this._Spins += 3;
+        this._Spins += 5;
         this._Player.AdjustStat("Energy", -1);
 
         // Redraw Energy bar
