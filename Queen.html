@@ -1252,7 +1252,10 @@ App.Item = new function() {
         var d = this._FetchData(Type, Name);
         var o;
 
-        if (d == 0 || (typeof d === 'undefined')) alert("Factory Failed: (" + Type + "," + Name + "," + Count + ")");
+        if (d == 0 || (typeof d === 'undefined'))  { 
+			alert("Factory Failed: (" + Type + "," + Name + "," + Count + ")");
+			return
+		}
 
         // might change this in the future, for now weapons are "clothing"
         if (Type == "CLOTHES") o = new this.Clothing(d);
@@ -8260,6 +8263,57 @@ App.Data.EffectLib = {
             "Bust Growth++++", "Ass Growth++++", "Hips Wider++++", "WillPower Up+++",
             "Waist Narrower++++", "Perversion XP----", "Seduction XP++++" ]
     },
+    /** FEMALE MANDRAKE */
+    "FEMALE_MANDRAKE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {
+            p.AdjustStat('Hormones', 10);
+            p.AdjustStat('Femininity', 15);
+            p.AdjustStat('Toxicity', 80);
+            p.AdjustStatXP('Femininity', 200);
+            p.AdjustStatXP('WillPower', 400);
+            p.AdjustStatXP('Hormones', 300);
+            p.AdjustStatXP('Perversion', 300);
+            p.AdjustBodyXP('Lips', 300); 
+            p.AdjustBodyXP('Bust', 300);
+            p.AdjustBodyXP('Ass', 300);
+            p.AdjustBodyXP('Hips', 300);
+            p.AdjustBodyXP('Waist',-300);
+            p.AdjustSkillXP('Seduction', 500);
+        },
+        "VALUE" : 2000,
+        "KNOWLEDGE" : [ "Female Hormones++++", "Femininity Up+++", "Femininity XP+++", "Toxicity Up----",
+            "Bust Growth+++", "Ass Growth+++", "Hips Wider+++", "WillPower Up+++",
+            "Waist Narrower+++", "Lips Fuller+++", "Perversion XP+++", "Seduction XP++++" ]
+    },
+    /** MALE MANDRAKE */
+    "MALE_MANDRAKE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {
+            p.AdjustStat('Hormones', -10);
+            p.AdjustStat('Femininity', -15);
+            p.AdjustStat('Toxicity', 80);
+            p.AdjustStat('WillPower', 5)
+            p.AdjustStatXP('Femininity', -200);
+            p.AdjustStatXP('WillPower', 400);
+            p.AdjustStatXP('Hormones', -300);
+            p.AdjustStatXP('Perversion', 500);
+            p.AdjustBodyXP('Lips', -300); 
+            p.AdjustBodyXP('Bust', -300);
+            p.AdjustBodyXP('Penis', 500);
+            p.AdjustBodyXP('Balls', 500);
+            p.AdjustBodyXP('Ass', -300);
+            p.AdjustBodyXP('Hips', -300);
+            p.AdjustBodyXP('Waist', 300);
+            p.AdjustSkillXP('Seduction', -500);
+        },
+        "VALUE" : 2000,
+        "KNOWLEDGE" : [ "Female Hormones----", "Femininity Down+++", "Femininity XP---", "Toxicity Up----",
+            "Bust Growth---", "Ass Growth---", "Hips Wider---", "WillPower Up++++", "Balls XP++++",
+            "Penis XP++++", "Waist Narrower---", "Lips Fuller---", "Perversion XP+++", "Seduction XP----" ]
+    },    
 	/** SIREN ELIXIR */
     "SIREN_ELIXIR" : {
         "FUN" : /** @param {App.Entity.Player} p
@@ -9483,6 +9537,24 @@ App.Data.Drugs = {
         "Charges": 1,
         "Effects": [ "SUCCUBUS_PHILTRE" ]
     },
+     "female mandrake": {
+        "Name": "female mandrake",
+        "ShortDesc": "A earthy pink root that looks like a woman",
+        "LongDesc": "This pink root looks like a voluptuous woman and smells like perfume. It is extremely rare and is said to have lifechanging consequences upon consumption.",
+        "Message": "You chew the root thoroughly and gulp it down. It fills your mouth with an earthy unpleasant feeling.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects": [ "FEMALE_MANDRAKE" ]
+    },
+       "male mandrake": {
+        "Name": "male mandrake",
+        "ShortDesc": "A earthy brown root that looks like a man",
+        "LongDesc": "This brown root looks like a strong man and smells like salt. It is extremely rare and is said to have lifechanging consequences upon consumption.",
+        "Message": "You chew the root thoroughly and gulp it down. It fills your mouth with an earthy unpleasant feeling.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects": [ "MALE_MANDRAKE" ]
+    },
     "pixie dust": {
         "Name": "pixie dust",
         "ShortDesc": "Pixie Dust",
@@ -9554,6 +9626,15 @@ App.Data.Drugs = {
         "Type": "potion",
         "Charges": 1,
         "Effects" : [ "FACE_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
+    },
+     "lip balm": {
+        "Name": "lip balm",
+        "ShortDesc": "strawberry flavored lip balm",
+        "LongDesc": "This one time use lip balm smells like strawberry and makes your lips feel nice.",
+        "Message": "You rub the lip balm into your lips. It smells like natural strawberry and makes your lips tingle.",
+        "Type": "potion",
+        "Charges": 1,
+        "Effects" : [ "LIPS_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "TOXICITY_COMMON"]
     },
 	"black hair dye": {
         "Name": "black hair dye",
@@ -9659,6 +9740,15 @@ App.Data.Food = {
         "Price": 500
     },
     /** NORMAL FOOD **/
+    "meat and beans": {
+        "Name": "meat and beans",
+        "ShortDesc": "A piece of meat with some beans in a bowl",
+        "LongDesc": "It actually smells really nice and probably fills you up quite well.",
+        "Message": "The meat is overcooked and the beans are hard but it tastes really good compared to what you have been eating so far.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects": [ "NUTRITION_RARE", "NUTRITION_XP_RARE" ]
+    },
     "mystery stew": {
         "Name": "mystery stew",
         "ShortDesc": "A deep brown stew of unidentifiable origin",
@@ -9779,6 +9869,15 @@ App.Data.Food = {
         "Type": "food",
         "Charges": 1,
         "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "PURGE_UNCOMMON", "FEMALE_HORMONE_XP_COMMON" ]
+    },
+     "mighty banana": {
+        "Name": "mighty banana",
+        "ShortDesc": "A big red banana that is shaped like a certain organ",
+        "LongDesc": "This banana was imported from a mystified island where the population is said to have dicks as long as their legs.",
+        "Message": "You take a bite from the peeled banana and realise that it has a salty aftertaste. At the same time you feel really manly and empowered",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "MALE_HORMONE_XP_UNCOMMON", "PENIS_XP_UNCOMMON", "BALLS_XP_UNCOMMON"]
     },
     "purple mushrooms": {
         "Name": "purple mushroom",
@@ -12600,7 +12699,7 @@ App.Data.JobData["SIMONE_JOB2"] = {
                 { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
                 { "TYPE" : "FLAG",      "NAME" : "SIMONE_LOOT",              "VALUE" :   0,  "OPT" : "SET" },
                 { "TYPE" : "FLAG",      "NAME" : "SIMONE_REWARD",            "VALUE" :   1,  "OPT" : "SET" },
-                { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon dancer chest", "VALUE" :   1,  "OPT" : "" }
+                { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon dancer loot box",    "VALUE" :   1,  "OPT" : "" }
             ],
             "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\". She hands you a novelty gift bag shaped like a teddy bear, you wonder what's inside it?",
             "END" : "",
@@ -14450,6 +14549,7 @@ App.Data.Stores["CARGO"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    4,    "MAX":    4,  "PRICE":  1.0, "MOOD": 20,   "LOCK": 0,  "TAG" : "medicinal herbs"       },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    4,    "MAX":    4,  "PRICE":  1.0, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"            },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "face cream"            },
+        { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 70,   "LOCK": 0,  "TAG" : "lip balm"              },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 20,   "LOCK": 1,  "TAG" : "khafkir"               },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 1,  "TAG" : "siren elixir"          },
 		// RARE ITEMS
@@ -14457,7 +14557,7 @@ App.Data.Stores["CARGO"] = {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",     "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 0,  "TAG" : "starfruit"             },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "nereid philtre"        },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "succubus philtre"      },
-		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   		}
+		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   	   }
     ]
 };
 /* twine-user-script #62: "galley_store.js" */
@@ -14473,7 +14573,9 @@ App.Data.Stores["GALLEY"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD": 40,   "LOCK": 0,  "TAG" : "starfruit"              },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD": 65,   "LOCK": 0,  "TAG" : "pink peach"             },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 0,  "TAG" : "milkdew melon"          },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 70,   "LOCK": 0,  "TAG" : "mighty banana"          },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "honey mead"             },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    3,     "MAX":    3,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "meat and beans"         },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
@@ -14494,6 +14596,7 @@ App.Data.Stores["GOLDEN_GOODS"] =  {
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate bra"             },
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate thong"           },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "milkdew melon"          },
+        { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "mighty banana"          },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "honey mead"             },
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
@@ -14533,6 +14636,7 @@ App.Data.Stores["ISLATAVERN"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"                   },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "cheap wine"             },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "bread and cheese"       },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "meat and beans"       },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "roast fish"             },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
     ]
@@ -14590,7 +14694,10 @@ App.Data.Stores["SMUGGLERS"] =  {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "smugglers ale"          },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",   "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD": 40,   "LOCK": 0,  "TAG" : "fairy dust"             },
         // LOCKED ITEMS
-        { "CATEGORY":   "COMMON",   "TYPE": "WEAPON",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD": 50,   "LOCK": 1,  "TAG" : "steel cutlass"          }
+        { "CATEGORY":   "COMMON",   "TYPE": "WEAPON",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD": 50,   "LOCK": 1,  "TAG" : "steel cutlass"          },
+        // RARE ITEMS
+        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",   "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "female mandrake"        },
+        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",   "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "male mandrake"          }
     ]
 };
 /* twine-user-script #69: "rot_lib.js" */
@@ -21803,6 +21910,9 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 &lt;&lt;else&gt;&gt;\
 @@color:cyan;Interact@@: [[Wake up|Cabin]]\
 &lt;&lt;/if&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="ChangeLog" tags="custom-menu" position="100,1225">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+!!!0.5b - 05/22/2018
+* Fixed bug with Simone&#39;s &quot;Blowjob Specialist&quot; job not rewarding loot box when success counter was maxed.
+
 !!!0.5a - 05/21/2018
 !!!!Bug Fixes
 * Fixed bug in JobEngine that was throwing an exception when trying to manipulate a body stat (this affected only Kipler&#39;s quest)

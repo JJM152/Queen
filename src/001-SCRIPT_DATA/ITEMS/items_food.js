@@ -59,6 +59,15 @@ App.Data.Food = {
         "Price": 500
     },
     /** NORMAL FOOD **/
+    "meat and beans": {
+        "Name": "meat and beans",
+        "ShortDesc": "A piece of meat with some beans in a bowl",
+        "LongDesc": "It actually smells really nice and probably fills you up quite well.",
+        "Message": "The meat is overcooked and the beans are hard but it tastes really good compared to what you have been eating so far.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects": [ "NUTRITION_RARE", "NUTRITION_XP_RARE" ]
+    },
     "mystery stew": {
         "Name": "mystery stew",
         "ShortDesc": "A deep brown stew of unidentifiable origin",
@@ -179,6 +188,15 @@ App.Data.Food = {
         "Type": "food",
         "Charges": 1,
         "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "PURGE_UNCOMMON", "FEMALE_HORMONE_XP_COMMON" ]
+    },
+     "mighty banana": {
+        "Name": "mighty banana",
+        "ShortDesc": "A big red banana that is shaped like a certain organ",
+        "LongDesc": "This banana was imported from a mystified island where the population is said to have dicks as long as their legs.",
+        "Message": "You take a bite from the peeled banana and realise that it has a salty aftertaste. At the same time you feel really manly and empowered",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "MALE_HORMONE_XP_UNCOMMON", "PENIS_XP_UNCOMMON", "BALLS_XP_UNCOMMON"]
     },
     "purple mushrooms": {
         "Name": "purple mushroom",

@@ -264,7 +264,7 @@ App.Data.JobData["SIMONE_JOB2"] = {
                 { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
                 { "TYPE" : "FLAG",      "NAME" : "SIMONE_LOOT",              "VALUE" :   0,  "OPT" : "SET" },
                 { "TYPE" : "FLAG",      "NAME" : "SIMONE_REWARD",            "VALUE" :   1,  "OPT" : "SET" },
-                { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon dancer chest", "VALUE" :   1,  "OPT" : "" }
+                { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon dancer loot box",    "VALUE" :   1,  "OPT" : "" }
             ],
             "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\". She hands you a novelty gift bag shaped like a teddy bear, you wonder what's inside it?",
             "END" : "",
