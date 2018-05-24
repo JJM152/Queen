@@ -219,7 +219,7 @@ cell door closed.
 <<click "No way in hell.">>
     <<run $Player.AdjustStat("Nutrition", -60);>>
     <<replace "#gruel">>You would @@color:red;rather starve to death@@ than eat such a perverse meal. You hastily kick the bowl over and scream in frustration. However, your complaints and wails fall on deaf ears...<</replace>>
-    <<replace "#nextPage">>[[Days pass...|Intro6]]<</replace>>
+    <<replace "#nextPage">>[[Days pass...|IntroSlow1]]<</replace>>
 <</click>></span>
 
 <span id="nextPage">@@color:cyan;Select an activity to continue@@</span>
@@ -266,6 +266,329 @@ from the Captain's quarters, not that there's anywhere for you to really go give
 
 [[Be shown to your Cabin...|Cabin]]
 
+:: IntroSlow1
+After what seems like ages @@color:cyan;Captain Reginald@@ and a another man, a fit gentleman with well-styled hair and a close-trimmed moustache and goatee, come to visit. The Captain approaches and you shrink back, huddling against the wall and curling your legs up to your chest.
+
+@@color:cyan;"Oh, but she's a bashful lass, ain't she Mister Conroy!"@@ the Captain says, laughing heartily. @@color:cyan;"But don't ye let her kittenish ways deceive you, man. This filly made a right big sticky mess all her own when me men claimed her ruddy rosebud!"@@
+
+The gentleman -- Conroy, you assume -- looks you over. "Is that so?"
+
+You only stare at him, unwilling to recall how you were raped and how your body betrayed you that night.
+
+@@color:cyan;"It's so!"@@ the captain answers, scowling at you. @@color:cyan;"Took two of me swabbies to mop up her soupy pond of clit-spit, it did. And you can see it fer yerself, Conroy, when she's up for the crew tonight,"@@ says the captain, grinning. @@color:cyan;"And after they've had their fill of her, you can start yer blasted mollycoddlin' if ye like."@@
+
+"No, I think it's best I start tonight," Conroy counters, "lest she go the way of your previous cabin-girl. And, might I say, given the potential I already see in her, that would be a truly awful waste."
+
+The Captain curses and spits. @@.color:cyan;"Ah, blast ye, Conroy! You've a way with swayin' a man that I'll never ken. But this'll mean double-doings for the other bounty lass. She'll be bloated with bilge at night's end, boyo!"@@
+
+You hear a wailing shriek that you recognize must be from your love, @@color:Pink;<<= $Player.GirlfriendName>>@@! But her outcry quickly gives to dramatically loud panting and disgusting foul language from her sweet mouth, demanding her violator squeeze her breasts and pump her naughty wet cunt harder and faster.
+
+A pitiful sob bubbles out of your lips as you realize she is genuinely enjoying being defiled by these depraved brutes.
+
+"I'd wager that the girl will be more than up to the task," Conroy says.
+
+The Captain laughs as the lusty squeals from @@color:Pink;<<= $Player.GirlfriendName>>@@ continue to echo from somewhere above. He slaps Conroy on the back and then pivots on his foot to leave the two of you alone in the cell, cackling all the way.
+
+"Let us get acquainted." Conroy sits cross-legged on the floor in front of you, mindless of the dust and grime that will surely spoil his fine trousers. "My name is Conroy. It's a pleasure to meet you, @@color:deepPink;<<= $Player.SlaveName>>@@."
+
+[[But that's not your name...|IntroSlow2]]
+
+:: IntroSlow2
+"That's not my name," you say.
+
+He smiles, showing off neat white teeth. "It is. You simply did not know it until now. That's the way life is sometimes, you see?" He puts his palms up and shrugs. "You've learned a lot of exciting things about yourself these past few days, I'd wager. Perhaps the most interesting of which is that you're truly a girl."
+
+"No I'm not!"
+
+"Yes, you are, @@color:deepPink;<<= $Player.SlaveName>>@@. Everyone here knows it -- the Captain knew it the moment he met you and so did I. The moment I stepped into this cell, I knew you to be a delicate damsel indeed."
+
+"I have a cock!"
+
+He sighs. "That's what makes a man, is it? I think not. What parts we have matter little to who we are inside." He scoots a little closer and frowns at you. "Honestly, do you truly believe there is shame in being a lovely lass?"
+
+<span id="shame">
+<<click "Of course not.">>
+    <<run $Player.AdjustStat("WillPower", -5);>>
+    <<replace "#shame">>"Of course not," he agrees with a smile and nod. "Girls are beautiful creatures indeed and, the truth is, men only serve to nuture you. If anyone should be ashamed, it is me, not you. I've been remiss in my chivalrous duties!"<</replace>>
+    <<replace "#nextPage">>[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]<</replace>>
+<</click>>
+<<click "No, but I'm not a lovely lass.">>
+    <<run $Player.AdjustStat("WillPower", -5);>>
+    <<replace "#shame">>"Perhaps you don't see it... yet," he says, "but I see it very clearly. And with a little care, I'm quite certain you'll see it, too. I would be honored to help you see what a lovely lass you are indeed."<</replace>>
+    <<replace "#nextPage">>[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]<</replace>>
+<</click>>
+<<click "Girls are fragile and silly!">>
+    <<replace "#shame">>"Fragile and silly?" He sighs. "I simply must beg to differ. Women are the entire reason men exist at all. You are our poetry. You are the sun and the moon. Fine lasses like yourself, @@color:deepPink;<<= $Player.SlaveName>>@@, are our very hearts. Everything we do that is neither fragile nor silly we do in your honor. And I would very much like to show you how much I respect that."<</replace>>
+    <<replace "#nextPage">>[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]<</replace>>
+<</click>>
+</span>
+
+<span id="nextPage">@@color:cyan;Select an activity to continue@@</span>
+
+:: IntroSlow3
+Conroy sets the bucket beside him and rolls out a mat on the floor. He beckons you to come closer to him.
+
+"Come now, sweet little miss," he calls, bending over and holding out his hands to you. "Please humor me a moment, I promise to be a gentleman."
+
+You shake your head slowly.
+
+The echoed moans from @@color:Pink;<<= $Player.GirlfriendName>>@@ above you crescendo into a fever-pitch of delirious squeals as the love of your life apparently succumbs to yet another forceful orgasm. You bite your lip and stare at the ceiling.
+
+He smiles wistfully. "I know this must be difficult for you, but she has learned a lot about herself these past few days as well, @@color:deepPink;<<= $Player.SlaveName>>@@. It need not diminish your love for her that she has found bliss in the company of others. Indeed, if you do truly love her, perhaps you might try to consider her happiness before your own."
+
+She lets out a long shuddering whimper that is quickly cut short by a surprised mewling as she is evidentally mounted by yet another lover. Your lip trembles and you feel your body heave in dejected misery. Her fair voice trills raunchy solicitations as her obscene panting beings anew.
+
+Conroy slowly steps toward you and then kneels down. He places his arm around you and holds your head against his chest and you immediately begin to violently sob into his expensive ruffled shirt.
+
+"Let yourself cry, little lovebird," he says, stroking his fingers through your hair. "It's only natural that someone as sweet as you would ache so strongly for unrequited love."
+
+[[Cry yourself out...|IntroSlow4]]
+
+:: IntroSlow4
+You're not certain how long you cried for, but you come to the slow realization that Conroy is washing the filth from your body with water from the bucket and a soft sponge. The water has the faint odor of roses and prickles pleasantly on your skin. He seems careless of the fact that his gentlemanly attire is soaked and begrimed from bathing you.
+
+He sits in front of you and takes your hand. Delicately, he brushes under your fingernails to clear them of dirt. He does the same with your other hand and, surprisingly, with each your feet as well. Never having experienced being treated in such a manner, you allow him to attend to you while you sit silently in a mild sort of shock.
+
+"You're looking every so much more like yourself now, darling," he says, smiling a terribly winsome smile.
+
+Gawking at your arm, you discern all at once that he has somehow wiped the hair from your body!
+
+You look to him in surprise as he continues to massage your foot with the sponge. He's still smiling but his eyes aren't looking at your face. You look down to see where he's gazing and realize what he's looking at: your shivering steely rod of an erection.
+
+You cover yourself with your hands as he moves to kneel beside you. With both your hands cupping your crotch, you don't have much choice but to comply when he gently turns you onto your stomach. Immediately you feel the sponge delve between your ass cheeks and you suck in a sharp breath.
+
+"Don't fret, sweetheart," he coos, "I am only cleaning up the mess those mannerless men left behind. I'm afraid some of us are like that, @@color:deepPink;<<= $Player.SlaveName>>@@, so you'll have to ensure to take care of this sort of thing yourself in the future."
+
+[[Let him wash your backside.|IntroSlow5]]
+
+:: IntroSlow5
+Finally, Conroy turns you over and helps you sit up with a gentle hand behind your back. Your hands still cover your rigid cock, the stiffness of which has shown no sign of abating.
+
+He sits in front of you cross-legged and grasps under your knees to pull you close to him. Your legs rest over his now and his face is mere inches from your own.
+
+"I see you, @@color:deepPink;<<= $Player.SlaveName>>@@," he says, smiling again. "I knew I'd find you in there." He tenderly takes your hands and pries them away from your crotch to place them onto your thighs.
+
+Your eyes go wide and you let out a gasp as one of his hands cup your sack and the other gently grasps your petrified penis. Slowly, he starts to stroke you as he stares into your eyes.
+
+"I like to make sweet girls like you blush," he admits with a smirk. You feel your body tremble in response to his careful attention to your cock and balls. "So adorable," he says, biting his lip. "Such a fine, sweet lass you are. I can see it in your eyes. You want to be desired. You want to be looked after and, yes... lusted after."
+
+You swallow hard. Your mouth falls open and you gulp in a breath. It takes you a moment to realize that you're the one filling the room with soft panting breaths.
+
+"Good girl," he says, gazing into your eyes. "What a very good girl you are. All you have to do is simply let yourself enjoy it. Let me indulge you. Let the man take care of you, just as it should be."
+
+Your leg jerks involuntarily and you stifle a moan as your orgasm quickly approaches.
+
+"You probably wouldn't know this, being a lovely lass yourself, but men like me would do anything for you. Our first desire is to please you. Isn't that wonderful?"
+
+His hand expertly slips and twists over your shaft and his thumb tenderly caresses your engorged cockhead. You clamp your eyes shut, groan as the orgasm overwhelms you, and release yourself into his fondling hand.
+
+[[Open your eyes.|IntroSlow6]]
+
+:: IntroSlow6
+When you open your eyes, you see him still smiling. He brings his hand up and looks at the glistening cum painted across his palm and fingers. Then he brings his index finger up to your mouth, a fat gooey globule of your milky semen puddled on the tip.
+
+"Open," he requests with just the smallest hint of command in his tone.
+
+<span id="eatit">
+<<click "Open your mouth.">>
+    <<run $Player.AdjustStat("Perversion", 5);>>
+		<<run $Player.AdjustStat("WillPower", -3);>>
+    <<replace "#eatit">>You feel your lips part as if all on their own and he touches the cum-covered fingertip to your lips. Slowly he slides his finger into your mouth, slathering your tongue with the slimy substance, and when he puckers his lips you find yourself doing the same, so that his finger slips from your lips clean.<</replace>>
+    <<replace "#nextPage">>[[He takes your chin in his unsullied hand and smiles at you.|IntroSlow7]]<</replace>>
+<</click>>
+<<click "Shake your head.">>
+    <<replace "#eatit">>He frowns, clearly disappointed. His eyes reflect a deep sadness and the pain of betrayal.<</replace>>
+    <<replace "#nextPage">>[[He takes your chin in his hand and smiles sadly at you.|IntroSlow7]]<</replace>>
+<</click>>
+</span>
+
+<span id="nextPage">@@color:cyan;Select an activity to continue@@</span>
+
+::IntroSlow7
+Conroy releases your chin but continues to stare into your eyes and you, rather mesmerized, stare back into his eyes. You feel his hands on your genitals and then hear the strain of leather and the clink of metal. When you look down, you see that he's locked your cock and balls snugly into a cramped and somewhat uncomfortable confinement device. You realize that it'll be impossible to get a proper erection with this thing on!
+
+"I hope you've taken my words to heart, sweet little miss. I do truly hope I've helped you realize your amazing potential. I implore you to embrace your womanhood and therefore end this somber misery you've so harshly endured for all of your tender young life. It pains me greatly to see such a beautiful young woman suffer so cruelly." He sighs and gazes deep into your eyes with tears swelling in his own. "Please, I beg you to let go of these silly social precepts that are robbing you of any true joy and comfort and be yourself -- for here upon this ship, if anywhere, you have the grand opportunity to do so." He leans forward and gives you a soft kiss. "You are, most truly, a fine and lovely lass. And if no one should see that truth but me -- not even you, as heartbreaking as that would be -- then I will cry to the angels and shake the very heavens for the god-damned injustice of it."
+
+
+Conroy stands and wipes the tears from his eyes. He says in a sorrowful tone, "I'm afraid our time is at an end, dearest girl." He unbuckles his belt and draws his stiff prick from his trousers. "As crude a request as it may be, my sweet, I must beg for graciousness in returning the favor of relief from this most profane and carnel encumbrance."
+
+He steps forward and you lean back. His cock isn't much bigger than your own but it looks immense from this angle -- especially so close to your face!
+
+"Generous and gentle @@color:deepPink;<<= $Player.SlaveName>>@@," he says with a sad pout, "surely you will do me the kind consideration of relieving me of this burdensome arousal?" He inches the trembling erection closer to your mouth. "If I might implore those luscious lips to open and accept me, I will one day die a most grateful and fulfilled man, once shown compassion and perhaps even some sweet smidgen of love -- if but only fleeting -- by such a kindhearted and pretty lass as yourself."
+
+[[Open your mouth.|IntroSlow8yes]]
+[[Shake your head.|IntroSlow8no]]
+
+:: IntroSlow8yes
+<<run $Player.AdjustStat("Perversion", 5);>>
+<<run $Player.AdjustStat("WillPower", -3);>>
+You stare in his eyes as you let your lips part. He smiles and strokes your hair. The tip of his trembling prick slides to rests upon your bottom lip, gently nudging against your top lip. He closes his eyes as you open your mouth wide and use your tongue to lure his cockhead inside.
+
+"Oh, sweet @@color:deepPink;<<= $Player.SlaveName>>@@," he sighs. "How wonderfully I do feel in your warm embrace!"
+
+Conroy seems content to let you entirely control the activity as his only action is to continue to lightly brush his fingers through your hair, gently grazing your scalp with his nails as he does so. Though you have to admit to yourself that alone does feel amazing.
+
+Resolved to follow through with this, you ease his dick into your mouth. You feel the pulse of his throbbing cock on your tongue and it sends a weird shiver through your body. You're not enjoying this, of course, you're just returning the favor! Although, come to think of it, all you got was a quick handjob...
+
+You start bobbing your head back and forth. Having never received a blowjob, much less given one, you're not sure what else you're supposed to do besides... suck.
+
+"Look at me, sweetie," he whispers. You look up to meet his eyes. He smiles. "Good girl. Now grasp my legs with your hands -- yes, like that. See? Now you can guide yourself along." He smooths your hair back and groans in appreciation. "Now use your tongue along the shaft -- oh yes, that's a sweet lass. Your spirit is showing through, young lady."
+
+You continue to stare in his eyes as you bob your head on his cock. You're almost choking on all your saliva now, but Conroy certainly seems to be enjoying it. His breaths have become ragged and his smile falters now and then to allow a soft moan.
+
+"Take it as deep as you can, sweetheart." He places his hand on the back of your head. "I'll help you just a little. Don't be scared, okay? Stay calm by trying to swallow me down." He urges your face into his groin and you gag when you feel his cockhead bump against the back of your throat. Again he pushes you into him. You snort and sputter. "Try to swallow me," he suggests, again forcing his prick into your throat. You clap your hands to the front of his thighs and heave against the violation.
+
+He releases you and your mouth slides off his cock with a wet pop. You gasp and drool. He takes your chin in his hand and directs your gaze to his eyes again.
+
+"Take a breath, @@color:deepPink;<<= $Player.SlaveName>>@@." He strokes your hair again. "You have such a strong womanly desire to please, and it's ever so endearing, but I don't want you to be uncomfortable. Please be more careful, sweetheart."
+
+With that, he presses his cock through your lips and into your mouth. You start bobbing your head again and you remember to keep looking at him despite the tears in your eyes and snot running from your nose.
+
+Your jaw starts to ache and your knees start to hurt, but several minutes later Conroy finally closes his eyes. His body trembles. He doesn't smash your face against his groin, as you feared he would, but he does hold your head in place so he can unload a surprising amount of jizz into your mouth. You flinch as the first splash hits the back of your throat and slides into your stomach with barely a swallow. The hot and slimy saltiness of it tickles the wrong taste buds, but you have no choice but to gulp down the spunk that follows.
+
+When he finally releases you, his cock is entirely clean of cum. He smiles and brushes his fingers on your cheek and then tucks himself away and fastens his trousers back up.
+
+"I'd wager you feel like a lovely lass now," he says, winking at you.
+
+@@color:cyan;"Aye, good to see she's behavin' proper-like!"@@
+
+You turn, wide-eyed, to see the Captain standing at the cell entrance with his hands on his hips and a huge grin on his face. How long was he watching?!
+
+"Stay sweet, @@color:deepPink;<<= $Player.SlaveName>>@@," Conroy says, patting your head. "Don't let these men turn you sour." He steps by you and stands in front of the captain with his palm out. Captain Reginald huffs but drops a bag of coins into Conroy's waiting hand.
+
+@@color:cyan;"I don't know what devilry has me payin' you fer gettin' a day-long buttery blow from me new cabin-girl,"@@ he gripes.
+
+"Yes you do," he replies with a smirk. He ties the sack of coins to his belt and, after one last smile over his shoulder for you, he walks out of the cell and turns from view.
+
+The captain grins at you and gestures to your throat.
+
+[[Check what he's indicating.|IntroSlow9]]
+
+:: IntroSlow8no
+You slowly shake your head no.
+
+Conroy's shoulders slump and he lets out a long sigh.
+
+"Are you quite sure?" he asks, pouting down at you. Then his face lights up with a smile. "Oh, I see!" He chuckles and shakes his head. "Of course a lusty lass like yourself wouldn't be satisfied with a simple caress. My apologies for being so remiss to your needs, little miss."
+
+He kneels down in front of you, grinning, and pulls a vial of clear liquid from his pocket.
+
+"Lie back, @@color:deepPink;<<= $Player.SlaveName>>@@." He unstoppers the vial. "I'll make sure you're comfortable, sweetie."
+
+You realize he's gotten the impression that you want to get fucked.
+
+[[Lie back and accept it.|IntroSlow8noyes]]
+[[Shake your head "no" more vigorously.|IntroSlow8nono]]
+
+:: IntroSlow8noyes
+<<run $Player.AdjustStat("Perversion", 5);>>
+<<run $Player.AdjustStat("WillPower", -3);>>
+You lie back and watch Conroy as he pours some of the clear liquid onto his index and middle finger. Then he lowers his hand between your legs and you feel him press the tips of his fingers right into your asshole.
+
+"Ah!" you cry, squirming away.
+
+"Be still, darling," he says, working his fingers deeper inside you while holding you in place with the other hand firmy gripping your thigh.
+
+You groan and clench your fists as his fingers press and twirl inside you. Your head drops back onto the mat and you squeeze your eyes shut as he slowly pumps them in and out of you. The liquid he is using stings a little and tingles a lot.
+
+A sigh of relief escapes your lips when his fingers cease their invasion. You chance a look down to see that he's now coated his stiff prick with the gleaming liquid. Your eyes go wide when you see him lining his cock up for entry.
+
+What did you expect, though?
+
+You're surprised how easy the tip slips into your ass -- you suppose the previous men that used you might have something to do with that. It doesn't even hurt at all, really.
+
+Until he pushes the full length of himself inside you rather unexpectedly.
+
+"Ugh!" Your legs suddenly go wobbly and the back of your head smacks against the mat as flashing stars cloud your vision. You whimper as he buries his hard cock deep inside you and his hips nudge against your ass as he tries to sink in even further. He leans over you and for some reason you find yourself automatically bringing your legs up high next to his sides to allow for maximum penetration.
+
+Conroy showers your neck and shoulders with brief kisses as he starts to pump himself in and out of your spasming boycunt. His teeth catch your earlobe for a moment and he gives it a lick. Your hands slide up his forearms and grip his arms above the elbow and you lock your ankles behind his back.
+
+The rhythm becomes almost hypnotic. You find yourself pushing against him as his hot meat burrows deep in your tingling guts. Your own knob is rock-hard again, bouncing off your stomach in time with Conroy's thrusts. He growls in your ear as he fucks you.
+
+Your head is swimming. Your body is sparking and sizzling inside and out. Your toes are curled and you're whimpering and mewling the very same way you heard <<= $Player.GirlfriendName>> doing earlier. Is this what it feels like to be a girl?
+
+Conroy rumbles out a shuddering moan and locks his hips to your ass. He clutches your shoulders, squeezing you into him, grunting and gyrating on top of you. Your cock, smashed between sweaty stomachs, simply can't take it anymore. You cry out and wrap your arms around Conroy's neck as jizz sputters out of your aching shaft and makes a hot syrupy mess all over the two of you.
+
+Finally, minutes later, exhaustion overtakes you and you let your arms and legs slip from around Conroy. He stands up and you watch him tuck himself away and fasten up his trousers while you lie there in a heady bliss. Not even the icky feeling of Conroy's hot spooge bubbling out of your prickling, throbbing asshole manages to ruin your euphoria.
+
+"I'd wager you feel like a lovely lass now," Conroy says, winking down at you.
+
+@@color:cyan;"Aye, good to see she's behavin' proper-like!"@@
+
+That voice is more than enough to snap you out of your post-fuck relaxation.
+
+You sit up and turn, wide-eyed, to see the Captain standing at the cell entrance with his hands on his hips and a huge grin on his face. How long was he watching?!
+
+"Stay sweet, @@color:deepPink;<<= $Player.SlaveName>>@@," Conroy says, patting your head. "Don't let these men turn you sour." He steps by you and stands in front of the captain with his palm out. Captain Reginald huffs but drops a bag of coins into Conroy's waiting hand.
+
+@@color:cyan;"I don't know what devilry has me payin' you fer fillin' up me new cabin-girl with yer hoity-toity stuck-up spunk,"@@ he gripes.
+
+"Yes you do," he replies with a smirk. He ties the sack of coins to his belt and, after one last smile over his shoulder for you, he walks out of the cell and turns from view.
+
+The captain grins at you and gestures to your throat.
+
+[[Check what he's indicating.|IntroSlow9]]
+
+:: IntroSlow8nono
+You shake your head no more vigorously.
+
+Conroy tilts his head and then abruptly frowns.
+
+"You don't want to return the favor at all, then?" he asks, sounding heartbroken.
+
+"No," you say, finding your voice.
+
+He stoppers the vial and slips it back into his pocket. Then he stands and tucks himself away before fastening up his trousers.
+
+@@color:cyan;"Looks like you failed to straighten out this uppity whore, Conroy."@@
+
+You turn, wide-eyed, to see the Captain standing at the cell entrance with his hands on his hips and a scowl on his face. How long was he watching?!
+
+"My apologies, Captain," he says. "Honestly, I do see great potential in her. But she stubbornly refuses to accept the truth." He looks to you with a sad smile. "Destiny brought her here, to this ship, because she has wantonly rejected every call to her fate. @@color:deepPink;<<= $Player.SlaveName>>@@, you're a lovely lass and I truly do hope you have the courage to accept that one day."
+
+@@color:cyan;"That'll be enough of that rot, ye prophesying fiend."@@ The captain thumbs over his shoulder. @@color:cyan;"Out with you, Mister Conroy. I'll have me crew pound her fate into her, I will, then we'll heave the bloated bitch to the bloody mermaids."@@
+
+Conroy steps over to Captain Reginald. "She's a good lass, Captain. She just doesn't know it yet. I beg you to give her a fighting chance."
+
+The captain shoots him a sideways scowl but eventually nods. @@color:cyan;"Aye, she'll have it then, Mister Conroy. I owe you as much as that, but no more! We're square and equal now, you hear?"@@
+
+"Thank you, Captain."
+
+After one last smile over his shoulder for you, Conroy walks out of the cell and turns from view.
+
+@@color:cyan;"Yer a right stubborn cunt, don't I see it! But know you best not test me, lass."@@
+
+The captain grins at you and gestures to your throat.
+
+[[Check what he's indicating.|IntroSlow9]]
+
+:: IntroSlow9
+
+Your hands go up to your throat to find a collar around your neck (When did that get there? Was it here all along?).
+
+@@color:cyan;"So long as you have that on my little strumpet, you're not going anywhere that I don't allow. And don't you be thinking to strike out at me either, because the moment you do that voodoo curse will take yer head clean off."@@
+
+It seems that your situation is even more dire than you imagined.
+
+@@color:cyan;"Now, lucky fer your gutless hide, that silly slut you so kindly delivered unto us worked herself to dead exhaustion ensuring me crew were given a proper charitable farewell. Reckon she might not get her mind back after such a powerful showin', but it ain't no loss as it ain't her mind them slavers be after."@@ He chuckles loudly at his own joke. @@color:cyan;"Oh, don't give me that evil eye, lass. I'm tellin' you that bitch was a whore in waitin' and you need have no doubt about that on account you yerself heard all the proof of it."@@
+
+The captain turns and starts out of the cell. @@color:cyan;"Be back fer ya in a couple days, if I'm feelin' generous. Mayhaps a week or more if not."@@
+
+He chuckles and leaves the cell, locking it behind him.
+
+[[Lie down and wait.|IntroSlow10]]
+
+:: IntroSlow10
+
+Two days later you're led from your cell to the Captain's quarters by the First Mate. Once there, he officiously explains that you're now part of the Salty Mermaid crew, as their live-in "Cabin Girl" of course, and that you'd best get used to your name, @@color:deepPink;"<<= $Player.SlaveName>>"@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women's clothes and you sigh internally. You shouldn't have expected anything else after the treatment you've been given so far. Still, as embarrassing as it is, it's not as bad as being naked all the time.
+
+Before you go, he has some final words for you.
+
+@@color:cyan;"Listen wench. The faster you accept your fate, the more likely you are the survive and I can tell yee are a survivor. Lest you be thinkin' Captain Reggie is a heartless bastard, I'll offer you a chance to walk free. Just get changed first and come back to see me."@@
+
+Your mouth almost hangs open at these words. To say this is surprising would be an understatement and for the first time you feel the faint embers of hope stirring in your breast. You're let free from the Captain's quarters, not that there's anywhere for you to really go given your situation, anxiously thinking about what the future has in store for you.
+
+[[Be shown to your Cabin...|Cabin]]
 
 
 
