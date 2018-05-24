@@ -1059,18 +1059,29 @@ App.Entity.Player = function (){
 
     /**
      *
-     * @param ItemDict
+     * @param ItemDictOrType
+     * @param Name
      * @returns {boolean}
      */
-    this.OwnsWardrobeItem = function(ItemDict)
+    this.OwnsWardrobeItem = function(ItemDictOrType, Name)
     {
-        if ((ItemDict["TYPE"] == "CLOTHES") || (ItemDict["TYPE"] == "WEAPON")) {
-            if (this.Wardrobe.filter( function(o){return o.Name() == ItemDict["TAG"];}).length > 0 ) return true;
-            var Slot = window.App.Data.Clothes[ItemDict["TAG"]]["Slot"];
-            if ((this.Equipment[Slot] === undefined) || (this.Equipment[Slot] == 0)) return false;
-            if (this.Equipment[Slot].Name() == ItemDict["TAG"]) return true;
-        }
-        return false;
+		var Type;
+		if (typeof(ItemDictOrType) === "object" && !(ItemDictOrType instanceof String) && typeof(Name) === "undefined") {
+			Type = ItemDictOrType["TYPE"];
+			Name = ItemDictOrType["TAG"];
+		} else {
+			if (ItemDictOrType instanceof String) ItemDictOrType = String(ItemDictOrType);
+			if (Name instanceof String) Name = String(Name);
+			if (typeof (ItemDictOrType) != "string" || typeof (Name) != "string") throw new Error("Invalid arguments");
+			Type = ItemDictOrType;
+		}
+
+        if (Type != "CLOTHES" && Type != "WEAPON") return false;
+        if (this.Wardrobe.filter( function(o) { return o.Name() == Name; }).length > 0 ) return true;
+        var Slot = window.App.Data.Clothes[Name].Slot;
+		var EquipmentInSlot = this.Equipment[Slot];
+		if (EquipmentInSlot == null || EquipmentInSlot == 0) return false;
+        return EquipmentInSlot.Name() == Name;
     };
 
     /**
@@ -1379,5 +1390,21 @@ App.Entity.Player = function (){
             }
         }
     }
+
+	// Acquire everything for debug purposes
+	this.AcquireAllItems = function() {
+		console.group("AcquireAllItems");
+		for (var prop in window.App.Data.Clothes) {
+			if (window.App.Data.Clothes.hasOwnProperty(prop)) {
+				if (!this.OwnsWardrobeItem("CLOTHES", prop)) {
+					console.log("Adding \"" + prop + "\" (clothes)");
+					this.AddItem("CLOTHES", prop);
+				} else {
+					console.log("\"" + prop + "\" (clothes) already owned");
+				}
+			}
+		}
+		console.groupEnd();
+	}
 };
 

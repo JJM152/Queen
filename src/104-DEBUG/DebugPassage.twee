@@ -6,5 +6,8 @@
 [[Cabin]] | [[IslaHarbor]] | [[GoldenIsle]] | [[Abamond]] | [[PortRoyale]] | [[PassageTest]]
 [[HiddenCove]] | [[Ruins]] | [[TreasureRoom]]
 
+@@color:silver;Items Menu@@
+[[Acquire everything|DebugPassage][$Player.AcquireAllItems();]]
+
 @@color:Cyan;Endings Menu@@
 [[Money Best Win|GameWon][$Player.CoreStats["WillPower"] = 100;]] | [[Money Average Win|GameWon][$Player.CoreStats["WillPower"] = 50;]] | [[Money Worst Win|GameWon][$Player.CoreStats["WillPower"] = 30;]]
