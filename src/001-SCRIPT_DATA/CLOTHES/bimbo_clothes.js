@@ -40,7 +40,7 @@ App.Data.Clothes["bimbo thong"] = { //15
 // PANTS SLOT
 
 // DRESS SLOT
-App.Data.Clothes["micro dress"] = { // +40
+App.Data.Clothes["sexy micro dress"] = { // +40
     "Name": "sexy micro dress", "ShortDesc": "a figure hugging {COLOR} micro dress",
     "LongDesc": "This dress is made out of some exotic material that hugs every curve of your body. It's so humiliatingly short that your genitals are half open for everyone and the top has several strategic holes to present multiple views of your chest.",
     "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "pink", "Style": "LEGENDARY", "Type" : "ONE PIECE",

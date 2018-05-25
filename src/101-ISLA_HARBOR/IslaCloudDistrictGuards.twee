@@ -1,0 +1,27 @@
+:: IslaCloudDistrictGuards
+
+<<if $Player.HighClassPresentability() > 80 >>
+
+<<if $Player.ObviousTrappiness() > 50 >>
+As you pass the guards, they give you weird looks. Do they see that you are a man? Well, at least they don't try to stop you, \
+but you probably should be careful inside. If you get arrested, your fate would probably be worse than that of a woman.
+<<else>>
+The guards glance at you and return to observing surroundings. Apparently you look just like Cloud District material.
+<</if>>
+
+[[Continue to the Cloud District|IslaCloudDistrict]]
+<<else>>
+As you attempt to pass the guards, they stop you.
+
+"Hold on! You clearly don't belong there."
+
+Feigning ignorance, you ask why.
+
+"Because it's for the upper class, which means local nobles and wealthy people, and I know all local nobles personally, \
+while your appearance is certainly not showing any wealth."
+
+Oh well, not this time.
+
+[[Go back to Town Square|IslaTown]]
+<</if>>
+
