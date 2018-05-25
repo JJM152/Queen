@@ -5,7 +5,7 @@ App.Data.Whoring["SaltyMermaid"] = {
     // Shows in the UI as location.
     "DESC"      : "The Salty Mermaid",
     // Sex act weighted table.
-    "WANTS"     : [ "Hand", "Hand", "Ass", "Ass", "Ass", "Ass", "BJ", "BJ", "BJ", "BJ", "Tits", "Tits" ],
+    "WANTS"     : [ "HAND", "HAND", "HAND", "ASS", "ASS", "ASS", "ASS", "BJ", "BJ", "BJ", "BJ", "TITS", "TITS" ],
     // Minimum payout rank.
     "MIN_PAY"   : 1,
     // Maximum payout rank.
@@ -27,11 +27,11 @@ App.Data.Whoring["Reginald"] = {
     // Shows in the UI as location.
     "DESC"      : "The Salty Mermaid",
     // Sex act weighted table.
-    "WANTS"     : [ "Ass", "BJ" ],
+    "WANTS"     : [ "ASS", "BJ" ],
     // Minimum payout rank.
     "MIN_PAY"   : 3,
     // Maximum payout rank.
-    "MAX_PAY"   : 4,
+    "MAX_PAY"   : 5,
     // Bonus payout, weighted table
     "BONUS"     : [
         // Style based bonuses first. (1/2 as much as body bonuses)
@@ -49,11 +49,11 @@ App.Data.Whoring["Kipler"] = {
     // Shows in the UI as location.
     "DESC"      : "The Salty Mermaid",
     // Sex act weighted table.
-    "WANTS"     : [ "Tits", "Tits", "Ass", "BJ" ],
+    "WANTS"     : [ "TITS", "TITS", "ASS", "BJ" ],
     // Minimum payout rank.
-    "MIN_PAY"   : 2,
+    "MIN_PAY"   : 3,
     // Maximum payout rank.
-    "MAX_PAY"   : 3,
+    "MAX_PAY"   : 4,
     // Bonus payout, weighted table
     "BONUS"     : [
         // Style based bonuses first. (1/2 as much as body bonuses)
@@ -71,11 +71,11 @@ App.Data.Whoring["Cookie"] = {
     // Shows in the UI as location.
     "DESC"      : "The Salty Mermaid",
     // Sex act weighted table.
-    "WANTS"     : [ "Ass", "Ass", "Ass", "BJ", "Tits", "Tits", "Hand" ],
+    "WANTS"     : [ "ASS", "ASS", "ASS", "BJ", "TITS", "TITS", "HAND" ],
     // Minimum payout rank.
-    "MIN_PAY"   : 2,
+    "MIN_PAY"   : 3,
     // Maximum payout rank.
-    "MAX_PAY"   : 4,
+    "MAX_PAY"   : 3,
     // Bonus payout, weighted table
     "BONUS"     : [
         // Style based bonuses first. (1/2 as much as body bonuses)
@@ -93,18 +93,18 @@ App.Data.Whoring["Julius"] = {
     // Shows in the UI as location.
     "DESC"      : "The Salty Mermaid",
     // Sex act weighted table.
-    "WANTS"     : [ "Ass", "Ass", "Ass", "BJ", "Tits", "Tits", "Hand" ],
+    "WANTS"     : [ "ASS", "ASS", "ASS", "BJ", "TITS", "TITS", "HAND" ],
     // Minimum payout rank.
-    "MIN_PAY"   : 2,
+    "MIN_PAY"   : 3,
     // Maximum payout rank.
-    "MAX_PAY"   : 4,
+    "MAX_PAY"   : 3,
     // Bonus payout, weighted table
     "BONUS"     : [
         // Style based bonuses first. (1/2 as much as body bonuses)
         "Pirate Slut", "Pirate Slut", "Bimbo", "Daddy's Girl",
         // Body based bonuses (twice as many as style bonuses)
         "Bust", "Bust", "Ass", "Ass", "Ass", "Ass", "Ass", "Ass", "Face", "Lips" ],
-    "BONUS_CATS": [ "Perversion", "Perversion", "Perversion", "Femininity", "Femininity", "Style" ],
+    "BONUS_CATS": [ "Perversion", "Perversion", "Perversion", "Femininity", "Femininity", "Beauty" ],
     "NAMES"     : [ "Julius" ],
     "TITLE"     : "Qtr. Mstr.",
     "RARES"     : [ ],

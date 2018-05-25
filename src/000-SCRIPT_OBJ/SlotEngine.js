@@ -328,34 +328,65 @@ App.SlotEngine = new function() {
         return r;
     };
 
+    // Bonus modifiers
+    this._SkillBonus = function(player, skill) { return player.StatRoll("SKILL", skill, 100, 1, true); };
+    this._BodyBonus = function(player, body) { return player.StatRoll("BODY", body, 100, 1, true); };
+    this._StatBonus = function(player, stat) { return player.StatRoll("STAT", stat, 100, 1, true); };
+    this._FashionBonus = function(player, fashion) { return Math.floor(player.GetStyleSpecRating(fashion) / 100); }; // Just a flat bonus.
+    this._StyleBonus = function(player, arg) { return Math.floor( player.Beauty()/100); };
+
+    this._BonusMods = { };
+
+    this._BonusMods['PERV']         = function(player, d) { return player.StatRoll("STAT", "Perversion", d, 1, true); };
+    this._BonusMods['Perversion']   = this._StatBonus;
+    this._BonusMods['FEM']          = function(player, d) { return player.StatRoll("STAT", "Femininity", d, 1, true); };
+    this._BonusMods['Femininity']   = this._StatBonus;
+    this._BonusMods['BEAUTY']       = this._StyleBonus;
+    this._BonusMods['Beauty']       = this._StyleBonus;
+
+    this._BonusMods['Bust']     = this._BodyBonus;
+    this._BonusMods['Ass']      = this._BodyBonus;
+    this._BonusMods['Face']     = this._BodyBonus;
+    this._BonusMods['Lips']     = this._BodyBonus;
+    this._BonusMods['Penis']    = this._BodyBonus;
+
+    this._BonusMods['ASS']      = function(player, d) { return player.StatRoll("SKILL", "AssFucking", d, 1, true); };
+    this._BonusMods['HAND']     = function(player, d) { return player.StatRoll("SKILL", "HandJobs", d, 1, true); };
+    this._BonusMods['TITS']     = function(player, d) { return player.StatRoll("SKILL", "TitFucking", d, 1, true); };
+    this._BonusMods['BJ']       = function(player, d) { return player.StatRoll("SKILL", "BlowJobs", d, 1, true); };
+
+    this._BonusMods["Pirate Slut"]      = this._FashionBonus;
+    this._BonusMods["Bimbo"]            = this._FashionBonus;
+    this._BonusMods["Sissy Lolita"]     = this._FashionBonus;
+    this._BonusMods["Gothic Lolita"]    = this._FashionBonus;
+    this._BonusMods["BDSM"]             = this._FashionBonus;
+    this._BonusMods["Daddy's Girl"]     = this._FashionBonus;
+    this._BonusMods["Naughty Nun"]      = this._FashionBonus;
+    this._BonusMods["Pet Girl"]         = this._FashionBonus;
+    this._BonusMods["High Class Whore"] = this._FashionBonus;
+    this._BonusMods["Slutty Lady"]      = this._FashionBonus;
+    this._BonusMods["Sexy Dancer"]      = this._FashionBonus;
+
     /**
-     * Return a scaled modifier based on the wildcard stat.
-     * @param wildCardType
+     * Calculate a bonus mod between 0 and 2.0
+     * @param key
+     * @param player
+     * @param arg
      * @returns {number}
      * @private
      */
-    this._GetWildcardBonus = function(wildCardType) {
-
-        var mod;
-        switch(wildCardType) {
-            case 'PERV' :
-                mod = this._Player.StatRoll("STAT", "Perversion", 100, 1, true);
-                break;
-            case 'FEM':
-                mod = this._Player.StatRoll("STAT", "Femininity", 100, 1, true);
-                break;
-            default:
-                mod = Math.floor( this._Player.Beauty() / 100);
-                break;
-        }
-        return mod;
+    this._CalcBonus = function(key, player, arg) {
+        return this._BonusMods.hasOwnProperty(key) == false ? 1.0 : this._BonusMods[key](player, arg);
     };
 
     this._CalculateJackpot = function(slotMap, key, slots )
     {
-
         var c = this.Customers[this._SelectedCustomer];
-        var basePay = c.PayOut * 10; // How much pay per slot.
+        var mood = Math.floor( (c.Mood / 2));
+        var lust = Math.floor( (c.Lust / 2));
+        console.log("mood = "+mood+" lust="+lust);
+
+        var basePay = (c.Payout * 10); // How much pay per slot.
 
         // See if the customer even WANTS this.
         var i;
@@ -365,7 +396,7 @@ App.SlotEngine = new function() {
             for (i = 0; i < c.Wants.length; i++)
                 if (c.Wants[i].toUpperCase() == key) wantMod = (i == 0) ? 1.25 : (i == 1) ? 0.75 : 0.5;
         } else { // This was a wildcard match
-            wantMod = this._GetWildcardBonus(key);
+            wantMod = this._CalcBonus(key, this._Player, key);
         }
 
         if (wantMod == 0) return [ ]; // What? We didn't even WANT this. It's not a payout.
@@ -373,22 +404,74 @@ App.SlotEngine = new function() {
         basePay = Math.ceil( basePay * wantMod);
 
         // This is the overall modifier for the pay.
-        var jackpot;
         switch(slots.length) {
-            case 9: jackpot = 10; break;
-            case 8: jackpot = 5; break;
-            case 7: jackpot = 4; break;
-            case 6: jackpot = 3; break;
-            case 5: jackpot = 2; break;
-            case 4: jackpot = 1.5; break;
-            default: jackpot = 1;
+            case 9: basePay = (basePay * 10);   break;
+            case 8: basePay = (basePay * 5);    break;
+            case 7: basePay = (basePay * 4);    break;
+            case 6: basePay = (basePay * 3);    break;
+            case 5: basePay = (basePay * 2);    break;
+            case 4: basePay = (basePay * 1.5);  break;
         }
 
-        // Build results.
+        // Build results for the spin.
+        // ========  BASE PAYOUT =========
+        // Payout is equal to the Pay * the modifier returned by the skill check for sex acts
+        // The difficulty is equal to the c.PayOut attribute of the customer * 20
+        // For wildcard matches it's just the default pay.
+        // All results for pay are multiplied by the jackpot modifier. Add result as "PAYOUT"
+        // ========  BONUS PAYOUT ========
+        // Take the 1/2 the payout for that slot and apply the Category as a wildcard mod, add this to "PAYOUT"
+        // Check Repeat the process for the bonus mod from the customer, add this to "PAYOUT"
+        // ======== SKILL XP GAIN ========
+        // You can gain skill in sex and perversion and femininity. The default XP is equal to c.PayOut * 20, modified by the result mod
+        // This is checked once for each matching slot (including wild cards, but not beauty). Bonus does not grant XP.
+        // ======== RAISING MOOD, LUST and SATISFACTION =========
+        // Satisfaction is raised by 20 * skill check mod for every reel in the hit. When it reaches max, the customer is removed (as satisfied).
+        // Mood is raised by 5 * skill check mod for every reel hit. There is no maximum.
+        // Lust is raised only by Perversion wildcards, it is raised by 10 flat for each one hit.
+        // ======== MOOD and LUST PAYOUT ======
+        // After positive adjustments the base payout is modified by 0.5 + (50/(c.Mood/2)), for a 0.5 to 1.0 modifier.
+        // Bonus pay is then added equal to 1 + (50/(c.Lust/2))
+        // ======== MAXIMUM SATISFACTION ======
+        // When satisfaction reaches 100 or higher, the customer is removed from the pool of available customers. The
+        // game ends (no more spins) when there are no customers left.
+
         var results = [ ];
-        for (i = 0; i < slots.length; i++) {
 
+        console.log("basePay:"+basePay);
+        for (i = 0; i < slots.length; i++) {
+            console.log("basePay:"+basePay);
+            var result = { slot: slots[i], payout: 0, xp: 0, mood: 0, lust: 0, sat: 0  };
+            var checkMod = this._CalcBonus(key, this._Player, (c.Payout * 20) );
+            console.log("checking: " + key + "=>"+checkMod);
+            // The base value for the slot. 0.25 - 2.0 max
+            result.payout = basePay * checkMod;
+            console.log("payout:" + result.payout);
+            // Add bonus category for style/fem/perv
+            result.payout += Math.floor( (result.payout/2) * this._CalcBonus(c.BonusCat, this._Player, c.BonusCat));
+            console.log("payout:" + result.payout);
+            // Add bonus cat for body parts / styles
+            result.payout += Math.floor( (result.payout/2) * this._CalcBonus(c.Bonus, this._Player, c.Bonus));
+            console.log("payout:" + result.payout);
+            // Add XP bonus for everything but BEAUTY
+            result.xp = ( key != 'BEAUTY' ) ? Math.floor(((c.Payout * 20) * checkMod)) : 0;
+            // Add Mood
+            result.mood = Math.ceil( 5 * checkMod );
+            // Add Lust
+            result.lust = (key == 'PERV') ? 20 : -10;
+            // Add Satisfaction
+            result.sat = Math.ceil( 20 * checkMod );
+            // Modify pay by mood formula
+            result.payout = Math.ceil( (result.payout * (0.5 + (mood/100))));
+            console.log("payout post mood:" + result.payout);
+            // Add a bonus due to high lust.
+            result.payout +=  Math.ceil( (result.payout * (0.5 + (lust/100))));
+            console.log("payout:" + result.payout);
+
+            results.push(result);
         }
+
+        return results;
     };
 
     // endregion
@@ -428,8 +511,8 @@ App.SlotEngine = new function() {
 
         if (typeof npc !== 'undefined') {
             // Adjust the mood and lust of the customer by the mood of the stored associated NPC object.
-            this.Mood = Math.floor(Math.random() * ( npc.Mood() / 2));
-            this.Lust = Math.floor(Math.random() * ( npc.Lust() / 2))
+            this.Mood = Math.floor((npc.Mood() / 2)) + Math.floor(Math.random() * ( npc.Mood() / 2));
+            this.Lust = Math.floor((npc.Lust() / 2)) + Math.floor(Math.random() * ( npc.Lust() / 2))
         }
 
         // Set the Wants array of the character.
@@ -659,4 +742,3 @@ App.SlotEngine = new function() {
 
     // endregion
 };
-

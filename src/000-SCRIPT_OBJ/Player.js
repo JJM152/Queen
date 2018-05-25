@@ -305,7 +305,7 @@ App.Entity.Player = function (){
 
         this.AdjustSkillXP(SkillName, XpEarned);
 
-        console.log("SkillRoll(" + SkillName + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " XPMod="+XpMod+"\n");
+        if (this.debugMode) console.log("SkillRoll(" + SkillName + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " XPMod="+XpMod+"\n");
 
         if (Scaling == true) return XpMod;
         if (DiceRoll >= Target ) return 1;
@@ -331,7 +331,8 @@ App.Entity.Player = function (){
     };
 
     /**
-     * Performs a skill roll with a value amount which is modified when returned.
+     * Performs a skill roll with a value amount which is modified when returned. Only works on skills
+     * and will auto generate and apply XP to characters.
      * @param {string} SkillName
      * @param {number} Difficulty
      * @param {number} Amount
@@ -342,7 +343,7 @@ App.Entity.Player = function (){
     {
         var Mod = this._SkillRoll(SkillName, Difficulty, Scaling);
         var ret = Math.ceil(Amount * Mod);
-        console.log("SkillRoll: Mod="+Mod+",Amount="+Amount+",Ret="+ret+"\n");
+        if (this.debugMode) console.log("SkillRoll: Mod="+Mod+",Amount="+Amount+",Ret="+ret+"\n");
         return Math.ceil(Amount * Mod);
     };
 
@@ -360,12 +361,15 @@ App.Entity.Player = function (){
         Scaling = Scaling || false;
         var Target      = this.CalculateSkillTarget(Name, Difficulty, Type);
         var DiceRoll    = ( Math.floor(Math.random() * 100) + 1);
-        DiceRoll += this._RollBonus("STAT", Name);
-        var Mod       = Math.max(0.25, Math.min((DiceRoll  / Target), 2.0)); // 0.25 - 2.0
 
-        console.log("StatRoll(" + Name + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " Mod="+Mod+"\n");
+        if (Type == "SKILL") DiceRoll += Math.max(0, Math.min(this.GetSynergyBonus(Name), 100)); // Cap 100
+        DiceRoll        += this._RollBonus(Type, Name);
 
-        if (Scaling == true) return Math.ceil(Amount * Mod);
+        var Mod         = Math.max(0.25, Math.min((DiceRoll  / Target), 2.0)); // 0.25 - 2.0
+
+        if(this.debugMode) console.log("StatRoll(" + Name + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " Mod="+Mod+"\n");
+
+        if (Scaling == true) return (Amount * Mod);
         if (DiceRoll >= Target) return 1;
         return 0;
 
@@ -391,9 +395,9 @@ App.Entity.Player = function (){
      * @returns {number}
      */
     this.GetSynergyBonus = function (SkillName) {
-        if (!window.App.Data.Lists["SkillSynergy"].hasOwnProperty(SkillName)) return 0;
+        if (!App.Data.Lists["SkillSynergy"].hasOwnProperty(SkillName)) return 0;
         var Bonus = 0;
-        var Synergy = window.App.Data.Lists["SkillSynergy"][SkillName];
+        var Synergy = App.Data.Lists["SkillSynergy"][SkillName];
         for (var i = 0; i < Synergy.length; i++) {
             Bonus += Math.ceil(this.GetStatPercent(Synergy[i]["TYPE"], Synergy[i]["NAME"]) * Synergy[i]["BONUS"]);
         }
@@ -475,65 +479,6 @@ App.Entity.Player = function (){
             this.UseItemCharges("basic makeup", Makeup["RESOURCE1"]);
             this.UseItemCharges("expensive makeup", Makeup["RESOURCE2"]);
         }
-    };
-
-    /**
-     * Returns an array of Customer objects as the result of solicitation for whoring customers.
-     * @param {number} Opt
-     * @param {number} rLust
-     * @param {number} rMood
-     * @param {number} rWealth
-     * @returns {Array}
-     */
-    this.SolicitCustomer = function (Opt, rLust, rMood, rWealth) {
-        var rBonus = this.GetSolicitationBonus(Opt);
-        var Customers = Math.max(0, Math.min((Math.round(((rLust + rBonus) / 33)) - 1), 4));
-        var name = "Fred";
-        var CustomerList = [];
-
-        for (var i = 0; i < Customers; i++) {
-            name = window.App.Data.Names["Male"][Math.floor(Math.random() * window.App.Data.Names["Male"].length)];
-            var co = new window.App.Entity.Customer(name, rMood, rLust, rWealth);
-            CustomerList.push(co);
-        }
-        return CustomerList;
-    };
-
-    /**
-     * Selects a style of solicitation for customers and then returns a bonus used by SolicitCustomer
-     * @param {number} opt
-     * @returns {number}
-     */
-    this.GetSolicitationBonus = function (opt) {
-        var baseScore = Math.round((this.Beauty() * 0.5 ) + (this.GetStat("STAT", "Femininity") * 0.3) + (this.Style() * 0.2));
-        baseScore = Math.round(baseScore * (1 + (this.GetStat("SKILL","Seduction") / 100)));
-
-        switch (opt) {
-            case 1:
-                this.AdjustStatXP("Femininity", 25, 40);
-                baseScore += Math.max(0, Math.min((this.GetStat("STAT", "Femininity") * 0.75), 100));
-                break;
-            case 2:
-                this.AdjustStatXP("Perversion", 25, 40);
-                this.AdjustStatXP("WillPower", -10, 60);
-                baseScore += Math.max(0, Math.min((this.GetStat("STAT", "Perversion") * 0.75), 100));
-                break;
-            case 3:
-                this.AdjustStatXP("Perversion", 50, 50);
-                this.AdjustStatXP("Femininity", 25, 40);
-                this.AdjustStatXP("WillPower", -20, 40);
-                baseScore += Math.max(0, Math.min((this.GetStat("STAT", "Perversion") * 0.25), 100));
-                baseScore += Math.max(0, Math.min((this.GetStat("STAT", "Femininity") * 0.25), 100));
-                baseScore += Math.max(0, Math.min((this.Fetish() * 0.5), 100));
-                break;
-
-            default:
-                this.AdjustStatXP("Femininity", 25, 40);
-                baseScore += Math.max(0, Math.min((this.GetStat("STAT", "Femininity") * 0.75), 100));
-                break;
-        }
-
-        return Math.floor(baseScore);
     };
 
     /**
@@ -687,8 +632,8 @@ App.Entity.Player = function (){
      * @returns {number}
      */
     this.HipsRating = function () {
-        var GoldenHips = (Math.round((window.App.PR.StatToCM(this, "Height") * 0.375)) * 1.5 );
-        return Math.round(((window.App.PR.HipsInCM(this) / GoldenHips) / 1.6) * 100);
+        var GoldenHips = (Math.round((App.PR.StatToCM(this, "Height") * 0.375)) * 1.5 );
+        return Math.round(((App.PR.HipsInCM(this) / GoldenHips) / 1.6) * 100);
     };
 
     /**
@@ -713,9 +658,9 @@ App.Entity.Player = function (){
      * @returns {*}
      */
     this.GetStatConfig = function (Type) {
-        if (Type == "STAT") return window.App.Data.Lists.StatConfig;
-        if (Type == "SKILL") return window.App.Data.Lists.SkillConfig;
-        if (Type == "BODY") return window.App.Data.Lists.BodyConfig;
+        if (Type == "STAT") return App.Data.Lists.StatConfig;
+        if (Type == "SKILL") return App.Data.Lists.SkillConfig;
+        if (Type == "BODY") return App.Data.Lists.BodyConfig;
     };
     /**
      * Return a statistic value (raw)
