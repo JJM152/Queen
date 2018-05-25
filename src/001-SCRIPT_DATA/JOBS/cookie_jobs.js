@@ -155,12 +155,12 @@ App.Data.JobData["COOK02"] = {
     "REQUIREMENTS" : [
         { "TYPE" : "SKILL", "NAME" : "Cooking", "VALUE" : 5,  "CONDITION" : "gte" } ],
     "INTRO" :
-    "NPC_NAME says, \"We can always use help in the galley PLAYER_NAME. If your skill at cooking is too low then I could give you "+
-    "a 'personal lesson' for a small fee...\"",
+        "NPC_NAME says, \"We can always use help here in the galley, PLAYER_NAME. And if yer crap at cooking, "+
+        "then I might could be obliged to give you a 'personal lesson' fer a small fee...\"",
     "START" :
-    "NPC_NAME leads you to the back of the galley and to a large table where he has laid out a collection of cooking tools and ingredients. "+
-    "You're actually surprised that he's put so much thought into this considering the quality of the food it that the pirates on board the "+
-    "ship eat.",
+        "NPC_NAME leads you to the back of the galley and lumbers up to a large table where he has laid out a collection of "+
+        "cooking tools and ingredients. You're surprised that he's put so much thought into this considering the quality of "+
+        "the food that the pirates on board the ship eat.",
     "SCENES" : [
         {
             "ID" : "SCENE01",
@@ -174,14 +174,14 @@ App.Data.JobData["COOK02"] = {
                 { "TYPE" : "SKILL_XP", "NAME" : "Cooking", "VALUE" : 100, "OPT" : "RANDOM" }
             ],
             "START" :
-            "NPC_NAME starts by giving you some basic instruction on how to use various tools and implements in the galley. He then goes into a "+
-            "practical demonstration of some simple dishes, their ingredients and their preparation. After watching him it's then your turn to "+
-            "try and repeat the recipes.",
+                "NPC_NAME starts by giving you some basic instruction on how to use various tools and implements in the "+
+                "galley. He goes into a practical demonstration of some simple dishes by explaining their ingredients and "+
+                "preparation. After watching him, it's then your turn to repeat the recipes.",
             "END" : "",
             "RESULTS" : [
-                {"A":  25, "TEXT":  "Unfortunately it seems that the lesson didn't really stick well with you and your @@dishes came out horrible@@. NPC_NAME isn't pleased with the result."},
-                {"A":  50, "TEXT":  "With a small amount of effort you manage to cook a @@dish that isn't half bad@@. NPC_NAME takes a few tastes and nods his head with slight approval."},
-                {"A": 500, "TEXT":  "You take your time and manage to @@skillfully recreate the dishes@@ that you were shown. NPC_NAME looks at them, takes a few tastes and then nods with approval."} ]
+                {"A":  25, "TEXT":  "Unfortunately, it seems that the lesson didn't really stick and your @@dishes came out horrible@@. NPC_NAME sneers at your various piles of glop and shakes his head, not at all pleased with the results."},
+                {"A":  50, "TEXT":  "With a small amount of effort you manage to cook a @@dish that isn't half bad@@. NPC_NAME takes a few tastes and shrugs in passable acceptance."},
+                {"A": 500, "TEXT":  "You take your time and manage to @@skillfully recreate the dishes@@ that you were shown. NPC_NAME looks at them, takes a few tastes, and then nods in approval."} ]
         },
         {
             "ID" : "SCENE02",
@@ -198,28 +198,30 @@ App.Data.JobData["COOK02"] = {
                 { "TYPE" : "STAT",      "NAME" : "Nutrition",   "VALUE" : 5,    "OPT" : 0 }
             ],
             "START" :
-            "After the cooking lesson, NPC_NAME comes to you and says, \"Now that we've got that out of the way, how about you get on your knees "+
-            "here and try to earn back a little bit of your tuition with that slutty mouth of yours?\" NPC_NAME doesn't even wait for you to respond before he "+
-            "pushes you down by the shoulder and fishes his stiffening cock from his trousers. You wince internally a bit, but then resign yourself to having to suck "+
-            "his sweaty cock. He pushes his turgid meat against your pLIPS lips and you begin to slowly lick the glans of his penis trying to arouse him.",
-            END :
-                "NPC_NAME pulls up his trousers and gives you a rough pat on the head and then walks away.",
+                "After the cooking lesson, NPC_NAME says, \"Now that we got the business out of the way, it's high time for the pleasure! So how about you get on your knees, ya little cunt, and try to earn back a little bit of your tuition with that slutty mouth of yours?\"\n\n"+
+                "He doesn't wait for a response before he abruptly shoves you to your knees and fishes his stiffening prick from his filthy trousers. You wince at the sight of the sweaty length of veiny fuckmeat, but you quickly resign yourself to the task of sucking off his clammy cock by telling yourself that you have no choice in the matter.\n\n"+
+                "NPC_NAME joggles his shaft in the endeavor to harden himself up. The plump purpled bulb-end bobbles a mere inch from your face. You can see glistening precum already starting to ooze from his puckered piss slit. He jabs his swollen sausage against your pLIPS lips, smearing salty pre around your mouth and chin, and sputters an array of vulgarities down at you: \"Suck, you little whore!\" \"Lick it!\" \"Gulp my hot gravy!\"\n\n"+
+                "As ordered, you begin to slowly lick the glans of his wobbly wang in the attempt to arouse him to full-mast.",
+            "END" :
+                "NPC_NAME pulls up his cruddy trousers, gives you a rough pat on the head, and then lumbers away.",
             "RESULTS" : [
                 {"B":  25, "TEXT":
-                "Without warning NPC_NAME shoves his dick full in your mouth. You try to accommodate his massive meat pole @@but you struggle to "+
-                "find the right movement and tempo@@. Not that it matters much because NPC_NAME simply grabs your head and then forcibly rams his dick down your throat until he cums.\n\n"+
-                "NPC_NAME says, \"That was horrible PLAYER_NAME. You should be paying me for that kind of shitty blow job. Go get some more practice god damn it, it's not like there "+
-                "isn't a ship full of dicks to suck here.\""},
+                "Without warning, NPC_NAME crams the whole of his still quite spongy shlong full on into your mouth. You try to accommodate the bulging mouthful of half-hard chub, @@but you struggle to find the right movement and tempo@@ to provide any sort of satisfying service to it.\n\n"+
+                "In a fit of frustration, NPC_NAME clamps your head betwixt his huge hands and settles for smashing his groin against you. Thankfully his burgeoning bush of bristy pubes cushions the impact but having your face repeatedly squashed into his nappy nest of oily public hair isn't much better. Struggling for a breath, you slap your hands on his thighs uselessly as he skids his rubbery rod into your mouth and throat again and again. You gag noisily as he finally stiffens up and, of fucking course, that seems to do it for him.\n\n"+
+                "Brackish baby-batter boils out of his gullet-gorging cock and your cheeks bulge out with the sultry spooge. He gleefully crams the salty spunk down your throat, triumphantly groaning with each thrust. Finally content, he releases you and cuffs your head away from his softening prick as if you'd done him a dire disservice.\n\n"+
+                "NPC_NAME says, \"That was downright horrible, PLAYER_NAME! You ought to be paying me for such a rotten showing at that. You best get some practice, god dammmit. It's not like there isn't a ship full of dicks to suck here, ya crummy cockswab.\""},
                 {"B":  50, "TEXT":
-                "You take NPC_NAME's stiffening cock in your mouth and @@begin to suck on it in earnest@@. Within moments he is starting to moan and you increase " +
-                "the pleasure by bobbing your head up and down on his shaft, the tip of his dick tickling the back of your throat. After a few minutes of this treatment NPC_NAME grabs "+
-                "a hold of your head and rams his dick in as far as it can go, you know what this means and do your best to relax so that he can shoot his load straight into your gullet.\n\n" +
-                "NPC_NAME says, \"Not bad PLAYER_NAME, I'll give you back JOB_PAY coins.\""},
+                "Taking note of his growing impatience, you quickly commence fondling his balls while you smush your mouth and tongue against the underside of his shaft, squashing his stiffening prick into his squishy stomach with your cheek like a ditzy cock-starved slut. You sputter out as much saliva as you can manage, coating everything you can in quick-and-dirty lube, so you can slide your face up and down his slowly plumping pecker.\n\n"+
+                "You let out a soft, girlish mewl to feign your own arousal in an attempt to provoke a proper erection. He replies with a merry grunt and caresses your hair with his fat sausage fingers. His heartbeat pulsates on your lips as you lick and smooch his twitching fuckstick, coaxing him to serviceable rigidity. Satisfied that he's ready at long last, you envelope his prick with your mouth and @@begin to suck it in earnest@@. You bob your head back and forth, spearing his dick through your pursed lips and over your rippling tongue while purposefully but softly huffing a breath out of your nose with every intake. He begins to mimic your panting. Every time he moans, you return it with purr. And every time he grunts, you let slip a shamelessly sloppy sucking sound.\n\n"+
+                "It doesn't take much longer before he grabs ahold of your head and rams his throbbing knob into your mouth as deep as he can. You try your best to relax -- despite having your esophagus gorged with a cum spewing cock -- so that he can unload his balls straight down your gullet. With a shuttering sigh, he finishes filling your belly with his sultry spunk and releases you. You take a gasping breath, errant cum burbling obscenely in your throat, and sit back on your feet to compose yourself.\n\n"+
+                "\"Not bad, PLAYER_NAME,\" he says, simpering down at you. \"It's right good to see yer enjoying yerself, lass. Nothing as rousing as having a happy cock-sucker handy, I always say! And, here now, I'll give you back JOB_PAY coins fer yer sweet spirit.\""},
                 {"B": 500, "TEXT":
-                "@@You easily swallow his dick@@ and within moments you have it sufficiently lubricated and your throat relaxed enough to be able to take him down "+
-                "so deeply that he's quickly moaning and panting in pleasure. You toy with the tempo and your tongue movements until he's almost about to pass out from the stimulation and then "+
-                "he suddenly starts shooting his load directly into your mouth. There's so much of it that it's a real struggle to swallow it all down.\n\n"+
-                "NPC_NAME says, \"Not bad PLAYER_NAME, I'll give you back JOB_PAY coins.\""} ]
+                "But, wise to this silly half-hard nonsense a few of these men are inclined towards, you simply slurp his spongy schlong into your mouth, work the bouncy bastard into your throat, and then @@you commence to gluttonously gulp against his rubbery rod@@ while lashing at the naughty non-erection with your tongue.\n\n"+
+                "In less than a minute, NPC_NAME is reluctantly pushing you away, whimpering from such surprisingly speedy over-stimulation. After some nominal resistance, you let him shove you off his palpitating pecker but you immediately shoot him a lusty scowl that makes him shiver. The expression reads, 'How dare you deprive me of this dick!' He swallows hard and draws back his hands. Graciously, you settle for gently smooching his shaft and cuddling his doughy sack in your hand while his overwhelmed arousal calms to a more pleasurable level. After some time, his ragged breath becomes much less hurried.\n\n"+
+                "You throw him a lewd pout that tells him you're done waiting and then you instantly sheath the swashbucker's cocksword in your sultry, silky throat. Your tongue slithers out to work the base of his shaft and you tenderly squeeze his balls, coaxing out his seed, as you zealously attempt to swallow his dick right off his body. In no time, you feel him getting close again -- his fingernails graze against your skin as he prepares to unload -- and you open your mouth wide and abandon his pulsating prick with only a breathy exhale as a farewell.\n\n"+
+                "You watch in ruthless delight as he rides the very edge of orgasm: his breath stuck, his eyes frozen, his twitching cock struggling mightily to disgorge itself. Precum swelters and trickles from the angry purple head. You reach out your tongue and lightly lick a tongueful of the salty scum into your mouth. You swallow it with a husky purr while staring up into his eyes. You wait. And you wait some more. His respiration returns to him and he slowly comes to his senses as his imminent orgasm subsides.\n\n"+
+                "But you don't let it get too far away. With a blustery assault of hungry kisses, frenzied licks, and sloppy wet suckles, NPC_NAME is promptly teetering on the brink of nut-busting once again. Having had your fun, you fall into the complacent routine of bobbing your head back and forth on his fevered fuckstick, just sucking and slurping yet another cock like a typical shameless slut. You swill down several spates of hot viscous jizz without missing a beat and then pop your lips off his squeaky-clean prick with a satisfied smack. You wipe your mouth with your fingers and gaze up at him with a desirous look to ensure he observes you dutifully suck them clean as well.\n\n"+
+                "Finding his breath at last, NPC_NAME says, \"That was... right sufficient, PLAYER_NAME.\" He wipes the sweat off his forehead with the back of his arm and heaves out a breath of relief. \"I'd heavily wager you enjoyed yerself even more than I did, lass, but I'm a man of me word. I'll have you back JOB_PAY coins for yer... most merciful attention.\""} ]
         },
         {
             "ID" : "SCENE03",
