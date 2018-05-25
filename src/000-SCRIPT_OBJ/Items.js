@@ -3,23 +3,48 @@ App = App || { Data: { }, Entity: { } };
 App.Item = new function() {
 
     /**
-     * Return the appropriate data dictionary entry for the item in question.
+     * Return the appropriate data dictionary for the item in question. If item type is invalid, returns null.
+     * @param Type
+     * @returns {*}
+     * @private
+     */
+    this._TryGetItemsDictionary = function(Type) {
+        if (Type == "DRUGS") return window.App.Data.Drugs;
+        if (Type == "FOOD") return window.App.Data.Food;
+        if (Type == "COSMETICS") return window.App.Data.Cosmetics;
+        if (Type == "CLOTHES") return window.App.Data.Clothes;
+        if (Type == "WEAPON") return window.App.Data.Clothes;
+        if (Type == "STORE") return window.App.Data.Stores;
+        if (Type == "NPC") return window.App.Data.NPCS;
+        if (Type == "QUEST") return window.App.Data.QuestItems;
+        if (Type == "LOOT_BOX") return window.App.Data.LootBoxes;
+		return null;
+    };
+
+    /**
+     * Return the appropriate data dictionary item for the item in question. If item type is invalid or
+     * item is not found, shows error message and throws exception
      * @param Type
      * @param Name
      * @returns {*}
      * @private
      */
-    this._FetchData = function(Type, Name){
-        if (Type == "DRUGS") return App.Data.Drugs[Name];
-        if (Type == "FOOD") return App.Data.Food[Name];
-        if (Type == "COSMETICS") return App.Data.Cosmetics[Name];
-        if (Type == "CLOTHES") return App.Data.Clothes[Name];
-        if (Type == "WEAPON") return App.Data.Clothes[Name];
-        if (Type == "STORE") return App.Data.Stores[Name];
-        if (Type == "NPC") return App.Data.NPCS[Name];
-        if (Type == "QUEST") return App.Data.QuestItems[Name];
-        if (Type == "LOOT_BOX") return App.Data.LootBoxes[Name];
-        if (Type == "REEL") return App.Data.Slots[Name];
+    this._FetchData = function(Type, Name) {
+		var itemsDictionary = this._TryGetItemsDictionary(Type);
+		if (itemsDictionary == null) {
+			var errorMessage = "Invalid item type: " + Type;
+			alert(errorMessage);
+			throw new Error(errorMessage);
+		}
+
+		var itemData = itemsDictionary[Name];
+		if (itemData == null || itemData == 0) {
+			var errorMessage = "Item with name \"" + Name + "\" of type \"" + Type + "\" not found";
+			alert(errorMessage);
+			throw new Error(errorMessage);
+		}
+
+		return itemData;
     };
 
     /**
@@ -29,11 +54,12 @@ App.Item = new function() {
      * @returns {number} the price in gold coins.
      */
     this.CalculateBasePrice = function(Category, Tag) {
-        var d = this._FetchData(Category, Tag);
-        if (d == 0 || (typeof d === 'undefined')) {
-            console.log("Error calculating price for item "+Category+":"+Tag+" - dictionary entry not found");
+		try {
+	        var d = this._FetchData(Category, Tag);
+		} catch (e) {
+			// Whatever, I guess?
             return 100;
-        }
+		}
 
         var price = 0;
 
@@ -100,6 +126,10 @@ App.Item = new function() {
                 break;
 
         }
+
+		if (typeof (d.PriceAdjustment) === "number" || d.PriceAdjustment instanceof Number) {
+			price *= d.PriceAdjustment;
+		}
 
         return (price == 0 ) ? 100 : price;
     };
@@ -170,11 +200,6 @@ App.Item = new function() {
 
         var d = this._FetchData(Type, Name);
         var o;
-
-        if (d == 0 || (typeof d === 'undefined'))  { 
-			alert("Factory Failed: (" + Type + "," + Name + "," + Count + ")");
-			return
-		}
 
         // might change this in the future, for now weapons are "clothing"
         if (Type == "CLOTHES") o = new this.Clothing(d);

@@ -1006,17 +1006,30 @@ App.Entity.Player = function (){
     /**
      * Does the character own the item in question
      * @param {*} ItemDict The dictionary entry from the Store
+     *
+     * @param ItemDictOrType
+     * @param Name
      * @returns {boolean}
      */
-    this.OwnsWardrobeItem = function(ItemDict)
+    this.OwnsWardrobeItem = function(ItemDictOrType, Name)
     {
-        if ((ItemDict["TYPE"] == "CLOTHES") || (ItemDict["TYPE"] == "WEAPON")) {
-            if (this.Wardrobe.filter( function(o){return o.Name() == ItemDict["TAG"];}).length > 0 ) return true;
-            var Slot = App.Data.Clothes[ItemDict["TAG"]]["Slot"];
-            if ((this.Equipment[Slot] === undefined) || (this.Equipment[Slot] == 0)) return false;
-            if (this.Equipment[Slot].Name() == ItemDict["TAG"]) return true;
-        }
-        return false;
+		var Type;
+		if (typeof(ItemDictOrType) === "object" && !(ItemDictOrType instanceof String) && typeof(Name) === "undefined") {
+			Type = ItemDictOrType["TYPE"];
+			Name = ItemDictOrType["TAG"];
+		} else {
+			if (ItemDictOrType instanceof String) ItemDictOrType = String(ItemDictOrType);
+			if (Name instanceof String) Name = String(Name);
+			if (typeof (ItemDictOrType) != "string" || typeof (Name) != "string") throw new Error("Invalid arguments");
+			Type = ItemDictOrType;
+		}
+
+        if (Type != "CLOTHES" && Type != "WEAPON") return false;
+        if (this.Wardrobe.filter( function(o) { return o.Name() == Name; }).length > 0 ) return true;
+        var Slot = window.App.Data.Clothes[Name].Slot;
+		var EquipmentInSlot = this.Equipment[Slot];
+		if (EquipmentInSlot == null || EquipmentInSlot == 0) return false;
+        return EquipmentInSlot.Name() == Name;
     };
 
     /**
@@ -1325,5 +1338,113 @@ App.Entity.Player = function (){
             }
         }
     }
+
+	// Acquire everything for debug purposes
+	this.AcquireAllItems = function() {
+		console.group("AcquireAllItems");
+		for (var prop in window.App.Data.Clothes) {
+			if (window.App.Data.Clothes.hasOwnProperty(prop)) {
+				if (!this.OwnsWardrobeItem("CLOTHES", prop)) {
+					console.log("Adding \"" + prop + "\" (clothes)");
+					this.AddItem("CLOTHES", prop);
+				} else {
+					console.log("\"" + prop + "\" (clothes) already owned");
+				}
+			}
+		}
+		console.groupEnd();
+	}
+
+	// Returns number that represents how high-class the PC looks. 0 is obvious commoner and 100 is a rich noble. Can be higher or lower.
+	this.HighClassPresentability = function() {
+		// For now just consider "Slutty Lady" the proper attire, while other clothes contribute only part of their style.
+		// Do not count parts that are not visible in a "proper" situation.
+		var getBonus = function(slot, equipmentItem) {
+			// The proper attire
+            var bonus = equipmentItem.CategoryBonus("Slutty Lady");
+			if (bonus > 0) {
+				console.log("Slot: " + slot + ", equipment name: \"" + equipmentItem.Name() + "\", bonus: " + bonus);
+				return bonus;
+			}
+
+			// Not so proper, but closer than others
+            bonus = equipmentItem.CategoryBonus("High Class Whore") / 2;
+			if (bonus > 0) {
+				console.log("Slot: " + slot + ", equipment name: \"" + equipmentItem.Name() + "\", bonus: " + bonus);
+				return bonus;
+			}
+
+			// Oh well
+			bonus = equipmentItem.Style() / 4;
+			console.log("Slot: " + slot + ", equipment name: \"" + equipmentItem.Name() + "\", bonus: " + bonus);
+			return bonus;
+		}
+
+		console.group("HighClassPresentability");
+        var result = 0;
+
+		for (var slot in this.Equipment) {
+			if (slot == "Nipples" || slot == "Bra" || slot == "Panty" || slot == "Butt" || slot == "Penis") continue;
+			if (!this.Equipment.hasOwnProperty(slot)) continue;
+
+			var equipmentItem = this.Equipment[slot];
+			if (equipmentItem == null || equipmentItem == 0) continue;
+
+			result += getBonus(slot, equipmentItem);
+		}
+
+		console.log("Total for clothes: " + result);
+
+		var forHair = this.HairRating() * 0.25;
+		var forMakeup = this.MakeupRating() * 0.25;
+		console.log("For hair: " + forHair);
+		console.log("For makeup: " + forMakeup);
+
+		result += forHair + forMakeup;
+		console.log("Total: " + result);
+		console.groupEnd();
+		return result;
+	}
+
+	// Returns number that represents how obvious it is that the PC is male. 100 means completely unpassable and 0 means completely passable. Can be higher or lower.
+	// TODO: include other factors and maybe calibrate.
+	this.ObviousTrappiness = function() {
+		console.group("ObviousTrappiness");
+		console.log(this.BodyStats);
+		console.log(this.CoreStats);
+
+		// Huge penis makes trappiness very, very obvious
+		var penisOversizing = Math.max(this.BodyStats.Penis - 75, 0);
+		var penisContribution = penisOversizing * penisOversizing;
+		console.log("penisContribution: " + penisContribution);
+
+		// Let's say DD breasts give -50, and we have diminishing returns
+		var bustContribution = - Math.sqrt(this.BodyStats.Bust * 50 * 50 / 11)
+		console.log("bustContribution: " + bustContribution);
+
+		// Style gives a small contribution, but synergizes with femininity
+		var styleContribution = - this.ClothesRating() * .1;
+		console.log("styleContribution: " + styleContribution);
+
+		// Femininity is important
+		var femininityContribution = - this.CoreStats.Femininity * .3;
+		console.log("femininityContribution: " + femininityContribution);
+
+		// Full femininity and full style give -50 together
+		var femininityStyleSynergy = - this.CoreStats.Femininity * this.ClothesRating() * .005
+		console.log("femininityStyleSynergy: " + femininityStyleSynergy);
+
+		// Base value is full
+		var result = 100 + penisContribution + bustContribution + styleContribution + femininityContribution + femininityStyleSynergy;
+		// Let's make sure result is not too far from soft borders
+		if (result > 100) result = 100 + Math.sqrt(result - 100);
+		if (result < 0) result = - Math.sqrt(-result);
+
+		console.log("result: " + result);
+		console.groupEnd();
+
+		return result;
+	}
 };
+
 

@@ -277,7 +277,7 @@ You only stare at him, unwilling to recall how you were raped and how your body 
 
 @@color:cyan;"It's so!"@@ the captain answers, scowling at you. @@color:cyan;"Took two of me swabbies to mop up her soupy pond of clit-spit, it did. And you can see it fer yerself, Conroy, when she's up for the crew tonight,"@@ says the captain, grinning. @@color:cyan;"And after they've had their fill of her, you can start yer blasted mollycoddlin' if ye like."@@
 
-"No, I think it's best I start tonight," Conroy counters, "lest she go the way of your previous cabin-girl. And, might I say, given the potential I already see in her, that would be a truly awful waste."
+"No, I think it's best I start tonight," Conroy counters, "lest she go the way of your previous cabin girl. And, might I say, given the potential I already see in her, that would be a truly awful waste."
 
 The Captain curses and spits. @@color:cyan;"Ah, blast ye, Conroy! You've a way with swayin' a man that I'll never ken. But this'll mean double-doings for the other bounty lass. She'll be bloated with bilge at night's end, boyo!"@@
 
@@ -300,7 +300,7 @@ He smiles, showing off neat white teeth. "It is. You simply did not know it unti
 
 "No I'm not!"
 
-"Yes, you are, @@color:deepPink;<<= $Player.SlaveName>>@@. Everyone here knows it -- the Captain knew it the moment he met you and so did I. The moment I stepped into this cell, I knew you to be a delicate damsel indeed."
+"Yes, you are, @@color:deepPink;<<= $Player.SlaveName>>@@. Everyone here knows it -- the Captain knew it the moment he met you and so did I. The very instant I stepped into this cell, I knew you to be a delicate damsel indeed."
 
 "I have a cock!"
 
@@ -309,16 +309,22 @@ He sighs. "That's what makes a man, is it? I think not. What parts we have matte
 <span id="shame">
 <<click "Of course not.">>
     <<run $Player.AdjustStat("WillPower", -5);>>
-    <<replace "#shame">>"Of course not," he agrees with a smile and nod. "Girls are beautiful creatures indeed and, the truth is, men only serve to nuture you. If anyone should be ashamed, it is me, not you. I've been remiss in my chivalrous duties!"<</replace>>
+    <<replace "#shame">>"Of course not," you say.
+    
+    "Of course not," he agrees with a smile and nod. "Girls are beautiful creatures indeed and, the truth is, men only serve to nuture you. If anyone should be ashamed, it is me, not you. I've been remiss in my chivalrous duties!"<</replace>>
     <<replace "#nextPage">>[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]<</replace>>
 <</click>>
 <<click "No, but I'm not a lovely lass.">>
     <<run $Player.AdjustStat("WillPower", -5);>>
-    <<replace "#shame">>"Perhaps you don't see it... yet," he says, "but I see it very clearly. And with a little care, I'm quite certain you'll see it, too. I would be honored to help you see what a lovely lass you are indeed."<</replace>>
+    <<replace "#shame">>"No," you say, "but I'm not a lovely lass."
+    
+    "Perhaps you don't see it... yet," he says, "but I see it very clearly. And with a little care, I'm quite certain you'll see it, too. I would be honored to help you see what a lovely lass you are indeed."<</replace>>
     <<replace "#nextPage">>[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]<</replace>>
 <</click>>
 <<click "Girls are fragile and silly!">>
-    <<replace "#shame">>"Fragile and silly?" He sighs. "I simply must beg to differ. Women are the entire reason men exist at all. You are our poetry. You are the sun and the moon. Fine lasses like yourself, @@color:deepPink;<<= $Player.SlaveName>>@@, are our very hearts. Everything we do that is neither fragile nor silly we do in your honor. And I would very much like to show you how much I respect that."<</replace>>
+    <<replace "#shame">>"Girls are fragile and silly!" you tell him.
+    
+    "Fragile and silly?" He sighs. "I simply must beg to differ. Women are the entire reason men exist at all. You are our poetry. You are the sun and the moon. Fine lasses like yourself, @@color:deepPink;<<= $Player.SlaveName>>@@, are our very hearts. Everything we do that is neither fragile nor silly we do in your honor. And I would very much like to show you how much I respect that."<</replace>>
     <<replace "#nextPage">>[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]<</replace>>
 <</click>>
 </span>
@@ -328,11 +334,11 @@ He sighs. "That's what makes a man, is it? I think not. What parts we have matte
 :: IntroSlow3
 Conroy sets the bucket beside him and rolls out a mat on the floor. He beckons you to come closer to him.
 
-"Come now, sweet little miss," he calls, bending over and holding out his hands to you. "Please humor me a moment, I promise to be a gentleman."
+"Come now, sweet little miss," he calls, bending over and holding out his hands to you. "Please humor me a moment. I promise to be a gentleman."
 
 You shake your head slowly.
 
-The echoed moans from @@color:Pink;<<= $Player.GirlfriendName>>@@ above you crescendo into a fever-pitch of delirious squeals as the love of your life apparently succumbs to yet another forceful orgasm. You bite your lip and stare at the ceiling.
+The echoed moans from @@color:Pink;<<= $Player.GirlfriendName>>@@ crescendo into a fever-pitch of delirious squeals as the love of your life apparently succumbs to yet another forceful orgasm. You bite your lip and stare at the ceiling.
 
 He smiles wistfully. "I know this must be difficult for you, but she has learned a lot about herself these past few days as well, @@color:deepPink;<<= $Player.SlaveName>>@@. It need not diminish your love for her that she has found bliss in the company of others. Indeed, if you do truly love her, perhaps you might try to consider her happiness before your own."
 
@@ -349,7 +355,7 @@ You're not certain how long you cried for, but you come to the slow realization 
 
 He sits in front of you and takes your hand. Delicately, he brushes under your fingernails to clear them of dirt. He does the same with your other hand and, surprisingly, with each your feet as well. Never having experienced being treated in such a manner, you allow him to attend to you while you sit silently in a mild sort of shock.
 
-"You're looking every so much more like yourself now, darling," he says, smiling a terribly winsome smile.
+"You're looking ever so much more like yourself now, darling," he says, smiling a terribly winsome smile.
 
 Gawking at your arm, you discern all at once that he has somehow wiped the hair from your body!
 
@@ -408,7 +414,6 @@ When you open your eyes, you see him still smiling. He brings his hand up and lo
 Conroy releases your chin but continues to stare into your eyes and you, rather mesmerized, stare back into his eyes. You feel his hands on your genitals and then hear the strain of leather and the clink of metal. When you look down, you see that he's locked your cock and balls snugly into a cramped and somewhat uncomfortable confinement device. You realize that it'll be impossible to get a proper erection with this thing on!
 
 "I hope you've taken my words to heart, sweet little miss. I do truly hope I've helped you realize your amazing potential. I implore you to embrace your womanhood and therefore end this somber misery you've so harshly endured for all of your tender young life. It pains me greatly to see such a beautiful young woman suffer so cruelly." He sighs and gazes deep into your eyes with tears swelling in his own. "Please, I beg you to let go of these silly social precepts that are robbing you of any true joy and comfort and be yourself -- for here upon this ship, if anywhere, you have the grand opportunity to do so." He leans forward and gives you a soft kiss. "You are, most truly, a fine and lovely lass. And if no one should see that truth but me -- not even you, as heartbreaking as that would be -- then I will cry to the angels and shake the very heavens for the god-damned injustice of it."
-
 
 Conroy stands and wipes the tears from his eyes. He says in a sorrowful tone, "I'm afraid our time is at an end, dearest girl." He unbuckles his belt and draws his stiff prick from his trousers. "As crude a request as it may be, my sweet, I must beg for graciousness in returning the favor of relief from this most profane and carnel encumbrance."
 
