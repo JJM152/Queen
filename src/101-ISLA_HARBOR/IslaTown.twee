@@ -1,12 +1,14 @@
 :: IslaTown
 The town center of Isla Harbor is exactly how you remembered it. People are strolling back and forth between their jobs and various businesses and luckily not paying too much attention to you. Not that you think anyone would recognize you in your current state, but at least it spares you from some embarassment. Further up on the hill you can see the Governors Mansion and behind you are the Docks.
 
+A path leads uphill to the upper-class part of the city, the Cloud Discrict. You don't get there very often. In fact, you have never been there before your abduction: while the mayor is at least officially supposed to work with every citizen when necessary, the aristocrats and rich merchants built a wall around their district and hired private guards to keep the filth away.
+
 <<if $Player.Phase < 3>>\
-@@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[General Store|IslaStore]] | [[Governors Mansion|IslaMansion]]
+@@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[Cloud District|IslaCloudDistrictGuards]] | [[General Store|IslaStore]] | [[Governors Mansion|IslaMansion]]
 <<else>>\
 <<if window.App.QuestEngine.GetQuestFlag($Player, "THEBACKDOOR") == "COMPLETED">>\
-@@color:lime;Travel@@: [[The Docks|IslaHarbor]] | @@color:grey;[General Store]@@ | [[Governors Mansion|IslaMansion]]
+@@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[Cloud District|IslaCloudDistrictGuards]] | @@color:grey;[General Store]@@ | [[Governors Mansion|IslaMansion]]
 <<else>>\
-@@color:lime;Travel@@: [[The Docks|IslaHarbor]] | @@color:grey;[General Store]@@ | @@color:grey;[Governors Mansion]@@
+@@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[Cloud District|IslaCloudDistrictGuards]] | @@color:grey;[General Store]@@ | @@color:grey;[Governors Mansion]@@
 <</if>>\
 <</if>>

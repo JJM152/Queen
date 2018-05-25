@@ -50,7 +50,7 @@ App.Data.Clothes["pink knee socks"] = { // +10
 };
 
 App.Data.Clothes["white knee socks"] = { // +10
-    "Name": "pink knee socks", "ShortDesc": "a pair of {COLOR} knee socks",
+    "Name": "white knee socks", "ShortDesc": "a pair of {COLOR} knee socks",
         "LongDesc": "These white socks come up right to your knee and have little ties to hold them up.",
         "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "white", "Style": "UNCOMMON", "Type" : "CLOTHING",
         "WearEffect": [ "FEMININE_CLOTHING" ], "Category" :  [ "Daddy's Girl" ]

@@ -6,5 +6,23 @@
 [[Cabin]] | [[IslaHarbor]] | [[GoldenIsle]] | [[Abamond]] | [[PortRoyale]] | [[PassageTest]]
 [[HiddenCove]] | [[Ruins]] | [[TreasureRoom]]
 
+@@color:silver;Items Menu@@
+[[Acquire everything|DebugPassage][$Player.AcquireAllItems();]]
+
+@@color:pink;Set bust size@@
+[[Flat|DebugPassage][$Player.BodyStats["Bust"] to 0]] | \
+[[A|DebugPassage][$Player.BodyStats["Bust"] to 1]] | \
+[[AA|DebugPassage][$Player.BodyStats["Bust"] to 2]] | \
+[[B|DebugPassage][$Player.BodyStats["Bust"] to 3]] | \
+[[C|DebugPassage][$Player.BodyStats["Bust"] to 5]] | \
+[[D|DebugPassage][$Player.BodyStats["Bust"] to 8]] | \
+[[DD|DebugPassage][$Player.BodyStats["Bust"] to 11]] | \
+[[E|DebugPassage][$Player.BodyStats["Bust"] to 15]] | \
+[[F|DebugPassage][$Player.BodyStats["Bust"] to 19]] | \
+[[FF|DebugPassage][$Player.BodyStats["Bust"] to 24]] | \
+[[G|DebugPassage][$Player.BodyStats["Bust"] to 29]] | \
+[[G|DebugPassage][$Player.BodyStats["Bust"] to 39]] | \
+[[QQQ|DebugPassage][$Player.BodyStats["Bust"] to 100]]
+
 @@color:Cyan;Endings Menu@@
 [[Money Best Win|GameWon][$Player.CoreStats["WillPower"] = 100;]] | [[Money Average Win|GameWon][$Player.CoreStats["WillPower"] = 50;]] | [[Money Worst Win|GameWon][$Player.CoreStats["WillPower"] = 30;]]
