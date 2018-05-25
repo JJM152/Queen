@@ -124,6 +124,10 @@ App.Item = new function() {
 
         }
 
+		if (typeof (d.PriceAdjustment) === "number" || d.PriceAdjustment instanceof Number) {
+			price *= d.PriceAdjustment;
+		}
+
         return (price == 0 ) ? 100 : price;
     };
     
