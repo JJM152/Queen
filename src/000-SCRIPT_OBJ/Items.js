@@ -459,10 +459,14 @@ App.Item = new function() {
             return bonus;
         };
 
-        /** @returns {boolean} */
-        this.InMarket = function() {
-            return this.o["InMarket"] ? this.o["InMarket"] : true; // Default to yes.
-        };
+		/**
+		 * Checks whether this item can be sold in shops
+		 * @returns {boolean}
+		 */
+		this.InMarket = function() {
+			var inMarket = this.o.InMarket;
+			return typeof (inMarket) === "boolean" ? inMarket : true // Default to yes.
+		};
 
         // Init knowledge variable
 
