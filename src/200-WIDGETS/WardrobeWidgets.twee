@@ -70,7 +70,7 @@ You spy with your little eye...
 <<widget "WardrobeWear">><<nobr>>
 <<set _Worn = $Player.GetEquipmentInSlot($args[1])>>
 <<if _Worn != 0>>
-	<<if _Worn.IsLocked() == 1>>
+	<<if _Worn.IsLocked()>>
 		@@.disabledWardrobeButton;<<button "LOCKED">><</button>>@@
 	<<else>>
 		@@.wardrobeButton;<<button "Wear">>
@@ -117,7 +117,7 @@ You spy with your little eye...
 <<widget "WearingChange">><<nobr>>
 <<set _Item = $Player.GetEquipmentInSlot($args[0]); >>
 <<if _Item != 0>>
-	<<if _Item.IsLocked() == 1>>
+	<<if _Item.IsLocked()>>
 		@@.disabledWardrobeButton;<<button "LOCKED">><</button>>@@
 	<<else>>
 		<<if $Player.WardrobeItemsBySlot($args[0]).length > 0>>
@@ -137,7 +137,7 @@ You spy with your little eye...
 
 <<widget "WearingRemove">><<nobr>>
 <<if $Player.GetEquipmentInSlot($args[0]) != 0>>
-	<<if $Player.GetEquipmentInSlot($args[0]).IsLocked() == 1>>
+	<<if $Player.GetEquipmentInSlot($args[0]).IsLocked()>>
 		@@.disabledWardrobeButton;<<button "LOCKED">><</button>>@@
 	<<else>>
 		@@.wardrobeButton;<<button "Remove">>

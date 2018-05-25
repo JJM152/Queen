@@ -15,7 +15,7 @@ App.Data.Clothes = App.Data.Clothes || { };
 App.Data.Clothes["collar"] = { // +3
     "Name": "collar", "ShortDesc": "a leather slave collar",
     "LongDesc": "This thick leather collar is worn to remind everyone that the wearer is a slave.",
-    "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Style": "COMMON", "Type" : "ACCESSORY", "Locked": 1,
+    "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Style": "COMMON", "Type" : "ACCESSORY", "Locked": true,
     "WearEffect": [ "SLAVE_COLLAR" ], "Category" :  [ "BDSM" ]
 };
 
@@ -83,7 +83,7 @@ App.Data.Clothes["large plug"] = { // +9
 App.Data.Clothes["chastity cage"] = { // +3
     "Name": "chastity cage", "ShortDesc": "a metal and leather chastity device",
     "LongDesc": "This cruel device constricts and crushes your genitals. Wearing it is not only painful but probably bad for your health.",
-    "Slot": "Penis", "Restrict": ["Penis"], "Color": "black", "Style": "COMMON", "Type" : "ACCESSORY", "Locked": 1,
+    "Slot": "Penis", "Restrict": ["Penis"], "Color": "black", "Style": "COMMON", "Type" : "ACCESSORY", "Locked": true,
     "WearEffect": [ "CHASTITY_CAGE" ], Category : [ "BDSM" ]
 };
 

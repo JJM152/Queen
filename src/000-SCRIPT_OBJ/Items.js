@@ -307,11 +307,18 @@ App.Item = new function() {
         this.Name = function () {
             return this.o["Name"];
         };
-        this.Description = function () {
-            var _d = this.o["ShortDesc"].replace("{COLOR}", this.o["Color"]);
-            if (this.o["Locked"] && this.o["Locked"] == 1) _d += " @@color:red;(Locked)@@";
-            return _d;
-        };
+
+		this.Description = function () {
+			var result = this.o.ShortDesc;
+			if (result instanceof String) result = String(result);
+			if (typeof (result) !== "string" || result === "") return this.Name();
+			result = result.replace("{COLOR}", String(this.o.Color));
+
+			var locked = this.o.Locked;
+			if (typeof (locked) === "boolean" && locked) result += " @@color:red;(Locked)@@";
+
+			return result;
+		};
 
         this.Examine = function (Player) {
             var Output = this.o["LongDesc"];
@@ -444,10 +451,12 @@ App.Item = new function() {
             return this.o["HairBonus"] ? this.o["HairBonus"] : 0;
         };
 
-        /** @returns {number} */
-        this.IsLocked = function () {
-            return this.o["Locked"] ? this.o["Locked"] : 0;
-        };
+		/** @returns {boolean} */
+		this.IsLocked = function () {
+			var locked = this.o.Locked;
+			return typeof (locked) === "boolean" ? locked : false;
+		};
+
         /**
          * Query the effects (if present) on this piece of clothing and return the bonus
          * @param {string} skillName
