@@ -413,6 +413,39 @@ div.SlotReel {
     left: 5px;
 }
 
+div.SlotWinner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 60px;
+    z-index: 10;
+}
+span.SlotPayout {
+    color: gold;
+    font-weight: bold;
+    font-size: medium;
+}
+
+span.SlotXp {
+    color: orangered;
+    font-weight: bold;
+    font-size: medium;
+}
+
+span.SlotMood {
+    color: cyan;
+    font-weight: bold;
+    font-size: small;
+}
+
+span.SlotLust {
+    color: deeppink;
+    font-weight: bold;
+    font-size: small;
+}
+
 .LockedSlot {
     overflow:hidden;
     display:inline-block;

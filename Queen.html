@@ -698,6 +698,39 @@ div.SlotReel {
     left: 5px;
 }
 
+div.SlotWinner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 60px;
+    z-index: 10;
+}
+span.SlotPayout {
+    color: gold;
+    font-weight: bold;
+    font-size: medium;
+}
+
+span.SlotXp {
+    color: orangered;
+    font-weight: bold;
+    font-size: medium;
+}
+
+span.SlotMood {
+    color: cyan;
+    font-weight: bold;
+    font-size: small;
+}
+
+span.SlotLust {
+    color: deeppink;
+    font-weight: bold;
+    font-size: small;
+}
+
 .LockedSlot {
     overflow:hidden;
     display:inline-block;
@@ -6124,6 +6157,23 @@ App.SlotEngine = new function() {
         return false;
     };
 
+    this._SlotWinDiv = function(slot, content)
+    {
+        var child = $("#SlotWindow_"+slot);
+        var parent = child.parent();
+        var pxy = parent.position();
+        var cxy = child.position();
+        var startTop = pxy.top - 60;
+        var startLeft = cxy.left +5;
+        var endTop =  pxy.top - 400;
+
+        var newDiv = $('<div>').addClass("SlotWinner").attr('id', 'SlotWinner_'+slot).html(content);
+        newDiv.css('top', startTop);
+        newDiv.css('left', startLeft);
+        newDiv.animate({ opacity: 0.8, top: endTop }, 4000, function() { $(this).remove(); });
+        $(this.Element).append(newDiv);
+    };
+
     //HELPER FUNCTIONS
     this._GetSlotClass = function(Type) {
         return this._SlotTypes[Type];
@@ -6268,7 +6318,7 @@ App.SlotEngine = new function() {
         console.log("basePay:"+basePay);
         for (i = 0; i < slots.length; i++) {
             console.log("basePay:"+basePay);
-            var result = { slot: slots[i], payout: 0, xp: 0, mood: 0, lust: 0, sat: 0  };
+            var result = { slot: slots[i], payout: 0, xp: 0, mood: 0, lust: 0, sat: 0, type: key  };
             var checkMod = this._CalcBonus(key, this._Player, (c.Payout * 20) );
             console.log("checking: " + key + "=>"+checkMod);
             // The base value for the slot. 0.25 - 2.0 max
@@ -6285,7 +6335,7 @@ App.SlotEngine = new function() {
             // Add Mood
             result.mood = Math.ceil( 5 * checkMod );
             // Add Lust
-            result.lust = (key == 'PERV') ? 10 : 0;
+            result.lust = (key == 'PERV') ? 20 : -10;
             // Add Satisfaction
             result.sat = Math.ceil( 20 * checkMod );
             // Modify pay by mood formula
@@ -6521,11 +6571,48 @@ App.SlotEngine = new function() {
 
         }
 
+        if (payout.length > 0 ) {
+            // sneak peak
+            var keys = Object.keys(payout[0]);
+
+            for (i = 0; i < keys.length; i++) {
+                if (keys[i] == 'slot' || keys[i] == 'type') continue;
+                console.log("calling_printSlotResults for :"+keys[i]);
+                setTimeout( this._DoSlotResults.bind(this,payout, keys[i]), (500 * i));
+            }
+        }
         this._Spinning = false;
         console.log(spinResult);
         console.log(slotMap);
         console.log(sequences);
         console.log(payout);
+    };
+
+    this._DoSlotResults = function( results, key )
+    {
+        for (var i = 0; i < results.length; i++) {
+            console.log("slot = "+results[i].slot+", key =" + key );
+            var html = "";
+            switch(key) {
+                case 'payout':
+                    html = '<span class="SlotPayout">$'+results[i][key]+'</span>';
+                    break;
+                case 'xp':
+                    html = '<span class="SlotXp">'+results[i][key]+' XP</span>';
+                    break;
+                case 'mood':
+                    html = '<span class="SlotMood">'+results[i][key]+' MOOD</span>';
+                    break;
+                case 'lust':
+                    html = '<span class="SlotLust">'+results[i][key]+' LUST</span>';
+                    break;
+                case 'sat':
+                    break;
+            }
+
+            if (html == "") continue;
+            this._SlotWinDiv(results[i].slot, html);
+        }
     };
 
     /**
