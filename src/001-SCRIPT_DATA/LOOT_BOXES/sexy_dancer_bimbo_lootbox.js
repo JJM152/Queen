@@ -71,7 +71,7 @@ App.Data.LootTables["DANCER_BIMBO"] =  {
         ] },
     40 :  {
         "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "silk stockings", "QTY" : 1},
+            { "TYPE" : "CLOTHES",   "TAG" : "silk stockings", "QTY" : 1},
             { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
             { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5},
             { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 5},
@@ -87,7 +87,7 @@ App.Data.LootTables["DANCER_BIMBO"] =  {
         ] },
     60 :  {
         "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "siren elixir", "QTY" : 1}
+            { "TYPE" : "DRUGS", "TAG" : "siren elixir", "QTY" : 1}
         ] },
     70 :  {
         "LOOT" : [
