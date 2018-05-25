@@ -4,7 +4,7 @@ App.Data.JobData = App.Data.JobData || { };
 App.Data.JobData["ISLA_MASCOT"] = {
     "ID": "ISLA_MASCOT", "TITLE": "Store Mascot", "GIVER": "IslaShopKeeper", "PAY" : 40,
     "RATING" : 3, // of 5
-    "PHASES" : [ 1, 2, 3 ],
+    "PHASES" : [ 0, 1, 2, 3 ],
     "DAYS"   : 1,
     "HIDDEN" : false,
     "COST" : [  { "TYPE" : "TIME", "VALUE" : 1 },

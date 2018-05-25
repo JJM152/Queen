@@ -1,5 +1,11 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.5c - 05/25/2018
+* Added a new longer introduction sequence to the game when you refuse to eat the gruel. Courtesy of @@color:deepPink;daviezwei@@
+* New TF items and food added to game courtsey of @@color:deepPink;panslothda@@ - You may need to start a new game to get them to appear in the shops, or you can potentially find them by shopping at the market/bazaar.
+* It is now possible to do both Isla Harbor jobs in the same day if you start the Mascott job during morning.
+* Reduced payout on the Milking job (oops)
+
 !!!0.5b - 05/22/2018
 * Fixed bug with Simone's "Blowjob Specialist" job not rewarding loot box when success counter was maxed.
 

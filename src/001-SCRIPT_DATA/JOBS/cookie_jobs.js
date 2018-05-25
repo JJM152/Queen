@@ -348,7 +348,7 @@ App.Data.JobData["COOK04"] = {
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [
-                { "TAG" : "A", "TYPE" : "BODY", "NAME" : "Bust", "DIFFICULTY" : 100, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 300, "OPT" : 0 }
+                { "TAG" : "A", "TYPE" : "BODY", "NAME" : "Bust", "DIFFICULTY" : 100, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 150, "OPT" : 0 }
             ],
             "POST" : [
             ],
