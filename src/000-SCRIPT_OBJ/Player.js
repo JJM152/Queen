@@ -1003,15 +1003,15 @@ App.Entity.Player = function (){
     // Equipment and Inventory Related Functions
 
     /**
-     *
-     * @param ItemDict
+     * Does the character own the item in question
+     * @param {*} ItemDict The dictionary entry from the Store
      * @returns {boolean}
      */
     this.OwnsWardrobeItem = function(ItemDict)
     {
         if ((ItemDict["TYPE"] == "CLOTHES") || (ItemDict["TYPE"] == "WEAPON")) {
             if (this.Wardrobe.filter( function(o){return o.Name() == ItemDict["TAG"];}).length > 0 ) return true;
-            var Slot = window.App.Data.Clothes[ItemDict["TAG"]]["Slot"];
+            var Slot = App.Data.Clothes[ItemDict["TAG"]]["Slot"];
             if ((this.Equipment[Slot] === undefined) || (this.Equipment[Slot] == 0)) return false;
             if (this.Equipment[Slot].Name() == ItemDict["TAG"]) return true;
         }

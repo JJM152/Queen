@@ -169,14 +169,29 @@ div.WhoreWildcardFemininity {
 
 button.WhoreSpinButton {
     position: absolute;
-    left: 55px;
+    left: 10px;
     top: 360px;
     color: yellow;
     font-size: larger;
     border: 1px solid black;
     background-color: saddlebrown;
 }
+
 button:hover.WhoreSpinButton {
+    background-color: sienna;
+}
+
+button.WhoreCashOutButton {
+    position: absolute;
+    left: 115px;
+    top: 360px;
+    color: yellow;
+    font-size: larger;
+    border: 1px solid black;
+    background-color: saddlebrown;
+}
+
+button:hover.WhoreCashOutButton {
     background-color: sienna;
 }
 
@@ -212,7 +227,7 @@ span.WhoreWantColor3 {
     color: wheat;
 }
 
-span.WhoreBonusColor {
+span.WhoreWantColor0 {
     color: deeppink;
 }
 span.WhoreMood {
@@ -323,6 +338,19 @@ span.BonusCatFemininity {
 
 span.BonusCatBeauty {
     color: cyan;
+}
+
+div.CustomerComplete {
+    position: absolute;
+    top: 40px;
+    color: white;
+    background-color: #551111;
+    font-size: larger;
+    font-weight: bolder;
+    opacity: 1.0; !important;
+    z-index: 100;
+    width: 180px;
+    text-align: center;
 }
 
 #WhoreCustomer0 {
@@ -500,4 +528,69 @@ span.SlotLust {
     text-align:center;
     vertical-align:middle;
     color: yellow;
+}
+
+div.DesperationContainer {
+    width: 800px;
+    height: 40px;
+    position: relative;
+    top: -20px;
+}
+
+div.DesperationBar {
+    width: 580px;
+    height: 30px;
+    position: absolute;
+    top: 3px;
+    left: 10px;
+    border: 2px solid darkgray;
+    border-radius: 20px;
+    z-index: 20;
+}
+
+div.DesperationFiller {
+    width: 0px;
+    height: 30px;
+    position: absolute;
+    top: 5px;
+    left: 12px;
+    background-color: darkred;
+    border-radius: 20px 20px 20px 20px;
+    z-index: 10;
+}
+
+img.DesperationSlotIcon {
+    width: 34px;
+    height: 34px;
+    position: absolute;
+    top: 3px;
+    left: 558px;
+    z-index: 20;
+}
+
+button.DesperationButtonDeactivated {
+    position: absolute;
+    top: 2px;
+    left: 612px;
+    color: white;
+    font-size: medium;
+    background-color: dimgrey;
+    border:solid 1px black;
+    opacity: 0.1;
+    cursor: default;
+}
+
+button.DesperationButtonActivated {
+    position: absolute;
+    top: 2px;
+    left: 612px;
+    color: white;
+    font-size: medium;
+    background-color: dimgrey;
+    border:solid 1px black;
+    opacity: 1.0;
+    cursor: pointer;
+}
+button:hover.DesperationButtonActivated {
+    background-color: lightslategray;
 }

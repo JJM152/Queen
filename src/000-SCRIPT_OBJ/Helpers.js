@@ -522,7 +522,7 @@ App.PR = new function() {
         };
 
     /**
-     * Print out a description of the Player's Waist statistic.
+     * Print out a description of the Player's Bust statistic.
      * @param {App.Entity.Player} Player
      * @param {number|null} Arg
      * @returns {XML|string|void}
