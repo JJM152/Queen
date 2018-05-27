@@ -1,7 +1,91 @@
 :: Sleep [custom-menu]
 <<if $Player.Phase >= 3>><<run $Player.NextDay(); >><</if>>\
-Night finally comes and you drag yourself off to bed. Within moments of laying down your tired body succumbs to sleep.
+<<set $irr to random(1,3)>>\
+<<if $irr eq 1>>\
+  Night finally comes and you drag yourself to bed.
+<<elseif $irr eq 2>>\
+  The late evening relieves you of further responsibilities, so you collapse into your rickety bed.
+<<else>>\
+  The day is done and over, for better or worse. You fall into bed.
+<</if>>\
+//
+<<switch $Player.Day>>\
+<<case 2>>\
+  You're finding it difficult to fall asleep with this callous contraption cramping your genitals. You massage around the device in an attempt to relieve the constraint, but the ache only intensifies as your trapped cock bulges against its imprisonment in stunted arousal. You smother your face with your pillow and groan in abject misery.
 
+  Sometime later, you eventually drift off into frustrated dreams.
+<<case 3>>\
+  As always happens in the late hours, your libido reaches its zenith and all but demands a climax. When you haven't relieved yourself in a couple days -- such as the case now -- your arousal becomes nigh intolerable. But with your genitals locked away, all your neglected dick can do is despondently throb within its cramped cage.
+
+  You feel your lip quiver as you grasp the wretched device in your hands. There has to be a way to get the captain to release your poor cock from this loathsome incarceration!
+
+  Determined to speak with him about it tomorrow, you will yourself to sleep.
+<<case 4>>\
+  Earlier you managed to get Captain Reginald's attention for a moment and you asked him why you had to endure this cruel chastity cage. But he only scowled at you as if you were speaking a foreign language and then, following a slap that left your cheek smarting for hours, ordered you to return to your duties.
+
+  You glare down at the blasted leather and metal mechanism that relentlessly squashes your aching manhood and let fly a variety of obscenities at it. Then you turn to your side and force yourself to ignore the endless torture so that you can hopefully get some sleep.
+<<case 5>>\
+  Groaning in embittered arousal, you try to wiggle your fingers into chastity cage to pry it away. It holds fast against all your efforts, budging not so much as a hair. You're left whimpering in frustration and futilely hammering your fists against your bed.
+
+  Finally you pass out as you start to wonder if the damned thing is also cursed with evil voodoo.
+<<case 6>>\
+  Feeling most particularly dissatisfied tonight, you kick your feet and gnash your fingernails against the cruel contraption preventing your masculine arousal. As any other young healthy man, your libido is nigh inexhaustible and always raging in intensity. But this atrocious apparatus foils your every attempt at release, leaving you in a perpetual state of sexual frustration.
+
+  Mewling like a horny alley cat and rubbing your thighs together uselessly, you ultimately pass out from pure exhaustion.
+<<case 7>>\
+  IT'S NOT FAIR! Each and every one of these sodomizing bastards gets their dirty cocks satisfied whenever they want -- by YOU! But every night YOU are the one left with heavy balls bloated with unspent semen! Not to mention how painful the swelling is in their cramped confinement!
+
+  You flip over on your stomach, smash your face into your pillow, and whimper pitifully while uselessly grinding your hips against the bed until you eventually lose consciousness.
+<<case 8>>\
+  It's been well over a week since you've had any sexual relief and you feel as if you're going mad. Frenzied and depraved perversions infest your thoughts, day and night, and the endless anguish of your packed-up privates constantly gnaws at the edges of your mind. But you don't dare touch yourself because you know that will only heighten your frustration.
+
+  Lying here in bed, gazing up at the splitered wood of your cabin's ceiling, you begin to wonder if this is how some people go insane. You clamp your eyes closed and slip into the dark with delirious fantasies of throwing yourself overboard and being molested by mermaids.
+<<case 9>>\
+  Unable to sleep due to your painfully pulsating cock and ballsack, you try to recount how many times had you taken masturbation for granted in the past. All you had to do was find a secluded spot for a few minutes and, with a little spit and elbow grease, you'd promptly blow your load in blissful ecstacy.
+
+  But now when you imagine an orgasm, all you can think of is the acrid aroma and brackish bitterness of sailor semen. You scrunch your nose and gag against your own tongue. Maybe this is for the best, you think. If you embrace your disgust of orgasms, maybe you won't want one so bad anymore.
+
+  You fall asleep thinking about how absolutely absurd that sounds.
+<<case 10>>\
+  Stretching out in bed, you realize something is different tonight. Obviously you're still floundering in sexual savagery, but it feels... dull. As if your frustration was somehow the exact same but further away -- like you are losing interest in it.
+
+  You wonder if you're getting used to be deprived of carnal release. It's a comforting thought, but also a worrying one. If you sacrifice your sensual interests now, will you ever be able to regain them once you're free again?
+
+  Wondering if that even matters given the unlikelihood of escaping this life anytime soon, you close your eyes and let the dark void take you away.
+<<case 11>>\
+  Once again you tried speaking with the captain today -- or, more accurately, tried pleading with him in earnest desperation to uncuff your cock. You attempted to explain your suffering but your ardent entreaties may as well have been the yapping of a mutt for all he seemed to care. He spat at you that proper lasses don't concern themselves with such nonsense and sent you away with a backhand.
+
+  A proper lass, you're not. Because you're very concerned with such nonsense. But you drift into frustrated dreams while trying to accept the fact that it is pointless to beg the captain to remove the chastity cage.
+<<case 12>>\
+  You don't even want to think about the buzzing in your head and the sour ache in your balls tonight. You smash your face into your pillow, scream out in distress, and suffocate yourself to sleep.
+<<case 13>>\
+  <<if $Player.Equipment["Pants"] neq 0 || $Player.Equipment["Panty"] neq 0 || $Player.Equipment["Dress"] neq 0 || $Player.Equipment["Costume"] neq 0 || $Player.Equipment["Corset"] neq 0 || $Player.Equipment["Bra"] neq 0 || $Player.Equipment["Shoes"] neq 0 || $Player.Equipment["Stockings"] neq 0>>For some reason, you slip back out of bed and remove all your clothing. You're not sure why you're doing it in the moment but when you slide back into bed naked it just feels right. <<else>>For some reason, sleeping naked just feels right. <</if>>You clasp your hands atop your stomach but they don't stay there for long -- as if having a mind of their own, they begin caressing your belly and chest. Your fingers find your nipples and pinch and twist them.
+
+  You grit your teeth and will yourself to stop this nonsense as the sickening ache in your imprisoned genitals grows. But your hands don't obey. They rub your face, your lips, your chest, your stomach, your hips, and down around your thighs. A whimper escapes you as your cock throbs angrily in its punishing prison but can't seem to stop yourself. Your hands palm your nipples and squeeze the flesh of your chest. Your thighs rub together, your toes wriggle and your feet wrestle, your tongue slathers your lips with hot drool.
+
+  You stuff your index and middle fingers into your mouth, coating them with steamy saliva, and work them into your clenching asshole without a thought. After stuffing your slick digits as deeply as you can inside your sultry guts, you twist and twirl them and mash them against any resistance.
+
+  Slammed with a sudden surge of ecstacy, you cry out into a shuddering moan, back arching and toes curling of their own accord. You're only superficially aware of the warm pulsating feeling inside your chastity cage. The blinding bliss holds you captive for seconds, or minutes, or hours. And when it's finally done with you, it leaves you in a sweaty, panting heap atop your bed.
+
+  Before you can even wonder what the hell just happened, you pass into a peaceful slumber.
+<<case 14>>\
+  You entirely too giddy to fall asleep tonight. <<if $Player.Equipment["Pants"] neq 0 || $Player.Equipment["Panty"] neq 0 || $Player.Equipment["Dress"] neq 0 || $Player.Equipment["Costume"] neq 0 || $Player.Equipment["Corset"] neq 0 || $Player.Equipment["Bra"] neq 0 || $Player.Equipment["Shoes"] neq 0 || $Player.Equipment["Stockings"] neq 0>>You strip off your clothes and toss them aside to lie naked on your bed <<else>>You're already naked, of course, <</if>>because you definitely have to try to repeat whatever happened to you last night!
+
+  Starting with your hands gently caressing your stomach and chest, you slowly surrender to the flourishing desire to fondle yourself. You start to feel a tingle in your body as you mash your thighs together and you refuse to let the unhappy ache of your confined cock and bound balls distract you. This is about more than them, this is about your entire being!
+
+  Ragged panting fills your cabin as you continue to grope and caress yourself. You lick your lips and writhe atop your blanket, sparks firing off all across your naked flesh. You want to touch everything. And you want everything to touch everything else. As before, you shove two fingers in your drooling mouth and send them right up your twitching butthole when they're properly coated with saliva.
+
+  Gasping and squirming in feverish yearning, begging for some release between bated breaths, you finally achieve the ecstatic explosion that you're after. You cry out, careless of who might hear, while your body quakes and quivers as it rides out the deliciously delirious orgasm. A feeble drivel of watery cum -- nothing like the explosive blasts of gooey spunk you normally produce -- steadily seeps out of your cock to soil your chastity cage and slicken your thighs.
+
+  You purr in supreme satisfaction and gleefully fall asleep in your own slippery mess.
+<<default>>\
+  <<if $Player.Equipment["Pants"] neq 0 || $Player.Equipment["Panty"] neq 0 || $Player.Equipment["Dress"] neq 0 || $Player.Equipment["Costume"] neq 0 || $Player.Equipment["Corset"] neq 0 || $Player.Equipment["Bra"] neq 0 || $Player.Equipment["Shoes"] neq 0 || $Player.Equipment["Stockings"] neq 0>>Within moments of laying down your tired body succumbs to sleep.<<else>>Buck naked and ready for some personal time, you proceed to molest yourself with wild abandon. You squeeze and pinch and fondle your body in sadistic but oh-so-satisfying self-rape. Then you cork your spasming starfish with your spit-slick fingers and work to please your quivering boy-pussy. Your other hand continues to maul every bit of your body it can reach.
+
+  It doesn't take long before you succumb to a yummy orgasm. You let out a long whorish moan as you carelessly drool clit-jizz all over your bed sheets.
+
+  Falling asleep after that is as easy as you are.<</if>>
+<</switch>>\
+//
 <<if $Player.SleepLog.length != 0>><<for _i to 0; _i lt $Player.SleepLog.length; _i++>>\
 <<print $Player.SleepLog[_i]>><br/><</for>><</if>>\
 
