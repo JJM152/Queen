@@ -1,19 +1,29 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+
+!!!0.6 - 05/28/2018
+!!!!General
+* Various bug fixes and code refactoring contributed by myself and @@color:deepPink;AmansMarium@@.
+* Slutty Lady clothing added by @@color:deepPink;AmansMarium@@
+* Some night time narrative added by @@color:deepPink;daviezwei@@
+* Some NPC's had their descriptions cleaned up, again by @@color:deepPink;daviezwei@@
+* New whoring mini-game added to replace the old boring one. Now with 100% less beatings.
+!!!Salty Mermaid
+* The deterioration of the Crew's mood has been greatly reduced.
+* Cookie's 'Helping Out in the Galley' job edited by @@color:deepPink;daviezwei@@
+!!!Isla Harbor
+* Cloud District added by @@color:deepPink;AmansMarium@@.
 !!!0.5c - 05/25/2018
 * Added a new longer introduction sequence to the game when you refuse to eat the gruel. Courtesy of @@color:deepPink;daviezwei@@
-* New TF items and food added to game courtsey of @@color:deepPink;panslothda@@ - You may need to start a new game to get them to appear in the shops, or you can potentially find them by shopping at the market/bazaar.
-* It is now possible to do both Isla Harbor jobs in the same day if you start the Mascott job during morning.
+* New TF items and food added to game courtesy of @@color:deepPink;panslothda@@ - You may need to start a new game to get them to appear in the shops, or you can potentially find them by shopping at the market/bazaar.
+* It is now possible to do both Isla Harbor jobs in the same day if you start the Mascot job during morning.
 * Reduced payout on the Milking job (oops)
-
 !!!0.5b - 05/22/2018
 * Fixed bug with Simone's "Blowjob Specialist" job not rewarding loot box when success counter was maxed.
-
 !!!0.5a - 05/21/2018
 !!!!Bug Fixes
 * Fixed bug in JobEngine that was throwing an exception when trying to manipulate a body stat (this affected only Kipler's quest)
 * Reduced frequency of the crew rape scene to have a minimum interval of at least 5 days in between events, starting at day 6 of the game.
-
 !!!0.5 - 05/20/2018
 !!!!General
 * Introduced a value algorithm governing items. Things will probably be more expensive now as their cost is going to be based on their stats. More expensive stuff is almost always better.
@@ -44,20 +54,16 @@
 * Made the Lips requirements on the 'Build a Better Bimbo - Part 1' quest easier to achieve.
 * Doing Kipler's personal job will now grant you a lactation stat of (2). This decreases when you sleep by 1.
 * Cookie will milk lactating characters in the galley during the morning phase. Pay is based on breast size. (job text supplied by @@color:deepPink;sirwolffe@@)
-
 !!!!Golden Isle
 * Petey now gives out a quest to people who look like pirates...
 * You can "shop" at the Bazaar. This generates a random list of goods, potentially even rare legendary items. Shopping costs 1 energy and 1 time, but is repeatable forever. Shop till you drop.
 * Descriptions for the Guard House and Jail added.
-
 !!!!Abamond
 * Added Map generation and collision detection to 'Rouge-like' game. Not much of a game here, yet.
-
 !!!!Port Royale
 * Added 3 more jobs to Simone at the Lusty Lass. They can all reward loot boxes if you do well at them.
 * You can shop at the Great Market, just like at the Bazaar.
 * Descriptions for the Casino and Green Gryphon added.
-
 !!!0.4 - 05/16/2018
 !!!!General
 * Added the skeleton for a 'Rogue-like' game. You can find the barely functional prototype in Abamond.
@@ -71,20 +77,16 @@
 * Toned down hormone shift a bit. It caps earlier than before.
 * Added some more TF items and clothes.
 * Fixed bug with shop that no one noticed. Ahem.
-
 !!!!Game Difficulty
 * Difficulty selection screen and gift boxes created by @@color:deepPink;panslothda@@
 * In addition to the gift boxes, selecting easier difficulties give you a bonus to skill and stat rolls (+5 and +10 respectively)
-
 !!!!Abamond
 * Added new Hex to Paola. It will increase your skill checks for a while...
 * Added the stub for the Cavern Exploration mini-game to the Ocean Cave.
-
 !!!!Golden Isle
 * The Saucy Slattern is now open for business. You can whore there if you've completed the boarding pass quest.
 * Charmaine the Madam overseas the sluts there. Description courtesy of @@color:deepPink;Nynfeenia@@
 * Description added for Bazaar (no content yet)
-
 !!!!Port Royale
 * The Lusty Lass now has a shop.
 * Simone at the Lusty Lass will now sell some rare @@color:pink;Daddy's Girl@@ clothing, if you get her mood high enough.
@@ -93,7 +95,6 @@
 * She also has a job on offer now, which will allow you to raise her mood if you do well on it. It's hard so practice a lot.
 * Doing well on her jobs can eventually earn you an uncommon loot box with daddy's girl or sissy lolita items in it.
 * The entertainment district has a description now, a hint of things to come.
-
 !!!0.3 - 05/13/2018
 !!!!General
 * Added 'Loot Boxes' to the game. They can be awarded from quests, or from doing certain jobs well. Opening them up will give you a random reward.
@@ -106,30 +107,23 @@
 * Added a text passage for winning the game with low power by @@color:deepPink;mightyakira@@.
 * Enhancements to job engine and quest engine to support increased complexity.
 * Many bug fixes!
-
 !!!!Salty Mermaid
 * Loot Box at the Captain's whoring job.
 * Loot Box at the Galley (helping out)
-
 !!!!Isla Harbor
 * Added two new quests to Bosun.
 * Loot box at the Mascot job.
-
 !!!!Abamond
 * You can now explore the jungle, assuming you have a tool that will let you clear the foliage.
 * The hidden cove now has a resident, Paola St. Marie. She is a voodoo priestess and has a fetch quest and some special services (hexes).
 * Added quest to Paola St. Marie.
 * Added descriptions for the Ruins and Treasure room (nothing interactive yet).
-
 !!!!Golden Isle
 * Added Docks, Smugglers Den.
 * Added Portside description and General Store (Golden Goods).
-
 !!!!Port Royale
 * Added descriptions to the Shipwright, Fortune Teller and Lusty Lass.
 * You can whore at the Lusty Lass. The customers pay more.
-
-
 !!!0.2 - 05/09/2018
 !!!!General
 * Rounding bug with Journal quest tracker fixed.
@@ -144,22 +138,17 @@
 * Reduced bust requirement for First Mate whoring job.
 * Hide game status panel during intro.
 * Added examine item button to store (thanks @@color:deepPink;dcancer@@ for github contribution)
-
 !!!!Isla Harbor
 * Added Waitress Job to tavern.
 * Added Mascot Job to General Store.
-
 !!!!Abamond
 * General descriptions to Lonely Pier, Far Beach and Ocean Cave
-
 !!!!Golden Isle
 * Added Docks, Smugglers Den.
 * Added Smuggler's den basic inventory and NPC.
-
 !!!!Port Royale
 * Added docks, Great Market and Grey Peacock tavern.
 * Added Grey Peacock basic inventory and NPC.
 * Added Waitress Job to Grey Peacock.
-
 !!!0.1 - 05/05/2018
 Initial Release of Alpha content.
