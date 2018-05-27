@@ -9,15 +9,16 @@ App.Item = new function() {
      * @private
      */
     this._TryGetItemsDictionary = function(Type) {
-        if (Type == "DRUGS") return window.App.Data.Drugs;
-        if (Type == "FOOD") return window.App.Data.Food;
-        if (Type == "COSMETICS") return window.App.Data.Cosmetics;
-        if (Type == "CLOTHES") return window.App.Data.Clothes;
-        if (Type == "WEAPON") return window.App.Data.Clothes;
-        if (Type == "STORE") return window.App.Data.Stores;
-        if (Type == "NPC") return window.App.Data.NPCS;
-        if (Type == "QUEST") return window.App.Data.QuestItems;
-        if (Type == "LOOT_BOX") return window.App.Data.LootBoxes;
+        if (Type == "DRUGS") return App.Data.Drugs;
+        if (Type == "FOOD") return App.Data.Food;
+        if (Type == "COSMETICS") return App.Data.Cosmetics;
+        if (Type == "CLOTHES") return App.Data.Clothes;
+        if (Type == "WEAPON") return App.Data.Clothes;
+        if (Type == "STORE") return App.Data.Stores;
+        if (Type == "NPC") return App.Data.NPCS;
+        if (Type == "QUEST") return App.Data.QuestItems;
+        if (Type == "LOOT_BOX") return App.Data.LootBoxes;
+        if (Type == 'REEL') return App.Data.Slots;
 		return null;
     };
 
