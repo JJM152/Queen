@@ -191,7 +191,7 @@ The style and fashion of your clothing is <<= window.App.PR.pClothing($Player) >
 	<tr>
 		<td><<link "Daddy's Girl" "Wardrobe">><<run $Player.AutoWearCategory("Daddy's Girl");>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Daddy's Girl", $Player); >></span></td>
 		<td><<link "Naughty Nun" "Wardrobe">><<run $Player.AutoWearCategory('Naughty Nun');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Naughty Nun", $Player); >></span></td>
-		<td><<link "Pet Girl" "Wardrobe">><<run $Player.AutoWearCategory('Pet Girl);>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Pet Girl", $Player); >></span></td>
+		<td><<link "Pet Girl" "Wardrobe">><<run $Player.AutoWearCategory('Pet Girl');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Pet Girl", $Player); >></span></td>
 	</tr>
 	<tr>
 		<td><<link "High Class Whore" "Wardrobe">><<run $Player.AutoWearCategory('High Class Whore');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("High Class Whore", $Player); >></span></td>

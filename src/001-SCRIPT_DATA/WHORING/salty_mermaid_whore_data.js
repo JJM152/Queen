@@ -9,7 +9,7 @@ App.Data.Whoring["SaltyMermaid"] = {
     // Minimum payout rank.
     "MIN_PAY"   : 1,
     // Maximum payout rank.
-    "MAX_PAY"   : 3,
+    "MAX_PAY"   : 2,
     // Bonus payout, weighted table
     "BONUS"     : [
         // Style based bonuses first. (1/2 as much as body bonuses)

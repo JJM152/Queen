@@ -6160,6 +6160,7 @@ App.SlotEngine = new function() {
     this._DesperationSpins = 0;
     this._ReturnPassage = "Deck";
     this._EndStatus = [ ];
+    this._Title = "A BACK ALLEY";
 
     /**
      * Dictionary of string tokens to css class names.
@@ -6232,7 +6233,7 @@ App.SlotEngine = new function() {
         // You can have up to 6 customers. This is largely dictated by the overall lust of the NPC container object.
         var npc = this._Player.GetNPC(dict['NPC_TAG']);
         //var maxCustomers = Math.round(Math.max(1, Math.min( (6 * (npc.Lust()/100)), 6)));
-
+        this._Title = dict['DESC'];
         this._Customers = [ ]; // Clear data.
         this._Rares = [ ];
         this._MoneyEarned = [ ]; //
@@ -6525,7 +6526,7 @@ App.SlotEngine = new function() {
         $('#WhoreStatusPanel').remove();
 
         var root =  $('<div>').addClass('WhoreStatus').attr('id', "WhoreStatusPanel");
-        var title = $('<div>').addClass(('WhoreStatusTitle')).text('THE SALTY MERMAID');
+        var title = $('<div>').addClass(('WhoreStatusTitle')).text(this._Title);
         root.append(title);
 
         var spinTitle = $('<span>').addClass('WhoreSpinsLeftTitle').text('SPINS LEFT');
@@ -7089,7 +7090,7 @@ App.SlotEngine = new function() {
         if (typeof dict['TITLE'] !== 'undefined' && dict['TITLE'] != null) { this.Name = dict['TITLE'] + " " + this.Name; }
 
         // Set the Payout
-        this.Payout = (dict['MIN_PAY'] >= dict['MAX_PAY']) ? dict['MIN_PAY'] :  dict['MIN_PAY'] + Math.floor(Math.random() * (dict['MAX_PAY'] - dict['MIN_PAY']));
+        this.Payout = (dict['MIN_PAY'] >= dict['MAX_PAY']) ? dict['MIN_PAY'] :  dict['MIN_PAY'] + Math.round(Math.random() * (dict['MAX_PAY'] - dict['MIN_PAY']));
 
         // Get the NPC from the Player.
         this.Tag = dict['NPC_TAG'];
@@ -8718,7 +8719,7 @@ App.Data.NPCS = {
 				"Name" : "Crew", // This is a place holder and not meant to be used as an actual NPC.
 				"Mood" : 0,
                 "Wealth" : 20,
-				"DailyMood" : -5,
+				"DailyMood" : -2,
 				"Lust" : 100,
 				"DailyLust" : 20,
 				"Title" : "Crew of the Salty Mermaid",
@@ -16826,7 +16827,32 @@ App.Data.Stores["SMUGGLERS"] =  {
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",   "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "male mandrake"          }
     ]
 };
-/* twine-user-script #71: "salty_mermaid_whore_data.js" */
+/* twine-user-script #71: "lusty_lass_whore_data.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Whoring = App.Data.Whoring || { };
+
+App.Data.Whoring["LustyLass"] = {
+    // Shows in the UI as location.
+    "DESC"      : "The Lusty Lass",
+    // Sex act weighted table.
+    "WANTS"     : [ "HAND", "ASS", "ASS", "ASS", "ASS", "BJ", "BJ", "BJ", "BJ", "TITS", "TITS", "TITS" ],
+    // Minimum payout rank.
+    "MIN_PAY"   : 2,
+    // Maximum payout rank.
+    "MAX_PAY"   : 3,
+    // Bonus payout, weighted table
+    "BONUS"     : [
+        // Style based bonuses first. (1/2 as much as body bonuses)
+        "Pirate Slut", "Sexy Dancer", "Sexy Dancer", "Sexy Dancer", "Bimbo", "Bimbo", "Slutty Lady", "Slutty Lady",
+        // Body based bonuses (twice as many as style bonuses)
+        "Bust", "Bust", "Bust", "Bust", "Ass", "Ass", "Ass", "Face", "Face", "Lips", "Lips" ],
+    "BONUS_CATS": [ "Perversion", "Perversion", "Perversion", "Femininity", "Femininity", "Beauty", "Beauty", "Beauty" ],
+    "NAMES"     : App.Data.Names["Male"],
+    "TITLE"     : null,
+    "RARES"     : [ ],
+    "NPC_TAG"   : "LustyLassCustomers"
+};
+/* twine-user-script #72: "salty_mermaid_whore_data.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Whoring = App.Data.Whoring || { };
 
@@ -16838,7 +16864,7 @@ App.Data.Whoring["SaltyMermaid"] = {
     // Minimum payout rank.
     "MIN_PAY"   : 1,
     // Maximum payout rank.
-    "MAX_PAY"   : 3,
+    "MAX_PAY"   : 2,
     // Bonus payout, weighted table
     "BONUS"     : [
         // Style based bonuses first. (1/2 as much as body bonuses)
@@ -16939,7 +16965,32 @@ App.Data.Whoring["Julius"] = {
     "RARES"     : [ ],
     "NPC_TAG"   : "Quartermaster"
 };
-/* twine-user-script #72: "anime.min.js" */
+/* twine-user-script #73: "saucy_slattern_whore_data.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Whoring = App.Data.Whoring || { };
+
+App.Data.Whoring["SaucySlattern"] = {
+    // Shows in the UI as location.
+    "DESC"      : "The Saucy Slattern",
+    // Sex act weighted table.
+    "WANTS"     : [ "HAND", "ASS", "ASS", "ASS", "ASS", "BJ", "BJ", "BJ", "BJ", "TITS", "TITS", "TITS" ],
+    // Minimum payout rank.
+    "MIN_PAY"   : 2,
+    // Maximum payout rank.
+    "MAX_PAY"   : 3,
+    // Bonus payout, weighted table
+    "BONUS"     : [
+        // Style based bonuses first. (1/2 as much as body bonuses)
+        "Pirate Slut", "Sexy Dancer", "Sexy Dancer", "Sexy Dancer", "Bimbo", "Bimbo", "Slutty Lady", "Slutty Lady",
+        // Body based bonuses (twice as many as style bonuses)
+        "Bust", "Bust", "Bust", "Bust", "Ass", "Ass", "Ass", "Face", "Face", "Lips", "Lips" ],
+    "BONUS_CATS": [ "Perversion", "Perversion", "Perversion", "Femininity", "Femininity", "Beauty", "Beauty", "Beauty" ],
+    "NAMES"     : App.Data.Names["Male"],
+    "TITLE"     : null,
+    "RARES"     : [ ],
+    "NPC_TAG"   : "SlatternCustomers"
+};
+/* twine-user-script #74: "anime.min.js" */
 /*
  2017 Julian Garnier
  Released under the MIT license
@@ -17530,7 +17581,7 @@ App.Data.Whoring["Julius"] = {
         return n
     });
 }).call(window, window);
-/* twine-user-script #73: "jquery.easing.1.3.js" */
+/* twine-user-script #75: "jquery.easing.1.3.js" */
 /*
  * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
  *
@@ -17736,7 +17787,7 @@ jQuery.extend( jQuery.easing,
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-/* twine-user-script #74: "rot_lib.js" */
+/* twine-user-script #76: "rot_lib.js" */
 // Wrap rot.js code due to Twine's environment
 (function (window, define, exports) {
     /*
@@ -23152,7 +23203,7 @@ jQuery.extend( jQuery.easing,
     }));
 
 }).call(window, window);
-/* twine-user-script #75: "Story JavaScript" */
+/* twine-user-script #77: "Story JavaScript" */
 //Sugarcube config
 console.log("Sugarcube Config...");
 Config.history.controls = false;
@@ -23325,7 +23376,7 @@ worn down. Still, despite what goes on here, the place is clean. The proprietor 
 meager as they are.
 
 &lt;&lt;NPC &quot;Charmaine&quot;&gt;&gt;
-&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;BOARDINGPASS&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;customMenuLink &quot;Whore&quot; &quot;SlatternCustomers&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;br&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;BOARDINGPASS&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;SaucySlattern&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;br&gt;&lt;&lt;/if&gt;&gt;
 @@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="33" name="GI_Clothiers" tags="" position="350,475">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="34" name="GI_DanceHall" tags="" position="475,475">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="35" name="GI_GeneralGoods" tags="" position="600,475">This cramped shop hsa a distinctly nautical theme to it - a displaced rusty anchor, a fishermans net, a bizarrely shaped carcass \
 of some unidentified sea creature purported to be a &#39;Kracken-kin&#39;. It&#39;d be rather funny if it wasn&#39;t for the fact that this is \
 the only major shop in the area.
@@ -23550,7 +23601,7 @@ well maintained - the beds are clean, the food is decent and the drinks aren&#39
 of a small bar and waiting area for clients, while the upstairs hosts a variety of rooms for &#39;conducting business&#39;.
 
 &lt;&lt;NPC &quot;Simone&quot;&gt;&gt;
-&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;SIMONE_MISSING_FRIEND&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;customMenuLink &quot;Whore&quot; &quot;LustyLassCustomers&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;br&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;SIMONE_MISSING_FRIEND&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;LustyLass&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;br&gt;&lt;&lt;/if&gt;&gt;
 @@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="60" name="PR_Clothier" tags="" position="1225,725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="61" name="PR_DanceHall" tags="" position="100,850">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="62" name="PR_FancyTavern" tags="" position="225,850">The @@color:gold;&#39;Green Gryphon&#39;@@ is one of the older and more illustrious taverns on the island. It&#39;s position in the heart of the \
 @@color:gold;&#39;Entertainment District&#39;@@ means that it sees a healthy trade in both pleasure seekers as well as wealthy locals. The \
 building itself is three stories tall, with the main floor being reserved for dining and drinking and the upper floors containing \
@@ -24075,7 +24126,7 @@ The style and fashion of your clothing is &lt;&lt;= window.App.PR.pClothing($Pla
 	&lt;tr&gt;
 		&lt;td&gt;&lt;&lt;link &quot;Daddy&#39;s Girl&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&quot;Daddy&#39;s Girl&quot;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Daddy&#39;s Girl&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
 		&lt;td&gt;&lt;&lt;link &quot;Naughty Nun&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;Naughty Nun&#39;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Naughty Nun&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
-		&lt;td&gt;&lt;&lt;link &quot;Pet Girl&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;Pet Girl);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Pet Girl&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;&lt;link &quot;Pet Girl&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;Pet Girl&#39;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;Pet Girl&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;
 	&lt;/tr&gt;
 	&lt;tr&gt;
 		&lt;td&gt;&lt;&lt;link &quot;High Class Whore&quot; &quot;Wardrobe&quot;&gt;&gt;&lt;&lt;run $Player.AutoWearCategory(&#39;High Class Whore&#39;);&gt;&gt;&lt;&lt;/link&gt;&gt;:&lt;/td&gt;&lt;td&gt;&lt;span id=&quot;fixed-font&quot;&gt;&lt;&lt;= _PR.pStyleMeter(&quot;High Class Whore&quot;, $Player); &gt;&gt;&lt;/span&gt;&lt;/td&gt;

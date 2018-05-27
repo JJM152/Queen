@@ -22,6 +22,7 @@ App.SlotEngine = new function() {
     this._DesperationSpins = 0;
     this._ReturnPassage = "Deck";
     this._EndStatus = [ ];
+    this._Title = "A BACK ALLEY";
 
     /**
      * Dictionary of string tokens to css class names.
@@ -94,7 +95,7 @@ App.SlotEngine = new function() {
         // You can have up to 6 customers. This is largely dictated by the overall lust of the NPC container object.
         var npc = this._Player.GetNPC(dict['NPC_TAG']);
         //var maxCustomers = Math.round(Math.max(1, Math.min( (6 * (npc.Lust()/100)), 6)));
-
+        this._Title = dict['DESC'];
         this._Customers = [ ]; // Clear data.
         this._Rares = [ ];
         this._MoneyEarned = [ ]; //
@@ -387,7 +388,7 @@ App.SlotEngine = new function() {
         $('#WhoreStatusPanel').remove();
 
         var root =  $('<div>').addClass('WhoreStatus').attr('id', "WhoreStatusPanel");
-        var title = $('<div>').addClass(('WhoreStatusTitle')).text('THE SALTY MERMAID');
+        var title = $('<div>').addClass(('WhoreStatusTitle')).text(this._Title);
         root.append(title);
 
         var spinTitle = $('<span>').addClass('WhoreSpinsLeftTitle').text('SPINS LEFT');
@@ -951,7 +952,7 @@ App.SlotEngine = new function() {
         if (typeof dict['TITLE'] !== 'undefined' && dict['TITLE'] != null) { this.Name = dict['TITLE'] + " " + this.Name; }
 
         // Set the Payout
-        this.Payout = (dict['MIN_PAY'] >= dict['MAX_PAY']) ? dict['MIN_PAY'] :  dict['MIN_PAY'] + Math.floor(Math.random() * (dict['MAX_PAY'] - dict['MIN_PAY']));
+        this.Payout = (dict['MIN_PAY'] >= dict['MAX_PAY']) ? dict['MIN_PAY'] :  dict['MIN_PAY'] + Math.round(Math.random() * (dict['MAX_PAY'] - dict['MIN_PAY']));
 
         // Get the NPC from the Player.
         this.Tag = dict['NPC_TAG'];

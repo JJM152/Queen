@@ -5,7 +5,7 @@ App.Data.NPCS = {
 				"Name" : "Crew", // This is a place holder and not meant to be used as an actual NPC.
 				"Mood" : 0,
                 "Wealth" : 20,
-				"DailyMood" : -5,
+				"DailyMood" : -2,
 				"Lust" : 100,
 				"DailyLust" : 20,
 				"Title" : "Crew of the Salty Mermaid",
