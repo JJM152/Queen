@@ -594,3 +594,125 @@ button.DesperationButtonActivated {
 button:hover.DesperationButtonActivated {
     background-color: lightslategray;
 }
+
+div.WhoreDialog {
+    position:absolute;
+    top: 90px;
+    left: 0px;
+    width: 600px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.ml1 {
+    font-weight: 900;
+    font-family: Impact monospace;
+    font-size: 2.5em;
+}
+
+.ml1 .letter {
+    display: inline-block;
+    line-height: 1em;
+}
+
+.ml1 .text-wrapper {
+    position: relative;
+    display: inline-block;
+    padding-top: 0.1em;
+    padding-right: 0.05em;
+    padding-bottom: 0.15em;
+}
+
+.ml1 .line {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background-color: #fff;
+    transform-origin: 0 0;
+}
+
+.ml1 .line1 { top: 0; }
+.ml1 .line2 { bottom: 0; }
+
+.ml13 {
+    font-size: 1.5em;
+    font-family: Impact monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-weight: 600;
+}
+
+.ml13 .letter {
+    display: inline-block;
+    line-height: 2em;
+}
+
+h1.ml8 {
+    font-weight: 900;
+    font-size: 4.5em;
+    color: #fff;
+    width: 600px;
+    height: 3em;
+    position: absolute;
+    top: -50px;
+    left: 0px;
+}
+
+.ml8 .letters-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    height: 1em;
+}
+
+.ml8 .letters {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    line-height: 0.7em;
+    right: -0.12em;
+    top: -0.2em;
+}
+
+.ml8 .bang {
+    font-size: 1.4em;
+    top: auto;
+    left: -0.06em;
+}
+
+.ml8 .circle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+}
+
+.ml8 .circle-white {
+    width: 3em;
+    height: 3em;
+    border: 2px dashed darkred;
+    border-radius: 2em;
+}
+
+.ml8 .circle-dark {
+    width: 2.2em;
+    height: 2.2em;
+    background-color: darkred;
+    border-radius: 3em;
+    z-index: 1;
+}
+
+.ml8 .circle-dark-dashed {
+    border-radius: 2.4em;
+    background-color: transparent;
+    border: 2px dashed darkred;
+    width: 2.3em;
+    height: 2.3em;
+}

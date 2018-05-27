@@ -469,9 +469,205 @@ App.SlotEngine = new function() {
         root.append(spinBox);
     };
 
-    this._ModalDialog = function(message) {
-        console.log(message);
-        return false;
+    /** Make a cool looking dialog.
+     //    <h1 class="ml1">
+     //    <span class="text-wrapper">
+     //    <span class="line line1"></span>
+     //    <span class="letters">THURSDAY</span>
+     //    <span class="line line2"></span>
+     //    </span>
+     //    </h1>
+     * @param message
+     * @private
+     */
+    this._Dialog = function(message) {
+        var root = $(this._Element);
+        $('#WhoreDialogDiv').remove();
+
+        var div = $('<div>').addClass('WhoreDialog').attr('id', 'WhoreDialogDiv');
+        var header = $('<h1>').addClass('ml1');
+        var inner = $('<span>').addClass('text-wrapper');
+
+        inner.append( $('<span>').addClass('line line1'));
+        inner.append( $('<span>').addClass('letters').html(message));
+        inner.append( $('<span>').addClass('line line2'));
+
+        header.append( inner );
+        div.append(header);
+        root.append(div);
+
+        // Javascript animations.
+        $('.ml1 .letters').each(function(){
+            $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
+        });
+
+        anime.timeline({loop: false})
+            .add({
+                targets: '.ml1 .letter',
+                scale: [0.3,1],
+                opacity: [0,1],
+                translateZ: 0,
+                easing: "easeOutExpo",
+                duration: 600,
+                delay: function(el, i) {
+                    return 70 * (i+1)
+                }
+            }).add({
+            targets: '.ml1 .line',
+            scaleX: [0,1],
+            opacity: [0.5,1],
+            easing: "easeOutExpo",
+            duration: 700,
+            offset: '-=875',
+            delay: function(el, i, l) {
+                return 80 * (l - i);
+            }
+        }).add({
+            targets: '.ml1',
+            opacity: 0,
+            duration: 1000,
+            easing: "easeOutExpo",
+            delay: 1000
+        });
+    };
+
+    /**
+     * Rising message
+     * <h1 class="ml13">Rising Strong</h1>
+     * @param {string} message
+     * @param {string} color
+     * @private
+     */
+    this._RisingDialog = function(message, color) {
+        color = color || 'white';
+        var root = $(this._Element);
+        $('#WhoreDialogDiv').remove();
+
+        var div = $('<div>').addClass('WhoreDialog').attr('id', 'WhoreDialogDiv');
+        var header = $('<h1>').addClass('ml13').html(message);
+        header.css('color', color);
+        div.append(header);
+        root.append(div)
+
+        // Wrap every letter in a span
+        $('.ml13').each(function(){
+            $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
+        });
+
+        anime.timeline({loop: false})
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [100,0],
+                translateZ: 0,
+                opacity: [0,1],
+                easing: "easeOutExpo",
+                duration: 1000,
+                delay: function(el, i) {
+                    return 300 + 30 * i;
+                }
+            }).add({
+            targets: '.ml13 .letter',
+            translateY: [0,-100],
+            opacity: [1,0],
+            easing: "easeInExpo",
+            duration: 1000,
+            delay: function(el, i) {
+                return 100 + 30 * i;
+            }
+        });
+    };
+
+    /** Draw a big circle with a bang on it.
+         <h1 class="ml8">
+         <span class="letters-container">
+         <span class="letters letters-left">Hi</span>
+         <span class="letters bang">!</span>
+         </span>
+         <span class="circle circle-white"></span>
+         <span class="circle circle-dark"></span>
+         <span class="circle circle-container"><span class="circle circle-dark-dashed"></span></span>
+         </h1>
+     * @private
+     */
+    this._WhackPlayer = function() {
+        this._Player.AdjustStat('Health', -10);
+        // Redraw Health Bar
+        $('#Health').html(App.PR.pStatMeter("Health", this._Player, 0, true));
+        var root = $(this._Element);
+        $('#WhoreDialogDiv').remove();
+
+        var div = $('<div>').addClass('WhoreDialog').attr('id', 'WhoreDialogDiv');
+        var header = $('<h1>').addClass('ml8');
+        var lContainer = $('<span>').addClass('letters-container');
+
+        header.append(lContainer);
+
+        // Word
+        var words = ['POW','BANG', 'SLAP', 'WHACK', 'KICK', 'SMACK', 'THUD' ];
+        var word = App.PR.GetRandomListItem(words);
+        lContainer.append( $('<span>').addClass('letters letters-left').text(word));
+        lContainer.append( $('<span>').addClass('letters bang').text('!'));
+
+        // Circle
+        header.append( $('<span>').addClass('circle circle-white'));
+        header.append( $('<span>').addClass('circle circle-dark'));
+
+        var cContainer = $('<span>').addClass('circle circle-container');
+        cContainer.append($('<span>').addClass('circle circle-dark-dashed'));
+        header.append(cContainer);
+
+        // finish up.
+        div.append(header);
+        root.append(div);
+
+        anime.timeline({loop: false})
+            .add({
+                targets: '.ml8 .circle-white',
+                scale: [0, 3],
+                opacity: [1, 0],
+                easing: "easeInOutExpo",
+                rotateZ: 360,
+                duration: 1100
+            }).add({
+            targets: '.ml8 .circle-container',
+            scale: [0, 1],
+            duration: 1100,
+            easing: "easeInOutExpo",
+            offset: '-=1000'
+        }).add({
+            targets: '.ml8 .circle-dark',
+            scale: [0, 1],
+            duration: 1100,
+            easing: "easeOutExpo",
+            offset: '-=600'
+        }).add({
+            targets: '.ml8 .letters-left',
+            scale: [0, 1],
+            duration: 1200,
+            offset: '-=550'
+        }).add({
+            targets: '.ml8 .bang',
+            scale: [0, 1],
+            rotateZ: [45, 15],
+            duration: 1200,
+            offset: '-=1000'
+        }).add({
+            targets: '.ml8',
+            opacity: 0,
+            duration: 1000,
+            easing: "easeOutExpo",
+            delay: 1400
+        });
+
+        anime({
+            targets: '.ml8 .circle-dark-dashed',
+            rotateZ: 360,
+            duration: 8000,
+            easing: "linear",
+            loop: false
+        });
+
+        setTimeout(this._CheckIfDead.bind(this), 3000);
     };
 
     this._SlotWinDiv = function(slot, content) {
@@ -494,6 +690,10 @@ App.SlotEngine = new function() {
         this._SelectedCustomer = null;
         $('#WhoreCustomer'+index).remove();
         $(this._Element).append( this._GetCustomerUI(index));
+    };
+
+    this._CheckIfDead = function() {
+        if (this._Player.GetStat('STAT', 'Health') <= 0 ) SugarCube.State.display('DeathEnd');
     };
 
     //HELPER FUNCTIONS
@@ -989,12 +1189,23 @@ App.SlotEngine = new function() {
 
             timeout += 500; // For finishing up spin.
             this._Misses = 0;
+            console.log(payout);
+            var jackpot = [ 'JACKPOT', 'JACKPOT', 'JACKPOT', 'DOUBLE JACKPOT', 'TRIPLE JACKPOT', 'QUADRUPLE JACKPOT', 'SUPER JACKPOT', 'MEGA JACKPOT', 'ULTRA JACKPOT' ];
+            var colors = [ 'lime', 'lime', 'lime', 'gold', 'gold', 'orange', 'orange', 'cyan', 'purple'];
+            this._RisingDialog(jackpot[payout.length-1], colors[payout.length-1]);
             $('#DesperationButton').removeClass("DesperationButtonActivated").addClass("DesperationButtonDeactivated");
         } else {
             // We missed.
             this._Misses++;
-            if (this._Misses == 5)
+            if (this._Misses == 5) {
+                this._RisingDialog('DESPERATION MODE UNLOCKED', 'deepPink');
                 $('#DesperationButton').addClass("DesperationButtonActivated").removeClass("DesperationButtonDeactivated");
+            } else
+            if (this._Misses < 5) { // No desperation mode yet.
+                this._RisingDialog('MISS', 'red');
+            } else {
+                this._WhackPlayer();
+            }
         }
 
         setTimeout(this._DrawDesperationBar.bind(this),100);
@@ -1057,9 +1268,9 @@ App.SlotEngine = new function() {
      * @private
      */
     this._SpinEH = function(e) {
-        if (this._Spins <= 0) return this._ModalDialog("You are out of spins. Buy more.");
+        if (this._Spins <= 0) return this._Dialog("NO SPINS LEFT");
         if (this._Spinning == true) return; // No effect if spin in process. Maybe make it play a sound later?
-        if (this._SelectedCustomer == null) return this._ModalDialog("You must select a customer to whore with first.");
+        if (this._SelectedCustomer == null) return this._Dialog("SELECT CUSTOMER");
         this._Spinning = true;
         this._Spins--;
         this._RedrawSpins();
@@ -1097,7 +1308,7 @@ App.SlotEngine = new function() {
         this._Player.AdjustStat("Energy", -1);
 
         // Redraw Energy bar
-        var energy = $('#Energy').html(App.PR.pStatMeter("Energy", this._Player, 0, true));
+        $('#Energy').html(App.PR.pStatMeter("Energy", this._Player, 0, true));
         this._RedrawSpins();
     };
 
@@ -1113,6 +1324,8 @@ App.SlotEngine = new function() {
         this._DrawCustomers();
         this._DrawStatus();
         this._DrawSlots();
+
+        if (this._SelectedCustomer == null) this._Dialog("SELECT CUSTOMER");
     };
     // endregion
 };
