@@ -4,5 +4,4 @@
 <<set _Passage = passage(); >>
 <<run $Player.AdjustStat("Energy", -1);>>
 <<run App.SlotEngine.LoadScene($args[0], _Passage, $Player);>><</click>>
-<</nobr>>
-<</widget>>
+<</nobr>><</widget>>

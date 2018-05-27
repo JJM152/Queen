@@ -6,13 +6,11 @@ App = App || { Data: { }, Entity: { } };
  */
 App.SlotEngine = new function() {
 
-    /** @type {Array.<App.SlotEngine.Customer>} */
-    this.Customers = [ ];
-    this.Rares = [ ];
-
-    this.MaxSlots = 9;
-    this.Element = "#WhoreUI";
-    this.DataKey = "";
+    this._Customers = [ ];
+    this._Rares = [ ];
+    this._MaxSlots = 9;
+    this._Element = "#WhoreUI";
+    this._DataKey = "";
     this._Spins = 5;
     this._Spinning = false;
     this._SelectedCustomer = null;
@@ -23,6 +21,7 @@ App.SlotEngine = new function() {
     this._Misses = 0;
     this._DesperationSpins = 0;
     this._ReturnPassage = "Deck";
+    this._EndStatus = [ ];
 
     /**
      * Dictionary of string tokens to css class names.
@@ -37,6 +36,26 @@ App.SlotEngine = new function() {
         "FEM" : "FemSlotReel",
         "PERV" : "PervSlotReel",
         "BEAUTY" : "BeautySlotReel"
+    };
+
+    this._SlotTypesToNames = {
+        "ASS" : "Ass Fucking",
+        "TITS" : "Tit Fucking",
+        "BJ" : "Blowjobs",
+        "HAND" : "Handjobs",
+        "FEM" : "Femininity",
+        "PERV" : "Perversion",
+        "BEAUTY" : "Beauty"
+    };
+
+    this._SlotTypesToSkillNames = {
+        "ASS" : "AssFucking",
+        "TITS" : "TitFucking",
+        "BJ" : "BlowJobs",
+        "HAND" : "HandJobs",
+        "FEM" : "Femininity",
+        "PERV" : "Perversion",
+        "BEAUTY" : "Beauty"
     };
 
     this._WildCards = [
@@ -64,10 +83,9 @@ App.SlotEngine = new function() {
 
     // region PUBLIC FUNCTIONS
     this.LoadScene = function(dataKey, returnPassage,  Player, elementID) {
-        console.log("SlotEngine:LoadScene=> datakey:"+dataKey+", returnPassage:"+returnPassage);
-        if (typeof elementID !== 'undefined' ) this.Element = elementID;
+        if (typeof elementID !== 'undefined' ) this._Element = elementID;
         this._Player = Player;
-        this.DataKey = dataKey;
+        this._DataKey = dataKey;
         this._ReturnPassage = returnPassage;
 
         // Load the data dictionary for this scene.
@@ -77,62 +95,157 @@ App.SlotEngine = new function() {
         var npc = this._Player.GetNPC(dict['NPC_TAG']);
         //var maxCustomers = Math.round(Math.max(1, Math.min( (6 * (npc.Lust()/100)), 6)));
 
-        this.Customers = [ ]; // Clear data.
-        this.Rares = [ ];
+        this._Customers = [ ]; // Clear data.
+        this._Rares = [ ];
         this._MoneyEarned = [ ]; //
         this._XPEarned = { };
         this._Spins = 5;
         this._DesperationSpins = 0;
         this._Misses = 0;
+        this._EndStatus = [ ];
 
         var customerObject;
-        while( this.Customers.length < 6 ) {
+        while( this._Customers.length < 6 ) {
             // We could generate a rare customer.
             if (dict['RARES'].length > 0) {
                 if (Math.floor(Math.random() * 100) >= 90) {
                     customerObject = new this.Customer(App.PR.GetRandomListItem(dict['RARES']));
                     // Check to see if we already drew this rare.
-                    if (!this.Rares.includes(customerObject.Name)) {
-                        this.Customers.push(customerObject);
-                        this.Rares.push(customerObject.Name);
+                    if (!this._Rares.includes(customerObject.Name)) {
+                        this._Customers.push(customerObject);
+                        this._Rares.push(customerObject.Name);
                         continue;
                     }
                 }
             }
 
-            customerObject = new this.Customer(this.DataKey);
-            this.Customers.push(customerObject);
+            customerObject = new this.Customer(this._DataKey);
+            this._Customers.push(customerObject);
         }
     };
+
+    /**
+     * Called from the Twine passage. Set the player object in the engine and attach an event to listen
+     * for when the passage finishes rendering to fire off jquery.
+     * @param {App.Entity.Player} Player
+     */
+    this.DrawUI = function(Player) {
+        if (typeof Player !== 'undefined') this._Player = Player;
+        $(document).one(":passageend", this._DrawUICB.bind(this));
+    };
+
+    /**
+     * Called from the 'WhoreEnd' passage to give out loot/rewards and to tell the player about it.
+     * @param {App.Entity.Player} Player
+     * @returns {string}
+     */
+    this.PrintResults = function(Player) {
+        if (this._EndStatus.length > 0 ) return this._EndStatus.join('\n');
+
+        this._Player = Player;
+        this._EndStatus = [ ];
+
+        this._Player.NextPhase();
+
+        var tmp = "";
+        var bonus = 0;
+        var i = 0;
+        var oSatisfied = this._Customers.filter(function(o) { return o.Satisfaction >= 100; });
+
+        switch(oSatisfied.length) {
+            case 0: tmp = "You satisfied no customers, this is going to catch up with you later."; bonus = 1.0; break;
+            case 1:
+            case 2: tmp = "You satisfied "+ oSatisfied.length +" customers, earning you a slight boost in overall mood."; bonus = 1.1; break;
+            case 3:
+            case 4:
+            case 5: tmp = "You satisfied "+ oSatisfied.length +" customers, earning you a healthy boost in overall mood."; bonus = 1.2; break;
+            case 6: tmp = "You satisfied "+ oSatisfied.length +" customers, earning you a large boost in overall mood."; bonus = 1.5; break;
+        }
+
+        this._EndStatus.push(tmp); // Add mood chat.
+
+        var npcTags = this._Customers.map(function(o) { return o.Tag; }).filter(function(a,b,s) { return s.indexOf(a) == b; }); // All available tags.
+
+        var oMood = this._Customers.filter(function(o) { return (o.Mood != o.oMood); } ); // Get all affected customers.
+        var mood = Math.floor(Math.floor(Math.floor((oMood.reduce(function(a, o) { return ( a + (o.Mood - o.oMood)) }, 0)/ 6)) * bonus) * 0.5); // Set mood adjustment
+        var affTags = oMood.map(function(o) { return o.Tag; }).filter(function(a,b,s) { return s.indexOf(a) == b; }); // Tags we touched their mood.
+
+        for(i = 0; i < npcTags.length; i++) // Iterate through and adjust mood.
+            if (affTags.contains(npcTags[i]))
+                this._Player.GetNPC(npcTags[i]).AdjustStat("Mood", mood);
+
+        // Do the same for lust.
+
+        var oLust = this._Customers.filter(function(o) { return (o.Lust != o.oLust); } ); // Get all affected customers.
+        var lust = Math.floor(Math.floor((oLust.reduce(function(a, o) { return ( a + (o.Mood - o.oMood)) }, 0)/ 6)) * 0.5); // Set mood adjustment
+        affTags = oLust.map(function(o) { return o.Tag; }).filter(function(a,b,s) { return s.indexOf(a) == b; }); // Tags we touched their mood.
+
+        for(i = 0; i < npcTags.length; i++) // Iterate through and adjust mood.
+            if (affTags.contains(npcTags[i]))
+                this._Player.GetNPC(npcTags[i]).AdjustStat("Lust", lust);
+
+        // Show XP gain.
+        for (var key in this._XPEarned) {
+            if (!this._XPEarned.hasOwnProperty(key) || key == 'BEAUTY') continue;
+
+            var name = this._SlotTypesToNames[key];
+            var statName = this._SlotTypesToSkillNames[key];
+            var xp = this._XPEarned[key];
+            if (key == 'PERV' || key == 'FEM') {
+                this._Player.AdjustStatXP(statName, xp);
+            } else {
+                this._Player.AdjustSkillXP(statName, xp);
+            }
+            this._EndStatus.push("You gained @@color:cyan;" + xp + "@@ " + name + " XP.");
+        }
+
+        // Show Money Gain.
+        var money = this._Customers.reduce(function(a, o) { return a + o.Spent }, 0);
+        this._Player.AdjustMoney(money);
+        this._EndStatus.push("You gained @@color:gold;"+money+"@@ coins in payment for services rendered.");
+
+        // Check for rare loot drops.
+        for (i = 0; i < oSatisfied.length; i++) {
+            if ( (1 + Math.floor(Math.random() * 100)) <= (120 - oSatisfied.Mood)) {
+                var tipTotal = Math.floor(oSatisfied[i].Spent * 0.30);
+                var item = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], tipTotal);
+                if (item != null) {
+                    this._Player.AddItem(item.cat, item.tag, 0);
+                    this._EndStatus.push(oSatisfied[i].Name + " gave you an extra tip: " + item.desc);
+                }
+            }
+        }
+
+        var desperation = this._DesperationSpins * 25;
+        if (desperation > 0) {
+            this._Player.AdjustStatXP("WillPower", (desperation * -1.0));
+            this._EndStatus.push("You lost @@color:red;" + desperation + " willpower XP@@. This is a dangerous situation.");
+        }
+        return this._EndStatus.join("\n");
+    };
+    
     // endregion
 
     // region PRIVATE FUNCTIONS
 
     // UI SPECIFIC FUNCTIONS
-    this._DrawUI = function() {
-        this._Spinning = false;
-        this._DrawCustomers();
-        this._DrawStatus();
-        this._DrawSlots();
-    };
-
+    
     this._DrawCustomers = function() {
         var i;
         for (i = 0; i < 6; i++ )
             $("#WhoreCustomer"+i).remove();
 
-        for (i = 0; i < this.Customers.length; i++)
-            $(this.Element).append( this._GetCustomerUI(i) );
+        for (i = 0; i < this._Customers.length; i++)
+            $(this._Element).append( this._GetCustomerUI(i) );
     };
 
     this._RedrawCustomerUI = function(index) {
-        console.log("Redrawing customer at index:" + index);
         var mood = $('#WhoreMood'+index);
-            mood.width(this.Customers[index].Mood);
+            mood.width(this._Customers[index].Mood);
         var lust = $('#WhoreLust'+index);
-            lust.width(this.Customers[index].Lust);
+            lust.width(this._Customers[index].Lust);
         var sat = $('#WhoreSatisfaction'+index);
-            sat.width(this.Customers[index].Satisfaction);
+            sat.width(this._Customers[index].Satisfaction);
         var root = $('#WhoreCustomer'+index);
         if (this._SelectedCustomer == index) {
             root.css('border-color', 'lime');
@@ -143,7 +256,7 @@ App.SlotEngine = new function() {
 
     this._GetCustomerUI = function(index) {
 
-        var ob = this.Customers[index];
+        var ob = this._Customers[index];
 
         var root =  $('<div>').addClass('WhoreCustomerGUI').attr('id', "WhoreCustomer"+index);
         // Assign select customer callback
@@ -215,10 +328,10 @@ App.SlotEngine = new function() {
         $('#SlotContainer').remove();
         // Make slot container div.
         var root = $('<div>').attr('id', "SlotContainer");
-        $(this.Element).append(root);
+        $(this._Element).append(root);
 
         // Calculate locked slots.
-        var lockedSlots = this.MaxSlots - this.GetSlots().length;
+        var lockedSlots = this._MaxSlots - this.GetSlots().length;
         var before, after;
         switch(lockedSlots) {
             case 1: before = 0; after = 1; break;
@@ -260,12 +373,13 @@ App.SlotEngine = new function() {
         // Add Spin button, hook up click event.
         var spinButton = $('<button>').addClass("WhoreSpinButton").text("SPIN AHOY!");
         spinButton.on("click", this._SpinEH.bind(this) );
-        $('#WhoreStatusPanel').append(spinButton);
+        var statusPanel = $('#WhoreStatusPanel');
+        statusPanel.append(spinButton);
 
         // Add cash out button, hook up click event.
         var cashOutButton = $('<button>').addClass("WhoreCashOutButton").text("CASH OUT!");
         cashOutButton.on("click", this._CashOutEH.bind(this) );
-        $('#WhoreStatusPanel').append(cashOutButton);
+        statusPanel.append(cashOutButton);
     };
 
     this._DrawStatus = function() {
@@ -324,7 +438,7 @@ App.SlotEngine = new function() {
         desperationButton.on("click", this._DesperationButtonCB.bind(this));
         $('#DesperationContainer').append(desperationButton);
 
-        $(this.Element).append(root);
+        $(this._Element).append(root);
 
         this._RedrawSpins();
     };
@@ -340,8 +454,7 @@ App.SlotEngine = new function() {
         }
     };
 
-    this._AddMoneyToEarningsBox = function (want )
-    {
+    this._AddMoneyToEarningsBox = function (want) {
         var wantClass = $('<span>').addClass("WhoreWantColor"+want).html('$ ');
         $('#WhoreLootBox').append(wantClass);
     };
@@ -374,13 +487,13 @@ App.SlotEngine = new function() {
         newDiv.css('top', startTop);
         newDiv.css('left', startLeft);
         newDiv.animate({ opacity: 0.8, top: endTop }, 4000, function() { $(this).remove(); });
-        $(this.Element).append(newDiv);
+        $(this._Element).append(newDiv);
     };
 
     this._RemoveCustomer = function(index) {
         this._SelectedCustomer = null;
         $('#WhoreCustomer'+index).remove();
-        $(this.Element).append( this._GetCustomerUI(index));
+        $(this._Element).append( this._GetCustomerUI(index));
     };
 
     //HELPER FUNCTIONS
@@ -392,9 +505,9 @@ App.SlotEngine = new function() {
         if (typeof map !== 'undefined') return map['WILD'].contains(token);
         return this._WildCards.contains(token);
     };
-    this._IsPerv = function(num, map) { return map['PERV'].contains(num); }
-    this._IsFem = function(num, map) { return map['FEM'].contains(num); }
-    this._IsBeauty = function(num, map) { return map['BEAUTY'].contains(num); }
+    this._IsPerv = function(num, map) { return map['PERV'].contains(num); };
+    this._IsFem = function(num, map) { return map['FEM'].contains(num); };
+    this._IsBeauty = function(num, map) { return map['BEAUTY'].contains(num); };
     this._splitReel = function(a) {
         var r = [];
         var t = [];
@@ -469,7 +582,7 @@ App.SlotEngine = new function() {
     };
 
     this._CalculateJackpot = function(slotMap, key, slots ) {
-        var c = this.Customers[this._SelectedCustomer];
+        var c = this._Customers[this._SelectedCustomer];
         var mood = Math.floor( (c.Mood / 2));
         var lust = Math.floor( (c.Lust / 2));
 
@@ -560,6 +673,7 @@ App.SlotEngine = new function() {
             // Add a bonus due to high lust.
             result.payout +=  Math.ceil( (result.payout * (0.5 + (lust/100))));
 
+            this._AddMoneyToCustomer(result.payout);
             results.push(result);
         }
 
@@ -580,23 +694,27 @@ App.SlotEngine = new function() {
     };
 
     this._AddMoodToCustomer = function(mood) {
-        this.Customers[this._SelectedCustomer].Mood = Math.max(0, Math.min((this.Customers[this._SelectedCustomer].Mood + mood), 100));
+        this._Customers[this._SelectedCustomer].Mood = Math.max(0, Math.min((this._Customers[this._SelectedCustomer].Mood + mood), 100));
         var div = $('#WhoreMood'+this._SelectedCustomer);
-        div.animate({ width: this.Customers[this._SelectedCustomer].Mood, easing: 'linear'}, 500);
-        //div.width(this.Customers[this._SelectedCustomer].Mood);
+        div.animate({ width: this._Customers[this._SelectedCustomer].Mood, easing: 'linear'}, 500);
+        //div.width(this._Customers[this._SelectedCustomer].Mood);
     };
 
     this._AddLustToCustomer = function(lust) {
-        this.Customers[this._SelectedCustomer].Lust = Math.max(0, Math.min((this.Customers[this._SelectedCustomer].Lust + lust), 100));
+        this._Customers[this._SelectedCustomer].Lust = Math.max(0, Math.min((this._Customers[this._SelectedCustomer].Lust + lust), 100));
         var div = $('#WhoreLust'+this._SelectedCustomer);
-        div.animate({ width: this.Customers[this._SelectedCustomer].Lust, easing: 'linear'}, 500);
-        //div.width(this.Customers[this._SelectedCustomer].Lust);
+        div.animate({ width: this._Customers[this._SelectedCustomer].Lust, easing: 'linear'}, 500);
+        //div.width(this._Customers[this._SelectedCustomer].Lust);
+    };
+
+    this._AddMoneyToCustomer = function(money) {
+        this._Customers[this._SelectedCustomer].Spent += money;
     };
 
     this._AddSatisfactionToCustomer = function(satisfaction) {
-        this.Customers[this._SelectedCustomer].Satisfaction = Math.max(0, Math.min((this.Customers[this._SelectedCustomer].Satisfaction + satisfaction), 100));
+        this._Customers[this._SelectedCustomer].Satisfaction = Math.max(0, Math.min((this._Customers[this._SelectedCustomer].Satisfaction + satisfaction), 100));
         var div = $('#WhoreSatisfaction'+this._SelectedCustomer);
-        div.animate({ width: this.Customers[this._SelectedCustomer].Satisfaction, easing: 'linear'}, 500);
+        div.animate({ width: this._Customers[this._SelectedCustomer].Satisfaction, easing: 'linear'}, 500);
     };
 
     // endregion
@@ -618,6 +736,8 @@ App.SlotEngine = new function() {
         this.Bonus         = "Pirate Slut";    // Bonus Reward Category
         this.BonusCat      = "Perversion";     // Wildcard category on bonus
         this.Wants         = [ ];
+        this.Spent         = 0;                // How much we've paid out.
+        this.Tag           = "";               // NPC tag.
 
         if (typeof App.Data.Whoring === 'undefined' || App.Data.Whoring.hasOwnProperty(dataKey) == false) {
             alert("Bad call to new Customer() : dataKey '"+dataKey+"' is undefined or missing.");
@@ -634,7 +754,8 @@ App.SlotEngine = new function() {
         this.Payout = (dict['MIN_PAY'] >= dict['MAX_PAY']) ? dict['MIN_PAY'] :  dict['MIN_PAY'] + Math.floor(Math.random() * (dict['MAX_PAY'] - dict['MIN_PAY']));
 
         // Get the NPC from the Player.
-        var npc = App.SlotEngine._Player.GetNPC(dict['NPC_TAG']);
+        this.Tag = dict['NPC_TAG'];
+        var npc = App.SlotEngine._Player.GetNPC(this.Tag);
 
         if (typeof npc !== 'undefined') {
             // Adjust the mood and lust of the customer by the mood of the stored associated NPC object.
@@ -860,10 +981,8 @@ App.SlotEngine = new function() {
         if (payout.length > 0 ) {
             // sneak peak
             var keys = Object.keys(payout[0]);
-            console.log(payout);
             for (i = 0; i < keys.length; i++) {
                 if (keys[i] == 'slot' || keys[i] == 'type' || keys[i] == 'want') continue;
-                console.log("calling_printSlotResults for :"+keys[i]);
                 timeout = 300 * i;
                 setTimeout( this._DoSlotResults.bind(this,payout, keys[i]), timeout);
             }
@@ -891,7 +1010,7 @@ App.SlotEngine = new function() {
      */
     this._UnlockSpinnerCB = function()
     {
-        if (this.Customers[this._SelectedCustomer].Satisfaction >= 100) this._RemoveCustomer(this._SelectedCustomer);
+        if (this._Customers[this._SelectedCustomer].Satisfaction >= 100) this._RemoveCustomer(this._SelectedCustomer);
         this._Spinning = false;
 
     };
@@ -904,7 +1023,6 @@ App.SlotEngine = new function() {
      */
     this._DoSlotResults = function( results, key ) {
         for (var i = 0; i < results.length; i++) {
-            console.log("slot = "+results[i].slot+", key =" + key );
             var html = "";
             switch(key) {
                 case 'payout':
@@ -966,17 +1084,7 @@ App.SlotEngine = new function() {
 
         this._SelectedCustomer = e.data.customer;
     };
-
-    /**
-     * Called from the Twine passage. Set the player object in the engine and attach an event to listen
-     * for when the passage finishes rendering to fire off jquery.
-     * @param {App.Entity.Player} Player
-     */
-    this.DrawUI = function(Player) {
-        if (typeof Player !== 'undefined') this._Player = Player;
-        $(document).one(":passageend", this._DrawUI.bind(this));
-    };
-
+    
     /**
      * Attached to the 'Buy more spins' button.
      * @param {*} e event object.
@@ -997,7 +1105,14 @@ App.SlotEngine = new function() {
         if (this._Misses < 5) return;
         this._DesperationSpins++;
         this._Spinning = true;
-        this._Reels.win(this.Customers[this._SelectedCustomer].Wants[0]);
+        this._Reels.win(this._Customers[this._SelectedCustomer].Wants[0]);
+    };
+
+    this._DrawUICB = function() {
+        this._Spinning = false;
+        this._DrawCustomers();
+        this._DrawStatus();
+        this._DrawSlots();
     };
     // endregion
 };

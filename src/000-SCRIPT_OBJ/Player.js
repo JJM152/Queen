@@ -953,6 +953,7 @@ App.Entity.Player = function (){
      * @param [Opt] - Number of phases to increment.
      */
     this.NextPhase = function (Opt) {
+        if (this.Phase == 4) return; // Can't advance to next day, only do that when sleeping.
         Opt = Opt || 1;
 
         for (var i = 0; i < Opt; i++ ) {

@@ -10,16 +10,16 @@ App.Item = new function() {
      * @private
      */
     this._FetchData = function(Type, Name){
-        if (Type == "DRUGS") return window.App.Data.Drugs[Name];
-        if (Type == "FOOD") return window.App.Data.Food[Name];
-        if (Type == "COSMETICS") return window.App.Data.Cosmetics[Name];
-        if (Type == "CLOTHES") return window.App.Data.Clothes[Name];
-        if (Type == "WEAPON") return window.App.Data.Clothes[Name];
-        if (Type == "STORE") return window.App.Data.Stores[Name];
-        if (Type == "NPC") return window.App.Data.NPCS[Name];
-        if (Type == "QUEST") return window.App.Data.QuestItems[Name];
-        if (Type == "LOOT_BOX") return window.App.Data.LootBoxes[Name];
-        if (Type == "REEL") return window.App.Data.Slots[Name];
+        if (Type == "DRUGS") return App.Data.Drugs[Name];
+        if (Type == "FOOD") return App.Data.Food[Name];
+        if (Type == "COSMETICS") return App.Data.Cosmetics[Name];
+        if (Type == "CLOTHES") return App.Data.Clothes[Name];
+        if (Type == "WEAPON") return App.Data.Clothes[Name];
+        if (Type == "STORE") return App.Data.Stores[Name];
+        if (Type == "NPC") return App.Data.NPCS[Name];
+        if (Type == "QUEST") return App.Data.QuestItems[Name];
+        if (Type == "LOOT_BOX") return App.Data.LootBoxes[Name];
+        if (Type == "REEL") return App.Data.Slots[Name];
     };
 
     /**
@@ -103,7 +103,69 @@ App.Item = new function() {
 
         return (price == 0 ) ? 100 : price;
     };
-    
+
+    /** Just a debug function
+     * @param {string} Category
+     * @param {number} Filter;
+     * @returns {Array.<*>}
+     */
+    this.ListAllPrices = function(Category, Filter) {
+        Filter = Filter || false;
+        var out = [ ];
+        var d;
+        switch(Category) {
+            case 'DRUGS': d = App.Data.Drugs; break;
+            case 'FOOD' : d = App.Data.Food; break;
+            case 'COSMETICS': d = App.Data.Cosmetics; break;
+            case 'WEAPON':
+            case 'CLOTHES': d = App.Data.Clothes; break;
+            case 'REEL': d = App.Data.Slots; break;
+            default: throw "App.Item.ListAllPrices: Unhandled category: "+Category; break;
+        }
+
+        for( var k in d ) {
+            if (d.hasOwnProperty(k) == false) continue;
+            var res = { };
+            var item = d[k];
+            res.cat = Category;
+            res.tag = k;
+            res.name = item['Name'];
+            res.desc = item['ShortDesc'];
+            res.price = this.CalculateBasePrice(Category, res.tag);
+            res.useEffects = item.hasOwnProperty('Effects') ? item["Effects"] : [ ];
+            res.wearEffects = item.hasOwnProperty('WearEffect') ? item['WearEffect'] : [ ];
+            res.activeEffects = item.hasOwnProperty('ActiveEffect') ? item['ActiveEffect'] : [ ];
+            out.push(res);
+        }
+        console.log(out);
+        out.sort(function(a, b) { return a.price - b.price;});
+        return (Filter) ? out.filter(function(a) { return a.price < Filter; }) : out;
+    };
+
+    /**
+     * Fetch a random item based on price / category.
+     * @param {string|Array.<string>} Category
+     * @param {number} Filter
+     * @returns {null|*}
+     */
+    this.PickItem = function(Category, Filter) {
+        var items = [ ];
+
+        if (Category.constructor === Array) {
+            while (Category.length > 0) {
+                var tmpCategory = App.PR.GetRandomListItem(Category);
+                Category.splice(Category.indexOf(tmpCategory), 1); // Pop the item off.
+                items = this.ListAllPrices(tmpCategory, Filter);
+               // if (items.length > 0) return this._FetchData(tmpCategory, App.PR.GetRandomListItem(items)['name']);
+            }
+        } else {
+            items = this.ListAllPrices(Category, Filter);
+            //if (items.length > 0) return this._FetchData(Category, App.PR.GetRandomListItem(items)['name']);
+        }
+
+        return items.length > 0 ? App.PR.GetRandomListItem(items) : null;
+    };
+
     this.Factory = function(Type, Name, Count) {
 
         var d = this._FetchData(Type, Name);
@@ -183,7 +245,7 @@ App.Item = new function() {
 
                         if ( (Items[i]["TYPE"] == "CLOTHES") && (Player.OwnsWardrobeItem(Items[i]) == true)) {
                             // We own this already. Give some cash.
-                            var coins = Math.floor((this.CalculateBasePrice(Items[i]["TYPE"], Items[i]["TAG"]) * 0.5));
+                            var coins = Math.floor((this.CalculateBasePrice(Items[i]["TYPE"], Items[i]["TAG"]) * 0.25));
                             Player.AdjustMoney( coins );
                             output += "@@color:yellow;"+coins + " gold coins.@@\n";
                         } else {
