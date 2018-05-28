@@ -6356,9 +6356,7 @@ App.SlotEngine = new function() {
         if (this._Slots.length <1 ) {
             this.Slots = [
                 App.Item.Factory('REEL', 'COMMON_WHORE', 0),
-                App.Item.Factory('REEL', 'COMMON_WHORE', 0),
                 App.Item.Factory('REEL', 'COMMON_WILDCARD', 0),
-                App.Item.Factory('REEL', 'COMMON_WHORE', 0),
                 App.Item.Factory('REEL', 'COMMON_WHORE', 0)
             ];
         }
@@ -7020,14 +7018,18 @@ App.SlotEngine = new function() {
     this._SkillBonus = function(player, skill) { return player.StatRoll("SKILL", skill, 100, 1, true); };
     this._BodyBonus = function(player, body) { return player.StatRoll("BODY", body, 100, 1, true); };
     this._StatBonus = function(player, stat) { return player.StatRoll("STAT", stat, 100, 1, true); };
-    this._FashionBonus = function(player, fashion) { return Math.floor(player.GetStyleSpecRating(fashion) / 100); }; // Just a flat bonus.
-    this._StyleBonus = function(player, arg) { return Math.floor( player.Beauty()/100); };
+    this._FashionBonus = function(player, fashion) { return player.GetStyleSpecRating(fashion) / 100; };
+
+    // 0.0 to 1.0 mods.
+    this._StyleBonus = function(player, arg) { return (player.Beauty()/100); };
+    this._FemBonus = function(player, arg) { return player.GetStat('STAT', 'Femininity')/ 100; };   
+    this._PervBonus = function(player, arg) { return player.GetStat('STAT', 'Perversion')/100; };
 
     this._BonusMods = { };
 
-    this._BonusMods['PERV']         = function(player, d) { return player.StatRoll("STAT", "Perversion", d, 1, true); };
+    this._BonusMods['PERV']         = this._PervBonus;
     this._BonusMods['Perversion']   = this._StatBonus;
-    this._BonusMods['FEM']          = function(player, d) { return player.StatRoll("STAT", "Femininity", d, 1, true); };
+    this._BonusMods['FEM']          = this._FemBonus;
     this._BonusMods['Femininity']   = this._StatBonus;
     this._BonusMods['BEAUTY']       = this._StyleBonus;
     this._BonusMods['Beauty']       = this._StyleBonus;
@@ -7064,7 +7066,10 @@ App.SlotEngine = new function() {
      * @private
      */
     this._CalcBonus = function(key, player, arg) {
-        return this._BonusMods.hasOwnProperty(key) == false ? 1.0 : this._BonusMods[key](player, arg);
+        console.log("Checking bonus:"+ key+", arg="+arg);
+        var mod = this._BonusMods.hasOwnProperty(key) == false ? 1.0 : this._BonusMods[key](player, arg);
+        console.log("Bonus returned as:"+mod);
+        return mod;
     };
 
     this._CalculateJackpot = function(slotMap, key, slots ) {
@@ -7072,7 +7077,7 @@ App.SlotEngine = new function() {
         var mood = Math.floor( (c.Mood / 2));
         var lust = Math.floor( (c.Lust / 2));
 
-        var basePay = (c.Payout * 10); // How much pay per slot.
+        var basePay = 5 + (c.Payout * 2); 
 
         // See if the customer even WANTS this.
         var i;
@@ -7083,15 +7088,16 @@ App.SlotEngine = new function() {
             for (i = 0; i < c.Wants.length; i++)
                 if (c.Wants[i].toUpperCase() == key) {
                     wantPos = (i+1);
-                    wantMod = (i == 0) ? 1.25 : (i == 1) ? 0.75 : 0.5;
+                    console.log('Matched want#'+wantPos);
+                    wantMod = (i == 0) ? 1.0 : (i == 1) ? 0.75 : 0.5;  
                 }
         } else { // This was a wildcard match
-            wantMod = this._CalcBonus(key, this._Player, key);
+            wantMod = this._CalcBonus(key, this._Player, key); 
         }
 
         if (wantMod == 0) return [ ]; // What? We didn't even WANT this. It's not a payout.
 
-        basePay = Math.ceil( basePay * wantMod);
+        basePay = ( basePay * wantMod); // 25, 18.75, 12.5
 
         // This is the overall modifier for the pay.
         switch(slots.length) {
@@ -7130,34 +7136,39 @@ App.SlotEngine = new function() {
 
         for (i = 0; i < slots.length; i++) {
             var result = { slot: slots[i], payout: 0, xp: 0, mood: 0, lust: 0, sat: 0, type: key, want: wantPos  };
+            var checkmod = 1.0;
 
             // Reset the type if this is a wildcard match
             if (this._IsWild(slots[i], slotMap)) {
                 if (this._IsPerv(slots[i], slotMap)) result.type = 'PERV';
                 if (this._IsFem(slots[i], slotMap)) result.type = 'FEM';
                 if (this._IsBeauty(slots[i], slotMap)) result.type = 'BEAUTY';
+
+                checkmod = this._CalcBonus(result.type, this._Player, null)
+                } else {
+                    checkmod = this._CalcBonus(key, this._Player, (c.Payout * 20) );
             }
 
-            var checkMod = this._CalcBonus(key, this._Player, (c.Payout * 20) );
+            //Lets clamp the mod to 0.2 to 1.5
+            checkmod = Math.max(0.2, checkmod, 1.6);
 
-            // The base value for the slot. 0.25 - 2.0 max
-            result.payout = basePay * checkMod;
+            result.payout = basePay * checkmod;
             // Add bonus category for style/fem/perv
-            result.payout += Math.floor( (result.payout/2) * this._CalcBonus(c.BonusCat, this._Player, c.BonusCat));
+            result.payout +=  ((basePay/2) * this._CalcBonus(c.BonusCat, this._Player, c.BonusCat));
             // Add bonus cat for body parts / styles
-            result.payout += Math.floor( (result.payout/2) * this._CalcBonus(c.Bonus, this._Player, c.Bonus));
+            result.payout += ((basePay/2) * this._CalcBonus(c.Bonus, this._Player, c.Bonus));
             // Add XP bonus for everything but BEAUTY
-            result.xp = ( this._IsBeauty(slots[i], slotMap) != true ) ? Math.floor(((c.Payout * 20) * checkMod)) : 0;
+            result.xp = ( this._IsBeauty(slots[i], slotMap) != true ) ? Math.floor((c.Payout * 7.5)*wantMod) : 0;
             // Add Mood
-            result.mood = Math.ceil( 5 * checkMod );
+            result.mood = Math.ceil( 5 * checkmod );
             // Add Lust
             result.lust = (this._IsPerv(slots[i], slotMap)) ? 20 : -5;
             // Add Satisfaction
-            result.sat = Math.ceil( 15 * checkMod );
+            result.sat = Math.ceil( 15 * checkmod );
             // Modify pay by mood formula
             result.payout = Math.ceil( (result.payout * (0.5 + (mood/100))));
             // Add a bonus due to high lust.
-            result.payout +=  Math.ceil( (result.payout * (0.5 + (lust/100))));
+            result.payout +=  Math.ceil( (basePay * (lust/100)));
 
             this._AddMoneyToCustomer(result.payout);
             results.push(result);
