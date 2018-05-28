@@ -718,14 +718,125 @@ h1.ml8 {
 }
 
 div.SlotInventoryUI {
-    width: 800px;
-    height: 300px;
+    position: relative;
 }
 
-div.SlotInventoryContainer {
-    width: 800px;
-    height: 100px;
+div.OpenSlot {
+    overflow:hidden;
+    display:inline-block;
+    margin-right: 15px;
+    margin-top: 5px;
+    width: 60px;
+    height: 90px;
+    background-color: black;
+    border: solid 1px red;
+    cursor: pointer;
+}
+
+div.SlottedSlot {
+    overflow:hidden;
+    display:inline-block;
+    margin-right: 15px;
+    margin-top: 5px;
+    width: 60px;
+    height: 90px;
+    background-color: black;
+    border: solid 1px lime;
+    cursor: pointer;
+}
+
+div.LockedSlot2 {
+    overflow:hidden;
+    display:inline-block;
+    margin-right: 15px;
+    margin-top: 5px;
+    width: 60px;
+    height: 90px;
+    bordeR: solid 1px grey;
+    background-image:[img[locked_slot_icon]];
+}
+
+div.SlotInventory {
+    width: 332px;
+    height: 200px;
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 102px;
+    font-size: smaller;
+    overflow-y:scroll;
+    margin-bottom: 1px;
+    border: solid 1px black;
+}
+
+div.SlotInventoryItem {
+    width: 301px;
+    font-size: smaller;
+    background-color: #223344;
+    margin-bottom: 4px;
+    margin-left: 2px;
+    padding-left: 4px;
+    text-align: left;
+}
+
+span.SlotHeader {
+    width: 99%;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+span.SlotAttribute {
+    margin-left: 5px;
+    margin-right: 5px;
+    display: inline-block;
+    color: whitesmoke;
+}
+
+div.SlotCurrent {
+    width: 332px;
+    height: 200px;
+    position: absolute;
+    top: 102px;
+    left: 341px;
+    font-size: smaller;
+    border: solid 1px black;
+    background-color: #223344;
+}
+
+div.SlotCurrentHeader {
+    overflow:hidden;
+    width: 260px;
+    height: 25px;
+    font-size: smaller;
+    display: inline-block;
+    margin-left: 10px;
+}
+div.SlotCurrentButton {
+    overflow:hidden;
+    width: 60px;
+    font-size: smaller;
+    display: inline-block;
+}
+
+button.RemoveSlotButton {
+    width: 60px;
+    border-radius: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    background-color: darkslategray;
+}
+
+button:hover.RemoveSlotButton {
+    background-color: grey;
+}
+
+button.EquipSlotButton {
+    width: 60px;
+    border-radius: 5px;
+    margin-top: 2px;
+    margin-left: 235px;
+    margin-bottom: 2px;
+    background-color: darkslategray;
+}
+
+button:hover.EquipSlotButton {
+    background-color: grey;
 }

@@ -622,7 +622,9 @@ App.Item = new function() {
         };
         /** @returns {number} */
         this.AddCharge = function(n) { return 1; };
-        /** @returns {number} */
+
+        /** Fake: This makes it so that quest items are unique.
+         * @returns {number} */
         this.Charges = function() { return 1; }
 
     };
@@ -633,6 +635,7 @@ App.Item = new function() {
         var timestamp = new Date().getTime();
         this._id = this.Data["NAME"] + ":" + timestamp;
 
+        /** @returns {string|*} */
         this.Id = function () {
             return this._id;
         };
@@ -640,21 +643,34 @@ App.Item = new function() {
             return this.Data["NAME"];
         };
 
+        /** @returns {string} */
         this.Description = function () {
-            return this.Data["NAME"];
+            return "("+ this.Data['RANK']+ ") "+this.Data["NAME"];
         };
 
-        this.Examine = function (Player) {
-            return this.Data["DESC"];
+        /** @returns {number} */
+        this.CalcPercent = function(key) {
+            var filterArr = this.Data['DATA'].filter(function(o) { return o == key; });
+            return Math.round( (filterArr.length/ this.Data['DATA'].length) * 100);
         };
+
+        this.Rank = function() { return this.Data['RANK']; };
 
         this.Reels = function() {
             return this.Data["DATA"];
         };
 
+        this.Css = function() {
+            return this.Data["CSS"];
+        };
+
         this.Symbol = function(index) {
             return this.Data["DATA"][index];
         };
+
+        /** @returns {string} */
+        this.Type = function() { return 'REEL' };
+
     }
 };
 

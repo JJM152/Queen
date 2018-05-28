@@ -24,6 +24,7 @@ App.SlotEngine = new function() {
     this._ReturnPassage = "Deck";
     this._EndStatus = [ ];
     this._Title = "A BACK ALLEY";
+    this._SelectedSlot = null;
 
     /**
      * Dictionary of string tokens to css class names.
@@ -64,22 +65,6 @@ App.SlotEngine = new function() {
         "FEM", "PERV", "BEAUTY"
     ];
 
-    //region TESTING MOCKS
-
-    this._Slots = [ ];
-
-    this.GetSlots = function() {
-        if (this._Slots.length <1 ) {
-            this.Slots = [
-                App.Item.Factory('REEL', 'COMMON_WHORE', 0),
-                App.Item.Factory('REEL', 'COMMON_WILDCARD', 0),
-                App.Item.Factory('REEL', 'COMMON_WHORE', 0)
-            ];
-        }
-            return this.Slots;
-    };
-
-    //endregion
 
     // region PUBLIC FUNCTIONS
     this.LoadScene = function(dataKey, returnPassage,  Player, elementID) {
@@ -135,14 +120,24 @@ App.SlotEngine = new function() {
     };
 
     /**
+     * Fetch the equipped slots on the player.
+     * @returns {Array.<App.Item.Reel>}
+     * @constructor
+     */
+
+    this.GetSlots = function() {
+        if (this._Player === 'undefined') return [ ];
+        return this._Player.GetReels();
+    };
+
+    /**
      * Called from the skills panel to draw the interface for slot management.
      * @param {App.Entity.Player} Player 
      */
-    this.DrawSlotInventory = function(Player)
-    {
+    this.DrawSlotInventory = function(Player) {
         if (typeof Player !== 'undefined') this._Player = Player;
         $(document).one(":passageend", this._DrawSlotInventoryCB.bind(this));  
-    }
+    };
 
     /**
      * Called from the 'WhoreEnd' passage to give out loot/rewards and to tell the player about it.
@@ -343,6 +338,7 @@ App.SlotEngine = new function() {
         // Calculate locked slots.
         var lockedSlots = this._MaxSlots - this.GetSlots().length;
         var before, after;
+
         switch(lockedSlots) {
             case 1: before = 0; after = 1; break;
             case 2: before = 1; after = 1; break;
@@ -350,7 +346,9 @@ App.SlotEngine = new function() {
             case 4: before = 2; after = 2; break;
             case 5: before = 3; after = 2; break;
             case 6: before = 3; after = 3; break;
-            default: before = 0; after = 0;
+            case 7: before = 3; after = 4; break;
+            case 8: before = 4; after = 4; break;
+            default: before = 4; after = 5;
         }
 
         // Draw 'before' locked slots.
@@ -370,10 +368,14 @@ App.SlotEngine = new function() {
             starting.push(0);
             winning.push(0);
         }
+        if (slots.length >= 3) {
+            this._Reels = new this.EZSlots("SlotContainer",
+                {
+                    "reelCount": slots.length, "startingSet": starting, "winningSet": winning, time: 3.5,
+                    "symbols": slots, "height": 90, "width": 60, "callback": this._SlotCB.bind(this)
+                });
 
-        this._Reels = new this.EZSlots("SlotContainer",
-                    {"reelCount": this.Slots.length,"startingSet" : starting, "winningSet" : winning, time: 3.5,
-                    "symbols" : slots, "height" : 90,"width": 60, "callback" : this._SlotCB.bind(this)});
+        }
 
         // Draw 'after' locked slots.
         for (i = 0; i < after; i++) {
@@ -392,28 +394,154 @@ App.SlotEngine = new function() {
         statusPanel.append(cashOutButton);
     };
 
+    /**
+     * Draw the slot inventory management screen.
+     * @private
+     */
     this._DrawSlotInventory = function()
     {
         // Get the root panel in the screen.
         var root = $(this._InventoryElement);
-        // Find the container div and destroy it, then add it again.
-        $('#SlotContainer').remove();
-
-        var container = $('<div>').addClass('SlotInventoryContainer');
+        // Find the container div and empty it
+        root.empty();
         
         // Calculate locked slots.
-        var lockedSlots = this._MaxSlots - this.GetSlots().length;
+        var lockedSlots = this._Player._MaxSlots - this._Player._CurrentSlots;
         var before, after;
         switch(lockedSlots) {
-            case 1: before = 0; after = 1; break;
-            case 2: before = 1; after = 1; break;
-            case 3: before = 1; after = 2; break;
-            case 4: before = 2; after = 2; break;
-            case 5: before = 3; after = 2; break;
-            case 6: before = 3; after = 3; break;
-            default: before = 0; after = 0;
+            case 1: before = 0; after = 9; break;
+            case 2: before = 1; after = 9; break;
+            case 3: before = 1; after = 8; break;
+            case 4: before = 2; after = 8; break;
+            case 5: before = 3; after = 8; break;
+            case 6: before = 3; after = 7; break;
+            case 7: before = 3; after = 6; break;
+            case 8: before = 4; after = 6; break;
+            default: before = -1; after = 10;
         }
 
+
+        // Draw active.
+
+        var i = 0, slot;
+        for (var key in this._Player._Slots) {
+            i++;
+            if (!this._Player._Slots.hasOwnProperty(key)) continue;
+
+            // Check to see if this is a locked slot.
+            console.log(key);
+            console.log(this._Player._Slots[key]);
+            console.log("i="+i+",before="+before+",after="+after);
+            if ((this._Player._Slots[key] == null || typeof this._Player._Slots[key] === 'undefined') && i <= before) {
+                console.log("locked slot - before");
+                // Empty slot that is not unlocked. Add a place holder.
+                slot = $('<div class="LockedSlot2"></div>');
+            } else if ((this._Player._Slots[key] == null || typeof this._Player._Slots[key] === 'undefined') && i >= after) {
+                console.log("locked slot - after");
+                // Empty slot that is not unlocked. Add a place holder.
+                slot = $('<div class="LockedSlot2"></div>');
+            } else if ((this._Player._Slots[key] == null || typeof this._Player._Slots[key] === 'undefined') && i >= before && i <= after ) {
+                console.log("empty slot");
+                // Slot is empty AND unlocked.
+                slot = $('<div>').attr('id', 'SlotInventory_'+key).addClass('OpenSlot');
+                slot.on("click", { slot : key }, this._SelectSlotCB.bind(this));
+                if (this._SelectedSlot == null) this._SelectedSlot = key;
+            } else {
+                console.log('slotted slot');
+                // Slot is not empty and it's unlocked.
+                slot = $('<div>').attr('id', 'SlotInventory_'+key).addClass('SlottedSlot');
+                slot.on("click", { slot : key }, this._SelectSlotCB.bind(this));
+                if (this._SelectedSlot == null) this._SelectedSlot = key;
+            }
+
+
+            if (this._SelectedSlot != null && key == this._SelectedSlot.toString()) slot.css('border-color', 'yellow');
+
+            root.append(slot);
+        }
+
+
+
+        this._DrawSlotInventoryList();
+        this._DrawInventoryCurrent();
+
+    };
+
+    this._DrawSlotInventoryList = function() {
+
+        var attrs = [ 'ASS', 'BJ', 'HAND', 'TITS', 'FEM', 'PERV', 'BEAUTY'];
+        var text = ['Ass Fucking', 'Blowjobs', 'Handjobs', 'Tit Fucking', 'Femininity', 'Perversion', 'Beauty'];
+
+        var root = $(this._InventoryElement);
+        // Draw slot inventory
+        var inventory = $('<div>').addClass('SlotInventory');
+        root.append(inventory);
+
+        var reels = this._Player.GetReelsInInventory();
+
+        for(var i = 0; i < reels.length; i++) {
+            var item = $('<div>').addClass('SlotInventoryItem');
+            var head = $('<span>').addClass('SlotHeader').html(reels[i].Description());
+
+            switch(reels[i].Rank()) {
+                case 'COMMON': head.css('color', 'grey'); break;
+                case 'UNCOMMON' : head.css('color','lime');break;
+                case 'RARE' : head.css('color','cyan'); break;
+                case 'LEGENDARY': head.css('color', 'orange'); break;
+            }
+
+            item.append(head);
+            item.append($('<br>'));
+            for (var x = 0; x < attrs.length; x++) {
+                var percent = reels[i].CalcPercent(attrs[x]);
+                if (percent <= 0) continue;
+                var span = $('<span>').addClass('SlotAttribute').text(text[x] + " " + percent +"%");
+                item.append(span);
+            }
+
+            item.append($('<br>'));
+            var button = $('<button>').addClass('EquipSlotButton').text('EQUIP');
+            button.on('click', { 'id' : reels[i].Id() }, this._EquipSlotCB.bind(this));
+
+            item.append(button);
+            inventory.append(item);
+        }
+
+    };
+
+    this._DrawInventoryCurrent = function() {
+        var attrs = [ 'ASS', 'BJ', 'HAND', 'TITS', 'FEM', 'PERV', 'BEAUTY'];
+        var text = ['Ass Fucking', 'Blowjobs', 'Handjobs', 'Tit Fucking', 'Femininity', 'Perversion', 'Beauty'];
+        var root = $(this._InventoryElement);
+        // Draw current slot item info.
+        var current = $('<div>').addClass('SlotCurrent');
+        root.append(current);
+
+        if (this._Player._Slots[this._SelectedSlot] == null || typeof this._Player._Slots[this._SelectedSlot] === 'undefined') {
+            var tempHeader = $('<div>').addClass('SlotCurrentHeader').text("EMPTY SLOT SELECTED");
+            current.append(tempHeader);
+
+        } else {
+
+            var reel = this._Player._Slots[this._SelectedSlot];
+
+            var header = $('<div>').addClass('SlotCurrentHeader').text(reel.Description());
+
+            switch(reel.Rank()) {
+                case 'COMMON': header.css('color', 'grey'); break;
+                case 'UNCOMMON' : header.css('color','lime');break;
+                case 'RARE' : header.css('color','cyan'); break;
+                case 'LEGENDARY': header.css('color', 'orange'); break;
+            }
+
+            current.append(header);
+            var buttonDiv = $('<div>').addClass('SlotCurrentButton');
+            var button = $('<button>').addClass('RemoveSlotButton').text('REMOVE');
+            button.on('click', this._RemoveSelectedSlotCB.bind(this));
+
+            buttonDiv.append(button);
+            current.append(buttonDiv);
+        }
     };
 
     this._DrawStatus = function() {
@@ -1317,6 +1445,7 @@ App.SlotEngine = new function() {
     this._SpinEH = function(e) {
         if (this._Spins <= 0) return this._Dialog("NO SPINS LEFT");
         if (this._Spinning == true) return; // No effect if spin in process. Maybe make it play a sound later?
+        if (this.GetSlots().length < 3) return this._Dialog("EQUIP 3 SLOTS");
         if (this._SelectedCustomer == null) return this._Dialog("SELECT CUSTOMER");
         this._Spinning = true;
         this._Spins--;
@@ -1349,6 +1478,7 @@ App.SlotEngine = new function() {
      * @private
      */
     this._BuyEnergyCB = function(e) {
+        if (this.GetSlots().length < 3) return this._Dialog("EQUIP 3 SLOTS");
 
         if (this._Spins >= 20 || this._Player.GetStat("STAT", "Energy") < 1) return;
         this._Spins += 5;
@@ -1372,11 +1502,33 @@ App.SlotEngine = new function() {
         this._DrawStatus();
         this._DrawSlots();
 
-        if (this._SelectedCustomer == null) this._Dialog("SELECT CUSTOMER");
+        if (this.GetSlots().length < 3) {
+            this._Dialog("EQUIP 3 SLOTS");
+        } else {
+            if (this._SelectedCustomer == null) this._Dialog("SELECT CUSTOMER");
+        }
     };
 
     this._DrawSlotInventoryCB = function() {
 
+        this._DrawSlotInventory();
+    };
+
+    this._SelectSlotCB = function(e) {
+        console.log("SelectedSlot="+ e.data.slot);
+        this._SelectedSlot = e.data.slot;
+        this._DrawSlotInventory();
+    };
+
+    this._EquipSlotCB = function(e) {
+        console.log("Equipping:"+ e.data.id);
+        this._Player.EquipReel(e.data.id, this._SelectedSlot.toString());
+        this._DrawSlotInventory();
+    };
+
+    this._RemoveSelectedSlotCB = function(e) {
+        console.log("Removing Slot:" + this._SelectedSlot);
+        this._Player.RemoveReel(this._SelectedSlot);
         this._DrawSlotInventory();
     };
 

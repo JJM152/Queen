@@ -3,19 +3,32 @@ App.Data.Slots = App.Data.Slots || { };
 
 App.Data.Slots["COMMON_WHORE"] =
 {
-	"NAME"  : "Common Sissy Whore Reel",
-    "DESC"  : "This is the most basic of all whoring reels. It has a slight favoritism towards Hand Jobs, but no special effects.",
+	"NAME"  : "Sissy Whore Reel",
+    "RANK"  : "COMMON",
     "VALUE" : 500,
+    "CSS"   : 'HandSlotReel',
     "DATA"  :
-        [ "ASS", "ASS", "TITS", "TITS", "HAND", "HAND", "HAND", "HAND", "BJ", "BJ" ]
+        [ "ASS", "HAND", "HAND", "HAND", "HAND", "HAND", "TITS", "TITS", "BJ", "BJ" ]
+
+};
+
+App.Data.Slots["UNCOMMON_WHORE"] =
+{
+    "NAME"  : "Sissy Whore Reel",
+    "RANK"  : "UNCOMMON",
+    "VALUE" : 1000,
+    "CSS"   : 'HandSlotReel',
+    "DATA"  :
+        [ "ASS",  "HAND", "HAND", "TITS", "BJ", "BJ", "PERV" ]
 
 };
 
 App.Data.Slots["COMMON_WILDCARD"] =
 {
-    "NAME"  : "Common Wildcard Reel",
-    "DESC"  : "This is the most basic wildcard reel, a significant upgrade for the newbie sissy whore.",
+    "NAME"  : "Sissy Wildcard Reel",
+    "RANK"  : "COMMON",
     "VALUE" : 750,
+    "CSS"   : 'PervSlotReel',
     "DATA"  :
-        [ "ASS", "ASS", "TITS", "TITS", "HAND", "HAND", "BJ", "BJ", "BEAUTY", "FEM", "PERV" ]
+        [ "ASS", "ASS", "HAND", "HAND", "BJ", "BJ", "TITS", "TITS", "BEAUTY", "FEM", "PERV" ]
 };

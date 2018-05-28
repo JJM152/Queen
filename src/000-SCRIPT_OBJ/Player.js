@@ -59,9 +59,14 @@ App.Entity.Player = function (){
         this.SetStartingStats("BODY");
         this.SetStartingStats("SKILL");
 
-        this.Inventory = [  window.App.Item.Factory("COSMETICS", "hair accessories",    10),
+        this.Inventory = [
+            window.App.Item.Factory("COSMETICS", "hair accessories",    10),
             window.App.Item.Factory("COSMETICS", "hair products",       10),
-            window.App.Item.Factory("COSMETICS", "basic makeup",        10)];
+            window.App.Item.Factory("COSMETICS", "basic makeup",        10),
+            window.App.Item.Factory("REEL", "COMMON_WHORE",             0),
+            window.App.Item.Factory("REEL", "COMMON_WILDCARD",          0),
+            window.App.Item.Factory("REEL", "COMMON_WHORE",             0)
+        ];
 
         this.Equipment = {
             "Wig":              window.App.Item.Factory("CLOTHES", "cheap wig"),
@@ -1005,9 +1010,7 @@ App.Entity.Player = function (){
 
     /**
      * Does the character own the item in question
-     * @param {*} ItemDict The dictionary entry from the Store
-     *
-     * @param ItemDictOrType
+     * @param {*} ItemDictOrType The dictionary entry from the Store
      * @param Name
      * @returns {boolean}
      */
@@ -1239,7 +1242,7 @@ App.Entity.Player = function (){
 
         var ItemArray = $.grep(this.Inventory, function(o) { return o.Name() == Item.Name(); });
 
-        if (ItemArray.length != 0) {
+        if (ItemArray.length != 0 && (typeof ItemArray[0].AddCharge !== 'undefined')) {
             ItemArray[0].AddCharge(Item.Charges());
         } else {
             this.Inventory.push(Item);
@@ -1337,7 +1340,7 @@ App.Entity.Player = function (){
                     }
             }
         }
-    }
+    };
 
 	// Acquire everything for debug purposes
 	this.AcquireAllItems = function() {
@@ -1353,9 +1356,12 @@ App.Entity.Player = function (){
 			}
 		}
 		console.groupEnd();
-	}
+	};
 
-	// Returns number that represents how high-class the PC looks. 0 is obvious commoner and 100 is a rich noble. Can be higher or lower.
+    /**
+     * Returns number that represents how high-class the PC looks. 0 is obvious commoner and 100 is a rich noble. Can be higher or lower.
+     * @returns {number}
+     */
 	this.HighClassPresentability = function() {
 		// For now just consider "Slutty Lady" the proper attire, while other clothes contribute only part of their style.
 		// Do not count parts that are not visible in a "proper" situation.
@@ -1378,7 +1384,7 @@ App.Entity.Player = function (){
 			bonus = equipmentItem.Style() / 4;
 			console.log("Slot: " + slot + ", equipment name: \"" + equipmentItem.Name() + "\", bonus: " + bonus);
 			return bonus;
-		}
+		};
 
 		console.group("HighClassPresentability");
         var result = 0;
@@ -1404,10 +1410,13 @@ App.Entity.Player = function (){
 		console.log("Total: " + result);
 		console.groupEnd();
 		return result;
-	}
+	};
 
-	// Returns number that represents how obvious it is that the PC is male. 100 means completely unpassable and 0 means completely passable. Can be higher or lower.
 	// TODO: include other factors and maybe calibrate.
+    /**
+     * Returns number that represents how obvious it is that the PC is male. 100 means completely unpassable and 0 means completely passable. Can be higher or lower.
+     * @returns {number}
+     */
 	this.ObviousTrappiness = function() {
 		console.group("ObviousTrappiness");
 		console.log(this.BodyStats);
@@ -1419,7 +1428,7 @@ App.Entity.Player = function (){
 		console.log("penisContribution: " + penisContribution);
 
 		// Let's say DD breasts give -50, and we have diminishing returns
-		var bustContribution = - Math.sqrt(this.BodyStats.Bust * 50 * 50 / 11)
+		var bustContribution = - Math.sqrt(this.BodyStats.Bust * 50 * 50 / 11);
 		console.log("bustContribution: " + bustContribution);
 
 		// Style gives a small contribution, but synergizes with femininity
@@ -1431,7 +1440,7 @@ App.Entity.Player = function (){
 		console.log("femininityContribution: " + femininityContribution);
 
 		// Full femininity and full style give -50 together
-		var femininityStyleSynergy = - this.CoreStats.Femininity * this.ClothesRating() * .005
+		var femininityStyleSynergy = - this.CoreStats.Femininity * this.ClothesRating() * .005;
 		console.log("femininityStyleSynergy: " + femininityStyleSynergy);
 
 		// Base value is full
@@ -1444,7 +1453,84 @@ App.Entity.Player = function (){
 		console.groupEnd();
 
 		return result;
-	}
+	};
+
+    // region SLOT wheel stuff
+
+
+    this._Slots = {
+        0: null, 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null
+    };
+
+    this._MaxSlots = 9; // YOU SHALL NOT PASS
+    this._CurrentSlots = 3; // Starting allocation of whoring
+
+    /**
+     * Unlock a slot.
+     * @returns {boolean}
+     */
+    this.UnlockSlot = function() {
+      if (this._CurrentSlots + 1 > 9) return false;
+        this._CurrentSlots++;
+        return true;
+    };
+
+    /**
+     * Fetch all reels in the players inventory.
+     * @returns {Array.<App.Item.Reel>}
+     */
+    this.GetReelsInInventory = function() {
+        return this.Inventory.filter( function(o) { return (typeof o.Type === 'function') && (o.Type() == 'REEL'); });
+    };
+
+    /**
+     * Fetch a single reel by ID.
+     * @param filterID
+     * @returns {App.Item.Reel}
+     */
+    this.GetReelByID = function(filterID) {
+        var arr = this.GetReelsInInventory();
+        arr = arr.filter( function(o) { return (typeof o.Id === 'function') && (o.Id() == filterID); });
+        if (arr.length > 0) return arr[0]; // huh? At least grab the first one.
+    };
+
+    /**
+     * Attempt to pick a reel from inventory by Id() and then equip it to a slot. It will remove any reel
+     * equipped in that slot and place it back in the inventory.
+     * @param {string} toEquipID
+     * @param {string} reelSlot
+     */
+    this.EquipReel = function(toEquipID, reelSlot ) {
+        var reelToEquip = this.GetReelByID(toEquipID);
+
+        if (this._Slots[reelSlot] != null) this.Inventory.push(this._Slots[reelSlot]);
+        this._Slots[reelSlot] = reelToEquip;
+
+        this.Inventory = this.Inventory.filter(function(o) { return (typeof o.Id === 'function') && (o.Id() != toEquipID); });
+    };
+
+    /**
+     * Remove an equipped reel and place it in the inventory.
+     * @param slotID
+     */
+    this.RemoveReel = function(slotID) {
+
+        if ( (typeof this._Slots[slotID] !== 'undefined') && (this._Slots[slotID] != null)) {
+            this.Inventory.push(this._Slots[slotID]);
+            this._Slots[slotID] = null;
+        }
+    };
+
+    /**
+     * Turn the equipped reels into an array to iterate/read.
+     * @returns {Array.<App.Item.Reel>}
+     */
+    this.GetReels = function() {
+        var arr = Object.values(this._Slots).filter(function(o) { return (typeof o !== 'undefined') && (o != null); });
+        return (typeof arr === 'undefined') ? [ ] : arr;
+    };
+
+    // endregion
 };
 
 

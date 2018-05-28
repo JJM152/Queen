@@ -38,4 +38,5 @@
 </tbody>
 </table>
 @@color:yellow;Slot Reel Management@@
-<div id='SlotInventoryUI' class='SlotInventoryUI'></div>
+<div id='SlotInventoryUI' class='SlotInventoryUI'></div>\
+<<run App.SlotEngine.DrawSlotInventory($Player); >>\
