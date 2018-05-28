@@ -1,6 +1,6 @@
 :: DebugPassage
 @@color:gold;Tweak Menu@@
-[[Hormones to 100|DebugPassage][$Player.CoreStats["Hormones"] to 100]] | [[Next Day|DebugPassage][$Player.NextDay();]]
+[[Next Day|DebugPassage][$Player.NextDay();]]
 
 @@color:lime;Travel Menu@@
 [[Cabin]] | [[IslaHarbor]] | [[GoldenIsle]] | [[Abamond]] | [[PortRoyale]] | [[PassageTest]]
@@ -9,7 +9,44 @@
 @@color:silver;Items Menu@@
 [[Acquire everything|DebugPassage][$Player.AcquireAllItems();]]
 
-@@color:pink;Set bust size@@
+@@color:pink;Adjust body@@
+Hormones: \
+[[0|DebugPassage][$Player.CoreStats["Hormones"] to 0]] | \
+[[20|DebugPassage][$Player.CoreStats["Hormones"] to 20]] | \
+[[40|DebugPassage][$Player.CoreStats["Hormones"] to 40]] | \
+[[60|DebugPassage][$Player.CoreStats["Hormones"] to 60]] | \
+[[80|DebugPassage][$Player.CoreStats["Hormones"] to 80]] | \
+[[100|DebugPassage][$Player.CoreStats["Hormones"] to 100]] | \
+[[120|DebugPassage][$Player.CoreStats["Hormones"] to 120]] | \
+[[140|DebugPassage][$Player.CoreStats["Hormones"] to 140]] | \
+[[160|DebugPassage][$Player.CoreStats["Hormones"] to 160]] | \
+[[180|DebugPassage][$Player.CoreStats["Hormones"] to 180]] | \
+[[200|DebugPassage][$Player.CoreStats["Hormones"] to 200]]
+Fitness: \
+[[0|DebugPassage][$Player.CoreStats["Fitness"] to 0]] | \
+[[10|DebugPassage][$Player.CoreStats["Fitness"] to 10]] | \
+[[20|DebugPassage][$Player.CoreStats["Fitness"] to 20]] | \
+[[30|DebugPassage][$Player.CoreStats["Fitness"] to 30]] | \
+[[40|DebugPassage][$Player.CoreStats["Fitness"] to 40]] | \
+[[50|DebugPassage][$Player.CoreStats["Fitness"] to 50]] | \
+[[60|DebugPassage][$Player.CoreStats["Fitness"] to 60]] | \
+[[70|DebugPassage][$Player.CoreStats["Fitness"] to 70]] | \
+[[80|DebugPassage][$Player.CoreStats["Fitness"] to 80]] | \
+[[90|DebugPassage][$Player.CoreStats["Fitness"] to 90]] | \
+[[100|DebugPassage][$Player.CoreStats["Fitness"] to 100]]
+Face: \
+[[Ugliest|DebugPassage][$Player.BodyStats["Face"] to 0]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Face"] to 5]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Face"] to 10]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Face"] to 20]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Face"] to 30]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Face"] to 40]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Face"] to 50]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Face"] to 60]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Face"] to 70]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Face"] to 85]] | \
+[[Prettiest|DebugPassage][$Player.BodyStats["Face"] to 100]]
+Bust size: \
 [[Flat|DebugPassage][$Player.BodyStats["Bust"] to 0]] | \
 [[A|DebugPassage][$Player.BodyStats["Bust"] to 1]] | \
 [[AA|DebugPassage][$Player.BodyStats["Bust"] to 2]] | \
@@ -23,6 +60,54 @@
 [[G|DebugPassage][$Player.BodyStats["Bust"] to 29]] | \
 [[G|DebugPassage][$Player.BodyStats["Bust"] to 39]] | \
 [[QQQ|DebugPassage][$Player.BodyStats["Bust"] to 100]]
+Waist size: \
+[[Thinnest|DebugPassage][$Player.BodyStats["Waist"] to 0]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Waist"] to 5]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Waist"] to 10]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Waist"] to 20]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Waist"] to 30]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Waist"] to 40]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Waist"] to 50]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Waist"] to 60]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Waist"] to 70]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Waist"] to 85]] | \
+[[Thickest|DebugPassage][$Player.BodyStats["Waist"] to 100]]
+Hips size: \
+[[Most narrow|DebugPassage][$Player.BodyStats["Hips"] to 0]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Hips"] to 5]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Hips"] to 10]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Hips"] to 20]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Hips"] to 30]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Hips"] to 40]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Hips"] to 50]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Hips"] to 60]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Hips"] to 70]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Hips"] to 85]] | \
+[[Widest|DebugPassage][$Player.BodyStats["Hips"] to 100]]
+Ass size: \
+[[Smallest|DebugPassage][$Player.BodyStats["Ass"] to 0]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Ass"] to 5]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Ass"] to 10]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Ass"] to 20]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Ass"] to 30]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Ass"] to 40]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Ass"] to 50]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Ass"] to 60]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Ass"] to 70]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Ass"] to 85]] | \
+[[Biggest|DebugPassage][$Player.BodyStats["Ass"] to 100]]
+Penis size: \
+[[Smallest|DebugPassage][$Player.BodyStats["Penis"] to 0]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Penis"] to 5]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Penis"] to 10]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Penis"] to 20]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Penis"] to 30]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Penis"] to 40]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Penis"] to 50]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Penis"] to 60]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Penis"] to 70]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Penis"] to 85]] | \
+[[Biggest|DebugPassage][$Player.BodyStats["Penis"] to 100]]
 
 @@color:Cyan;Endings Menu@@
 [[Money Best Win|GameWon][$Player.CoreStats["WillPower"] = 100;]] | [[Money Average Win|GameWon][$Player.CoreStats["WillPower"] = 50;]] | [[Money Worst Win|GameWon][$Player.CoreStats["WillPower"] = 30;]]
