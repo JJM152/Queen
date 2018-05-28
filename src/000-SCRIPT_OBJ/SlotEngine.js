@@ -10,6 +10,7 @@ App.SlotEngine = new function() {
     this._Rares = [ ];
     this._MaxSlots = 9;
     this._Element = "#WhoreUI";
+    this._InventoryElement = "#SlotInventoryUI";
     this._DataKey = "";
     this._Spins = 5;
     this._Spinning = false;
@@ -132,6 +133,16 @@ App.SlotEngine = new function() {
         if (typeof Player !== 'undefined') this._Player = Player;
         $(document).one(":passageend", this._DrawUICB.bind(this));
     };
+
+    /**
+     * Called from the skills panel to draw the interface for slot management.
+     * @param {App.Entity.Player} Player 
+     */
+    this.DrawSlotInventory = function(Player)
+    {
+        if (typeof Player !== 'undefined') this._Player = Player;
+        $(document).one(":passageend", this._DrawSlotInventoryCB.bind(this));  
+    }
 
     /**
      * Called from the 'WhoreEnd' passage to give out loot/rewards and to tell the player about it.
@@ -379,6 +390,30 @@ App.SlotEngine = new function() {
         var cashOutButton = $('<button>').addClass("WhoreCashOutButton").text("CASH OUT!");
         cashOutButton.on("click", this._CashOutEH.bind(this) );
         statusPanel.append(cashOutButton);
+    };
+
+    this._DrawSlotInventory = function()
+    {
+        // Get the root panel in the screen.
+        var root = $(this._InventoryElement);
+        // Find the container div and destroy it, then add it again.
+        $('#SlotContainer').remove();
+
+        var container = $('<div>').addClass('SlotInventoryContainer');
+        
+        // Calculate locked slots.
+        var lockedSlots = this._MaxSlots - this.GetSlots().length;
+        var before, after;
+        switch(lockedSlots) {
+            case 1: before = 0; after = 1; break;
+            case 2: before = 1; after = 1; break;
+            case 3: before = 1; after = 2; break;
+            case 4: before = 2; after = 2; break;
+            case 5: before = 3; after = 2; break;
+            case 6: before = 3; after = 3; break;
+            default: before = 0; after = 0;
+        }
+
     };
 
     this._DrawStatus = function() {
@@ -1339,5 +1374,11 @@ App.SlotEngine = new function() {
 
         if (this._SelectedCustomer == null) this._Dialog("SELECT CUSTOMER");
     };
+
+    this._DrawSlotInventoryCB = function() {
+
+        this._DrawSlotInventory();
+    };
+
     // endregion
 };

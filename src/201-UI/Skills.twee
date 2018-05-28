@@ -37,3 +37,5 @@
 </tr>
 </tbody>
 </table>
+@@color:yellow;Slot Reel Management@@
+<div id='SlotInventoryUI' class='SlotInventoryUI'></div>

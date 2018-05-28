@@ -347,7 +347,7 @@ div.CustomerComplete {
     background-color: #551111;
     font-size: larger;
     font-weight: bolder;
-    opacity: 1.0; !important;
+    opacity: 1.0;
     z-index: 100;
     width: 180px;
     text-align: center;
@@ -715,4 +715,17 @@ h1.ml8 {
     border: 2px dashed darkred;
     width: 2.3em;
     height: 2.3em;
+}
+
+div.SlotInventoryUI {
+    width: 800px;
+    height: 300px;
+}
+
+div.SlotInventoryContainer {
+    width: 800px;
+    height: 100px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
