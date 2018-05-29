@@ -1101,33 +1101,36 @@ App.Entity.Player = function (){
         });
     };
 
-    this.AutoWearCategory = function (Category)
-    {
-        for (var s in this.Equipment)
-        {
-            if (!this.Equipment.hasOwnProperty(s)) continue;
-            // Get all matching items by Category and Slot.
-            var cItems = $.grep(this.Wardrobe, function(o) { return (($.inArray(Category, o.Category()) != -1) && (o.Slot() == s)); });
+	this.AutoWearCategory = function (Category) {
+		for (var slot in this.Equipment) {
+			if (!this.Equipment.hasOwnProperty(slot)) continue;
+			var currentlyWorn = this.Equipment[slot];
 
-            if (cItems.length < 1) continue; // Nothing matching
+			if (currentlyWorn != 0 && currentlyWorn.IsLocked()) continue;
 
-            cItems = cItems.sort(function(a, b) { return a.Style() < b.Style(); });
+			// Get all matching items by Category and Slot.
+			var matchingItems = $.grep(this.Wardrobe, function(clothing) {
+				return clothing.Slot() == slot && $.inArray(Category, clothing.Category()) >= 0;
+			});
 
-            if (this.Equipment[s] == 0) { // Nothing being worn, so wear it.
-                this.Wear(cItems[0]);
-            } else if ( this.Equipment[s].Category() != Category) { // Item in slot is not of the right category, so swap them.
-                this.Wear(cItems[0]);
-            } else if ( this.Equipment[s].Style() < cItems[0]) { // Item in slot has less style, so swap them.
-                this.Wear(cItems[0]);
-            }
-        }
-    };
+			if (matchingItems.length < 1) continue; // Nothing matching
+
+			// Sorting by style descending
+			matchingItems.sort(function(a, b) { return b.Style() - a.Style(); });
+
+			var wear = currentlyWorn == 0 // Nothing being worn, so wear it.
+				|| $.inArray(Category, currentlyWorn.Category()) < 0 // Item in slot is not of the right category, so swap them.
+				|| currentlyWorn.Style() < matchingItems[0].Style(); // Item in slot has less style, so swap them.
+
+			if (wear) this.Wear(matchingItems[0]);
+		}
+	};
 
     this.Strip = function() {
         for (var prop in this.Equipment) {
             if (!this.Equipment.hasOwnProperty(prop)) continue;
             if (this.Equipment[prop] == 0) continue;
-            if (this.Equipment[prop].IsLocked() == 1) continue;
+            if (this.Equipment[prop].IsLocked()) continue;
 
             this.Remove(this.Equipment[prop]);
         }

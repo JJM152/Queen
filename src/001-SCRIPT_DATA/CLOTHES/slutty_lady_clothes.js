@@ -102,7 +102,7 @@ App.Data.Clothes["luxurious chastity cage"] = { // +12
 	ShortDesc: "a high-quality metal chastity cage",
 	LongDesc: "This chastity cage is made from the finest steel by the finest craftsman. Its constructions ensures not only that the wearer will not escape, but also that it will not damage him. The sheer value of this thing means that whoever locked the wearer did that consensually, and the cage itself is a loving gift.",
 	Slot: "Penis", Restrict: ["Penis"],
-	Color: "silvery", Style: "LEGENDARY", Type: "ACCESSORY", Locked: 1,
+	Color: "silvery", Style: "LEGENDARY", Type: "ACCESSORY", Locked: true,
 	WearEffect: [ "PERVERTED_CLOTHING" ],
 	Category : [ "Slutty Lady", "BDSM" ],
 	PriceAdjustment: 2
