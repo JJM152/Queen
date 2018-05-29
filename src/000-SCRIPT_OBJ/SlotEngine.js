@@ -213,7 +213,7 @@ App.SlotEngine = new function() {
         for (i = 0; i < oSatisfied.length; i++) {
             if ( (1 + Math.floor(Math.random() * 100)) <= (120 - oSatisfied.Mood)) {
                 var tipTotal = Math.floor(oSatisfied[i].Spent * 0.30);
-                var item = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], tipTotal);
+                var item = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: tipTotal } );
                 if (item != null) {
                     this._Player.AddItem(item.cat, item.tag, 0);
                     this._EndStatus.push(oSatisfied[i].Name + " gave you an extra tip: " + item.desc);

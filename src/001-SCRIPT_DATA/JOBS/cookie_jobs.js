@@ -362,13 +362,28 @@ App.Data.JobData["COOK04"] = {
             "He is firm and purposeful, but he is tender with his touch and speaks to you soothingly. You suppose he does not wish to sour the milk. After a while you begin to find that you quite enjoy the feeling, and you think under the right conditions if it was to go on long enough you might find a release into a state of bliss.\n\n"+
             "Tug right, tug left, tug right, tug left, right, left, right, left, tug tug tug...\n\n"+
             "You lost yourself there, but you snap back. The milk is pooling now in the pan you see. Your breasts feel lighter, and look softer. The milk being released is tapering off.\n\n"+
-            "NPC_NAME ceases to milk you, wipes his hands on his dirty apron, takes the pan and pores it into the kitchens magically cooled milk barrel. \"Not bad, Not bad at all.\" His hairy fist comes towards you with some gold coins in it and rains it over your teats onto the tray. \"Those are for you. The more you produce the more I'll pay you. A bit for enough for the captains iced coffees, and some real coin if you give me enough to to sell fresh milkshakes to the crew. Be sure to eat well now cabin COW! I guess cabin girl wasn't good enough for ya! HA-HA!\"\n\n",
-            "END" :
-                "He releases you from the chair and yells, \"Back to work, back to work!\" and gropes your ass till your back at it with the ladle.",
+            "NPC_NAME ceases to milk you, wipes his hands on his dirty apron, takes the pan and pores it into the kitchens magically cooled milk barrel. \"Not bad, Not bad at all.\" His hairy fist comes towards you with some gold coins in it and rains it over your teats onto the tray. \"Those are for you. The more you produce the more I'll pay you. A bit for enough for the captains iced coffees, and some real coin if you give me enough to to sell fresh milkshakes to the crew. Be sure to eat well now cabin COW! I guess cabin girl wasn't good enough for ya! HA-HA!\"",
+            "END" : "",
             "RESULTS" : [
             ]
+        },
+        {
+            "ID" : "REWARD",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 110, "CONDITION" : "gte" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "PICK_ITEM", "NAME" : "CLOTHES", "VALUE" : { price: 5000, meta_key: 'cow outfit'} }
+            ],
+            "START" :
+            "Cookie seems pleased with the amount of milk you gave. He's greedily rubbing his hands together and smacking his lips. Without a second thought he reaches for a small "+
+            "bag and throws it your way. \"Here, take that, you've earned it!\"",
+            "END" : "",
+            "RESULTS" : [ ]
         }
     ],
-    "END" : "",
+    "END" : "He releases you from the chair and yells, \"Back to work, back to work!\" and gropes your ass till your back at it with the ladle.",
     "JOB_RESULTS" : [ ]
 };

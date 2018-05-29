@@ -2184,12 +2184,15 @@ App.Item = new function() {
             res.name = item['Name'];
             res.desc = item['ShortDesc'];
             res.price = this.CalculateBasePrice(Category, res.tag);
+            res.style = item.hasOwnProperty('Style') ? item['Style'] : null;
+            res.category = item.hasOwnProperty('Category') ? item['Category'] : null;
             res.useEffects = item.hasOwnProperty('Effects') ? item["Effects"] : [ ];
             res.wearEffects = item.hasOwnProperty('WearEffect') ? item['WearEffect'] : [ ];
             res.activeEffects = item.hasOwnProperty('ActiveEffect') ? item['ActiveEffect'] : [ ];
+            res.meta = item.hasOwnProperty('Meta') ? item['Meta'] : null;
             out.push(res);
         }
-        console.log(out);
+
         out.sort(function(a, b) { return a.price - b.price;});
         return (Filter) ? out.filter(function(a) { return a.price < Filter; }) : out;
     };
@@ -2197,24 +2200,31 @@ App.Item = new function() {
     /**
      * Fetch a random item based on price / category.
      * @param {string|Array.<string>} Category
-     * @param {number} Filter
+     * @param {*} filterOb
      * @returns {null|*}
      */
-    this.PickItem = function(Category, Filter) {
+    this.PickItem = function(Category, filterOb) {
         var items = [ ];
-
+        console.log(filterOb);
         if (Category.constructor === Array) {
             while (Category.length > 0) {
                 var tmpCategory = App.PR.GetRandomListItem(Category);
                 Category.splice(Category.indexOf(tmpCategory), 1); // Pop the item off.
-                items = this.ListAllPrices(tmpCategory, Filter);
+                items = items.concat(this.ListAllPrices(tmpCategory, filterOb.price));
             }
         } else {
-            items = this.ListAllPrices(Category, Filter);
+            items = this.ListAllPrices(Category, filterOb.price);
         }
+
         // Ignore items that we don't want showing up randomly.
         if(items.length > 0) items = items.filter(function(o) { return o.hasOwnProperty('InMarket')? o.InMarket : true; });
-
+        // Filter on clothing category
+        if (items.length > 0 && (filterOb.hasOwnProperty("category")))
+            items = items.filter(function(o) { return o.category != null && o.category.contains(filterOb.category);});
+        // Filter on meta data
+        if (items.length > 0 && (filterOb.hasOwnProperty("meta_key")))
+            items = items.filter(function(o) { return o.meta != null && o.meta.contains(filterOb.meta_key);});
+        console.log(items);
         return items.length > 0 ? App.PR.GetRandomListItem(items) : null;
     };
 
@@ -3506,7 +3516,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
     /** @returns {string} */
     this.Print       = function() { return (this._StrBuffer != "") ? this._StrBuffer + "\n" : ""; };
     /** @returns {number} */
-    this.Pay         = function() { return this._Pay; };
+    this.Pay         = function() { return Math.floor(this._Pay); };
     /** @returns {object} */
     this.Results     = function() { return this._Checks; };
     /** @returns {Array.<string>} */
@@ -3685,13 +3695,12 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
         {
             case "MONEY":
 
-                this._Pay += Value;
+                this._Pay += Math.floor(Value);
                 this.Debug("this._Pay=",this._Pay.toString());
                 this._Player.AdjustMoney(Math.floor(Value));
                 break;
             case "FOOD":
             case "DRUGS":
-            case "CLOTHES":
             case "COSMETICS":
             case "LOOT_BOX":
                 this._RewardItems.push( App.PR.pItemDesc(Type, Name, Value, true));
@@ -3700,6 +3709,27 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
             case "QUEST_ITEM":
                 this._RewardItems.push( App.PR.pItemDesc("QUEST", Name, Value, true));
                 this._Player.AddItem("QUEST", Name, Value, Opt);
+                break;
+            case "CLOTHES":
+                var data = App.Data.Clothes[Name];
+                if (this._Player.OwnsWardrobeItem(data) ) {
+                    this._Pay += Math.floor( App.Item.CalculateBasePrice("CLOTHES", Name) * 0.3);
+                    break;
+                } else {
+                    this._RewardItems.push( App.PR.pItemDesc(Type, Name, Value, true));
+                    this._Player.AddItem(Type, Name, Value, Opt);
+                }
+                break;
+            case "PICK_ITEM":
+                var item = App.Item.PickItem( Name, Value);
+                if (item != null) {
+                    if (item.cat == 'CLOTHES' && this._Player.OwnsWardrobeItem(item.cat, item.tag)) {
+                        this._Pay += Math.floor( App.Item.CalculateBasePrice("CLOTHES", item.tag) * 0.3);
+                    } else {
+                    this._RewardItems.push( App.PR.pItemDesc( item.cat, item.tag, 0, true));
+                    this._Player.AddItem(item.cat, item.tag, 0);
+                    }
+                }
                 break;
             case "STAT_XP":
             case "BODY_XP":
@@ -5343,6 +5373,7 @@ App.Entity.Player = function (){
         var Item = window.App.Item.Factory(Category, Name, Count);
 
         if (Category == "CLOTHES" || Category == "WEAPON" ) {
+            if (this.OwnsWardrobeItem(Category, Name)) return; // No duplicate equipment allowed.
             this.Wardrobe.push(Item);
             if (Opt == "WEAR") this.Wear(Item);
             return;
@@ -6799,7 +6830,7 @@ App.SlotEngine = new function() {
         for (i = 0; i < oSatisfied.length; i++) {
             if ( (1 + Math.floor(Math.random() * 100)) <= (120 - oSatisfied.Mood)) {
                 var tipTotal = Math.floor(oSatisfied[i].Spent * 0.30);
-                var item = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], tipTotal);
+                var item = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: tipTotal } );
                 if (item != null) {
                     this._Player.AddItem(item.cat, item.tag, 0);
                     this._EndStatus.push(oSatisfied[i].Name + " gave you an extra tip: " + item.desc);
@@ -8758,7 +8789,7 @@ App.Data.Clothes["cow headband"] = { // +9
     "Name": "cow headband", "ShortDesc": "a well crafted cowgirl headband",
     "LongDesc": "A sturdy black hair band with cute little scrimshawed cow horns and fuzzy ears.",
     "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",
-    "WearEffect":[ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ]
+    "WearEffect":[ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
 
 // NECK SLOT
@@ -8766,7 +8797,7 @@ App.Data.Clothes["cow collar"] = { // +9
     "Name": "cow collar", "ShortDesc": " a cute gold cowbell and collar",
     "LongDesc": "A shiny cowbell gently clangs from from a soft leather collar decorated with a black lace ribbon.",
     "Slot": "Neck", "Restrict": ["Neck"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",
-    "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ]
+    "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
 
 // NIPPLES SLOT
@@ -8774,7 +8805,7 @@ App.Data.Clothes["nipple bells"] = { // +9
     "Name": "nipple bells", "ShortDesc": "a pair of belled gold nipple rings",
     "LongDesc": "These large diameter and heavy gage rings have little bells hanging from them. Their weight ceaselessly stimulates your nipples to \"full mast\".",
     "Slot": "Nipples", "Restrict": ["Nipples"], "Color": "gold", "Style": "RARE", "Type" : "ACCESSORY",
-    "WearEffect": [ "PERVERTED_CLOTHING" ], "Category" :  [ "Pet Girl", "BDSM" ]
+    "WearEffect": [ "PERVERTED_CLOTHING" ], "Category" :  [ "Pet Girl", "BDSM" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
 
 // BRA SLOT
@@ -8782,7 +8813,7 @@ App.Data.Clothes["cow bra"] = { // +10
     "Name": "cow bra", "ShortDesc": "a reinforced {COLOR} comfy maternity bra",
     "LongDesc": "In white on the right cup it says, \"got milk under spot X\". In white on the left cup is a horned bull skull over a pair of crossed milk cans, making an X.",
     "Slot": "Bra", "Restrict": ["Bra"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
-    "WearEffect":[ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ]
+    "WearEffect":[ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
 
 // CORSET SLOT
@@ -8790,7 +8821,7 @@ App.Data.Clothes["cow corset"] = { // +10
     "Name": "cow corset", "ShortDesc": "a holstein patterned cup-less corset in velvet",
     "LongDesc": "This ingeniously designed piece is built to be let out as the wearer become plumper, or safely carry a baby, while providing substantial back support.",
     "Slot": "Corset", "Restrict": ["Corset"], "Color": "white", "Style": "RARE", "Type" : "ACCESSORY",
-    "WearEffect": [ "FEMININE_CLOTHING", "WAIST_CINCHING" ], "Category" :  [ "Pet Girl" ]
+    "WearEffect": [ "FEMININE_CLOTHING", "WAIST_CINCHING" ], "Category" :  [ "Pet Girl" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
 
 // PANTY SLOT
@@ -8798,7 +8829,7 @@ App.Data.Clothes["cow panties"] = { // +10
     "Name": "cow panties", "ShortDesc": "a high cut brief of {COLOR} silk",
     "LongDesc": "It is trimmed in elegant black lace. The back panel proudly proclaims,\"Moo Matey!\". The front has little white satin bows. Has a tail hole.",
     "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
-    "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [  "Pet Girl" ]
+    "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [  "Pet Girl" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
 
 // STOCKINGS SLOT
@@ -8806,7 +8837,7 @@ App.Data.Clothes["cow stockings"] = { // +15
     "Name": "cow stockings", "ShortDesc": "a pair of black & white vertically striped silk stockings",
     "LongDesc": "They reach to mid-thigh, are topped off by black lace and tied with a wide white ribbon in a bow.",
     "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Style": "RARE", "Type" : "CLOTHING",
-    "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ]
+    "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
 
 // SHIRT SLOT
@@ -8814,7 +8845,7 @@ App.Data.Clothes["cow skirt"] = { // +20
     "Name": "cow skirt", "ShortDesc": "a fine wool holstein patterned full skirt",
     "LongDesc": "Hangs from the hips and just barely covers your ass when you bend forward. It doesn't if you hug your knees. Sways enticingly and flares out on spins.",
     "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "pink", "Style": "LEGENDARY", "Type" : "CLOTHING",
-    "WearEffect": [ "FEMININE_CLOTHING", "FLIRTY" ], "Category" :  [ "Pet Girl", "Bimbo" ]
+    "WearEffect": [ "FEMININE_CLOTHING", "FLIRTY" ], "Category" :  [ "Pet Girl", "Bimbo" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
 // PANTS SLOT
 
@@ -8827,14 +8858,7 @@ App.Data.Clothes["cow boots"] = { // +20
     "Name": "cow boots", "ShortDesc": "a pair of shiny black calf length cavalier boots",
     "LongDesc": "These 3 inch heels sport a sleek in design with 4\" fold over on the sides and front. They have white laces up from the back of ankle to top, white felt liner and large mirrored steel buckles with ankle support strap. The front sports a hoof shaped mirrored steel toe piece.",
     "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "LEGENDARY", "Type" : "CLOTHING",
-    "WearEffect": [ "FEMININE_CLOTHING", "FANCY_MOVES" ], "Category" : [ "Pet Girl", "Sexy Dancer" ]
-};
-
-App.Data.Clothes["black platform mary janes"] = { // +15
-    "Name": "black platform mary janes", "ShortDesc": "a pair of {COLOR} platform mary janes",
-    "LongDesc": "These black platform shoes have Have red stars for the buckles at the ankles and a chunky platform heel. Difficult to walk in but sexy.",
-    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "RARE", "Type" : "CLOTHING",
-    "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [ "Gothic Lolita" ]
+    "WearEffect": [ "FEMININE_CLOTHING", "FANCY_MOVES" ], "Category" : [ "Pet Girl", "Sexy Dancer" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
 
 // BUTT SLOT
@@ -8842,7 +8866,7 @@ App.Data.Clothes["cow tail"] = { // +9
     "Name": "cow tail", "ShortDesc": "a butt plug with a {COLOR} cow tail attached ",
     "LongDesc": "This anal plug is attached to a faux cow tail, sporting a cute little ribbon. It's warm to the touch, and sways on its own or when you walk. It feels real, is it magical? And it’s very comfortable, never accidentally slips out, and is always clean. It’s white with a black bush tip.",
     "Slot": "Butt", "Restrict": ["Butt"], "Color": "white", "Style": "RARE", "Type" : "ACCESSORY",
-    "WearEffect": [ "PERVERTED_CLOTHING", "GAPE_TRAINING" ], Category : [ "Pet Girl", "BDSM" ]
+    "WearEffect": [ "PERVERTED_CLOTHING", "GAPE_TRAINING" ], Category : [ "Pet Girl", "BDSM" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
 // PENIS SLOT
 
@@ -13812,14 +13836,29 @@ App.Data.JobData["COOK04"] = {
             "He is firm and purposeful, but he is tender with his touch and speaks to you soothingly. You suppose he does not wish to sour the milk. After a while you begin to find that you quite enjoy the feeling, and you think under the right conditions if it was to go on long enough you might find a release into a state of bliss.\n\n"+
             "Tug right, tug left, tug right, tug left, right, left, right, left, tug tug tug...\n\n"+
             "You lost yourself there, but you snap back. The milk is pooling now in the pan you see. Your breasts feel lighter, and look softer. The milk being released is tapering off.\n\n"+
-            "NPC_NAME ceases to milk you, wipes his hands on his dirty apron, takes the pan and pores it into the kitchens magically cooled milk barrel. \"Not bad, Not bad at all.\" His hairy fist comes towards you with some gold coins in it and rains it over your teats onto the tray. \"Those are for you. The more you produce the more I'll pay you. A bit for enough for the captains iced coffees, and some real coin if you give me enough to to sell fresh milkshakes to the crew. Be sure to eat well now cabin COW! I guess cabin girl wasn't good enough for ya! HA-HA!\"\n\n",
-            "END" :
-                "He releases you from the chair and yells, \"Back to work, back to work!\" and gropes your ass till your back at it with the ladle.",
+            "NPC_NAME ceases to milk you, wipes his hands on his dirty apron, takes the pan and pores it into the kitchens magically cooled milk barrel. \"Not bad, Not bad at all.\" His hairy fist comes towards you with some gold coins in it and rains it over your teats onto the tray. \"Those are for you. The more you produce the more I'll pay you. A bit for enough for the captains iced coffees, and some real coin if you give me enough to to sell fresh milkshakes to the crew. Be sure to eat well now cabin COW! I guess cabin girl wasn't good enough for ya! HA-HA!\"",
+            "END" : "",
             "RESULTS" : [
             ]
+        },
+        {
+            "ID" : "REWARD",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 110, "CONDITION" : "gte" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "PICK_ITEM", "NAME" : "CLOTHES", "VALUE" : { price: 5000, meta_key: 'cow outfit'} }
+            ],
+            "START" :
+            "Cookie seems pleased with the amount of milk you gave. He's greedily rubbing his hands together and smacking his lips. Without a second thought he reaches for a small "+
+            "bag and throws it your way. \"Here, take that, you've earned it!\"",
+            "END" : "",
+            "RESULTS" : [ ]
         }
     ],
-    "END" : "",
+    "END" : "He releases you from the chair and yells, \"Back to work, back to work!\" and gropes your ass till your back at it with the ladle.",
     "JOB_RESULTS" : [ ]
 };
 /* twine-user-script #37: "georgina_jobs.js" */
@@ -27202,6 +27241,7 @@ You can &lt;&lt;click &quot;skip this&quot; &quot;Whore&quot;&gt;&gt;\
 * You will earn bonus pay, and potentially items, the more customers you satisfy and the higher their mood is.
 * Customers also have a &#39;Bonus&#39; category. They will pay more if you meet a certain requirement they have, like for instance @@color:Cyan;Ass@@ means they want a big butt and a beautiful whore.
 * If you miss a spin, the @@color:red;Desperation Bar@@ will fill up. When it is full, it unlocks a special button called &#39;Desperation Spin&#39;. This will give you an automatic jackpot, but put a @@color:red;drain on your Willpower@@.
+* You do not have to use the &#39;Desperation Spin&#39; when it&#39;s active, but if you miss while the bar is full on a normal spin, you will take a star of damage (but avoid the Willpower drain)
 * You can buy more spins at any time. This costs @@color:yellow;1 energy@@ and will give you 5 additional spins.
 
 @@color:cyan;The Slot Inventory@@

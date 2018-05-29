@@ -163,12 +163,15 @@ App.Item = new function() {
             res.name = item['Name'];
             res.desc = item['ShortDesc'];
             res.price = this.CalculateBasePrice(Category, res.tag);
+            res.style = item.hasOwnProperty('Style') ? item['Style'] : null;
+            res.category = item.hasOwnProperty('Category') ? item['Category'] : null;
             res.useEffects = item.hasOwnProperty('Effects') ? item["Effects"] : [ ];
             res.wearEffects = item.hasOwnProperty('WearEffect') ? item['WearEffect'] : [ ];
             res.activeEffects = item.hasOwnProperty('ActiveEffect') ? item['ActiveEffect'] : [ ];
+            res.meta = item.hasOwnProperty('Meta') ? item['Meta'] : null;
             out.push(res);
         }
-        console.log(out);
+
         out.sort(function(a, b) { return a.price - b.price;});
         return (Filter) ? out.filter(function(a) { return a.price < Filter; }) : out;
     };
@@ -176,24 +179,31 @@ App.Item = new function() {
     /**
      * Fetch a random item based on price / category.
      * @param {string|Array.<string>} Category
-     * @param {number} Filter
+     * @param {*} filterOb
      * @returns {null|*}
      */
-    this.PickItem = function(Category, Filter) {
+    this.PickItem = function(Category, filterOb) {
         var items = [ ];
-
+        console.log(filterOb);
         if (Category.constructor === Array) {
             while (Category.length > 0) {
                 var tmpCategory = App.PR.GetRandomListItem(Category);
                 Category.splice(Category.indexOf(tmpCategory), 1); // Pop the item off.
-                items = this.ListAllPrices(tmpCategory, Filter);
+                items = items.concat(this.ListAllPrices(tmpCategory, filterOb.price));
             }
         } else {
-            items = this.ListAllPrices(Category, Filter);
+            items = this.ListAllPrices(Category, filterOb.price);
         }
+
         // Ignore items that we don't want showing up randomly.
         if(items.length > 0) items = items.filter(function(o) { return o.hasOwnProperty('InMarket')? o.InMarket : true; });
-
+        // Filter on clothing category
+        if (items.length > 0 && (filterOb.hasOwnProperty("category")))
+            items = items.filter(function(o) { return o.category != null && o.category.contains(filterOb.category);});
+        // Filter on meta data
+        if (items.length > 0 && (filterOb.hasOwnProperty("meta_key")))
+            items = items.filter(function(o) { return o.meta != null && o.meta.contains(filterOb.meta_key);});
+        console.log(items);
         return items.length > 0 ? App.PR.GetRandomListItem(items) : null;
     };
 

@@ -786,7 +786,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
     /** @returns {string} */
     this.Print       = function() { return (this._StrBuffer != "") ? this._StrBuffer + "\n" : ""; };
     /** @returns {number} */
-    this.Pay         = function() { return this._Pay; };
+    this.Pay         = function() { return Math.floor(this._Pay); };
     /** @returns {object} */
     this.Results     = function() { return this._Checks; };
     /** @returns {Array.<string>} */
@@ -965,13 +965,12 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
         {
             case "MONEY":
 
-                this._Pay += Value;
+                this._Pay += Math.floor(Value);
                 this.Debug("this._Pay=",this._Pay.toString());
                 this._Player.AdjustMoney(Math.floor(Value));
                 break;
             case "FOOD":
             case "DRUGS":
-            case "CLOTHES":
             case "COSMETICS":
             case "LOOT_BOX":
                 this._RewardItems.push( App.PR.pItemDesc(Type, Name, Value, true));
@@ -981,11 +980,25 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 this._RewardItems.push( App.PR.pItemDesc("QUEST", Name, Value, true));
                 this._Player.AddItem("QUEST", Name, Value, Opt);
                 break;
+            case "CLOTHES":
+                var data = App.Data.Clothes[Name];
+                if (this._Player.OwnsWardrobeItem(data) ) {
+                    this._Pay += Math.floor( App.Item.CalculateBasePrice("CLOTHES", Name) * 0.3);
+                    break;
+                } else {
+                    this._RewardItems.push( App.PR.pItemDesc(Type, Name, Value, true));
+                    this._Player.AddItem(Type, Name, Value, Opt);
+                }
+                break;
             case "PICK_ITEM":
                 var item = App.Item.PickItem( Name, Value);
                 if (item != null) {
+                    if (item.cat == 'CLOTHES' && this._Player.OwnsWardrobeItem(item.cat, item.tag)) {
+                        this._Pay += Math.floor( App.Item.CalculateBasePrice("CLOTHES", item.tag) * 0.3);
+                    } else {
                     this._RewardItems.push( App.PR.pItemDesc( item.cat, item.tag, 0, true));
                     this._Player.AddItem(item.cat, item.tag, 0);
+                    }
                 }
                 break;
             case "STAT_XP":

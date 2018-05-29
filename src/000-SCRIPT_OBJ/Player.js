@@ -1243,6 +1243,7 @@ App.Entity.Player = function (){
         var Item = window.App.Item.Factory(Category, Name, Count);
 
         if (Category == "CLOTHES" || Category == "WEAPON" ) {
+            if (this.OwnsWardrobeItem(Category, Name)) return; // No duplicate equipment allowed.
             this.Wardrobe.push(Item);
             if (Opt == "WEAR") this.Wear(Item);
             return;
