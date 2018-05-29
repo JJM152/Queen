@@ -981,6 +981,13 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 this._RewardItems.push( App.PR.pItemDesc("QUEST", Name, Value, true));
                 this._Player.AddItem("QUEST", Name, Value, Opt);
                 break;
+            case "PICK_ITEM":
+                var item = App.Item.PickItem( Name, Value);
+                if (item != null) {
+                    this._RewardItems.push( App.PR.pItemDesc( item.cat, item.tag, 0, true));
+                    this._Player.AddItem(item.cat, item.tag, 0);
+                }
+                break;
             case "STAT_XP":
             case "BODY_XP":
             case "SKILL_XP":
