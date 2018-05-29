@@ -420,34 +420,25 @@ App.SlotEngine = new function() {
             default: before = -1; after = 10;
         }
 
-
         // Draw active.
-
         var i = 0, slot;
         for (var key in this._Player._Slots) {
             i++;
             if (!this._Player._Slots.hasOwnProperty(key)) continue;
             var reel = this._Player._Slots[key];
             // Check to see if this is a locked slot.
-            console.log(key);
-            console.log(this._Player._Slots[key]);
-            console.log("i="+i+",before="+before+",after="+after);
             if ((this._Player._Slots[key] == null || typeof this._Player._Slots[key] === 'undefined') && i <= before) {
-                console.log("locked slot - before");
                 // Empty slot that is not unlocked. Add a place holder.
                 slot = $('<div class="LockedSlot2"></div>');
             } else if ((this._Player._Slots[key] == null || typeof this._Player._Slots[key] === 'undefined') && i >= after) {
-                console.log("locked slot - after");
                 // Empty slot that is not unlocked. Add a place holder.
                 slot = $('<div class="LockedSlot2"></div>');
             } else if ((this._Player._Slots[key] == null || typeof this._Player._Slots[key] === 'undefined') && i >= before && i <= after ) {
-                console.log("empty slot");
                 // Slot is empty AND unlocked.
                 slot = $('<div>').attr('id', 'SlotInventory_'+key).addClass('OpenSlot');
                 slot.on("click", { slot : key }, this._SelectSlotCB.bind(this));
                 if (this._SelectedSlot == null) this._SelectedSlot = key;
             } else {
-                console.log('slotted slot');
                 // Slot is not empty and it's unlocked.
                 slot = $('<div>').attr('id', 'SlotInventory_'+key).addClass('SlottedSlot');
                 slot.addClass(reel.Css());
@@ -455,13 +446,10 @@ App.SlotEngine = new function() {
                 if (this._SelectedSlot == null) this._SelectedSlot = key;
             }
 
-
             if (this._SelectedSlot != null && key == this._SelectedSlot.toString()) slot.css('border-color', 'yellow');
 
             root.append(slot);
         }
-
-
 
         this._DrawSlotInventoryList();
         this._DrawInventoryCurrent();
@@ -1024,12 +1012,12 @@ App.SlotEngine = new function() {
                 if (this._IsBeauty(slots[i], slotMap)) result.type = 'BEAUTY';
 
                 checkmod = this._CalcBonus(result.type, this._Player, null)
-                } else {
-                    checkmod = this._CalcBonus(key, this._Player, (c.Payout * 20) );
+            } else {
+                checkmod = this._CalcBonus(key, this._Player, (c.Payout * 20) );
             }
 
-            //Lets clamp the mod to 0.2 to 1.5
-            checkmod = Math.max(0.2, checkmod, 1.6);
+            //Lets clamp the mod to 0.2 to 1.6
+            checkmod = Math.max(0.2, Math.min(checkmod, 1.6));
 
             result.payout = basePay * checkmod;
             // Add bonus category for style/fem/perv

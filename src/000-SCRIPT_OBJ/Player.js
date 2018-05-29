@@ -353,7 +353,7 @@ App.Entity.Player = function (){
     };
 
     /**
-     * Like a skill roll, but a simple check for a statistic (BODY or STAT).
+     * Like a skill roll, but doesn't grant xp. Can roll against other stats as well.
      * @param {string} Type
      * @param {string} Name
      * @param {number} Difficulty
@@ -370,7 +370,7 @@ App.Entity.Player = function (){
         if (Type == "SKILL") DiceRoll += Math.max(0, Math.min(this.GetSynergyBonus(Name), 100)); // Cap 100
         DiceRoll        += this._RollBonus(Type, Name);
 
-        var Mod         = Math.max(0.25, Math.min((DiceRoll  / Target), 2.0)); // 0.25 - 2.0
+        var Mod         = Math.max(0.10, Math.min((DiceRoll  / Target), 2.0)); // 0.1 - 2.0
 
         if(this.debugMode) console.log("StatRoll(" + Name + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " Mod="+Mod+"\n");
 
@@ -1459,7 +1459,6 @@ App.Entity.Player = function (){
 	};
 
     // region SLOT wheel stuff
-
 
     this._Slots = {
         0: null, 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null
