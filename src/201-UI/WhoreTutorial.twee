@@ -1,0 +1,31 @@
+:: WhoreTutorial
+@@color:yellow;Whoring Mini-Game Tutorial@@
+
+You can <<click "skip this" "Whore">>\
+        <<set _Passage = passage(); >>\
+        <<run $Player.AdjustStat("Energy", -1);>>\
+        <<run App.SlotEngine.LoadScene($WhoreLink, $WhorePassage, $Player);>><</click>> tutorial if you already know how to play.
+
+@@color:deepPink;The Basic Game@@
+<img id="whoreScreen1" data-passage="img_whore_screen1">
+* You need at least 1 energy to play, cannot be played at @@color:deepPink;late night@@ and will advance time by one phase when you finish.
+* Select a customer from the ones presented. Keep in mind what they 'want' and what the odds are on the slots you have equipped. You can change the order of your slots and equip new ones from your 'Skills' panel.
+* The more a customer wants a certain act, the more they will pay. They will also pay more if their mood and lust are higher.
+* Every time you hit a jackpot, along with money, you will get some XP based on the slot reels that made up that jackpot.
+* Hitting a customers 'want' will generally decrease their lust, increase their mood and increase their satisfaction.
+* When a customers satisfaction is maxed, they can no longer be selected. Choose a new customer.
+* You will earn bonus pay, and potentially items, the more customers you satisfy and the higher their mood is.
+* Customers also have a 'Bonus' category. They will pay more if you meet a certain requirement they have, like for instance @@color:Cyan;Ass@@ means they want a big butt and a beautiful whore.
+* If you miss a spin, the @@color:red;Desperation Bar@@ will fill up. When it is full, it unlocks a special button called 'Desperation Spin'. This will give you an automatic jackpot, but put a @@color:red;drain on your Willpower@@.
+* You can buy more spins at any time. This costs @@color:yellow;1 energy@@ and will give you 5 additional spins.
+
+@@color:cyan;The Slot Inventory@@
+<img id="whoreScreen2" data-passage="img_whore_screen2">
+* You can access your slot reels through the 'Skills' panel of your user interface. It's above your player score.
+* During the course of your adventure you can both unlock more slots and gain more reels.
+* Unlocking a slot is usually the result of a quest. You start with 3 unlocked for you, but this can be raised to 9.
+* Slot Reels can either be found in shops or given as rewards from quests or jobs. You start with 3 in your inventory, all of the lowest quality.
+* Looking at a slot reel will tell you what odds it has of hitting any particular sex act or wild card.
+* The best layout is to put slots next to each other that have the highest chances of all hitting the same spot.
+* Collect more reels and unlock more slots to build the ''ultimate spin''.
+

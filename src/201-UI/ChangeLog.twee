@@ -14,6 +14,7 @@
 * Certain pieces of clothing that are supposed to be quest rewards will not.
 * The job engine could give out money with floating points as rewards. This has been fixed.
 * Lots of debugging and cheat stuff added by @@color:deepPink;AmansMarium@@
+* Starting slave names slightly refactored by @@color:deepPink;daviezwei@@
 !!!Salty Mermaid
 * The deterioration of the Crew's mood has been greatly reduced.
 * Cookie's 'Cooking Lesson' job edited by @@color:deepPink;daviezwei@@

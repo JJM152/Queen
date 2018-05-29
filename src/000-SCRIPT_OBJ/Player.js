@@ -25,6 +25,7 @@ App.Entity.Player = function (){
     this.LastQuickWardrobe = "Best Clothes";
     this.debugMode = false;
     this.difficultySetting = 1;
+    this.WhoreTutorial = false;
 
     this.JobFlags = { };
     this.VoodooEffects = { };
