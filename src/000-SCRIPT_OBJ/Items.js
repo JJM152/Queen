@@ -187,12 +187,12 @@ App.Item = new function() {
                 var tmpCategory = App.PR.GetRandomListItem(Category);
                 Category.splice(Category.indexOf(tmpCategory), 1); // Pop the item off.
                 items = this.ListAllPrices(tmpCategory, Filter);
-               // if (items.length > 0) return this._FetchData(tmpCategory, App.PR.GetRandomListItem(items)['name']);
             }
         } else {
             items = this.ListAllPrices(Category, Filter);
-            //if (items.length > 0) return this._FetchData(Category, App.PR.GetRandomListItem(items)['name']);
         }
+        // Ignore items that we don't want showing up randomly.
+        if(items.length > 0) items = items.filter(function(o) { return o.hasOwnProperty('InMarket')? o.InMarket : true; });
 
         return items.length > 0 ? App.PR.GetRandomListItem(items) : null;
     };
