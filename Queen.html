@@ -1628,14 +1628,14 @@ App.PR = new function() {
                     case "DAYS_PASSED":
                         bMeter = false;
                         pString = "wait " + (App.QuestEngine.GetQuestFlag(Player, Name) - Player.Day) + " days";
-                        if((App.QuestEngine.GetQuestFlag(Player, Name) - Player.Day) < 1 ){ Val = true; }else{ Val = false; };
-                    break;
+                        Val = ((App.QuestEngine.GetQuestFlag(Player, Name) - Player.Day) < 1);
+                        break;
                     case "IS_WEARING":
                         bMeter = false;
                         Val = false;
                         if(checks[i]["VALUE"] === "NOT"){ pString = "''NOT'' "; if(Player.GetEquipmentInSlot(Name) == 0){ Val = true; } }else{ if(Player.GetEquipmentInSlot(Player, Name) != 0){ Val = true; } }
                         pString = pString + "wearing " + Name.toLowerCase();
-                    break;
+                        break;
                 }
 
                 if (bMeter == true) {
@@ -1683,6 +1683,7 @@ App.PR = new function() {
 			for (var i = 0; i < Rewards.length; i++)
 			{
 				if (Rewards[i]["REWARD_TYPE"] == "MONEY") Output.push( "@@color:yellow;"+ Rewards[i]["AMOUNT"] + " coins@@.");
+                if (Rewards[i]["REWARD_TYPE"] == "SLOT") Output.push( "@@color:cyan;A slot unlock!@@");
 				if (Rewards[i]["REWARD_TYPE"] == "ITEM" ) {
 					oItem = App.Item.Factory( Rewards[i]["TYPE"], Rewards[i]["NAME"], Rewards[i]["AMOUNT"]);
 					Output.push( oItem.Description() + " x " + Rewards[i]["AMOUNT"]);
@@ -5649,6 +5650,9 @@ window.App = window.App || { Data: { }, Entity: { } };
  * This class manages the tracking of quests and handing out of rewards.
  * @constructor
  */
+
+/** TODO: REWRITE THIS ENTIRE MESS AND FOLD IT INTO JOB ENGINE **/
+
 window.App.QuestEngine = new function() {
 
     /**
@@ -5860,6 +5864,9 @@ window.App.QuestEngine = new function() {
             case "ITEM":
                 Player.AddItem(Type, Name, Value);
                 break;
+            case "SLOT":
+                Player.UnlockSlot();
+                break;
         }
 
     };
@@ -5920,7 +5927,6 @@ window.App.QuestEngine = new function() {
             Type    = PRE[i]["TYPE"];
             Name    = PRE[i]["NAME"];
             Value   = PRE[i]["VALUE"];
-            console.log("Type "+Type);
 
             //NOTE: QUEST_FLAG should be last PRE or it will override other PREs to return true
             switch(Type) {
@@ -5936,8 +5942,8 @@ window.App.QuestEngine = new function() {
                 break;
                 case "IS_WEARING":
                     console.log("Test "+Player.GetEquipmentInSlot(Name));
-                    if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Name) != 0){ return false } };
-                    if(Value != "NOT"){ if(Player.GetEquipmentInSlot(Name) == 0){ return false } };
+                    if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Name) != 0){ return false } }
+                    if(Value != "NOT"){ if(Player.GetEquipmentInSlot(Name) == 0){ return false } }
                 break;
             }
         }
@@ -10883,8 +10889,8 @@ App.Data.Ratings = {
                 76 : "You have ADJECTIVE INCHES inch hips. They sway back and forth, advertising your pASS for a good fuck.",
                 82 : "You have ADJECTIVE INCHES inch hips. They sway back and forth, advertising your pASS for a good fuck.",
                 88 : "You have ADJECTIVE INCHES inch hips. They sway back and forth, advertising your pASS for a good fuck.",
-                94 : "You have ADJECTIVE INCHES inch hips. They sway back and forth constantly drawing attention to your pASS and practically begging for a good butt fuck.",
-               100 : "You have ADJECTIVE INCHES inch hips. They sway back and forth constantly drawing attention to your pASS and practically begging for a good butt fuck."
+                94 : "You have ADJECTIVE INCHES inch hips. They sway back and forth constantly drawing attention to your pASS ass and practically begging for a good butt fuck.",
+               100 : "You have ADJECTIVE INCHES inch hips. They sway back and forth constantly drawing attention to your pASS ass and practically begging for a good butt fuck."
             },
             "Ass": {
                  0 : "Your ADJECTIVE ass looks emaciated and unhealthy.",
@@ -17275,6 +17281,7 @@ App.Data.Quests["Q004"] = {
     "REWARD": [
         {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "face cream", "AMOUNT": 3},
         {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "fairy dust", "AMOUNT": 3},
+        {"REWARD_TYPE" : "SLOT" },
         {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "silk stockings", "AMOUNT": 1},
         {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "frilly dress", "AMOUNT": 1}
     ],
@@ -17623,6 +17630,7 @@ App.Data.Quests["Q006"] = {
         {"TYPE": "STAT_BODY", "NAME": "Hair", "VALUE": 20}
     ],
     "REWARD": [
+        {"REWARD_TYPE": "SLOT" },
         {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "healing potion", "AMOUNT": 3},
         {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "face cream", "AMOUNT": 10},
         {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "hair tonic", "AMOUNT": 10}
@@ -17668,8 +17676,9 @@ App.Data.Quests["Q007"] =  {
         {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "milkdew melon", "AMOUNT": 4},
         {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "butter gourd", "AMOUNT": 4},
         {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "honey mead", "AMOUNT": 4},
-        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "succubus philtre", "AMOUNT": 1},
-        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "nereid philtre", "AMOUNT": 1}
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "COMMON_PERVERTED_SLUT", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "COMMON_VENUS", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "COMMON_CONCUBINE", "AMOUNT": 1}
 
     ],
     "INTRO": "NPC_NAME says, \"Right, PLAYER_NAME, I was wondering when you'd come to see me...\"\n\n" +
@@ -25281,6 +25290,18 @@ Face: \
 [[⬤|DebugPassage][$Player.BodyStats[&quot;Face&quot;] to 70]] | \
 [[⬤|DebugPassage][$Player.BodyStats[&quot;Face&quot;] to 85]] | \
 [[Prettiest|DebugPassage][$Player.BodyStats[&quot;Face&quot;] to 100]]
+Lips: \
+[[Thinnest|DebugPassage][$Player.BodyStats[&quot;Lips&quot;] to 0]] | \
+[[⬤|DebugPassage][$Player.BodyStats[&quot;Lips&quot;] to 5]] | \
+[[⬤|DebugPassage][$Player.BodyStats[&quot;Lips&quot;] to 10]] | \
+[[⬤|DebugPassage][$Player.BodyStats[&quot;Lips&quot;] to 20]] | \
+[[⬤|DebugPassage][$Player.BodyStats[&quot;Lips&quot;] to 30]] | \
+[[⬤|DebugPassage][$Player.BodyStats[&quot;Lips&quot;] to 40]] | \
+[[⬤|DebugPassage][$Player.BodyStats[&quot;Lips&quot;] to 50]] | \
+[[⬤|DebugPassage][$Player.BodyStats[&quot;Lips&quot;] to 60]] | \
+[[⬤|DebugPassage][$Player.BodyStats[&quot;Lips&quot;] to 70]] | \
+[[⬤|DebugPassage][$Player.BodyStats[&quot;Lips&quot;] to 85]] | \
+[[Plumpest|DebugPassage][$Player.BodyStats[&quot;Lips&quot;] to 100]]
 Bust size: \
 [[Flat|DebugPassage][$Player.BodyStats[&quot;Bust&quot;] to 0]] | \
 [[A|DebugPassage][$Player.BodyStats[&quot;Bust&quot;] to 1]] | \

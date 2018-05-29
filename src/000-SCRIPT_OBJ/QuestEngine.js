@@ -3,6 +3,9 @@ window.App = window.App || { Data: { }, Entity: { } };
  * This class manages the tracking of quests and handing out of rewards.
  * @constructor
  */
+
+/** TODO: REWRITE THIS ENTIRE MESS AND FOLD IT INTO JOB ENGINE **/
+
 window.App.QuestEngine = new function() {
 
     /**
@@ -214,6 +217,9 @@ window.App.QuestEngine = new function() {
             case "ITEM":
                 Player.AddItem(Type, Name, Value);
                 break;
+            case "SLOT":
+                Player.UnlockSlot();
+                break;
         }
 
     };
@@ -274,7 +280,6 @@ window.App.QuestEngine = new function() {
             Type    = PRE[i]["TYPE"];
             Name    = PRE[i]["NAME"];
             Value   = PRE[i]["VALUE"];
-            console.log("Type "+Type);
 
             //NOTE: QUEST_FLAG should be last PRE or it will override other PREs to return true
             switch(Type) {
@@ -290,8 +295,8 @@ window.App.QuestEngine = new function() {
                 break;
                 case "IS_WEARING":
                     console.log("Test "+Player.GetEquipmentInSlot(Name));
-                    if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Name) != 0){ return false } };
-                    if(Value != "NOT"){ if(Player.GetEquipmentInSlot(Name) == 0){ return false } };
+                    if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Name) != 0){ return false } }
+                    if(Value != "NOT"){ if(Player.GetEquipmentInSlot(Name) == 0){ return false } }
                 break;
             }
         }

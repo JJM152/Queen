@@ -1397,8 +1397,8 @@ App.Data.Ratings = {
                 76 : "You have ADJECTIVE INCHES inch hips. They sway back and forth, advertising your pASS for a good fuck.",
                 82 : "You have ADJECTIVE INCHES inch hips. They sway back and forth, advertising your pASS for a good fuck.",
                 88 : "You have ADJECTIVE INCHES inch hips. They sway back and forth, advertising your pASS for a good fuck.",
-                94 : "You have ADJECTIVE INCHES inch hips. They sway back and forth constantly drawing attention to your pASS and practically begging for a good butt fuck.",
-               100 : "You have ADJECTIVE INCHES inch hips. They sway back and forth constantly drawing attention to your pASS and practically begging for a good butt fuck."
+                94 : "You have ADJECTIVE INCHES inch hips. They sway back and forth constantly drawing attention to your pASS ass and practically begging for a good butt fuck.",
+               100 : "You have ADJECTIVE INCHES inch hips. They sway back and forth constantly drawing attention to your pASS ass and practically begging for a good butt fuck."
             },
             "Ass": {
                  0 : "Your ADJECTIVE ass looks emaciated and unhealthy.",

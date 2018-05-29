@@ -46,6 +46,18 @@ Face: \
 [[⬤|DebugPassage][$Player.BodyStats["Face"] to 70]] | \
 [[⬤|DebugPassage][$Player.BodyStats["Face"] to 85]] | \
 [[Prettiest|DebugPassage][$Player.BodyStats["Face"] to 100]]
+Lips: \
+[[Thinnest|DebugPassage][$Player.BodyStats["Lips"] to 0]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Lips"] to 5]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Lips"] to 10]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Lips"] to 20]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Lips"] to 30]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Lips"] to 40]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Lips"] to 50]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Lips"] to 60]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Lips"] to 70]] | \
+[[⬤|DebugPassage][$Player.BodyStats["Lips"] to 85]] | \
+[[Plumpest|DebugPassage][$Player.BodyStats["Lips"] to 100]]
 Bust size: \
 [[Flat|DebugPassage][$Player.BodyStats["Bust"] to 0]] | \
 [[A|DebugPassage][$Player.BodyStats["Bust"] to 1]] | \

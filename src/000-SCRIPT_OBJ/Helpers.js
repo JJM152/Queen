@@ -367,14 +367,14 @@ App.PR = new function() {
                     case "DAYS_PASSED":
                         bMeter = false;
                         pString = "wait " + (App.QuestEngine.GetQuestFlag(Player, Name) - Player.Day) + " days";
-                        if((App.QuestEngine.GetQuestFlag(Player, Name) - Player.Day) < 1 ){ Val = true; }else{ Val = false; };
-                    break;
+                        Val = ((App.QuestEngine.GetQuestFlag(Player, Name) - Player.Day) < 1);
+                        break;
                     case "IS_WEARING":
                         bMeter = false;
                         Val = false;
                         if(checks[i]["VALUE"] === "NOT"){ pString = "''NOT'' "; if(Player.GetEquipmentInSlot(Name) == 0){ Val = true; } }else{ if(Player.GetEquipmentInSlot(Player, Name) != 0){ Val = true; } }
                         pString = pString + "wearing " + Name.toLowerCase();
-                    break;
+                        break;
                 }
 
                 if (bMeter == true) {
@@ -422,6 +422,7 @@ App.PR = new function() {
 			for (var i = 0; i < Rewards.length; i++)
 			{
 				if (Rewards[i]["REWARD_TYPE"] == "MONEY") Output.push( "@@color:yellow;"+ Rewards[i]["AMOUNT"] + " coins@@.");
+                if (Rewards[i]["REWARD_TYPE"] == "SLOT") Output.push( "@@color:cyan;A slot unlock!@@");
 				if (Rewards[i]["REWARD_TYPE"] == "ITEM" ) {
 					oItem = App.Item.Factory( Rewards[i]["TYPE"], Rewards[i]["NAME"], Rewards[i]["AMOUNT"]);
 					Output.push( oItem.Description() + " x " + Rewards[i]["AMOUNT"]);

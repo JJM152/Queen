@@ -157,6 +157,7 @@ App.Data.Quests["Q006"] = {
         {"TYPE": "STAT_BODY", "NAME": "Hair", "VALUE": 20}
     ],
     "REWARD": [
+        {"REWARD_TYPE": "SLOT" },
         {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "healing potion", "AMOUNT": 3},
         {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "face cream", "AMOUNT": 10},
         {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "hair tonic", "AMOUNT": 10}
@@ -202,8 +203,9 @@ App.Data.Quests["Q007"] =  {
         {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "milkdew melon", "AMOUNT": 4},
         {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "butter gourd", "AMOUNT": 4},
         {"REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "honey mead", "AMOUNT": 4},
-        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "succubus philtre", "AMOUNT": 1},
-        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "DRUGS", "NAME": "nereid philtre", "AMOUNT": 1}
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "COMMON_PERVERTED_SLUT", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "COMMON_VENUS", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "COMMON_CONCUBINE", "AMOUNT": 1}
 
     ],
     "INTRO": "NPC_NAME says, \"Right, PLAYER_NAME, I was wondering when you'd come to see me...\"\n\n" +
