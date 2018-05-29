@@ -36,44 +36,44 @@ App.Data.JobData["SIMONE_JOB1"] = {
             // Three pseudo-random introductions to the room for variety
             "START" :
                 "The cramped room is lit only by a few flickering lanterns. It reeks of cigar smoke and semen. Men are crowded on the couches lined along the walls, swilling drinks and huffing fat rolls of tobacco. Most of them are manhandling various girls sat upon their laps. Tits and dicks and even two bald cooches -- both presently being finger-fucked -- are on full display.\n\n"+
-                "&lt;&lt;set $irr to random(1,3)&gt;&gt;"+
-                "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                "<<set _irr to random(1,3)>>"+
+                "<<if _irr eq 1>>"+
                   "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand &lt;&lt;if $Player.Equipment['Penis'].o.Name == 'chastity cage' || $Player.Equipment['Penis'].o.Name == 'luxurious chastity cage'&gt;&gt;discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it &lt;&lt;else&gt;&gt;happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection &lt;&lt;/if&gt;&gt;while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
-                "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if $Player.Equipment['Penis'].o.Name == 'chastity cage' || $Player.Equipment['Penis'].o.Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
+                "<<elseif _irr eq 2>>"+
                   "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
                   "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
                   "A surprised cry escapes you when she crushes you against her and nips hard at your earlobe. Apparently this is the reaction she has been after, as she continues to search out ways to force you to wriggle, whimper, and whine."+
-                "&lt;&lt;else&gt;&gt;"+
+                "<<else>>"+
                   "An older woman with a mature motherly beauty takes your head and leads you to the center of the room. She smiles pleasantly as she turns to face you and then rather unpleasantly shoves you to your knees. She lifts her ruffled skirt to reveal her bushy muff and swings one leg over your shoulder to bring your face to her crotch. The lusty aroma of her already glistening pussy tickles your nostril hairs. With a thrust of her hips, she shoves her drooling wet cunt onto your face."+
-                "&lt;&lt;/if&gt;&gt;",
+                "<</if>>",
             "RESULTS" : [
                 {"A":  33, "TEXT": 
-                  "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                  "<<if _irr eq 1>>"+
                     "Your obscene display of humiliated exasperation @@doesn't have much effect@@ on the men in the room. A couple of them evince an interest in the elfin blonde, who you have to honestly admit is working her petite little ass off to garner attention, but you seem to have come off more as a contrast than a comparison. Your partner throws you a disappointed pout, unhappy with your poor performance."+
-                  "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "<<elseif _irr eq 2>>"+
                     "Your agitated annoyance at being so roughly molested @@doesn't have much effect@@ on the men in the room. A couple of them evince an interest in the tall and burly dominant woman but it seems that you came off as nothing more than a cheerless trifle for her to toy with. Your partner curls her lip at you and shakes her head in disgust at your poor performance."+
-                  "&lt;&lt;else&gt;&gt;"+
+                  "<<else>>"+
                     "You do your best to lick at the woman's sloppy wet pussy but your mouth is far more experienced with cocks than cunts and your amateur attempt as pleasuring her @@doesn't have much effect@@ on the men in the room. When your ineptitude at cunnilingus becomes clear to her, the matronly woman proceeds to crassly grind her hips against your face while berating you for your incompetence."+
-                  "&lt;&lt;/if&gt;&gt;"
+                  "<</if>>"
                 },
                 {"A":  66, "TEXT": 
-                  "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                  "<<if _irr eq 1>>"+
                     "The two of you squishing and pinching and nearly mangling one another has @@attracted some interest@@ from several of the men. They're certainly paying attention to both of you now. Your partner is obviously satisfied with your efforts, too. She giggles and smooches you a sweet thanks on the lips for your adequate performance."+
-                  "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "<<elseif _irr eq 2>>"+
                     "After a few minutes of fearful bewilderment, you manage to get into the spirit of the act and start to mount a playful resistance against your lustful assailant. You manage to convincingly squirm and fuss against her persistant molestation and the two of you have soon @@attracted some interest@@ from several of the men. Your partner is obviously satisfied with your efforts and she gives you a stinging smack on the ass as thanks."+
-                  "&lt;&lt;else&gt;&gt;"+
+                  "<<else>>"+
                     "Although your mouth is far more experienced with cocks than cunts, you manage to stuff your face into her crotch and lash your tongue at her tart-tasting purple folds with decently convincing enthusiasm. The woman pants and moans and unlooses some rather vulgar compliments your way. The exhibition has soon @@attracted some interest@@ from several of the men. Your partner is satisfied enough with your efforts to allow you to stand back up."+
-                  "&lt;&lt;/if&gt;&gt;"
+                  "<</if>>"
                 },
                 {"A": 500, "TEXT": 
-                  "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                  "<<if _irr eq 1>>"+
                     "The majority of the men in the room @@take a keen interest@@ in the half-dance half-wrestling match in which the two of you are engaged. Your partner's spirited endeavor to torment you into a hysteric frenzy and your efforts to abuse her bantam body in a scurrilous sort of rapey revenge has paid off in spades. There's not a soft cock in the house and most of them are pointing in your direction. Your partner giggles and throws her arms around your neck to mash her balmy lips to your own in lustful gratitude for your impressive performance."+
-                  "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "<<elseif _irr eq 2>>"+
                     "You realize that you're meant to play the victim. Confident that you're powerless against this husky woman, you slap at her and hammer your dainty fists on her hulking shoulders. The men in the room @@take a keen interest@@ as you throw a tantrum like a proper spoiled sissy while she persists in molesting you. There's not a soft cock in the house and most of them are pointing in your direction. Your partner grins in delight and lifts you from your feet to twirl you around."+
-                  "&lt;&lt;else&gt;&gt;"+
+                  "<<else>>"+
                     "Cocks or cunts, it's really all the same to you nowadays. You bury your face in her sodden purple folds and work your tongue and lips with dutiful zeal. She gasps and shivers as you enthusiastically eat her out, and the men in the room @@take a keen interest@@ in the exhibition. There's not a soft cock in the house and most of them are pointing in your direction. Your partner moans in delight and eventually allows you to stand back up."+
-                  "&lt;&lt;/if&gt;&gt;"
+                  "<</if>>"
                 } ],
             "END" :
                 ""
@@ -90,7 +90,7 @@ App.Data.JobData["SIMONE_JOB1"] = {
             ],
             "START" :
                 "Foreplay now concluded, the girls hustle into their various positions like well-trained soldiers on a battlefront of debauchery. One particularly petite young lady -- with the notable exception of her proposterously ponderous posterior -- has her obese ass anally violated almost before she can even folded herself over a chair. Fleshy slaps of horny hips on blubber-butt fill the room. A line forms behind her, leaving no doubt that she was certain to be on booty duty all evening.\n\n"+
-                "Your previous dance partner, the &lt;&lt;if $irr eq 1&gt;&gt;flaxen-haired nymph with the impish hands&lt;&lt;elseif $irr eq 2&gt;&gt;the burly amazonian woman&lt;&lt;else&gt;&gt;the motherly whore with the sopping cunny&lt;&lt;/if&gt;&gt;, helpfully ushers you to a vacant corner of the room where you can ply your trade. She tosses a cushion from the couch onto the floor for you to kneel upon and then she hurries off to cram her cheeks with cock like a proper slut.\n\n"+
+                "Your previous dance partner, the <<if _irr eq 1>>flaxen-haired nymph with the impish hands<<elseif _irr eq 2>>the burly amazonian woman<<else>>the motherly whore with the sopping cunny<</if>>, helpfully ushers you to a vacant corner of the room where you can ply your trade. She tosses a cushion from the couch onto the floor for you to kneel upon and then she hurries off to cram her cheeks with cock like a proper slut.\n\n"+
                 "You sink to your knees in the corner and wait for 'customers' with your hands at the ready.",
             "END" :
                 "",
@@ -235,44 +235,44 @@ App.Data.JobData["SIMONE_JOB2"] = {
             // Three pseudo-random introductions to the room for variety
             "START" :
                 "The cramped room is lit only by a few flickering lanterns. It reeks of cigar smoke and semen. Men are crowded on the couches lined along the walls, swilling drinks and huffing fat rolls of tobacco. Most of them are manhandling various girls sat upon their laps. Tits and dicks and even two bald cooches -- both presently being finger-fucked -- are on full display.\n\n"+
-                "&lt;&lt;set $irr to random(1,3)&gt;&gt;"+
-                "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                "<<set _irr to random(1,3)>>"+
+                "<<if _irr eq 1>>"+
                   "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand &lt;&lt;if $Player.Equipment['Penis'].o.Name == 'chastity cage' || $Player.Equipment['Penis'].o.Name == 'luxurious chastity cage'&gt;&gt;discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it &lt;&lt;else&gt;&gt;happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection &lt;&lt;/if&gt;&gt;while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
-                "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if $Player.Equipment['Penis'].o.Name == 'chastity cage' || $Player.Equipment['Penis'].o.Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
+                "<<elseif _irr eq 2>>"+
                   "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
                   "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
                   "A surprised cry escapes you when she crushes you against her and nips hard at your earlobe. Apparently this is the reaction she has been after, as she continues to search out ways to force you to wriggle, whimper, and whine."+
-                "&lt;&lt;else&gt;&gt;"+
+                "<<else>>"+
                   "An older woman with a mature motherly beauty takes your head and leads you to the center of the room. She smiles pleasantly as she turns to face you and then rather unpleasantly shoves you to your knees. She lifts her ruffled skirt to reveal her bushy muff and swings one leg over your shoulder to bring your face to her crotch. The lusty aroma of her already glistening pussy tickles your nostril hairs. With a thrust of her hips, she shoves her drooling wet cunt onto your face."+
-                "&lt;&lt;/if&gt;&gt;",
+                "<</if>>",
             "RESULTS" : [
                 {"A":  33, "TEXT": 
-                  "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                  "<<if _irr eq 1>>"+
                     "Your obscene display of humiliated exasperation @@doesn't have much effect@@ on the men in the room. A couple of them evince an interest in the elfin blonde, who you have to honestly admit is working her petite little ass off to garner attention, but you seem to have come off more as a contrast than a comparison. Your partner throws you a disappointed pout, unhappy with your poor performance."+
-                  "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "<<elseif _irr eq 2>>"+
                     "Your agitated annoyance at being so roughly molested @@doesn't have much effect@@ on the men in the room. A couple of them evince an interest in the tall and burly dominant woman but it seems that you came off as nothing more than a cheerless trifle for her to toy with. Your partner curls her lip at you and shakes her head in disgust at your poor performance."+
-                  "&lt;&lt;else&gt;&gt;"+
+                  "<<else>>"+
                     "You do your best to lick at the woman's sloppy wet pussy but your mouth is far more experienced with cocks than cunts and your amateur attempt as pleasuring her @@doesn't have much effect@@ on the men in the room. When your ineptitude at cunnilingus becomes clear to her, the matronly woman proceeds to crassly grind her hips against your face while berating you for your incompetence."+
-                  "&lt;&lt;/if&gt;&gt;"
+                  "<</if>>"
                 },
                 {"A":  66, "TEXT": 
-                  "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                  "<<if _irr eq 1>>"+
                     "The two of you squishing and pinching and nearly mangling one another has @@attracted some interest@@ from several of the men. They're certainly paying attention to both of you now. Your partner is obviously satisfied with your efforts, too. She giggles and smooches you a sweet thanks on the lips for your adequate performance."+
-                  "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "<<elseif _irr eq 2>>"+
                     "After a few minutes of fearful bewilderment, you manage to get into the spirit of the act and start to mount a playful resistance against your lustful assailant. You manage to convincingly squirm and fuss against her persistant molestation and the two of you have soon @@attracted some interest@@ from several of the men. Your partner is obviously satisfied with your efforts and she gives you a stinging smack on the ass as thanks."+
-                  "&lt;&lt;else&gt;&gt;"+
+                  "<<else>>"+
                     "Although your mouth is far more experienced with cocks than cunts, you manage to stuff your face into her crotch and lash your tongue at her tart-tasting purple folds with decently convincing enthusiasm. The woman pants and moans and unlooses some rather vulgar compliments your way. The exhibition has soon @@attracted some interest@@ from several of the men. Your partner is satisfied enough with your efforts to allow you to stand back up."+
-                  "&lt;&lt;/if&gt;&gt;"
+                  "<</if>>"
                 },
                 {"A": 500, "TEXT": 
-                  "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                  "<<if _irr eq 1>>"+
                     "The majority of the men in the room @@take a keen interest@@ in the half-dance half-wrestling match in which the two of you are engaged. Your partner's spirited endeavor to torment you into a hysteric frenzy and your efforts to abuse her bantam body in a scurrilous sort of rapey revenge has paid off in spades. There's not a soft cock in the house and most of them are pointing in your direction. Your partner giggles and throws her arms around your neck to mash her balmy lips to your own in lustful gratitude for your impressive performance."+
-                  "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "<<elseif _irr eq 2>>"+
                     "You realize that you're meant to play the victim. Confident that you're powerless against this husky woman, you slap at her and hammer your dainty fists on her hulking shoulders. The men in the room @@take a keen interest@@ as you throw a tantrum like a proper spoiled sissy while she persists in molesting you. There's not a soft cock in the house and most of them are pointing in your direction. Your partner grins in delight and lifts you from your feet to twirl you around."+
-                  "&lt;&lt;else&gt;&gt;"+
+                  "<<else>>"+
                     "Cocks or cunts, it's really all the same to you nowadays. You bury your face in her sodden purple folds and work your tongue and lips with dutiful zeal. She gasps and shivers as you enthusiastically eat her out, and the men in the room @@take a keen interest@@ in the exhibition. There's not a soft cock in the house and most of them are pointing in your direction. Your partner moans in delight and eventually allows you to stand back up."+
-                  "&lt;&lt;/if&gt;&gt;"
+                  "<</if>>"
                 } ],
             "END" :
                 ""
@@ -289,7 +289,7 @@ App.Data.JobData["SIMONE_JOB2"] = {
             ],
             "START" :
                 "Foreplay now concluded, the girls hustle into their various positions like well-trained soldiers on a battlefront of debauchery. One particularly petite young lady -- with the notable exception of her proposterously ponderous posterior -- has her obese ass anally violated almost before she can even folded herself over a chair. Fleshy slaps of horny hips on blubber-butt fill the room. A line forms behind her, leaving no doubt that she was certain to be on booty duty all evening.\n\n"+
-                "Your previous dance partner, the &lt;&lt;if $irr eq 1&gt;&gt;flaxen-haired nymph with the impish hands&lt;&lt;elseif $irr eq 2&gt;&gt;the burly amazonian woman&lt;&lt;else&gt;&gt;the motherly whore with the sopping cunny&lt;&lt;/if&gt;&gt;, helpfully ushers you to a vacant corner of the room where you can ply your trade. She tosses a cushion from the couch onto the floor for you to kneel upon and then she hurries off to cram her cheeks with cock like a proper slut.\n\n"+
+                "Your previous dance partner, the <<if _irr eq 1>>flaxen-haired nymph with the impish hands<<elseif _irr eq 2>>the burly amazonian woman<<else>>the motherly whore with the sopping cunny<</if>>, helpfully ushers you to a vacant corner of the room where you can ply your trade. She tosses a cushion from the couch onto the floor for you to kneel upon and then she hurries off to cram her cheeks with cock like a proper slut.\n\n"+
                 "You sink to your knees in the corner and wait for 'customers' with your mouth at the ready.",
             "END" :
                 "",
@@ -439,44 +439,44 @@ App.Data.JobData["SIMONE_JOB3"] = {
             // Three pseudo-random introductions to the room for variety
             "START" :
                 "The cramped room is lit only by a few flickering lanterns. It reeks of cigar smoke and semen. Men are crowded on the couches lined along the walls, swilling drinks and huffing fat rolls of tobacco. Most of them are manhandling various girls sat upon their laps. Tits and dicks and even two bald cooches -- both presently being finger-fucked -- are on full display.\n\n"+
-                "&lt;&lt;set $irr to random(1,3)&gt;&gt;"+
-                "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                "<<set _irr to random(1,3)>>"+
+                "<<if _irr eq 1>>"+
                   "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand &lt;&lt;if $Player.Equipment['Penis'].o.Name == 'chastity cage' || $Player.Equipment['Penis'].o.Name == 'luxurious chastity cage'&gt;&gt;discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it &lt;&lt;else&gt;&gt;happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection &lt;&lt;/if&gt;&gt;while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
-                "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if $Player.Equipment['Penis'].o.Name == 'chastity cage' || $Player.Equipment['Penis'].o.Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
+                "<<elseif _irr eq 2>>"+
                   "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
                   "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
                   "A surprised cry escapes you when she crushes you against her and nips hard at your earlobe. Apparently this is the reaction she has been after, as she continues to search out ways to force you to wriggle, whimper, and whine."+
-                "&lt;&lt;else&gt;&gt;"+
+                "<<else>>"+
                   "An older woman with a mature motherly beauty takes your head and leads you to the center of the room. She smiles pleasantly as she turns to face you and then rather unpleasantly shoves you to your knees. She lifts her ruffled skirt to reveal her bushy muff and swings one leg over your shoulder to bring your face to her crotch. The lusty aroma of her already glistening pussy tickles your nostril hairs. With a thrust of her hips, she shoves her drooling wet cunt onto your face."+
-                "&lt;&lt;/if&gt;&gt;",
+                "<</if>>",
             "RESULTS" : [
                 {"A":  33, "TEXT": 
-                  "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                  "<<if _irr eq 1>>"+
                     "Your obscene display of humiliated exasperation @@doesn't have much effect@@ on the men in the room. A couple of them evince an interest in the elfin blonde, who you have to honestly admit is working her petite little ass off to garner attention, but you seem to have come off more as a contrast than a comparison. Your partner throws you a disappointed pout, unhappy with your poor performance."+
-                  "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "<<elseif _irr eq 2>>"+
                     "Your agitated annoyance at being so roughly molested @@doesn't have much effect@@ on the men in the room. A couple of them evince an interest in the tall and burly dominant woman but it seems that you came off as nothing more than a cheerless trifle for her to toy with. Your partner curls her lip at you and shakes her head in disgust at your poor performance."+
-                  "&lt;&lt;else&gt;&gt;"+
+                  "<<else>>"+
                     "You do your best to lick at the woman's sloppy wet pussy but your mouth is far more experienced with cocks than cunts and your amateur attempt as pleasuring her @@doesn't have much effect@@ on the men in the room. When your ineptitude at cunnilingus becomes clear to her, the matronly woman proceeds to crassly grind her hips against your face while berating you for your incompetence."+
-                  "&lt;&lt;/if&gt;&gt;"
+                  "<</if>>"
                 },
                 {"A":  66, "TEXT": 
-                  "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                  "<<if _irr eq 1>>"+
                     "The two of you squishing and pinching and nearly mangling one another has @@attracted some interest@@ from several of the men. They're certainly paying attention to both of you now. Your partner is obviously satisfied with your efforts, too. She giggles and smooches you a sweet thanks on the lips for your adequate performance."+
-                  "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "<<elseif _irr eq 2>>"+
                     "After a few minutes of fearful bewilderment, you manage to get into the spirit of the act and start to mount a playful resistance against your lustful assailant. You manage to convincingly squirm and fuss against her persistant molestation and the two of you have soon @@attracted some interest@@ from several of the men. Your partner is obviously satisfied with your efforts and she gives you a stinging smack on the ass as thanks."+
-                  "&lt;&lt;else&gt;&gt;"+
+                  "<<else>>"+
                     "Although your mouth is far more experienced with cocks than cunts, you manage to stuff your face into her crotch and lash your tongue at her tart-tasting purple folds with decently convincing enthusiasm. The woman pants and moans and unlooses some rather vulgar compliments your way. The exhibition has soon @@attracted some interest@@ from several of the men. Your partner is satisfied enough with your efforts to allow you to stand back up."+
-                  "&lt;&lt;/if&gt;&gt;"
+                  "<</if>>"
                 },
                 {"A": 500, "TEXT": 
-                  "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                  "<<if _irr eq 1>>"+
                     "The majority of the men in the room @@take a keen interest@@ in the half-dance half-wrestling match in which the two of you are engaged. Your partner's spirited endeavor to torment you into a hysteric frenzy and your efforts to abuse her bantam body in a scurrilous sort of rapey revenge has paid off in spades. There's not a soft cock in the house and most of them are pointing in your direction. Your partner giggles and throws her arms around your neck to mash her balmy lips to your own in lustful gratitude for your impressive performance."+
-                  "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "<<elseif _irr eq 2>>"+
                     "You realize that you're meant to play the victim. Confident that you're powerless against this husky woman, you slap at her and hammer your dainty fists on her hulking shoulders. The men in the room @@take a keen interest@@ as you throw a tantrum like a proper spoiled sissy while she persists in molesting you. There's not a soft cock in the house and most of them are pointing in your direction. Your partner grins in delight and lifts you from your feet to twirl you around."+
-                  "&lt;&lt;else&gt;&gt;"+
+                  "<<else>>"+
                     "Cocks or cunts, it's really all the same to you nowadays. You bury your face in her sodden purple folds and work your tongue and lips with dutiful zeal. She gasps and shivers as you enthusiastically eat her out, and the men in the room @@take a keen interest@@ in the exhibition. There's not a soft cock in the house and most of them are pointing in your direction. Your partner moans in delight and eventually allows you to stand back up."+
-                  "&lt;&lt;/if&gt;&gt;"
+                  "<</if>>"
                 } ],
             "END" :
                 ""
@@ -493,7 +493,7 @@ App.Data.JobData["SIMONE_JOB3"] = {
             ],
             "START" :
                 "Foreplay now concluded, the girls hustle into their various positions like well-trained soldiers on a battlefront of debauchery. One particularly petite young lady -- with the notable exception of her proposterously ponderous posterior -- has her obese ass anally violated almost before she can even folded herself over a chair. Fleshy slaps of horny hips on blubber-butt fill the room. A line forms behind her, leaving no doubt that she was certain to be on booty duty all evening.\n\n"+
-                "Your previous dance partner, the &lt;&lt;if $irr eq 1&gt;&gt;flaxen-haired nymph with the impish hands&lt;&lt;elseif $irr eq 2&gt;&gt;the burly amazonian woman&lt;&lt;else&gt;&gt;the motherly whore with the sopping cunny&lt;&lt;/if&gt;&gt;, helpfully ushers you to a vacant corner of the room where you can ply your trade. She tosses a cushion from the couch onto the floor for you to kneel upon and then she hurries off to cram her cheeks with cock like a proper slut.\n\n"+
+                "Your previous dance partner, the <<if _irr eq 1>>flaxen-haired nymph with the impish hands<<elseif _irr eq 2>>the burly amazonian woman<<else>>the motherly whore with the sopping cunny<</if>>, helpfully ushers you to a vacant corner of the room where you can ply your trade. She tosses a cushion from the couch onto the floor for you to kneel upon and then she hurries off to cram her cheeks with cock like a proper slut.\n\n"+
                 "You sink to your knees in the corner and wait for 'customers' with your tits at the ready.",
             "END" :
                 "",
@@ -644,44 +644,44 @@ App.Data.JobData["SIMONE_JOB4"] = {
             // Three pseudo-random introductions to the room for variety
             "START" :
                 "The cramped room is lit only by a few flickering lanterns. It reeks of cigar smoke and semen. Men are crowded on the couches lined along the walls, swilling drinks and huffing fat rolls of tobacco. Most of them are manhandling various girls sat upon their laps. Tits and dicks and even two bald cooches -- both presently being finger-fucked -- are on full display.\n\n"+
-                "&lt;&lt;set $irr to random(1,3)&gt;&gt;"+
-                "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                "<<set _irr to random(1,3)>>"+
+                "<<if _irr eq 1>>"+
                   "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand &lt;&lt;if $Player.Equipment['Penis'].o.Name == 'chastity cage' || $Player.Equipment['Penis'].o.Name == 'luxurious chastity cage'&gt;&gt;discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it &lt;&lt;else&gt;&gt;happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection &lt;&lt;/if&gt;&gt;while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
-                "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if $Player.Equipment['Penis'].o.Name == 'chastity cage' || $Player.Equipment['Penis'].o.Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
+                "<<elseif _irr eq 2>>"+
                   "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
                   "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
                   "A surprised cry escapes you when she crushes you against her and nips hard at your earlobe. Apparently this is the reaction she has been after, as she continues to search out ways to force you to wriggle, whimper, and whine."+
-                "&lt;&lt;else&gt;&gt;"+
+                "<<else>>"+
                   "An older woman with a mature motherly beauty takes your head and leads you to the center of the room. She smiles pleasantly as she turns to face you and then rather unpleasantly shoves you to your knees. She lifts her ruffled skirt to reveal her bushy muff and swings one leg over your shoulder to bring your face to her crotch. The lusty aroma of her already glistening pussy tickles your nostril hairs. With a thrust of her hips, she shoves her drooling wet cunt onto your face."+
-                "&lt;&lt;/if&gt;&gt;",
+                "<</if>>",
             "RESULTS" : [
                 {"A":  33, "TEXT": 
-                  "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                  "<<if _irr eq 1>>"+
                     "Your obscene display of humiliated exasperation @@doesn't have much effect@@ on the men in the room. A couple of them evince an interest in the elfin blonde, who you have to honestly admit is working her petite little ass off to garner attention, but you seem to have come off more as a contrast than a comparison. Your partner throws you a disappointed pout, unhappy with your poor performance."+
-                  "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "<<elseif _irr eq 2>>"+
                     "Your agitated annoyance at being so roughly molested @@doesn't have much effect@@ on the men in the room. A couple of them evince an interest in the tall and burly dominant woman but it seems that you came off as nothing more than a cheerless trifle for her to toy with. Your partner curls her lip at you and shakes her head in disgust at your poor performance."+
-                  "&lt;&lt;else&gt;&gt;"+
+                  "<<else>>"+
                     "You do your best to lick at the woman's sloppy wet pussy but your mouth is far more experienced with cocks than cunts and your amateur attempt as pleasuring her @@doesn't have much effect@@ on the men in the room. When your ineptitude at cunnilingus becomes clear to her, the matronly woman proceeds to crassly grind her hips against your face while berating you for your incompetence."+
-                  "&lt;&lt;/if&gt;&gt;"
+                  "<</if>>"
                 },
                 {"A":  66, "TEXT": 
-                  "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                  "<<if _irr eq 1>>"+
                     "The two of you squishing and pinching and nearly mangling one another has @@attracted some interest@@ from several of the men. They're certainly paying attention to both of you now. Your partner is obviously satisfied with your efforts, too. She giggles and smooches you a sweet thanks on the lips for your adequate performance."+
-                  "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "<<elseif _irr eq 2>>"+
                     "After a few minutes of fearful bewilderment, you manage to get into the spirit of the act and start to mount a playful resistance against your lustful assailant. You manage to convincingly squirm and fuss against her persistant molestation and the two of you have soon @@attracted some interest@@ from several of the men. Your partner is obviously satisfied with your efforts and she gives you a stinging smack on the ass as thanks."+
-                  "&lt;&lt;else&gt;&gt;"+
+                  "<<else>>"+
                     "Although your mouth is far more experienced with cocks than cunts, you manage to stuff your face into her crotch and lash your tongue at her tart-tasting purple folds with decently convincing enthusiasm. The woman pants and moans and unlooses some rather vulgar compliments your way. The exhibition has soon @@attracted some interest@@ from several of the men. Your partner is satisfied enough with your efforts to allow you to stand back up."+
-                  "&lt;&lt;/if&gt;&gt;"
+                  "<</if>>"
                 },
                 {"A": 500, "TEXT": 
-                  "&lt;&lt;if $irr eq 1&gt;&gt;"+
+                  "<<if _irr eq 1>>"+
                     "The majority of the men in the room @@take a keen interest@@ in the half-dance half-wrestling match in which the two of you are engaged. Your partner's spirited endeavor to torment you into a hysteric frenzy and your efforts to abuse her bantam body in a scurrilous sort of rapey revenge has paid off in spades. There's not a soft cock in the house and most of them are pointing in your direction. Your partner giggles and throws her arms around your neck to mash her balmy lips to your own in lustful gratitude for your impressive performance."+
-                  "&lt;&lt;elseif $irr eq 2&gt;&gt;"+
+                  "<<elseif _irr eq 2>>"+
                     "You realize that you're meant to play the victim. Confident that you're powerless against this husky woman, you slap at her and hammer your dainty fists on her hulking shoulders. The men in the room @@take a keen interest@@ as you throw a tantrum like a proper spoiled sissy while she persists in molesting you. There's not a soft cock in the house and most of them are pointing in your direction. Your partner grins in delight and lifts you from your feet to twirl you around."+
-                  "&lt;&lt;else&gt;&gt;"+
+                  "<<else>>"+
                     "Cocks or cunts, it's really all the same to you nowadays. You bury your face in her sodden purple folds and work your tongue and lips with dutiful zeal. She gasps and shivers as you enthusiastically eat her out, and the men in the room @@take a keen interest@@ in the exhibition. There's not a soft cock in the house and most of them are pointing in your direction. Your partner moans in delight and eventually allows you to stand back up."+
-                  "&lt;&lt;/if&gt;&gt;"
+                  "<</if>>"
                 } ],
             "END" :
                 ""
@@ -698,7 +698,7 @@ App.Data.JobData["SIMONE_JOB4"] = {
             ],
             "START" :
                 "Foreplay now concluded, the girls hustle into their various positions like well-trained soldiers on a battlefront of debauchery. One particularly petite young lady -- with the notable exception of her proposterously ponderous posterior -- has her obese ass anally violated almost before she can even folded herself over a chair. Fleshy slaps of horny hips on blubber-butt fill the room. A line forms behind her, leaving no doubt that she was certain to be on booty duty all evening.\n\n"+
-                "Your previous dance partner, the &lt;&lt;if $irr eq 1&gt;&gt;flaxen-haired nymph with the impish hands&lt;&lt;elseif $irr eq 2&gt;&gt;the burly amazonian woman&lt;&lt;else&gt;&gt;the motherly whore with the sopping cunny&lt;&lt;/if&gt;&gt;, helpfully ushers you to a vacant corner of the room where you can ply your trade. She pushes a chair into the corner for you to stabilize yourself on and then she hurries off to cram her cheeks with cock like a proper slut.\n\n"+
+                "Your previous dance partner, the <<if _irr eq 1>>flaxen-haired nymph with the impish hands<<elseif _irr eq 2>>the burly amazonian woman<<else>>the motherly whore with the sopping cunny<</if>>, helpfully ushers you to a vacant corner of the room where you can ply your trade. She pushes a chair into the corner for you to stabilize yourself on and then she hurries off to cram her cheeks with cock like a proper slut.\n\n"+
                 "You bend over the chair and wait for 'customers' with your asshole at the ready.",
             "END" :
                 "",

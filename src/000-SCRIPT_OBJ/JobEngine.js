@@ -585,7 +585,7 @@ App.Job = function(Data) {
         this._SceneBuffer = [ ];
         this._SetLastCompleted(Player);
 
-        Player.AdjustMoney(this._JobData["PAY"]);
+        Player.AdjustMoney(Math.floor(this._JobData["PAY"]));
         this._DeductCosts(Player);
 
         for (var i = 0; i < this._JobData["SCENES"].length; i++) {
@@ -967,7 +967,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
 
                 this._Pay += Value;
                 this.Debug("this._Pay=",this._Pay.toString());
-                this._Player.AdjustMoney(Value);
+                this._Player.AdjustMoney(Math.floor(Value));
                 break;
             case "FOOD":
             case "DRUGS":
