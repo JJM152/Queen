@@ -1,13 +1,8 @@
 :: Ruins
-These ruins look to belong to an ancient civilization, likely the one who built the megalithic pier that has made this island a \
-stop off point for ships traveling the Lost Coast. Deep jungle surrounds you on all sides and giant pieces of masonry peek out \
-from the underbrush at every angle.
+These ruins look to belong to an ancient civilization, likely the same people who built the megalithic pier that has made this island a stop off point for ships traveling the Lost Coast. Deep jungle surrounds you on all sides and giant pieces of masonry peek out from the underbrush at every angle.
 
-A large central building draws your attention and you cautiously make your way towards it. The exterior is overgrown with vines and \
-you quickly and swiftly cut them away to get inside. Once there your nose is overcome with a scent that you did not expect - is that \
-jasmine and honey? You shake your head to clear your thoughts and inspect the room around you - It's dark and hard to see, but you \
-think you make out various pictographs etched into the walls. There are shards of pottery and other unidentifiable items littering the ground.
+A large central building draws your attention and you cautiously make your way towards it. The exterior is overgrown with vines and you have to chop them away to get through the opening. Once inside, your nose is overcome with a scent that you did not expect -- is that jasmine and honey? You shake your head to clear your thoughts to turn your focus to inspecting the room around you. It's dark and hard to see much of anything but you can make out various pictographs etched into the walls. Shards of pottery and a mess of unidentifiable but useless items and trinkets litter the ground.<<if $Player.Equipment["Shoes"].o.Name eq 0>> Being barefoot, you have to step carefully to avoid the jagged fragments of clay.<</if>>
 
-It makes you wonder if there are perhaps still useful items inside this ruin to recover?
+You're given to wonder if there is perhaps something still useful inside this ruin to recover...
 
 @@color:lime;Travel@@: [[Into the Jungle|Jungle]] | [[Treasure Room|TreasureRoom]]

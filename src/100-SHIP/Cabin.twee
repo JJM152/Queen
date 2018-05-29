@@ -1,12 +1,28 @@
 :: Cabin [no-teleport event]
 <<set $InIntro = 0>>\
-Your "Cabin" is really a converted jail cell used for holding prisoners, or in your case, slaves. It's been fitted with some old and decrepit furnishings, just enough amenities for you to begin your life as a whore. 
-
-There is a large wooden wardrobe here that contains spare clothes and a vanity and mirror combination for taking care of your personal appearance.
-
 @@color:cyan;Interact@@: [[Wardrobe]] | [[Vanity]] | [[Mirror]]
 @@color:yellow;Action@@: <<if $Player.Phase < 3>><<if $Player.CoreStats["Energy"] == $Player.GetMaxStat("STAT","Energy");>>@@color:grey;[Rest]@@<<else>>[[Rest]]<</if>><<else>>[[Sleep]]<</if>> | \
 <<if $Player.CanReStyle() == true>><<link [[Quick Makeup and Hair|Cabin]]>><<run $Player.ReStyle()>><</link>><<else>>@@color:grey;[Quick Makeup and Hair]@@<</if>>
 @@color:lime;Travel@@: [[Deck]]
 
 <<if $Player.debugMode != false>>[[Cheat Room|DebugPassage]]<</if>>
+
+Your "cabin" is really a converted jail cell used for holding prisoners -- or in your case, a slave. It's been poorly fitted with some decrepit furnishings and just enough amenities for you to sustain your life as a whore.<<if $Player.QuestFlags.CABIN_DECORATION eq "COMPLETED">> Although you have managed to secure some small comforts to brighten up the place a little.<</if>>
+
+In one cramped corner sits a large wooden wardrobe, badly battered and all over splinters but intact enough to provide storage for your spare clothes. A grand mirror sits atop a cheap vanity wedged in another corner, provided so that you can tend to your appearance.
+
+<<if $Player.QuestFlags.CABIN_DECORATION eq "COMPLETED">>\
+On the bulkhead opposite your bed hangs a large and lovely picture of the sea, complete with seven stunning mermaids sunning upon a rock and shamelessly showcasing their splendid tits. Another painting portraying the full nude form of an incredibly beautiful and buxom brunette is affixed next to your mirror. The details are such that you can even make out the delicate pink folds of her perfectly puffy pussy.
+
+In additional to the paintings, you also have a bright shiny brass lantern for light and a velvety purple curtain draped next to your bed that brings some much-need warmth and color to your room.
+
+<<if $Player.QuestFlags.CABIN_RUG eq "COMPLETED">>\
+The plush purple-pink rug spread on your cabin floor is deliciously delightful underfoot.
+
+<</if>>\
+<</if>>\
+<<if $Player.QuestFlags.BETTER_BED eq "COMPLETED">>\
+A surprisingly comfy bunk jammed against one wall serves as your bed and the soft sheets and blanket piled on top of it are your cherished nightly comforts.
+<<else>>\
+An uncomfortable cot jammed against one wall serves as your bed and the tattered sheets and itchy blanket piled on top of it are your only nightly comforts.
+<</if>>\

@@ -1,7 +1,9 @@
 :: IslaTown
-The town center of Isla Harbor is exactly how you remembered it. People are strolling back and forth between their jobs and various businesses and luckily not paying too much attention to you. Not that you think anyone would recognize you in your current state, but at least it spares you from some embarassment. Further up on the hill you can see the Governors Mansion and behind you are the Docks.
+The town center of Isla Harbor is exactly how you remembered it. People are strolling back and forth between their jobs and various businesses and luckily not paying much attention to you. You're not sure that anyone would even recognize you in your current state, but you take comfort in the fact that their inattention spares you from some embarrassment.
 
-A path leads uphill to the upper-class part of the city, the Cloud Discrict. You don't get there very often. In fact, you have never been there before your abduction: while the mayor is at least officially supposed to work with every citizen when necessary, the aristocrats and rich merchants built a wall around their district and hired private guards to keep the filth away.
+Further up on the hill you can see the Governor's Mansion and behind you are the Docks.
+
+Another path leads uphill to the upper-class part of the city, the Cloud District. You don't get there very often. In fact, you have never been there before your abduction: while the mayor is at least officially supposed to work with every citizen when necessary, the aristocrats and rich merchants built a wall around their district and hired private guards to keep the filth away.
 
 <<if $Player.Phase < 3>>\
 @@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[Cloud District|IslaCloudDistrictGuards]] | [[General Store|IslaStore]] | [[Governors Mansion|IslaMansion]]

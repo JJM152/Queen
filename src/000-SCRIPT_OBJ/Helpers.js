@@ -308,6 +308,7 @@ App.PR = new function() {
                 Name = checks[i]["NAME"];
                 Invert = 0;
                 bMeter = false;
+                pString = "";
 
                 if (Name.charAt(0) == '-') {
                     Name = Name.slice(1);
@@ -363,6 +364,17 @@ App.PR = new function() {
                         pString = App.Data.QuestItems[Name]["ShortDesc"];
                         Val = (typeof Player.GetItemByName(Name) !== 'undefined');
                         break;
+                    case "DAYS_PASSED":
+                        bMeter = false;
+                        pString = "wait " + (App.QuestEngine.GetQuestFlag(Player, Name) - Player.Day) + " days";
+                        if((App.QuestEngine.GetQuestFlag(Player, Name) - Player.Day) < 1 ){ Val = true; }else{ Val = false; };
+                    break;
+                    case "IS_WEARING":
+                        bMeter = false;
+                        Val = false;
+                        if(checks[i]["VALUE"] === "NOT"){ pString = "''NOT'' "; if(Player.GetEquipmentInSlot(Name) == 0){ Val = true; } }else{ if(Player.GetEquipmentInSlot(Player, Name) != 0){ Val = true; } }
+                        pString = pString + "wearing " + Name.toLowerCase();
+                    break;
                 }
 
                 if (bMeter == true) {

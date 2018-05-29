@@ -13,9 +13,7 @@ You will get slightly better stuff out of the next loot box you open than you wo
 <<else>>\
 @@.storeButton;<<button "BUY">>\
 <<replace "#voodooMenu">>\
-@@color:cyan;Paola@@ pulls out a strange item from her voluminous skirt, it looks like a monkey's paw. She waves it in front of her face and then over \
-your head, like she's testing for something. Finally she puts her hand on your tits and you feel a warm sensation flowing out of your body... you get \
-momentarily dizzy and then you convulse on the floor.
+@@color:cyan;Paola@@ pulls out a strange item from her voluminous skirt -- it looks like a monkey's paw. She waves it in front of her face and then over your head, like she's testing for something. Finally she puts her hand on your tits and you feel a warm sensation flowing out of your body... you get momentarily dizzy and then you convulse on the floor.
 
 When you finally come too, you feel lighter and your proportions are noticeably smaller.<</replace>>\
 <<run $Player.AdjustBody("Bust", -4)>>\
@@ -33,7 +31,7 @@ When you finally come too, you feel lighter and your proportions are noticeably 
 <<else>>\
 @@.storeButton;<<button "BUY">>\
 <<replace "#voodooMenu">>\
-@@color:cyan;Paola@@ pulls out a strange item from her voluminous skirt, it looks like a monkey's paw. She waves it in front of her face and then over \
+@@color:cyan;Paola@@ pulls out a strange item from her voluminous skirt -- it looks like a monkey's paw. She waves it in front of her face and then over \
 your head, like she's testing for something. Finally she puts her hand on your tits and you feel a warm sensation flowing out of your body... you get \
 momentarily dizzy and then you convulse on the floor.
 
@@ -56,9 +54,7 @@ You will gain a bonus on skill checks for a time...
 <<else>>\
 @@.storeButton;<<button "BUY">>\
 <<replace "#voodooMenu">>\
-@@color:cyan;Paola@@ pulls out a strange item from her voluminous skirt, it looks like a monkey's paw. She waves it in front of her face and then over \
-your head, like she's testing for something. Finally she puts her hand on your face and you feel a warm sensation flowing out of your body... you get \
-momentarily dizzy and then you convulse on the floor.
+@@color:cyan;Paola@@ pulls out a strange item from her voluminous skirt -- it looks like a monkey's paw. She waves it in front of her face and then over your head, like she's testing for something. Finally she puts her hand on your face and you feel a warm sensation flowing out of your body... you get momentarily dizzy and then you convulse on the floor.
 
 When you finally come too, you feel lighter and your proportions are noticeably smaller.<</replace>>\
 <<run $Player.AdjustBody("Face", -4)>>\
@@ -76,9 +72,7 @@ When you finally come too, you feel lighter and your proportions are noticeably 
 <<else>>\
 @@.storeButton;<<button "BUY">>\
 <<replace "#voodooMenu">>\
-@@color:cyan;Paola@@ pulls out a strange item from her voluminous skirt, it looks like a monkey's paw. She waves it in front of her face and then over \
-your head, like she's testing for something. Finally she puts her hand on your face and you feel a warm sensation flowing out of your body... you get \
-momentarily dizzy and then you convulse on the floor.
+@@color:cyan;Paola@@ pulls out a strange item from her voluminous skirt -- it looks like a monkey's paw. She waves it in front of her face and then over your head, like she's testing for something. Finally she puts her hand on your face and you feel a warm sensation flowing out of your body... you get momentarily dizzy and then you convulse on the floor.
 
 When you finally come too, you feel lighter and your proportions are noticeably smaller.<</replace>>\
 <<run $Player.AdjustBody("Face", -8)>>\

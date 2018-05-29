@@ -99,10 +99,10 @@ App.Data.NPCS = {
           "Lust" : 50,
           "DailyLust" : 1,
           "Title" : "NPC_NAME, Governor of Isla Harbor",
-          "LongDesc" : "Despite being the father of GF_NAME, you don't know NPC_NAME any better than any of the other residents of Isla Harbor. His reputation however is one of being stern, "+
-              "fair, honest and plain spoken - all relatively rare traits for a member of the aristocracy. Due to concealing your relationship with his daughter he never took much notice of you, "+
-              "which is probably a good thing considering how you stumbled into Captain Reginald's trap. NPC_NAME is an older man, well into middle age, but still retaining an air of vitality. His "+
-              "hair is still full and he sports a salt-and-pepper colored beard."
+          "LongDesc" : 
+              "Despite being the father of GF_NAME, you don't know NPC_NAME any better than any of the other residents of Isla Harbor. His reputation however is one of being stern, "+
+              "fair, honest and plain spoken -- all relatively rare traits for a member of the aristocracy. Due to concealing your relationship with his daughter he never took much notice of you, which is definitely a good thing considering how you stumbled into Captain Reginald's trap and got his daughter sold off as a sex slave.\n\n"+
+              "NPC_NAME is an older man, well into middle age, but still retaining an air of vitality. His hair is still full and he sports a salt-and-pepper colored beard."
       },
       "Petey" : {
           "Name": "Petey",
@@ -253,30 +253,51 @@ App.Data.Names = {
                 "Taylor", "Townes", "Theramyr",
                 "William", "Welsh", "Wescott", "Wheeler"],
             "Female": [
-                "Abbie", "Aubree", "Arianna", "Alissa", "Astrid", "Alena", "Alice",
-                "Bobbi", "Brianne", "Brittney", "Bailey", "Blossom", "Bianca", "Buttercup", "Bubbles",
+                "Abbie", "Anne", "Aubree", "Arianna", "Alissa", "Astrid", "Alena", "Alice",
+                "Bobbi", "Brianne", "Brittney", "Bailey", "Blossom", "Bianca",
                 "Clovis", "Carly", "Catie", "Chloe",
-                "Dixie", "Delilah", "Dellie", "Dinah", "Demi", "Daisy",
-                "Edlyn", "Emi", "Evie", "Emma",
+                "Delilah", "Dellie", "Dinah", "Demi", "Daisy",
+                "Edlyn", "Emi", "Evie", "Emma", "Elizabeth",
                 "Fanny", "Felicia", "Fossie", "Fina",
                 "Gretchen", "Gabbi",
                 "Heidi", "Hayley",
                 "Isabelle", "Isolde",
                 "Josie", "Joelle", "Jenni", "Jacki", "Jynri",
-                "Kimmi", "Kelli", "Kylie", "Kyla", "Kailee", "Kitty",
+                "Kelly", "Kylie", "Kyla", "Kailee",
                 "Luella", "Lisbeth", "Lisa", "Lizzie", "Lenora",
-                "Missy", "Miranda", "Molly", "Mitsi", "Maya", "Macie", "Mina",
+                "Missy", "Miranda", "Molly", "Mitsi", "Maya", "Macie", "Mina", "Millicent",
                 "Nikki", "Nadia",
                 "Ophelia",
-                "Penny", "Paula", "Priss", "Peaches",
+                "Penny", "Paula", "Priss",
                 "Rosie", "Robin",
-                "Sylvie", "Shelli", "Suzy", "Svetlana",
+                "Sylvie", "Shelli", "Suzy", "Svetlana", "Sybil", "Susanna",
                 "Tessa", "Tanis", "Taffy", "Telia", "Tabbi",
                 "Uma", "Ursula", "Uta", "Ursula",
-                "Vannesa", "Vixen", "Vicki", "Victoria",
+                "Vannesa", "Vicki", "Victoria",
                 "Wanda", "Winnie",
                 "Yvette", "Yolanda", "Yessica",
-                "Zoe"]
+                "Zoe"],
+            "Sissy": [
+                "Abigail", "Angelica", "Annabelle", "Annie", 
+                "Bambi", "Bambina", "Bebelle", "Bliss", "Blossom", "Bonnie", "Boo", "Bootie", "Brandi", "Brie", "Bubbles", "Bunny", "Buttercup", "Butterscotch", 
+                "Camilla", "Candi", "Capri", "Caramella", "Cassie", "Cecily", "Celia", "Chastity", "Chéri", "Cherry", "Cici", "Cinnamon", "Claribel", "Clarissa", "Cosi", "Crystal", 
+                "Daisy", "Delia", "Delilah", "Dixie", "Dolly", "Dottie", 
+                "Elisabetta", "Elise", "Eliza", "Esposa", "Evie", 
+                "Felicity", "Fiona", "Flora", "Foxy", "Freckles", 
+                "Gabbi", "Ginger", "Giselle", "Goldie", 
+                "Isadora", "Izzy", 
+                "Jade", "Jasmine", "Jewel", "Jezie", "Jilly", "Josie", "Juliette", "Juniper", 
+                "Kandi", "Karma", "Kelli", "Kimmy", "Katty", "Kitty", "Krissy", 
+                "Larissa", "Layla", "Liliana", "Lily", "Lizzy", "Lola", "Lolita", "Lolly", "Lottie", "Luanna", "Luella", "Lulu", "Lyla", 
+                "Maddie", "Maisie", "Mariella", "Marigold", "Merci", "Minnie", "Minx", "Missy", "Muffin", "Muffy", 
+                "Nellie", "Nicolette", "Nissa", 
+                "Peaches", "Pippa", "Pippy", "Pixie", "Polly", "Prim", "Princess", "Priss", 
+                "Queenie", "Quinnie", 
+                "Richelle", "Rosie", "Roxie", 
+                "Sadie", "Sassy", "Scarlett", "Seraphina", "Shari", "Shayla", "Sheila", "Silvie", "Sirena", "Susie", "Süsse", 
+                "Tammi", "Tatiana", "Tessa", "Tiana", "Tiffy", "Tillie", "Tizzy", "Tottie", "Tulip", 
+                "Viola", "Violeta", "Vixen", "Yazmin", "Ysela", 
+                "Zelda", "Zoey"]
         };
 
 App.Data.Lists = {

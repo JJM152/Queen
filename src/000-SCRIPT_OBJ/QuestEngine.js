@@ -86,6 +86,14 @@ window.App.QuestEngine = new function() {
                 if (typeof o === 'undefined') return false;
                 if (o.Charges() < Value ) return false;
                 break;
+            case "DAYS_PASSED":
+                if(Key){Value = this.GetQuestFlag(Player, Key)};
+                if(Player.Day < Value) return false;
+            break;
+            case "IS_WEARING":
+                if(Value === "NOT"){ if(Player.GetEquipmentInSlot(Key) === 0){ return true } };
+                if(Player.GetEquipmentInSlot(Key) === 0){ return false };
+            break;
 
         }
         return true;
@@ -266,7 +274,9 @@ window.App.QuestEngine = new function() {
             Type    = PRE[i]["TYPE"];
             Name    = PRE[i]["NAME"];
             Value   = PRE[i]["VALUE"];
+            console.log("Type "+Type);
 
+            //NOTE: QUEST_FLAG should be last PRE or it will override other PREs to return true
             switch(Type) {
                 case "QUEST_FLAG":
                     if (typeof Player.QuestFlags[Name] === 'undefined') return false;
@@ -274,6 +284,14 @@ window.App.QuestEngine = new function() {
                 break;
                 case "STYLE_CATEGORY":
                     return (Player.GetStyleSpecRating(Name) >= Value);
+                break;
+                case "DAYS_PASSED":
+                    if(Player.Day < Value) return false;
+                break;
+                case "IS_WEARING":
+                    console.log("Test "+Player.GetEquipmentInSlot(Name));
+                    if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Name) != 0){ return false } };
+                    if(Value != "NOT"){ if(Player.GetEquipmentInSlot(Name) == 0){ return false } };
                 break;
             }
         }
