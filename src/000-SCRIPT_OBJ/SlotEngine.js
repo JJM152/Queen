@@ -446,7 +446,7 @@ App.SlotEngine = new function() {
                 if (this._SelectedSlot == null) this._SelectedSlot = key;
             }
 
-            if (this._SelectedSlot != null && key == this._SelectedSlot.toString()) slot.css('border-color', 'yellow');
+            if (this._SelectedSlot != null && key == this._SelectedSlot.toString()) slot.css('border', 'solid 1px lime');
 
             root.append(slot);
         }
@@ -530,6 +530,17 @@ App.SlotEngine = new function() {
 
             buttonDiv.append(button);
             current.append(buttonDiv);
+            current.append($('<hr>').addClass('SlotCurrent'));
+
+            for (var x = 0; x < attrs.length; x++) {
+                var percent = reel.CalcPercent(attrs[x]);
+                if (percent <= 0) continue;
+                var span = $('<span>').addClass('SlotAttribute').text(text[x] + " " + percent +"%");
+                current.append(span);
+            }
+
+            current.append($('<hr>').addClass('SlotCurrent'));
+
         }
     };
 

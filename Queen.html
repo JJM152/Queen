@@ -1026,7 +1026,6 @@ div.SlottedSlot {
     width: 60px;
     height: 90px;
     background-color: black;
-    border: solid 1px lime;
     cursor: pointer;
 }
 
@@ -1037,7 +1036,6 @@ div.LockedSlot2 {
     margin-top: 5px;
     width: 60px;
     height: 90px;
-    bordeR: solid 1px grey;
     background-image:[img[locked_slot_icon]];
 }
 
@@ -1124,6 +1122,17 @@ button.EquipSlotButton {
 
 button:hover.EquipSlotButton {
     background-color: grey;
+}
+
+hr.SlotCurrent {
+    display: block;
+    height: 1px;
+    border: none;
+    border-top: 1px dashed #eee;
+    border-bottom: 1px dashed #eee;
+    padding: 0;
+    margin-bottom: 2px;
+    margin-top: 0px;
 }
 /* twine-user-stylesheet #3: "Story Stylesheet" */
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "CombatEngine.js" */
@@ -5355,10 +5364,13 @@ App.Entity.Player = function (){
         for (var prop in this.Equipment) {
             if (!this.Equipment.hasOwnProperty(prop)) continue;
             if (this.Equipment[prop] == 0) continue;
-            bonus += this.Equipment[prop].GetBonus(Skill);
-            if (this.debugMode == true) console.log("Found skill bonus : "+Skill+" on" + this.Equipment[prop].Name());
+            var tBonus = this.Equipment[prop].GetBonus(Skill);
+            if (tBonus > 0 ) {
+                bonus += tBonus;
+                if (this.debugMode == true) console.log("Found skill bonus : "+Skill+" on" + this.Equipment[prop].Name());
+            }
         }
-        return 0;
+        return bonus;
     };
 
     /**
@@ -7013,7 +7025,7 @@ App.SlotEngine = new function() {
                 if (this._SelectedSlot == null) this._SelectedSlot = key;
             }
 
-            if (this._SelectedSlot != null && key == this._SelectedSlot.toString()) slot.css('border-color', 'yellow');
+            if (this._SelectedSlot != null && key == this._SelectedSlot.toString()) slot.css('border', 'solid 1px lime');
 
             root.append(slot);
         }
@@ -7097,6 +7109,15 @@ App.SlotEngine = new function() {
 
             buttonDiv.append(button);
             current.append(buttonDiv);
+            current.append($('<hr>').addClass('SlotCurrent'));
+
+            for (var x = 0; x < attrs.length; x++) {
+                var percent = reel.CalcPercent(attrs[x]);
+                if (percent <= 0) continue;
+                var span = $('<span>').addClass('SlotAttribute').text(text[x] + " " + percent +"%");
+                current.append(span);
+            }
+
         }
     };
 
@@ -17147,7 +17168,7 @@ App.Data.Quests["CABIN_RUG"] = {
         "NPC_NAME stares at you, his weak jaw clenched tight. \"You are the dumbest dingbat I've ever met, PLAYER_NAME. Wait. And. Come. Back. Barefoot. You. Silly. Cock-sock.\"\n\n"+
         "You snort at the term juvenile 'cock-sock' but once more you don't see any point in arguing with him.",
     "FINISH": 
-        "NPC_NAME scans the area and excitedly beckons for you to approch. \"Sit down in the corner already! Feet up!\" He smacks a bucket beside him as he kneels down in front of you.\n\n"+
+        "NPC_NAME scans the area and excitedly beckons for you to approach. \"Sit down in the corner already! Feet up!\" He smacks a bucket beside him as he kneels down in front of you.\n\n"+
         "You prop your bare feet up yet again and he immediately douses them with a warm, gooey liquid for the third time.\n\n"+
         "His fingers squish between your toes and knead against your soles. Like the times before, it isn't exactly unpleasant -- but unlike the times before, you soon find yourself squirming in your seat and worrying to yourself about how suddenly aroused you feel.\n\n"+
         "You shake your head and look away but NPC_NAME is already moaning and it's difficult to ignore. You clamp your eyes closed at the sound of his trousers unbuckling, sure enough, NPC_NAME starts pumping his prick between the soles of your feet.\n\n"+
@@ -26686,18 +26707,32 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 &lt;&lt;run App.SlotEngine.LoadScene($args[0], _Passage, $Player);&gt;&gt;&lt;&lt;/click&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="103" name="ChangeLog" tags="custom-menu" position="350,1350">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 
-!!!0.6 - 05/28/2018
+!!!0.6 - 05/29/2018
 !!!!General
 * Various bug fixes and code refactoring contributed by myself and @@color:deepPink;AmansMarium@@.
 * Slutty Lady clothing added by @@color:deepPink;AmansMarium@@
 * Some night time narrative added by @@color:deepPink;daviezwei@@
 * Some NPC&#39;s had their descriptions cleaned up, again by @@color:deepPink;daviezwei@@
 * New whoring mini-game added to replace the old boring one. Now with 100% less beatings.
+* Slot management added to &#39;Skills&#39; tab. Switch out and upgrade your slots to improve your odds while &#39;working it girl&#39;
+* Bug with market shopping fixed, most people probably didn&#39;t notice.
+* Slot Reels will now occasionally show up in the market when you shop.
+* Certain pieces of clothing that are supposed to be quest rewards will not.
+* The job engine could give out money with floating points as rewards. This has been fixed.
+* Lots of debugging and cheat stuff added by @@color:deepPink;AmansMarium@@
 !!!Salty Mermaid
 * The deterioration of the Crew&#39;s mood has been greatly reduced.
 * Cookie&#39;s &#39;Cooking Lesson&#39; job edited by @@color:deepPink;daviezwei@@
+* The cabin has slightly changed to be more descriptive - by @@color:deepPink;daviezwei@@
+* There may be some additional quests to decorate your cabin - by @@color:deepPink;daviezwei@@
+* Julius can now (rarely) sell additional starter slots for the new whoring mini-game.
 !!!Isla Harbor
 * Cloud District added by @@color:deepPink;AmansMarium@@.
+* General description updates by @@color:deepPink;daviezwei@@
+!!!Abamond
+* General description updates by @@color:deepPink;daviezwei@@
+!!!Port Royale
+* Get a &#39;perfect&#39; on any of Simone&#39;s jobs and she will unlock a specialized slot reel relating to that skill at her store. You still need high favor with her to buy it.
 !!!0.5c - 05/25/2018
 * Added a new longer introduction sequence to the game when you refuse to eat the gruel. Courtesy of @@color:deepPink;daviezwei@@
 * New TF items and food added to game courtesy of @@color:deepPink;panslothda@@ - You may need to start a new game to get them to appear in the shops, or you can potentially find them by shopping at the market/bazaar.
@@ -26724,7 +26759,6 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 * General enhancements to both the quest and job engines. This stuff needs a refactor/consolidation sometime in the future.
 * Added rough skeleton for lactation body stat.
 * Multiple other bug fixes.
-
 !!!!Quality of Life
 * There is now a &#39;gear&#39; tab in your inventory. It shows all your equipable items. You still need to change at the wardrobe.
 * You can now continue to use items without having to select &#39;back&#39; and &#39;use&#39; again.
@@ -26732,7 +26766,6 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 * There is a link in the cabin now to just reapply makeup and hair instead of having to select this from the vanity.
 * At &#39;late night&#39;, in most places except for the Mermaid, you will be given a link to instantly teleport back to your Cabin.
 * Cleaned up a lot of interfaces to make them smoother, fixed some typographical bugs in reward screens, etc.
-
 !!!!Salty Mermaid
 * Added a map to the Captain&#39;s Cabin. It shows the current course of the Mermaid. (art supplied by @@color:deepPink;mightyakira@@)
 * Keep the crew happy, or you risk a bad event.

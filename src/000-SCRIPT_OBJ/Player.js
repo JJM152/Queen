@@ -1267,7 +1267,7 @@ App.Entity.Player = function (){
             if (this.Equipment[prop] == 0) continue;
             var tBonus = this.Equipment[prop].GetBonus(Skill);
             if (tBonus > 0 ) {
-                bonus += tBonus
+                bonus += tBonus;
                 if (this.debugMode == true) console.log("Found skill bonus : "+Skill+" on" + this.Equipment[prop].Name());
             }
         }
