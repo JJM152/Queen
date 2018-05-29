@@ -1,18 +1,32 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
 
-!!!0.6 - 05/28/2018
+!!!0.6 - 05/29/2018
 !!!!General
 * Various bug fixes and code refactoring contributed by myself and @@color:deepPink;AmansMarium@@.
 * Slutty Lady clothing added by @@color:deepPink;AmansMarium@@
 * Some night time narrative added by @@color:deepPink;daviezwei@@
 * Some NPC's had their descriptions cleaned up, again by @@color:deepPink;daviezwei@@
 * New whoring mini-game added to replace the old boring one. Now with 100% less beatings.
+* Slot management added to 'Skills' tab. Switch out and upgrade your slots to improve your odds while 'working it girl'
+* Bug with market shopping fixed, most people probably didn't notice.
+* Slot Reels will now occasionally show up in the market when you shop.
+* Certain pieces of clothing that are supposed to be quest rewards will not.
+* The job engine could give out money with floating points as rewards. This has been fixed.
+* Lots of debugging and cheat stuff added by @@color:deepPink;AmansMarium@@
 !!!Salty Mermaid
 * The deterioration of the Crew's mood has been greatly reduced.
 * Cookie's 'Cooking Lesson' job edited by @@color:deepPink;daviezwei@@
+* The cabin has slightly changed to be more descriptive - by @@color:deepPink;daviezwei@@
+* There may be some additional quests to decorate your cabin - by @@color:deepPink;daviezwei@@
+* Julius can now (rarely) sell additional starter slots for the new whoring mini-game.
 !!!Isla Harbor
 * Cloud District added by @@color:deepPink;AmansMarium@@.
+* General description updates by @@color:deepPink;daviezwei@@
+!!!Abamond
+* General description updates by @@color:deepPink;daviezwei@@
+!!!Port Royale
+* Get a 'perfect' on any of Simone's jobs and she will unlock a specialized slot reel relating to that skill at her store. You still need high favor with her to buy it.
 !!!0.5c - 05/25/2018
 * Added a new longer introduction sequence to the game when you refuse to eat the gruel. Courtesy of @@color:deepPink;daviezwei@@
 * New TF items and food added to game courtesy of @@color:deepPink;panslothda@@ - You may need to start a new game to get them to appear in the shops, or you can potentially find them by shopping at the market/bazaar.
@@ -39,7 +53,6 @@
 * General enhancements to both the quest and job engines. This stuff needs a refactor/consolidation sometime in the future.
 * Added rough skeleton for lactation body stat.
 * Multiple other bug fixes.
-
 !!!!Quality of Life
 * There is now a 'gear' tab in your inventory. It shows all your equipable items. You still need to change at the wardrobe.
 * You can now continue to use items without having to select 'back' and 'use' again.
@@ -47,7 +60,6 @@
 * There is a link in the cabin now to just reapply makeup and hair instead of having to select this from the vanity.
 * At 'late night', in most places except for the Mermaid, you will be given a link to instantly teleport back to your Cabin.
 * Cleaned up a lot of interfaces to make them smoother, fixed some typographical bugs in reward screens, etc.
-
 !!!!Salty Mermaid
 * Added a map to the Captain's Cabin. It shows the current course of the Mermaid. (art supplied by @@color:deepPink;mightyakira@@)
 * Keep the crew happy, or you risk a bad event.

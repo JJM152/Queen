@@ -101,7 +101,7 @@ App.Data.Quests["CABIN_RUG"] = {
         "NPC_NAME stares at you, his weak jaw clenched tight. \"You are the dumbest dingbat I've ever met, PLAYER_NAME. Wait. And. Come. Back. Barefoot. You. Silly. Cock-sock.\"\n\n"+
         "You snort at the term juvenile 'cock-sock' but once more you don't see any point in arguing with him.",
     "FINISH": 
-        "NPC_NAME scans the area and excitedly beckons for you to approch. \"Sit down in the corner already! Feet up!\" He smacks a bucket beside him as he kneels down in front of you.\n\n"+
+        "NPC_NAME scans the area and excitedly beckons for you to approach. \"Sit down in the corner already! Feet up!\" He smacks a bucket beside him as he kneels down in front of you.\n\n"+
         "You prop your bare feet up yet again and he immediately douses them with a warm, gooey liquid for the third time.\n\n"+
         "His fingers squish between your toes and knead against your soles. Like the times before, it isn't exactly unpleasant -- but unlike the times before, you soon find yourself squirming in your seat and worrying to yourself about how suddenly aroused you feel.\n\n"+
         "You shake your head and look away but NPC_NAME is already moaning and it's difficult to ignore. You clamp your eyes closed at the sound of his trousers unbuckling, sure enough, NPC_NAME starts pumping his prick between the soles of your feet.\n\n"+

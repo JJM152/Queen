@@ -1265,10 +1265,13 @@ App.Entity.Player = function (){
         for (var prop in this.Equipment) {
             if (!this.Equipment.hasOwnProperty(prop)) continue;
             if (this.Equipment[prop] == 0) continue;
-            bonus += this.Equipment[prop].GetBonus(Skill);
-            if (this.debugMode == true) console.log("Found skill bonus : "+Skill+" on" + this.Equipment[prop].Name());
+            var tBonus = this.Equipment[prop].GetBonus(Skill);
+            if (tBonus > 0 ) {
+                bonus += tBonus
+                if (this.debugMode == true) console.log("Found skill bonus : "+Skill+" on" + this.Equipment[prop].Name());
+            }
         }
-        return 0;
+        return bonus;
     };
 
     /**
