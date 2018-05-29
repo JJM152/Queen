@@ -2198,12 +2198,12 @@ App.Item = new function() {
                 var tmpCategory = App.PR.GetRandomListItem(Category);
                 Category.splice(Category.indexOf(tmpCategory), 1); // Pop the item off.
                 items = this.ListAllPrices(tmpCategory, Filter);
-               // if (items.length > 0) return this._FetchData(tmpCategory, App.PR.GetRandomListItem(items)['name']);
             }
         } else {
             items = this.ListAllPrices(Category, Filter);
-            //if (items.length > 0) return this._FetchData(Category, App.PR.GetRandomListItem(items)['name']);
         }
+        // Ignore items that we don't want showing up randomly.
+        if(items.length > 0) items = items.filter(function(o) { return o.hasOwnProperty('InMarket')? o.InMarket : true; });
 
         return items.length > 0 ? App.PR.GetRandomListItem(items) : null;
     };
@@ -2694,6 +2694,7 @@ App.Item = new function() {
     };
 
     /**
+     * Generate a uuid
      * @returns {string}
      */
     this.uuidv4 = function() {
@@ -8250,17 +8251,17 @@ var Store = function(Player, NPC, StoreData) {
                         {"CATEGORY":   "COMMON", "TYPE": "DRUGS", "QTY":   qty, "MAX":   qty, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
                 }
 
-                if (roll >= 80 ) { // clothes
+                if (roll >= 80 && roll <= 95) { // clothes
 
-                    // if roll == 100 then include legendary items
-                    if (roll == 100 ) {
-                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["IsMarket"] ? App.Data.Clothes[c]["IsMarket"] : true ); });
+                    // if roll == 95 then include legendary items
+                    if (roll == 95 ) {
+                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["InMarket"] ? App.Data.Clothes[c]["InMarket"] : true ); });
                     } else {
-                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["IsMarket"] ? App.Data.Clothes[c]["IsMarket"] : true ) && App.Data.Clothes[c]["Style"] != "LEGENDARY"; });
+                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["InMarket"] ? App.Data.Clothes[c]["InMarket"] : true ) && App.Data.Clothes[c]["Style"] != "LEGENDARY"; });
                     }
 
                     if (keys && keys.length > 0 ) {
-                        var entry = keys[(Math.floor(Math.random() * Object.keys(App.Data.Cosmetics).length))];
+                        var entry = keys[(Math.floor(Math.random() * Object.keys(App.Data.Clothes).length))];
                         if (App.Data.Clothes[entry]["Style"] == "LEGENDARY") {
                             this._Player.StoreInventory[this._Data["ID"]]["RARE"].push(
                                 {
@@ -8289,6 +8290,11 @@ var Store = function(Player, NPC, StoreData) {
                     }
                 }
 
+                if (roll > 95) { // slot reels.
+                    entry = Object.keys(App.Data.Slots)[(Math.floor(Math.random() * Object.keys(App.Data.Slots).length))];
+                    this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                        {"CATEGORY":   "COMMON", "TYPE": "REEL", "QTY":   1, "MAX":   1, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
+                }
             }
         }
     };
@@ -15475,6 +15481,24 @@ App.Data.JobData["SIMONE_JOB1"] = {
             "END" : "",
             "RESULTS" : [ ]
         },
+        {  // Check to see if we passed all the events and if the store is not unlocked, then unlock it.
+            "ID" : "SLOT_REWARD",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG",  "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_HANDJOB_UNLOCK",  "OPT" : "NOT_SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "FLAG",  "NAME" : "SIMONE_HANDJOB_UNLOCK", "VALUE" : 1, "OPT" : "SET" },
+                { "TYPE" : "STORE", "NAME" : "LUSTY_LASS", "VALUE" :  "COMMON_HANDMAIDEN",   "OPT" : "UNLOCK"    }
+            ],
+            "START" :   "\"Oh, and before I forget... check out my shop sometime. There might be something that'd interest a wank specialist such as yourself!\"",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
         {   // Just unset the flag that shows we received loot and make sure we clear the counter.
             "ID" : "SCENE04c",
             "TRIGGERS" :[
@@ -15638,7 +15662,7 @@ App.Data.JobData["SIMONE_JOB2"] = {
             "END" : "",
             "RESULTS" : [ ]
         },
-        {   // If passed both cooking checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
+        {   // If passed all checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
             "ID" : "SCENE04b",
             "TRIGGERS" :[
                 { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
@@ -15654,6 +15678,24 @@ App.Data.JobData["SIMONE_JOB2"] = {
                 { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
             ],
             "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
+        {  // Check to see if we passed all the events and if the store is not unlocked, then unlock it.
+            "ID" : "SLOT_REWARD",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG",  "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_BLOWJOB_UNLOCK",  "OPT" : "NOT_SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "FLAG",  "NAME" : "SIMONE_BLOWJOB_UNLOCK", "VALUE" : 1, "OPT" : "SET" },
+                { "TYPE" : "STORE", "NAME" : "LUSTY_LASS", "VALUE" :  "COMMON_BREATH_MINT",   "OPT" : "UNLOCK"    }
+            ],
+            "START" :   "\"Oh, and before I forget... check out my shop sometime. There might be something that'd interest an aspiring cock sucker such as yourself!\"",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -15845,6 +15887,24 @@ App.Data.JobData["SIMONE_JOB3"] = {
             "END" : "",
             "RESULTS" : [ ]
         },
+        {  // Check to see if we passed all the events and if the store is not unlocked, then unlock it.
+            "ID" : "SLOT_REWARD",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG",  "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_TIT_UNLOCK",  "OPT" : "NOT_SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "FLAG",  "NAME" : "SIMONE_TIT_UNLOCK", "VALUE" : 1, "OPT" : "SET" },
+                { "TYPE" : "STORE", "NAME" : "LUSTY_LASS", "VALUE" :  "COMMON_BOOBJITSU_MATRIARCH",   "OPT" : "UNLOCK"    }
+            ],
+            "START" :   "\"Oh, and before I forget... check out my shop sometime. There might be something that'd interest a woman with your kind of 'assets'!\"",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
         {   // Just unset the flag that shows we received loot and make sure we clear the counter.
             "ID" : "SCENE04c",
             "TRIGGERS" :[
@@ -16009,7 +16069,7 @@ App.Data.JobData["SIMONE_JOB4"] = {
             "END" : "",
             "RESULTS" : [ ]
         },
-        {   // If passed both cooking checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
+        {   // If passed both all checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
             "ID" : "SCENE04b",
             "TRIGGERS" :[
                 { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
@@ -16025,6 +16085,24 @@ App.Data.JobData["SIMONE_JOB4"] = {
                 { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
             ],
             "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
+        {  // Check to see if we passed all the events and if the store is not unlocked, then unlock it.
+            "ID" : "SLOT_REWARD",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG",  "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_ASS_UNLOCK",  "OPT" : "NOT_SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "FLAG",  "NAME" : "SIMONE_ASS_UNLOCK", "VALUE" : 1, "OPT" : "SET" },
+                { "TYPE" : "STORE", "NAME" : "LUSTY_LASS", "VALUE" :  "COMMON_ANAL_ANGEL",   "OPT" : "UNLOCK"    }
+            ],
+            "START" :   "\"Oh, and before I forget... check out my shop sometime. There might be something that'd interest a whore with such a loose arse!!\"",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -18120,7 +18198,11 @@ App.Data.Stores["CARGO"] = {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",     "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 0,  "TAG" : "starfruit"             },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "nereid philtre"        },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "succubus philtre"      },
-		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   	   }
+		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   	   },
+        { "CATEGORY":   "RARE",     "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 70,   "LOCK": 0,  "TAG" : "COMMON_WHORE"   	   },
+        { "CATEGORY":   "RARE",     "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "COMMON_WILDCARD"       },
+        { "CATEGORY":   "RARE",     "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 90,   "LOCK": 0,  "TAG" : "UNCOMMON_WHORE"   	   }
+
     ]
 };
 /* twine-user-script #74: "galley_store.js" */
@@ -18233,7 +18315,12 @@ App.Data.Stores["LUSTY_LASS"] = {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",     "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":   0,   "LOCK": 0,  "TAG" : "butter gourd"       },
         // RARE CLOTHES - Mood 90+
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":  90,   "LOCK": 0,  "TAG" : "pink tartan"        },
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":  90,   "LOCK": 0,  "TAG" : "pink t-shirt"       }
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":  90,   "LOCK": 0,  "TAG" : "pink t-shirt"       },
+        // COMMON WHORE SPECIALTY REELS
+        { "CATEGORY":   "COMMON",   "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 1,  "TAG" : "COMMON_ANAL_ANGEL"   	   },
+        { "CATEGORY":   "COMMON",   "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 1,  "TAG" : "COMMON_BOOBJITSU_MATRIARCH"},
+        { "CATEGORY":   "COMMON",   "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 1,  "TAG" : "COMMON_HANDMAIDEN"   	   },
+        { "CATEGORY":   "COMMON",   "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 1,  "TAG" : "COMMON_BREATH_MINT"   	   }
     ]
 };
 /* twine-user-script #79: "market_store.js" */

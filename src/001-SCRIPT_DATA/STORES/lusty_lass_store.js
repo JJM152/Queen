@@ -26,6 +26,11 @@ App.Data.Stores["LUSTY_LASS"] = {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",     "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":   0,   "LOCK": 0,  "TAG" : "butter gourd"       },
         // RARE CLOTHES - Mood 90+
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":  90,   "LOCK": 0,  "TAG" : "pink tartan"        },
-        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":  90,   "LOCK": 0,  "TAG" : "pink t-shirt"       }
+        { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",  "QTY":    1,     "MAX":    1,  "PRICE":   1.0,  "MOOD":  90,   "LOCK": 0,  "TAG" : "pink t-shirt"       },
+        // COMMON WHORE SPECIALTY REELS
+        { "CATEGORY":   "COMMON",   "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 1,  "TAG" : "COMMON_ANAL_ANGEL"   	   },
+        { "CATEGORY":   "COMMON",   "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 1,  "TAG" : "COMMON_BOOBJITSU_MATRIARCH"},
+        { "CATEGORY":   "COMMON",   "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 1,  "TAG" : "COMMON_HANDMAIDEN"   	   },
+        { "CATEGORY":   "COMMON",   "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 1,  "TAG" : "COMMON_BREATH_MINT"   	   }
     ]
 };

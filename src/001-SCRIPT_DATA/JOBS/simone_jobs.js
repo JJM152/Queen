@@ -164,6 +164,24 @@ App.Data.JobData["SIMONE_JOB1"] = {
             "END" : "",
             "RESULTS" : [ ]
         },
+        {  // Check to see if we passed all the events and if the store is not unlocked, then unlock it.
+            "ID" : "SLOT_REWARD",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG",  "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_HANDJOB_UNLOCK",  "OPT" : "NOT_SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "FLAG",  "NAME" : "SIMONE_HANDJOB_UNLOCK", "VALUE" : 1, "OPT" : "SET" },
+                { "TYPE" : "STORE", "NAME" : "LUSTY_LASS", "VALUE" :  "COMMON_HANDMAIDEN",   "OPT" : "UNLOCK"    }
+            ],
+            "START" :   "\"Oh, and before I forget... check out my shop sometime. There might be something that'd interest a wank specialist such as yourself!\"",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
         {   // Just unset the flag that shows we received loot and make sure we clear the counter.
             "ID" : "SCENE04c",
             "TRIGGERS" :[
@@ -327,7 +345,7 @@ App.Data.JobData["SIMONE_JOB2"] = {
             "END" : "",
             "RESULTS" : [ ]
         },
-        {   // If passed both cooking checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
+        {   // If passed all checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
             "ID" : "SCENE04b",
             "TRIGGERS" :[
                 { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
@@ -343,6 +361,24 @@ App.Data.JobData["SIMONE_JOB2"] = {
                 { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
             ],
             "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
+        {  // Check to see if we passed all the events and if the store is not unlocked, then unlock it.
+            "ID" : "SLOT_REWARD",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG",  "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_BLOWJOB_UNLOCK",  "OPT" : "NOT_SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "FLAG",  "NAME" : "SIMONE_BLOWJOB_UNLOCK", "VALUE" : 1, "OPT" : "SET" },
+                { "TYPE" : "STORE", "NAME" : "LUSTY_LASS", "VALUE" :  "COMMON_BREATH_MINT",   "OPT" : "UNLOCK"    }
+            ],
+            "START" :   "\"Oh, and before I forget... check out my shop sometime. There might be something that'd interest an aspiring cock sucker such as yourself!\"",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -534,6 +570,24 @@ App.Data.JobData["SIMONE_JOB3"] = {
             "END" : "",
             "RESULTS" : [ ]
         },
+        {  // Check to see if we passed all the events and if the store is not unlocked, then unlock it.
+            "ID" : "SLOT_REWARD",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG",  "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_TIT_UNLOCK",  "OPT" : "NOT_SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "FLAG",  "NAME" : "SIMONE_TIT_UNLOCK", "VALUE" : 1, "OPT" : "SET" },
+                { "TYPE" : "STORE", "NAME" : "LUSTY_LASS", "VALUE" :  "COMMON_BOOBJITSU_MATRIARCH",   "OPT" : "UNLOCK"    }
+            ],
+            "START" :   "\"Oh, and before I forget... check out my shop sometime. There might be something that'd interest a woman with your kind of 'assets'!\"",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
         {   // Just unset the flag that shows we received loot and make sure we clear the counter.
             "ID" : "SCENE04c",
             "TRIGGERS" :[
@@ -698,7 +752,7 @@ App.Data.JobData["SIMONE_JOB4"] = {
             "END" : "",
             "RESULTS" : [ ]
         },
-        {   // If passed both cooking checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
+        {   // If passed both all checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
             "ID" : "SCENE04b",
             "TRIGGERS" :[
                 { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
@@ -714,6 +768,24 @@ App.Data.JobData["SIMONE_JOB4"] = {
                 { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
             ],
             "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
+            "END" : "",
+            "RESULTS" : [ ]
+        },
+        {  // Check to see if we passed all the events and if the store is not unlocked, then unlock it.
+            "ID" : "SLOT_REWARD",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG",  "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",  "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "FLAG", "NAME" : "SIMONE_ASS_UNLOCK",  "OPT" : "NOT_SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "FLAG",  "NAME" : "SIMONE_ASS_UNLOCK", "VALUE" : 1, "OPT" : "SET" },
+                { "TYPE" : "STORE", "NAME" : "LUSTY_LASS", "VALUE" :  "COMMON_ANAL_ANGEL",   "OPT" : "UNLOCK"    }
+            ],
+            "START" :   "\"Oh, and before I forget... check out my shop sometime. There might be something that'd interest a whore with such a loose arse!!\"",
             "END" : "",
             "RESULTS" : [ ]
         },

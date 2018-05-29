@@ -16,6 +16,10 @@ App.Data.Stores["CARGO"] = {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",     "QTY":    2,    "MAX":    2,  "PRICE":  1.0, "MOOD": 60,   "LOCK": 0,  "TAG" : "starfruit"             },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "nereid philtre"        },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "succubus philtre"      },
-		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   	   }
+		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 0,    "LOCK": 0,  "TAG" : "brown hair dye"   	   },
+        { "CATEGORY":   "RARE",     "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 70,   "LOCK": 0,  "TAG" : "COMMON_WHORE"   	   },
+        { "CATEGORY":   "RARE",     "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "COMMON_WILDCARD"       },
+        { "CATEGORY":   "RARE",     "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 90,   "LOCK": 0,  "TAG" : "UNCOMMON_WHORE"   	   }
+
     ]
 };
