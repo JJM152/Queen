@@ -427,7 +427,7 @@ App.SlotEngine = new function() {
         for (var key in this._Player._Slots) {
             i++;
             if (!this._Player._Slots.hasOwnProperty(key)) continue;
-
+            var reel = this._Player._Slots[key];
             // Check to see if this is a locked slot.
             console.log(key);
             console.log(this._Player._Slots[key]);
@@ -450,6 +450,7 @@ App.SlotEngine = new function() {
                 console.log('slotted slot');
                 // Slot is not empty and it's unlocked.
                 slot = $('<div>').attr('id', 'SlotInventory_'+key).addClass('SlottedSlot');
+                slot.addClass(reel.Css());
                 slot.on("click", { slot : key }, this._SelectSlotCB.bind(this));
                 if (this._SelectedSlot == null) this._SelectedSlot = key;
             }

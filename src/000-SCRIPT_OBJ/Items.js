@@ -297,8 +297,7 @@ App.Item = new function() {
 
     this.Clothing = function(d) {
         this.o = $.extend( true, {}, d );
-        var timestamp = new Date().getTime();
-        this._id = this.o["Name"] + ":" + timestamp;
+        this._id = App.Item.uuidv4();
         this._Knowlege = [ ];
 
         this.Id = function () {
@@ -483,8 +482,7 @@ App.Item = new function() {
     this.Consumable = function(d) {
         this.Data = $.extend( true, {}, d );
 
-        var timestamp = new Date().getTime();
-        this._id = this.Data["Name"] + ":" + timestamp;
+        this._id = App.Item.uuidv4();
 
         this._messageBuffer = [ ];
 
@@ -602,8 +600,7 @@ App.Item = new function() {
     this.QuestItem = function(d) {
         this.Data = $.extend( true, {}, d );
 
-        var timestamp = new Date().getTime();
-        this._id = this.Data["Name"] + ":" + timestamp;
+        this._id = App.Item.uuidv4();
 
         this.Id = function () {
             return this._id;
@@ -632,8 +629,7 @@ App.Item = new function() {
     this.Reel = function(d) {
         this.Data = $.extend(true, { }, d);
 
-        var timestamp = new Date().getTime();
-        this._id = this.Data["NAME"] + ":" + timestamp;
+        this._id = App.Item.uuidv4();
 
         /** @returns {string|*} */
         this.Id = function () {
@@ -671,7 +667,17 @@ App.Item = new function() {
         /** @returns {string} */
         this.Type = function() { return 'REEL' };
 
-    }
+    };
+
+    /**
+     * @returns {string}
+     */
+    this.uuidv4 = function() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      };
 };
 
 
