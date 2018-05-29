@@ -33,7 +33,7 @@ App.Data.Clothes["nipple tassels"] = { // +15
 
 // PANTY SLOT
 App.Data.Clothes["sequined g-string"] = { // +15
-    "Name": "sequined g-string", "ShortDesc": "a {COLOR} sequined g-string' ",
+    "Name": "sequined g-string", "ShortDesc": "a {COLOR} sequined g-string",
     "LongDesc": "It's more like a patch connected by dental floss. The main point, other than the extreme ass exposure, are the shiny silver sequins.",
     "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Style": "RARE", "Type" : "CLOTHING",
     "WearEffect": [ "FEMININE_CLOTHING", "KINKY_CLOTHING" ], "Category" :  [ "Sexy Dancer" ]

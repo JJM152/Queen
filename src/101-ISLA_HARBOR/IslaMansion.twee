@@ -1,10 +1,9 @@
 :: IslaMansion
 <<set _GFN = $Player.GirlfriendName + "'s Room";>>\
 <<set _GFL = $Player.GirlfriendName + "'s Room">>\
-The Governors Mansion is the largest and most elegant building on Isla Harbor. You've only been in a few times, mostly when $Player.GirlfriendName \
-would sneak you past the house staff, but it's largely how you remember it - with high vaulted cielings, dark wood panelling and lush carpets \
-covering the tiled floors. The Governor himself isn't much for such opulance, but as $Player.GirlfriendName explained to you, there's a certain \
-level of extravagance that's expected with such a position in society.
+The Governor's Mansion is the largest and most elegant building on Isla Harbor. You've only been in a few times, mostly when @@color:pink;$Player.GirlfriendName@@ would sneak you past the house staff, but it's largely how you remember it: high vaulted ceilings, dark wood panelling, and lush carpets covering the tiled floors.
+
+The Governor himself isn't much for such opulance, but as $Player.GirlfriendName explained to you, there's a certain level of extravagance that's expected with such a prestigous position in society.
 
 <<if $Player.Phase < 3>><<NPC "Jarvis">>
 

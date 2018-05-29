@@ -49,7 +49,7 @@ App.Data.Quests["LORD_ROWE_DELIVERY"] = {
         {"REWARD_TYPE": "ITEM", "TYPE": "LOOT_BOX", "NAME": "uncommon lolita loot box", "AMOUNT": 1}
     ],
     "INTRO": "",
-    "MIDDLE": "",
+    "MIDDLE": "You need to bring the following items to NPC_NAME:",
     "FINISH": "NPC_NAME looks behind you to make sure no one is watching and then greedily takes the contraband novel from your hands. "+
         "He then looks you dead in the eye and says, \"You were never here.\"\n\n"+
         "So much for a thank-you, you suppose. And to think this dirty bastard was eying his own daughter like this... Before that thought can "+

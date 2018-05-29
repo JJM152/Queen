@@ -153,7 +153,7 @@ App.Data.Clothes["sexy dress"] = {
 
 
 App.Data.Clothes["landlubber costume"] = {
-    "Name": "landlubber costume", "ShortDesc": "A perverted {COLOR} school girl outfit",
+    "Name": "landlubber costume", "ShortDesc": "a perverted {COLOR} school girl outfit",
     "LongDesc": "This costume consists of a two-piece outfit with accessories that is designed to mimic a perverts dream of a school uniform. It has a skirt that has holes where the anus and penis are "+
     "as well as on the shirt where the cutouts are over the nipples. And the material of it goes invisible when it becomes wet, which is a favourite of the crew.",
     "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "white", "Style": "COMMON", "Type" : "ONE PIECE",
@@ -161,7 +161,7 @@ App.Data.Clothes["landlubber costume"] = {
 };
 
 App.Data.Clothes["pathetic loser costume"] = {
-    "Name": "pathetic loser costume", "ShortDesc": "A perverted {COLOR} clown outfit",
+    "Name": "pathetic loser costume", "ShortDesc": "a perverted {COLOR} clown outfit",
     "LongDesc": "This costume consists of a full-blown clown outfit including red glue on nose. It makes one look ridiculous but also sexy since it is tight at the right places so that it shows of "+
     "one's assets. Also, there are undoubtedly some people that have always dreamed of fucking a clown, those sick bastards.",
     "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "red", "Style": "COMMON", "Type" : "ONE PIECE",
@@ -196,6 +196,13 @@ App.Data.Clothes["medium heels"] = {
     "LongDesc": "These shoes have a medium height heel that causes you to roll your ass as you walk.",
     "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "COMMON", "Type" : "CLOTHING",
     "WearEffect": [ "FEMININE_CLOTHING" ]
+};
+
+App.Data.Clothes["barefoot sandals"] = {
+    "Name": "barefoot sandals", "ShortDesc": "a pair of {COLOR} barefoot sandals",
+    "LongDesc": "These ornamental chains elegantly embellish your dainty effeminate feet without appreciable weight or concealment.",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "silver", "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "WearEffect": [ "FEMININE_CLOTHING", "KINKY_CLOTHING" ], "ActiveEffect": [ "MINOR_STRIPPERS_ALLURE" ], Category : [ "Sexy Dancer" ], "InMarket" : false
 };
 
 // BUTT SLOT

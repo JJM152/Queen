@@ -86,7 +86,7 @@ App.Data.Quests["BOARDINGPASS"] = {
     "Make sure everyone, and I mean ''everyone'' on board has gotten their fill of your holes first. Then come back to me and I'll grant you leave.\"\n\n"+
     "You weren't sure what you were expecting, but as NPC_NAME dismisses you from his quarters, you feel a depressing tiredness settle over your body. "+
     "Just the sheer volume of dicks you'll have to service to meet his demands would daunt an experienced whore, let alone a reluctant sissy like yourself.",
-    "MIDDLE": "NPC_NAME says, \"So, how is it PLAYER_NAME? What are you doing wasting your time around here when there are still cocks to be sucked on deck.\"",
+    "MIDDLE": "NPC_NAME says, \"So, how is it PLAYER_NAME? What are you doing wasting your time around here when there are still so many cocks to be sucked on deck?\"",
     "FINISH": "NPC_NAME says, \"You've done a hell of a job PLAYER_NAME. A hell of a job. I'm actually surprised you can still walk after all the cocks "+
     "you've taken up your ass these last weeks.\"\n\n"+
     "NPC_NAME chuckles to himself and continues.\n\n"+

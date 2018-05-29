@@ -4,7 +4,7 @@
 <<set _QL = _QE.GetQuests("any", $Player, $MenuAction);>>\
 <<set _NPC = $Player.GetNPC($MenuAction);>>\
 <<set $n = _NPC.pName(); >>\
-You approach $n and ask about any 'special tasks' that need to be done.
+You approach $n to ask if there are any 'special tasks' that need to be done.
 
 <<for _i = 0; _i < _QL.length; _i++>>\
 <<if _QE.QuestAvailable($Player, _QL[_i]["ID"]) or
