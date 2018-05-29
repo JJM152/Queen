@@ -158,17 +158,17 @@ var Store = function(Player, NPC, StoreData) {
                         {"CATEGORY":   "COMMON", "TYPE": "DRUGS", "QTY":   qty, "MAX":   qty, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
                 }
 
-                if (roll >= 80 ) { // clothes
+                if (roll >= 80 && roll <= 95) { // clothes
 
-                    // if roll == 100 then include legendary items
-                    if (roll == 100 ) {
-                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["IsMarket"] ? App.Data.Clothes[c]["IsMarket"] : true ); });
+                    // if roll == 95 then include legendary items
+                    if (roll == 95 ) {
+                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["InMarket"] ? App.Data.Clothes[c]["InMarket"] : true ); });
                     } else {
-                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["IsMarket"] ? App.Data.Clothes[c]["IsMarket"] : true ) && App.Data.Clothes[c]["Style"] != "LEGENDARY"; });
+                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["InMarket"] ? App.Data.Clothes[c]["InMarket"] : true ) && App.Data.Clothes[c]["Style"] != "LEGENDARY"; });
                     }
 
                     if (keys && keys.length > 0 ) {
-                        var entry = keys[(Math.floor(Math.random() * Object.keys(App.Data.Cosmetics).length))];
+                        var entry = keys[(Math.floor(Math.random() * Object.keys(App.Data.Clothes).length))];
                         if (App.Data.Clothes[entry]["Style"] == "LEGENDARY") {
                             this._Player.StoreInventory[this._Data["ID"]]["RARE"].push(
                                 {
@@ -197,6 +197,11 @@ var Store = function(Player, NPC, StoreData) {
                     }
                 }
 
+                if (roll > 95) { // slot reels.
+                    entry = Object.keys(App.Data.Slots)[(Math.floor(Math.random() * Object.keys(App.Data.Slots).length))];
+                    this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                        {"CATEGORY":   "COMMON", "TYPE": "REEL", "QTY":   1, "MAX":   1, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
+                }
             }
         }
     };

@@ -683,6 +683,7 @@ App.Item = new function() {
     };
 
     /**
+     * Generate a uuid
      * @returns {string}
      */
     this.uuidv4 = function() {
