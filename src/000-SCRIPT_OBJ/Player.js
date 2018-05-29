@@ -416,9 +416,9 @@ App.Entity.Player = function (){
     {
         if (this.CanReStyle() == false) return;
         var lm = this.LastUsedMakeup;
-        var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0]["NAME"];
+        var Makeup = App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0]["NAME"];
         var lh = this.LastUsedHair;
-        var Hair = window.App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0]["NAME"];
+        var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0]["NAME"];
 
         if (this.Equipment["Wig"] != 0) {
             this.DoStyling(this.Equipment["Wig"].Id(), Makeup);
@@ -451,6 +451,8 @@ App.Entity.Player = function (){
         return ( (h1 >= Hair["RESOURCE1"]) && (h2 >= Hair["RESOURCE2"]));
     };
 
+    /** TODO: THIS ENTIRE AREA IS GARBAGE. REFACTOR IT AND REDO MAKEUP AND HAIRSTYLE STUFF **/
+
     /**
      * Style hair and makeup.
      * @param {string} HairID
@@ -458,13 +460,15 @@ App.Entity.Player = function (){
      */
     this.DoStyling = function(HairID, MakeupID )
     {
-        if (HairID.indexOf(':') > -1) { // We passed an Item Id.
+
+        var obj = this.GetItemById(HairID);
+        if (typeof obj !== 'undefined') { // We passed an Item Id and found an item.
             if ((this.Equipment["Wig"] == 0) || (this.Equipment["Wig"].Id() != HairID))
                 this.Wear( this.WardrobeItem(HairID));
         } else {
             if (this.Equipment["Wig"] != 0) this.Remove(this.Equipment["Wig"]);
 
-            var Hair = window.App.Data.Lists["HairStyles"].filter(function(Item) { return Item["NAME"] == HairID; })[0];
+            var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["NAME"] == HairID; })[0];
 
             if ( this.GetItemCharges("hair tool") >= Hair["RESOURCE1"] && this.GetItemCharges("hair treatment") >= Hair["RESOURCE2"]) {
                 this.HairStyle = Hair["SHORT"];
