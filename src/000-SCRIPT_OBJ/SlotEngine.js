@@ -213,7 +213,7 @@ App.SlotEngine = new function() {
         // Check for rare loot drops.
         for (i = 0; i < oSatisfied.length; i++) {
             if ( (1 + Math.floor(Math.random() * 100)) <= (130 - oSatisfied.Mood)) {
-                var tipTotal = Math.floor(oSatisfied[i].Spent * 0.30);
+                var tipTotal = oSatisfied[i].Spent;
                 var item = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: tipTotal } );
                 if (item != null) {
                     this._Player.AddItem(item.cat, item.tag, 0);
