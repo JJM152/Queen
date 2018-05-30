@@ -31,7 +31,7 @@ App.Data.Quests["BETTER_BED"] = {
     "JOURNAL_ENTRY" : 
         "NPC_NAME has promised to get you a more comfortable bed if you come back later without shoes for some reason... and probably not a good one.",
     "JOURNAL_COMPLETE" : 
-        "Surpringly, NPC_NAME actually followed through with his promise and somehow managed to get your cot replaced with a much more comfortable bunk. All it cost you was a little dignity -- the same as everything else costs you around here, it seems."
+        "Surprisingly, NPC_NAME actually followed through with his promise and somehow managed to get your cot replaced with a much more comfortable bunk. All it cost you was a little dignity -- the same as everything else costs you around here, it seems."
 };
 App.Data.Quests["CABIN_DECORATION"] = {
     "ID": "CABIN_DECORATION", "Title": "A Decent Decoration",

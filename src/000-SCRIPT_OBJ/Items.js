@@ -664,7 +664,30 @@ App.Item = new function() {
 
         /** @returns {string} */
         this.Description = function () {
-            return "("+ this.Data['RANK']+ ") "+this.Data["NAME"];
+            var color;
+            switch(this.Data["RANK"]) {
+                case 'COMMON': color="grey"; break;
+                case 'UNCOMMON' : color="lime"; break;
+                case 'RARE' : color="cyan"; break;
+                case 'LEGENDARY': color="orange"; break;
+            }
+            return "@@color:"+color+";("+ this.Data['RANK']+ ") "+this.Data["NAME"]+"@@";
+        };
+
+        /**
+         * @param {App.Entity.Player} Player
+         * @returns {string}
+         */
+        this.Examine = function (Player) {
+            var attrs = [ 'ASS', 'BJ', 'HAND', 'TITS', 'FEM', 'PERV', 'BEAUTY'];
+            var text = ['Ass Fucking', 'Blowjobs', 'Handjobs', 'Tit Fucking', 'Femininity', 'Perversion', 'Beauty'];
+            var output = "A slot reel used for whoring. It has the following attributes:\n";
+            for (var x = 0; x < attrs.length; x++) {
+                var percent = this.CalcPercent(attrs[x]);
+                if (percent <= 0) continue;
+                output += text[x] + " - " + percent + "% ";
+            }
+            return output;
         };
 
         /** @returns {number} */

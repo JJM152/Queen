@@ -90,12 +90,12 @@ window.App.QuestEngine = new function() {
                 if (o.Charges() < Value ) return false;
                 break;
             case "DAYS_PASSED":
-                if(Key){Value = this.GetQuestFlag(Player, Key)};
+                if(Key){Value = this.GetQuestFlag(Player, Key)}
                 if(Player.Day < Value) return false;
             break;
             case "IS_WEARING":
-                if(Value === "NOT"){ if(Player.GetEquipmentInSlot(Key) === 0){ return true } };
-                if(Player.GetEquipmentInSlot(Key) === 0){ return false };
+                if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Key) == 0){ return true } }
+                if(Player.GetEquipmentInSlot(Key) == 0){ return false }
             break;
 
         }

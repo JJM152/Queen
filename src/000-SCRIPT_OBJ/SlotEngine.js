@@ -470,7 +470,7 @@ App.SlotEngine = new function() {
 
         for(var i = 0; i < reels.length; i++) {
             var item = $('<div>').addClass('SlotInventoryItem');
-            var head = $('<span>').addClass('SlotHeader').html(reels[i].Description());
+            var head = $('<span>').addClass('SlotHeader').html("("+ reels[i].Rank() + ") " + reels[i].Name());
 
             switch(reels[i].Rank()) {
                 case 'COMMON': head.css('color', 'grey'); break;
@@ -514,7 +514,7 @@ App.SlotEngine = new function() {
 
             var reel = this._Player._Slots[this._SelectedSlot];
 
-            var header = $('<div>').addClass('SlotCurrentHeader').text(reel.Description());
+            var header = $('<div>').addClass('SlotCurrentHeader').html("("+reel.Rank()+") "+reel.Name());
 
             switch(reel.Rank()) {
                 case 'COMMON': header.css('color', 'grey'); break;
@@ -955,7 +955,7 @@ App.SlotEngine = new function() {
         var mood = Math.floor( (c.Mood / 2));
         var lust = Math.floor( (c.Lust / 2));
 
-        var basePay = 5 + (c.Payout * 2); 
+        var basePay = 2 + (c.Payout * 2);
 
         // See if the customer even WANTS this.
         var i;
@@ -1032,22 +1032,23 @@ App.SlotEngine = new function() {
 
             result.payout = basePay * checkmod;
             // Add bonus category for style/fem/perv
-            result.payout +=  ((basePay/2) * this._CalcBonus(c.BonusCat, this._Player, c.BonusCat));
+            result.payout +=  ((basePay/3) * this._CalcBonus(c.BonusCat, this._Player, c.BonusCat));
             // Add bonus cat for body parts / styles
-            result.payout += ((basePay/2) * this._CalcBonus(c.Bonus, this._Player, c.Bonus));
+            result.payout += ((basePay/3) * this._CalcBonus(c.Bonus, this._Player, c.Bonus));
             // Add XP bonus for everything but BEAUTY
-            result.xp = ( this._IsBeauty(slots[i], slotMap) != true ) ? Math.floor((c.Payout * 7.5)*wantMod) : 0;
+            result.xp = ( this._IsBeauty(slots[i], slotMap) != true ) ? Math.round((c.Payout * 7.5)*wantMod) : 0;
             // Add Mood
-            result.mood = Math.ceil( 5 * checkmod );
+            result.mood =  Math.round(5 * checkmod);
             // Add Lust
             result.lust = (this._IsPerv(slots[i], slotMap)) ? 20 : -5;
             // Add Satisfaction
-            result.sat = Math.ceil( 15 * checkmod );
+            result.sat = Math.round( 15 * checkmod );
             // Modify pay by mood formula
-            result.payout = Math.ceil( (result.payout * (0.5 + (mood/100))));
+            result.payout = (result.payout * (0.5 + (mood/100)));
             // Add a bonus due to high lust.
-            result.payout +=  Math.ceil( (basePay * (lust/100)));
+            result.payout +=  (basePay * (lust/100));
 
+            result.payout = Math.round(result.payout);
             this._AddMoneyToCustomer(result.payout);
             results.push(result);
         }

@@ -17,9 +17,9 @@ App.Data.Quests["Q002"] = {
         {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "hair accessories", "AMOUNT": 40},
         {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "hair products", "AMOUNT": 40},
         {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "basic makeup", "AMOUNT": 60},
-        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "bonnet", "AMOUNT": 1},
-        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "cotton bra", "AMOUNT": 1},
-        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "short heels", "AMOUNT": 1}
+        {"REWARD_TYPE" : "SLOT" },
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "RARE_WHORE", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "COMMON_WILDCARD", "AMOUNT": 1}
     ],
     "PREREQ": "Said when you don't have the pre-req for the quest.",
     "INTRO": "NPC_NAME says, \"The crew on the Salty Mermaid are a ravenously horny lot, but even they have standards and frankly, you don't really meet them. " +
@@ -85,7 +85,6 @@ App.Data.Quests["Q004"] = {
     "REWARD": [
         {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "face cream", "AMOUNT": 3},
         {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "fairy dust", "AMOUNT": 3},
-        {"REWARD_TYPE" : "SLOT" },
         {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "silk stockings", "AMOUNT": 1},
         {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "frilly dress", "AMOUNT": 1}
     ],

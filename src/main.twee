@@ -22,7 +22,7 @@ Config.navigation.override = function (passageName) {
             return "DeathEnd";
         }
 
-        if (State.variables.Player.GetStat("STAT", "WillPower") <= 20) {
+        if (State.variables.Player.GetStat("STAT", "WillPower") < 20) {
             State.temporary.followup = passageName;
             return "WillPowerEnd";
         }

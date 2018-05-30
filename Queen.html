@@ -2685,7 +2685,30 @@ App.Item = new function() {
 
         /** @returns {string} */
         this.Description = function () {
-            return "("+ this.Data['RANK']+ ") "+this.Data["NAME"];
+            var color;
+            switch(this.Data["RANK"]) {
+                case 'COMMON': color="grey"; break;
+                case 'UNCOMMON' : color="lime"; break;
+                case 'RARE' : color="cyan"; break;
+                case 'LEGENDARY': color="orange"; break;
+            }
+            return "@@color:"+color+";("+ this.Data['RANK']+ ") "+this.Data["NAME"]+"@@";
+        };
+
+        /**
+         * @param {App.Entity.Player} Player
+         * @returns {string}
+         */
+        this.Examine = function (Player) {
+            var attrs = [ 'ASS', 'BJ', 'HAND', 'TITS', 'FEM', 'PERV', 'BEAUTY'];
+            var text = ['Ass Fucking', 'Blowjobs', 'Handjobs', 'Tit Fucking', 'Femininity', 'Perversion', 'Beauty'];
+            var output = "A slot reel used for whoring. It has the following attributes:\n";
+            for (var x = 0; x < attrs.length; x++) {
+                var percent = this.CalcPercent(attrs[x]);
+                if (percent <= 0) continue;
+                output += text[x] + " - " + percent + "% ";
+            }
+            return output;
         };
 
         /** @returns {number} */
@@ -5768,12 +5791,12 @@ window.App.QuestEngine = new function() {
                 if (o.Charges() < Value ) return false;
                 break;
             case "DAYS_PASSED":
-                if(Key){Value = this.GetQuestFlag(Player, Key)};
+                if(Key){Value = this.GetQuestFlag(Player, Key)}
                 if(Player.Day < Value) return false;
             break;
             case "IS_WEARING":
-                if(Value === "NOT"){ if(Player.GetEquipmentInSlot(Key) === 0){ return true } };
-                if(Player.GetEquipmentInSlot(Key) === 0){ return false };
+                if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Key) == 0){ return true } }
+                if(Player.GetEquipmentInSlot(Key) == 0){ return false }
             break;
 
         }
@@ -7087,7 +7110,7 @@ App.SlotEngine = new function() {
 
         for(var i = 0; i < reels.length; i++) {
             var item = $('<div>').addClass('SlotInventoryItem');
-            var head = $('<span>').addClass('SlotHeader').html(reels[i].Description());
+            var head = $('<span>').addClass('SlotHeader').html("("+ reels[i].Rank() + ") " + reels[i].Name());
 
             switch(reels[i].Rank()) {
                 case 'COMMON': head.css('color', 'grey'); break;
@@ -7131,7 +7154,7 @@ App.SlotEngine = new function() {
 
             var reel = this._Player._Slots[this._SelectedSlot];
 
-            var header = $('<div>').addClass('SlotCurrentHeader').text(reel.Description());
+            var header = $('<div>').addClass('SlotCurrentHeader').html("("+reel.Rank()+") "+reel.Name());
 
             switch(reel.Rank()) {
                 case 'COMMON': header.css('color', 'grey'); break;
@@ -7572,7 +7595,7 @@ App.SlotEngine = new function() {
         var mood = Math.floor( (c.Mood / 2));
         var lust = Math.floor( (c.Lust / 2));
 
-        var basePay = 5 + (c.Payout * 2); 
+        var basePay = 2 + (c.Payout * 2);
 
         // See if the customer even WANTS this.
         var i;
@@ -7649,22 +7672,23 @@ App.SlotEngine = new function() {
 
             result.payout = basePay * checkmod;
             // Add bonus category for style/fem/perv
-            result.payout +=  ((basePay/2) * this._CalcBonus(c.BonusCat, this._Player, c.BonusCat));
+            result.payout +=  ((basePay/3) * this._CalcBonus(c.BonusCat, this._Player, c.BonusCat));
             // Add bonus cat for body parts / styles
-            result.payout += ((basePay/2) * this._CalcBonus(c.Bonus, this._Player, c.Bonus));
+            result.payout += ((basePay/3) * this._CalcBonus(c.Bonus, this._Player, c.Bonus));
             // Add XP bonus for everything but BEAUTY
-            result.xp = ( this._IsBeauty(slots[i], slotMap) != true ) ? Math.floor((c.Payout * 7.5)*wantMod) : 0;
+            result.xp = ( this._IsBeauty(slots[i], slotMap) != true ) ? Math.round((c.Payout * 7.5)*wantMod) : 0;
             // Add Mood
-            result.mood = Math.ceil( 5 * checkmod );
+            result.mood =  Math.round(5 * checkmod);
             // Add Lust
             result.lust = (this._IsPerv(slots[i], slotMap)) ? 20 : -5;
             // Add Satisfaction
-            result.sat = Math.ceil( 15 * checkmod );
+            result.sat = Math.round( 15 * checkmod );
             // Modify pay by mood formula
-            result.payout = Math.ceil( (result.payout * (0.5 + (mood/100))));
+            result.payout = (result.payout * (0.5 + (mood/100)));
             // Add a bonus due to high lust.
-            result.payout +=  Math.ceil( (basePay * (lust/100)));
+            result.payout +=  (basePay * (lust/100));
 
+            result.payout = Math.round(result.payout);
             this._AddMoneyToCustomer(result.payout);
             results.push(result);
         }
@@ -17146,7 +17170,7 @@ App.Data.Quests["BETTER_BED"] = {
     "JOURNAL_ENTRY" : 
         "NPC_NAME has promised to get you a more comfortable bed if you come back later without shoes for some reason... and probably not a good one.",
     "JOURNAL_COMPLETE" : 
-        "Surpringly, NPC_NAME actually followed through with his promise and somehow managed to get your cot replaced with a much more comfortable bunk. All it cost you was a little dignity -- the same as everything else costs you around here, it seems."
+        "Surprisingly, NPC_NAME actually followed through with his promise and somehow managed to get your cot replaced with a much more comfortable bunk. All it cost you was a little dignity -- the same as everything else costs you around here, it seems."
 };
 App.Data.Quests["CABIN_DECORATION"] = {
     "ID": "CABIN_DECORATION", "Title": "A Decent Decoration",
@@ -17252,9 +17276,9 @@ App.Data.Quests["Q002"] = {
         {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "hair accessories", "AMOUNT": 40},
         {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "hair products", "AMOUNT": 40},
         {"REWARD_TYPE": "ITEM", "TYPE": "COSMETICS", "NAME": "basic makeup", "AMOUNT": 60},
-        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "bonnet", "AMOUNT": 1},
-        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "cotton bra", "AMOUNT": 1},
-        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "short heels", "AMOUNT": 1}
+        {"REWARD_TYPE" : "SLOT" },
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "RARE_WHORE", "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "COMMON_WILDCARD", "AMOUNT": 1}
     ],
     "PREREQ": "Said when you don't have the pre-req for the quest.",
     "INTRO": "NPC_NAME says, \"The crew on the Salty Mermaid are a ravenously horny lot, but even they have standards and frankly, you don't really meet them. " +
@@ -17320,7 +17344,6 @@ App.Data.Quests["Q004"] = {
     "REWARD": [
         {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "face cream", "AMOUNT": 3},
         {"REWARD_TYPE": "ITEM", "TYPE": "DRUGS", "NAME": "fairy dust", "AMOUNT": 3},
-        {"REWARD_TYPE" : "SLOT" },
         {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "silk stockings", "AMOUNT": 1},
         {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "CLOTHES", "NAME": "frilly dress", "AMOUNT": 1}
     ],
@@ -24838,7 +24861,7 @@ Config.navigation.override = function (passageName) {
             return "DeathEnd";
         }
 
-        if (State.variables.Player.GetStat("STAT", "WillPower") <= 20) {
+        if (State.variables.Player.GetStat("STAT", "WillPower") < 20) {
             State.temporary.followup = passageName;
             return "WillPowerEnd";
         }
@@ -26765,10 +26788,11 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 @@color:cyan;Interact@@: [[Wake up|Cabin]]\
 &lt;&lt;/if&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="104" name="whoreLink" tags="widget" position="475,1350">&lt;&lt;widget &quot;whoreLink&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;&lt;click &quot;Whore&quot; &quot;Whore&quot;&gt;&gt;
-&lt;&lt;if $Player.WhoreTutorial == false&gt;&gt;&lt;&lt;run $Player.WhoreTutorial = true;&gt;&gt;&lt;&lt;set $WhoreLink = $args[0];&gt;&gt;&lt;&lt;set $WhorePassage = passage();&gt;&gt;&lt;&lt;goto WhoreTutorial&gt;&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if $Player.WhoreTutorial == false&gt;&gt;&lt;&lt;run $Player.WhoreTutorial = true;&gt;&gt;&lt;&lt;set $WhoreLink = $args[0];&gt;&gt;&lt;&lt;set $WhorePassage = passage();&gt;&gt;&lt;&lt;goto WhoreTutorial&gt;&gt;
+&lt;&lt;else&gt;&gt;
 &lt;&lt;set _Passage = passage(); &gt;&gt;
 &lt;&lt;run $Player.AdjustStat(&quot;Energy&quot;, -1);&gt;&gt;
-&lt;&lt;run App.SlotEngine.LoadScene($args[0], _Passage, $Player);&gt;&gt;&lt;&lt;/click&gt;&gt;
+&lt;&lt;run App.SlotEngine.LoadScene($args[0], _Passage, $Player);&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/click&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="105" name="ChangeLog" tags="custom-menu" position="600,1350">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 
 !!!0.6 - 05/29/2018
@@ -27085,7 +27109,11 @@ Resting and sleeping will heal you if you are not poisoned or starving. There ar
 
 &#39;&#39;Skill Checks&#39;&#39;
 Don&#39;t worry too much about these. They are important for tracking your progress, but most rewards are given on a sliding scale. You can still progress at most activities even if your \
-skills are low. You just won&#39;t get as much reward.</tw-passagedata><tw-passagedata pid="116" name="SelfJobs" tags="custom-menu" position="725,1475">&lt;&lt;nobr&gt;&gt;
+skills are low. You just won&#39;t get as much reward.
+
+&#39;&#39;Resting&#39;&#39;
+Don&#39;t underestimate the value of keeping yourself fully rested. If you can afford to take the time to relax, you should. It will help you process skill xp gains faster, increasing \
+your skills, give you more energy and at max energy it can even heal you quite a bit.</tw-passagedata><tw-passagedata pid="116" name="SelfJobs" tags="custom-menu" position="725,1475">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;
 &lt;&lt;printJobResult $MenuAction&gt;&gt;
 &lt;&lt;set $MenuAction = 0;&gt;&gt;&lt;&lt;/nobr&gt;&gt;
