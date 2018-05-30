@@ -88,7 +88,7 @@ App.SlotEngine = new function() {
         this._DesperationSpins = 0;
         this._Misses = 0;
         this._EndStatus = [ ];
-        this._SelectedCustomer = 0;
+        this._SelectedCustomer = null;
 
         var customerObject;
         while( this._Customers.length < 6 ) {
