@@ -162,13 +162,13 @@ var Store = function(Player, NPC, StoreData) {
 
                     // if roll == 95 then include legendary items
                     if (roll == 95 ) {
-                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["InMarket"] ? App.Data.Clothes[c]["InMarket"] : true ); });
+                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) {  return ( 'InMarket' in App.Data.Clothes[c] ? App.Data.Clothes[c]["InMarket"] : true ); });
                     } else {
-                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( App.Data.Clothes[c]["InMarket"] ? App.Data.Clothes[c]["InMarket"] : true ) && App.Data.Clothes[c]["Style"] != "LEGENDARY"; });
+                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( 'InMarket' in App.Data.Clothes[c] ? App.Data.Clothes[c]["InMarket"] : true ) && App.Data.Clothes[c]["Style"] != "LEGENDARY"; });
                     }
 
                     if (keys && keys.length > 0 ) {
-                        var entry = keys[(Math.floor(Math.random() * Object.keys(App.Data.Clothes).length))];
+                        var entry = keys[(Math.floor(Math.random() * keys.length))];
                         if (App.Data.Clothes[entry]["Style"] == "LEGENDARY") {
                             this._Player.StoreInventory[this._Data["ID"]]["RARE"].push(
                                 {
