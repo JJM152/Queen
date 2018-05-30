@@ -94,8 +94,7 @@ window.App.QuestEngine = new function() {
                 if(Player.Day < Value) return false;
             break;
             case "IS_WEARING":
-                if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Key) == 0){ return true } }
-                if(Player.GetEquipmentInSlot(Key) == 0){ return false }
+                if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Key) !== 0){ return false } }
             break;
 
         }

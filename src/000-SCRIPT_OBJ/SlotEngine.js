@@ -88,6 +88,7 @@ App.SlotEngine = new function() {
         this._DesperationSpins = 0;
         this._Misses = 0;
         this._EndStatus = [ ];
+        this._SelectedCustomer = 0;
 
         var customerObject;
         while( this._Customers.length < 6 ) {
@@ -211,7 +212,7 @@ App.SlotEngine = new function() {
 
         // Check for rare loot drops.
         for (i = 0; i < oSatisfied.length; i++) {
-            if ( (1 + Math.floor(Math.random() * 100)) <= (120 - oSatisfied.Mood)) {
+            if ( (1 + Math.floor(Math.random() * 100)) <= (130 - oSatisfied.Mood)) {
                 var tipTotal = Math.floor(oSatisfied[i].Spent * 0.30);
                 var item = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: tipTotal } );
                 if (item != null) {
@@ -221,7 +222,7 @@ App.SlotEngine = new function() {
             }
         }
 
-        var desperation = this._DesperationSpins * 25;
+        var desperation = this._DesperationSpins * 20;
         if (desperation > 0) {
             this._Player.AdjustStatXP("WillPower", (desperation * -1.0));
             this._EndStatus.push("You lost @@color:red;" + desperation + " willpower XP@@. This is a dangerous situation.");

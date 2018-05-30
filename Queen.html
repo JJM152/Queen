@@ -5795,8 +5795,7 @@ window.App.QuestEngine = new function() {
                 if(Player.Day < Value) return false;
             break;
             case "IS_WEARING":
-                if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Key) == 0){ return true } }
-                if(Player.GetEquipmentInSlot(Key) == 0){ return false }
+                if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Key) !== 0){ return false } }
             break;
 
         }
@@ -6728,6 +6727,7 @@ App.SlotEngine = new function() {
         this._DesperationSpins = 0;
         this._Misses = 0;
         this._EndStatus = [ ];
+        this._SelectedCustomer = 0;
 
         var customerObject;
         while( this._Customers.length < 6 ) {
@@ -6851,7 +6851,7 @@ App.SlotEngine = new function() {
 
         // Check for rare loot drops.
         for (i = 0; i < oSatisfied.length; i++) {
-            if ( (1 + Math.floor(Math.random() * 100)) <= (120 - oSatisfied.Mood)) {
+            if ( (1 + Math.floor(Math.random() * 100)) <= (130 - oSatisfied.Mood)) {
                 var tipTotal = Math.floor(oSatisfied[i].Spent * 0.30);
                 var item = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: tipTotal } );
                 if (item != null) {
