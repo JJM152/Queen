@@ -158,6 +158,8 @@ App.SlotEngine = new function() {
         var i = 0;
         var oSatisfied = this._Customers.filter(function(o) { return o.Satisfaction >= 100; });
 
+        Player.AddHistory("CUSTOMERS", this._DataKey, oSatisfied.length); // Keep track of satisfied customers.
+
         switch(oSatisfied.length) {
             case 0: tmp = "You satisfied no customers, this is going to catch up with you later."; bonus = 1.0; break;
             case 1:
@@ -173,7 +175,7 @@ App.SlotEngine = new function() {
         var npcTags = this._Customers.map(function(o) { return o.Tag; }).filter(function(a,b,s) { return s.indexOf(a) == b; }); // All available tags.
 
         var oMood = this._Customers.filter(function(o) { return (o.Mood != o.oMood); } ); // Get all affected customers.
-        var mood = Math.floor(Math.floor(Math.floor((oMood.reduce(function(a, o) { return ( a + (o.Mood - o.oMood)) }, 0)/ 6)) * bonus) * 0.5); // Set mood adjustment
+        var mood = Math.floor(Math.floor(Math.floor((oMood.reduce(function(a, o) { return ( a + (o.Mood - o.oMood)) }, 0)/ 6)) * bonus) * 0.8); // Set mood adjustment
         var affTags = oMood.map(function(o) { return o.Tag; }).filter(function(a,b,s) { return s.indexOf(a) == b; }); // Tags we touched their mood.
 
         for(i = 0; i < npcTags.length; i++) // Iterate through and adjust mood.

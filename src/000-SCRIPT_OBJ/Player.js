@@ -37,6 +37,7 @@ App.Entity.Player = function (){
         "CLOTHING_EFFECTS_KNOWN" : { },
         "DAYS_WORN" : { },
         "SEX"   : { },
+        "CUSTOMERS" : { },
         "MONEY" : { }
     };
 
@@ -88,38 +89,20 @@ App.Entity.Player = function (){
             "Weapon":           0
         };
 
-        this.NPCS = {
-            "Crew":                 window.App.Item.Factory("NPC",     "Crew"),
-            "Cook":                 window.App.Item.Factory("NPC",     "Cook"),
-            "Captain":              window.App.Item.Factory("NPC",     "Captain"),
-            "Quartermaster":        window.App.Item.Factory("NPC",     "Quartermaster"),
-            "FirstMate":            window.App.Item.Factory("NPC",     "FirstMate"),
-            "IslaTavernKeeper" :    window.App.Item.Factory("NPC",     "IslaTavernKeeper"),
-            "IslaShopKeeper" :      window.App.Item.Factory("NPC",     "IslaShopKeeper"),
-            "Jarvis" :              window.App.Item.Factory("NPC",     "Jarvis"),
-            "LordRowe":             window.App.Item.Factory("NPC",     "LordRowe"),
-            "Petey":                window.App.Item.Factory("NPC",     "Petey"),
-            "Georgina":             window.App.Item.Factory("NPC",     "Georgina"),
-            "Paola":                window.App.Item.Factory("NPC",     "Paola"),
-            "Steve":                window.App.Item.Factory("NPC",     "Steve"),
-            "Gulliver":             window.App.Item.Factory("NPC",     "Gulliver"),
-            "Blanche":              window.App.Item.Factory("NPC",     "Blanche"),
-            "Simone":               window.App.Item.Factory("NPC",     "Simone"),
-            "LustyLassCustomers":   window.App.Item.Factory("NPC",     "LustyLassCustomers"),
-            "Charmaine":            window.App.Item.Factory("NPC",     "Charmaine"),
-            "SlatternCustomers":    window.App.Item.Factory("NPC",     "SlatternCustomers"),
-            "BAZAAR_STORE":         window.App.Item.Factory("NPC",     "BAZAAR_STORE"),
-            "MARKET_STORE":         window.App.Item.Factory("NPC",     "MARKET_STORE")
-        };
+        this.NPCS = { };
 
         /**
-         * @param NpcName {string}
+         * Previously we stored a dictionary of NPC objects. Now we just store some vital information and make new ones as needed.
+         * @param npcTag {string}
          * @returns {App.Entity.NPC}
          */
-        this.GetNPC = function(NpcName ){
-          if (!this.NPCS.hasOwnProperty(NpcName))
-              this.NPCS[NpcName] = window.App.Item.Factory("NPC", NpcName);
-            return this.NPCS[NpcName];
+        this.GetNPC = function(npcTag ){
+            var data = App.Data.NPCS[npcTag];
+              if (!this.NPCS.hasOwnProperty(npcTag)) {
+                  this.NPCS[npcTag] = { QuestFlags: { }, Mood: data["Mood"], Lust: data["Lust"] };
+                  return new App.Entity.NPC( data, this.NPCS[npcTag]);
+              }
+            return new App.Entity.NPC(data, this.NPCS[npcTag])
         };
 
 
@@ -986,8 +969,9 @@ App.Entity.Player = function (){
         for (var prop in this.NPCS) { // NPC mood/desire/quest flags.
             if (!this.NPCS.hasOwnProperty(prop)) continue;
             if (this.NPCS[prop] == 0) continue;
-            this.NPCS[prop].AdjustFeelings();
-            this.NPCS[prop].ResetFlags();
+            var npc = this.GetNPC(prop);
+            npc.AdjustFeelings();
+            npc.ResetFlags();
         }
     };
 

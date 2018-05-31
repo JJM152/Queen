@@ -92,10 +92,16 @@ window.App.QuestEngine = new function() {
             case "DAYS_PASSED":
                 if(Key){Value = this.GetQuestFlag(Player, Key)}
                 if(Player.Day < Value) return false;
-            break;
+                break;
             case "IS_WEARING":
                 if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Key) !== 0){ return false } }
-            break;
+                break;
+            case "TRACK_HISTORY":
+                var arr = Key.split("|");
+                var historyType = Key[0];
+                var historyFlag = Key[1];
+                if (Player.GetHistory(historyType, historyFlag) < Value) return false;
+
 
         }
         return true;
@@ -168,10 +174,11 @@ window.App.QuestEngine = new function() {
      * @private
      */
     this._DoTriggers = function( postCheck, Player ) {
-        var Type, Name, Value;
+        var Type, Name, Value, Opt;
         Type  = postCheck["TYPE"];
         Name  = postCheck["NAME"];
         Value = postCheck["VALUE"];
+        Opt  = postCheck["OPT"];
 
         switch(Type) {
             case 'QUEST_FLAG':
@@ -182,6 +189,10 @@ window.App.QuestEngine = new function() {
                 break;
             case 'QUEST_ITEM':
                 Player.AddItem("QUEST", Name, 0);
+                break;
+            case 'TRACK_CUSTOMERS':
+                // Let's set a tag in the player to track the history
+                Player.QuestFlags[Value] = Player.GetHistory("CUSTOMERS", Name);
                 break;
 
         }
