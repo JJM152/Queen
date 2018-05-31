@@ -15,6 +15,8 @@
 * The job engine could give out money with floating points as rewards. This has been fixed.
 * Lots of debugging and cheat stuff added by @@color:deepPink;AmansMarium@@
 * Starting slave names slightly refactored by @@color:deepPink;daviezwei@@
+* Refactored how NPC data is stored to reduce size of player object.
+* Added the ability to track how many customers the player has serviced as a whore. This can be used as a quest condition now.
 !!!Salty Mermaid
 * The deterioration of the Crew's mood has been greatly reduced.
 * Cookie's 'Cooking Lesson' job edited by @@color:deepPink;daviezwei@@
@@ -26,6 +28,8 @@
 !!!Isla Harbor
 * Cloud District added by @@color:deepPink;AmansMarium@@.
 * General description updates by @@color:deepPink;daviezwei@@
+!!!Golden Isle
+* Added Guard Captain NPC to guard house and mini-quest to gain access to High Hill.
 !!!Abamond
 * General description updates by @@color:deepPink;daviezwei@@
 !!!Port Royale

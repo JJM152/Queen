@@ -186,3 +186,79 @@
 <</for>>
 <</if>>
 <</nobr>><</widget>>
+
+<<widget "DrawCollarTable">><<nobr>>
+<table class=".MyTable" style="width:750px;">
+<tbody>
+<tr style="border-bottom:1px solid white;">
+		<td style="width:80px;">&nbsp;</td>
+		<td style="width:590px;">&nbsp;</td>
+		<td style="width:80px;">&nbsp;</td>
+</tr>
+<<set _Items = $Player.WardrobeItemsBySlot("Neck")>>
+<<if $Player.GetEquipmentInSlot("Neck") != 0;>>
+<tr>
+    <td style="width:80px;">@@color:orange;Worn@@</td>
+    <td style="width:590px;"><<= $Player.GetEquipmentInSlot("Neck").Description(); >></td>
+    <td style="text-align:right"><<= "<<ExamineCollarButton \"" + $Player.GetEquipmentInSlot("Neck").Id() + "\" \"Neck\" >>" >></td>
+</tr>
+<</if>>
+<<if (_Items.length > 0)>>
+<<for _i = 0; _i lt _Items.length; _i++>>
+<tr>
+    <td style="width:80px;"><<= "<<SwapCollarButton \"" + _Items[_i].Id() + "\">>">></td>
+    <td style="width:590px;"><<= _Items[_i].Description() >></td>
+    <td style="text-align:right"><<= "<<ExamineCollarButton \"" + _Items[_i].Id() + "\" \"Neck\" >>" >></td>
+</tr>
+<</for>>
+<<else>>
+<tr>
+    <td colspan="3">>@@color:red;No collars to swap to.@@</td>
+</tr>
+<</if>>
+</tbody>
+</table>
+<</nobr>><</widget>>
+
+<<widget "ExamineCollarButton">><<nobr>>
+@@.wardrobeButton;<<button "Examine">>
+<<replace "#InventoryUI">><<InspectCollar $args[0] $args[1]>><</replace>>
+<</button>>@@
+<</nobr>><</widget>>
+
+<<widget "SwapCollarButton">><<nobr>>
+<<if $Player.Money < 300>>@@.disabledWardrobeButton;<<button "Swap">><</button>>@@
+<<else>>
+@@.wardrobeButton;<<button "Swap">>
+<<set _Current = $Player.GetEquipmentInSlot("Neck");>>
+<<set _New = $Player.GetItemById($args[0]);>>
+<<run $Player.AdjustMoney(-300);>>
+<<run _Current.o.Locked = false;>>
+<<run $Player.Wear( $Player.GetItemById($args[0]));>>
+<<run _New.o.Locked = true>>
+<<goto "CollarSwap">>
+<</button>>@@
+<</if>>
+<</nobr>><</widget>>
+
+<<widget "InspectCollar">>\
+<<set _Item = $Player.GetItemById($args[0]); >>\
+<table class=".MyTable" style="width:750px;">
+<tbody>
+	<tr><td colspan="2">@@color:yellow;Inspecting - @@<<= _Item.Description()>></td>
+		<td colspan="2" style="text-align:right">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<DrawCollarTable>><</replace>><</button>>@@</td>
+	</tr>
+	<tr style="border-bottom:1px solid white;">
+		<td style="width:80px;"> </td>
+		<td style="width:440px;"> </td>
+		<td style="width:80px;"> </td>
+		<td style="width:80px;"> </td>
+	</tr>
+	<tr>
+		<td> </td>
+		<td colspan="2">
+		<<print _Item.Examine($Player);>></td>
+		<td> </td>
+	</tr>
+</tbody>
+</table><</widget>>

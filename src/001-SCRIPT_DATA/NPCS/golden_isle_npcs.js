@@ -76,3 +76,16 @@ App.Data.NPCS["GoldenIsleGuards"] = {
     "Title" : "Guards of Golden Isle",
     "LongDesc" : "A gang of ruffians and thugs employed as 'guards' by the Governor of Golden Isle."
 };
+
+App.Data.NPCS["Yvonne"] = {
+    "Name" : "Madame Yvonne", // This is a place holder and not meant to be used as an actual NPC.
+    "Mood" : 50,
+    "DailyMood" : 0,
+    "Lust" : 70,
+    "DailyLust" : 2,
+    "Title" : "NPC_NAME, the Lovely",
+    "LongDesc" : "Despite her advanced years, NPC_NAME certainly lives up to her moniker. The signs of her age are barely noticeable, just a slight "+
+        "wrinkle around an eye, or a small crease in a lip that disappears almost as soon as you spot it. Clearly as the proprietor of this salon, she "+
+        "is at the top of her craft, but asides from that you can't help but suspect that she has had some magical or alchemical assistance beyond the means "+
+        "of the average woman."
+};

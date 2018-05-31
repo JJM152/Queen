@@ -56,31 +56,33 @@ You will gain a bonus on skill checks for a time...
 <<replace "#voodooMenu">>\
 @@color:cyan;Paola@@ pulls out a strange item from her voluminous skirt -- it looks like a monkey's paw. She waves it in front of her face and then over your head, like she's testing for something. Finally she puts her hand on your face and you feel a warm sensation flowing out of your body... you get momentarily dizzy and then you convulse on the floor.
 
-When you finally come too, you feel lighter and your proportions are noticeably smaller.<</replace>>\
+When you finally come too, you feel lighter and your face feels weathered and your body is weary, but you also feel somehow luckier...<</replace>>\
 <<run $Player.AdjustBody("Face", -4)>>\
-<<run $Player.AdjustStat("WillPower", -4)>>\
+<<run $Player.AdjustStat("WillPower", -2)>>\
 <<run $Player.SetHex("PIRATES_PROWESS_BONUS", 10)>>\
 <<run $Player.SetHex("PIRATES_PROWESS_DURATION", 2)>>\
-<</button>>@@ Cost: @@color:red;&dArr;Bust@@ @@color:red;&dArr;Ass@@ @@color:red;&dArr;Hips@@ \
+<</button>>@@ Cost: @@color:red;&dArr;Face@@ @@color:red;&dArr;Willpower@@ \
 <</if>>\
 <</if>>
-@@color:cyan;(Rank 2)@@ <<if (($Player.GetStat("BODY", "Face") < 8) || ($Player.GetStat("STAT", "WillPower") < 8))>>\
-@@.disabledStoreButton;<<button "BUY">><</button>>@@ Cost: @@color:red;&dArr;&dArr;Bust@@ @@color:red;&dArr;&dArr;Ass@@ @@color:red;&dArr;&dArr;Hips@@ - @@color:red;Stats too low!@@\
+@@color:cyan;(Rank 2)@@ <<if (($Player.GetStat("BODY", "Face") < 8) || ($Player.GetStat("STAT", "WillPower") < 4))>>\
+@@.disabledStoreButton;<<button "BUY">><</button>>@@ Cost: @@color:red;&dArr;&dArr;Face@@ @@color:red;&dArr;&dArr;Willpower@@ - @@color:red;Stats too low!@@\
 <<else>>\
 <<if $Player.HasHex("PIRATES_PROWESS")>>\
-@@.disabledStoreButton;<<button "BUY">><</button>>@@ Cost: @@color:red;&dArr;&dArr;Bust@@ @@color:red;&dArr;&dArr;Ass@@ @@color:red;&dArr;&dArr;Hips@@ - @@color:red;You already have this effect!@@\
+@@.disabledStoreButton;<<button "BUY">><</button>>@@ Cost: @@color:red;&dArr;&dArr;Face@@ @@color:red;&dArr;&dArr;Willpower@@ - @@color:red;You already have this effect!@@\
 <<else>>\
 @@.storeButton;<<button "BUY">>\
 <<replace "#voodooMenu">>\
 @@color:cyan;Paola@@ pulls out a strange item from her voluminous skirt -- it looks like a monkey's paw. She waves it in front of her face and then over your head, like she's testing for something. Finally she puts her hand on your face and you feel a warm sensation flowing out of your body... you get momentarily dizzy and then you convulse on the floor.
 
-When you finally come too, you feel lighter and your proportions are noticeably smaller.<</replace>>\
+When you finally come too, you feel lighter and your face feels weathered and your body is weary, but you also feel somehow luckier...<</replace>>\
 <<run $Player.AdjustBody("Face", -8)>>\
-<<run $Player.AdjustStat("WillPower", -8)>>\
+<<run $Player.AdjustStat("WillPower", -4)>>\
+<<run $Player.SetHex("PIRATES_PROWESS_BONUS", 10)>>\
 <<run $Player.SetHex("PIRATES_PROWESS_DURATION", 5)>>\
-<</button>>@@ Cost: @@color:red;&dArr;&dArr;Bust@@ @@color:red;&dArr;&dArr;Ass@@ @@color:red;&dArr;&dArr;Hips@@ \
+<</button>>@@ Cost: @@color:red;&dArr;&dArr;Face@@ @@color:red;&dArr;&dArr;Willpower@@ \
 <</if>>\
 <</if>>\
+
 </span>
 
 @@color:cyan;Interact@@: [[Exit|HiddenCove]]

@@ -1,2 +1,11 @@
 :: GI_Salon
+The parlor of this salon has a distinctly feminine appeal with the interior being bathed in hues of rosy pink and dotted \
+ever so carefully with light wisps of airy lace. A soft fragrance that you can't place, not unpleasant, tickles your nose \
+and leaves a lingering scent of spice behind. All in all, the ambiance here is both inviting as well as slightly \
+mysterious.
+
+<<NPC "Yvonne">>
+
+@@color:yellow;Interact@@: \
+<<if $Player.GetEquipmentInSlot("Neck") == 0>>@@color:grey;Collar Swap@@<<else>><<click "Collar Swap" "CollarSwap">><<set $GameBookmark = passage(); >><</click>><</if>>
 @@color:lime;Travel@@: [[High Hill District|HighHill]]
