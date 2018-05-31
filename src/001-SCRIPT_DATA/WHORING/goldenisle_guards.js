@@ -3,9 +3,9 @@ App.Data.Whoring = App.Data.Whoring || { };
 
 App.Data.Whoring["GoldenIsleGuards"] = {
     // Shows in the UI as location.
-    "DESC"      : "The Lusty Lass",
+    "DESC"      : "Golden Isle Guard House",
     // Sex act weighted table.
-    "WANTS"     : [ "HAND", "ASS", "ASS", "ASS", "ASS", "BJ", "BJ", "BJ", "BJ", "TITS", "TITS", "TITS" ],
+    "WANTS"     : [ "HAND", "HAND", "ASS", "ASS", "ASS", "ASS", "BJ", "BJ", "BJ", "BJ", "TITS", "TITS", "TITS" ],
     // Minimum payout rank.
     "MIN_PAY"   : 2,
     // Maximum payout rank.

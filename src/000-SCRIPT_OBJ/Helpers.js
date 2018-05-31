@@ -371,9 +371,16 @@ App.PR = new function() {
                         break;
                     case "IS_WEARING":
                         bMeter = false;
-                        Val = false;
-                        if(checks[i]["VALUE"] === "NOT"){ pString = "''NOT'' "; if(Player.GetEquipmentInSlot(Name) == 0){ Val = true; } }else{ if(Player.GetEquipmentInSlot(Player, Name) != 0){ Val = true; } }
+                        if(checks[i]["VALUE"] == "NOT") pString = "''NOT'' ";
+                        Val = (checks[i]["VALUE"] == "NOT" ? (Player.GetEquipmentInSlot(Name) == 0) : (Player.GetEquipmentInSlot(Name) != 0));
                         pString = pString + "wearing " + Name.toLowerCase();
+                        break;
+                    case "TRACK_CUSTOMERS":
+                        bMeter = false;
+                        var flag = App.QuestEngine.GetQuestFlag(Player, "track_"+Name);
+                        var count = Player.GetHistory("CUSTOMERS", Name);
+                        Val = (count - flag >= checks[i]["VALUE"]);
+                        pString = "Satisfy Customers "+(count-flag)+"/"+checks[i]["VALUE"];
                         break;
                 }
 

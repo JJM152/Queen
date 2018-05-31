@@ -56,12 +56,23 @@ App.Data.NPCS["BAZAAR_STORE"] = {
         "Store" : "BAZAAR_STORE"
 };
 
+App.Data.NPCS["Justus"] = {
+    "Name" : "Justus Clavicus",
+    "Mood" : 40,
+    "DailyMood" : -1,
+    "Lust" : 100,
+    "DailyLust" : 2,
+    "Title" : "NPC_NAME, Captain of the Guard",
+    "LongDesc" : "An older man, well into his fifth decade, but still strong and vital. An obvious veteran of many campaigns, his heavily muscled body is a map "+
+        "of scars and old battle wounds. One of his eyes seems to have been injured, it is cloudy and blue."
+};
+
 App.Data.NPCS["GoldenIsleGuards"] = {
     "Name" : "Golden Isle Guards", // This is a place holder and not meant to be used as an actual NPC.
     "Mood" : 50,
     "DailyMood" : -1,
     "Lust" : 100,
-    "DailyLust" : 5,
+    "DailyLust" : 2,
     "Title" : "Guards of Golden Isle",
     "LongDesc" : "A gang of ruffians and thugs employed as 'guards' by the Governor of Golden Isle."
 };

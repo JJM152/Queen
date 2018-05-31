@@ -5,4 +5,23 @@ reputation so fearsome that few utter to whisper her name without a look over th
 to temporarily store prisoners. The island has no need for more robust facilities, as criminals among pirates are usually either killed or simply \
 pressed into service on a passing vessel.
 
-@@color:lime;Travel@@: [[Portside District|Portside]] | [[Jail House|GI_Jail]] | [[High Hill District|HighHill]]
+<<NPC "Justus">>
+
+<<if window.App.QuestEngine.GetQuestFlag($Player, "JUSTUS_WHORING") == "ACTIVE">>@@color:yellow;Action@@: <<if $Player.GetStat("STAT","Energy") < 1 or $Player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<whoreLink "GoldenIsleGuards">><</if>><br><</if>>\
+@@color:lime;Travel@@: [[Portside District|Portside]] | [[Jail House|GI_Jail]] | \
+<<if App.QuestEngine.GetQuestFlag($Player, "JUSTUS_WHORING") != "COMPLETED">>\
+<<click "High Hill District">>\
+<<replace "#Notification">>\
+You move forward toward's the entrance to the @@color:gold;Hill Hill District@@, but the Guard Captain steps forward and blocks your way.
+
+@@color:cyan;Justus@@ says, "There's no way I'll let a vagrant such as yourself pass through these gates. Be gone slut, ply your trade somewhere else!"
+
+//Surely there can be some way to convince him to let you pass?//
+<</replace>>\
+<</click>>\
+<<else>>\
+[[High Hill District|HighHill]]<</if>>
+
+<span id="Notification"></span>
+
+

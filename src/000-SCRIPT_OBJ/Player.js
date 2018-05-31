@@ -995,6 +995,7 @@ App.Entity.Player = function (){
         return dict;
     };
 
+    /** TODO: Refactor to not store objects on player, just data keys. Create objects dynamically as they are needed by the game engine */
     // Equipment and Inventory Related Functions
 
     /**

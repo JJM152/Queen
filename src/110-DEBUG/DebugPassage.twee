@@ -3,7 +3,7 @@
 [[Next Day|DebugPassage][$Player.NextDay();]]
 
 @@color:lime;Travel Menu@@
-[[Cabin]] | [[IslaHarbor]] | [[GoldenIsle]] | [[Abamond]] | [[PortRoyale]] | [[PassageTest]]
+[[Cabin]] | [[IslaHarbor]] | [[GoldenIsle]] | [[HighHill]] | [[Abamond]] | [[PortRoyale]] | [[PassageTest]]
 [[HiddenCove]] | [[Ruins]] | [[TreasureRoom]]
 
 @@color:silver;Items Menu@@

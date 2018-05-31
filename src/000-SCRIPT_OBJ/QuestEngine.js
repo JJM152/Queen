@@ -93,16 +93,15 @@ window.App.QuestEngine = new function() {
                 if(Key){Value = this.GetQuestFlag(Player, Key)}
                 if(Player.Day < Value) return false;
                 break;
+            /** TODO: Refactor this to check also for wearing specific items. **/
             case "IS_WEARING":
                 if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Key) !== 0){ return false } }
                 break;
-            case "TRACK_HISTORY":
-                var arr = Key.split("|");
-                var historyType = Key[0];
-                var historyFlag = Key[1];
-                if (Player.GetHistory(historyType, historyFlag) < Value) return false;
-
-
+            case "TRACK_CUSTOMERS":
+                var flag = this.GetQuestFlag(Player, "track_"+Key);
+                var count = Player.GetHistory("CUSTOMERS", Key);
+                if (count - flag < Value) return false;
+                break;
         }
         return true;
     };
@@ -191,8 +190,8 @@ window.App.QuestEngine = new function() {
                 Player.AddItem("QUEST", Name, 0);
                 break;
             case 'TRACK_CUSTOMERS':
-                // Let's set a tag in the player to track the history
-                Player.QuestFlags[Value] = Player.GetHistory("CUSTOMERS", Name);
+                // Let's set a tag in the player to start tracking their history
+                Player.QuestFlags["track_"+Name] = Player.GetHistory("CUSTOMERS", Name);
                 break;
 
         }
