@@ -71,10 +71,10 @@ App.Data.Quests["BOARDINGPASS"] = {
     "POST": [
     ],
     "CHECKS": [
-        {"TYPE": "NPC_MOOD", "NAME": "Crew", "VALUE": 90},
-        {"TYPE": "NPC_MOOD", "NAME": "FirstMate", "VALUE": 90},
-        {"TYPE": "NPC_MOOD", "NAME": "Cook", "VALUE": 90},
-        {"TYPE": "NPC_MOOD", "NAME": "Quartermaster", "VALUE": 90}
+        {"TYPE": "NPC_MOOD", "NAME": "Crew", "VALUE": 80},
+        {"TYPE": "NPC_MOOD", "NAME": "FirstMate", "VALUE": 70},
+        {"TYPE": "NPC_MOOD", "NAME": "Cook", "VALUE": 70},
+        {"TYPE": "NPC_MOOD", "NAME": "Quartermaster", "VALUE": 70}
     ],
     "REWARD": [
         // Rewards given when quest is completed.

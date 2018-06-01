@@ -24,6 +24,7 @@ App.SlotEngine = new function() {
     this._ReturnPassage = "Deck";
     this._EndStatus = [ ];
     this._Title = "A BACK ALLEY";
+    this._Marquee = null;
     this._SelectedSlot = null;
 
     /**
@@ -89,6 +90,7 @@ App.SlotEngine = new function() {
         this._Misses = 0;
         this._EndStatus = [ ];
         this._SelectedCustomer = null;
+        this._Marquee =  dict.hasOwnProperty('MARQUEE') ? dict['MARQUEE'] : null;
 
         var customerObject;
         while( this._Customers.length < 6 ) {
@@ -143,7 +145,7 @@ App.SlotEngine = new function() {
 
     this._AddXXX = function (ob, root)
     {
-        var num = Math.round(Math.random() * 10);
+        var num = Math.max(1, Math.min(Math.round(Math.random() * 10), 10));
         var pic;
         switch( ob.MostSatisfied()[0]) {
             case "ASS" : pic = "ss_anal_"+num ;break;
@@ -574,11 +576,16 @@ App.SlotEngine = new function() {
         $('#WhoreStatusPanel').remove();
 
         var root =  $('<div>').addClass('WhoreStatus').attr('id', "WhoreStatusPanel");
-        var title = $('<div>').addClass(('WhoreStatusTitle')).text(this._Title);
-        root.append(title);
-
-        var spinTitle = $('<span>').addClass('WhoreSpinsLeftTitle').text('SPINS LEFT');
-        root.append(spinTitle);
+        if (this._Marquee != null ) {
+            var marquee = $('<div>').addClass('WhoreMarquee');
+            marquee.addClass(this._Marquee);
+            root.append(marquee);
+        } else {
+            var title = $('<div>').addClass(('WhoreStatusTitle')).text(this._Title);
+            root.append(title);
+            var spinTitle = $('<span>').addClass('WhoreSpinsLeftTitle').text('SPINS LEFT');
+            root.append(spinTitle);
+        }
 
         var buyButton = $('<button>').addClass("WhoreBuySpinButton").text("BUY 5 SPINS FOR 1 ENERGY");
         buyButton.on("click", this._BuyEnergyCB.bind(this));

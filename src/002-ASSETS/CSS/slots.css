@@ -58,6 +58,16 @@ div.WhoreStatusTitle {
     text-align: center;
 }
 
+div.WhoreMarquee {
+    position: absolute;
+    top: 00px;
+    left: 10px;
+    width: 190px;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 span.WhoreSpinsLeftTitle {
     position:absolute;
     top: 30px;
@@ -70,7 +80,7 @@ div.WhoreSpinsLeftBox {
     position:absolute;
     width: 180px;
     height: 40px;
-    top: 50px;
+    top: 53px;
     left: 10px;
     background-color: black;
     color:yellow;
@@ -910,3 +920,7 @@ div.xxxDiv {
 .ss_tit_8 {  background-image: [img[ss_tit_8]];  }
 .ss_tit_9 {  background-image: [img[ss_tit_9]];  }
 .ss_tit_10 {  background-image: [img[ss_tit_10]];  }
+
+/* Classes for Marquee icons for slot game */
+
+.mq_salty_mermaid { background-image: [img[salty_mermaid_marquee]]

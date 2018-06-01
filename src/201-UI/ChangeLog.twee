@@ -1,5 +1,10 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.6b - 06/01/2018
+!!!!General
+* Added some nice new slot machine graphics courtesy of an 'anonymous donor'
+* Fixed a couple of glitches with the background tiles
+* Added a 'Marquee' element to the slot machine GUI. Can now take a 190x50px image, set per whoring location.
 !!!0.6a - 06/01/2018
 !!!!General
 * Significantly sped up slot wheel animation.... maybe a bit too much? Sheesh.
@@ -9,6 +14,7 @@
 * Added some lewd pictures to aforementioned game.
 !!!!Salty Mermaid
 * Added some color text to the 'Human Experimentation' job to draw notice when you unlock new items in the shop.
+* Slightly reduced mood requirements for passing the 'Boarding Pass' quest.
 !!!0.6 - 05/29/2018
 !!!!General
 * Various bug fixes and code refactoring contributed by myself and @@color:deepPink;AmansMarium@@.

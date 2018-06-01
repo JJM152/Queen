@@ -20,7 +20,8 @@ App.Data.Whoring["SaltyMermaid"] = {
     "NAMES"     : App.Data.Names["Male"],
     "TITLE"     : "Pirate",
     "RARES"     : [ "Reginald", "Kipler", "Cookie", "Julius" ],
-    "NPC_TAG"   : "Crew"
+    "NPC_TAG"   : "Crew",
+    "MARQUEE"   : "mq_salty_mermaid"
 };
 
 App.Data.Whoring["Reginald"] = {
