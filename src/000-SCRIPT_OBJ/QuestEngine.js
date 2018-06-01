@@ -95,7 +95,8 @@ window.App.QuestEngine = new function() {
                 break;
             /** TODO: Refactor this to check also for wearing specific items. **/
             case "IS_WEARING":
-                if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Key) !== 0){ return false } }
+                if(Value == "NOT" && Player.GetEquipmentInSlot(Key) != 0) return false;
+                if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Key) == 0) return false;
                 break;
             case "TRACK_CUSTOMERS":
                 var flag = this.GetQuestFlag(Player, "track_"+Key);

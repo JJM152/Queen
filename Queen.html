@@ -5668,7 +5668,8 @@ window.App.QuestEngine = new function() {
                 break;
             /** TODO: Refactor this to check also for wearing specific items. **/
             case "IS_WEARING":
-                if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Key) !== 0){ return false } }
+                if(Value == "NOT" && Player.GetEquipmentInSlot(Key) != 0) return false;
+                if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Key) == 0) return false;
                 break;
             case "TRACK_CUSTOMERS":
                 var flag = this.GetQuestFlag(Player, "track_"+Key);
@@ -26915,6 +26916,7 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 !!!!General
 * Significantly sped up slot wheel animation.... maybe a bit too much? Sheesh.
 * Fixed bug that wasn&#39;t allowing satisfied customers with high mood to tip you consumables.
+* re-added removed case in IS_WEARING quest flag check.
 !!!!Salty Mermaid
 * Added some color text to the &#39;Human Experimentation&#39; job to draw notice when you unlock new items in the shop.
 !!!0.6 - 05/29/2018
