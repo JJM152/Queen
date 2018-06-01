@@ -6735,7 +6735,7 @@ App.SlotEngine = new function() {
 
         // Check for rare loot drops.
         for (i = 0; i < oSatisfied.length; i++) {
-            if ( (1 + Math.floor(Math.random() * 100)) <= (130 - oSatisfied.Mood)) {
+            if ( (1 + Math.floor(Math.random() * 100)) <= (oSatisfied[i].Mood - 60)) {
                 var tipTotal = oSatisfied[i].Spent;
                 var item = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: tipTotal } );
                 if (item != null) {
@@ -6895,7 +6895,7 @@ App.SlotEngine = new function() {
         if (slots.length >= 3) {
             this._Reels = new this.EZSlots("SlotContainer",
                 {
-                    "reelCount": slots.length, "startingSet": starting, "winningSet": winning, time: 3.5,
+                    "reelCount": slots.length, "startingSet": starting, "winningSet": winning, time: 2.0,
                     "symbols": slots, "height": 90, "width": 60, "callback": this._SlotCB.bind(this)
                 });
 
@@ -7699,7 +7699,8 @@ App.SlotEngine = new function() {
         this.width = options.width ? options.width : 100;
         this.height = options.width ? options.height : 100;
         this.time = options.time ? (options.time * 1000) : 6500; //time in millis for a spin to take
-        this.howManySymbolsToAppend = Math.round(this.time/325); //how many symbols each spin adds
+        //this.howManySymbolsToAppend = Math.round(this.time/325); //how many symbols each spin adds
+        this.howManySymbolsToAppend = 30;
         this.endingLocation = 7; //location for selected symbol... needs to be a few smaller than howManySymbolsToAppend
         this.jqo = $("#"+id); //jquery object reference to main wrapper
         this.jqoSliders = []; //jquery object reference to strips sliding up and down
@@ -14047,9 +14048,9 @@ App.Data.JobData["QUAR02"] = {
                 { "TYPE" : "STORE",     "NAME" : "CARGO",           "VALUE" :  "khafkir",   "OPT" : "UNLOCK"    }
             ],
             "START" :
-            "NPC_NAME says, \"Ah, PLAYER_NAME, you're up! Well, I have good news - it seems that the test results are in and "+
+            "NPC_NAME says, \"Ah, PLAYER_NAME, you're up! @@color:lime;Well, I have good news@@ - it seems that the test results are in and "+
             "I've been able to re-create an old brew from these notes the Captain found. Thanks for your help... here have some extra coin "+
-            "and if you're interested, a new drink should be available in my shop... it's a liquor called \"Khafkir\" and it supposedly "+
+            "and if you're interested, @@color:orange;a new drink should be available in my shop@@... it's a liquor called \"Khafkir\" and it supposedly "+
             "has some quite strong healing properties.",
             "END" : "",
             "RESULTS" : []
@@ -14073,9 +14074,9 @@ App.Data.JobData["QUAR02"] = {
                 { "TYPE" : "STORE",     "NAME" : "CARGO",           "VALUE" :  "siren elixir",  "OPT" : "UNLOCK"    }
             ],
             "START" :
-            "NPC_NAME says, \"Ah, PLAYER_NAME, you're up! Well, I have good news - it seems that the test results are in and "+
+            "NPC_NAME says, \"Ah, PLAYER_NAME, you're up! @@color:lime;Well, I have good news@@ - it seems that the test results are in and "+
             "I've been able to re-create an old brew from these notes the Captain found. Thanks for your help... here have some extra coin "+
-            "and if you're interested, a new potion should be available in my shop... it's an elixir called \"Siren's Tears\" and it supposedly "+
+            "and if you're interested, @@color:orange;a new potion should be available in my shop@@... it's an elixir called \"Siren's Tears\" and it supposedly "+
             "has the power to instill tranquility in a person. Amazing!",
             "END" : "",
             "RESULTS" : []
@@ -26910,7 +26911,12 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 &lt;&lt;run $Player.AdjustStat(&quot;Energy&quot;, -1);&gt;&gt;
 &lt;&lt;run App.SlotEngine.LoadScene($args[0], _Passage, $Player);&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/click&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="105" name="ChangeLog" tags="custom-menu" position="600,1350">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
-
+!!!0.6a - 06/01/2018
+!!!!General
+* Significantly sped up slot wheel animation.... maybe a bit too much? Sheesh.
+* Fixed bug that wasn&#39;t allowing satisfied customers with high mood to tip you consumables.
+!!!!Salty Mermaid
+* Added some color text to the &#39;Human Experimentation&#39; job to draw notice when you unlock new items in the shop.
 !!!0.6 - 05/29/2018
 !!!!General
 * Various bug fixes and code refactoring contributed by myself and @@color:deepPink;AmansMarium@@.

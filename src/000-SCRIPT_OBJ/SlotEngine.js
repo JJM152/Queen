@@ -214,7 +214,7 @@ App.SlotEngine = new function() {
 
         // Check for rare loot drops.
         for (i = 0; i < oSatisfied.length; i++) {
-            if ( (1 + Math.floor(Math.random() * 100)) <= (130 - oSatisfied.Mood)) {
+            if ( (1 + Math.floor(Math.random() * 100)) <= (oSatisfied[i].Mood - 60)) {
                 var tipTotal = oSatisfied[i].Spent;
                 var item = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: tipTotal } );
                 if (item != null) {
@@ -374,7 +374,7 @@ App.SlotEngine = new function() {
         if (slots.length >= 3) {
             this._Reels = new this.EZSlots("SlotContainer",
                 {
-                    "reelCount": slots.length, "startingSet": starting, "winningSet": winning, time: 3.5,
+                    "reelCount": slots.length, "startingSet": starting, "winningSet": winning, time: 2.0,
                     "symbols": slots, "height": 90, "width": 60, "callback": this._SlotCB.bind(this)
                 });
 
@@ -1178,7 +1178,8 @@ App.SlotEngine = new function() {
         this.width = options.width ? options.width : 100;
         this.height = options.width ? options.height : 100;
         this.time = options.time ? (options.time * 1000) : 6500; //time in millis for a spin to take
-        this.howManySymbolsToAppend = Math.round(this.time/325); //how many symbols each spin adds
+        //this.howManySymbolsToAppend = Math.round(this.time/325); //how many symbols each spin adds
+        this.howManySymbolsToAppend = 30;
         this.endingLocation = 7; //location for selected symbol... needs to be a few smaller than howManySymbolsToAppend
         this.jqo = $("#"+id); //jquery object reference to main wrapper
         this.jqoSliders = []; //jquery object reference to strips sliding up and down

@@ -149,9 +149,9 @@ App.Data.JobData["QUAR02"] = {
                 { "TYPE" : "STORE",     "NAME" : "CARGO",           "VALUE" :  "khafkir",   "OPT" : "UNLOCK"    }
             ],
             "START" :
-            "NPC_NAME says, \"Ah, PLAYER_NAME, you're up! Well, I have good news - it seems that the test results are in and "+
+            "NPC_NAME says, \"Ah, PLAYER_NAME, you're up! @@color:lime;Well, I have good news@@ - it seems that the test results are in and "+
             "I've been able to re-create an old brew from these notes the Captain found. Thanks for your help... here have some extra coin "+
-            "and if you're interested, a new drink should be available in my shop... it's a liquor called \"Khafkir\" and it supposedly "+
+            "and if you're interested, @@color:orange;a new drink should be available in my shop@@... it's a liquor called \"Khafkir\" and it supposedly "+
             "has some quite strong healing properties.",
             "END" : "",
             "RESULTS" : []
@@ -175,9 +175,9 @@ App.Data.JobData["QUAR02"] = {
                 { "TYPE" : "STORE",     "NAME" : "CARGO",           "VALUE" :  "siren elixir",  "OPT" : "UNLOCK"    }
             ],
             "START" :
-            "NPC_NAME says, \"Ah, PLAYER_NAME, you're up! Well, I have good news - it seems that the test results are in and "+
+            "NPC_NAME says, \"Ah, PLAYER_NAME, you're up! @@color:lime;Well, I have good news@@ - it seems that the test results are in and "+
             "I've been able to re-create an old brew from these notes the Captain found. Thanks for your help... here have some extra coin "+
-            "and if you're interested, a new potion should be available in my shop... it's an elixir called \"Siren's Tears\" and it supposedly "+
+            "and if you're interested, @@color:orange;a new potion should be available in my shop@@... it's an elixir called \"Siren's Tears\" and it supposedly "+
             "has the power to instill tranquility in a person. Amazing!",
             "END" : "",
             "RESULTS" : []
