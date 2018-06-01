@@ -140,6 +140,22 @@ App.SlotEngine = new function() {
         $(document).one(":passageend", this._DrawSlotInventoryCB.bind(this));  
     };
 
+
+    this._AddXXX = function (ob, root)
+    {
+        var num = Math.round(Math.random() * 10);
+        var pic;
+        switch( ob.MostSatisfied()[0]) {
+            case "ASS" : pic = "ss_anal_"+num ;break;
+            case "HAND" : pic = "ss_hand_"+num ;break;
+            case "BJ" : pic = "ss_bj_"+num ;break;
+            case "TITS" : pic = "ss_tit_"+num ;break;
+            default: pic = "ss_anal_"+num; break;
+        }
+
+        root.addClass(pic);
+    };
+
     /**
      * Called from the 'WhoreEnd' passage to give out loot/rewards and to tell the player about it.
      * @param {App.Entity.Player} Player
@@ -271,10 +287,16 @@ App.SlotEngine = new function() {
         if (ob.Satisfaction < 100) {
             root.on("click", { customer : index }, this._CustomerSelectCB.bind(this));
         } else {
+            root.empty();
+            root.addClass('WhoreCustomer');
             root.css('opacity', '0.4');
             root.css('cursor', 'not-allowed');
-            var completed = $('<div>').addClass('CustomerComplete').text('COMPLETED');
+            this._AddXXX( ob, root);
+            var completed = $('<div>').addClass('CustomerComplete').text('SATISFIED');
+            completed.css('opacity', '0');
+            completed.animate({ opacity: 1.0 }, 2000);
             root.append(completed);
+            return root;
         }
 
         if (this._SelectedCustomer == index) {
@@ -947,9 +969,7 @@ App.SlotEngine = new function() {
      * @private
      */
     this._CalcBonus = function(key, player, arg) {
-        console.log("Checking bonus:"+ key+", arg="+arg);
         var mod = this._BonusMods.hasOwnProperty(key) == false ? 1.0 : this._BonusMods[key](player, arg);
-        console.log("Bonus returned as:"+mod);
         return mod;
     };
 
@@ -969,8 +989,7 @@ App.SlotEngine = new function() {
             for (i = 0; i < c.Wants.length; i++)
                 if (c.Wants[i].toUpperCase() == key) {
                     wantPos = (i+1);
-                    console.log('Matched want#'+wantPos);
-                    wantMod = (i == 0) ? 1.0 : (i == 1) ? 0.75 : 0.5;  
+                    wantMod = (i == 0) ? 1.0 : (i == 1) ? 0.75 : 0.5;
                 }
         } else { // This was a wildcard match
             wantMod = this._CalcBonus(key, this._Player, key); 
@@ -1105,19 +1124,19 @@ App.SlotEngine = new function() {
      * @constructor
      */
     this.Customer = function(dataKey) {
-        this.Name          = "Pirate Pete";    // Name of the customer.
-        this.Lust          = 1;                // Current Lust.
-        this.oLust         = 1;                // Original Lust.
-        this.Mood          = 1;                // Current Mood.
-        this.oMood         = 1;                // Original Mood.
-        this.Satisfaction  = 1;                // Current Satisfaction.
-        this.Payout        = 5;                // Payout on scale of 1 to 5
-        this.Bonus         = "Pirate Slut";    // Bonus Reward Category
-        this.BonusCat      = "Perversion";     // Wildcard category on bonus
-        this.Wants         = [ ];
-        this.Spent         = 0;                // How much we've paid out.
-        this.Tag           = "";               // NPC tag.
-
+        this.Name           = "Pirate Pete";    // Name of the customer.
+        this.Lust           = 1;                // Current Lust.
+        this.oLust          = 1;                // Original Lust.
+        this.Mood           = 1;                // Current Mood.
+        this.oMood          = 1;                // Original Mood.
+        this.Satisfaction   = 1;                // Current Satisfaction.
+        this.Payout         = 5;                // Payout on scale of 1 to 5
+        this.Bonus          = "Pirate Slut";    // Bonus Reward Category
+        this.BonusCat       = "Perversion";     // Wildcard category on bonus
+        this.Wants          = [ ];
+        this.Spent          = 0;                // How much we've paid out.
+        this.Tag            = "";               // NPC tag.
+        this.SatisfiedWants = { };
         if (typeof App.Data.Whoring === 'undefined' || App.Data.Whoring.hasOwnProperty(dataKey) == false) {
             alert("Bad call to new Customer() : dataKey '"+dataKey+"' is undefined or missing.");
             return;
@@ -1150,13 +1169,30 @@ App.SlotEngine = new function() {
         while (this.Wants.length < 3) {
             ++count;
             tmp = App.PR.GetRandomListItem(dict["WANTS"]);
-            if (!this.Wants.includes(tmp)) this.Wants.push(tmp);
+            if (!this.Wants.contains(tmp)) {
+                this.SatisfiedWants[tmp] = 0;
+                this.Wants.push(tmp);
+            }
             if (count >= 30) break;
         }
 
         // Set the bonus and bonus category.
         this.Bonus = App.PR.GetRandomListItem(dict["BONUS"]);
         this.BonusCat = App.PR.GetRandomListItem(dict["BONUS_CATS"]);
+
+        this.MostSatisfied = function() {
+            var sortable = [];
+            for (var want in this.SatisfiedWants) {
+                if (!this.SatisfiedWants.hasOwnProperty(want)) continue;
+                sortable.push([want, this.SatisfiedWants[want]]);
+            }
+
+            sortable.sort(function(a, b) {
+                return b[1] - a[1];
+            });
+
+            return sortable[0];
+        }
     };
 
     /**
@@ -1359,6 +1395,11 @@ App.SlotEngine = new function() {
 
         var timeout = 500;
         if (payout.length > 0 ) {
+            // Let's calculate all of the satisfaction, mood and lust at one go.
+            this._AddSatisfactionToCustomer(payout.reduce(function(a, o) { return ( a + o.sat) }, 0));
+            this._AddMoodToCustomer(payout.reduce(function(a, o) { return ( a + o.mood) }, 0));
+            this._AddLustToCustomer(payout.reduce(function(a, o) { return ( a + o.lust) }, 0));
+
             // sneak peak
             var keys = Object.keys(payout[0]);
             for (i = 0; i < keys.length; i++) {
@@ -1369,7 +1410,7 @@ App.SlotEngine = new function() {
 
             timeout += 500; // For finishing up spin.
             this._Misses = 0;
-            console.log(payout);
+
             var jackpot = [ 'JACKPOT', 'JACKPOT', 'JACKPOT', 'DOUBLE JACKPOT', 'TRIPLE JACKPOT', 'QUADRUPLE JACKPOT', 'SUPER JACKPOT', 'MEGA JACKPOT', 'ULTRA JACKPOT' ];
             var colors = [ 'lime', 'lime', 'lime', 'gold', 'gold', 'orange', 'orange', 'cyan', 'purple'];
             this._RisingDialog(jackpot[payout.length-1], colors[payout.length-1]);
@@ -1426,14 +1467,14 @@ App.SlotEngine = new function() {
                     break;
                 case 'mood':
                     html = '<span class="SlotMood">'+results[i][key]+' MOOD</span>';
-                    this._AddMoodToCustomer(results[i][key]);
                     break;
                 case 'lust':
                     html = '<span class="SlotLust">'+results[i][key]+' LUST</span>';
-                    this._AddLustToCustomer(results[i][key]);
                     break;
                 case 'sat':
-                    this._AddSatisfactionToCustomer(results[i][key]);
+                    var wantType = results[i].type;
+                    var ob = this._Customers[this._SelectedCustomer];
+                    if ( ob.SatisfiedWants.hasOwnProperty(wantType)) ob.SatisfiedWants[wantType] += 1;
                     break;
             }
 
@@ -1515,24 +1556,20 @@ App.SlotEngine = new function() {
     };
 
     this._DrawSlotInventoryCB = function() {
-
         this._DrawSlotInventory();
     };
 
     this._SelectSlotCB = function(e) {
-        console.log("SelectedSlot="+ e.data.slot);
         this._SelectedSlot = e.data.slot;
         this._DrawSlotInventory();
     };
 
     this._EquipSlotCB = function(e) {
-        console.log("Equipping:"+ e.data.id);
         this._Player.EquipReel(e.data.id, this._SelectedSlot.toString());
         this._DrawSlotInventory();
     };
 
     this._RemoveSelectedSlotCB = function(e) {
-        console.log("Removing Slot:" + this._SelectedSlot);
         this._Player.RemoveReel(this._SelectedSlot);
         this._DrawSlotInventory();
     };

@@ -342,15 +342,19 @@ span.BonusCatBeauty {
 
 div.CustomerComplete {
     position: absolute;
-    top: 40px;
-    color: white;
-    background-color: #551111;
-    font-size: larger;
+    bottom: -2px;
+    background: black;
+    color: lime;
+    font-size: medium;
     font-weight: bolder;
-    opacity: 1.0;
-    z-index: 100;
     width: 180px;
     text-align: center;
+}
+
+div.WhoreCustomer {
+    background-size: contain;
+    background-repeat: no-repeat;
+    overflow: hidden;
 }
 
 #WhoreCustomer0 {
@@ -602,12 +606,14 @@ div.WhoreDialog {
     width: 600px;
     text-align: center;
     pointer-events: none;
+    z-index: 20;
 }
 
 .ml1 {
     font-weight: 900;
     font-family: Impact monospace;
     font-size: 2.5em;
+    z-index: 10;
 }
 
 .ml1 .letter {
@@ -642,6 +648,7 @@ div.WhoreDialog {
     text-transform: uppercase;
     letter-spacing: 0.3em;
     font-weight: 600;
+    z-index: 10;
 }
 
 .ml13 .letter {
@@ -658,6 +665,7 @@ h1.ml8 {
     position: absolute;
     top: -50px;
     left: 0px;
+    z-index: 10;
 }
 
 .ml8 .letters-container {
@@ -849,3 +857,56 @@ hr.SlotCurrent {
     margin-bottom: 2px;
     margin-top: 0px;
 }
+
+div.xxxDiv {
+    position: absolute;
+    top: 0px;
+    width: 590px;
+    height: 400px;
+    opacity: 0.0;
+    z-index: 5;
+}
+/* Classes for embedded images in data passages */
+.ss_anal_1 {  background-image: [img[ss_anal_1]];  }
+.ss_anal_2 {  background-image: [img[ss_anal_2]];  }
+.ss_anal_3 {  background-image: [img[ss_anal_3]];  }
+.ss_anal_4 {  background-image: [img[ss_anal_4]];  }
+.ss_anal_5 {  background-image: [img[ss_anal_5]];  }
+.ss_anal_6 {  background-image: [img[ss_anal_6]];  }
+.ss_anal_7 {  background-image: [img[ss_anal_7]];  }
+.ss_anal_8 {  background-image: [img[ss_anal_8]];  }
+.ss_anal_9 {  background-image: [img[ss_anal_9]];  }
+.ss_anal_10 {  background-image: [img[ss_anal_10]];  }
+
+.ss_hand_1 {  background-image: [img[ss_hand_1]];  }
+.ss_hand_2 {  background-image: [img[ss_hand_2]];  }
+.ss_hand_3 {  background-image: [img[ss_hand_3]];  }
+.ss_hand_4 {  background-image: [img[ss_hand_4]];  }
+.ss_hand_5 {  background-image: [img[ss_hand_5]];  }
+.ss_hand_6 {  background-image: [img[ss_hand_6]];  }
+.ss_hand_7 {  background-image: [img[ss_hand_7]];  }
+.ss_hand_8 {  background-image: [img[ss_hand_8]];  }
+.ss_hand_9 {  background-image: [img[ss_hand_9]];  }
+.ss_hand_10 {  background-image: [img[ss_hand_10]];  }
+
+.ss_bj_1 {  background-image: [img[ss_bj_1]];  }
+.ss_bj_2 {  background-image: [img[ss_bj_2]];  }
+.ss_bj_3 {  background-image: [img[ss_bj_3]];  }
+.ss_bj_4 {  background-image: [img[ss_bj_4]];  }
+.ss_bj_5 {  background-image: [img[ss_bj_5]];  }
+.ss_bj_6 {  background-image: [img[ss_bj_6]];  }
+.ss_bj_7 {  background-image: [img[ss_bj_7]];  }
+.ss_bj_8 {  background-image: [img[ss_bj_8]];  }
+.ss_bj_9 {  background-image: [img[ss_bj_9]];  }
+.ss_bj_10 {  background-image: [img[ss_bj_10]];  }
+
+.ss_tit_1 {  background-image: [img[ss_tit_1]];  }
+.ss_tit_2 {  background-image: [img[ss_tit_2]];  }
+.ss_tit_3 {  background-image: [img[ss_tit_3]];  }
+.ss_tit_4 {  background-image: [img[ss_tit_4]];  }
+.ss_tit_5 {  background-image: [img[ss_tit_5]];  }
+.ss_tit_6 {  background-image: [img[ss_tit_6]];  }
+.ss_tit_7 {  background-image: [img[ss_tit_7]];  }
+.ss_tit_8 {  background-image: [img[ss_tit_8]];  }
+.ss_tit_9 {  background-image: [img[ss_tit_9]];  }
+.ss_tit_10 {  background-image: [img[ss_tit_10]];  }
