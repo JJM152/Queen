@@ -16802,7 +16802,7 @@ App.Data.NPCS["BAZAAR_STORE"] = {
 
 App.Data.NPCS["Justus"] = {
     "Name" : "Justus Clavicus",
-    "Mood" : 40,
+    "Mood" : 50,
     "DailyMood" : -1,
     "Lust" : 100,
     "DailyLust" : 2,
@@ -18569,8 +18569,30 @@ App.Data.Whoring["GoldenIsleGuards"] = {
     "BONUS_CATS": [ "Perversion", "Perversion", "Perversion", "Femininity", "Femininity", "Beauty", "Beauty", "Beauty" ],
     "NAMES"     : App.Data.Names["Male"],
     "TITLE"     : "Guard",
-    "RARES"     : [ ],
+    "RARES"     : [ "Justus" ],
     "NPC_TAG"   : "GoldenIsleGuards"
+};
+
+App.Data.Whoring["Justus"] = {
+    // Shows in the UI as location.
+    "DESC"      : "Golden Isle Guard House",
+    // Sex act weighted table.
+    "WANTS"     : [ "ASS", "BJ", "TITS", "HAND" ],
+    // Minimum payout rank.
+    "MIN_PAY"   : 3,
+    // Maximum payout rank.
+    "MAX_PAY"   : 5,
+    // Bonus payout, weighted table
+    "BONUS"     : [
+        // Style based bonuses first. (1/2 as much as body bonuses)
+        "Sexy Dancer", "Sexy Dancer", "Bimbo", "Bimbo",
+        // Body based bonuses (twice as many as style bonuses)
+        "Bust", "Bust", "Bust", "Bust", "Ass", "Ass", "Ass", "Face", "Face", "Lips" ],
+    "BONUS_CATS": [ "Perversion", "Perversion", "Beauty", "Femininity", "Femininity", "Beauty" ],
+    "NAMES"     : [ "Justus" ],
+    "TITLE"     : "Guard Cpt.",
+    "RARES"     : [ ],
+    "NPC_TAG"   : "Justus"
 };
 /* twine-user-script #88: "lusty_lass_whore_data.js" */
 App = App || { Data: { }, Entity: { } };
@@ -25239,7 +25261,9 @@ You move forward toward&#39;s the entrance to the @@color:gold;Hill Hill Distric
 &lt;span id=&quot;Notification&quot;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="84" name="GI_Jail" tags="" position="475,1100">The Gaol of @@color:gold;&#39;Golden Isle&#39;@@ is one of the oldest buildings on the island, the former governor having put a premium on trying to maintain \
 law and order among the constant stream of traders and sailors that visited these shores. However, it hasn&#39;t seen much use since @@color:cyan;&#39;Black Bertie&#39;@@ has taken over. \
 The former Pirate Queen, being more apt to keel haul thief or flay alive a murderer than put them in jail to await any sort of silly trial.
-
+&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;JUSTUS_WHORING&quot;) == &quot;COMPLETED&quot;&gt;&gt;
+//Having become familiar with the guards, you can now whore here...//
+@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;GoldenIsleGuards&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;br&gt;&lt;&lt;/if&gt;&gt;\
 @@color:lime;Travel@@: [[Guard Station|GI_GuardStation]]</tw-passagedata><tw-passagedata pid="85" name="GI_Salon" tags="" position="600,1100">The parlor of this salon has a distinctly feminine appeal with the interior being bathed in hues of rosy pink and dotted \
 ever so carefully with light wisps of airy lace. A soft fragrance that you can&#39;t place, not unpleasant, tickles your nose \
 and leaves a lingering scent of spice behind. All in all, the ambiance here is both inviting as well as slightly \

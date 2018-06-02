@@ -58,7 +58,7 @@ App.Data.NPCS["BAZAAR_STORE"] = {
 
 App.Data.NPCS["Justus"] = {
     "Name" : "Justus Clavicus",
-    "Mood" : 40,
+    "Mood" : 50,
     "DailyMood" : -1,
     "Lust" : 100,
     "DailyLust" : 2,

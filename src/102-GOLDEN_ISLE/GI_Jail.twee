@@ -2,5 +2,7 @@
 The Gaol of @@color:gold;'Golden Isle'@@ is one of the oldest buildings on the island, the former governor having put a premium on trying to maintain \
 law and order among the constant stream of traders and sailors that visited these shores. However, it hasn't seen much use since @@color:cyan;'Black Bertie'@@ has taken over. \
 The former Pirate Queen, being more apt to keel haul thief or flay alive a murderer than put them in jail to await any sort of silly trial.
-
+<<if window.App.QuestEngine.GetQuestFlag($Player, "JUSTUS_WHORING") == "COMPLETED">>
+//Having become familiar with the guards, you can now whore here...//
+@@color:yellow;Action@@: <<if $Player.GetStat("STAT","Energy") < 1 or $Player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<whoreLink "GoldenIsleGuards">><</if>><br><</if>>\
 @@color:lime;Travel@@: [[Guard Station|GI_GuardStation]]
