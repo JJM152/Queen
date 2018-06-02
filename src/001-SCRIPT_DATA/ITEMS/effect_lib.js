@@ -83,7 +83,7 @@ App.Data.EffectLib = {
             p.AdjustStat('Hormones', -10);
             p.AdjustStat('Femininity', -15);
             p.AdjustStat('Toxicity', 80);
-            p.AdjustStat('WillPower', 5)
+            p.AdjustStat('WillPower', 5);
             p.AdjustStatXP('Femininity', -200);
             p.AdjustStatXP('WillPower', 400);
             p.AdjustStatXP('Hormones', -300);
