@@ -6800,7 +6800,7 @@ App.SlotEngine = new function() {
         // Do the same for lust.
 
         var oLust = this._Customers.filter(function(o) { return (o.Lust != o.oLust); } ); // Get all affected customers.
-        var lust = ( Math.floor(Math.floor((oLust.reduce(function(a, o) { return ( a + (o.Mood - o.oMood)) }, 0)/ 6)) * 0.5) * -1.0); // Set mood adjustment
+        var lust = ( Math.floor(Math.floor((oLust.reduce(function(a, o) { return ( a + (o.oLust - o.Lust)) }, 0)/ 6)) * 0.5) * -1.0); // Set mood adjustment
         affTags = oLust.map(function(o) { return o.Tag; }).filter(function(a,b,s) { return s.indexOf(a) == b; }); // Tags we touched their mood.
 
         for(i = 0; i < npcTags.length; i++) // Iterate through and adjust mood.
@@ -15602,7 +15602,7 @@ App.Data.JobData["SIMONE_JOB3"] = {
         { "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 1 } ],
     "REQUIREMENTS" : [
         { "TYPE" : "SKILL", "NAME" : "TitFucking", "VALUE" : 50, "CONDITION" : "gte" },
-        { "TYPE" : "BODY",  "NAME" : "BUST", "VALUE" : 20, "CONDITION" : "gte" }
+        { "TYPE" : "BODY",  "NAME" : "Bust", "VALUE" : 20, "CONDITION" : "gte" }
     ],
     "INTRO" : "NPC_NAME says, \"I have a special group of clients that might be interested in you... if you have the skills.\"",
     "START" :
@@ -25466,7 +25466,7 @@ of a small bar and waiting area for clients, while the upstairs hosts a variety 
 
 &lt;&lt;NPC &quot;Simone&quot;&gt;&gt;
 
-&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;SIMONE_MISSING_FRIEND&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;LustyLass&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;br&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;SIMONE_MISSING_FRIEND&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;LustyLass&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;
 @@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="106" name="PR_Clothier" tags="" position="725,1350">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="107" name="PR_DanceHall" tags="" position="850,1350">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="108" name="PR_FancyTavern" tags="" position="975,1350">The @@color:gold;&#39;Green Gryphon&#39;@@ is one of the older and more illustrious taverns on the island. It&#39;s position in the heart of the \
 @@color:gold;&#39;Entertainment District&#39;@@ means that it sees a healthy trade in both pleasure seekers as well as wealthy locals. The \
 building itself is three stories tall, with the main floor being reserved for dining and drinking and the upper floors containing \

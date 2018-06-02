@@ -5,5 +5,5 @@ of a small bar and waiting area for clients, while the upstairs hosts a variety 
 
 <<NPC "Simone">>
 
-<<if window.App.QuestEngine.GetQuestFlag($Player, "SIMONE_MISSING_FRIEND") == "COMPLETED">>@@color:yellow;Action@@: <<if $Player.GetStat("STAT","Energy") < 1 or $Player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<whoreLink "LustyLass">><</if>><br><</if>>
+<<if window.App.QuestEngine.GetQuestFlag($Player, "SIMONE_MISSING_FRIEND") == "COMPLETED">>@@color:yellow;Action@@: <<if $Player.GetStat("STAT","Energy") < 1 or $Player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<whoreLink "LustyLass">><</if>><</if>>
 @@color:lime;Travel@@: [[Great Market|GreatMarket]]
