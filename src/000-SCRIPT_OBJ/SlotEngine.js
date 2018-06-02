@@ -203,10 +203,11 @@ App.SlotEngine = new function() {
         // Do the same for lust.
 
         var oLust = this._Customers.filter(function(o) { return (o.Lust != o.oLust); } ); // Get all affected customers.
-        var lust = Math.floor(Math.floor((oLust.reduce(function(a, o) { return ( a + (o.Mood - o.oMood)) }, 0)/ 6)) * 0.5); // Set mood adjustment
+        var lust = ( Math.floor(Math.floor((oLust.reduce(function(a, o) { return ( a + (o.Mood - o.oMood)) }, 0)/ 6)) * 0.5) * -1.0); // Set mood adjustment
         affTags = oLust.map(function(o) { return o.Tag; }).filter(function(a,b,s) { return s.indexOf(a) == b; }); // Tags we touched their mood.
 
         for(i = 0; i < npcTags.length; i++) // Iterate through and adjust mood.
+            console.log("Adjusting Lust for " + npcTags[i] + " by " + lust);
             if (affTags.contains(npcTags[i]))
                 this._Player.GetNPC(npcTags[i]).AdjustStat("Lust", lust);
 
