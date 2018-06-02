@@ -25090,7 +25090,9 @@ for light and a velvety purple curtain draped next to your bed that brings some 
 
 @@color:cyan;Interact:@@ [[Exit|GirlfriendRoom]] | [[Vanity|GFVanity]] | [[Wardrobe|GFWardrobe]]
 
-&lt;&lt;printPlayerDescription&gt;&gt;</tw-passagedata><tw-passagedata pid="67" name="GFWardrobe" tags="" position="850,850">&lt;&lt;set _QE = window.App.QuestEngine&gt;&gt;You are standing infront of a beautiful mahogany wardrobe. It&#39;s rich, dark-varnished color is accentuated with burnished brass and inlaid ivory accents. It&#39;s worth more than you are! But then again, you&#39;re very cheap these days, aren&#39;t you?
+&lt;&lt;printPlayerDescription&gt;&gt;</tw-passagedata><tw-passagedata pid="67" name="GFWardrobe" tags="" position="850,850">&lt;&lt;set _QE = window.App.QuestEngine&gt;&gt;\
+&lt;&lt;set $GameBookmark = passage(); &gt;&gt;\
+You are standing infront of a beautiful mahogany wardrobe. It&#39;s rich, dark-varnished color is accentuated with burnished brass and inlaid ivory accents. It&#39;s worth more than you are! But then again, you&#39;re very cheap these days, aren&#39;t you?
 &lt;&lt;if _QE.QuestCompleted($Player, &quot;GFWARDROBE&quot;) == false&gt;&gt;
 &lt;&lt;set $irr = random(991,1009) &gt;&gt;\
 Opening the door, you find some interesting items...

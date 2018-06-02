@@ -1,5 +1,7 @@
 :: GFWardrobe
-<<set _QE = window.App.QuestEngine>>You are standing infront of a beautiful mahogany wardrobe. It's rich, dark-varnished color is accentuated with burnished brass and inlaid ivory accents. It's worth more than you are! But then again, you're very cheap these days, aren't you?
+<<set _QE = window.App.QuestEngine>>\
+<<set $GameBookmark = passage(); >>\
+You are standing infront of a beautiful mahogany wardrobe. It's rich, dark-varnished color is accentuated with burnished brass and inlaid ivory accents. It's worth more than you are! But then again, you're very cheap these days, aren't you?
 <<if _QE.QuestCompleted($Player, "GFWARDROBE") == false>>
 <<set $irr = random(991,1009) >>\
 Opening the door, you find some interesting items...
