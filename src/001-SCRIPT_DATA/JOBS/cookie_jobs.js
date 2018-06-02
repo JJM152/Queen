@@ -370,7 +370,7 @@ App.Data.JobData["COOK04"] = {
         {
             "ID" : "REWARD",
             "TRIGGERS" :[
-                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 110, "CONDITION" : "gte" }
+                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 90, "CONDITION" : "gte" }
             ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [ ],

@@ -13644,7 +13644,7 @@ App.Data.JobData["COOK04"] = {
         {
             "ID" : "REWARD",
             "TRIGGERS" :[
-                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 110, "CONDITION" : "gte" }
+                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 90, "CONDITION" : "gte" }
             ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [ ],
@@ -25228,7 +25228,7 @@ meager as they are.
 
 &lt;&lt;NPC &quot;Charmaine&quot;&gt;&gt;
 
-&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;BOARDINGPASS&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;SaucySlattern&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;br&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;BOARDINGPASS&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;SaucySlattern&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;
 @@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="79" name="GI_Clothiers" tags="" position="1100,975">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="80" name="GI_DanceHall" tags="" position="1225,975">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="81" name="GI_GeneralGoods" tags="" position="100,1100">This cramped shop hsa a distinctly nautical theme to it - a displaced rusty anchor, a fishermans net, a bizarrely shaped carcass \
 of some unidentified sea creature purported to be a &#39;Kracken-kin&#39;. It&#39;d be rather funny if it wasn&#39;t for the fact that this is \
 the only major shop in the area.
@@ -25463,6 +25463,7 @@ well maintained - the beds are clean, the food is decent and the drinks aren&#39
 of a small bar and waiting area for clients, while the upstairs hosts a variety of rooms for &#39;conducting business&#39;.
 
 &lt;&lt;NPC &quot;Simone&quot;&gt;&gt;
+
 &lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;SIMONE_MISSING_FRIEND&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;LustyLass&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;br&gt;&lt;&lt;/if&gt;&gt;
 @@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="106" name="PR_Clothier" tags="" position="725,1350">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="107" name="PR_DanceHall" tags="" position="850,1350">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="108" name="PR_FancyTavern" tags="" position="975,1350">The @@color:gold;&#39;Green Gryphon&#39;@@ is one of the older and more illustrious taverns on the island. It&#39;s position in the heart of the \
 @@color:gold;&#39;Entertainment District&#39;@@ means that it sees a healthy trade in both pleasure seekers as well as wealthy locals. The \
