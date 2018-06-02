@@ -621,7 +621,7 @@ App.SlotEngine = new function() {
 		root.append(lootBox);
 
         // If we reloaded page or came back from another passage, reset the bar to it's last known position.
-        var width = 116 * this._Misses;
+        var width = Math.max(0, Math.min(116 * this._Misses, 696));
         var bar = $('#DesperationFiller');
         bar.width(width);
 
@@ -639,7 +639,7 @@ App.SlotEngine = new function() {
 
     this._DrawDesperationBar = function() {
         if (this._Misses > 5) return; // Don't keep drawing past the maximum of 5 misses.
-        var width = 116 * this._Misses;
+        var width = Math.max(0, Math.min(116 * this._Misses, 696))
         var bar = $('#DesperationFiller');
         if (width == 0) {
             bar.animate( { "width" : width, "easing" : "linear" }, 1000);
