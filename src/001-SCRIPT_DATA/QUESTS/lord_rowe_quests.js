@@ -37,6 +37,7 @@ App.Data.Quests["LORD_ROWE_DELIVERY"] = {
     "ID": "LORD_ROWE_DELIVERY", "Title": "Smuggler's Run: Special Delivery - Lord Rowe",
     "GIVER": "LordRowe",
     "PRE": [
+        { "TYPE" : "QUEST_FLAG", "NAME" : "LORD_ROWE_PORNO_DELIVERY", "VALUE" : "ACTIVE"}
     ],
     "POST": [
     ],
