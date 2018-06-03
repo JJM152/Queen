@@ -25232,7 +25232,8 @@ meager as they are.
 
 &lt;&lt;NPC &quot;Charmaine&quot;&gt;&gt;
 
-&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;BOARDINGPASS&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;SaucySlattern&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;BOARDINGPASS&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;SaucySlattern&quot;&gt;&gt;
+&lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;\
 @@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="79" name="GI_Clothiers" tags="" position="1100,975">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="80" name="GI_DanceHall" tags="" position="1225,975">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="81" name="GI_GeneralGoods" tags="" position="100,1100">This cramped shop hsa a distinctly nautical theme to it - a displaced rusty anchor, a fishermans net, a bizarrely shaped carcass \
 of some unidentified sea creature purported to be a &#39;Kracken-kin&#39;. It&#39;d be rather funny if it wasn&#39;t for the fact that this is \
 the only major shop in the area.
@@ -25468,7 +25469,8 @@ of a small bar and waiting area for clients, while the upstairs hosts a variety 
 
 &lt;&lt;NPC &quot;Simone&quot;&gt;&gt;
 
-&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;SIMONE_MISSING_FRIEND&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;LustyLass&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;SIMONE_MISSING_FRIEND&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;LustyLass&quot;&gt;&gt;
+&lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;\
 @@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="106" name="PR_Clothier" tags="" position="725,1350">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="107" name="PR_DanceHall" tags="" position="850,1350">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="108" name="PR_FancyTavern" tags="" position="975,1350">The @@color:gold;&#39;Green Gryphon&#39;@@ is one of the older and more illustrious taverns on the island. It&#39;s position in the heart of the \
 @@color:gold;&#39;Entertainment District&#39;@@ means that it sees a healthy trade in both pleasure seekers as well as wealthy locals. The \
 building itself is three stories tall, with the main floor being reserved for dining and drinking and the upper floors containing \
@@ -25480,6 +25482,7 @@ stiff drinks. The clientele tends to be a step up from the common rabble that yo
 by the numerous street-side stands in the @@color:gold;&#39;Great Market&#39;@@ and the decor and settings represent that.
 
 &lt;&lt;NPC &quot;Georgina&quot;&gt;&gt;
+
 @@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="114" name="PortRoyale" tags="" position="475,1475">@@color:gold;&#39;Port Royale&#39;@@ is known far and wide as the most impressive collection of free traders on the open seas. The \
 island itself hosting numerous shops, markets and entertainment establishments that draw an odd collection of merchants, \
 freebooters and the occasional person of ill-repute. Looking into the harbor you can see dozens of ships moored within, everything \
@@ -27554,11 +27557,17 @@ You can &lt;&lt;click &quot;skip this&quot; &quot;Whore&quot;&gt;&gt;\
         &lt;&lt;run App.SlotEngine.LoadScene($WhoreLink, $WhorePassage, $Player);&gt;&gt;&lt;&lt;/click&gt;&gt; tutorial if you already know how to play.
 
 @@color:deepPink;The Basic Game@@
+&#39;&#39;Queen of the Seas&#39;&#39; uses a simple slot machine type game to simulate the vagaries of (unwillingly) exchanging sex for money. The basic premise is thus, &quot;Spin the wheel and \
+if you match 3 of a kind then you win.&quot; However, there are a couple of subtle differences, namely, the icons (sex acts) you need to match can be variable based on the customer you select \
+and the player has the ability to rig the game (potentially massively) in their favor.
 &lt;img id=&quot;whoreScreen1&quot; data-passage=&quot;img_whore_screen1&quot;&gt;
-* You need at least 1 energy to play, cannot be played at @@color:deepPink;late night@@ and will advance time by one phase when you finish.
-* Select a customer from the ones presented. Keep in mind what they &#39;want&#39; and what the odds are on the slots you have equipped. You can change the order of your slots and equip new ones from your &#39;Skills&#39; panel.
+* You can play the game on the @@color:cyan;Salty Mermaid@@ after handing in your first quest (you start with it). Other locations, with different customers and rewards are available later on.
+* You need at least 1 energy to play and it cannot be played at @@color:deepPink;late night@@. Playing will advance time by one phase when you finish.
+* Select a customer from the ones presented. Keep in mind what they &#39;want&#39; and what the odds are on the slots you have equipped.
+* Your slot reels are meta-items that you can manipulate. You can change the order of your reels and equip new ones from your &#39;Skills&#39; panel.
 * The more a customer wants a certain act, the more they will pay. They will also pay more if their mood and lust are higher.
-* Every time you hit a jackpot, along with money, you will get some XP based on the slot reels that made up that jackpot.
+* Certain spaces on the slot reel are wildcards and the game will interpret them as matches for any adjacent sex act.
+* Every time you hit a jackpot, along with money, you will get some XP based on the slot reels that made up that jackpot. For example, an &quot;Ass&quot; icon gives &quot;Ass Fucking&quot; XP. A &quot;Perversion&quot; wild card icon gives &quot;Perversion XP&quot;.
 * Hitting a customers &#39;want&#39; will generally decrease their lust, increase their mood and increase their satisfaction.
 * When a customers satisfaction is maxed, they can no longer be selected. Choose a new customer.
 * You will earn bonus pay, and potentially items, the more customers you satisfy and the higher their mood is.
@@ -27575,7 +27584,19 @@ You can &lt;&lt;click &quot;skip this&quot; &quot;Whore&quot;&gt;&gt;\
 * Slot Reels can either be found in shops or given as rewards from quests or jobs. You start with 3 in your inventory, all of the lowest quality.
 * Looking at a slot reel will tell you what odds it has of hitting any particular sex act or wild card.
 * The best layout is to put slots next to each other that have the highest chances of all hitting the same spot.
-* Collect more reels and unlock more slots to build the &#39;&#39;ultimate spin&#39;&#39;.</tw-passagedata><tw-passagedata pid="167" name="DeathEnd" tags="" position="850,2100">Your wounds were too much for you to endure.
+* Collect more reels and unlock more slots to build the &#39;&#39;ultimate spin&#39;&#39;.
+
+@@color:orange;Useful Tips@@
+* The first quest from Kipler unlocks an extra slot and gives a rare reel as a reward. Do it as soon as possible. (Tools of the Trade - Part 1)
+* Keep an eye out for more opportunities to open more slots and get different reels, they are more important than your actual skill ratings in many ways.
+* Inspect reels before equipping them and make sure that you have ones that all favor the same sex act next to each other. Each reel will have an obvious bias, exploit this.
+* Keep track of which acts are likely to come up at which location and swap your reels around before engaging with clients.
+* For maximum mood adjustment, fully satisfy a customer.
+* Save your energy or use energy enhancing items to increase your spins.
+* It&#39;s almost impossible to avoid desperation rolls when you start, so don&#39;t sweat it. Just don&#39;t waste the rolls - make sure to satisfy customers.
+* Once you unlock more slots, it&#39;s better to avoid desperation rolls if possible and instead use healing items to soak beatings from angry customers.
+* If you consistently focus on one or two sex acts, you&#39;ll find your skills go up in them faster than others and you will get paid more and satisfy customers faster.
+* Wild card slots are extremely important as they will match anything, even other wildcards. Seek them out and use them.</tw-passagedata><tw-passagedata pid="167" name="DeathEnd" tags="" position="850,2100">Your wounds were too much for you to endure.
 
 Game over.</tw-passagedata><tw-passagedata pid="168" name="GameOver" tags="" position="975,2100">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="169" name="GameWon" tags="custom-menu" position="1100,2100">&lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;WillPower&quot;) &lt;= 40&gt;&gt;&lt;!-- Contributed by mightyakira @ TFGamesSite Forums --&gt;
 You daintily walk into the captain’s cabins and kneel before Captain Reginald, all on your own accord. You have learnt \
