@@ -1,0 +1,29 @@
+div.tcard {
+    width: 150px;
+    height: 260px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.tcard_1 {  background-image: [img[01_Magician]];  }
+.tcard_2 {  background-image: [img[02_Popess]];  }
+.tcard_3 {  background-image: [img[03_Empress]];  }
+.tcard_4 {  background-image: [img[04_Emperor]];  }
+.tcard_5 {  background-image: [img[05_Pope]];  }
+.tcard_6 {  background-image: [img[06_Lovers]];  }
+.tcard_7 {  background-image: [img[07_Chariot]];  }
+.tcard_8 {  background-image: [img[08_Justice]];  }
+.tcard_9 {  background-image: [img[09_Hermit]];  }
+.tcard_10 {  background-image: [img[10_WheelOfFortune]];  }
+.tcard_11 {  background-image: [img[11_Strength]];  }
+.tcard_12 {  background-image: [img[12_HangedMan]];  }
+.tcard_13 {  background-image: [img[13_Death]];  }
+.tcard_14 {  background-image: [img[14_Temperance]];  }
+.tcard_15 {  background-image: [img[15_Devil]];  }
+.tcard_16 {  background-image: [img[16_Tower]];  }
+.tcard_17 {  background-image: [img[17_Star]];  }
+.tcard_18 {  background-image: [img[18_Moon]];  }
+.tcard_19 {  background-image: [img[19_Sun]];  }
+.tcard_20 {  background-image: [img[20_Judgement]];  }
+.tcard_21 {  background-image: [img[21_World]];  }
+.tcard_22 {  background-image: [img[22_Fool]];  }
