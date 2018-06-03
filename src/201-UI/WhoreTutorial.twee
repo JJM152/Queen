@@ -7,11 +7,17 @@ You can <<click "skip this" "Whore">>\
         <<run App.SlotEngine.LoadScene($WhoreLink, $WhorePassage, $Player);>><</click>> tutorial if you already know how to play.
 
 @@color:deepPink;The Basic Game@@
+''Queen of the Seas'' uses a simple slot machine type game to simulate the vagaries of (unwillingly) exchanging sex for money. The basic premise is thus, "Spin the wheel and \
+if you match 3 of a kind then you win." However, there are a couple of subtle differences, namely, the icons (sex acts) you need to match can be variable based on the customer you select \
+and the player has the ability to rig the game (potentially massively) in their favor.
 <img id="whoreScreen1" data-passage="img_whore_screen1">
-* You need at least 1 energy to play, cannot be played at @@color:deepPink;late night@@ and will advance time by one phase when you finish.
-* Select a customer from the ones presented. Keep in mind what they 'want' and what the odds are on the slots you have equipped. You can change the order of your slots and equip new ones from your 'Skills' panel.
+* You can play the game on the @@color:cyan;Salty Mermaid@@ after handing in your first quest (you start with it). Other locations, with different customers and rewards are available later on.
+* You need at least 1 energy to play and it cannot be played at @@color:deepPink;late night@@. Playing will advance time by one phase when you finish.
+* Select a customer from the ones presented. Keep in mind what they 'want' and what the odds are on the slots you have equipped.
+* Your slot reels are meta-items that you can manipulate. You can change the order of your reels and equip new ones from your 'Skills' panel.
 * The more a customer wants a certain act, the more they will pay. They will also pay more if their mood and lust are higher.
-* Every time you hit a jackpot, along with money, you will get some XP based on the slot reels that made up that jackpot.
+* Certain spaces on the slot reel are wildcards and the game will interpret them as matches for any adjacent sex act.
+* Every time you hit a jackpot, along with money, you will get some XP based on the slot reels that made up that jackpot. For example, an "Ass" icon gives "Ass Fucking" XP. A "Perversion" wild card icon gives "Perversion XP".
 * Hitting a customers 'want' will generally decrease their lust, increase their mood and increase their satisfaction.
 * When a customers satisfaction is maxed, they can no longer be selected. Choose a new customer.
 * You will earn bonus pay, and potentially items, the more customers you satisfy and the higher their mood is.
@@ -30,3 +36,14 @@ You can <<click "skip this" "Whore">>\
 * The best layout is to put slots next to each other that have the highest chances of all hitting the same spot.
 * Collect more reels and unlock more slots to build the ''ultimate spin''.
 
+@@color:orange;Useful Tips@@
+* The first quest from Kipler unlocks an extra slot and gives a rare reel as a reward. Do it as soon as possible. (Tools of the Trade - Part 1)
+* Keep an eye out for more opportunities to open more slots and get different reels, they are more important than your actual skill ratings in many ways.
+* Inspect reels before equipping them and make sure that you have ones that all favor the same sex act next to each other. Each reel will have an obvious bias, exploit this.
+* Keep track of which acts are likely to come up at which location and swap your reels around before engaging with clients.
+* For maximum mood adjustment, fully satisfy a customer.
+* Save your energy or use energy enhancing items to increase your spins.
+* It's almost impossible to avoid desperation rolls when you start, so don't sweat it. Just don't waste the rolls - make sure to satisfy customers.
+* Once you unlock more slots, it's better to avoid desperation rolls if possible and instead use healing items to soak beatings from angry customers.
+* If you consistently focus on one or two sex acts, you'll find your skills go up in them faster than others and you will get paid more and satisfy customers faster.
+* Wild card slots are extremely important as they will match anything, even other wildcards. Seek them out and use them.
