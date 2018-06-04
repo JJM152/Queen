@@ -742,6 +742,7 @@ App.Entity.Player = function (){
 
     this.AdjustXP = function (Type, StatName, Amount, Limiter) {
         Amount = Math.ceil(Amount); // No floats.
+        if (typeof Limiter === 'undefined') Limiter = 0;
         if (this.debugMode)
         console.debug("AdjustXP: Type="+Type+",Stat="+StatName+",Amount="+Amount+",Limit="+Limiter);
 
@@ -1273,6 +1274,13 @@ App.Entity.Player = function (){
         o.RemoveCharge(1);
         if (o.Charges() <= 0) this.DeleteItem(o);
         return msg;
+    };
+
+    this.ApplySelfEffects = function (EffectList )
+    {
+      for (var i = 0; i < EffectList.length; i++) {
+          App.Data.EffectLib[EffectList[i]]["FUN"](0, this);
+      }
     };
 
     this.pBodyChange = function (BodyPart, Direction) {

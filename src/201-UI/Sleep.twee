@@ -1,4 +1,5 @@
 :: Sleep [custom-menu]
+<<tarot $Player>>\
 <<if $Player.Phase >= 3>><<run $Player.NextDay(); >><</if>>\
 <<set $irr to random(1,3)>>\
 <<if $irr eq 1>>\

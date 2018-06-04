@@ -102,7 +102,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 		<div id="init-lacking">Your browser lacks required capabilities. Please upgrade it or switch to another to continue.</div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<div id="store-area" hidden><tw-storydata name="Queen of the Seas (v 0.6)" startnode="193" creator="Tweego" creator-version="1.3.0" ifid="2281ACF9-AFF5-4833-BD11-9D4317BCE5AE" zoom="1" format="SugarCube" format-version="2.24.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "custom.css" */
+	<div id="store-area" hidden><tw-storydata name="Queen of the Seas (v 0.6)" startnode="194" creator="Tweego" creator-version="1.3.0" ifid="2281ACF9-AFF5-4833-BD11-9D4317BCE5AE" zoom="1" format="SugarCube" format-version="2.24.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "custom.css" */
 /* MY specific styles */
 
 #story-title { 
@@ -4887,6 +4887,7 @@ App.Entity.Player = function (){
 
     this.AdjustXP = function (Type, StatName, Amount, Limiter) {
         Amount = Math.ceil(Amount); // No floats.
+        if (typeof Limiter === 'undefined') Limiter = 0;
         if (this.debugMode)
         console.debug("AdjustXP: Type="+Type+",Stat="+StatName+",Amount="+Amount+",Limit="+Limiter);
 
@@ -5418,6 +5419,13 @@ App.Entity.Player = function (){
         o.RemoveCharge(1);
         if (o.Charges() <= 0) this.DeleteItem(o);
         return msg;
+    };
+
+    this.ApplySelfEffects = function (EffectList )
+    {
+      for (var i = 0; i < EffectList.length; i++) {
+          App.Data.EffectLib[EffectList[i]]["FUN"](0, this);
+      }
     };
 
     this.pBodyChange = function (BodyPart, Direction) {
@@ -11225,7 +11233,7 @@ App.Data.EffectLib = {
             function(o,p) { p.AdjustStatXP('WillPower', 400); },
         "VALUE" : 600, "KNOWLEDGE" : [ "WillPower Up++++" ]
     },    
-    /** NUTRITION */
+    /** NUTRITION  AND HUNGER */
     "NUTRITION_WEAK" : {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Item.Consumable} o*/
@@ -11249,6 +11257,12 @@ App.Data.EffectLib = {
          @param {App.Item.Consumable} o*/
             function(o,p) { p.AdjustStat('Nutrition', 50); },
         "VALUE" : 50, "KNOWLEDGE" : [ "Nutrition Up+++" ]
+    },
+    "HUNGER_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStat('Nutrition', -50); },
+        "VALUE" : 0, "KNOWLEDGE" : [ "Nutrition Down---" ]
     },
     "NUTRITION_LEGENDARY" : {
         "FUN" : /** @param {App.Entity.Player} p
@@ -11285,7 +11299,38 @@ App.Data.EffectLib = {
          @param {App.Item.Consumable} o*/
             function(o,p) { p.AdjustStatXP('Nutrition', 200); },
         "VALUE" : 100, "KNOWLEDGE" : [ "Satiation Up++++" ]
-    },    
+    },
+    /** Femininity **/
+    "FEMININITY_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Femininity', 25); },
+        "VALUE" : 10, "KNOWLEDGE" : [ "Femininity Up+" ]
+    },
+    "FEMININITY_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Femininity', 50); },
+        "VALUE" : 20, "KNOWLEDGE" : [ "Femininity Up++" ]
+    },
+    "FEMININITY_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Femininity', 100); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Femininity Up+++" ]
+    },
+    "FEMININITY_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Femininity', 200); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Femininity Up++++" ]
+    },
+    "FEMININITY_DOWN_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Femininity', -200); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Femininity Down----" ]
+    },
     /** HEALTH **/
     "HEAL_COMMON" : {
     "FUN" : /** @param {App.Entity.Player} p
@@ -11310,6 +11355,31 @@ App.Data.EffectLib = {
          @param {App.Item.Consumable} o*/
             function(o,p) { p.AdjustStat('Health', 100); p.AdjustStat('Toxicity',-100); },
         "VALUE" : 300, "KNOWLEDGE" : [ "Health Up++++" ]
+    },
+    /** FITNESS */
+    "FITNESS_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Fitness', 25); },
+        "VALUE" : 10, "KNOWLEDGE" : [ "Fitness Up+" ]
+    },
+    "FITNESS_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Fitness', 50); },
+        "VALUE" : 20, "KNOWLEDGE" : [ "Fitness Up++" ]
+    },
+    "FITNESS_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Fitness', 100); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Fitness Up+++" ]
+    },
+    "FITNESS_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Fitness', 200); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Fitness Up++++" ]
     },
     /** HORMONES */
     "MALE_HORMONE_XP_COMMON" : {
@@ -11360,12 +11430,28 @@ App.Data.EffectLib = {
             function(o,p) { p.AdjustStatXP('Hormones', 400); },
         "VALUE" : 80, "KNOWLEDGE" : [ "Female Hormones++++" ]
     },
+    "HORMONAL_BALANCE_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {
+            var h = p.GetStat("STAT","Hormones");
+            p.CoreStats["Hormones"] = h > 100 ?  Math.min((h-10), 100) : Math.max((h+10), 100);
+
+        },
+        "VALUE" : 500, "KNOWLEDGE" : [ "Hormonal Balance+" ]
+    },
     /** PERVERSION **/
     "PERVERSION_XP_COMMON" : {
         "FUN" : /** @param {App.Entity.Player} p
          @param {App.Item.Consumable} o*/
             function(o,p) { p.AdjustStatXP('Perversion', 25); },
         "VALUE" : 10, "KNOWLEDGE" : [ "Perversion Up+" ]
+    },
+    "PERVERSION_DOWN_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Perversion', -25); },
+        "VALUE" : 10, "KNOWLEDGE" : [ "Perversion Down-" ]
     },
     "PERVERSION_XP_UNCOMMON" : {
         "FUN" : /** @param {App.Entity.Player} p
@@ -11379,12 +11465,24 @@ App.Data.EffectLib = {
             function(o,p) { p.AdjustStatXP('Perversion', 100); },
         "VALUE" : 50, "KNOWLEDGE" : [ "Perversion Up+++" ]
     },
+    "PERVERSION_DOWN_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Perversion', -100); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Perversion Down---" ]
+    },
     "PERVERSION_XP_LEGENDARY" : {
         "FUN" : /** @param {App.Entity.Player} p
          @param {App.Item.Consumable} o*/
             function(o,p) { p.AdjustStatXP('Perversion', 200); },
         "VALUE" : 100, "KNOWLEDGE" : [ "Perversion Up++++" ]
-    },    
+    },
+    "PERVERSION_DOWN_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Perversion', -200); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Perversion Down----" ]
+    },
 //======================================
     /** BODY STATS **/
 //======================================
@@ -11717,6 +11815,119 @@ App.Data.EffectLib = {
             function(o,p) { p.AdjustSkillXP('Navigating', 400); },
         "VALUE" : 800, "KNOWLEDGE" : [ "Navigating XP++++" ]
     },
+    /** SERVING **/
+    "SERVING_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Serving', 50); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Serving XP+" ]
+    },
+    "SERVING_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Serving', 100); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Serving XP++" ]
+    },
+    "SERVING_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Serving', 200); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Serving XP+++" ]
+    },
+    "SERVING_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Serving', 400); },
+        "VALUE" : 800, "KNOWLEDGE" : [ "Serving XP++++" ]
+    },
+    /** COOKING **/
+    "COOKING_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cooking', 50); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Cooking XP+" ]
+    },
+    "COOKING_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cooking', 100); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Cooking XP++" ]
+    },
+    "COOKING_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cooking', 200); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Cooking XP+++" ]
+    },
+    "COOKING_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cooking', 400); },
+        "VALUE" : 800, "KNOWLEDGE" : [ "Cooking XP++++" ]
+    },
+    /** CLEANING **/
+    "CLEANING_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cleaning', 50); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Cleaning XP+" ]
+    },
+    "CLEANING_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cleaning', 100); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Cleaning XP++" ]
+    },
+    "CLEANING_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cleaning', 200); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Cleaning XP+++" ]
+    },
+    "CLEANING_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cleaning', 400); },
+        "VALUE" : 800, "KNOWLEDGE" : [ "Cleaning XP++++" ]
+    },
+    /** SEDUCTION **/
+    "SEDUCTION_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Seduction', 50); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Seduction XP+" ]
+    },
+    "SEDUCTION_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Seduction', 100); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Seduction XP++" ]
+    },
+    "SEDUCTION_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Seduction', 200); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Seduction XP+++" ]
+    },
+    "SEDUCTION_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Seduction', 400); },
+        "VALUE" : 800, "KNOWLEDGE" : [ "Seduction XP++++" ]
+    },
+    /** RANDOM SKILL XP */
+    "RANDOM_SKILL_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {
+            p.AdjustSkillXP( App.PR.GetRandomListItem( Object.keys(p.SkillsXP)), 400);
+        },
+        "VALUE" : 800, "KNOWLEDGE" : [ "Random Skill XP++++" ]
+    },
 //======================================
     /** FOOD **/
 //======================================
@@ -12023,6 +12234,20 @@ App.Data.EffectLib = {
         "VALUE" : 100,
         "KNOWLEDGE" : [ "Dye Hair Blond" ]
     },
+    /** THE LOVERS - TAROT CARD */
+    "THE_LOVERS" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {p.AddItem("DRUGS", "siren elixir", 0);},
+        "VALUE" : 500, "KNOWLEDGE" : [ "Add Item++++" ]
+    },
+    /** THE EMPRESS - TAROT CARD */
+    "THE_EMPRESS" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {p.AddItem("LOOT_BOX", "common food loot box", 0);},
+        "VALUE" : 500, "KNOWLEDGE" : [ "Add Item++++" ]
+    },    
 //======================================
     /** CLOTHING PASSIVE WORN EFFECTS **/
 //======================================
@@ -18579,7 +18804,229 @@ App.Data.Stores["SMUGGLERS"] =  {
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",   "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "male mandrake"          }
     ]
 };
-/* twine-user-script #87: "goldenisle_guards.js" */
+/* twine-user-script #87: "tarot_cards.js" */
+App = App || { Data: { }, Entity: { } };
+
+App.Data.Tarot = App.Data.Tarot || { };
+
+App.Data.Tarot["001"] = {
+    Name: "The Magician",
+    Css: "tcard1",
+    Chat: "\"Ah... The Magician. Your fate is one of good fortune leading you towards your truest potential. I see you have been held back from that which you seek by someone who has imposed transformation upon you. Your card foretells more positive changes ahead.\""+
+    "You feel a distinct warming sensation throughout your body as Madame Blanche utters the words of your fortune. Though nothing seems to differ immediately, you get the overwhelming feeling that something will soon change you for the better.",
+    Msg: "As you fall asleep, the words of the fortune teller are suddenly strong in your mind. You feel a momentary resurgence of your faded masculinity and sense of purpose.",
+    Effects : [ "MALE_HORMONE_XP_LEGENDARY", "BOLSTER_WILL_RARE", "FEMININITY_DOWN_XP_LEGENDARY" ]
+};
+
+App.Data.Tarot["002"] = {
+    Name: "The Popess",
+    Css: "tcard2",
+    Chat: "\"It is The Popess who guides your future, I see. You shall venture upon the sea, though your destination remains shrouded by mystery. The Popess shelters you in the divine, her feminine influence restoring life and vitality.\"\n\n"+
+    "Strange sensations come over you as Madame Blanche reads your fortune. You smell fragrant notes of jasmine and lavender, and a feeling of softness and comfort permeates your body. It fades away, but a lingering feeling remains that soothes your mind.",
+    Msg: "As you fall asleep, the fortune teller's words come back to your mind. You feel an invisible but definitely feminine presence, and are oddly comforted by it.",
+    Effects : [ "FEMALE_HORMONE_XP_LEGENDARY", "HEAL_LEGENDARY", "FEMININITY_XP_LEGENDARY" ]
+};
+
+App.Data.Tarot["003"] = {
+    Name: "The Empress",
+    Css: "tcard3",
+    Chat: "\"Your future falls under the protection of The Empress. She is the steward of life, a nurturer and sustainer. Her blessings herald the creation of good things and more bountiful times ahead.\"\n\n"+
+    "As Madame Blanche's reading concludes, you feel a pleasant, sweet taste on your tongue. You can't pinpoint the flavor, but it reminds you of a happy moment from your childhood in which you were given a treat and felt you had all you needed in the world. The memory fades before you can place it exactly, but the feeling of contentment it gave you lingers.",
+    Msg: "As sleep begins to overtake you, the fortune teller's words echo in your mind. A feeling of satiation washes over you, and you drift off to sleep feeling hale, hearty and somehow fuller than you've been in a long while.\n\n"+
+    "You also realize there's an unfamiliar box in your possession that wasn't there before. You fall asleep before you have a chance to examine it closely, but you get the sense that it's probably something good.",
+    Effects : [ "NUTRITION_LEGENDARY", "HEAL_LEGENDARY", "THE_EMPRESS" ]
+};
+
+App.Data.Tarot["004"] = {
+    Name: "The Emperor",
+    Css: "tcard4",
+    Chat: "\"I see your fate is ruled by The Emperor. His power is unyielding and cold, but his influence is one of masculinity and assertiveness. His command of the world symbolizes the control you seek.\"\n\n"+
+    "As Madame Blanche speaks, you are immediately conscious as your emotions cool and intense purpose comes over you. Your eyes darken with a rising sense of power within your grasp, but the feeling erodes as you are reminded of your circumstances.",
+    Msg: "The strong feelings that overcame you at Madame Blanche's earlier return as you feel sleep approach. The sense your fortune has reversed, that you wield control over your fate leaves an awareness of surging confidence as your last distinct thought of the night.",
+    Effects : [ "MALE_HORMONE_XP_LEGENDARY", "BOLSTER_WILL_RARE", "FEMININITY_DOWN_XP_LEGENDARY" ]
+};
+
+App.Data.Tarot["005"] = {
+    Name: "The Pope",
+    Css: "tcard5",
+    Chat: "\"It seems the wisdom of the The Pope steers your fortune. He brings the blessings of knowledge to you. However, he also heralds the influence of one who will help you define your role in a group which surrounds you. Whether for better or worse, it is not for me to say.\"\n\n"+
+    "You are struck by a sudden sense of new learning, though paradoxically you're not sure what specific knowledge you've gained. You ponder it for a few moments, but become distracted as you speculate who the influential person she spoke of is, and how they might affect you.",
+    Msg: "ust as your consciousness reaches the verge of sleep, the fortune teller's predictions emerge briefly but clearly as your night's final thought. You recall the strange sensation of learning without knowing exactly what you'd learned, and remember the person she said would help you define your role. Very strange.\n\n"+
+    "One of your skills has improved.",
+    Effects : [ "RANDOM_SKILL_XP_LEGENDARY" ]
+};
+
+App.Data.Tarot["006"] = {
+    Name: "The Lovers",
+    Css: "tcard6",
+    Chat: "\"The cards foretell it is The Lovers who sway your future. Their appearance tells of us of a romance which stands at a crossroads. How this dilemma will resolve is uncertain, but temptation and sacrifice are surely involved.\"\n\n"+
+    "The weight of your heart's burden suddenly explodes to the forefront of your thoughts. You are tormented by uncertainty about the fate of your beloved or your future together. Simultaneously, you can see that submission to a future of lust and debauchery promises a perverse release from your torture. The clarity you once held is suddenly in question.\n\n"+
+    "Then, your intense moment of crisis fades just as mysteriously as it emerged, although traces of confusion remain behind.",
+    Msg: "Drifting away in your bed, you become aware once more of the crisis of the heart you felt at your fortune telling. Though it doesn't ward off sleep's inevitable grasp, you catch yourself moaning in emotional distress as you begin to fall asleep.\n\n"+
+    "You become dimly aware of a bottle among your belongings that wasn't there before, but it's too late to look at it closely before you pass out completely.",
+    Effects : [ "BREAK_WILL_RARE", "THE_LOVERS" ]
+};
+
+App.Data.Tarot["007"] = {
+    Name: "The Chariot",
+    Css: "tcard7",
+    Chat: "\"The Chariot leads the way forwards into your future. Energy and determination grow within you to face decisions ahead, but your path must be chosen with care. The Chariot's way is one of divine guidance and victory through hard choices, but only if one proceeds wisely.\"\n\n"+
+    "Just as Madame Blanche lays the card down, a feeling of great possibility and vigor begins to course through you. You wonder what to do with your new found sense of purpose, and it feels like anything you do will succeed.\n\n"+
+    "The feeling largely dissipates when you're reminded just how you arrived at this island, but a little more spring remains in your step anyway. Maybe if you try, things can get better.",
+    Msg: "As you begin to fall asleep, you remember the feeling you had at Madame Blanche's fortune telling, that achieving anything might still be possible. Despite your horrible circumstances, a tiny flame of positivity burns inside you.",
+    Effects : [ "BOLSTER_WILL_LEGENDARY", "ENERGY_LEGENDARY" ]
+};
+
+App.Data.Tarot["008"] = {
+    Name: "Justice",
+    Css: "tcard8",
+    Chat: "\"Your fate now rests with the hands of Justice. This path is one of balance and decision, delivering those who pay heed to her into right action and responsibility. Her guidance will help bring clarity and awareness to your situation so you can do what you must.\"\n\n"+
+    "At these words from the fortune teller, you gain perfect awareness of the circumstances surrounding your capture and your ensuing voyage for a few, brief moments. In this flash of fleeting clarity, everything you need to change your fate coalesces into a concrete plan. However, just as quickly as it came to you, it fades. Fortunately, the underlying sense of grounding remains.",
+    Msg: "At the moment where you transition from waking into sleep, the fortune teller's words return to you. Along with them comes the same decisive feeling you experienced at her table. It stays with you as you finally drowse away.",
+    Effects : [ "BOLSTER_WILL_LEGENDARY", "PERVERSION_DOWN_XP_RARE" ]
+};
+
+App.Data.Tarot["009"] = {
+    Name: "The Hermit",
+    Css: "tcard9",
+    Chat: "\"I see The Hermit is now the herald of your future. He reflects upon the inward knowledge of one's truest self, and leads one towards removing distractions. With his guidance, you may begin to find the new direction you are seeking.\"\n\n"+
+    "Your focus turns towards your innermost thoughts and desires, and you feel the maelstrom of chaos you've been dealing with start to abate. Feelings of isolation that burdened you since you were press-ganged into slavery now soothe you instead, helping you find perspective. As you ponder things, you're left with a modest amount of positive thought where none existed before.",
+    Msg: "In your fading moments before you fall asleep, your feeling of reflection returns amid the sliver of privacy you have in the world of your thoughts. You are granted a moment of acceptance and understanding that goes beyond your circumstances. Perhaps tomorrow will be better somehow.",
+    Effects : [ "BOLSTER_WILL_RARE", "ENERGY_RARE", "PERVERSION_DOWN_XP_RARE"]
+};
+
+App.Data.Tarot["010"] = {
+    Name: "The Wheel of Fortune",
+    Css: "tcard10",
+    Chat: "\"Ah, this card signals a turning point. The Wheel of Fortune brings forth destiny, offering luck in misfortune and opportunity that springs from accidents. It is said the Wheel can change one's stars, though it is up to you to chart the course that suits you most.\"\n\n"+
+    "As Madame Blanche lays the card on the tablecloth, a light sea breeze inexplicably blows through the room, stirring against draperies, fabric and the locks of your hair. In a moment, the draft reverses direction and your eyes flutter as the warm breeze caresses your cheek. As the air returns to its former calm, you enjoy the premonition of a new direction ahead.",
+    Msg: "Just as you're about to fall asleep, the same strange sea breeze you felt at the fortune teller's filters through your berth, replacing the dankness of the ship's grimy decks with the clean scent of the sea. If only for a few passing moments, you feel like things could be looking up.",
+    Effects : [ "BOLSTER_WILL_RARE", "HEALING_RARE", "ENERGY_RARE" ]
+};
+
+App.Data.Tarot["011"] = {
+    Name: "Strength",
+    Css: "tcard11",
+    Chat: "\"Your fortune resides in the ascendancy of Strength. Though pure might is one aspect of this card, Strength can also signal composure in the face of danger, calm amid frustration, and the ability to overcome adversaries with compassion and persuasion.\"\n\n"+
+    "Madame Blanche sets the card down, and almost immediately your body prickles with a flow of energy that comes from nowhere. As the sensation intensifies, you flex your fists as profound new power courses through your arms and torso. It is matched by an inner calm that builds up like the foundation of a fortress, placid but stable, allowing you to act from a collected state of mind.\n\n"+
+    "Though the feeling is only transitory, you're left relaxed and feeling much more confident and capable than you've been in some time.",
+    Msg: "You are nearly asleep when the power you felt at Madame Blanche's parlor returns to your body for a few seconds, leaving you feeling renewed and ready to take action. Though it fades once more, you know that somehow, a bit of that feeling of strength will stay with you.",
+    Effects : [ "FITNESS_XP_LEGENDARY", "SEDUCTION_XP_RARE", "BOLSTER_WILL_RARE", "ENERGY_UNCOMMON", "HEAL_COMMON" ]
+};
+
+App.Data.Tarot["012"] = {
+    Name: "The Hanged Man",
+    Css: "tcard12",
+    Chat: "\"Very interesting, indeed,\" says Madame Blanche. \"It appears your fate resides with The Hanged Man.\"\n\n"+
+    "\"Though it may seem the opposite is true at first,\" she explains, \"this destiny is one of self-sacrifice, not condemnation. The Hanged Man's position is of his own choosing. Through it, he seeks a reversal of direction, surrender in the moment for gain in the long run, and yielding of one's fight for control in order to get true release. He retreats to restore the ability to advance further.\"\n\n"+
+    "You contemplate Madame Blanche's words, wondering how they might apply to your situation. At length, you realise that the more you've struggled, the more you've been forced to make compromises that led you further from your goal.\n\n"+
+    "",
+    Msg: "At this realization, you are filled by a strange, supernatural feeling that time has been suspended, if only for a few split seconds. As it fades away, you gain a surreal calm and sense of catharsis.",
+    Effects : [ "BREAK_WILL_LEGENDARY", "SERVING_XP_RARE", "COOKING_XP_RARE", "CLEANING_XP_RARE"]
+};
+
+App.Data.Tarot["013"] = {
+    Name: "DEATH",
+    Css: "tcard13",
+    Chat: "\"The Death card - your fate lies out of your own hands when Death commands your fortunes. You cannot change the situation you find yourself in, and it is only by closing the door to the past that a new one can open. Going forward into the unknown, by letting go of that which was only true in the past, is the only way to escape from the misfortunes of the present.\"\n\n"+
+    "Upon hearing this reading, you are overwhelmed by a sense of hopelessness and inevitability. The rules of the life you knew before your misadventures are certainly of no use while you travail with pirates. How else can you escape but to learn to survive your situation as it is, taken at face value? A supernatural chill comes over you at this conclusion, and though you shrug it off, you wonder if it may just be true.",
+    Msg: "The unease you felt upon the revelation of the Death card at Madame Blanche's has lingered throughout the day. As your mind sinks into slumber, you feel the spectral chill infiltrate your bones again, eating away at your hopefulness and sending you onward to a troubled night's sleep.",
+    Effects : [ "BREAK_WILL_LEGENDARY", "HUNGER_RARE", "TOXICITY_RARE"]
+};
+
+App.Data.Tarot["014"] = {
+    Name: "The Temperance",
+    Css: "tcard14",
+    Chat: "\"Ah... it seems your fate now lies under the measured direction of Temperance,\" says Madame Blanche. \"She signifies good health and vitality in full measure, but also a need for finding balance in one's circumstances. Through compromise and making accords with others, Temperance can help you find the middle ground that could improve your harsh position.\"\n\n"+
+    "Madame Blanche lowers her chin and meets your gaze with wizened eyes.\n\n"+
+    "\"You are wise to find moderation in your course, avoiding excesses on either side that may bring you imbalance.\"\n\n"+
+    "A subtle feeling of equilibrium begins to grow as you receive the fortune teller's advice. You feel your most extreme desires compete with one another until they fade into a middle ground of modest hopefulness. Out of the exchange grows a serene sense of security that remains with you, despite the troubles you know are ahead.",
+    Msg: "At the last flicker of your consciousness, you recall your fortune reading with Madame Blanche. Once more, the feeling of security amid compromise returns as you fall asleep, letting you rest peacefully throughout the night.",
+    Effects : [ "BOLSTER_WILL_UNCOMMON", "PERVERSION_DOWN_XP_RARE", "HEAL_RARE", "NUTRITION_RARE", "HORMONAL_BALANCE_COMMON"]
+};
+
+App.Data.Tarot["015"] = {
+    Name: "The Devil",
+    Css: "tcard15",
+    Chat: "Madame Blanche's hand trembles as she glances at the card she drew, hesitating before she places it face up before you. She takes hold of a small, wooden fetish and kisses it, holding it close to her heart before she begins her reading.\n\n"+
+    "\"Beware, child,\" she warns, \"for The Devil holds the reigns of your fortune.\"\n\n"+
+    "\"You are trapped in bondage and slavery from which you cannot now escape,\" she continues. \"He shows us that you are hopeless, wandering in the dark, controlled by others, and tied down by unwanted circumstances. Your only hope is to see the situation for what it is and hold to the vision of yourself that can lead you out, for dangerous waters lie ahead.\"\n\n"+
+    "Your fears and lost independence weigh on you like anchoring chains, dragging you downward. The numerous candles in the room suddenly flicker and glow less brightly for several seconds. You shiver, as if touched by a shadow. Though the feeling of invisible shackles is a fleeting one, they serve to remind you of the actual ones you must still contend with.",
+    Msg: "You toss in your bunk, recalling the fortune teller's warning as you grapple with feelings of doubt and despair. As you descend into unconciousness, the lanterns on deck grow dimmer without any apparent cause, drawing superstitious mumblings from several crewmen. Sleep overcomes you anyway, but the bleak feeling snakes on through dark dreams that trouble your night.",
+    Effects : [ "BREAK_WILL_LEGENDARY", "TOXICITY_RARE" ]
+};
+
+App.Data.Tarot["016"] = {
+    Name: "The Tower",
+    Css: "tcard16",
+    Chat:
+    "\"The Tower. It means your fate is in question, your plans thwarted, and great peril now surrounds you. You have fallen into a place from which chaos has taken over your life, and your ego has been humbled. Regrettably, this is not a card for good news,\" says Madame Blanche.\n\n"+
+    "\"However, the Tower also shows us that a new realization may be upon you. What you thought was true was not, and now you may see yourself as you really are because of it. What you do with that knowledge is up to you.\"\n\n"+
+    "At her words, you begin to search yourself for the formerly hidden revelation she spoke of. The downfall and peril she spoke of are obvious, but you begin to focus on how you've reacted to your misfortune. Perhaps that says a lot about who you are.\n\n"+
+    "Like a chime from a clarion bell on a dark night, you start to see the choices you've made and where they are taking you. Now, you've got to make up your own mind about what to do next with that knowledge.\n\n",
+    Msg: "With your eyes closed, you lie in your bunk, waiting for sleep. Just as you are about to drift off, you remember Madame Blanche's telling of your fortune and the reflection of self that came along with it. You fall asleep, your last ruminations spent on what direction to take next.",
+    Effects : [ "TOXICITY_RARE" ]
+};
+
+App.Data.Tarot["017"] = {
+    Name: "The Star",
+    Css: "tcard17",
+    Chat: "\"This card means good things lie in the future. The Star is a symbol of hope, of creativity and giving. It means inspiration may be coming to you, and that you can find a sense of peace and harmony,\" she smiles.\n\n"+
+    "\"You should know, however, The Star is more about possibility than about solutions to problems we have right now,\" she cautions. \"You must still act on your own to improve your situation, but The Star sends us light in the darkness to inspire and guide us.\"\n\n"+
+    "Your reading leaves you with a greatly improved sense of hopefulness, and Madame Blanche's words get you thinking about how you can better your situation. You get the feeling that if you put your mind to it, things could work out. For a second, it really does feel like you're being guided by the light of a star looking down on you, and the thought leaves you smiling contentedly.",
+    Msg: "On the way to your bunk, you glimpse a particularly bright star through one of the hatches. As you lie down and settle in, you find yourself feeling relatively good despite the day's trials. Maybe there is hope, like your fortune said.",
+    Effects : [ "BOLSTER_WILL_RARE", "ENERGY_LEGENDARY", "HEAL_LEGENDARY" ]
+};
+
+App.Data.Tarot["018"] = {
+    Name: "The Moon",
+    Css: "tcard18",
+    Chat: "\"The Moon signifies a moment of confusion, anxiety and disorientation. Your life may be full of things unfamiliar and frightenting, but your own inability to think clearly and overcome your own illusions and fears prevents you from overcoming them. Fortunately, The Moon also gives you the freedom to act on your imagination, opening yourself to creativity which may help you find an escape.\"\n\n"+
+    "You reflect on the fortune Madame Blanche has given you, wondering if it really is your inner fears that are keeping you from confronting the very real dangers around you. You've spent so much time despairing over your situation, trying to puzzle your way out, that what she says hits home. The questions remain, however: How do you find clarity to respond when your situation is so overwhelming? And, would it be so bad to indulge your fevered thoughts if they will help you get away from the horrors you're facing?\n\n"+
+    "Your head swims and you feel physically disoriented for a moment, as if the day was suddenly turned upside down and the glow of the moon was all that lights your surroundings. You come to after a moment, but residual confusion remains.",
+    Msg: "Tonight, the ship is awash in pale, purple light, cast by an unnaturally large moon. As you head to your cabin, you notice that even aboard a pirate ship, the world feels veiled by a surreal reality that feels more like fantasy. Several crewmembers look into the night sky with suspicion, murmuring tales to one another in hushed voices.\n\n"+
+    "You try to shrug it off, but as you sink into your bunk, the feeling of disorientation you felt at the fortune teller's comes back, multiplying your misgivings and swamping your thoughts with confusion once more. The allure of imaginative escape overcomes you as you fall asleep, and a night full of lecherous imaginings lies ahead in your wettest of dreams.",
+    Effects : [ "PERVERSION_XP_LEGENDARY", "BREAK_WILL_RARE" ]
+};
+
+App.Data.Tarot["019"] = {
+    Name: "The Sun",
+    Css: "tcard19",
+    Chat: "\"The Sun guides your path, I am glad to say. The light of The Sun is a powerful and benevolent force, giving you good fortune and confidence in matters you face ahead. This is a way of courage and vitality, of self-assuredness and success.\"\n\n"+
+    "As Madame Blanche releases the card to the tabletop, you feel an all-encompasing warmth permeating your whole body. It's accompanied by confidence in yourself and assurance that you can do what you need to do to get through everything. You don't feel boastful, just sure and competent.",
+    Msg: "As you make ready to get some sleep, settling into your bunk, the feeling of warmth you felt at the fortune tellers waxes through your body again. Basking in the glow of confidence and assurance it brings, you know that tomorrow you're going to be in a much better place about this whole ordeal.",
+    Effects : [ "BOLSTER_WILL_LEGENDARY", "HEAL_LEGENDARY", "ENERGY_LEGENDARY", "NUTRITION_LEGENDARY"]
+};
+
+App.Data.Tarot["020"] = {
+    Name: "Judgement",
+    Css: "tcard20",
+    Chat: "\"This reading is cloudy for me,\" she says, \"because much is left for you to decide. That's how Judgement works, as it represents many things, making it one of the most difficult among the Tarot to discern.\"\n"+
+    "\"For you, Judgement may mean you need to make a stand - or else make the hard choice not to, in order to survive. It may mean making a fresh start, seeing your situation in a different light and acting accordingly. It may also mean that a reckoning is upon you, and you need to seek redemption before its too late. I see all these things in your future, but which among them is the strongest remains uncertain.\"\n\n"+
+    "As the card slides from Madame Blanche's hand onto the table, you feel a growing call to action inside you, calling for decisions and seeking absolution for your choices and deeds, past and future. Your eyes fill with bright light for an instant, though as soon as you blink, it fades away. As your vision returns, you feel compelled to decide your next course of action carefully, knowing that Judgment may well be upon you.",
+    Msg: "Closing your eyes to sleep, the blinding light flashes in your eyes, and the urgent call to decisive action returns. The light fades, but you don't even have time to realize it before you fall into slumber. As you sleep, you dream of being absolved of all your recent sins and cleansed, though critical choices still remain ahead of you.",
+    Effects : [ "BOLSTER_WILL_UNCOMMON", "HEAL_LEGENDARY", "ENERGY_UNCOMMON", "PERVERSION_DOWN_XP_LEGENDARY" ]
+};
+
+App.Data.Tarot["021"] = {
+    Name: "The World",
+    Css: "tcard21",
+    Chat: "\"I am very happy to tell you,\" Madame Blanche smiles, \"The World brings the most positive influence on your fortunes among all the Tarot. It represents the connection of the world and the divine, a perfect wholeness that creates joy, fulfillment and contentment. It is a sign of coming prosperity and solutions at hand to problems you've faced, and of gaining peace of mind.\""+
+    "You feel immediately buoyed inside by the words of Madame Blanche's reading, daring to hope for a positive turn in your life. Though a full resolution of your many problems seems unlikely, you wonder just how far some good fortune would go to set things right for you. The thought pours through you like a salve, washing away bad feelings and hopeless thoughts like an incoming tide.",
+    Msg: "You slide into your bunk, looking forward to the respite of sleep, when the warm tide of hope returns, just as it did at Madame Blanche's fortune telling parlor. You smile with a new found contentment. Though the future is still uncertain, right now you feel pretty good about it.",
+    Effects : [ "HEAL_LEGENDARY", "ENERGY_LEGENDARY", "NUTRITION_LEGENDARY", "BOLSTER_WILL_COMMON" ]
+};
+
+App.Data.Tarot["022"] = {
+    Name: "The Fool",
+    Css: "tcard22",
+    Chat: "\"Ah, The Fool,\" says Madame Blanche. \"His journey represents the beginning of all things, though he is accompanied by doubt and uncertainty. The Fool tells us that transition lies ahead of you, through personal transformations and life changes that will take place as you travel along. He also represents embracing folly, by taking chances where the odds are long or the choice seems crazy, in order to obtain the thing you desire most.\"\n\n"+
+    "You consider the words of your reading, and are inspired to imagine your path ahead as a new adventure with a hopeful ending. You admit you've never faced a challenge like the one in front of you now. Maybe the odds are long and the choices dubious, but if you tackle it head on and let the chips fall where they may, you might just come out of it better than you'd ever have been otherwise.",
+    Msg: "The image of The Fool returns to your thoughts as you lie in your bunk getting ready to go to sleep. As your eyes flutter closed, you begin to think about the bizarre journey you've begun. Though many parts of it have been unspeakably horrible to be sure, you wonder if you might also extract some good from it? It's crazy... but it just might work.",
+    Effects : [ "HEAL_LEGENDARY", "ENERGY_LEGENDARY"]
+};
+
+/* twine-user-script #88: "goldenisle_guards.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Whoring = App.Data.Whoring || { };
 
@@ -18626,7 +19073,7 @@ App.Data.Whoring["Justus"] = {
     "RARES"     : [ ],
     "NPC_TAG"   : "Justus"
 };
-/* twine-user-script #88: "lusty_lass_whore_data.js" */
+/* twine-user-script #89: "lusty_lass_whore_data.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Whoring = App.Data.Whoring || { };
 
@@ -18651,7 +19098,7 @@ App.Data.Whoring["LustyLass"] = {
     "RARES"     : [ ],
     "NPC_TAG"   : "LustyLassCustomers"
 };
-/* twine-user-script #89: "salty_mermaid_whore_data.js" */
+/* twine-user-script #90: "salty_mermaid_whore_data.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Whoring = App.Data.Whoring || { };
 
@@ -18765,7 +19212,7 @@ App.Data.Whoring["Julius"] = {
     "RARES"     : [ ],
     "NPC_TAG"   : "Quartermaster"
 };
-/* twine-user-script #90: "saucy_slattern_whore_data.js" */
+/* twine-user-script #91: "saucy_slattern_whore_data.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Whoring = App.Data.Whoring || { };
 
@@ -18790,7 +19237,7 @@ App.Data.Whoring["SaucySlattern"] = {
     "RARES"     : [ ],
     "NPC_TAG"   : "SlatternCustomers"
 };
-/* twine-user-script #91: "anime.min.js" */
+/* twine-user-script #92: "anime.min.js" */
 /*
  2017 Julian Garnier
  Released under the MIT license
@@ -19381,7 +19828,7 @@ App.Data.Whoring["SaucySlattern"] = {
         return n
     });
 }).call(window, window);
-/* twine-user-script #92: "jquery.easing.1.3.js" */
+/* twine-user-script #93: "jquery.easing.1.3.js" */
 /*
  * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
  *
@@ -19587,7 +20034,7 @@ jQuery.extend( jQuery.easing,
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-/* twine-user-script #93: "rot_lib.js" */
+/* twine-user-script #94: "rot_lib.js" */
 // Wrap rot.js code due to Twine's environment
 (function (window, define, exports) {
     /*
@@ -25003,7 +25450,7 @@ jQuery.extend( jQuery.easing,
     }));
 
 }).call(window, window);
-/* twine-user-script #94: "clothes_sanity_check.js" */
+/* twine-user-script #95: "clothes_sanity_check.js" */
 (function() {
 	if (App == null) {
 		alert("App == null!");
@@ -25030,7 +25477,7 @@ jQuery.extend( jQuery.easing,
 		}
 	}
 })();
-/* twine-user-script #95: "Story JavaScript" */
+/* twine-user-script #96: "Story JavaScript" */
 //Sugarcube config
 console.log("Sugarcube Config...");
 Config.history.controls = false;
@@ -25653,13 +26100,9 @@ Penis size: \
 [[Biggest|DebugPassage][$Player.BodyStats[&quot;Penis&quot;] to 100]]
 
 @@color:Cyan;Endings Menu@@
-[[Money Best Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 100;]] | [[Money Average Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 50;]] | [[Money Worst Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 30;]]</tw-passagedata><tw-passagedata pid="141" name="PassageTest" tags="" position="100,1850">&lt;&lt;nobr&gt;&gt;
-&lt;&lt;click &quot;PIRATE_PRACTICE&quot; &quot;Combat&quot;&gt;&gt;
-&lt;&lt;set $MenuAction = &quot;PIRATE_PRACTICE&quot;;&gt;&gt;
-&lt;&lt;if not tags().contains(&quot;custom-menu&quot;)&gt;&gt;
-&lt;&lt;set $GameBookmark = passage(); &gt;&gt;
-&lt;&lt;/if&gt;&gt;
-&lt;&lt;/click&gt;&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="142" name="InventoryWidgets" tags="widget" position="225,1850">&lt;&lt;widget &quot;InspectItem&quot;&gt;&gt;\
+[[Money Best Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 100;]] | [[Money Average Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 50;]] | [[Money Worst Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 30;]]</tw-passagedata><tw-passagedata pid="141" name="PassageTest" tags="" position="100,1850">[[DebugPassage]]
+
+&lt;&lt;tarot $Player&gt;&gt;</tw-passagedata><tw-passagedata pid="142" name="InventoryWidgets" tags="widget" position="225,1850">&lt;&lt;widget &quot;InspectItem&quot;&gt;&gt;\
 &lt;&lt;set _Item = $Player.GetItemById($args[0]); &gt;&gt;\
 &lt;table class=&quot;.MyTable&quot; style=&quot;width:750px;&quot;&gt;
 &lt;tbody&gt;
@@ -26864,7 +27307,16 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;&lt;/nobr&gt;&gt;
-&lt;span id=&quot;StoreExamine&quot;&gt;&lt;/span&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="166" name="vanityMenu" tags="widget" position="725,2100">&lt;&lt;widget &quot;vanityMenu&quot;&gt;&gt;\
+&lt;span id=&quot;StoreExamine&quot;&gt;&lt;/span&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="166" name="tarot" tags="widget" position="725,2100">&lt;&lt;widget &quot;tarot&quot;&gt;&gt;\
+&lt;&lt;set _Card = $args[0].JobFlags[&quot;TAROT_CARD&quot;];&gt;&gt;\
+&lt;&lt;if typeof _Card !== &#39;undefined&#39; &amp;&amp; App.Data.Tarot.hasOwnProperty(_Card)&gt;&gt;\
+&lt;&lt;set _Dict = App.Data.Tarot[_Card];&gt;&gt;\
+&lt;&lt;run console.log(_Dict);&gt;&gt;\
+&lt;&lt;= _Dict.Msg&gt;&gt;
+&lt;&lt;run $args[0].ApplySelfEffects(_Dict.Effects);&gt;&gt;
+&lt;&lt;run delete $Player.JobFlags[&quot;TAROT_CARD&quot;];&gt;&gt;\
+&lt;&lt;/if&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="167" name="vanityMenu" tags="widget" position="850,2100">&lt;&lt;widget &quot;vanityMenu&quot;&gt;&gt;\
 &lt;&lt;set _Hair = window.App.Data.Lists[&quot;HairStyles&quot;];&gt;&gt;\
 &lt;&lt;set _H1 = $Player.GetItemCharges(&quot;hair tool&quot;);&gt;&gt;\
 &lt;&lt;set _H2 = $Player.GetItemCharges(&quot;hair treatment&quot;);&gt;&gt;
@@ -27053,7 +27505,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 	&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;&lt;/nobr&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="167" name="wakeUpHandler" tags="widget" position="850,2100">&lt;&lt;widget &quot;wakeUpHandler&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="168" name="wakeUpHandler" tags="widget" position="975,2100">&lt;&lt;widget &quot;wakeUpHandler&quot;&gt;&gt;\
 &lt;&lt;set _RAPE_FLAG = (typeof $Player.QuestFlags[&quot;CREW_RAPE&quot;] !== &#39;undefined&#39; ? $Player.QuestFlags[&quot;CREW_RAPE&quot;] : 1);&gt;&gt;\
 &lt;&lt;if ($Player.GetNPC(&quot;Crew&quot;).Mood() &lt; 40) &amp;&amp; (Math.floor(Math.random() * 4) == 0) &amp;&amp; ($Player.Day &gt;= (_RAPE_FLAG + 5));&gt;&gt;\
 &lt;!-- Rape City --&gt;\
@@ -27087,14 +27539,14 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 @@color:cyan;Interact@@: [[Clean yourself up and carry on...|Cabin]]\
 &lt;&lt;else&gt;&gt;\
 @@color:cyan;Interact@@: [[Wake up|Cabin]]\
-&lt;&lt;/if&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="168" name="whoreLink" tags="widget" position="975,2100">&lt;&lt;widget &quot;whoreLink&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/if&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="169" name="whoreLink" tags="widget" position="1100,2100">&lt;&lt;widget &quot;whoreLink&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;&lt;click &quot;Whore&quot; &quot;Whore&quot;&gt;&gt;
 &lt;&lt;if $Player.WhoreTutorial == false&gt;&gt;&lt;&lt;run $Player.WhoreTutorial = true;&gt;&gt;&lt;&lt;set $WhoreLink = $args[0];&gt;&gt;&lt;&lt;set $WhorePassage = passage();&gt;&gt;&lt;&lt;goto WhoreTutorial&gt;&gt;
 &lt;&lt;else&gt;&gt;
 &lt;&lt;set _Passage = passage(); &gt;&gt;
 &lt;&lt;run $Player.AdjustStat(&quot;Energy&quot;, -1);&gt;&gt;
 &lt;&lt;run App.SlotEngine.LoadScene($args[0], _Passage, $Player);&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/click&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="169" name="ChangeLog" tags="custom-menu" position="1100,2100">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="170" name="ChangeLog" tags="custom-menu" position="1225,2100">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 !!!0.6b - 06/01/2018
 !!!!General
 * Added some nice new slot machine graphics courtesy of an &#39;anonymous donor&#39;
@@ -27281,19 +27733,19 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 * Added Grey Peacock basic inventory and NPC.
 * Added Waitress Job to Grey Peacock.
 !!!0.1 - 05/05/2018
-Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="170" name="CollarSwap" tags="custom-menu" position="1225,2100">Using a magical process, it&#39;s possible to swap the appearance of the cursed collar around your neck for @@color:yellow;300 coins@@. Doing so may grant you \
+Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="171" name="CollarSwap" tags="custom-menu" position="100,2225">Using a magical process, it&#39;s possible to swap the appearance of the cursed collar around your neck for @@color:yellow;300 coins@@. Doing so may grant you \
 any associated bonuses from the new collar, but will not revoke the magic that @@color:cyan;Captain Reginald@@ is using to \
 to keep you in servitude.
 
 &lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;DrawCollarTable&gt;&gt;&lt;/span&gt;
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="171" name="Combat" tags="custom-menu" position="100,2225">&lt;&lt;combatPanel $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="172" name="Examine" tags="custom-menu" position="225,2225">&lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.ShortDesc())&gt;&gt;
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="172" name="Combat" tags="custom-menu" position="225,2225">&lt;&lt;combatPanel $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="173" name="Examine" tags="custom-menu" position="350,2225">&lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.ShortDesc())&gt;&gt;
 &lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.LongDesc())&gt;&gt;
 
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="173" name="Inventory" tags="custom-menu" position="350,2225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="174" name="Inventory" tags="custom-menu" position="475,2225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
 &lt;&lt;set _Drugs = $Player.GetItemByTypes([&quot;potion&quot;]);&gt;&gt;\
 &lt;&lt;set _Quests = $Player.GetItemByTypes([&quot;QUEST&quot;, &quot;LOOT_BOX&quot;]);&gt;&gt;
 
-&lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="174" name="Jobs" tags="custom-menu" position="475,2225">&lt;&lt;nobr&gt;&gt;
+&lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="175" name="Jobs" tags="custom-menu" position="600,2225">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;
 &lt;&lt;set _JA = _JE.GetAvailableJobs($Player, $MenuAction);&gt;&gt;
@@ -27310,7 +27762,7 @@ to keep you in servitude.
 &lt;&lt;print _JU[_i].Intro($Player, _NPC); &gt;&gt;&lt;br/&gt;
   &lt;&lt;if _JU[_i].Available($Player, _NPC)&gt;&gt;@@.cmdButton;&lt;&lt;jobButton _JU[_i]&gt;&gt;@@&lt;&lt;else&gt;&gt;@@.cmdDisabledButton;&lt;&lt;jobButton _JU[_i]&gt;&gt;@@&lt;&lt;/if&gt;&gt;&lt;br/&gt;
 &lt;&lt;/for&gt;&gt;&lt;/span&gt;&lt;&lt;/nobr&gt;&gt;
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="175" name="Journal" tags="custom-menu" position="600,2225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="176" name="Journal" tags="custom-menu" position="725,2225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 
 @@color:DeepPink;Active Quests@@
 &lt;&lt;set _QE = window.App.QuestEngine;&gt;&gt;\
@@ -27344,11 +27796,11 @@ No completed quests.
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;/for&gt;&gt;\
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="176" name="map" tags="custom-menu" position="725,2225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="177" name="map" tags="custom-menu" position="850,2225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &lt;&lt;if $MenuAction == &#39;sea&#39;&gt;&gt;\
 &lt;div id=&#39;miniMap&#39;&gt;&lt;img id=&quot;mapId&quot; data-passage=&quot;img_map&quot;&gt;&lt;img id=&quot;mapIcon&quot; data-passage=&quot;img_ship_icon&quot;&gt;&lt;/div&gt;\
 &lt;&lt;run window.App.PR.pShipMapIcon($Player.SailDays);&gt;&gt;\
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="177" name="Player Score" tags="widget" position="850,2225">&lt;&lt;widget &quot;score&quot;&gt;&gt;\
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="178" name="Player Score" tags="widget" position="975,2225">&lt;&lt;widget &quot;score&quot;&gt;&gt;\
 @@color:DeepPink;&quot;&lt;&lt;= $Player.SlaveName &gt;&gt;&quot;@@
 &lt;span id=&quot;DayCount&quot;&gt;Day &lt;&lt;print $Player.Day; &gt;&gt;, &lt;&lt;print $Player.GetPhase(1); &gt;&gt;&lt;/span&gt;.
 Coins: &lt;span id=&quot;Money&quot;&gt;&lt;&lt;print $Player.Money&gt;&gt;&lt;/span&gt;
@@ -27391,14 +27843,14 @@ Coins: &lt;span id=&quot;Money&quot;&gt;&lt;&lt;print $Player.Money&gt;&gt;&lt;/
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="178" name="Quests" tags="custom-menu" position="975,2225">&lt;span id=&quot;QuestUI&quot;&gt;&lt;&lt;questList&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="179" name="Rest" tags="custom-menu" position="1100,2225">&lt;&lt;run $Player.Rest();&gt;&gt;You recline leisurely in your room. There isn&#39;t much to do so you after a few minutes you find yourself napping and trying to escape into your fantasies...
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="179" name="Quests" tags="custom-menu" position="1100,2225">&lt;span id=&quot;QuestUI&quot;&gt;&lt;&lt;questList&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="180" name="Rest" tags="custom-menu" position="1225,2225">&lt;&lt;run $Player.Rest();&gt;&gt;You recline leisurely in your room. There isn&#39;t much to do so you after a few minutes you find yourself napping and trying to escape into your fantasies...
 
 You wake up not long after, feeling slightly more energetic.
 
 &lt;&lt;if $Player.SleepLog.length != 0&gt;&gt;&lt;&lt;for _i to 0; _i lt $Player.SleepLog.length; _i++&gt;&gt;\
 &lt;&lt;print $Player.SleepLog[_i]&gt;&gt;&lt;br/&gt;&lt;&lt;/for&gt;&gt;&lt;&lt;/if&gt;&gt;\
 @@color:cyan;Interact@@: [[Exit|Cabin]]
-@@color:yellow;Action@@: &lt;&lt;if $Player.Phase != 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] &lt; $Player.GetMaxStat(&quot;STAT&quot;, &quot;Energy&quot;)&gt;&gt;[[Continue Resting|Rest]]&lt;&lt;else&gt;&gt;@@color:grey;[Continue Resting]@@&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="180" name="Rules" tags="custom-menu" position="1225,2225">@@color:yellow;Rules O&#39; the Sea@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:yellow;Action@@: &lt;&lt;if $Player.Phase != 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] &lt; $Player.GetMaxStat(&quot;STAT&quot;, &quot;Energy&quot;)&gt;&gt;[[Continue Resting|Rest]]&lt;&lt;else&gt;&gt;@@color:grey;[Continue Resting]@@&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="181" name="Rules" tags="custom-menu" position="100,2350">@@color:yellow;Rules O&#39; the Sea@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &#39;&#39;Don&#39;t Die&#39;&#39;
 There are multiple ways to die in this game. Combat and fighting, either with the crew or with other pirates or enemies can end your life. \
 In addition to this you must monitor your health and nutrition. Be careful of taking drugs or magical potions and avoid tiring yourself out too much.
@@ -27439,12 +27891,12 @@ skills are low. You just won&#39;t get as much reward.
 
 &#39;&#39;Resting&#39;&#39;
 Don&#39;t underestimate the value of keeping yourself fully rested. If you can afford to take the time to relax, you should. It will help you process skill xp gains faster, increasing \
-your skills, give you more energy and at max energy it can even heal you quite a bit.</tw-passagedata><tw-passagedata pid="181" name="SelfJobs" tags="custom-menu" position="100,2350">&lt;&lt;nobr&gt;&gt;
+your skills, give you more energy and at max energy it can even heal you quite a bit.</tw-passagedata><tw-passagedata pid="182" name="SelfJobs" tags="custom-menu" position="225,2350">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;
 &lt;&lt;printJobResult $MenuAction&gt;&gt;
 &lt;&lt;set $MenuAction = 0;&gt;&gt;&lt;&lt;/nobr&gt;&gt;
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="182" name="Shop" tags="custom-menu" position="225,2350">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
-&lt;&lt;storeInventory $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="183" name="Skills" tags="custom-menu" position="350,2350">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="183" name="Shop" tags="custom-menu" position="350,2350">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+&lt;&lt;storeInventory $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="184" name="Skills" tags="custom-menu" position="475,2350">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &lt;table class=&quot;#score-table&quot;&gt;
 &lt;tbody&gt;
 &lt;tr&gt;&lt;td colspan=&quot;6&quot; style=&quot;border-bottom: 1px solid&quot;&gt;@@color:yellow;Piracy Skills@@&lt;/td&gt;&lt;/tr&gt;
@@ -27484,7 +27936,8 @@ your skills, give you more energy and at max energy it can even heal you quite a
 &lt;/table&gt;
 @@color:yellow;Slot Reel Management@@
 &lt;div id=&#39;SlotInventoryUI&#39; class=&#39;SlotInventoryUI&#39;&gt;&lt;/div&gt;\
-&lt;&lt;run App.SlotEngine.DrawSlotInventory($Player); &gt;&gt;\</tw-passagedata><tw-passagedata pid="184" name="Sleep" tags="custom-menu" position="475,2350">&lt;&lt;if $Player.Phase &gt;= 3&gt;&gt;&lt;&lt;run $Player.NextDay(); &gt;&gt;&lt;&lt;/if&gt;&gt;\
+&lt;&lt;run App.SlotEngine.DrawSlotInventory($Player); &gt;&gt;\</tw-passagedata><tw-passagedata pid="185" name="Sleep" tags="custom-menu" position="600,2350">&lt;&lt;tarot $Player&gt;&gt;\
+&lt;&lt;if $Player.Phase &gt;= 3&gt;&gt;&lt;&lt;run $Player.NextDay(); &gt;&gt;&lt;&lt;/if&gt;&gt;\
 &lt;&lt;set $irr to random(1,3)&gt;&gt;\
 &lt;&lt;if $irr eq 1&gt;&gt;\
   Night finally comes and you drag yourself to bed.
@@ -27574,12 +28027,12 @@ your skills, give you more energy and at max energy it can even heal you quite a
 &lt;&lt;if $Player.SleepLog.length != 0&gt;&gt;&lt;&lt;for _i to 0; _i lt $Player.SleepLog.length; _i++&gt;&gt;\
 &lt;&lt;print $Player.SleepLog[_i]&gt;&gt;&lt;br/&gt;&lt;&lt;/for&gt;&gt;&lt;&lt;/if&gt;&gt;\
 
-&lt;&lt;wakeUpHandler&gt;&gt;</tw-passagedata><tw-passagedata pid="185" name="StoryCaption" tags="" position="600,2350">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if ($Player != undefined) &amp;&amp; $InIntro != 1&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="186" name="Whore" tags="no-teleport" position="725,2350">&lt;div id=&quot;WhoreUI&quot; class=&quot;WhoreGUI&quot;&gt;&lt;/div&gt;
+&lt;&lt;wakeUpHandler&gt;&gt;</tw-passagedata><tw-passagedata pid="186" name="StoryCaption" tags="" position="725,2350">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if ($Player != undefined) &amp;&amp; $InIntro != 1&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="187" name="Whore" tags="no-teleport" position="850,2350">&lt;div id=&quot;WhoreUI&quot; class=&quot;WhoreGUI&quot;&gt;&lt;/div&gt;
 &lt;div id=&quot;DesperationContainer&quot; class=&quot;DesperationContainer&quot;&gt;&lt;div id=&quot;DesperationFiller&quot; class=&quot;DesperationFiller&quot;&gt;&lt;/div&gt;&lt;div id=&quot;DesperationBar&quot; class=&quot;DesperationBar&quot;&gt;&lt;/div&gt;&lt;img class=&quot;DesperationSlotIcon&quot; data-passage=&quot;desperation_slot_icon&quot;&gt;&lt;/div&gt;
-&lt;&lt;run App.SlotEngine.DrawUI($Player);&gt;&gt;</tw-passagedata><tw-passagedata pid="187" name="WhoreEnd" tags="no-teleport" position="850,2350">&lt;&lt;set _Exit = App.SlotEngine._ReturnPassage;&gt;&gt;\
+&lt;&lt;run App.SlotEngine.DrawUI($Player);&gt;&gt;</tw-passagedata><tw-passagedata pid="188" name="WhoreEnd" tags="no-teleport" position="975,2350">&lt;&lt;set _Exit = App.SlotEngine._ReturnPassage;&gt;&gt;\
 &lt;&lt;= App.SlotEngine.PrintResults($Player);&gt;&gt;
 
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; _Exit&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="188" name="WhoreTutorial" tags="" position="975,2350">@@color:yellow;Whoring Mini-Game Tutorial@@
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; _Exit&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="189" name="WhoreTutorial" tags="" position="1100,2350">@@color:yellow;Whoring Mini-Game Tutorial@@
 
 You can &lt;&lt;click &quot;skip this&quot; &quot;Whore&quot;&gt;&gt;\
         &lt;&lt;set _Passage = passage(); &gt;&gt;\
@@ -27626,9 +28079,9 @@ and the player has the ability to rig the game (potentially massively) in their 
 * It&#39;s almost impossible to avoid desperation rolls when you start, so don&#39;t sweat it. Just don&#39;t waste the rolls - make sure to satisfy customers.
 * Once you unlock more slots, it&#39;s better to avoid desperation rolls if possible and instead use healing items to soak beatings from angry customers.
 * If you consistently focus on one or two sex acts, you&#39;ll find your skills go up in them faster than others and you will get paid more and satisfy customers faster.
-* Wild card slots are extremely important as they will match anything, even other wildcards. Seek them out and use them.</tw-passagedata><tw-passagedata pid="189" name="DeathEnd" tags="" position="1100,2350">Your wounds were too much for you to endure.
+* Wild card slots are extremely important as they will match anything, even other wildcards. Seek them out and use them.</tw-passagedata><tw-passagedata pid="190" name="DeathEnd" tags="" position="1225,2350">Your wounds were too much for you to endure.
 
-Game over.</tw-passagedata><tw-passagedata pid="190" name="GameOver" tags="" position="1225,2350">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="191" name="GameWon" tags="custom-menu" position="100,2475">&lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;WillPower&quot;) &lt;= 40&gt;&gt;&lt;!-- Contributed by mightyakira @ TFGamesSite Forums --&gt;
+Game over.</tw-passagedata><tw-passagedata pid="191" name="GameOver" tags="" position="100,2475">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="192" name="GameWon" tags="custom-menu" position="225,2475">&lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;WillPower&quot;) &lt;= 40&gt;&gt;&lt;!-- Contributed by mightyakira @ TFGamesSite Forums --&gt;
 You daintily walk into the captain’s cabins and kneel before Captain Reginald, all on your own accord. You have learnt \
 much from your time with the crew and captain of the Mermaid, it’s almost your second nature now to act exactly the way \
 everybody aboard wants you to act.
@@ -27815,9 +28268,9 @@ Of course, you have no intention of staying a second longer nor the intention of
 &lt;&lt;/replace&gt;&gt;&lt;&lt;/click&gt;&gt;&lt;/span&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;if $Player.debugMode == true&gt;&gt;[[Cheat Room|DebugPassage]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="192" name="WillPowerEnd" tags="" position="225,2475">Your mind is broken and you end up a slave of the pirates forever.
+&lt;&lt;if $Player.debugMode == true&gt;&gt;[[Cheat Room|DebugPassage]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="193" name="WillPowerEnd" tags="" position="350,2475">Your mind is broken and you end up a slave of the pirates forever.
 
-Game over.</tw-passagedata><tw-passagedata pid="193" name="Start" tags="" position="350,2475">&lt;&lt;set $GameBookmark = passage(); &gt;&gt;
+Game over.</tw-passagedata><tw-passagedata pid="194" name="Start" tags="" position="475,2475">&lt;&lt;set $GameBookmark = passage(); &gt;&gt;
 @@color:deepPink;Queen of the Seas@@ is designed to be an RPG like transformation game with @@color:red;heavy non-consentual themes@@. \
 If this type of game bothers you then playing this game is not recommended.
 
@@ -27833,7 +28286,7 @@ As the new &quot;Cabin Girl&quot; of the Salty Mermaid, can you manage to raise 
 [[I am 18 years of age or older.|Difficulty]]
 
 @@color:yellow;Additional Links...@@
-[[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | &lt;a href=&quot;https://www.tfgamessite.com/index.php?module=viewgame&amp;id=1680&quot;&gt;IGDB Entry&lt;/a&gt; | &lt;a href=&quot;https://github.com/JJM152/Queen&quot;&gt;GitHub Repository&lt;/a&gt;</tw-passagedata><tw-passagedata pid="194" name="Difficulty" tags="" position="475,2475">&lt;&lt;set $Player = new window.App.Entity.Player();&gt;&gt;\
+[[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | &lt;a href=&quot;https://www.tfgamessite.com/index.php?module=viewgame&amp;id=1680&quot;&gt;IGDB Entry&lt;/a&gt; | &lt;a href=&quot;https://github.com/JJM152/Queen&quot;&gt;GitHub Repository&lt;/a&gt;</tw-passagedata><tw-passagedata pid="195" name="Difficulty" tags="" position="600,2475">&lt;&lt;set $Player = new window.App.Entity.Player();&gt;&gt;\
 &lt;&lt;set $InIntro = 1;&gt;&gt;\
 &lt;&lt;run $Player.Init(); &gt;&gt;\
 &lt;span id=&quot;difficulty&quot;&gt;\
@@ -27869,7 +28322,7 @@ As the new &quot;Cabin Girl&quot; of the Salty Mermaid, can you manage to raise 
     [[Continue|Intro1]]
     &lt;&lt;/replace&gt;&gt;\
 &lt;&lt;/click&gt;&gt; - @@color:purple;Even Easier Setting@@ - //The name says it all.//
-&lt;/span&gt;</tw-passagedata><tw-passagedata pid="195" name="Intro1" tags="" position="600,2475">&lt;&lt;nobr&gt;&gt;
+&lt;/span&gt;</tw-passagedata><tw-passagedata pid="196" name="Intro1" tags="" position="725,2475">&lt;&lt;nobr&gt;&gt;
 Your name is @@color:yellow;&lt;&lt;= $Player.OriginalName &gt;&gt; Smythe@@, the middle son of a &lt;span id=&quot;familyJob&quot;&gt;
 &lt;&lt;click &quot;farmer&quot;&gt;&gt;
     &lt;&lt;run $Player.AdjustStat(&quot;Fitness&quot;, 10);&gt;&gt;
@@ -27899,7 +28352,7 @@ outside of your social class that such a relationship, if it should be known, wo
 Despite this challenge, and despite @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;&#39;s@@ rather sheltered upbringing, the two of you have agreed to elope. You meet tonight \
 to discuss the plan.
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]&lt;/span&gt;</tw-passagedata><tw-passagedata pid="196" name="Intro2" tags="" position="725,2475">You wait until nightfall and meet @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]&lt;/span&gt;</tw-passagedata><tw-passagedata pid="197" name="Intro2" tags="" position="850,2475">You wait until nightfall and meet @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
 &lt;&lt;nobr&gt;&gt;
 &lt;span id=&quot;flirting&quot;&gt;
 &lt;&lt;click &quot;serenading her&quot;&gt;&gt;
@@ -27928,7 +28381,7 @@ can begin a new chapter as man and wife.
 
 @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ looks at you with wistful eyes as she listens to your story. It&#39;s clear she&#39;s as eager as you are to depart tonight!
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="197" name="Intro3" tags="" position="850,2475">With haste you depart to the docks, entering the sole tavern on the island. The hour is late so there are not many patrons around and @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ is wearing an overly large \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="198" name="Intro3" tags="" position="975,2475">With haste you depart to the docks, entering the sole tavern on the island. The hour is late so there are not many patrons around and @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ is wearing an overly large \
 cowl to hide her appearance. It wouldn&#39;t do for anyone to see the Governor&#39;s daughter in such a place. Out of the corner of your eye a man waves at you. You recognize him as the gentle-sir you \
 spoke to yesterday, a fellow by the name of @@color:cyan;Reginald@@. You make your way to his table and take a seat.
 
@@ -27940,7 +28393,7 @@ On board the ship, @@color:cyan;Captain Reginald@@ shows you to your quarters, i
 takes his leave. You and @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ look at each other, both of you thinking about what you can finally do now that you&#39;re alone and have some \
 privacy. Emboldened, you share a celebratory toast. The ale is bitter, but still cool. Just as you put your first cup down, a wave of light-headedness crashes into you...
 
-[[It all goes dark...|Intro4]]</tw-passagedata><tw-passagedata pid="198" name="Intro4" tags="" position="975,2475">Wake up, eyes are blurry. Your head feels groggy, your pulse is high and you&#39;re sweating. Your hands are tied and you&#39;re laying on the ground. You try to struggle against your bonds and \
+[[It all goes dark...|Intro4]]</tw-passagedata><tw-passagedata pid="199" name="Intro4" tags="" position="1100,2475">Wake up, eyes are blurry. Your head feels groggy, your pulse is high and you&#39;re sweating. Your hands are tied and you&#39;re laying on the ground. You try to struggle against your bonds and \
 take stock of your situation, but your ears are ringing. Slowly, the world seems to come back into focus...
 
 @@color:deepPink;&quot;Ahhh... AHHH... Oh....&quot;@@
@@ -27962,7 +28415,7 @@ no longer virgin cunt, the motion and the force sending her into a screaming org
 The rest of the evening is a blur... clearly your drinks were spiked and something, it must be a drug of some sort, is controlling your actions. After all, there&#39;s no way you could possibly enjoy \
 being raped by a man!
 
-[[Pass out into the welcoming blackness...|Intro5]]</tw-passagedata><tw-passagedata pid="199" name="Intro5" tags="" position="1100,2475">Some time later you wake up naked in a small cell. Your body is in pain and your smell like a sewer. You make a tentative gesture to probe your bottom and wince. You have no idea how many \
+[[Pass out into the welcoming blackness...|Intro5]]</tw-passagedata><tw-passagedata pid="200" name="Intro5" tags="" position="1225,2475">Some time later you wake up naked in a small cell. Your body is in pain and your smell like a sewer. You make a tentative gesture to probe your bottom and wince. You have no idea how many \
 cocks you took up there last night (was it last night?) and you shudder when you realize the remnants are still dripping out of your open arsehole.
 
 Before long a pirate (clearly these men are pirates!) comes by to feed you. You plead for information about @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@, but he just taunts you that \
@@ -27986,7 +28439,7 @@ cell door closed.
     &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Days pass...|IntroSlow1]]&lt;&lt;/replace&gt;&gt;
 &lt;&lt;/click&gt;&gt;&lt;/span&gt;
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="200" name="Intro6" tags="" position="1225,2475">After what seems like ages @@color:cyan;Captain Reginald@@ and his First mate come and visit you. The first mate is a large black giant by the name of @@color:cyan;Kipler@@ and you do your best \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="201" name="Intro6" tags="" position="100,2600">After what seems like ages @@color:cyan;Captain Reginald@@ and his First mate come and visit you. The first mate is a large black giant by the name of @@color:cyan;Kipler@@ and you do your best \
  to avoid looking at him too much, your mind recalling brief snatches of your first night on the ship and what he did to you. The Captain approaches you and you boldly take the chance to dash past him. \
  It lasts all of a second before you find yourself crashing to the floor, a crippling pain coursing through your body and an intense feeling of pressure constricting your throat.
 
@@ -28010,7 +28463,7 @@ while the two of you are both being ass raped by burly pirates.
 
 Broken, beaten and exhausted, you are literally dragged and thrown back into your cell. @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ had stopped making noises hours ago. You fear the worst.
 
-[[Succumb to the pain|Intro7]]</tw-passagedata><tw-passagedata pid="201" name="Intro7" tags="" position="100,2600">Two days later you&#39;re led from your cell to the Captain&#39;s quarters by the First Mate. Once there, he explains that you&#39;re now part of the crew, their live-in &quot;Cabin Girl&quot; and that your new name is going to be @@color:deepPink;&quot;&lt;&lt;= $Player.SlaveName&gt;&gt;&quot;@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women&#39;s clothes and you sigh internally. You shouldn&#39;t have expected anything else after the treatment you&#39;ve been given so far. Still, as embarrassing as it is, it&#39;s not as bad as being naked all the time.
+[[Succumb to the pain|Intro7]]</tw-passagedata><tw-passagedata pid="202" name="Intro7" tags="" position="225,2600">Two days later you&#39;re led from your cell to the Captain&#39;s quarters by the First Mate. Once there, he explains that you&#39;re now part of the crew, their live-in &quot;Cabin Girl&quot; and that your new name is going to be @@color:deepPink;&quot;&lt;&lt;= $Player.SlaveName&gt;&gt;&quot;@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women&#39;s clothes and you sigh internally. You shouldn&#39;t have expected anything else after the treatment you&#39;ve been given so far. Still, as embarrassing as it is, it&#39;s not as bad as being naked all the time.
 
 Before you go, he has some final words for you.
 
@@ -28019,7 +28472,7 @@ Before you go, he has some final words for you.
 Your mouth almost hangs open at these words. To say this is surprising would be an understatement and for the first time you feel the faint embers of hope stirring in your breast. You&#39;re let free \
 from the Captain&#39;s quarters, not that there&#39;s anywhere for you to really go given your situation, anxiously thinking about what the future has in store for you.
 
-[[Be shown to your Cabin...|Cabin]]</tw-passagedata><tw-passagedata pid="202" name="IntroSlow1" tags="" position="225,2600">After what seems like ages @@color:cyan;Captain Reginald@@ and a another man, a fit gentleman with well-styled hair and a close-trimmed moustache and goatee, come to visit. The Captain approaches and you shrink back, huddling against the wall and curling your legs up to your chest.
+[[Be shown to your Cabin...|Cabin]]</tw-passagedata><tw-passagedata pid="203" name="IntroSlow1" tags="" position="350,2600">After what seems like ages @@color:cyan;Captain Reginald@@ and a another man, a fit gentleman with well-styled hair and a close-trimmed moustache and goatee, come to visit. The Captain approaches and you shrink back, huddling against the wall and curling your legs up to your chest.
 
 @@color:cyan;&quot;Oh, but she&#39;s a bashful lass, ain&#39;t she Mister Conroy!&quot;@@ the Captain says, laughing heartily. @@color:cyan;&quot;But don&#39;t ye let her kittenish ways deceive you, man. This filly made a right big sticky mess all her own when me men claimed her ruddy rosebud!&quot;@@
 
@@ -28043,7 +28496,7 @@ The Captain laughs as the lusty squeals from @@color:Pink;&lt;&lt;= $Player.Girl
 
 &quot;Let us get acquainted.&quot; Conroy sits cross-legged on the floor in front of you, mindless of the dust and grime that will surely spoil his fine trousers. &quot;My name is Conroy. It&#39;s a pleasure to meet you, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@.&quot;
 
-[[But that&#39;s not your name...|IntroSlow2]]</tw-passagedata><tw-passagedata pid="203" name="IntroSlow2" tags="" position="350,2600">&quot;That&#39;s not my name,&quot; you say.
+[[But that&#39;s not your name...|IntroSlow2]]</tw-passagedata><tw-passagedata pid="204" name="IntroSlow2" tags="" position="475,2600">&quot;That&#39;s not my name,&quot; you say.
 
 He smiles, showing off neat white teeth. &quot;It is. You simply did not know it until now. That&#39;s the way life is sometimes, you see?&quot; He puts his palms up and shrugs. &quot;You&#39;ve learned a lot of exciting things about yourself these past few days, I&#39;d wager. Perhaps the most interesting of which is that you&#39;re truly a girl.&quot;
 
@@ -28078,7 +28531,7 @@ He sighs. &quot;That&#39;s what makes a man, is it? I think not. What parts we h
 &lt;&lt;/click&gt;&gt;
 &lt;/span&gt;
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="204" name="IntroSlow3" tags="" position="475,2600">Conroy sets the bucket beside him and rolls out a mat on the floor. He beckons you to come closer to him.
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="205" name="IntroSlow3" tags="" position="600,2600">Conroy sets the bucket beside him and rolls out a mat on the floor. He beckons you to come closer to him.
 
 &quot;Come now, sweet little miss,&quot; he calls, bending over and holding out his hands to you. &quot;Please humor me a moment. I promise to be a gentleman.&quot;
 
@@ -28094,7 +28547,7 @@ Conroy slowly steps toward you and then kneels down. He places his arm around yo
 
 &quot;Let yourself cry, little lovebird,&quot; he says, stroking his fingers through your hair. &quot;It&#39;s only natural that someone as sweet as you would ache so strongly for unrequited love.&quot;
 
-[[Cry yourself out...|IntroSlow4]]</tw-passagedata><tw-passagedata pid="205" name="IntroSlow4" tags="" position="600,2600">You&#39;re not certain how long you cried for, but you come to the slow realization that Conroy is washing the filth from your body with water from the bucket and a soft sponge. The water has the faint odor of roses and prickles pleasantly on your skin. He seems careless of the fact that his gentlemanly attire is soaked and begrimed from bathing you.
+[[Cry yourself out...|IntroSlow4]]</tw-passagedata><tw-passagedata pid="206" name="IntroSlow4" tags="" position="725,2600">You&#39;re not certain how long you cried for, but you come to the slow realization that Conroy is washing the filth from your body with water from the bucket and a soft sponge. The water has the faint odor of roses and prickles pleasantly on your skin. He seems careless of the fact that his gentlemanly attire is soaked and begrimed from bathing you.
 
 He sits in front of you and takes your hand. Delicately, he brushes under your fingernails to clear them of dirt. He does the same with your other hand and, surprisingly, with each your feet as well. Never having experienced being treated in such a manner, you allow him to attend to you while you sit silently in a mild sort of shock.
 
@@ -28108,7 +28561,7 @@ You cover yourself with your hands as he moves to kneel beside you. With both yo
 
 &quot;Don&#39;t fret, sweetheart,&quot; he coos, &quot;I am only cleaning up the mess those mannerless men left behind. I&#39;m afraid some of us are like that, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@, so you&#39;ll have to ensure to take care of this sort of thing yourself in the future.&quot;
 
-[[Let him wash your backside.|IntroSlow5]]</tw-passagedata><tw-passagedata pid="206" name="IntroSlow5" tags="" position="725,2600">Finally, Conroy turns you over and helps you sit up with a gentle hand behind your back. Your hands still cover your rigid cock, the stiffness of which has shown no sign of abating.
+[[Let him wash your backside.|IntroSlow5]]</tw-passagedata><tw-passagedata pid="207" name="IntroSlow5" tags="" position="850,2600">Finally, Conroy turns you over and helps you sit up with a gentle hand behind your back. Your hands still cover your rigid cock, the stiffness of which has shown no sign of abating.
 
 He sits in front of you cross-legged and grasps under your knees to pull you close to him. Your legs rest over his now and his face is mere inches from your own.
 
@@ -28128,7 +28581,7 @@ Your leg jerks involuntarily and you stifle a moan as your orgasm quickly approa
 
 His hand expertly slips and twists over your shaft and his thumb tenderly caresses your engorged cockhead. You clamp your eyes shut, groan as the orgasm overwhelms you, and release yourself into his fondling hand.
 
-[[Open your eyes.|IntroSlow6]]</tw-passagedata><tw-passagedata pid="207" name="IntroSlow6" tags="" position="850,2600">When you open your eyes, you see him still smiling. He brings his hand up and looks at the glistening cum painted across his palm and fingers. Then he brings his index finger up to your mouth, a fat gooey globule of your milky semen puddled on the tip.
+[[Open your eyes.|IntroSlow6]]</tw-passagedata><tw-passagedata pid="208" name="IntroSlow6" tags="" position="975,2600">When you open your eyes, you see him still smiling. He brings his hand up and looks at the glistening cum painted across his palm and fingers. Then he brings his index finger up to your mouth, a fat gooey globule of your milky semen puddled on the tip.
 
 &quot;Open,&quot; he requests with just the smallest hint of command in his tone.
 
@@ -28145,7 +28598,7 @@ His hand expertly slips and twists over your shaft and his thumb tenderly caress
 &lt;&lt;/click&gt;&gt;
 &lt;/span&gt;
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="208" name="IntroSlow7" tags="" position="975,2600">Conroy releases your chin but continues to stare into your eyes and you, rather mesmerized, stare back into his eyes. You feel his hands on your genitals and then hear the strain of leather and the clink of metal. When you look down, you see that he&#39;s locked your cock and balls snugly into a cramped and somewhat uncomfortable confinement device. You realize that it&#39;ll be impossible to get a proper erection with this thing on!
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="209" name="IntroSlow7" tags="" position="1100,2600">Conroy releases your chin but continues to stare into your eyes and you, rather mesmerized, stare back into his eyes. You feel his hands on your genitals and then hear the strain of leather and the clink of metal. When you look down, you see that he&#39;s locked your cock and balls snugly into a cramped and somewhat uncomfortable confinement device. You realize that it&#39;ll be impossible to get a proper erection with this thing on!
 
 &quot;I hope you&#39;ve taken my words to heart, sweet little miss. I do truly hope I&#39;ve helped you realize your amazing potential. I implore you to embrace your womanhood and therefore end this somber misery you&#39;ve so harshly endured for all of your tender young life. It pains me greatly to see such a beautiful young woman suffer so cruelly.&quot; He sighs and gazes deep into your eyes with tears swelling in his own. &quot;Please, I beg you to let go of these silly social precepts that are robbing you of any true joy and comfort and be yourself -- for here upon this ship, if anywhere, you have the grand opportunity to do so.&quot; He leans forward and gives you a soft kiss. &quot;You are, most truly, a fine and lovely lass. And if no one should see that truth but me -- not even you, as heartbreaking as that would be -- then I will cry to the angels and shake the very heavens for the god-damned injustice of it.&quot;
 
@@ -28156,7 +28609,7 @@ He steps forward and you lean back. His cock isn&#39;t much bigger than your own
 &quot;Generous and gentle @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@,&quot; he says with a sad pout, &quot;surely you will do me the kind consideration of relieving me of this burdensome arousal?&quot; He inches the trembling erection closer to your mouth. &quot;If I might implore those luscious lips to open and accept me, I will one day die a most grateful and fulfilled man, once shown compassion and perhaps even some sweet smidgen of love -- if but only fleeting -- by such a kindhearted and pretty lass as yourself.&quot;
 
 [[Open your mouth.|IntroSlow8yes]]
-[[Shake your head.|IntroSlow8no]]</tw-passagedata><tw-passagedata pid="209" name="IntroSlow8yes" tags="" position="1100,2600">&lt;&lt;run $Player.AdjustStat(&quot;Perversion&quot;, 5);&gt;&gt;
+[[Shake your head.|IntroSlow8no]]</tw-passagedata><tw-passagedata pid="210" name="IntroSlow8yes" tags="" position="1225,2600">&lt;&lt;run $Player.AdjustStat(&quot;Perversion&quot;, 5);&gt;&gt;
 &lt;&lt;run $Player.AdjustStat(&quot;WillPower&quot;, -3);&gt;&gt;
 You stare in his eyes as you let your lips part. He smiles and strokes your hair. The tip of his trembling prick slides to rests upon your bottom lip, gently nudging against your top lip. He closes his eyes as you open your mouth wide and use your tongue to lure his cockhead inside.
 
@@ -28200,7 +28653,7 @@ You turn, wide-eyed, to see the Captain standing at the cell entrance with his h
 
 The captain grins at you and gestures to your throat.
 
-[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="210" name="IntroSlow8no" tags="" position="1225,2600">You slowly shake your head no.
+[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="211" name="IntroSlow8no" tags="" position="100,2725">You slowly shake your head no.
 
 Conroy&#39;s shoulders slump and he lets out a long sigh.
 
@@ -28213,7 +28666,7 @@ He kneels down in front of you, grinning, and pulls a vial of clear liquid from 
 You realize he&#39;s gotten the impression that you want to get fucked.
 
 [[Lie back and accept it.|IntroSlow8noyes]]
-[[Shake your head &quot;no&quot; more vigorously.|IntroSlow8nono]]</tw-passagedata><tw-passagedata pid="211" name="IntroSlow8noyes" tags="" position="100,2725">&lt;&lt;run $Player.AdjustStat(&quot;Perversion&quot;, 5);&gt;&gt;
+[[Shake your head &quot;no&quot; more vigorously.|IntroSlow8nono]]</tw-passagedata><tw-passagedata pid="212" name="IntroSlow8noyes" tags="" position="225,2725">&lt;&lt;run $Player.AdjustStat(&quot;Perversion&quot;, 5);&gt;&gt;
 &lt;&lt;run $Player.AdjustStat(&quot;WillPower&quot;, -3);&gt;&gt;
 You lie back and watch Conroy as he pours some of the clear liquid onto his index and middle finger. Then he lowers his hand between your legs and you feel him press the tips of his fingers right into your asshole.
 
@@ -28261,7 +28714,7 @@ You sit up and turn, wide-eyed, to see the Captain standing at the cell entrance
 
 The captain grins at you and gestures to your throat.
 
-[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="212" name="IntroSlow8nono" tags="" position="225,2725">You shake your head no more vigorously.
+[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="213" name="IntroSlow8nono" tags="" position="350,2725">You shake your head no more vigorously.
 
 Conroy tilts his head and then abruptly frowns.
 
@@ -28291,7 +28744,7 @@ After one last smile over his shoulder for you, Conroy walks out of the cell and
 
 The captain grins at you and gestures to your throat.
 
-[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="213" name="IntroSlow9" tags="" position="350,2725">Your hands go up to your throat to find a collar around your neck (When did that get there? Was it here all along?).
+[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="214" name="IntroSlow9" tags="" position="475,2725">Your hands go up to your throat to find a collar around your neck (When did that get there? Was it here all along?).
 
 @@color:cyan;&quot;So long as you have that on my little strumpet, you&#39;re not going anywhere that I don&#39;t allow. And don&#39;t you be thinking to strike out at me either, because the moment you do that voodoo curse will take yer head clean off.&quot;@@
 
@@ -28303,7 +28756,7 @@ The captain turns and starts out of the cell. @@color:cyan;&quot;Be back fer ya 
 
 He chuckles and leaves the cell, locking it behind him.
 
-[[Lie down and wait.|IntroSlow10]]</tw-passagedata><tw-passagedata pid="214" name="IntroSlow10" tags="" position="475,2725">Two days later you&#39;re led from your cell to the Captain&#39;s quarters by the First Mate. Once there, he officiously explains that you&#39;re now part of the Salty Mermaid crew, as their live-in &quot;Cabin Girl&quot; of course, and that you&#39;d best get used to your name, @@color:deepPink;&quot;&lt;&lt;= $Player.SlaveName&gt;&gt;&quot;@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women&#39;s clothes and you sigh internally. You shouldn&#39;t have expected anything else after the treatment you&#39;ve been given so far. Still, as embarrassing as it is, it&#39;s not as bad as being naked all the time.
+[[Lie down and wait.|IntroSlow10]]</tw-passagedata><tw-passagedata pid="215" name="IntroSlow10" tags="" position="600,2725">Two days later you&#39;re led from your cell to the Captain&#39;s quarters by the First Mate. Once there, he officiously explains that you&#39;re now part of the Salty Mermaid crew, as their live-in &quot;Cabin Girl&quot; of course, and that you&#39;d best get used to your name, @@color:deepPink;&quot;&lt;&lt;= $Player.SlaveName&gt;&gt;&quot;@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women&#39;s clothes and you sigh internally. You shouldn&#39;t have expected anything else after the treatment you&#39;ve been given so far. Still, as embarrassing as it is, it&#39;s not as bad as being naked all the time.
 
 Before you go, he has some final words for you.
 

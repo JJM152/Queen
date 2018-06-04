@@ -1,0 +1,10 @@
+:: tarot [widget]
+<<widget "tarot">>\
+<<set _Card = $args[0].JobFlags["TAROT_CARD"];>>\
+<<if typeof _Card !== 'undefined' && App.Data.Tarot.hasOwnProperty(_Card)>>\
+<<set _Dict = App.Data.Tarot[_Card];>>\
+<<= _Dict.Msg>>
+<<run $args[0].ApplySelfEffects(_Dict.Effects);>>
+<<run delete $Player.JobFlags["TAROT_CARD"];>>\
+<</if>>\
+<</widget>>
