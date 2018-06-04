@@ -248,7 +248,7 @@ App.Data.EffectLib = {
             function(o,p) { p.AdjustStatXP('WillPower', 400); },
         "VALUE" : 600, "KNOWLEDGE" : [ "WillPower Up++++" ]
     },    
-    /** NUTRITION */
+    /** NUTRITION  AND HUNGER */
     "NUTRITION_WEAK" : {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Item.Consumable} o*/
@@ -272,6 +272,12 @@ App.Data.EffectLib = {
          @param {App.Item.Consumable} o*/
             function(o,p) { p.AdjustStat('Nutrition', 50); },
         "VALUE" : 50, "KNOWLEDGE" : [ "Nutrition Up+++" ]
+    },
+    "HUNGER_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStat('Nutrition', -50); },
+        "VALUE" : 0, "KNOWLEDGE" : [ "Nutrition Down---" ]
     },
     "NUTRITION_LEGENDARY" : {
         "FUN" : /** @param {App.Entity.Player} p
@@ -308,7 +314,38 @@ App.Data.EffectLib = {
          @param {App.Item.Consumable} o*/
             function(o,p) { p.AdjustStatXP('Nutrition', 200); },
         "VALUE" : 100, "KNOWLEDGE" : [ "Satiation Up++++" ]
-    },    
+    },
+    /** Femininity **/
+    "FEMININITY_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Femininity', 25); },
+        "VALUE" : 10, "KNOWLEDGE" : [ "Femininity Up+" ]
+    },
+    "FEMININITY_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Femininity', 50); },
+        "VALUE" : 20, "KNOWLEDGE" : [ "Femininity Up++" ]
+    },
+    "FEMININITY_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Femininity', 100); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Femininity Up+++" ]
+    },
+    "FEMININITY_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Femininity', 200); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Femininity Up++++" ]
+    },
+    "FEMININITY_DOWN_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Femininity', -200); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Femininity Down----" ]
+    },
     /** HEALTH **/
     "HEAL_COMMON" : {
     "FUN" : /** @param {App.Entity.Player} p
@@ -333,6 +370,31 @@ App.Data.EffectLib = {
          @param {App.Item.Consumable} o*/
             function(o,p) { p.AdjustStat('Health', 100); p.AdjustStat('Toxicity',-100); },
         "VALUE" : 300, "KNOWLEDGE" : [ "Health Up++++" ]
+    },
+    /** FITNESS */
+    "FITNESS_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Fitness', 25); },
+        "VALUE" : 10, "KNOWLEDGE" : [ "Fitness Up+" ]
+    },
+    "FITNESS_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Fitness', 50); },
+        "VALUE" : 20, "KNOWLEDGE" : [ "Fitness Up++" ]
+    },
+    "FITNESS_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Fitness', 100); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Fitness Up+++" ]
+    },
+    "FITNESS_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Fitness', 200); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Fitness Up++++" ]
     },
     /** HORMONES */
     "MALE_HORMONE_XP_COMMON" : {
@@ -383,12 +445,28 @@ App.Data.EffectLib = {
             function(o,p) { p.AdjustStatXP('Hormones', 400); },
         "VALUE" : 80, "KNOWLEDGE" : [ "Female Hormones++++" ]
     },
+    "HORMONAL_BALANCE_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {
+            var h = p.GetStat("STAT","Hormones");
+            p.CoreStats["Hormones"] = h > 100 ?  Math.min((h-10), 100) : Math.max((h+10), 100);
+
+        },
+        "VALUE" : 500, "KNOWLEDGE" : [ "Hormonal Balance+" ]
+    },
     /** PERVERSION **/
     "PERVERSION_XP_COMMON" : {
         "FUN" : /** @param {App.Entity.Player} p
          @param {App.Item.Consumable} o*/
             function(o,p) { p.AdjustStatXP('Perversion', 25); },
         "VALUE" : 10, "KNOWLEDGE" : [ "Perversion Up+" ]
+    },
+    "PERVERSION_DOWN_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Perversion', -25); },
+        "VALUE" : 10, "KNOWLEDGE" : [ "Perversion Down-" ]
     },
     "PERVERSION_XP_UNCOMMON" : {
         "FUN" : /** @param {App.Entity.Player} p
@@ -402,12 +480,24 @@ App.Data.EffectLib = {
             function(o,p) { p.AdjustStatXP('Perversion', 100); },
         "VALUE" : 50, "KNOWLEDGE" : [ "Perversion Up+++" ]
     },
+    "PERVERSION_DOWN_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Perversion', -100); },
+        "VALUE" : 50, "KNOWLEDGE" : [ "Perversion Down---" ]
+    },
     "PERVERSION_XP_LEGENDARY" : {
         "FUN" : /** @param {App.Entity.Player} p
          @param {App.Item.Consumable} o*/
             function(o,p) { p.AdjustStatXP('Perversion', 200); },
         "VALUE" : 100, "KNOWLEDGE" : [ "Perversion Up++++" ]
-    },    
+    },
+    "PERVERSION_DOWN_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustStatXP('Perversion', -200); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Perversion Down----" ]
+    },
 //======================================
     /** BODY STATS **/
 //======================================
@@ -740,6 +830,119 @@ App.Data.EffectLib = {
             function(o,p) { p.AdjustSkillXP('Navigating', 400); },
         "VALUE" : 800, "KNOWLEDGE" : [ "Navigating XP++++" ]
     },
+    /** SERVING **/
+    "SERVING_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Serving', 50); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Serving XP+" ]
+    },
+    "SERVING_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Serving', 100); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Serving XP++" ]
+    },
+    "SERVING_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Serving', 200); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Serving XP+++" ]
+    },
+    "SERVING_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Serving', 400); },
+        "VALUE" : 800, "KNOWLEDGE" : [ "Serving XP++++" ]
+    },
+    /** COOKING **/
+    "COOKING_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cooking', 50); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Cooking XP+" ]
+    },
+    "COOKING_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cooking', 100); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Cooking XP++" ]
+    },
+    "COOKING_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cooking', 200); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Cooking XP+++" ]
+    },
+    "COOKING_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cooking', 400); },
+        "VALUE" : 800, "KNOWLEDGE" : [ "Cooking XP++++" ]
+    },
+    /** CLEANING **/
+    "CLEANING_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cleaning', 50); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Cleaning XP+" ]
+    },
+    "CLEANING_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cleaning', 100); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Cleaning XP++" ]
+    },
+    "CLEANING_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cleaning', 200); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Cleaning XP+++" ]
+    },
+    "CLEANING_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Cleaning', 400); },
+        "VALUE" : 800, "KNOWLEDGE" : [ "Cleaning XP++++" ]
+    },
+    /** SEDUCTION **/
+    "SEDUCTION_XP_COMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Seduction', 50); },
+        "VALUE" : 100, "KNOWLEDGE" : [ "Seduction XP+" ]
+    },
+    "SEDUCTION_XP_UNCOMMON" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Seduction', 100); },
+        "VALUE" : 200, "KNOWLEDGE" : [ "Seduction XP++" ]
+    },
+    "SEDUCTION_XP_RARE" : {
+        "FUN" : /** @param {App.Entity.Player} p
+
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Seduction', 200); },
+        "VALUE" : 400, "KNOWLEDGE" : [ "Seduction XP+++" ]
+    },
+    "SEDUCTION_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) { p.AdjustSkillXP('Seduction', 400); },
+        "VALUE" : 800, "KNOWLEDGE" : [ "Seduction XP++++" ]
+    },
+    /** RANDOM SKILL XP */
+    "RANDOM_SKILL_XP_LEGENDARY" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {
+            p.AdjustSkillXP( App.PR.GetRandomListItem( Object.keys(p.SkillsXP)), 400);
+        },
+        "VALUE" : 800, "KNOWLEDGE" : [ "Random Skill XP++++" ]
+    },
 //======================================
     /** FOOD **/
 //======================================
@@ -1046,6 +1249,20 @@ App.Data.EffectLib = {
         "VALUE" : 100,
         "KNOWLEDGE" : [ "Dye Hair Blond" ]
     },
+    /** THE LOVERS - TAROT CARD */
+    "THE_LOVERS" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {p.AddItem("DRUGS", "siren elixir", 0);},
+        "VALUE" : 500, "KNOWLEDGE" : [ "Add Item++++" ]
+    },
+    /** THE EMPRESS - TAROT CARD */
+    "THE_EMPRESS" : {
+        "FUN" : /** @param {App.Entity.Player} p
+         @param {App.Item.Consumable} o*/
+            function(o,p) {p.AddItem("LOOT_BOX", "common food loot box", 0);},
+        "VALUE" : 500, "KNOWLEDGE" : [ "Add Item++++" ]
+    },    
 //======================================
     /** CLOTHING PASSIVE WORN EFFECTS **/
 //======================================
