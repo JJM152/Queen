@@ -1,4 +1,4 @@
 :: PassageTest
 [[DebugPassage]]
 
-<<tarot $Player>>
+<<readTarot $Player>>

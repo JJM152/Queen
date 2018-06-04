@@ -8,3 +8,11 @@
 <<run delete $Player.JobFlags["TAROT_CARD"];>>\
 <</if>>\
 <</widget>>
+
+<<widget "readTarot">>\
+<<set _Card = App.PR.GetRandomListItem(Object.keys(App.Data.Tarot));>>\
+<<run console.log(_Card);>>\
+<<= "<div class='tcard "+ App.Data.Tarot[_Card].Css + "'></div>" >>
+<<= App.Data.Tarot[_Card].Chat;>>
+<<run $args[0].JobFlags["TAROT_CARD"] = _Card;>>\
+<</widget>>
