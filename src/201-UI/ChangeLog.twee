@@ -1,5 +1,10 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.7 - 06/05/2018
+!!!!General
+* Added some new effects to the effect library.
+!!!!Port Royale
+* Madame Blanche is now open for business. She can read your fortune for a price, but beware, you might not like what she sees...
 !!!0.6b - 06/01/2018
 !!!!General
 * Added some nice new slot machine graphics courtesy of an 'anonymous donor'
