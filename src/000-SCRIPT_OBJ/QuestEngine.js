@@ -295,10 +295,11 @@ window.App.QuestEngine = new function() {
             switch(Type) {
                 case "QUEST_FLAG":
                     if (typeof Player.QuestFlags[Name] === 'undefined') return false;
-                    return (Player.QuestFlags[Name] == Value);
+                    if (Player.QuestFlags[Name] != Value) return false;
                 break;
                 case "STYLE_CATEGORY":
-                    return (Player.GetStyleSpecRating(Name) >= Value);
+
+                    if(Player.GetStyleSpecRating(Name) < Value) return false;
                 break;
                 case "DAYS_PASSED":
                     if(Player.Day < Value) return false;

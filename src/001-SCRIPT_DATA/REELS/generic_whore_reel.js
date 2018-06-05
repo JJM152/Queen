@@ -38,8 +38,8 @@ App.Data.Slots["RARE_WHORE"] =
 App.Data.Slots["LEGENDARY_WHORE"] =
 {
     "NAME"  : "Sissy Whore Reel",
-    "RANK"  : "RARE",
-    "VALUE" : 2000,
+    "RANK"  : "LEGENDARY",
+    "VALUE" : 4000,
     "CSS"   : 'HandSlotReel',
     "DATA"  :
         [ "ASS",  "HAND", "HAND", "TITS", "BJ", "BJ", "BEAUTY", "PERV", "FEM" ]

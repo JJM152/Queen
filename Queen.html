@@ -1797,7 +1797,7 @@ App.PR = new function() {
 			for (var i = 0; i < Rewards.length; i++)
 			{
 				if (Rewards[i]["REWARD_TYPE"] == "MONEY") Output.push( "@@color:yellow;"+ Rewards[i]["AMOUNT"] + " coins@@.");
-                if (Rewards[i]["REWARD_TYPE"] == "SLOT") Output.push( "@@color:cyan;A slot unlock!@@");
+                if (Rewards[i]["REWARD_TYPE"] == "SLOT") Output.push( "@@color:cyan;A slot reel unlock!@@");
 				if (Rewards[i]["REWARD_TYPE"] == "ITEM" ) {
 					oItem = App.Item.Factory( Rewards[i]["TYPE"], Rewards[i]["NAME"], Rewards[i]["AMOUNT"]);
 					Output.push( oItem.Description() + " x " + Rewards[i]["AMOUNT"]);
@@ -5983,10 +5983,11 @@ window.App.QuestEngine = new function() {
             switch(Type) {
                 case "QUEST_FLAG":
                     if (typeof Player.QuestFlags[Name] === 'undefined') return false;
-                    return (Player.QuestFlags[Name] == Value);
+                    if (Player.QuestFlags[Name] != Value) return false;
                 break;
                 case "STYLE_CATEGORY":
-                    return (Player.GetStyleSpecRating(Name) >= Value);
+
+                    if(Player.GetStyleSpecRating(Name) < Value) return false;
                 break;
                 case "DAYS_PASSED":
                     if(Player.Day < Value) return false;
@@ -12731,6 +12732,88 @@ App.Data.Food = {
         "Effects" : [ "HARD_ALCOHOL" ],
         "Price": 500
     },
+    "cider": {
+        "Name": "cider",
+        "ShortDesc": "Cider",
+        "LongDesc": "A low-potency cider fermented from pressed apples.",
+        "Message": "The cider goes down with a pleasantly sour taste and leaves you with a mild warming sensation.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL" ]
+    },
+    // PIRATEY??? DRINKS - Courtesy of anonymous
+    "arrack": {
+        "Name": "arrack",
+        "ShortDesc": "Arrack",
+        "LongDesc": "A milky-colored coconut-derived beverage cut with cream and sugarcane, with moderate alchoholic qualities.",
+        "Message": "The creamy-white beverage goes down smoothly with a milky, sweet flavor and a little bit of kick.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL" ]
+    },
+    "flip": {
+        "Name": "flip",
+        "ShortDesc": "Flip",
+        "LongDesc": "An egg-based drink beaten with sugar, mixed with rum and spiced with nutmeg, heated with a hot iron and served in a small glass.",
+        "Message": "Smooth, creamy and sweet with a generous amount of froth, you savor the drink and feel pleasantly warmed by it.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL" ]
+    },
+    "bumbo": {
+        "Name": "bumbo",
+        "ShortDesc": "Bumbo",
+        "LongDesc": "Grog's better cousin, bumbo is a spicier, higher-quality mixture of rum, lime, brown sugar, cinnamon and nutmeg.",
+        "Message": "You down the dark liquor and feel its smooth-yet-firey kick immediately. The flavor of sweet spice lingers nicely on your tongue.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "HARD_ALCOHOL" ]
+    },
+    "cordial waters": {
+        "Name": "cordial waters",
+        "ShortDesc": "Cordial Waters",
+        "LongDesc": "A distilled drink said to fortify one's spirit, ward off disease and settle the stomach. It's rumored to be an aphrodisiac.",
+        "Message": "You drink the spicy beverage and feel a gentle embering in your chest. You feel a little more vigorous (and a little looser).",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL", "ENERGY_UNCOMMON" ]
+    },
+    "orgeat": {
+        "Name": "orgeat",
+        "ShortDesc": "Orgeat",
+        "LongDesc": "A distilled drink similar to rum, but made from almonds, sugar and orange blossom.",
+        "Message": "You toss back the firey spirit, tasting its nutty, woody flavor. It lights up well going down.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "HARD_ALCOHOL" ]
+    },
+    "buttered toddy": {
+        "Name": "buttered toddy",
+        "ShortDesc": "Buttered Toddy",
+        "LongDesc": "A hot drink of rum, generous amounts of butter, boiling water, honey and lemon juice.",
+        "Message": "The tasty, soothing dessert drink fills you up with warmth and a delicious, contented feeling.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL", "NUTRITION_COMMON", "NUTRITION_XP_COMMON" ]
+    },
+    "whip syllabub": {
+        "Name": "whip syllabub",
+        "ShortDesc": "Whip Syllabub",
+        "LongDesc": "Derived from fortified white wine, this sugary dessert drink adds a lemony twist and heavy cream.",
+        "Message": "You enjoy a frothy serving of heavily-sweetened wine, cream and lemon in a tasty gulp, leaving hints of citrus and nutmeg.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL", "NUTRITION_COMMON", "NUTRITION_XP_COMMON" ]
+    },
+    "birch wine": {
+        "Name": "birch wine",
+        "ShortDesc": "Birch Wine",
+        "LongDesc": "A honey-colored liquer wine fermented from birch sap, sweetened and flavorfully spiced with cinnamon and finely chopped raisin.",
+        "Message": "Your tongue is pleased by the syrupy overtones of this delicious spiced wine, which leaves you with a toasty warmth.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL" ]
+    },
     /** NORMAL FOOD **/
     "meat and beans": {
         "Name": "meat and beans",
@@ -12903,7 +12986,7 @@ App.Data.QuestItems = {
         "14 inch purple dildo": {
             "Name": "14 inch purple dildo",
             "ShortDesc": "@@color:purple;a 14 inch purple dildo@@",
-            "LongDesc": "This giant dildo is surprisingly rubbery with realistic veins and an equally impressive set of fake balls attached to you. Somewhat surprisingly you found this in the closet of your supposedly virginal girlfriend.",
+            "LongDesc": "This giant dildo is surprisingly rubbery with realistic veins and an equally impressive set of fake balls attached to it. Somewhat surprisingly you found this in the closet of your supposedly virginal girlfriend.",
             "Type": "QUEST"
         },
         "porno portfolio": {
@@ -15650,8 +15733,9 @@ App.Data.JobData["SIMONE_JOB1"] = {
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [ ],
             "POST" : [
-                { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
-                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+                { "TYPE" : "NPC_STAT",   "NAME" : "Mood",           "VALUE" : 5 },
+                { "TYPE" : "COUNTER",    "NAME" : "SIMONE_LOOT",    "VALUE" : 1, "OPT" : 1 },
+                { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_1",   "VALUE" : "COMPLETED", "OPT" : "SET" }
             ],
             "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
             "END" : "",
@@ -15851,7 +15935,8 @@ App.Data.JobData["SIMONE_JOB2"] = {
             "CHECKS" : [ ],
             "POST" : [
                 { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
-                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 },
+                { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_2",   "VALUE" : "COMPLETED", "OPT" : "SET" }
             ],
             "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
             "END" : "",
@@ -16057,7 +16142,8 @@ App.Data.JobData["SIMONE_JOB3"] = {
             "CHECKS" : [ ],
             "POST" : [
                 { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
-                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 },
+                { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_3",   "VALUE" : "COMPLETED", "OPT" : "SET" }
             ],
             "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
             "END" : "",
@@ -16258,7 +16344,8 @@ App.Data.JobData["SIMONE_JOB4"] = {
             "CHECKS" : [ ],
             "POST" : [
                 { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
-                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 },
+                { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_4",   "VALUE" : "COMPLETED", "OPT" : "SET" }
             ],
             "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
             "END" : "",
@@ -18222,10 +18309,58 @@ App.Data.Quests["SIMONE_MISSING_FRIEND"] = {
         "\"Like I promised, I'll let you work out of my bar when you're in town and hell, I'll throw in a special reward as well. I'm sure there'll be something " +
         "inside one of these that an enterprising whore like yourself can find useful."
     ,
-    // Don't display in journal.
     "JOURNAL_ENTRY": "NPC_NAME has asked you to find her a 'replacement' for her 'special tool' that was stolen from her room. The only real requirement she mentioned is that it needs to be 'huge'.",
     "JOURNAL_COMPLETE": "You're not too sure how you feel about handing in your fiance's hidden dildo to a complete stranger. On one hand, it's kind of disgusting, on the other hand "+
         "now you can whore out of the @@color:gold;'Lusty Lass'@@, which is... well, honestly, kind of disgusting as well. Win some, lose some."
+};
+
+App.Data.Quests["SIMONE_CUSTOMER_SERVICE"] = {
+    "ID": "SIMONE_CUSTOMER_SERVICE", "Title": "Customer Service - The Lusty Lass",
+    "GIVER": "Simone",
+    "PRE": [
+        { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_1", "VALUE" : "COMPLETED" },
+        { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_2", "VALUE" : "COMPLETED" },
+        { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_3", "VALUE" : "COMPLETED" },
+        { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_4", "VALUE" : "COMPLETED" }
+    ],
+    "POST": [ ],
+    "CHECKS": [
+        { "TYPE": "TRACK_CUSTOMERS",  "NAME": "LustyLass", "VALUE": 20 }
+    ],
+    "ON_ACCEPT" : [
+        { "TYPE" : "TRACK_CUSTOMERS", "NAME" : "LustyLass"  }
+    ],
+    "REWARD": [
+        {"REWARD_TYPE": "MONEY", "AMOUNT": 1000 },
+        {"REWARD_TYPE" : "MOOD", "NAME" : "Simone", "AMOUNT" : 15},
+        {"REWARD_TYPE" : "SLOT" },
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "RARE_HANDMAIDEN",           "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "RARE_BREATH_MINT",          "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "RARE_ANAL_ANGEL",           "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "RARE_BOOBJITSU_MATRIARCH",  "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "UNCOMMON_CONCUBINE",        "AMOUNT": 1},
+        {"REWARD_TYPE": "ITEM_CHOICE", "TYPE": "REEL", "NAME": "LEGENDARY_WHORE",           "AMOUNT": 1}
+    ],
+    "INTRO":
+    "NPC_NAME greets you warmly with a smile and says, \"Well, if it isn't PLAYER_NAME? The boys here at the Lass sure can't get enough of you, can they?\"\n\n"+
+    "She seems to consider something for a moment and then grabs you by the arm, pulling you in close.\n\n"+
+    "\"You've become pretty popular here and I'm thinkin' there's a way we could both benefit,\" she says. The tone of her voice makes you sure that any sort of agreement is "+
+    "definitely going to favor her, but still you're intrigued.\n\n"+
+    "NPC_NAME leads you over to the main floor, looking out upon the clientele gathered for the days festivities. There's a literal throbbing mass of horny men and dozens of "+
+    "girls working the crowd, in more ways than one.\n\n"+
+    "\"Tell you what, you work for me for a bit all proper like - fuck my customers, and fuck them //good//. Drive them crazy. Make it so they can't shut up about the whores here "+
+    "at the @@color:gold;Lusty Lass@@ and I'll give you a cut of the house profits, and maybe a little present. What do you say to that?\"\n\n"+
+    "It's an interesting deal, and obviously it's not the first time you've worked for NPC_NAME. You know she pays well and keeps her word. "
+    ,
+    "MIDDLE" : "NPC_NAME says, \"Hey, PLAYER_NAME, keeping your holes busy I hope? The words starting to get around, just keep at it.\"",
+    "FINISH":
+    "NPC_NAME says, \"Nicely done PLAYER_NAME. Just this morning I heard a chaplain talking to a baker outside his stall about the class of sluts we have here and I'm sure we owe a lot of that to you.\"\n\n" +
+    "It's dubious praise, but considering your circumstances, you'll take it.\n\n" +
+    "\"Like I promised, here's your cut of the take, oh and also, I threw in a little something extra that'd be of particular use to a working girl like yourself.\""
+    ,
+    "JOURNAL_ENTRY": "NPC_NAME has asked you to work at her establishment, whoring for her customers and satisfying them so that they'll spread the word about the experience.",
+    "JOURNAL_COMPLETE": "You completed NPC_NAME's dubious task, screwing and sucking your way through her customer base and helping increase the notoriety of the @@color:gold;Lusty Lass@@. "+
+    "NPC_NAME was so grateful she gave you a fair sized cut of the profits and overall increased your whoring ability."
 };
 /* twine-user-script #70: "anal_angel_reel.js" */
 App = App || { Data: { }, Entity: { } };
@@ -18470,8 +18605,8 @@ App.Data.Slots["RARE_WHORE"] =
 App.Data.Slots["LEGENDARY_WHORE"] =
 {
     "NAME"  : "Sissy Whore Reel",
-    "RANK"  : "RARE",
-    "VALUE" : 2000,
+    "RANK"  : "LEGENDARY",
+    "VALUE" : 4000,
     "CSS"   : 'HandSlotReel',
     "DATA"  :
         [ "ASS",  "HAND", "HAND", "TITS", "BJ", "BJ", "BEAUTY", "PERV", "FEM" ]
@@ -18750,7 +18885,23 @@ App.Data.Stores["GOLDEN_GOODS"] =  {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
-/* twine-user-script #83: "islageneral_store.js" */
+/* twine-user-script #83: "grey_peacock_store.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.Stores = App.Data.Stores || { };
+
+App.Data.Stores["PEACOCK"] = {
+    "ID" : "PEACOCK",    "NAME" : "The Grey Peacock",  "OPEN" : [1, 2, 3, 4], "RESTOCK" : 7,
+    "INVENTORY" : [
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    8,     "MAX":    8,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "beer"           },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "flip"           },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "birch wine"     },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "buttered toddy" },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "whip syllabub"  },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "cordial waters" },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    3,     "MAX":    3,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "orgeat"         }
+    ]
+};
+/* twine-user-script #84: "islageneral_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -18775,7 +18926,7 @@ App.Data.Stores["ISLASTORE"] = {
 		
     ]
 };
-/* twine-user-script #84: "islatavern_store.js" */
+/* twine-user-script #85: "islatavern_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -18790,7 +18941,7 @@ App.Data.Stores["ISLATAVERN"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
     ]
 };
-/* twine-user-script #85: "lusty_lass_store.js" */
+/* twine-user-script #86: "lusty_lass_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -18827,7 +18978,7 @@ App.Data.Stores["LUSTY_LASS"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 1,  "TAG" : "COMMON_BREATH_MINT"   	   }
     ]
 };
-/* twine-user-script #86: "market_store.js" */
+/* twine-user-script #87: "market_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -18835,7 +18986,7 @@ App.Data.Stores["MARKET_STORE"] = {
     "ID" : "MARKET_STORE",    "NAME" : "The Great Market",  "OPEN" : [0, 1, 2 ], "RESTOCK" : 0,
     "INVENTORY" : [ ] // Generated at runtime.
 };
-/* twine-user-script #87: "smugglers_store.js" */
+/* twine-user-script #88: "smugglers_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -18854,7 +19005,7 @@ App.Data.Stores["SMUGGLERS"] =  {
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",   "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "male mandrake"          }
     ]
 };
-/* twine-user-script #88: "tarot_cards.js" */
+/* twine-user-script #89: "tarot_cards.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.Tarot = App.Data.Tarot || { };
@@ -19076,7 +19227,7 @@ App.Data.Tarot["022"] = {
     Effects : [ "HEAL_LEGENDARY", "ENERGY_LEGENDARY"]
 };
 
-/* twine-user-script #89: "goldenisle_guards.js" */
+/* twine-user-script #90: "goldenisle_guards.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Whoring = App.Data.Whoring || { };
 
@@ -19123,7 +19274,7 @@ App.Data.Whoring["Justus"] = {
     "RARES"     : [ ],
     "NPC_TAG"   : "Justus"
 };
-/* twine-user-script #90: "lusty_lass_whore_data.js" */
+/* twine-user-script #91: "lusty_lass_whore_data.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Whoring = App.Data.Whoring || { };
 
@@ -19148,7 +19299,7 @@ App.Data.Whoring["LustyLass"] = {
     "RARES"     : [ ],
     "NPC_TAG"   : "LustyLassCustomers"
 };
-/* twine-user-script #91: "salty_mermaid_whore_data.js" */
+/* twine-user-script #92: "salty_mermaid_whore_data.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Whoring = App.Data.Whoring || { };
 
@@ -19262,7 +19413,7 @@ App.Data.Whoring["Julius"] = {
     "RARES"     : [ ],
     "NPC_TAG"   : "Quartermaster"
 };
-/* twine-user-script #92: "saucy_slattern_whore_data.js" */
+/* twine-user-script #93: "saucy_slattern_whore_data.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Whoring = App.Data.Whoring || { };
 
@@ -19287,7 +19438,7 @@ App.Data.Whoring["SaucySlattern"] = {
     "RARES"     : [ ],
     "NPC_TAG"   : "SlatternCustomers"
 };
-/* twine-user-script #93: "anime.min.js" */
+/* twine-user-script #94: "anime.min.js" */
 /*
  2017 Julian Garnier
  Released under the MIT license
@@ -19878,7 +20029,7 @@ App.Data.Whoring["SaucySlattern"] = {
         return n
     });
 }).call(window, window);
-/* twine-user-script #94: "jquery.easing.1.3.js" */
+/* twine-user-script #95: "jquery.easing.1.3.js" */
 /*
  * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
  *
@@ -20084,7 +20235,7 @@ jQuery.extend( jQuery.easing,
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-/* twine-user-script #95: "rot_lib.js" */
+/* twine-user-script #96: "rot_lib.js" */
 // Wrap rot.js code due to Twine's environment
 (function (window, define, exports) {
     /*
@@ -25500,7 +25651,7 @@ jQuery.extend( jQuery.easing,
     }));
 
 }).call(window, window);
-/* twine-user-script #96: "clothes_sanity_check.js" */
+/* twine-user-script #97: "clothes_sanity_check.js" */
 (function() {
 	if (App == null) {
 		alert("App == null!");
@@ -25527,7 +25678,7 @@ jQuery.extend( jQuery.easing,
 		}
 	}
 })();
-/* twine-user-script #97: "Story JavaScript" */
+/* twine-user-script #98: "Story JavaScript" */
 //Sugarcube config
 console.log("Sugarcube Config...");
 Config.history.controls = false;
@@ -25759,7 +25910,8 @@ meager as they are.
 
 &lt;&lt;NPC &quot;Charmaine&quot;&gt;&gt;
 
-&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;BOARDINGPASS&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;SaucySlattern&quot;&gt;&gt;
+&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;BOARDINGPASS&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@
+&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;SaucySlattern&quot;&gt;&gt;
 &lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;\
 @@color:lime;Travel@@: [[Portside District|Portside]]</tw-passagedata><tw-passagedata pid="101" name="GI_Clothiers" tags="" position="100,1350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="102" name="GI_DanceHall" tags="" position="225,1350">@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="103" name="GI_GeneralGoods" tags="" position="350,1350">This cramped shop hsa a distinctly nautical theme to it - a displaced rusty anchor, a fishermans net, a bizarrely shaped carcass \
 of some unidentified sea creature purported to be a &#39;Kracken-kin&#39;. It&#39;d be rather funny if it wasn&#39;t for the fact that this is \
@@ -25996,7 +26148,8 @@ of a small bar and waiting area for clients, while the upstairs hosts a variety 
 
 &lt;&lt;NPC &quot;Simone&quot;&gt;&gt;
 
-&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;SIMONE_MISSING_FRIEND&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;LustyLass&quot;&gt;&gt;
+&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;SIMONE_MISSING_FRIEND&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@
+&lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;LustyLass&quot;&gt;&gt;
 &lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;\
 @@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="128" name="PR_Clothier" tags="" position="975,1600">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="129" name="PR_DanceHall" tags="" position="1100,1600">@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="130" name="PR_FancyTavern" tags="" position="1225,1600">The @@color:gold;&#39;Green Gryphon&#39;@@ is one of the older and more illustrious taverns on the island. It&#39;s position in the heart of the \
 @@color:gold;&#39;Entertainment District&#39;@@ means that it sees a healthy trade in both pleasure seekers as well as wealthy locals. The \
@@ -26004,9 +26157,10 @@ building itself is three stories tall, with the main floor being reserved for di
 a series of suites for the more well to do travellers staying in town. The wholesome scent of freshly cooked food and the clatter of \
 plates and glasses is comforting after so long at sea.
 
-@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="131" name="PR_GovernorsMansion" tags="" position="100,1725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="132" name="PR_GuardHouse" tags="" position="225,1725">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[Jail House|PR_Jail]] | [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="133" name="PR_Jail" tags="" position="350,1725">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="134" name="PR_RareGoods" tags="" position="475,1725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="135" name="PR_Tavern" tags="" position="600,1725">The @@color:gold;&#39;Grey Peacock&#39;@@ is one of the more popular taverns in @@color:gold;&#39;Port Royale&#39;@@, well known for both it&#39;s wholesome food and \
-stiff drinks. The clientele tends to be a step up from the common rabble that you&#39;d find in other places since mostly their have their needs met \
-by the numerous street-side stands in the @@color:gold;&#39;Great Market&#39;@@ and the decor and settings represent that.
+@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="131" name="PR_GovernorsMansion" tags="" position="100,1725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="132" name="PR_GuardHouse" tags="" position="225,1725">@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[Jail House|PR_Jail]] | [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="133" name="PR_Jail" tags="" position="350,1725">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="134" name="PR_RareGoods" tags="" position="475,1725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="135" name="PR_Tavern" tags="" position="600,1725">The @@color:gold;&#39;Grey Peacock&#39;@@ is one of the more popular taverns in @@color:gold;&#39;Port Royale&#39;@@, well known for both its wholesome food and \
+stiff drinks. The clientele tends to be a step up from the common rabble that you&#39;d find in other places since the @@color:gold;&#39;Great Market&#39;@@ \
+is so close by. The interior of the tavern is warm and a little homey, with the distinct scent of island grown tobacco wafting through the air, \
+punctuated by scattered conversations and the occasional bark of laughter.
 
 &lt;&lt;NPC &quot;Georgina&quot;&gt;&gt;
 
@@ -27608,7 +27762,7 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 !!!!General
 * Added some new effects to the effect library.
 !!!!Port Royale
-* Madame Blanche is now open for business. She can read your fortune for a price, but beware, you might not like what she sees...
+* Madame Blanche is now open for business. She can read your fortune for a price, but beware, you might not like what she sees... (images and text provided by @@color:deepPink;Anonymous@@)
 !!!0.6b - 06/01/2018
 !!!!General
 * Added some nice new slot machine graphics courtesy of an &#39;anonymous donor&#39;
@@ -27640,7 +27794,7 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 * Starting slave names slightly refactored by @@color:deepPink;daviezwei@@
 * Refactored how NPC data is stored to reduce size of player object.
 * Added the ability to track how many customers the player has serviced as a whore. This can be used as a quest condition now.
-!!!Salty Mermaid
+!!!!Salty Mermaid
 * The deterioration of the Crew&#39;s mood has been greatly reduced.
 * Cookie&#39;s &#39;Cooking Lesson&#39; job edited by @@color:deepPink;daviezwei@@
 * The cabin has slightly changed to be more descriptive - by @@color:deepPink;daviezwei@@
@@ -27648,16 +27802,16 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 * Julius can now (rarely) sell additional starter slots for the new whoring mini-game.
 * Cookie&#39;s &#39;Dairy&#39; job will now reward the player with cow themed Pet Girl outfit pieces if they give a lot of milk.
 * Kipler and Reginald&#39;s quest chains now unlock Slot&#39;s for the whoring mini-game, Kipler&#39;s is early on. Reginald also hands out a choice of a special slot reel (Build a Better Bimbo Part 3)
-!!!Isla Harbor
+!!!!Isla Harbor
 * Cloud District added by @@color:deepPink;AmansMarium@@.
 * General description updates by @@color:deepPink;daviezwei@@
-!!!Golden Isle
+!!!!Golden Isle
 * Added Guard Captain NPC to guard house and mini-quest to gain access to High Hill.
 * Added Madame Yvonne&#39;s Salon in High Hill.
 * You can now swap collars at the aforementioned salon, for a price.
-!!!Abamond
+!!!!Abamond
 * General description updates by @@color:deepPink;daviezwei@@
-!!!Port Royale
+!!!!Port Royale
 * Get a &#39;perfect&#39; on any of Simone&#39;s jobs and she will unlock a specialized slot reel relating to that skill at her store. You still need high favor with her to buy it.
 !!!0.5c - 05/25/2018
 * Added a new longer introduction sequence to the game when you refuse to eat the gruel. Courtesy of @@color:deepPink;daviezwei@@

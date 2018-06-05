@@ -4,7 +4,7 @@
 !!!!General
 * Added some new effects to the effect library.
 !!!!Port Royale
-* Madame Blanche is now open for business. She can read your fortune for a price, but beware, you might not like what she sees...
+* Madame Blanche is now open for business. She can read your fortune for a price, but beware, you might not like what she sees... (images and text provided by @@color:deepPink;Anonymous@@)
 !!!0.6b - 06/01/2018
 !!!!General
 * Added some nice new slot machine graphics courtesy of an 'anonymous donor'
@@ -36,7 +36,7 @@
 * Starting slave names slightly refactored by @@color:deepPink;daviezwei@@
 * Refactored how NPC data is stored to reduce size of player object.
 * Added the ability to track how many customers the player has serviced as a whore. This can be used as a quest condition now.
-!!!Salty Mermaid
+!!!!Salty Mermaid
 * The deterioration of the Crew's mood has been greatly reduced.
 * Cookie's 'Cooking Lesson' job edited by @@color:deepPink;daviezwei@@
 * The cabin has slightly changed to be more descriptive - by @@color:deepPink;daviezwei@@
@@ -44,16 +44,16 @@
 * Julius can now (rarely) sell additional starter slots for the new whoring mini-game.
 * Cookie's 'Dairy' job will now reward the player with cow themed Pet Girl outfit pieces if they give a lot of milk.
 * Kipler and Reginald's quest chains now unlock Slot's for the whoring mini-game, Kipler's is early on. Reginald also hands out a choice of a special slot reel (Build a Better Bimbo Part 3)
-!!!Isla Harbor
+!!!!Isla Harbor
 * Cloud District added by @@color:deepPink;AmansMarium@@.
 * General description updates by @@color:deepPink;daviezwei@@
-!!!Golden Isle
+!!!!Golden Isle
 * Added Guard Captain NPC to guard house and mini-quest to gain access to High Hill.
 * Added Madame Yvonne's Salon in High Hill.
 * You can now swap collars at the aforementioned salon, for a price.
-!!!Abamond
+!!!!Abamond
 * General description updates by @@color:deepPink;daviezwei@@
-!!!Port Royale
+!!!!Port Royale
 * Get a 'perfect' on any of Simone's jobs and she will unlock a specialized slot reel relating to that skill at her store. You still need high favor with her to buy it.
 !!!0.5c - 05/25/2018
 * Added a new longer introduction sequence to the game when you refuse to eat the gruel. Courtesy of @@color:deepPink;daviezwei@@

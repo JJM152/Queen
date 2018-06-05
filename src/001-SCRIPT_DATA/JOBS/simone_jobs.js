@@ -157,8 +157,9 @@ App.Data.JobData["SIMONE_JOB1"] = {
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [ ],
             "POST" : [
-                { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
-                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+                { "TYPE" : "NPC_STAT",   "NAME" : "Mood",           "VALUE" : 5 },
+                { "TYPE" : "COUNTER",    "NAME" : "SIMONE_LOOT",    "VALUE" : 1, "OPT" : 1 },
+                { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_1",   "VALUE" : "COMPLETED", "OPT" : "SET" }
             ],
             "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
             "END" : "",
@@ -358,7 +359,8 @@ App.Data.JobData["SIMONE_JOB2"] = {
             "CHECKS" : [ ],
             "POST" : [
                 { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
-                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 },
+                { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_2",   "VALUE" : "COMPLETED", "OPT" : "SET" }
             ],
             "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
             "END" : "",
@@ -564,7 +566,8 @@ App.Data.JobData["SIMONE_JOB3"] = {
             "CHECKS" : [ ],
             "POST" : [
                 { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
-                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 },
+                { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_3",   "VALUE" : "COMPLETED", "OPT" : "SET" }
             ],
             "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
             "END" : "",
@@ -765,7 +768,8 @@ App.Data.JobData["SIMONE_JOB4"] = {
             "CHECKS" : [ ],
             "POST" : [
                 { "TYPE" : "NPC_STAT",  "NAME" : "Mood", "VALUE" : 5 },
-                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 }
+                { "TYPE" : "COUNTER",   "NAME" : "SIMONE_LOOT",    "VALUE" :   1,  "OPT" : 1 },
+                { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_4",   "VALUE" : "COMPLETED", "OPT" : "SET" }
             ],
             "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
             "END" : "",

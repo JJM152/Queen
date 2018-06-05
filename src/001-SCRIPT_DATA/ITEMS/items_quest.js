@@ -10,7 +10,7 @@ App.Data.QuestItems = {
         "14 inch purple dildo": {
             "Name": "14 inch purple dildo",
             "ShortDesc": "@@color:purple;a 14 inch purple dildo@@",
-            "LongDesc": "This giant dildo is surprisingly rubbery with realistic veins and an equally impressive set of fake balls attached to you. Somewhat surprisingly you found this in the closet of your supposedly virginal girlfriend.",
+            "LongDesc": "This giant dildo is surprisingly rubbery with realistic veins and an equally impressive set of fake balls attached to it. Somewhat surprisingly you found this in the closet of your supposedly virginal girlfriend.",
             "Type": "QUEST"
         },
         "porno portfolio": {

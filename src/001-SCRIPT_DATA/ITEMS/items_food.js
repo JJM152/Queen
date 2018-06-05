@@ -58,6 +58,88 @@ App.Data.Food = {
         "Effects" : [ "HARD_ALCOHOL" ],
         "Price": 500
     },
+    "cider": {
+        "Name": "cider",
+        "ShortDesc": "Cider",
+        "LongDesc": "A low-potency cider fermented from pressed apples.",
+        "Message": "The cider goes down with a pleasantly sour taste and leaves you with a mild warming sensation.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL" ]
+    },
+    // PIRATEY??? DRINKS - Courtesy of anonymous
+    "arrack": {
+        "Name": "arrack",
+        "ShortDesc": "Arrack",
+        "LongDesc": "A milky-colored coconut-derived beverage cut with cream and sugarcane, with moderate alchoholic qualities.",
+        "Message": "The creamy-white beverage goes down smoothly with a milky, sweet flavor and a little bit of kick.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL" ]
+    },
+    "flip": {
+        "Name": "flip",
+        "ShortDesc": "Flip",
+        "LongDesc": "An egg-based drink beaten with sugar, mixed with rum and spiced with nutmeg, heated with a hot iron and served in a small glass.",
+        "Message": "Smooth, creamy and sweet with a generous amount of froth, you savor the drink and feel pleasantly warmed by it.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL" ]
+    },
+    "bumbo": {
+        "Name": "bumbo",
+        "ShortDesc": "Bumbo",
+        "LongDesc": "Grog's better cousin, bumbo is a spicier, higher-quality mixture of rum, lime, brown sugar, cinnamon and nutmeg.",
+        "Message": "You down the dark liquor and feel its smooth-yet-firey kick immediately. The flavor of sweet spice lingers nicely on your tongue.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "HARD_ALCOHOL" ]
+    },
+    "cordial waters": {
+        "Name": "cordial waters",
+        "ShortDesc": "Cordial Waters",
+        "LongDesc": "A distilled drink said to fortify one's spirit, ward off disease and settle the stomach. It's rumored to be an aphrodisiac.",
+        "Message": "You drink the spicy beverage and feel a gentle embering in your chest. You feel a little more vigorous (and a little looser).",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL", "ENERGY_UNCOMMON" ]
+    },
+    "orgeat": {
+        "Name": "orgeat",
+        "ShortDesc": "Orgeat",
+        "LongDesc": "A distilled drink similar to rum, but made from almonds, sugar and orange blossom.",
+        "Message": "You toss back the firey spirit, tasting its nutty, woody flavor. It lights up well going down.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "HARD_ALCOHOL" ]
+    },
+    "buttered toddy": {
+        "Name": "buttered toddy",
+        "ShortDesc": "Buttered Toddy",
+        "LongDesc": "A hot drink of rum, generous amounts of butter, boiling water, honey and lemon juice.",
+        "Message": "The tasty, soothing dessert drink fills you up with warmth and a delicious, contented feeling.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL", "NUTRITION_COMMON", "NUTRITION_XP_COMMON" ]
+    },
+    "whip syllabub": {
+        "Name": "whip syllabub",
+        "ShortDesc": "Whip Syllabub",
+        "LongDesc": "Derived from fortified white wine, this sugary dessert drink adds a lemony twist and heavy cream.",
+        "Message": "You enjoy a frothy serving of heavily-sweetened wine, cream and lemon in a tasty gulp, leaving hints of citrus and nutmeg.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL", "NUTRITION_COMMON", "NUTRITION_XP_COMMON" ]
+    },
+    "birch wine": {
+        "Name": "birch wine",
+        "ShortDesc": "Birch Wine",
+        "LongDesc": "A honey-colored liquer wine fermented from birch sap, sweetened and flavorfully spiced with cinnamon and finely chopped raisin.",
+        "Message": "Your tongue is pleased by the syrupy overtones of this delicious spiced wine, which leaves you with a toasty warmth.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_ALCOHOL" ]
+    },
     /** NORMAL FOOD **/
     "meat and beans": {
         "Name": "meat and beans",
