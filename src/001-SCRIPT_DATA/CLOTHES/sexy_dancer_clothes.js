@@ -9,11 +9,11 @@ App.Data.Clothes = App.Data.Clothes || { };
 
 // WIG SLOT
 App.Data.Clothes["exotic wig"] = { // +12
-    "Name": "exotic wig", "ShortDesc": "an exotic {COLOR} wig",
+    "Name": "exotic wig", "ShortDesc": "an exotic {COLOR} wig done in twin tails",
     "LongDesc": "This exotic wig is made of finely dyed human hair and strung with jewels.",
     "Slot": "Wig", "Restrict": ["Wig"], "Color": "purple", "Style": "LEGENDARY", "Type" : "ACCESSORY",
     "HairLength": 80, "HairStyle": "twin tails", "HairBonus": 90,
-    "WearEffect": [ "FEMININE_CLOTHING" ],  "Category" : [ "Sexy Dancer" ]
+    "WearEffect": [ "FEMININE_CLOTHING" ],  "Category" : [ "Sexy Dancer", "Sissy Lolita", "Bimbo" ]
 };
 // HAT SLOT
 
@@ -90,6 +90,13 @@ App.Data.Clothes["stripper heels"] = { // +20
     "LongDesc": "The heels on these platform shoes are so tall that you prance and waddle, shaking your ass, everywhere you walk.",
     "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "LEGENDARY", "Type" : "CLOTHING",
     "WearEffect": [ "FEMININE_CLOTHING" ],"ActiveEffect" : [ "REALLY_FANCY_MOVES" ], Category : [ "Sexy Dancer", "Bimbo" ]
+};
+
+App.Data.Clothes["barefoot sandals"] = {
+    "Name": "barefoot sandals", "ShortDesc": "a pair of {COLOR} barefoot sandals",
+    "LongDesc": "These ornamental chains elegantly embellish your dainty effeminate feet without appreciable weight or concealment.",
+    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "silver", "Style": "UNCOMMON", "Type" : "CLOTHING",
+    "WearEffect": [ "FEMININE_CLOTHING", "KINKY_CLOTHING" ], "ActiveEffect": [ "MINOR_STRIPPERS_ALLURE" ], Category : [ "Sexy Dancer" ], "InMarket" : false
 };
 
 // BUTT SLOT

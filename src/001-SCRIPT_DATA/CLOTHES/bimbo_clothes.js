@@ -24,6 +24,12 @@ App.Data.Clothes["bimbo bra"] = { // +15
 };
 
 // CORSET SLOT
+App.Data.Clothes["cupless corset"] = { // +9
+    "Name": "cupless corset", "ShortDesc": "a lacey {COLOR} cupless corset",
+    "LongDesc": "This highly impractical garment doesn't cinch your waist at all and leaves your breasts totally exposed. It's obviously meant just for show.",
+    "Slot": "Corset", "Restrict": ["Corset"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": [ "FEMININE_CLOTHING" ], "Category" :  [ "Bimbo", "Sexy Dancer", "Slutty Lady", "High Class Whore" ]
+};
 
 // PANTY SLOT
 App.Data.Clothes["bimbo thong"] = { //15

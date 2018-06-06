@@ -198,12 +198,6 @@ App.Data.Clothes["medium heels"] = {
     "WearEffect": [ "FEMININE_CLOTHING" ]
 };
 
-App.Data.Clothes["barefoot sandals"] = {
-    "Name": "barefoot sandals", "ShortDesc": "a pair of {COLOR} barefoot sandals",
-    "LongDesc": "These ornamental chains elegantly embellish your dainty effeminate feet without appreciable weight or concealment.",
-    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "silver", "Style": "UNCOMMON", "Type" : "CLOTHING",
-    "WearEffect": [ "FEMININE_CLOTHING", "KINKY_CLOTHING" ], "ActiveEffect": [ "MINOR_STRIPPERS_ALLURE" ], Category : [ "Sexy Dancer" ], "InMarket" : false
-};
 
 // BUTT SLOT
 App.Data.Clothes["cat tail"] = {

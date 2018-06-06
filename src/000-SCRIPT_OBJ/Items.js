@@ -32,15 +32,16 @@ App.Item = new function() {
      */
     this._FetchData = function(Type, Name) {
 		var itemsDictionary = this._TryGetItemsDictionary(Type);
+        var errorMessage;
 		if (itemsDictionary == null) {
-			var errorMessage = "Invalid item type: " + Type;
+            errorMessage = "Invalid item type: " + Type;
 			alert(errorMessage);
 			throw new Error(errorMessage);
 		}
 
 		var itemData = itemsDictionary[Name];
 		if (itemData == null || itemData == 0) {
-			var errorMessage = "Item with name \"" + Name + "\" of type \"" + Type + "\" not found";
+            errorMessage = "Item with name \"" + Name + "\" of type \"" + Type + "\" not found";
 			alert(errorMessage);
 			throw new Error(errorMessage);
 		}
@@ -135,6 +136,35 @@ App.Item = new function() {
         return (price == 0 ) ? 100 : price;
     };
 
+    /**
+     * Search and find clothing items by a variety of categories.
+     * @param {string} Category
+     * @param {string} Rank
+     * @param {string} Slot
+     * @returns {Array}
+     */
+    this.ListAllClothes = function(Category, Rank, Slot ) {
+        var Clothes = [ ];
+
+        for (var k in App.Data.Clothes) {
+            if (!App.Data.Clothes.hasOwnProperty(k)) continue;
+            var cat = App.Data.Clothes[k]['Category'];
+            if (typeof cat !== 'undefined' && cat.length >= 1) {
+                var item = { tag: k, rank: App.Data.Clothes[k]['Style'], slot: App.Data.Clothes[k]['Slot'], cat: cat};
+                if (Category != null && $.inArray(Category, cat) != -1) {
+                    Clothes.push(item);
+                } else if(Category == null) {
+                    Clothes.push(item);
+                }
+            }
+        }
+
+        if (Rank != null) Clothes = Clothes.filter( function(ob) { return ob.rank == Rank;});
+        if (Slot != null) Clothes = Clothes.filter( function(ob) { return ob.slot == Slot;});
+
+        return Clothes;
+
+    };
     /** Just a debug function
      * @param {string} Category
      * @param {number} Filter;

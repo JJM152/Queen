@@ -87,38 +87,68 @@ App.Data.LootTables["DANCER_BIMBO"] =  {
         ] },
     60 :  {
         "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "fishnet stockings", "QTY" : 1},
             { "TYPE" : "DRUGS", "TAG" : "siren elixir", "QTY" : 1}
+        ] },
+    65 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "cupless corset", "QTY" : 1},
+            { "TYPE" : "DRUGS", "TAG" : "lip balm", "QTY" : 2},
+            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 2}
         ] },
     70 :  {
         "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "nipple tassels", "QTY" : 1}
+            { "TYPE" : "CLOTHES", "TAG" : "nipple tassels", "QTY" : 1},
+            { "TYPE" : "DRUGS", "TAG" : "lip balm", "QTY" : 2}
+        ] },
+    75 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "gothic black bra", "QTY" : 1},
+            { "TYPE" : "DRUGS", "TAG" : "lip balm", "QTY" : 2}
         ] },
     80 :  {
         "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "sequined g-string", "QTY" : 1}
+            { "TYPE" : "CLOTHES", "TAG" : "sequined g-string", "QTY" : 1},
+            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 2}
+        ] },
+    85 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "black panties", "QTY" : 1},
+            { "TYPE" : "DRUGS", "TAG" : "hair tonic", "QTY" : 1}
         ] },
     90 :  {
         "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "small plug", "QTY" : 1}
+            { "TYPE" : "CLOTHES", "TAG" : "small plug", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 3}
         ] },
     100 :  {
         "LOOT" : [
             { "TYPE" : "CLOTHES", "TAG" : "burlesque costume", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1}
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
+            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2}
+        ] },
+    105 :  {
+        "LOOT" : [
+            { "TYPE" : "CLOTHES", "TAG" : "bimbo heels", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
+            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 2},
+            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2}
         ] },
     110 :  {
         "LOOT" : [
             { "TYPE" : "CLOTHES", "TAG" : "exotic wig", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1}
+            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1},
+            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 1}
         ] },
     120 :  {
         "LOOT" : [
             { "TYPE" : "CLOTHES", "TAG" : "stripper heels", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2}
+            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 4}
         ] },
     130 :  {
         "LOOT" : [
             { "TYPE" : "CLOTHES", "TAG" : "slutty schoolgirl", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2 }
+            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 4 }
         ] }
 };

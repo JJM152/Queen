@@ -32,7 +32,8 @@ App.Data.NPCS["Charmaine"] = {
         "DailyLust": 10,
         "Title": "'Lady' NPC_NAME, Madame",
         // Description provided by Nynfeenia @ www.tfgamessite.com forums.
-        "LongDesc": "Short, chubby and with shapeless face hidden under heavy layer of makeup Lady NPC_NAME may not be very beautiful. But apart from her rather ordinary looks, she is really polite and doesn’t lack very pleasant womanly charm. And for sure she has great taste and sense of style being able not only to hide her imperfections with correct choice of hairstyle or modelling corset and dress but at the same time make her overall look very elegant."
+        "LongDesc": "Short, chubby and with shapeless face hidden under heavy layer of makeup Lady NPC_NAME may not be very beautiful. But apart from her rather ordinary looks, she is really polite and doesn’t lack very pleasant womanly charm. And for sure she has great taste and sense of style being able not only to hide her imperfections with correct choice of hairstyle or modelling corset and dress but at the same time make her overall look very elegant.",
+        "Store" : "SAUCY_SLATTERN"
 };
 
 App.Data.NPCS["SlatternCustomers"] = {

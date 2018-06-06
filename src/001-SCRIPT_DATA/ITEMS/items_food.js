@@ -178,6 +178,15 @@ App.Data.Food = {
         "Charges": 1,
         "Effects" : [ "LIGHT_WHOLESOME_MEAL" ]
     },
+    "meat pie": {
+        "Name": "meat pie",
+        "ShortDesc": "A beef and cheese meat pie",
+        "LongDesc": "Popular hand-held food commonly sold at pubs or on the side of the street. The meat is of dubious origin, but delicious nonetheless..",
+        "Message": "The meat pie is warm and fatty on you platte while the crust is slightly hard. An errant trail of gravy drips down your lip and you wipe it away.",
+        "Type": "food",
+        "Charges": 1,
+        "Effects" : [ "LIGHT_WHOLESOME_MEAL" ]
+    },
     "roast fish": {
         "Name": "roast fish",
         "ShortDesc": "A roasted fish",

@@ -4,5 +4,9 @@ law and order among the constant stream of traders and sailors that visited thes
 The former Pirate Queen, being more apt to keel haul thief or flay alive a murderer than put them in jail to await any sort of silly trial.
 <<if window.App.QuestEngine.GetQuestFlag($Player, "JUSTUS_WHORING") == "COMPLETED">>
 //Having become familiar with the guards, you can now whore here...//
-@@color:yellow;Action@@: <<if $Player.GetStat("STAT","Energy") < 1 or $Player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<whoreLink "GoldenIsleGuards">><</if>><br><</if>>\
+
+@@color:yellow;Action@@: <<if $Player.GetStat("STAT","Energy") < 1 or $Player.Phase == 4>>@@color:grey;[Whore]@@
+<<else>><<whoreLink "GoldenIsleGuards">>
+<</if>><<else>>
+<</if>>\
 @@color:lime;Travel@@: [[Guard Station|GI_GuardStation]]
