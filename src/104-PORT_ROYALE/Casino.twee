@@ -1,9 +1,11 @@
 :: Casino
 Years ago this building used to be a cloister belonging to a group of nuns that were excommunicated for being heretics. No one \
 is quite sure exactly what happened, but in the aftermath the building appeared to be abandoned only to reopen a year later as \
-@@color:gold;'The Grand Casino'@@. Since that time the building has seen serious renovations and all traces of it's religious \
+@@color:gold;'The Gaming House'@@. Since that time the building has seen serious renovations and all traces of it's religious \
 past seem to be gone. The main floor of the building serves as room for both table games and a bar, while the back areas are \
 restricted to high roller guests. It's been rumoured that more illicit activities take place in this building, hidden far from \
 the prying eyes of the public, but no one seems to know exactly what.
+
+<<NPC "Swales">>
 
 @@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]

@@ -88,5 +88,6 @@ App.Data.NPCS["Yvonne"] = {
     "LongDesc" : "Despite her advanced years, NPC_NAME certainly lives up to her moniker. The signs of her age are barely noticeable, just a slight "+
         "wrinkle around an eye, or a small crease in a lip that disappears almost as soon as you spot it. Clearly as the proprietor of this salon, she "+
         "is at the top of her craft, but asides from that you can't help but suspect that she has had some magical or alchemical assistance beyond the means "+
-        "of the average woman."
+        "of the average woman.",
+    "Store" : "YVONNE_STORE"
 };

@@ -2,7 +2,7 @@ App = App || { Data: { }, Entity: { } };
 
 App.Data.Cosmetics = {
     "hair accessories": {
-        "Name": "haircare accessories",
+        "Name": "hair accessories",
         "ShortDesc": "hair accessories",
         "LongDesc": "A collection of cheap brushes, combs, ribbons and other accessories for styling hair. Usually comes in packages of 5.",
         "Type": "hair tool",
@@ -11,7 +11,7 @@ App.Data.Cosmetics = {
         "VALUE": 20
     },
     "hair products": {
-        "Name": "haircare supplies",
+        "Name": "hair products",
         "ShortDesc": "haircare supplies",
         "LongDesc": "Various substances for styling and maintaining hair. Usually comes in packages of 5.",
         "Type": "hair treatment",

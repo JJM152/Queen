@@ -1,2 +1,13 @@
 :: XXXShow
+This grand entrance hall, or what passes for one in the colonies, offers an eyeful of extravagant Baroque adornment. Rich, sensual decor surrounds \
+you, with walls doused in dark red lacquer and gold floral ornamentation, though it lacks in detail compared with its continental counterpart. The \
+hall is lit dimly by candlelight sconces, and a large, oriental rug dominates the hall's floor. Elaborately carved, cushioned settees, high backed \
+armchairs and inlaid tables complete the furnishings, and the gentle scent of floral incense hangs lightly in the air.
+
+A staircase curves upward from the entry floor, but has been cordoned with silken cords that prevent upward travel by the general public. Below, \
+however, several interior galleries can be reached via red velvet curtains at points around the room, each promising intimate viewing of the \
+assorted sexual performances staged within. A <<click "sign" "SindeeSign">><<set $GameBookmark = "XXXShow">><</click>> stating ticket prices and show times adorns the wall.
+
+<<NPC "Sindee">>
+
 @@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]

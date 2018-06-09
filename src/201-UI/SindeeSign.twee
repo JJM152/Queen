@@ -1,0 +1,12 @@
+:: SindeeSign [custom-menu]
+This heavy oak sign is inlaid with decorative brass filigree and painted with bright merry colours. It announces that show \
+times are twice each day, evening and night at a price of @@color:gold;200 coins@@ per seat. Below that, it lists the three \
+main galleries and a small placard has been attached next to each with the name of the show on offer.
+
+The Iris Gallery - The Tale of Iphis.
+The Delphinium Gallery - The Vain Suitor.
+The Rose Gallery - Venus and Adonis.
+
+<<jobLinks "XXX_SHOW" 1>>
+
+@@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>

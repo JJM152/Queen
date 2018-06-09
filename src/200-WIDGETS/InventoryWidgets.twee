@@ -213,7 +213,7 @@
 <</for>>
 <<else>>
 <tr>
-    <td colspan="3">>@@color:red;No collars to swap to.@@</td>
+    <td colspan="3">@@color:red;No collars to swap to.@@</td>
 </tr>
 <</if>>
 </tbody>

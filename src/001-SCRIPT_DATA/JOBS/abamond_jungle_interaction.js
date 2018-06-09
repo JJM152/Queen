@@ -22,7 +22,7 @@ App.Data.JobData["JUNGLE01"] = {
         // This is run from a room, so no NPC teaser text.
             "",
     "START" :
-    "You pull out your trust @@color:purple;worn machete@@ and begin hacking away at the underbrush.",
+    "You pull out your trusty @@color:purple;worn machete@@ and begin hacking away at the underbrush.",
     "SCENES" : [
         {
             // Just check the players navigation skill and store the result.
