@@ -79,7 +79,7 @@ App.Data.NPCS["GoldenIsleGuards"] = {
 };
 
 App.Data.NPCS["Yvonne"] = {
-    "Name" : "Madame Yvonne", // This is a place holder and not meant to be used as an actual NPC.
+    "Name" : "Madame Yvonne",
     "Mood" : 50,
     "DailyMood" : 0,
     "Lust" : 70,
@@ -90,4 +90,26 @@ App.Data.NPCS["Yvonne"] = {
         "is at the top of her craft, but asides from that you can't help but suspect that she has had some magical or alchemical assistance beyond the means "+
         "of the average woman.",
     "Store" : "YVONNE_STORE"
+};
+
+//BELLA DARLING, Proprietor and Seamstress - Note: Mood/Lust values not adjusted//
+App.Data.NPCS["Bella"] = {
+    "Name": "Bella Darling",
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME, Proprietor and Seamstress",
+    "LongDesc": "Wearing her casual undress gown as well as other ladies do more formal clothing, her fashion-forward style and confident sensibility make her an admired shop mistress. Her dress' wide vertical stripes cover her bodice and skirts, dyed in cheerful candy colors, and project that she is always ready for happy diversions. However, her attentive, intelligent gaze instead promise that shopping will feel more fun. She looks over each customer with a practiced and insightful eye, often suggesting how to find a desired purchase without needing to be asked for it."
+};
+
+//THOMAS SHILLING, The Dancing Master - Note: Mood/Lust values not adjusted//
+App.Data.NPCS["Shilling"] = {
+    "Name": "Thomas Shilling",
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME, The Dancing Master",
+    "LongDesc": "A graceful man of mature age, his slender frame is the very model of vigor and health. His ordinary, buff-colored coat is coordinated with a simple set of waistcoat, breeches, and stockings, though his supple leather shoes are of the highest quality. He moves with confidence and agility, as suits an expert in the art of dancing."
 };

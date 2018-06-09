@@ -1,2 +1,14 @@
 :: PR_Jail
+A stonework stockade nearly as old as the island's first settlement, the jail house is a place where problems get sent to be forgotten. \
+Not much can be spoken about its amenities, except that they barely exist. Hard-forged iron as thick as a man's arm fortifies the heavy \
+cell bars, while manacles for hand, foot and neck ensure prisoners have no way to escape, or to even to try it. Cold cobble floors, a wooden \
+bucket for a chamberpot, and the odd ladle of water or crust of bread are the best one can hope for within these merciless walls. The tiny \
+slit windows offer light to just one eye at a time, though the gallows outside has been thoughtfully placed to offer prisoners its full measure if they choose to look.
+
+Given Port Royale's tolerant policies towards piracy and other illegal activities, being a prisoner here usually results \
+from one of two causes: committing an act so heinous it demands justice, or foolishly becoming the enemy of someone powerful. \
+Either way, the odds of parole are small - yet, the proper shine of coin is known to generate hope for some.
+
+<<NPC "Barbary">>
+
 @@color:lime;Travel@@: [[Guard House|PR_GuardHouse]]

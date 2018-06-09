@@ -98,3 +98,81 @@ App.Data.NPCS["Sindee"] = {
     "Title": "NPC_NAME, Mistress of the House",
     "LongDesc": "Her lightly rouged, creamy complected face is framed by ringleted onyx locks. Their long curls are stylishly trussed above her head by a ribbon the color of wine splashed with ruby adornments. Her hair spills down to her back and shoulders with precisely careless, spiraling drops. She wears a sangria-hued, mantua gown in shimmering silk with black floral brocade. Its skirts brush the floor and conceal her lower half. Though her dress omits the large hoops so fashionable among high-born ladies, her narrow, corseted waist cuts a mesmerizing, wasp-like figure. Her invisible steps have little rise or fall, creating the illusion that she simply floats across the room as she sees to patrons of the house."
 };
+
+//MLLE. JEZEBELLE DE ROUVROY, Hostess of the Ball - Note: Mood/Lust values not adjusted//
+App.Data.NPCS["Jezebelle"] = {
+    "Name": "Mlle. Jezebelle de Rouvroy",
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME, Hostess of the Ball",
+    "LongDesc": "Dressed in too-opulent finery like a self-created duchess, she flits from point to point wearing a pretentious smile. Her tall, golden, ornately-adorned hair is pillared high above her and wrapped in lace and costume jewelery, while her gaudy, ornamental necklace emits far more sparkle than taste. Her rigidly-corseted ball gown ensemble has dramatic, cuffed sleeves, a lacy chemise drawn up in poofs that swallow her upper arms, and elbow-length, floral silk mitts. Her large farthingale petticoat flares to the point of caricature, forcing her to lift her elbows like a fluttering bird wherever she goes. Her face is powdered almost chalk white, except for a stripe of cherry color on her lower lip and a painted beauty mark offset below her nose. Her high-born affectations are obvious at the distance of pistol shot."
+};
+
+//BRAM DE VRIES, Curio Dealer - Note: Mood/Lust values not adjusted//
+App.Data.NPCS["Bram"] = {
+    "Name": "Bram De Vries",
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME, Curio Dealer",
+    "LongDesc": "The grizzled shopmaster wears a long, white beard, revealing his advanced age. His snowy hair is still long, though, and tied back at his nape into a ponytail. His stooped torso bears a patchy, broadcloth long-coat embellished in tattered silver piping and patina-soiled buttons. Underneath, he wears an old, loose-fitting shirt, some threadbare venetian breeches, and a pair of dingy, red stockings. A faded, orange sash is proudly tied around his waist, carefully knotted even though its weave has irreparably frayed. His yellowing-but-tidy sailor's kerchief and salt-stained buccaneer's jackboots are further hallmarks of a life spent at sea."
+};
+
+//CONSTABLE JONAH BLYTHE, Captain of Militia - Note: Mood/Lust values not adjusted//
+App.Data.NPCS["Blythe"] = {
+    "Name": "Constable Jonah Blythe",
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME, Captain of Militia",
+    "LongDesc": "A brutish, disagreeable man with a coarse, sun-weathered face, his blunted features bear a pugnacious glare even at rest. He is dressed in a battle-scarred leather jerkin with a long doublet underneath, dusty brown breeches and high boots, a loose-knotted cravat and a black tricorne. He forgoes the fancy rapier common to personages of his rank, opting instead to equip the menacing, heavy cutlass hanging at his side. A blunderbuss and a brace of pistols rounds out his equipment, and he wears their bandoleer with a bellicose swagger."
+};
+
+//LADY SELENE, Headmistress - Note: Mood/Lust values not adjusted//
+App.Data.NPCS["Selene"] = {
+    "Name": "Lady Selene",
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME, Headmistress",
+    "LongDesc": "A regal lady who strikes an adroit balance of social grace, elegance and raw iron, she takes over the room with her sharp wit and disarming charms. Her beautiful arsenal of body and words has greater potency than the fiercest martial weapon, and many a noble lord or lady has been brought to heel who underestimated her. Her attire is strictly haute couture from the best makers in the world - her every piece of finery selected with matchless refinement and taste. It's rumored her private treasury may rival the governor's, though her real influence and reach are as closely guarded secrets as her feelings. While she (and everyone who knows her) styles herself 'Lady,' even her true name is a mystery, and she knows the value of information."
+};
+
+//VERONICA ÍÑIGUEZ DE LA VEGA, Finery Dealer by Appointment of Her Royal Majesty - Note: Mood/Lust values not adjusted//
+App.Data.NPCS["Veronica"] = {
+    "Name": "Veronica Íñiguez De La Vega",
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME, Finery Dealer by Appointment of Her Royal Majesty",
+    "LongDesc": "Her slight features and a fragile-seeming build might lead one to dismiss this clothier as just another daughter born into wealth. That assumption would be a mistake. Though she dresses the part of her position in a formal gown - a slim-fitting black mantua detailed with intricate ebony lace, golden florals and complex needlework - she slings a jeweled scimitar and a masterwork flintlock pistol from a belt about her waist. Her petticoats and skirts, though compliant with the social mores of her station, have almost no restrictive hooping, and allow both freer movement and the rare glimpse of the slouch boots she wears beneath. Her holdings are not limited to this famous shop, either - three of her merchantmen anchor in Port Royale's harbor."
+};
+
+/** TODO: Add description for NPC */
+//MASTER FRANCIS JAMESON, Bespoke Merchant - Note: Mood/Lust values not adjusted//
+App.Data.NPCS["Jameson"] = {
+    "Name": "Master Francis Jameson",
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME, Bespoke Merchant",
+    "LongDesc": "TBD"
+};
+
+//BARBARY BILL PADGETT, Jailer - Note: Mood/Lust values not adjusted//
+App.Data.NPCS["Barbary"] = {
+    "Name": "Barbary Bill Padgett",
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME, Jailer",
+    "LongDesc": "A half-toothless ogre of a man with a temper to rival the devil's own, his well-known nickname and fearsome reputation come from his pirating days. It's said that he joined up with a buccaneer crew off the Barbary Coast, collecting tribute for the great pashas of the northern deserts. In action against a royal frigate, he leaped aboard the enemy ship, cut his way through twenty able seamen, threw their captain straight off the forecastle and into the ocean, and took the ship for a prize himself. When his own ship's powder keg exploded moments later, most of his crew was lost, but he rounded up both sides' survivors and made the lot sail him home. How he wound up a jailer is a mystery to everyone except him, but it's rumored he was chosen for being the most contemptible bastard in the whole Caribbean - they either had to put him in charge of the jail, or be damned to try and keep him in it."
+};

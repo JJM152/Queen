@@ -1,2 +1,15 @@
 :: PR_RareGoods
+Though this fine emporium bears a name steeped in sailors' superstitions about the devil and the souls of the dead, it hasn't deterred a thriving \
+business among the city's wealthy patrons. If anything, the association has helped, adding the color of thrilling danger and ocean adventure to the \
+import of rare goods, which are its stock and trade.
+
+Dark woods and worsted wool outfit the shop's displays and trimmings, matching the coffered ceiling above. Gilded mirrors and oil portraits hang \
+from the walls in the manner of a high society social club, increasing patrons' sense of sophistication. The store's more valuable items are kept \
+behind lock and key and panes of glass, while the rarest objects can only be viewed by special invitation. A perpetual silent auction is advertised \
+only through a purpose-made ledger, with bids placed by inserting a gentleman or lady's personal calling card and written offer in a slotted strongbox.
+
+The premises combine luxury and mystery, tantalizing the eye with the strange, exotic and precious.
+
+<<NPC "Jameson">>
+
 @@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]

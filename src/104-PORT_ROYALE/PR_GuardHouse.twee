@@ -1,2 +1,14 @@
 :: PR_GuardHouse
+This ancient stone blockhouse dates back to the earliest settlement of this isle. The oldest, strongest walls of the city's fortifications \
+intersect it to either side, forming a demarcation between the lower port district and the upper settlement.
+
+Solidly built, it isn't pretty to look at, but its heavy, roughly-cut masonry bears the telltale signs of having thwarted fire, \
+musket shot, cannon balls and the ravages of time alike. Its projecting upper castle has a commanding view of Port Royale's entire bay, \
+which it can readily defend with its arsenal of mighty, 42-pounder cannons. The guards of the city's militia reside in the nearby attached barracks.
+
+Since the guard house straddles the only navigable route up to the wealthier parts of the city, the arched gateways that pass under it are \
+equipped with heavy iron portcullises that make it a strongpoint for the city's defense. They also form a convenient checkpoint from which to screen out undesirables.
+
+<<NPC "Blythe">>
+
 @@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[Jail House|PR_Jail]] | [[The Wealthy District|WealthyDistrict]]

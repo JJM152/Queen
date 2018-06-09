@@ -1,2 +1,20 @@
 :: PR_Clothier
+White-wigged valets in red and yellow tabards, waistcoats and breeches flank the portico entrance to this posh boutique, seeing to \
+arriving guests like royal heralds of old. Inside, dramatic decor seeks to further the sovereign experience. To one side, a life-sized \
+bronzed sculpture on a raised dais display the interplay of a group of mermaids in dramatic contrapposto; to the other, a model of the \
+proprietor's flagship merchantman, the Santa Cristobal, occupies a large table lavished in marquetry. Several tapestries adorn the walls, \
+woven with depictions of the virtues, each cast as beautiful female figures. Trompe l'oeil ceiling painting spectacularly depicts a gently \
+clouded blue sky in which cherubs and angels take flight.
+
+Marble flooring tiles and corinthian columns continue to set the stage for the central salon, where patrons are seen to by a personal \
+concierge and the shop's attendance while being fitted with the apex fashions of the moment. Each detail of a society man or woman's attire \
+and styling is coordinated with cultured expertise to express the unique attributes of each personality, figure, station and taste. By the time \
+one leaves this salon, it's hard not to feel like a monarch stepping forth to rule the world, though the experience leaves one's purse considerably lighter.
+
+Overseeing it all, the store's proprietor watches all with exacting vigilance; her sculpted coat of arms dominates a projecting wall \
+opposite the entrance. Taking time to graciously visit with every paying customer, she brooks no tolerance for error or discourtesy among \
+her retinue. After all, it is reputation, not clothing, that is the true stock and trade here.
+
+<<NPC "Veronica">>
+
 @@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]

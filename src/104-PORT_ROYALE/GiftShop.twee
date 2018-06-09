@@ -1,2 +1,10 @@
 :: GiftShop
+A woody, antiquated air fills this quaint @@color:gold;'Curio Shop'@@, which is filled to every corner with a menagerie of oddities and needful things. \
+The hodgepodge of sundry uncatalogued items is like a thousand stories told all at once, yet all are somehow kept tamed and tidy by the loving \
+hand of the proprietor. An array of unusual sounds greets you as well - the ticking of old timepieces, the bells of clockwork curiosities and \
+the squawk of a testy blue-gold macaw who perches behind the counter. It is a place of humble wonders, brought here from distant shores, collectively \
+inhabiting an eccentric life that surpasses the sum of its parts.
+
+<<NPC "Bram">>
+
 @@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]
