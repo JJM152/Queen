@@ -154,7 +154,6 @@ App.Data.NPCS["Veronica"] = {
     "LongDesc": "Her slight features and a fragile-seeming build might lead one to dismiss this clothier as just another daughter born into wealth. That assumption would be a mistake. Though she dresses the part of her position in a formal gown - a slim-fitting black mantua detailed with intricate ebony lace, golden florals and complex needlework - she slings a jeweled scimitar and a masterwork flintlock pistol from a belt about her waist. Her petticoats and skirts, though compliant with the social mores of her station, have almost no restrictive hooping, and allow both freer movement and the rare glimpse of the slouch boots she wears beneath. Her holdings are not limited to this famous shop, either - three of her merchantmen anchor in Port Royale's harbor."
 };
 
-/** TODO: Add description for NPC */
 //MASTER FRANCIS JAMESON, Bespoke Merchant - Note: Mood/Lust values not adjusted//
 App.Data.NPCS["Jameson"] = {
     "Name": "Master Francis Jameson",
@@ -163,7 +162,7 @@ App.Data.NPCS["Jameson"] = {
     "Lust": 40,
     "DailyLust": 10,
     "Title": "NPC_NAME, Bespoke Merchant",
-    "LongDesc": "TBD"
+    "LongDesc": "A stout but finely-dressed nobleman, this eminent ship master's attire is suited to his station as a landed merchant. He wears a generous, wine-colored velvet gown, draped over his garnet waistcoat in the 'Persian' fashion with matching petticoat breeches reaching just past his knees. A white falling band in extravagant needlepoint graces his neck, a formal and conservative touch, matched by his fitted court shoes. A long wig cloaks his shoulders with rich chestnut curls like a lion's mane."
 };
 
 //BARBARY BILL PADGETT, Jailer - Note: Mood/Lust values not adjusted//

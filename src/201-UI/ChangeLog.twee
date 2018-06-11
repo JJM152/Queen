@@ -4,6 +4,12 @@
 !!!!General
 * Added some new effects to the effect library.
 * Breast size bug in Lusty Lass Tit Fucking job fixed.
+* Fixed a couple of random CSS bugs in slot machine ui.
+* Fixed bug with ending up back in the mermaid after using a different wardrobe in a different location.
+* Lowered threshold to get reward from Cookie's milking quest, also added some to that reward.
+* Added some more information to the slot tutorial.
+* Fixed bug in seeing Lord Rowe's Delivery quest showing up even if you hadn't accepted Petey's quest yet.
+* Fixed bug with haircare products not showing up as 'FULL' in shop UI when they were, well, full.
 !!!!Golden Isle
 * Charmaine now has a shop, jobs on offer and a hidden quest available, similar to Simone in Port Royale and with equally similar rewards.
 * You now have to unlock whoring at the Saucy Slattern by doing well on all four of Charmaine's jobs and accepting her quest.
@@ -16,7 +22,6 @@
 * Georgina Littlehales at the Grey Peacock now has an inventory. Many of the items contributed by @@color:deepPink;Anonymous@@.
 * Sindee Rella's is now open for business. Text courtesy of @@color:deepPink;Anonymous@@.
 * Jezzebelle's, the Curio Shop, Guard House, Veronica's, David Jones, Jail (and probably some I missed) have had descriptions and NPC's added, more work by @@color:deepPink;Anonymous@@
-
 !!!0.6b - 06/01/2018
 !!!!General
 * Added some nice new slot machine graphics courtesy of an 'anonymous donor'
