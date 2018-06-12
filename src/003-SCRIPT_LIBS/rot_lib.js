@@ -1777,7 +1777,7 @@
 
         /**
          * @param {?} item
-         * @param {bool} repeat
+         * @param {boolean} repeat
          */
         ROT.Scheduler.prototype.add = function(item, repeat) {
             if (repeat) { this._repeat.push(item); }
