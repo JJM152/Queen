@@ -1,0 +1,19 @@
+:: PR_Levant
+<<if window.App.QuestEngine.GetQuestFlag($Player, "LEVANT_PLACEHOLDER") != "COMPLETED">>\
+Curtains of crushed velvet and lace are draped across a series of mirrors, making it difficult to judge the size of this intimate salon. \
+Between the tapestry, paintings of reclining nudes and romantic scenes hang from peeling, lacquered walls. Nearby, worn, padded stools \
+and couches with distressed gilding make for a kind of shabby luxury, and rose water perfume helps disguise the underlying dinginess. Despite \
+its flaws, the room holds an inexplicable seduction. Off to its side, drapery parts around a door leading into a candle-lit @@color:gold;'back room.'@@
+
+@@color:lime;Travel@@: [[Darkened Alleyway|PR_DarkAlley]] | [[Back Room|PR_LevantBackRoom]]\
+<<else>>\
+Where once you found an inviting, sensual salon, now lies a dim, musty ruination. Tattered shreds of cloth have replaced the \
+fresh velvet curtains you remember, grayed completely by the dust and cobwebs of an immeasurable passage of time. Beneath them lie the \
+grimy fragments of shattered mirrors.
+
+The formerly beautiful paintings are now framed in rotting wood and beset by thick rot, barely revealing the infernal horrors now depicted. \
+Several beams have buckled above, and the creaking floor threatens to snap with every step. Rubble fills the doorway that previously entered \
+the back room. Nothing remains of the place you knew, and no clue reveals an explanation for its mysterious decline.
+
+@@color:lime;Travel@@: [[Darkened Alleyway|PR_DarkAlley]]\
+<</if>>\

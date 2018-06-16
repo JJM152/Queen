@@ -1,3 +1,12 @@
 :: WealthyDistrict
+Ancient walls encircle and protect this exclusive district of Port Royale, though the gentle incline of the street grants a panoramic \
+view of the bay and harbor beyond the barrier. Large, ornate buildings surround the central commons, putting the vainglorious wealth \
+of their occupants on display.
+
+Foremost among the storefronts facing the green are a fashionable womens' haberdashery, @@color:gold;'Veronica's Secret,'@@ and an exclusive \
+trading house and mercantile, @@color:gold;'David Jones' Locker.'@@ Nearby, a row of luxurious manor houses reaches its zenith at \
+@@color:gold;'Lady Selene's'@@ door, the site of a courtesan school, and at the @@color:gold;'Governor's Mansion,'@@ whose stately \
+residence commands the high end of the square.
+
 @@color:lime;Travel@@: [[Guard House|PR_GuardHouse]] | [[Lady Selene's School for Courtesans|CourtesansGuild]] | [[Veronica's Secret|PR_Clothier]] | [[David Jone's Locker|PR_RareGoods]] | 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[The Governor's Mansion|PR_GovernorsMansion]]

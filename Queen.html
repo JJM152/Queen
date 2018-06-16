@@ -102,7 +102,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 		<div id="init-lacking">Your browser lacks required capabilities. Please upgrade it or switch to another to continue.</div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<div id="store-area" hidden><tw-storydata name="Queen of the Seas (v 0.7)" startnode="195" creator="Tweego" creator-version="1.3.0" ifid="2281ACF9-AFF5-4833-BD11-9D4317BCE5AE" zoom="1" format="SugarCube" format-version="2.24.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "custom.css" */
+	<div id="store-area" hidden><tw-storydata name="Queen of the Seas (v 0.7)" startnode="201" creator="Tweego" creator-version="1.3.0" ifid="2281ACF9-AFF5-4833-BD11-9D4317BCE5AE" zoom="1" format="SugarCube" format-version="2.24.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "custom.css" */
 /* MY specific styles */
 
 #story-title { 
@@ -27312,13 +27312,12 @@ and herbal tonics, the needs of a respectable lady can be found here on offer.
 
 &lt;&lt;NPC &quot;Bella&quot;&gt;&gt;
 
-@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="102" name="GI_DanceHall" tags="" position="225,1350">Though it was likely rebuilt from a large stable or similar structure, this spacious hall is quaint and welcoming in its rustic charm. \
-Strong oak beams and interior posts support the high ceiling, with a wide central nave and wood plank flooring creating ample room for \
-festivities. The half-timber construction has a certain beauty on its own, and plush drapery has been added to the hall&#39;s uncomplicated windows to add a decorative touch.
+@@color:lime;Travel@@: [[High Hill District|HighHill]]</tw-passagedata><tw-passagedata pid="102" name="GI_DanceHall" tags="" position="225,1350">Rebuilt from a large stable, this broad, seedy hall is now used for dancing - and other, less reputable activities. Though \
+strong oak beams support the high ceiling, the shabby paint, stained floors and crumbling plasterwork have seen better \
+days. The whole place smells of cheap perfume, tobacco smoke, spilled ale and sweaty patrons.
 
-The walls have been insulated at their base with wainscot panels formed by sawn oak boards, overlaid skillfully with mitered trim. Opposite \
-the entrance is a big stone fireplace meant for handling a kettle. The overall motif makes it more like a large tavern or feasting hall than a \
-ballroom, but it is a place that is often filled with lively music and communal merriment.
+The hall&#39;s neglected state bothers no one, thanks to the inn-like atmosphere, filled with the merriment of lively shanties \
+and drunken laughter. The hall&#39;s lovely strumpets delight guests with playful dancing, ready companionship and plenty of exposed skin.
 
 &lt;&lt;NPC &quot;Shilling&quot;&gt;&gt;
 
@@ -27596,7 +27595,14 @@ Further down the road is the open gateway to the @@color:gold;&#39;Entertainment
 that leads to the @@color:gold;&#39;Wealthy District&#39;@@.
 
 @@color:yellow;Action@@: &lt;&lt;marketLink &quot;MARKET_STORE&quot;&gt;&gt;
-@@color:lime;Travel@@: [[The Docks|PortRoyale]] | [[Madame Blanche&#39;s|FortuneTeller]] | [[Grey Peacock|PR_Tavern]] | [[Lusty Lass|PR_CheapBrothel]] | [[The Entertainment District|EntertainmentDistrict]] | [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="127" name="PR_CheapBrothel" tags="" position="850,1600">For a place that caters to a lower class crowd, the @@color:gold;&#39;Lusty Lass&#39;@@ is a notch above the rest. The interior is modest, but \
+@@color:lime;Travel@@: [[The Docks|PortRoyale]] | [[Madame Blanche&#39;s|FortuneTeller]] | [[Grey Peacock|PR_Tavern]] | [[Lusty Lass|PR_CheapBrothel]] | [[The Entertainment District|EntertainmentDistrict]] | [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="127" name="PR_BackAlley" tags="" position="850,1600">Traversing the space between the high street&#39;s frontage, this narrow backstreet is open at either end. Crossing under a \
+series of hand-stuccoed archways, it serves as a transition from the busy, public thoroughfare to a purposely less visible one.
+
+@@color:lime;Travel@@: [[The Docks|PortRoyale]] | [[Bottlecork Lane|PR_BottlecorkLane]]</tw-passagedata><tw-passagedata pid="128" name="PR_BottlecorkLane" tags="" position="975,1600">Twisting among the orphaned spaces between the backs and sides of buildings, this odd passage is neither rightly an alley nor a \
+street. Its isolation has attracted a bootleg market of makeshift tents, hand carts and the odd back room business. Here, the smells \
+of roasting meats, spilled rum, baked goods and other offerings intermingle with the bilge-salt odor of the nearby harbor.
+
+@@color:lime;Travel@@: [[Entrance|PR_BackAlley]] | [[Long&#39;s Public House|PR_PublicHouse]] | [[Darkened Alleyway|PR_DarkAlley]]</tw-passagedata><tw-passagedata pid="129" name="PR_CheapBrothel" tags="" position="1100,1600">For a place that caters to a lower class crowd, the @@color:gold;&#39;Lusty Lass&#39;@@ is a notch above the rest. The interior is modest, but \
 well maintained - the beds are clean, the food is decent and the drinks aren&#39;t watered down. The bottom floor of the building consists \
 of a small bar and waiting area for clients, while the upstairs hosts a variety of rooms for &#39;conducting business&#39;.
 
@@ -27605,7 +27611,7 @@ of a small bar and waiting area for clients, while the upstairs hosts a variety 
 &lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;SIMONE_MISSING_FRIEND&quot;) == &quot;COMPLETED&quot;&gt;&gt;@@color:yellow;Action@@: &lt;&lt;if $Player.GetStat(&quot;STAT&quot;,&quot;Energy&quot;) &lt; 1 or $Player.Phase == 4&gt;&gt;@@color:grey;[Whore]@@
 &lt;&lt;else&gt;&gt;&lt;&lt;whoreLink &quot;LustyLass&quot;&gt;&gt;
 &lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;\
-@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="128" name="PR_Clothier" tags="" position="975,1600">White-wigged valets in red and yellow tabards, waistcoats and breeches flank the portico entrance to this posh boutique, seeing to \
+@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="130" name="PR_Clothier" tags="" position="1225,1600">White-wigged valets in red and yellow tabards, waistcoats and breeches flank the portico entrance to this posh boutique, seeing to \
 arriving guests like royal heralds of old. Inside, dramatic decor seeks to further the sovereign experience. To one side, a life-sized \
 bronzed sculpture on a raised dais display the interplay of a group of mermaids in dramatic contrapposto; to the other, a model of the \
 proprietor&#39;s flagship merchantman, the Santa Cristobal, occupies a large table lavished in marquetry. Several tapestries adorn the walls, \
@@ -27623,20 +27629,18 @@ her retinue. After all, it is reputation, not clothing, that is the true stock a
 
 &lt;&lt;NPC &quot;Veronica&quot;&gt;&gt;
 
-@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="129" name="PR_DanceHall" tags="" position="1100,1600">The expansive interior of this courtly hall recalls the fine ballrooms of the continent. From its high, gilded ceilings to its elaborate \
-hardwood flooring, everything is appointed in grandiose style. The huge room is flanked by high pilasters and majestic, arcaded windows \
-that rise three times a man&#39;s height, each graced with intricate millwork.
-
-The hall is a monument of movement, building its drama with double curved cornices and crystal chandeliers above. Every marbled capital \
-is encrusted with fanciful cornices and sculpted mythological figures, and silk upholstered benches offer stylish seating. Bold damask patterns \
-of scarlet and bronze cover the walls, in turn festooned with countless paintings.
-
-At closer detail, you realize the opulence has a sordid side - the artistry is full of scandalous imagery and erotic scenes. Many of the \
-sculpted figures are cast in explicit sexual poses, and scores of indecent acts are depicted in oils. Plainly, this hall is meant to inspire much more than dancing.
+@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="131" name="PR_DanceHall" tags="" position="100,1725">This ballroom is a sordid mirror to the fine ballrooms of the continent. Though its tall, gilded walls and elaborate hardwood \
+floors are the equal of their high society counterparts, the atmosphere is decidedly more corrupt. Beneath the grandiose \
+arcade windows, crystal chandeliers and marbled columns are sculptured figures in explicitly sexual poses and vivid oil \
+paintings of indecent acts. Plainly, this hall is meant to inspire much more than dancing.
 
 &lt;&lt;NPC &quot;Jezebelle&quot;&gt;&gt;
 
-@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="130" name="PR_FancyTavern" tags="" position="1225,1600">The @@color:gold;&#39;Green Gryphon&#39;@@ is one of the older and more illustrious taverns on the island. It&#39;s position in the heart of the \
+@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="132" name="PR_DarkAlley" tags="" position="225,1725">Narrow enough to be missed by most passers-by, this alleyway ends in a dark cul-de-sac shadowed by the projecting upper floors \
+of neighboring edifices. Here, amid the crumbling plaster and brick, a set of secretive stairs rise to a doorway. Above it hangs a \
+wooden shingle painted with a radiate sun, split by a horizon, that beckons only to the adventurous or well-informed.
+
+@@color:lime;Travel@@: [[Bottlecork Lane|PR_BottlecorkLane]] | [[Le Maison Du Soleil Levant|PR_Levant]]</tw-passagedata><tw-passagedata pid="133" name="PR_FancyTavern" tags="" position="350,1725">The @@color:gold;&#39;Green Gryphon&#39;@@ is one of the older and more illustrious taverns on the island. It&#39;s position in the heart of the \
 @@color:gold;&#39;Entertainment District&#39;@@ means that it sees a healthy trade in both pleasure seekers as well as wealthy locals. The \
 building itself is three stories tall, with the main floor being reserved for dining and drinking and the upper floors containing \
 a series of suites for the more well to do travellers staying in town. The wholesome scent of freshly cooked food and the clatter of \
@@ -27644,7 +27648,15 @@ plates and glasses is comforting after so long at sea.
 
 &lt;&lt;NPC &quot;Cutchbart&quot;&gt;&gt;
 
-@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="131" name="PR_GovernorsMansion" tags="" position="100,1725">@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="132" name="PR_GuardHouse" tags="" position="225,1725">This ancient stone blockhouse dates back to the earliest settlement of this isle. The oldest, strongest walls of the city&#39;s fortifications \
+@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="134" name="PR_GovernorsMansion" tags="" position="475,1725">This grandiose white manor house occupies the ranking position at the upper end of the city&#39;s affluent district, centered on a \
+generous plot. Originally the estate home of a prosperous sugar plantation, it has a weathered, colonial charm.
+
+The grounds are entered through an imposing iron gateway. There, the wide, symmetrical mansion itself rises two stories, its clapboard \
+facings dressed by even rows of casement windows with louvered shutters. The hipped roof above is fronted by pedimented gables, \
+and two shorter wings project from the building&#39;s sides. The central carriage porch is supported by Doric columns enclosing the \
+front stoop and second floor balcony.
+
+@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="135" name="PR_GuardHouse" tags="" position="600,1725">This ancient stone blockhouse dates back to the earliest settlement of this isle. The oldest, strongest walls of the city&#39;s fortifications \
 intersect it to either side, forming a demarcation between the lower port district and the upper settlement.
 
 Solidly built, it isn&#39;t pretty to look at, but its heavy, roughly-cut masonry bears the telltale signs of having thwarted fire, \
@@ -27656,7 +27668,7 @@ equipped with heavy iron portcullises that make it a strongpoint for the city&#3
 
 &lt;&lt;NPC &quot;Blythe&quot;&gt;&gt;
 
-@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[Jail House|PR_Jail]] | [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="133" name="PR_Jail" tags="" position="350,1725">A stonework stockade nearly as old as the island&#39;s first settlement, the jail house is a place where problems get sent to be forgotten. \
+@@color:lime;Travel@@: [[Great Market|GreatMarket]] | [[Jail House|PR_Jail]] | [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="136" name="PR_Jail" tags="" position="725,1725">A stonework stockade nearly as old as the island&#39;s first settlement, the jail house is a place where problems get sent to be forgotten. \
 Not much can be spoken about its amenities, except that they barely exist. Hard-forged iron as thick as a man&#39;s arm fortifies the heavy \
 cell bars, while manacles for hand, foot and neck ensure prisoners have no way to escape, or to even to try it. Cold cobble floors, a wooden \
 bucket for a chamberpot, and the odd ladle of water or crust of bread are the best one can hope for within these merciless walls. The tiny \
@@ -27668,7 +27680,32 @@ Either way, the odds of parole are small - yet, the proper shine of coin is know
 
 &lt;&lt;NPC &quot;Barbary&quot;&gt;&gt;
 
-@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="134" name="PR_RareGoods" tags="" position="475,1725">Though this fine emporium bears a name steeped in sailors&#39; superstitions about the devil and the souls of the dead, it hasn&#39;t deterred a thriving \
+@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]]</tw-passagedata><tw-passagedata pid="137" name="PR_Levant" tags="" position="850,1725">&lt;&lt;if window.App.QuestEngine.GetQuestFlag($Player, &quot;LEVANT_PLACEHOLDER&quot;) != &quot;COMPLETED&quot;&gt;&gt;\
+Curtains of crushed velvet and lace are draped across a series of mirrors, making it difficult to judge the size of this intimate salon. \
+Between the tapestry, paintings of reclining nudes and romantic scenes hang from peeling, lacquered walls. Nearby, worn, padded stools \
+and couches with distressed gilding make for a kind of shabby luxury, and rose water perfume helps disguise the underlying dinginess. Despite \
+its flaws, the room holds an inexplicable seduction. Off to its side, drapery parts around a door leading into a candle-lit @@color:gold;&#39;back room.&#39;@@
+
+@@color:lime;Travel@@: [[Darkened Alleyway|PR_DarkAlley]] | [[Back Room|PR_LevantBackRoom]]\
+&lt;&lt;else&gt;&gt;\
+Where once you found an inviting, sensual salon, now lies a dim, musty ruination. Tattered shreds of cloth have replaced the \
+fresh velvet curtains you remember, grayed completely by the dust and cobwebs of an immeasurable passage of time. Beneath them lie the \
+grimy fragments of shattered mirrors.
+
+The formerly beautiful paintings are now framed in rotting wood and beset by thick rot, barely revealing the infernal horrors now depicted. \
+Several beams have buckled above, and the creaking floor threatens to snap with every step. Rubble fills the doorway that previously entered \
+the back room. Nothing remains of the place you knew, and no clue reveals an explanation for its mysterious decline.
+
+@@color:lime;Travel@@: [[Darkened Alleyway|PR_DarkAlley]]\
+&lt;&lt;/if&gt;&gt;\</tw-passagedata><tw-passagedata pid="138" name="PR_LevantBackRoom" tags="" position="975,1725">Old lacquer coats the walls here in purple and black, while the ceiling has been colored in royal blue with painted gold \
+stars. A sense of the mystical permeates the space, centered on an arrangement of artifacts on several tables. Armoires \
+on each wall contain many more such relics, along with stoppered flasks of unfamiliar liquids. Some of them are acquirable, for a price.
+
+@@color:lime;Travel@@: [[Le Maison Du Soleil Levant - Front Room|PR_Levant]]</tw-passagedata><tw-passagedata pid="139" name="PR_PublicHouse" tags="" position="1100,1725">This private home converted to public serving house offers an enjoyable gathering place for seekers of food and beverage. \
+Its furnishings are simple but comfortable, and the stove fills the place with the appetizing smells of cooking food. While \
+not as diverse in its offerings as the city&#39;s taverns, some prefer its more personal charms.
+
+@@color:lime;Travel@@: [[Bottlecork Lane|PR_BottlecorkLane]]</tw-passagedata><tw-passagedata pid="140" name="PR_RareGoods" tags="" position="1225,1725">Though this fine emporium bears a name steeped in sailors&#39; superstitions about the devil and the souls of the dead, it hasn&#39;t deterred a thriving \
 business among the city&#39;s wealthy patrons. If anything, the association has helped, adding the color of thrilling danger and ocean adventure to the \
 import of rare goods, which are its stock and trade.
 
@@ -27681,14 +27718,14 @@ The premises combine luxury and mystery, tantalizing the eye with the strange, e
 
 &lt;&lt;NPC &quot;Jameson&quot;&gt;&gt;
 
-@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="135" name="PR_Tavern" tags="" position="600,1725">The @@color:gold;&#39;Grey Peacock&#39;@@ is one of the more popular taverns in @@color:gold;&#39;Port Royale&#39;@@, well known for both its wholesome food and \
+@@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]</tw-passagedata><tw-passagedata pid="141" name="PR_Tavern" tags="" position="100,1850">The @@color:gold;&#39;Grey Peacock&#39;@@ is one of the more popular taverns in @@color:gold;&#39;Port Royale&#39;@@, well known for both its wholesome food and \
 stiff drinks. The clientele tends to be a step up from the common rabble that you&#39;d find in other places since the @@color:gold;&#39;Great Market&#39;@@ \
 is so close by. The interior of the tavern is warm and a little homey, with the distinct scent of island grown tobacco wafting through the air, \
 punctuated by scattered conversations and the occasional bark of laughter.
 
 &lt;&lt;NPC &quot;Georgina&quot;&gt;&gt;
 
-@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="136" name="PortRoyale" tags="" position="725,1725">@@color:gold;&#39;Port Royale&#39;@@ is known far and wide as the most impressive collection of free traders on the open seas. The \
+@@color:lime;Travel@@: [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="142" name="PortRoyale" tags="" position="225,1850">@@color:gold;&#39;Port Royale&#39;@@ is known far and wide as the most impressive collection of free traders on the open seas. The \
 island itself hosting numerous shops, markets and entertainment establishments that draw an odd collection of merchants, \
 freebooters and the occasional person of ill-repute. Looking into the harbor you can see dozens of ships moored within, everything \
 from small slips to large merchant vessels and the docks are bustling at all times of the day and night with teamsters carrying \
@@ -27697,15 +27734,24 @@ goods back and forth.
 A large building attached to a massive dry-dock is to the north, it&#39;s obviously a shipyard of some sort and beyond that a \
 twisting road leads to the famous @@color:gold;&#39;Great Market&#39;@@.
 
-@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Shipwright|ShipWright]] | [[Great Market|GreatMarket]]</tw-passagedata><tw-passagedata pid="137" name="ShipWright" tags="" position="850,1725">The dry-docks and shipyard are here on the far end of the harbor. A large building contains the warehouse and sleeping quarters of \
+@@color:lime;Travel@@: [[Back to The Mermaid|Deck]] | [[Shipwright|ShipWright]] | [[Great Market|GreatMarket]] | [[Back Alley|PR_BackAlley]]</tw-passagedata><tw-passagedata pid="143" name="ShipWright" tags="" position="350,1850">The dry-docks and shipyard are here on the far end of the harbor. A large building contains the warehouse and sleeping quarters of \
 the shipwrights and various laborers that work here and to the left of that is the dry dock.
 
 There is currently no ship being built.
 
 &lt;&lt;NPC &quot;Gulliver&quot;&gt;&gt;
 
-@@color:lime;Travel@@: [[The Docks|PortRoyale]]</tw-passagedata><tw-passagedata pid="138" name="WealthyDistrict" tags="" position="975,1725">@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]] | [[Lady Selene&#39;s School for Courtesans|CourtesansGuild]] | [[Veronica&#39;s Secret|PR_Clothier]] | [[David Jone&#39;s Locker|PR_RareGoods]] | 
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[[The Governor&#39;s Mansion|PR_GovernorsMansion]]</tw-passagedata><tw-passagedata pid="139" name="XXXShow" tags="" position="1100,1725">This grand entrance hall, or what passes for one in the colonies, offers an eyeful of extravagant Baroque adornment. Rich, sensual decor surrounds \
+@@color:lime;Travel@@: [[The Docks|PortRoyale]]</tw-passagedata><tw-passagedata pid="144" name="WealthyDistrict" tags="" position="475,1850">Ancient walls encircle and protect this exclusive district of Port Royale, though the gentle incline of the street grants a panoramic \
+view of the bay and harbor beyond the barrier. Large, ornate buildings surround the central commons, putting the vainglorious wealth \
+of their occupants on display.
+
+Foremost among the storefronts facing the green are a fashionable womens&#39; haberdashery, @@color:gold;&#39;Veronica&#39;s Secret,&#39;@@ and an exclusive \
+trading house and mercantile, @@color:gold;&#39;David Jones&#39; Locker.&#39;@@ Nearby, a row of luxurious manor houses reaches its zenith at \
+@@color:gold;&#39;Lady Selene&#39;s&#39;@@ door, the site of a courtesan school, and at the @@color:gold;&#39;Governor&#39;s Mansion,&#39;@@ whose stately \
+residence commands the high end of the square.
+
+@@color:lime;Travel@@: [[Guard House|PR_GuardHouse]] | [[Lady Selene&#39;s School for Courtesans|CourtesansGuild]] | [[Veronica&#39;s Secret|PR_Clothier]] | [[David Jone&#39;s Locker|PR_RareGoods]] | 
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[[The Governor&#39;s Mansion|PR_GovernorsMansion]]</tw-passagedata><tw-passagedata pid="145" name="XXXShow" tags="" position="600,1850">This grand entrance hall, or what passes for one in the colonies, offers an eyeful of extravagant Baroque adornment. Rich, sensual decor surrounds \
 you, with walls doused in dark red lacquer and gold floral ornamentation, though it lacks in detail compared with its continental counterpart. The \
 hall is lit dimly by candlelight sconces, and a large, oriental rug dominates the hall&#39;s floor. Elaborately carved, cushioned settees, high backed \
 armchairs and inlaid tables complete the furnishings, and the gentle scent of floral incense hangs lightly in the air.
@@ -27716,7 +27762,7 @@ assorted sexual performances staged within. A &lt;&lt;click &quot;sign&quot; &qu
 
 &lt;&lt;NPC &quot;Sindee&quot;&gt;&gt;
 
-@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="140" name="DebugPassage" tags="" position="1225,1725">@@color:gold;Tweak Menu@@
+@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]</tw-passagedata><tw-passagedata pid="146" name="DebugPassage" tags="" position="725,1850">@@color:gold;Tweak Menu@@
 [[Next Day|DebugPassage][$Player.NextDay();]]
 
 @@color:lime;Travel Menu@@
@@ -27839,9 +27885,9 @@ Penis size: \
 [[Biggest|DebugPassage][$Player.BodyStats[&quot;Penis&quot;] to 100]]
 
 @@color:Cyan;Endings Menu@@
-[[Money Best Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 100;]] | [[Money Average Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 50;]] | [[Money Worst Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 30;]]</tw-passagedata><tw-passagedata pid="141" name="PassageTest" tags="" position="100,1850">[[DebugPassage]]
+[[Money Best Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 100;]] | [[Money Average Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 50;]] | [[Money Worst Win|GameWon][$Player.CoreStats[&quot;WillPower&quot;] = 30;]]</tw-passagedata><tw-passagedata pid="147" name="PassageTest" tags="" position="850,1850">[[DebugPassage]]
 
-&lt;&lt;readTarot $Player&gt;&gt;</tw-passagedata><tw-passagedata pid="142" name="InventoryWidgets" tags="widget" position="225,1850">&lt;&lt;widget &quot;InspectItem&quot;&gt;&gt;\
+&lt;&lt;readTarot $Player&gt;&gt;</tw-passagedata><tw-passagedata pid="148" name="InventoryWidgets" tags="widget" position="975,1850">&lt;&lt;widget &quot;InspectItem&quot;&gt;&gt;\
 &lt;&lt;set _Item = $Player.GetItemById($args[0]); &gt;&gt;\
 &lt;table class=&quot;.MyTable&quot; style=&quot;width:750px;&quot;&gt;
 &lt;tbody&gt;
@@ -28103,7 +28149,7 @@ Penis size: \
 		&lt;td&gt; &lt;/td&gt;
 	&lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="143" name="JobLink" tags="widget" position="350,1850">&lt;&lt;widget &quot;jobLink&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
+&lt;/table&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="149" name="JobLink" tags="widget" position="1100,1850">&lt;&lt;widget &quot;jobLink&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _JobTitle = $args[0].Title(true); &gt;&gt;
 &lt;&lt;click _JobTitle &quot;SelfJobs&quot;&gt;&gt;
 &lt;&lt;set $MenuAction = $args[0]&gt;&gt;
@@ -28124,7 +28170,7 @@ Penis size: \
 &lt;&lt;print &#39;@@color:grey;&#39;+_JL[_i].Title(true)+&#39;@@&#39;;&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/for&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="144" name="NPC" tags="widget" position="475,1850">&lt;&lt;widget NPC&gt;&gt;\
+&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="150" name="NPC" tags="widget" position="1225,1850">&lt;&lt;widget NPC&gt;&gt;\
 &lt;&lt;set _QE = window.App.QuestEngine;&gt;&gt;\
 &lt;&lt;set _NPC = $Player.GetNPC($args[0]);&gt;&gt;\
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;\
@@ -28147,7 +28193,7 @@ Penis size: \
  | &lt;&lt;customMenuLink &quot;Shop&quot; _NPC&gt;&gt;\
  &lt;&lt;else&gt;&gt;\
  | @@color:grey;[Shop]@@&lt;&lt;/if&gt;&gt;&lt;&lt;/if&gt;&gt;\
- &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="145" name="SexEndPhase" tags="widget" position="600,1850">&lt;&lt;widget &quot;sexEndButtons&quot;&gt;&gt;\
+ &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="151" name="SexEndPhase" tags="widget" position="100,1975">&lt;&lt;widget &quot;sexEndButtons&quot;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
 &lt;&lt;if $Player.GetStat(&quot;STAT&quot;, &quot;Health&quot;) &lt; 1&gt;&gt;
 @@.cmdButton;&lt;&lt;button &quot;Game Over&quot; &quot;DeathEnd&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@
@@ -28207,7 +28253,7 @@ That seems to be the end of the work for now... best get some rest and try again
 &lt;&lt;widget &quot;sexEndHeader&quot;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
 @@color:yellow;Whoring Complete!@@
-&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="146" name="WardrobeWidgets" tags="widget" position="725,1850">&lt;&lt;widget &quot;InspectClothing&quot;&gt;&gt;&lt;&lt;set _Item = $Player.GetEquipmentInSlot($args[0]); &gt;&gt;\
+&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="152" name="WardrobeWidgets" tags="widget" position="225,1975">&lt;&lt;widget &quot;InspectClothing&quot;&gt;&gt;&lt;&lt;set _Item = $Player.GetEquipmentInSlot($args[0]); &gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
 &lt;table class=&quot;.MyTable&quot;&gt;
 &lt;tbody&gt;
@@ -28544,7 +28590,7 @@ The style and fashion of your clothing is &lt;&lt;= window.App.PR.pClothing($Pla
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="147" name="AttractionPhase" tags="widget" position="850,1850">&lt;&lt;widget &quot;attractButtons&quot;&gt;&gt;\
+&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="153" name="AttractionPhase" tags="widget" position="350,1975">&lt;&lt;widget &quot;attractButtons&quot;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
 @@.cmdButton;&lt;&lt;button &quot;Femininity&quot;&gt;&gt;
 &lt;&lt;set $CL = $Player.SolicitCustomer(1, _NPC.Lust(), _NPC.Mood(), _NPC.Wealth());&gt;&gt;
@@ -28576,7 +28622,7 @@ The style and fashion of your clothing is &lt;&lt;= window.App.PR.pClothing($Pla
 &lt;&lt;widget &quot;attractDialog&quot;&gt;&gt;\
 First you&#39;ll need to @@color:DeepPink;attract some customers@@. Select your preferred technique from the @@color:cyan;COMMAND@@ menu. Some options may be @@color:grey;[disabled]@@ if you lack a required statistic.
 
-Your available options are: Attract customers using your &lt;&lt;print _PR.ColorizeString($Player.GetStatPercent(&quot;STAT&quot;,&quot;Femininity&quot;), &quot;femininity&quot;);&gt;&gt; or step it up and actively solicit with &lt;&lt;print _PR.ColorizeString($Player.GetStatPercent(&quot;STAT&quot;,&quot;Perversion&quot;), &quot;perverse catcalls&quot;);&gt;&gt; and offers of raunchy sex acts. Finally you can put on a &lt;&lt;print _PR.ColorizeString($Player.Fetish(), &quot;live sex show&quot;);&gt;&gt; hoping that your lewd body will bring the men in droves.&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="148" name="combatWidgets" tags="widget" position="975,1850">&lt;&lt;widget &quot;enemyStatus&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
+Your available options are: Attract customers using your &lt;&lt;print _PR.ColorizeString($Player.GetStatPercent(&quot;STAT&quot;,&quot;Femininity&quot;), &quot;femininity&quot;);&gt;&gt; or step it up and actively solicit with &lt;&lt;print _PR.ColorizeString($Player.GetStatPercent(&quot;STAT&quot;,&quot;Perversion&quot;), &quot;perverse catcalls&quot;);&gt;&gt; and offers of raunchy sex acts. Finally you can put on a &lt;&lt;print _PR.ColorizeString($Player.Fetish(), &quot;live sex show&quot;);&gt;&gt; hoping that your lewd body will bring the men in droves.&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="154" name="combatWidgets" tags="widget" position="475,1975">&lt;&lt;widget &quot;enemyStatus&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;table&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
@@ -28616,14 +28662,14 @@ Your available options are: Attract customers using your &lt;&lt;print _PR.Color
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="149" name="customMenuLink" tags="widget" position="1100,1850">&lt;&lt;widget &quot;customMenuLink&quot;&gt;&gt;\
+&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="155" name="customMenuLink" tags="widget" position="600,1975">&lt;&lt;widget &quot;customMenuLink&quot;&gt;&gt;\
 &lt;&lt;click $args[0] $args[0]&gt;&gt;
 &lt;&lt;if def $args[1]&gt;&gt;&lt;&lt;set $MenuAction = $args[1]&gt;&gt;&lt;&lt;/if&gt;&gt;\
 &lt;&lt;if not tags().contains(&quot;custom-menu&quot;)&gt;&gt;&lt;&lt;set $GameBookmark = passage(); &gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/click&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="150" name="lateNightTeleport" tags="widget" position="1225,1850">&lt;&lt;widget &quot;lateNightTeleport&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="156" name="lateNightTeleport" tags="widget" position="725,1975">&lt;&lt;widget &quot;lateNightTeleport&quot;&gt;&gt;\
 &lt;&lt;if (!tags().contains(&quot;custom-menu&quot;) &amp;&amp; !tags().contains(&quot;no-teleport&quot;))&gt;&gt;
 It&#39;s getting kind of late... [[head back to the Mermaid|Cabin]]&lt;&lt;/if&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="151" name="marketLink" tags="widget" position="100,1975">&lt;&lt;widget &quot;marketLink&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="157" name="marketLink" tags="widget" position="850,1975">&lt;&lt;widget &quot;marketLink&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _SE = window.App.StoreEngine;&gt;&gt;
 &lt;&lt;set _NPC = $Player.GetNPC($args[0]);&gt;&gt;
 &lt;&lt;if _SE.HasStore(_NPC) &amp;&amp;  _SE.IsOpen($Player, _NPC) == true &amp;&amp; $Player.Phase &lt; 4;&gt;&gt;
@@ -28642,7 +28688,7 @@ It&#39;s getting kind of late... [[head back to the Mermaid|Cabin]]&lt;&lt;/if&g
     @@color:grey;Shop - closed@@
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="152" name="negotiateButton" tags="widget" position="225,1975">&lt;&lt;widget negotiateButton&gt;&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="158" name="negotiateButton" tags="widget" position="975,1975">&lt;&lt;widget negotiateButton&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _SexName = _PR.pSkillName($args[0]);&gt;&gt;
 &lt;&lt;if $Customer.HasRefused($args[0])&gt;&gt;
 @@.cmdDisabledButton;&lt;&lt;button _SexName&gt;&gt;&lt;&lt;/button&gt;&gt;@@
@@ -28715,7 +28761,7 @@ You wince as $Customer.Name refuses your offer. You may be a prostitute by circu
 &lt;&lt;/button&gt;&gt;@@
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/if&gt;&gt;&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="153" name="NegotiationPhase" tags="widget" position="350,1975">&lt;&lt;widget &quot;negotiateButtons&quot;&gt;&gt;\
+&lt;&lt;/if&gt;&gt;&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="159" name="NegotiationPhase" tags="widget" position="1100,1975">&lt;&lt;widget &quot;negotiateButtons&quot;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;Perversion&quot;) &lt; 20 or $Player.GetStatPercent(&quot;BODY&quot;, &quot;Bust&quot;) &lt; 8&gt;&gt;
@@ -28771,7 +28817,7 @@ You keep up the act for decent amount of time and eventually it starts to have t
 &lt;&lt;else&gt;&gt;\
 @@color:yellow;Customer Attraction@@ @@color:lime;SUCCESS@@ \
 @@color:yellow;Negotiate Sex Act@@&lt;&lt;/if&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="154" name="printJobResult" tags="widget" position="475,1975">&lt;&lt;widget &quot;printJobResult&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="160" name="printJobResult" tags="widget" position="1225,1975">&lt;&lt;widget &quot;printJobResult&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _Start = $args[0].PrintStart($Player, _NPC);&gt;&gt;
 &lt;&lt;set _Scenes = $args[0].PlayScenes($Player, _NPC); &gt;&gt;
 &lt;&lt;set _End = $args[0].PrintEnd($Player, _NPC);&gt;&gt;
@@ -28788,15 +28834,15 @@ You keep up the act for decent amount of time and eventually it starts to have t
 &lt;&lt;button &quot;COOLDOWN&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;&lt;&lt;else&gt;&gt;
 &lt;&lt;button &quot;LOCKED&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;&lt;&lt;/if&gt;&gt;
 &lt;&lt;print $args[0].ReqString($Player);&gt;&gt;&lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="155" name="printPlayerDescription" tags="widget" position="600,1975">&lt;&lt;widget &quot;printPlayerDescription&quot;&gt;&gt;\
+&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="161" name="printPlayerDescription" tags="widget" position="100,2100">&lt;&lt;widget &quot;printPlayerDescription&quot;&gt;&gt;\
 You stare into the mirror...
 
 You are &lt;&lt;print window.App.PR.pHeight($Player);&gt;&gt; and &lt;&lt;print window.App.PR.pFitness($Player);&gt;&gt; You have a &lt;&lt;print window.App.PR.pFace($Player);&gt;&gt; &lt;&lt;print window.App.PR.pHair($Player);&gt;&gt; &lt;&lt;print window.App.PR.pEyes($Player);&gt;&gt; You have &lt;&lt;print window.App.PR.pLips($Player);&gt;&gt; &lt;&lt;print window.App.PR.pBust($Player);&gt;&gt; &lt;&lt;print window.App.PR.pAss($Player);&gt;&gt; &lt;&lt;print window.App.PR.pHips($Player);&gt;&gt; &lt;&lt;print window.App.PR.pWaist($Player);&gt;&gt; and &lt;&lt;print window.App.PR.pFigure($Player);&gt;&gt;. You have &lt;&lt;print window.App.PR.pPenis($Player);&gt;&gt; and &lt;&lt;print window.App.PR.pBalls($Player);&gt;&gt; between your legs.
 You consider your natural beauty to be &lt;&lt;print window.App.PR.pBeauty($Player);&gt;&gt;.
 The fetish appeal of your body is &lt;&lt;print window.App.PR.pFetish($Player);&gt;&gt;.
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="156" name="printStyleDescription" tags="widget" position="725,1975">&lt;&lt;widget &quot;printStyleDescription&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="162" name="printStyleDescription" tags="widget" position="225,2100">&lt;&lt;widget &quot;printStyleDescription&quot;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
-&lt;span id=&quot;StyleDesc&quot;&gt;&lt;&lt;print window.App.PR.pHair($Player);&gt;&gt; &lt;&lt;print window.App.PR.pMakeup($Player);&gt;&gt;. &lt;&lt;print &quot;The style and fashion of your clothing is &quot; +  window.App.PR.pClothing($Player)&gt;&gt;. &lt;&lt;print &quot;Your hygiene and styling is &quot; + window.App.PR.pStyle($Player); &gt;&gt;.&lt;/span&gt;&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="157" name="questDialog" tags="widget" position="850,1975">&lt;&lt;widget &quot;questDialog&quot;&gt;&gt;\
+&lt;span id=&quot;StyleDesc&quot;&gt;&lt;&lt;print window.App.PR.pHair($Player);&gt;&gt; &lt;&lt;print window.App.PR.pMakeup($Player);&gt;&gt;. &lt;&lt;print &quot;The style and fashion of your clothing is &quot; +  window.App.PR.pClothing($Player)&gt;&gt;. &lt;&lt;print &quot;Your hygiene and styling is &quot; + window.App.PR.pStyle($Player); &gt;&gt;.&lt;/span&gt;&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="163" name="questDialog" tags="widget" position="350,2100">&lt;&lt;widget &quot;questDialog&quot;&gt;&gt;\
 &lt;&lt;set _ID = $args[0][&quot;ID&quot;]&gt;&gt;\
 &lt;&lt;set _QE = window.App.QuestEngine;&gt;&gt;\
 &lt;&lt;set $ChoiceItem = 0&gt;&gt;\
@@ -28843,14 +28889,14 @@ The fetish appeal of your body is &lt;&lt;print window.App.PR.pFetish($Player);&
 &lt;&lt;/button&gt;&gt;@@
 &lt;&lt;/if&gt;&gt;\
 &lt;&lt;/if&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="158" name="questEntry" tags="widget" position="975,1975">&lt;&lt;widget &quot;questEntry&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="164" name="questEntry" tags="widget" position="475,2100">&lt;&lt;widget &quot;questEntry&quot;&gt;&gt;\
 &lt;&lt;set _QE = window.App.QuestEngine; &gt;&gt;\
 &lt;&lt;print &#39;&lt;&lt;click &quot;&#39;+$args[0][&quot;Title&quot;]+&#39;&quot;&gt;&gt;&lt;&lt;replace &quot;#QuestUI&quot;&gt;&gt;&lt;&lt;questDialog $args[0]&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/click&gt;&gt;&#39;;&gt;&gt;\
 &lt;&lt;if _QE.GetQuestFlag($Player, $args[0][&quot;ID&quot;]) == &quot;ACTIVE&quot;&gt;&gt;\
 &lt;&lt;print &quot;  @@color:lime;(IN PROGRESS)@@&quot;; &gt;&gt;&lt;&lt;/if&gt;&gt;\
 &lt;&lt;if _QE.CanCompleteQuest($Player, $args[0][&quot;ID&quot;]) == 1&gt;&gt;\
 &lt;&lt;print &quot;  @@color:DeepPink;(READY TO TURN IN!)@@&quot;;&gt;&gt;&lt;&lt;/if&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="159" name="questList" tags="widget" position="1100,1975">&lt;&lt;widget &quot;questList&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="165" name="questList" tags="widget" position="600,2100">&lt;&lt;widget &quot;questList&quot;&gt;&gt;\
 &lt;&lt;set _QE = window.App.QuestEngine;&gt;&gt;\
 &lt;&lt;set _QL = _QE.GetQuests(&quot;any&quot;, $Player, $MenuAction);&gt;&gt;\
 &lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;\
@@ -28868,7 +28914,7 @@ _QE.QuestActive($Player, _QL[_i][&quot;ID&quot;])&gt;&gt;\
 &lt;&lt;/if&gt;&gt;\
 &lt;&lt;/for&gt;&gt;
 @@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="160" name="sexButton" tags="widget" position="1225,1975">&lt;&lt;widget &quot;sexButton&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="166" name="sexButton" tags="widget" position="725,2100">&lt;&lt;widget &quot;sexButton&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _Cmd = window.App.Data.Lists.SexCommands[$Customer.SexAct][$args[0]]&gt;&gt;
 &lt;&lt;if $WhoreTurn &gt;= 5&gt;&gt;
 &lt;&lt;if ($Player.Skills[$Customer.SexAct] &lt; _Cmd[&quot;Basic&quot;])&gt;&gt;
@@ -28893,7 +28939,7 @@ _QE.QuestActive($Player, _QL[_i][&quot;ID&quot;])&gt;&gt;\
 &lt;&lt;/button&gt;&gt;@@
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="161" name="SexPhase" tags="widget" position="100,2100">&lt;&lt;widget &quot;sexButtons&quot;&gt;&gt;\
+&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="167" name="SexPhase" tags="widget" position="850,2100">&lt;&lt;widget &quot;sexButtons&quot;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
 &lt;&lt;if $Player.GetStat(&quot;STAT&quot;, &quot;Health&quot;) &lt; 1&gt;&gt;
 @@.cmdButton;&lt;&lt;button &quot;Game Over&quot; &quot;DeathEnd&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@
@@ -28948,7 +28994,7 @@ _QE.QuestActive($Player, _QL[_i][&quot;ID&quot;])&gt;&gt;\
 &lt;&lt;print _PR.pMeter($Customer.GetArousal(), 100);&gt;&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="162" name="shipPortLink" tags="widget" position="225,2100">&lt;&lt;widget shipPortLink&gt;&gt;\
+&lt;/table&gt;&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="168" name="shipPortLink" tags="widget" position="975,2100">&lt;&lt;widget shipPortLink&gt;&gt;\
 &lt;&lt;set _Port = $Player.GetShipLocation(); &gt;&gt;\
 &lt;&lt;set _Quest = window.App.QuestEngine; &gt;&gt;\
 &lt;&lt;if _Port[&quot;Passage&quot;] != &quot;&quot;&gt;&gt;\
@@ -28968,7 +29014,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;&lt;/if&gt;&gt;\
 &lt;span id=&quot;BoardingPass&quot;&gt;&lt;/span&gt;
 &lt;&lt;/if&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="163" name="storeButton" tags="widget" position="350,2100">&lt;&lt;widget &quot;storeButton&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="169" name="storeButton" tags="widget" position="1100,2100">&lt;&lt;widget &quot;storeButton&quot;&gt;&gt;\
 &lt;&lt;if ($args[0][&quot;TYPE&quot;] == &quot;CLOTHES&quot;) and ($Player.OwnsWardrobeItem($args[0]) == true)&gt;&gt;@@.disabledStoreButton;&lt;&lt;button &quot;OWNED&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@\
 &lt;&lt;else&gt;&gt;\
 &lt;&lt;if ($args[0][&quot;QTY&quot;] &lt; 1) or
@@ -28983,12 +29029,12 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;&lt;/if&gt;&gt;\
 &lt;&lt;/if&gt;&gt;\
 &lt;&lt;/if&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="164" name="storeExamineButton" tags="widget" position="475,2100">&lt;&lt;widget &quot;storeExamineButton&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="170" name="storeExamineButton" tags="widget" position="1225,2100">&lt;&lt;widget &quot;storeExamineButton&quot;&gt;&gt;\
 @@.storeButton;&lt;&lt;button &quot;EXAMINE&quot;&gt;&gt;\
 &lt;&lt;replace &quot;#StoreExamine&quot;&gt;&gt;\
 &lt;&lt;= _ST.PrintItemLong($args[0])&gt;&gt;&lt;&lt;/replace&gt;&gt;
 &lt;&lt;/button&gt;&gt;@@\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="165" name="storeInventory" tags="widget" position="600,2100">&lt;&lt;widget storeInventory&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="171" name="storeInventory" tags="widget" position="100,2225">&lt;&lt;widget storeInventory&gt;&gt;\
 &lt;&lt;set _NPC = $MenuAction&gt;&gt;\
 &lt;&lt;set _SE = window.App.StoreEngine;&gt;&gt;\
 &lt;&lt;set _ST = _SE.OpenStore($Player, _NPC);&gt;&gt;\
@@ -29046,7 +29092,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;&lt;/nobr&gt;&gt;
-&lt;span id=&quot;StoreExamine&quot;&gt;&lt;/span&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="166" name="tarot" tags="widget" position="725,2100">&lt;&lt;widget &quot;tarot&quot;&gt;&gt;\
+&lt;span id=&quot;StoreExamine&quot;&gt;&lt;/span&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="172" name="tarot" tags="widget" position="225,2225">&lt;&lt;widget &quot;tarot&quot;&gt;&gt;\
 &lt;&lt;set _Card = $args[0].JobFlags[&quot;TAROT_CARD&quot;];&gt;&gt;\
 &lt;&lt;if typeof _Card !== &#39;undefined&#39; &amp;&amp; App.Data.Tarot.hasOwnProperty(_Card)&gt;&gt;\
 &lt;&lt;set _Dict = App.Data.Tarot[_Card];&gt;&gt;\
@@ -29062,7 +29108,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;&lt;= &quot;&lt;div class=&#39;tcard &quot;+ App.Data.Tarot[_Card].Css + &quot;&#39;&gt;&lt;/div&gt;&quot; &gt;&gt;
 &lt;&lt;= App.Data.Tarot[_Card].Chat;&gt;&gt;
 &lt;&lt;run $args[0].JobFlags[&quot;TAROT_CARD&quot;] = _Card;&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="167" name="vanityMenu" tags="widget" position="850,2100">&lt;&lt;widget &quot;vanityMenu&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="173" name="vanityMenu" tags="widget" position="350,2225">&lt;&lt;widget &quot;vanityMenu&quot;&gt;&gt;\
 &lt;&lt;set _Hair = window.App.Data.Lists[&quot;HairStyles&quot;];&gt;&gt;\
 &lt;&lt;set _H1 = $Player.GetItemCharges(&quot;hair tool&quot;);&gt;&gt;\
 &lt;&lt;set _H2 = $Player.GetItemCharges(&quot;hair treatment&quot;);&gt;&gt;
@@ -29251,7 +29297,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 	&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;&lt;/nobr&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="168" name="wakeUpHandler" tags="widget" position="975,2100">&lt;&lt;widget &quot;wakeUpHandler&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="174" name="wakeUpHandler" tags="widget" position="475,2225">&lt;&lt;widget &quot;wakeUpHandler&quot;&gt;&gt;\
 &lt;&lt;set _RAPE_FLAG = (typeof $Player.QuestFlags[&quot;CREW_RAPE&quot;] !== &#39;undefined&#39; ? $Player.QuestFlags[&quot;CREW_RAPE&quot;] : 1);&gt;&gt;\
 &lt;&lt;if ($Player.GetNPC(&quot;Crew&quot;).Mood() &lt; 40) &amp;&amp; (Math.floor(Math.random() * 4) == 0) &amp;&amp; ($Player.Day &gt;= (_RAPE_FLAG + 5));&gt;&gt;\
 &lt;!-- Rape City --&gt;\
@@ -29285,14 +29331,14 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 @@color:cyan;Interact@@: [[Clean yourself up and carry on...|Cabin]]\
 &lt;&lt;else&gt;&gt;\
 @@color:cyan;Interact@@: [[Wake up|Cabin]]\
-&lt;&lt;/if&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="169" name="whoreLink" tags="widget" position="1100,2100">&lt;&lt;widget &quot;whoreLink&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/if&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="175" name="whoreLink" tags="widget" position="600,2225">&lt;&lt;widget &quot;whoreLink&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;&lt;click &quot;Whore&quot; &quot;Whore&quot;&gt;&gt;
 &lt;&lt;if $Player.WhoreTutorial == false&gt;&gt;&lt;&lt;run $Player.WhoreTutorial = true;&gt;&gt;&lt;&lt;set $WhoreLink = $args[0];&gt;&gt;&lt;&lt;set $WhorePassage = passage();&gt;&gt;&lt;&lt;goto WhoreTutorial&gt;&gt;
 &lt;&lt;else&gt;&gt;
 &lt;&lt;set _Passage = passage(); &gt;&gt;
 &lt;&lt;run $Player.AdjustStat(&quot;Energy&quot;, -1);&gt;&gt;
 &lt;&lt;run App.SlotEngine.LoadScene($args[0], _Passage, $Player);&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/click&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="170" name="ChangeLog" tags="custom-menu" position="1225,2100">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="176" name="ChangeLog" tags="custom-menu" position="725,2225">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 !!!0.7 - 06/05/2018
 !!!!General
 * Added some new effects to the effect library.
@@ -29501,19 +29547,19 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 * Added Grey Peacock basic inventory and NPC.
 * Added Waitress Job to Grey Peacock.
 !!!0.1 - 05/05/2018
-Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="171" name="CollarSwap" tags="custom-menu" position="100,2225">Using a magical process, it&#39;s possible to swap the appearance of the cursed collar around your neck for @@color:yellow;300 coins@@. Doing so may grant you \
+Initial Release of Alpha content.</tw-passagedata><tw-passagedata pid="177" name="CollarSwap" tags="custom-menu" position="850,2225">Using a magical process, it&#39;s possible to swap the appearance of the cursed collar around your neck for @@color:yellow;300 coins@@. Doing so may grant you \
 any associated bonuses from the new collar, but will not revoke the magic that @@color:cyan;Captain Reginald@@ is using to \
 to keep you in servitude.
 
 &lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;DrawCollarTable&gt;&gt;&lt;/span&gt;
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="172" name="Combat" tags="custom-menu" position="225,2225">&lt;&lt;combatPanel $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="173" name="Examine" tags="custom-menu" position="350,2225">&lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.ShortDesc())&gt;&gt;
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="178" name="Combat" tags="custom-menu" position="975,2225">&lt;&lt;combatPanel $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="179" name="Examine" tags="custom-menu" position="1100,2225">&lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.ShortDesc())&gt;&gt;
 &lt;&lt;= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.LongDesc())&gt;&gt;
 
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="174" name="Inventory" tags="custom-menu" position="475,2225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="180" name="Inventory" tags="custom-menu" position="1225,2225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;\
 &lt;&lt;set _Drugs = $Player.GetItemByTypes([&quot;potion&quot;]);&gt;&gt;\
 &lt;&lt;set _Quests = $Player.GetItemByTypes([&quot;QUEST&quot;, &quot;LOOT_BOX&quot;]);&gt;&gt;
 
-&lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="175" name="Jobs" tags="custom-menu" position="600,2225">&lt;&lt;nobr&gt;&gt;
+&lt;span id=&quot;InventoryUI&quot;&gt;&lt;&lt;InventoryTable &quot;food&quot;&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="181" name="Jobs" tags="custom-menu" position="100,2350">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _NPC = $Player.GetNPC($MenuAction);&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;
 &lt;&lt;set _JA = _JE.GetAvailableJobs($Player, $MenuAction);&gt;&gt;
@@ -29530,7 +29576,7 @@ to keep you in servitude.
 &lt;&lt;print _JU[_i].Intro($Player, _NPC); &gt;&gt;&lt;br/&gt;
   &lt;&lt;if _JU[_i].Available($Player, _NPC)&gt;&gt;@@.cmdButton;&lt;&lt;jobButton _JU[_i]&gt;&gt;@@&lt;&lt;else&gt;&gt;@@.cmdDisabledButton;&lt;&lt;jobButton _JU[_i]&gt;&gt;@@&lt;&lt;/if&gt;&gt;&lt;br/&gt;
 &lt;&lt;/for&gt;&gt;&lt;/span&gt;&lt;&lt;/nobr&gt;&gt;
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="176" name="Journal" tags="custom-menu" position="725,2225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="182" name="Journal" tags="custom-menu" position="225,2350">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 
 @@color:DeepPink;Active Quests@@
 &lt;&lt;set _QE = window.App.QuestEngine;&gt;&gt;\
@@ -29564,11 +29610,11 @@ No completed quests.
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;/for&gt;&gt;\
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="177" name="map" tags="custom-menu" position="850,2225">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="183" name="map" tags="custom-menu" position="350,2350">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &lt;&lt;if $MenuAction == &#39;sea&#39;&gt;&gt;\
 &lt;div id=&#39;miniMap&#39;&gt;&lt;img id=&quot;mapId&quot; data-passage=&quot;img_map&quot;&gt;&lt;img id=&quot;mapIcon&quot; data-passage=&quot;img_ship_icon&quot;&gt;&lt;/div&gt;\
 &lt;&lt;run window.App.PR.pShipMapIcon($Player.SailDays);&gt;&gt;\
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="178" name="Player Score" tags="widget" position="975,2225">&lt;&lt;widget &quot;score&quot;&gt;&gt;\
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="184" name="Player Score" tags="widget" position="475,2350">&lt;&lt;widget &quot;score&quot;&gt;&gt;\
 @@color:DeepPink;&quot;&lt;&lt;= $Player.SlaveName &gt;&gt;&quot;@@
 &lt;span id=&quot;DayCount&quot;&gt;Day &lt;&lt;print $Player.Day; &gt;&gt;, &lt;&lt;print $Player.GetPhase(1); &gt;&gt;&lt;/span&gt;.
 Coins: &lt;span id=&quot;Money&quot;&gt;&lt;&lt;print $Player.Money&gt;&gt;&lt;/span&gt;
@@ -29611,14 +29657,14 @@ Coins: &lt;span id=&quot;Money&quot;&gt;&lt;&lt;print $Player.Money&gt;&gt;&lt;/
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="179" name="Quests" tags="custom-menu" position="1100,2225">&lt;span id=&quot;QuestUI&quot;&gt;&lt;&lt;questList&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="180" name="Rest" tags="custom-menu" position="1225,2225">&lt;&lt;run $Player.Rest();&gt;&gt;You recline leisurely in your room. There isn&#39;t much to do so you after a few minutes you find yourself napping and trying to escape into your fantasies...
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="185" name="Quests" tags="custom-menu" position="600,2350">&lt;span id=&quot;QuestUI&quot;&gt;&lt;&lt;questList&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="186" name="Rest" tags="custom-menu" position="725,2350">&lt;&lt;run $Player.Rest();&gt;&gt;You recline leisurely in your room. There isn&#39;t much to do so you after a few minutes you find yourself napping and trying to escape into your fantasies...
 
 You wake up not long after, feeling slightly more energetic.
 
 &lt;&lt;if $Player.SleepLog.length != 0&gt;&gt;&lt;&lt;for _i to 0; _i lt $Player.SleepLog.length; _i++&gt;&gt;\
 &lt;&lt;print $Player.SleepLog[_i]&gt;&gt;&lt;br/&gt;&lt;&lt;/for&gt;&gt;&lt;&lt;/if&gt;&gt;\
 @@color:cyan;Interact@@: [[Exit|Cabin]]
-@@color:yellow;Action@@: &lt;&lt;if $Player.Phase != 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] &lt; $Player.GetMaxStat(&quot;STAT&quot;, &quot;Energy&quot;)&gt;&gt;[[Continue Resting|Rest]]&lt;&lt;else&gt;&gt;@@color:grey;[Continue Resting]@@&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="181" name="Rules" tags="custom-menu" position="100,2350">@@color:yellow;Rules O&#39; the Sea@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:yellow;Action@@: &lt;&lt;if $Player.Phase != 3&gt;&gt;&lt;&lt;if $Player.CoreStats[&quot;Energy&quot;] &lt; $Player.GetMaxStat(&quot;STAT&quot;, &quot;Energy&quot;)&gt;&gt;[[Continue Resting|Rest]]&lt;&lt;else&gt;&gt;@@color:grey;[Continue Resting]@@&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="187" name="Rules" tags="custom-menu" position="850,2350">@@color:yellow;Rules O&#39; the Sea@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &#39;&#39;Don&#39;t Die&#39;&#39;
 There are multiple ways to die in this game. Combat and fighting, either with the crew or with other pirates or enemies can end your life. \
 In addition to this you must monitor your health and nutrition. Be careful of taking drugs or magical potions and avoid tiring yourself out too much.
@@ -29659,12 +29705,12 @@ skills are low. You just won&#39;t get as much reward.
 
 &#39;&#39;Resting&#39;&#39;
 Don&#39;t underestimate the value of keeping yourself fully rested. If you can afford to take the time to relax, you should. It will help you process skill xp gains faster, increasing \
-your skills, give you more energy and at max energy it can even heal you quite a bit.</tw-passagedata><tw-passagedata pid="182" name="SelfJobs" tags="custom-menu" position="225,2350">&lt;&lt;nobr&gt;&gt;
+your skills, give you more energy and at max energy it can even heal you quite a bit.</tw-passagedata><tw-passagedata pid="188" name="SelfJobs" tags="custom-menu" position="975,2350">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _JE = window.App.JobEngine;&gt;&gt;
 &lt;&lt;printJobResult $MenuAction&gt;&gt;
 &lt;&lt;set $MenuAction = 0;&gt;&gt;&lt;&lt;/nobr&gt;&gt;
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="183" name="Shop" tags="custom-menu" position="350,2350">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
-&lt;&lt;storeInventory $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="184" name="SindeeSign" tags="custom-menu" position="475,2350">This heavy oak sign is inlaid with decorative brass filigree and painted with bright merry colours. It announces that show \
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="189" name="Shop" tags="custom-menu" position="1100,2350">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+&lt;&lt;storeInventory $MenuAction&gt;&gt;</tw-passagedata><tw-passagedata pid="190" name="SindeeSign" tags="custom-menu" position="1225,2350">This heavy oak sign is inlaid with decorative brass filigree and painted with bright merry colours. It announces that show \
 times are twice each day, evening and night at a price of @@color:gold;200 coins@@ per seat. Below that, it lists the three \
 main galleries and a small placard has been attached next to each with the name of the show on offer.
 
@@ -29674,7 +29720,7 @@ The Rose Gallery - Venus and Adonis.
 
 &lt;&lt;jobLinks &quot;XXX_SHOW&quot; 1&gt;&gt;
 
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="185" name="Skills" tags="custom-menu" position="600,2350">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="191" name="Skills" tags="custom-menu" position="100,2475">@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
 &lt;table class=&quot;#score-table&quot;&gt;
 &lt;tbody&gt;
 &lt;tr&gt;&lt;td colspan=&quot;6&quot; style=&quot;border-bottom: 1px solid&quot;&gt;@@color:yellow;Piracy Skills@@&lt;/td&gt;&lt;/tr&gt;
@@ -29714,7 +29760,7 @@ The Rose Gallery - Venus and Adonis.
 &lt;/table&gt;
 @@color:yellow;Slot Reel Management@@
 &lt;div id=&#39;SlotInventoryUI&#39; class=&#39;SlotInventoryUI&#39;&gt;&lt;/div&gt;\
-&lt;&lt;run App.SlotEngine.DrawSlotInventory($Player); &gt;&gt;\</tw-passagedata><tw-passagedata pid="186" name="Sleep" tags="custom-menu" position="725,2350">&lt;&lt;tarot $Player&gt;&gt;\
+&lt;&lt;run App.SlotEngine.DrawSlotInventory($Player); &gt;&gt;\</tw-passagedata><tw-passagedata pid="192" name="Sleep" tags="custom-menu" position="225,2475">&lt;&lt;tarot $Player&gt;&gt;\
 &lt;&lt;if $Player.Phase &gt;= 3&gt;&gt;&lt;&lt;run $Player.NextDay(); &gt;&gt;&lt;&lt;/if&gt;&gt;\
 &lt;&lt;set $irr to random(1,3)&gt;&gt;\
 &lt;&lt;if $irr eq 1&gt;&gt;\
@@ -29805,12 +29851,12 @@ The Rose Gallery - Venus and Adonis.
 &lt;&lt;if $Player.SleepLog.length != 0&gt;&gt;&lt;&lt;for _i to 0; _i lt $Player.SleepLog.length; _i++&gt;&gt;\
 &lt;&lt;print $Player.SleepLog[_i]&gt;&gt;&lt;br/&gt;&lt;&lt;/for&gt;&gt;&lt;&lt;/if&gt;&gt;\
 
-&lt;&lt;wakeUpHandler&gt;&gt;</tw-passagedata><tw-passagedata pid="187" name="StoryCaption" tags="" position="850,2350">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if ($Player != undefined) &amp;&amp; $InIntro != 1&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="188" name="Whore" tags="no-teleport" position="975,2350">&lt;div id=&quot;WhoreUI&quot; class=&quot;WhoreGUI&quot;&gt;&lt;/div&gt;
+&lt;&lt;wakeUpHandler&gt;&gt;</tw-passagedata><tw-passagedata pid="193" name="StoryCaption" tags="" position="350,2475">&lt;span id=&quot;PlayerScore&quot;&gt;&lt;&lt;if ($Player != undefined) &amp;&amp; $InIntro != 1&gt;&gt;&lt;&lt;score&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;/span&gt;\</tw-passagedata><tw-passagedata pid="194" name="Whore" tags="no-teleport" position="475,2475">&lt;div id=&quot;WhoreUI&quot; class=&quot;WhoreGUI&quot;&gt;&lt;/div&gt;
 &lt;div id=&quot;DesperationContainer&quot; class=&quot;DesperationContainer&quot;&gt;&lt;div id=&quot;DesperationFiller&quot; class=&quot;DesperationFiller&quot;&gt;&lt;/div&gt;&lt;div id=&quot;DesperationBar&quot; class=&quot;DesperationBar&quot;&gt;&lt;/div&gt;&lt;img class=&quot;DesperationSlotIcon&quot; data-passage=&quot;desperation_slot_icon&quot;&gt;&lt;/div&gt;
-&lt;&lt;run App.SlotEngine.DrawUI($Player);&gt;&gt;</tw-passagedata><tw-passagedata pid="189" name="WhoreEnd" tags="no-teleport" position="1100,2350">&lt;&lt;set _Exit = App.SlotEngine._ReturnPassage;&gt;&gt;\
+&lt;&lt;run App.SlotEngine.DrawUI($Player);&gt;&gt;</tw-passagedata><tw-passagedata pid="195" name="WhoreEnd" tags="no-teleport" position="600,2475">&lt;&lt;set _Exit = App.SlotEngine._ReturnPassage;&gt;&gt;\
 &lt;&lt;= App.SlotEngine.PrintResults($Player);&gt;&gt;
 
-@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; _Exit&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="190" name="WhoreTutorial" tags="" position="1225,2350">@@color:yellow;Whoring Mini-Game Tutorial@@
+@@color:cyan;Interact@@: &lt;&lt;click &quot;Exit&quot; _Exit&gt;&gt;&lt;&lt;/click&gt;&gt;</tw-passagedata><tw-passagedata pid="196" name="WhoreTutorial" tags="" position="725,2475">@@color:yellow;Whoring Mini-Game Tutorial@@
 
 You can &lt;&lt;click &quot;skip this&quot; &quot;Whore&quot;&gt;&gt;\
         &lt;&lt;set _Passage = passage(); &gt;&gt;\
@@ -29857,9 +29903,9 @@ and the player has the ability to rig the game (potentially massively) in their 
 * It&#39;s almost impossible to avoid desperation rolls when you start, so don&#39;t sweat it. Just don&#39;t waste the rolls - make sure to satisfy customers.
 * Once you unlock more slots, it&#39;s better to avoid desperation rolls if possible and instead use healing items to soak beatings from angry customers.
 * If you consistently focus on one or two sex acts, you&#39;ll find your skills go up in them faster than others and you will get paid more and satisfy customers faster.
-* Wild card slots are extremely important as they will match anything, even other wildcards. Seek them out and use them.</tw-passagedata><tw-passagedata pid="191" name="DeathEnd" tags="" position="100,2475">Your wounds were too much for you to endure.
+* Wild card slots are extremely important as they will match anything, even other wildcards. Seek them out and use them.</tw-passagedata><tw-passagedata pid="197" name="DeathEnd" tags="" position="850,2475">Your wounds were too much for you to endure.
 
-Game over.</tw-passagedata><tw-passagedata pid="192" name="GameOver" tags="" position="225,2475">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="193" name="GameWon" tags="custom-menu" position="350,2475">&lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;WillPower&quot;) &lt;= 40&gt;&gt;&lt;!-- Contributed by mightyakira @ TFGamesSite Forums --&gt;
+Game over.</tw-passagedata><tw-passagedata pid="198" name="GameOver" tags="" position="975,2475">Game Over Man, GAME OVER.</tw-passagedata><tw-passagedata pid="199" name="GameWon" tags="custom-menu" position="1100,2475">&lt;&lt;if $Player.GetStatPercent(&quot;STAT&quot;, &quot;WillPower&quot;) &lt;= 40&gt;&gt;&lt;!-- Contributed by mightyakira @ TFGamesSite Forums --&gt;
 You daintily walk into the captain’s cabins and kneel before Captain Reginald, all on your own accord. You have learnt \
 much from your time with the crew and captain of the Mermaid, it’s almost your second nature now to act exactly the way \
 everybody aboard wants you to act.
@@ -30046,9 +30092,9 @@ Of course, you have no intention of staying a second longer nor the intention of
 &lt;&lt;/replace&gt;&gt;&lt;&lt;/click&gt;&gt;&lt;/span&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;if $Player.debugMode == true&gt;&gt;[[Cheat Room|DebugPassage]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="194" name="WillPowerEnd" tags="" position="475,2475">Your mind is broken and you end up a slave of the pirates forever.
+&lt;&lt;if $Player.debugMode == true&gt;&gt;[[Cheat Room|DebugPassage]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="200" name="WillPowerEnd" tags="" position="1225,2475">Your mind is broken and you end up a slave of the pirates forever.
 
-Game over.</tw-passagedata><tw-passagedata pid="195" name="Start" tags="" position="600,2475">&lt;&lt;set $GameBookmark = passage(); &gt;&gt;
+Game over.</tw-passagedata><tw-passagedata pid="201" name="Start" tags="" position="100,2600">&lt;&lt;set $GameBookmark = passage(); &gt;&gt;
 @@color:deepPink;Queen of the Seas@@ is designed to be an RPG like transformation game with @@color:red;heavy non-consentual themes@@. \
 If this type of game bothers you then playing this game is not recommended.
 
@@ -30064,7 +30110,7 @@ As the new &quot;Cabin Girl&quot; of the Salty Mermaid, can you manage to raise 
 [[I am 18 years of age or older.|Difficulty]]
 
 @@color:yellow;Additional Links...@@
-[[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | &lt;a href=&quot;https://www.tfgamessite.com/index.php?module=viewgame&amp;id=1680&quot;&gt;IGDB Entry&lt;/a&gt; | &lt;a href=&quot;https://github.com/JJM152/Queen&quot;&gt;GitHub Repository&lt;/a&gt;</tw-passagedata><tw-passagedata pid="196" name="Difficulty" tags="" position="725,2475">&lt;&lt;set $Player = new window.App.Entity.Player();&gt;&gt;\
+[[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | &lt;a href=&quot;https://www.tfgamessite.com/index.php?module=viewgame&amp;id=1680&quot;&gt;IGDB Entry&lt;/a&gt; | &lt;a href=&quot;https://github.com/JJM152/Queen&quot;&gt;GitHub Repository&lt;/a&gt;</tw-passagedata><tw-passagedata pid="202" name="Difficulty" tags="" position="225,2600">&lt;&lt;set $Player = new window.App.Entity.Player();&gt;&gt;\
 &lt;&lt;set $InIntro = 1;&gt;&gt;\
 &lt;&lt;run $Player.Init(); &gt;&gt;\
 &lt;span id=&quot;difficulty&quot;&gt;\
@@ -30100,7 +30146,7 @@ As the new &quot;Cabin Girl&quot; of the Salty Mermaid, can you manage to raise 
     [[Continue|Intro1]]
     &lt;&lt;/replace&gt;&gt;\
 &lt;&lt;/click&gt;&gt; - @@color:purple;Even Easier Setting@@ - //The name says it all.//
-&lt;/span&gt;</tw-passagedata><tw-passagedata pid="197" name="Intro1" tags="" position="850,2475">&lt;&lt;nobr&gt;&gt;
+&lt;/span&gt;</tw-passagedata><tw-passagedata pid="203" name="Intro1" tags="" position="350,2600">&lt;&lt;nobr&gt;&gt;
 Your name is @@color:yellow;&lt;&lt;= $Player.OriginalName &gt;&gt; Smythe@@, the middle son of a &lt;span id=&quot;familyJob&quot;&gt;
 &lt;&lt;click &quot;farmer&quot;&gt;&gt;
     &lt;&lt;run $Player.AdjustStat(&quot;Fitness&quot;, 10);&gt;&gt;
@@ -30130,7 +30176,7 @@ outside of your social class that such a relationship, if it should be known, wo
 Despite this challenge, and despite @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;&#39;s@@ rather sheltered upbringing, the two of you have agreed to elope. You meet tonight \
 to discuss the plan.
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]&lt;/span&gt;</tw-passagedata><tw-passagedata pid="198" name="Intro2" tags="" position="975,2475">You wait until nightfall and meet @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]&lt;/span&gt;</tw-passagedata><tw-passagedata pid="204" name="Intro2" tags="" position="475,2600">You wait until nightfall and meet @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
 &lt;&lt;nobr&gt;&gt;
 &lt;span id=&quot;flirting&quot;&gt;
 &lt;&lt;click &quot;serenading her&quot;&gt;&gt;
@@ -30159,7 +30205,7 @@ can begin a new chapter as man and wife.
 
 @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ looks at you with wistful eyes as she listens to your story. It&#39;s clear she&#39;s as eager as you are to depart tonight!
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="199" name="Intro3" tags="" position="1100,2475">With haste you depart to the docks, entering the sole tavern on the island. The hour is late so there are not many patrons around and @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ is wearing an overly large \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="205" name="Intro3" tags="" position="600,2600">With haste you depart to the docks, entering the sole tavern on the island. The hour is late so there are not many patrons around and @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ is wearing an overly large \
 cowl to hide her appearance. It wouldn&#39;t do for anyone to see the Governor&#39;s daughter in such a place. Out of the corner of your eye a man waves at you. You recognize him as the gentle-sir you \
 spoke to yesterday, a fellow by the name of @@color:cyan;Reginald@@. You make your way to his table and take a seat.
 
@@ -30171,7 +30217,7 @@ On board the ship, @@color:cyan;Captain Reginald@@ shows you to your quarters, i
 takes his leave. You and @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ look at each other, both of you thinking about what you can finally do now that you&#39;re alone and have some \
 privacy. Emboldened, you share a celebratory toast. The ale is bitter, but still cool. Just as you put your first cup down, a wave of light-headedness crashes into you...
 
-[[It all goes dark...|Intro4]]</tw-passagedata><tw-passagedata pid="200" name="Intro4" tags="" position="1225,2475">Wake up, eyes are blurry. Your head feels groggy, your pulse is high and you&#39;re sweating. Your hands are tied and you&#39;re laying on the ground. You try to struggle against your bonds and \
+[[It all goes dark...|Intro4]]</tw-passagedata><tw-passagedata pid="206" name="Intro4" tags="" position="725,2600">Wake up, eyes are blurry. Your head feels groggy, your pulse is high and you&#39;re sweating. Your hands are tied and you&#39;re laying on the ground. You try to struggle against your bonds and \
 take stock of your situation, but your ears are ringing. Slowly, the world seems to come back into focus...
 
 @@color:deepPink;&quot;Ahhh... AHHH... Oh....&quot;@@
@@ -30193,7 +30239,7 @@ no longer virgin cunt, the motion and the force sending her into a screaming org
 The rest of the evening is a blur... clearly your drinks were spiked and something, it must be a drug of some sort, is controlling your actions. After all, there&#39;s no way you could possibly enjoy \
 being raped by a man!
 
-[[Pass out into the welcoming blackness...|Intro5]]</tw-passagedata><tw-passagedata pid="201" name="Intro5" tags="" position="100,2600">Some time later you wake up naked in a small cell. Your body is in pain and your smell like a sewer. You make a tentative gesture to probe your bottom and wince. You have no idea how many \
+[[Pass out into the welcoming blackness...|Intro5]]</tw-passagedata><tw-passagedata pid="207" name="Intro5" tags="" position="850,2600">Some time later you wake up naked in a small cell. Your body is in pain and your smell like a sewer. You make a tentative gesture to probe your bottom and wince. You have no idea how many \
 cocks you took up there last night (was it last night?) and you shudder when you realize the remnants are still dripping out of your open arsehole.
 
 Before long a pirate (clearly these men are pirates!) comes by to feed you. You plead for information about @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@, but he just taunts you that \
@@ -30217,7 +30263,7 @@ cell door closed.
     &lt;&lt;replace &quot;#nextPage&quot;&gt;&gt;[[Days pass...|IntroSlow1]]&lt;&lt;/replace&gt;&gt;
 &lt;&lt;/click&gt;&gt;&lt;/span&gt;
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="202" name="Intro6" tags="" position="225,2600">After what seems like ages @@color:cyan;Captain Reginald@@ and his First mate come and visit you. The first mate is a large black giant by the name of @@color:cyan;Kipler@@ and you do your best \
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="208" name="Intro6" tags="" position="975,2600">After what seems like ages @@color:cyan;Captain Reginald@@ and his First mate come and visit you. The first mate is a large black giant by the name of @@color:cyan;Kipler@@ and you do your best \
  to avoid looking at him too much, your mind recalling brief snatches of your first night on the ship and what he did to you. The Captain approaches you and you boldly take the chance to dash past him. \
  It lasts all of a second before you find yourself crashing to the floor, a crippling pain coursing through your body and an intense feeling of pressure constricting your throat.
 
@@ -30241,7 +30287,7 @@ while the two of you are both being ass raped by burly pirates.
 
 Broken, beaten and exhausted, you are literally dragged and thrown back into your cell. @@color:Pink;&lt;&lt;= $Player.GirlfriendName&gt;&gt;@@ had stopped making noises hours ago. You fear the worst.
 
-[[Succumb to the pain|Intro7]]</tw-passagedata><tw-passagedata pid="203" name="Intro7" tags="" position="350,2600">Two days later you&#39;re led from your cell to the Captain&#39;s quarters by the First Mate. Once there, he explains that you&#39;re now part of the crew, their live-in &quot;Cabin Girl&quot; and that your new name is going to be @@color:deepPink;&quot;&lt;&lt;= $Player.SlaveName&gt;&gt;&quot;@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women&#39;s clothes and you sigh internally. You shouldn&#39;t have expected anything else after the treatment you&#39;ve been given so far. Still, as embarrassing as it is, it&#39;s not as bad as being naked all the time.
+[[Succumb to the pain|Intro7]]</tw-passagedata><tw-passagedata pid="209" name="Intro7" tags="" position="1100,2600">Two days later you&#39;re led from your cell to the Captain&#39;s quarters by the First Mate. Once there, he explains that you&#39;re now part of the crew, their live-in &quot;Cabin Girl&quot; and that your new name is going to be @@color:deepPink;&quot;&lt;&lt;= $Player.SlaveName&gt;&gt;&quot;@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women&#39;s clothes and you sigh internally. You shouldn&#39;t have expected anything else after the treatment you&#39;ve been given so far. Still, as embarrassing as it is, it&#39;s not as bad as being naked all the time.
 
 Before you go, he has some final words for you.
 
@@ -30250,7 +30296,7 @@ Before you go, he has some final words for you.
 Your mouth almost hangs open at these words. To say this is surprising would be an understatement and for the first time you feel the faint embers of hope stirring in your breast. You&#39;re let free \
 from the Captain&#39;s quarters, not that there&#39;s anywhere for you to really go given your situation, anxiously thinking about what the future has in store for you.
 
-[[Be shown to your Cabin...|Cabin]]</tw-passagedata><tw-passagedata pid="204" name="IntroSlow1" tags="" position="475,2600">After what seems like ages @@color:cyan;Captain Reginald@@ and a another man, a fit gentleman with well-styled hair and a close-trimmed moustache and goatee, come to visit. The Captain approaches and you shrink back, huddling against the wall and curling your legs up to your chest.
+[[Be shown to your Cabin...|Cabin]]</tw-passagedata><tw-passagedata pid="210" name="IntroSlow1" tags="" position="1225,2600">After what seems like ages @@color:cyan;Captain Reginald@@ and a another man, a fit gentleman with well-styled hair and a close-trimmed moustache and goatee, come to visit. The Captain approaches and you shrink back, huddling against the wall and curling your legs up to your chest.
 
 @@color:cyan;&quot;Oh, but she&#39;s a bashful lass, ain&#39;t she Mister Conroy!&quot;@@ the Captain says, laughing heartily. @@color:cyan;&quot;But don&#39;t ye let her kittenish ways deceive you, man. This filly made a right big sticky mess all her own when me men claimed her ruddy rosebud!&quot;@@
 
@@ -30274,7 +30320,7 @@ The Captain laughs as the lusty squeals from @@color:Pink;&lt;&lt;= $Player.Girl
 
 &quot;Let us get acquainted.&quot; Conroy sits cross-legged on the floor in front of you, mindless of the dust and grime that will surely spoil his fine trousers. &quot;My name is Conroy. It&#39;s a pleasure to meet you, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@.&quot;
 
-[[But that&#39;s not your name...|IntroSlow2]]</tw-passagedata><tw-passagedata pid="205" name="IntroSlow2" tags="" position="600,2600">&quot;That&#39;s not my name,&quot; you say.
+[[But that&#39;s not your name...|IntroSlow2]]</tw-passagedata><tw-passagedata pid="211" name="IntroSlow2" tags="" position="100,2725">&quot;That&#39;s not my name,&quot; you say.
 
 He smiles, showing off neat white teeth. &quot;It is. You simply did not know it until now. That&#39;s the way life is sometimes, you see?&quot; He puts his palms up and shrugs. &quot;You&#39;ve learned a lot of exciting things about yourself these past few days, I&#39;d wager. Perhaps the most interesting of which is that you&#39;re truly a girl.&quot;
 
@@ -30309,7 +30355,7 @@ He sighs. &quot;That&#39;s what makes a man, is it? I think not. What parts we h
 &lt;&lt;/click&gt;&gt;
 &lt;/span&gt;
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="206" name="IntroSlow3" tags="" position="725,2600">Conroy sets the bucket beside him and rolls out a mat on the floor. He beckons you to come closer to him.
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="212" name="IntroSlow3" tags="" position="225,2725">Conroy sets the bucket beside him and rolls out a mat on the floor. He beckons you to come closer to him.
 
 &quot;Come now, sweet little miss,&quot; he calls, bending over and holding out his hands to you. &quot;Please humor me a moment. I promise to be a gentleman.&quot;
 
@@ -30325,7 +30371,7 @@ Conroy slowly steps toward you and then kneels down. He places his arm around yo
 
 &quot;Let yourself cry, little lovebird,&quot; he says, stroking his fingers through your hair. &quot;It&#39;s only natural that someone as sweet as you would ache so strongly for unrequited love.&quot;
 
-[[Cry yourself out...|IntroSlow4]]</tw-passagedata><tw-passagedata pid="207" name="IntroSlow4" tags="" position="850,2600">You&#39;re not certain how long you cried for, but you come to the slow realization that Conroy is washing the filth from your body with water from the bucket and a soft sponge. The water has the faint odor of roses and prickles pleasantly on your skin. He seems careless of the fact that his gentlemanly attire is soaked and begrimed from bathing you.
+[[Cry yourself out...|IntroSlow4]]</tw-passagedata><tw-passagedata pid="213" name="IntroSlow4" tags="" position="350,2725">You&#39;re not certain how long you cried for, but you come to the slow realization that Conroy is washing the filth from your body with water from the bucket and a soft sponge. The water has the faint odor of roses and prickles pleasantly on your skin. He seems careless of the fact that his gentlemanly attire is soaked and begrimed from bathing you.
 
 He sits in front of you and takes your hand. Delicately, he brushes under your fingernails to clear them of dirt. He does the same with your other hand and, surprisingly, with each your feet as well. Never having experienced being treated in such a manner, you allow him to attend to you while you sit silently in a mild sort of shock.
 
@@ -30339,7 +30385,7 @@ You cover yourself with your hands as he moves to kneel beside you. With both yo
 
 &quot;Don&#39;t fret, sweetheart,&quot; he coos, &quot;I am only cleaning up the mess those mannerless men left behind. I&#39;m afraid some of us are like that, @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@, so you&#39;ll have to ensure to take care of this sort of thing yourself in the future.&quot;
 
-[[Let him wash your backside.|IntroSlow5]]</tw-passagedata><tw-passagedata pid="208" name="IntroSlow5" tags="" position="975,2600">Finally, Conroy turns you over and helps you sit up with a gentle hand behind your back. Your hands still cover your rigid cock, the stiffness of which has shown no sign of abating.
+[[Let him wash your backside.|IntroSlow5]]</tw-passagedata><tw-passagedata pid="214" name="IntroSlow5" tags="" position="475,2725">Finally, Conroy turns you over and helps you sit up with a gentle hand behind your back. Your hands still cover your rigid cock, the stiffness of which has shown no sign of abating.
 
 He sits in front of you cross-legged and grasps under your knees to pull you close to him. Your legs rest over his now and his face is mere inches from your own.
 
@@ -30359,7 +30405,7 @@ Your leg jerks involuntarily and you stifle a moan as your orgasm quickly approa
 
 His hand expertly slips and twists over your shaft and his thumb tenderly caresses your engorged cockhead. You clamp your eyes shut, groan as the orgasm overwhelms you, and release yourself into his fondling hand.
 
-[[Open your eyes.|IntroSlow6]]</tw-passagedata><tw-passagedata pid="209" name="IntroSlow6" tags="" position="1100,2600">When you open your eyes, you see him still smiling. He brings his hand up and looks at the glistening cum painted across his palm and fingers. Then he brings his index finger up to your mouth, a fat gooey globule of your milky semen puddled on the tip.
+[[Open your eyes.|IntroSlow6]]</tw-passagedata><tw-passagedata pid="215" name="IntroSlow6" tags="" position="600,2725">When you open your eyes, you see him still smiling. He brings his hand up and looks at the glistening cum painted across his palm and fingers. Then he brings his index finger up to your mouth, a fat gooey globule of your milky semen puddled on the tip.
 
 &quot;Open,&quot; he requests with just the smallest hint of command in his tone.
 
@@ -30376,7 +30422,7 @@ His hand expertly slips and twists over your shaft and his thumb tenderly caress
 &lt;&lt;/click&gt;&gt;
 &lt;/span&gt;
 
-&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="210" name="IntroSlow7" tags="" position="1225,2600">Conroy releases your chin but continues to stare into your eyes and you, rather mesmerized, stare back into his eyes. You feel his hands on your genitals and then hear the strain of leather and the clink of metal. When you look down, you see that he&#39;s locked your cock and balls snugly into a cramped and somewhat uncomfortable confinement device. You realize that it&#39;ll be impossible to get a proper erection with this thing on!
+&lt;span id=&quot;nextPage&quot;&gt;@@color:cyan;Select an activity to continue@@&lt;/span&gt;</tw-passagedata><tw-passagedata pid="216" name="IntroSlow7" tags="" position="725,2725">Conroy releases your chin but continues to stare into your eyes and you, rather mesmerized, stare back into his eyes. You feel his hands on your genitals and then hear the strain of leather and the clink of metal. When you look down, you see that he&#39;s locked your cock and balls snugly into a cramped and somewhat uncomfortable confinement device. You realize that it&#39;ll be impossible to get a proper erection with this thing on!
 
 &quot;I hope you&#39;ve taken my words to heart, sweet little miss. I do truly hope I&#39;ve helped you realize your amazing potential. I implore you to embrace your womanhood and therefore end this somber misery you&#39;ve so harshly endured for all of your tender young life. It pains me greatly to see such a beautiful young woman suffer so cruelly.&quot; He sighs and gazes deep into your eyes with tears swelling in his own. &quot;Please, I beg you to let go of these silly social precepts that are robbing you of any true joy and comfort and be yourself -- for here upon this ship, if anywhere, you have the grand opportunity to do so.&quot; He leans forward and gives you a soft kiss. &quot;You are, most truly, a fine and lovely lass. And if no one should see that truth but me -- not even you, as heartbreaking as that would be -- then I will cry to the angels and shake the very heavens for the god-damned injustice of it.&quot;
 
@@ -30387,7 +30433,7 @@ He steps forward and you lean back. His cock isn&#39;t much bigger than your own
 &quot;Generous and gentle @@color:deepPink;&lt;&lt;= $Player.SlaveName&gt;&gt;@@,&quot; he says with a sad pout, &quot;surely you will do me the kind consideration of relieving me of this burdensome arousal?&quot; He inches the trembling erection closer to your mouth. &quot;If I might implore those luscious lips to open and accept me, I will one day die a most grateful and fulfilled man, once shown compassion and perhaps even some sweet smidgen of love -- if but only fleeting -- by such a kindhearted and pretty lass as yourself.&quot;
 
 [[Open your mouth.|IntroSlow8yes]]
-[[Shake your head.|IntroSlow8no]]</tw-passagedata><tw-passagedata pid="211" name="IntroSlow8yes" tags="" position="100,2725">&lt;&lt;run $Player.AdjustStat(&quot;Perversion&quot;, 5);&gt;&gt;
+[[Shake your head.|IntroSlow8no]]</tw-passagedata><tw-passagedata pid="217" name="IntroSlow8yes" tags="" position="850,2725">&lt;&lt;run $Player.AdjustStat(&quot;Perversion&quot;, 5);&gt;&gt;
 &lt;&lt;run $Player.AdjustStat(&quot;WillPower&quot;, -3);&gt;&gt;
 You stare in his eyes as you let your lips part. He smiles and strokes your hair. The tip of his trembling prick slides to rests upon your bottom lip, gently nudging against your top lip. He closes his eyes as you open your mouth wide and use your tongue to lure his cockhead inside.
 
@@ -30431,7 +30477,7 @@ You turn, wide-eyed, to see the Captain standing at the cell entrance with his h
 
 The captain grins at you and gestures to your throat.
 
-[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="212" name="IntroSlow8no" tags="" position="225,2725">You slowly shake your head no.
+[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="218" name="IntroSlow8no" tags="" position="975,2725">You slowly shake your head no.
 
 Conroy&#39;s shoulders slump and he lets out a long sigh.
 
@@ -30444,7 +30490,7 @@ He kneels down in front of you, grinning, and pulls a vial of clear liquid from 
 You realize he&#39;s gotten the impression that you want to get fucked.
 
 [[Lie back and accept it.|IntroSlow8noyes]]
-[[Shake your head &quot;no&quot; more vigorously.|IntroSlow8nono]]</tw-passagedata><tw-passagedata pid="213" name="IntroSlow8noyes" tags="" position="350,2725">&lt;&lt;run $Player.AdjustStat(&quot;Perversion&quot;, 5);&gt;&gt;
+[[Shake your head &quot;no&quot; more vigorously.|IntroSlow8nono]]</tw-passagedata><tw-passagedata pid="219" name="IntroSlow8noyes" tags="" position="1100,2725">&lt;&lt;run $Player.AdjustStat(&quot;Perversion&quot;, 5);&gt;&gt;
 &lt;&lt;run $Player.AdjustStat(&quot;WillPower&quot;, -3);&gt;&gt;
 You lie back and watch Conroy as he pours some of the clear liquid onto his index and middle finger. Then he lowers his hand between your legs and you feel him press the tips of his fingers right into your asshole.
 
@@ -30492,7 +30538,7 @@ You sit up and turn, wide-eyed, to see the Captain standing at the cell entrance
 
 The captain grins at you and gestures to your throat.
 
-[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="214" name="IntroSlow8nono" tags="" position="475,2725">You shake your head no more vigorously.
+[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="220" name="IntroSlow8nono" tags="" position="1225,2725">You shake your head no more vigorously.
 
 Conroy tilts his head and then abruptly frowns.
 
@@ -30522,7 +30568,7 @@ After one last smile over his shoulder for you, Conroy walks out of the cell and
 
 The captain grins at you and gestures to your throat.
 
-[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="215" name="IntroSlow9" tags="" position="600,2725">Your hands go up to your throat to find a collar around your neck (When did that get there? Was it here all along?).
+[[Check what he&#39;s indicating.|IntroSlow9]]</tw-passagedata><tw-passagedata pid="221" name="IntroSlow9" tags="" position="100,2850">Your hands go up to your throat to find a collar around your neck (When did that get there? Was it here all along?).
 
 @@color:cyan;&quot;So long as you have that on my little strumpet, you&#39;re not going anywhere that I don&#39;t allow. And don&#39;t you be thinking to strike out at me either, because the moment you do that voodoo curse will take yer head clean off.&quot;@@
 
@@ -30534,7 +30580,7 @@ The captain turns and starts out of the cell. @@color:cyan;&quot;Be back fer ya 
 
 He chuckles and leaves the cell, locking it behind him.
 
-[[Lie down and wait.|IntroSlow10]]</tw-passagedata><tw-passagedata pid="216" name="IntroSlow10" tags="" position="725,2725">Two days later you&#39;re led from your cell to the Captain&#39;s quarters by the First Mate. Once there, he officiously explains that you&#39;re now part of the Salty Mermaid crew, as their live-in &quot;Cabin Girl&quot; of course, and that you&#39;d best get used to your name, @@color:deepPink;&quot;&lt;&lt;= $Player.SlaveName&gt;&gt;&quot;@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women&#39;s clothes and you sigh internally. You shouldn&#39;t have expected anything else after the treatment you&#39;ve been given so far. Still, as embarrassing as it is, it&#39;s not as bad as being naked all the time.
+[[Lie down and wait.|IntroSlow10]]</tw-passagedata><tw-passagedata pid="222" name="IntroSlow10" tags="" position="225,2850">Two days later you&#39;re led from your cell to the Captain&#39;s quarters by the First Mate. Once there, he officiously explains that you&#39;re now part of the Salty Mermaid crew, as their live-in &quot;Cabin Girl&quot; of course, and that you&#39;d best get used to your name, @@color:deepPink;&quot;&lt;&lt;= $Player.SlaveName&gt;&gt;&quot;@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women&#39;s clothes and you sigh internally. You shouldn&#39;t have expected anything else after the treatment you&#39;ve been given so far. Still, as embarrassing as it is, it&#39;s not as bad as being naked all the time.
 
 Before you go, he has some final words for you.
 
