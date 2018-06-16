@@ -113,3 +113,13 @@ App.Data.NPCS["Shilling"] = {
     "Title": "NPC_NAME, The Dancing Master",
     "LongDesc": "A graceful man of mature age, his slender frame is the very model of vigor and health. His ordinary, buff-colored coat is coordinated with a simple set of waistcoat, breeches, and stockings, though his supple leather shoes are of the highest quality. He moves with confidence and agility, as suits an expert in the art of dancing."
 };
+
+App.Data.NPCS["Fineas Quincy"] = {
+    "Name": "Fineas Quincy",
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME, Apothecary",
+    "LongDesc": "An experienced practitioner of physick, he plies his trade with a studied confidence. He is dressed in a first-rate white periwig, a long, black robe, and a broad, white falling band covering his throat and shoulders. Their combined effect creates a dignified, learned appearance."
+};

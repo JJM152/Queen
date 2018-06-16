@@ -1,0 +1,9 @@
+:: GI_Apothecary
+The interior of this shop is lined from checkered tile floor to coffered ceiling with oaken shelves, drawers and cabinets. These contain \
+jars, pots, flasks and all manner of other vessels by the hundreds, each labeled in a meticulous hand. The butcher's block counter is crowded \
+with scales, weights, scoops and measures. At its end, a desk holds hand-pressed stationery, a quill and ink, envelope and packet papers, \
+sealing wax and the apothecary's official seal.
+
+<<NPC "Fineas Quincy">>
+
+@@color:lime;Travel@@: [[The Bazaar|Bazaar]]
