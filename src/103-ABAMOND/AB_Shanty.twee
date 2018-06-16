@@ -1,0 +1,8 @@
+:: AB_Shanty
+The stark contrast of deep shadows and warm lantern light fills this crowded shanty, whose every inch seems to be full of hanging \
+charms, mystical artifacts and other oddities beyond description. Elaborate, hand-drawn symbols of mysterious purpose fill parts of \
+the floor and walls. A wooden floor screen carves out a narrow living space from the rest, while a small pot stove heats an iron kettle in the opposite corner.
+
+<<NPC "Papa Baba">>
+
+@@color:lime;Travel@@: [[Mysterious Landing|AB_MysteriousLanding]]

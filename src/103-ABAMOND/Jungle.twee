@@ -1,5 +1,7 @@
 :: Jungle
-The jungles of Abamond are dark, luscious, and imposing. All around you the sounds and scents of the untamed wilderness seem to flow over your senses. Off in the distance you can make out the path back to the @@color:gold;'Lonely Pier'@@ and the dark jungle looms ahead.
+The jungles of Abamond are dark, luscious, and imposing. All around you the sounds and scents of the untamed wilderness seem to flow over your senses. \
+Off in the distance you can make out the path back to the @@color:gold;'Lonely Pier'@@. The jungle foliage is thick and all around you, but the trail \
+still continues towards the northern marshlands, evocatively named the @@color:gold;'Black Swamp'@@.
 
 <<set _JE = window.App.JobEngine; >>\
 <<if (_JE.HasJobFlag($Player, "RUINS_FOUND") == false || _JE.HasJobFlag($Player, "COVE_FOUND") == false) && $Player.IsEquipped("worn machete")>>\
@@ -7,6 +9,6 @@ With the @@color:purple;worn machete@@ in your hands, you might be able to hack 
 
 <<jobLinks "JUNGLE" 1>>
 <</if>>\
-@@color:lime;Travel@@: [[Lonely Pier|Abamond]] \
+@@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[The Black Swamp|AB_BlackSwamp]] \
 <<if _JE.HasJobFlag($Player, "COVE_FOUND")>>| [[Hidden Cove|HiddenCove]] <</if>>\
 <<if _JE.HasJobFlag($Player, "RUINS_FOUND")>>| [[Into the Ruins|Ruins]]<</if>>

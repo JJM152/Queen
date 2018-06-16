@@ -3,4 +3,10 @@ Twisting among the orphaned spaces between the backs and sides of buildings, thi
 street. Its isolation has attracted a bootleg market of makeshift tents, hand carts and the odd back room business. Here, the smells \
 of roasting meats, spilled rum, baked goods and other offerings intermingle with the bilge-salt odor of the nearby harbor.
 
+<<NPC "Emily">>
+
+<<NPC "Bradshaw">>
+
+<<NPC "Amos">>
+
 @@color:lime;Travel@@: [[Entrance|PR_BackAlley]] | [[Long's Public House|PR_PublicHouse]] | [[Darkened Alleyway|PR_DarkAlley]]

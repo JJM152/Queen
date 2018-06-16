@@ -5,6 +5,8 @@ Between the tapestry, paintings of reclining nudes and romantic scenes hang from
 and couches with distressed gilding make for a kind of shabby luxury, and rose water perfume helps disguise the underlying dinginess. Despite \
 its flaws, the room holds an inexplicable seduction. Off to its side, drapery parts around a door leading into a candle-lit @@color:gold;'back room.'@@
 
+<<NPC "Solenn">>
+
 @@color:lime;Travel@@: [[Darkened Alleyway|PR_DarkAlley]] | [[Back Room|PR_LevantBackRoom]]\
 <<else>>\
 Where once you found an inviting, sensual salon, now lies a dim, musty ruination. Tattered shreds of cloth have replaced the \
