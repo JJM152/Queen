@@ -32,12 +32,6 @@ App.Data.Clothes["bonnet"] = {
     "WearEffect": [ "FEMININE_CLOTHING" ]
 };
 
-App.Data.Clothes["cat ears"] = {
-    "Name": "cat ears", "ShortDesc": "a pair of fluffy {COLOR} cat ears",
-    "LongDesc": "These large furry cat ears are attached by a headband to be worn.",
-    "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY"
-};
-
 // NECK SLOT
 App.Data.Clothes["choker"] = {
     "Name": "choker", "ShortDesc": "a {COLOR} silk choker",

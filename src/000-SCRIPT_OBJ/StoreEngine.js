@@ -137,23 +137,29 @@ var Store = function(Player, NPC, StoreData) {
 
             for (var i = 0; i < items; i++) {
                 var roll = (1 + (Math.floor(Math.random() * 100)));
+                var keys = { };
                 var entry = { };
+                var qty = 0;
+
                 if (roll < 20 ) {  // cosmetics
-                    entry = Object.keys(App.Data.Cosmetics)[(Math.floor(Math.random() * Object.keys(App.Data.Cosmetics).length))];
+                    keys = $.grep(Object.keys(App.Data.Cosmetics), function(c) {  return ( 'InMarket' in App.Data.Cosmetics[c] ? App.Data.Cosmetics[c]["InMarket"] : true ); });
+                    entry = App.PR.GetRandomListItem(keys);
                     this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
                         {"CATEGORY":   "COMMON", "TYPE": "COSMETICS", "QTY":   12, "MAX":   12, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
                 }
 
                 if (roll >= 20 && roll < 60 ) { // food
-                    entry = Object.keys(App.Data.Food)[(Math.floor(Math.random() * Object.keys(App.Data.Food).length))];
-                    var qty = (1 + (Math.floor(Math.random() * 4)));
+                    keys = $.grep(Object.keys(App.Data.Food), function(c) {  return ( 'InMarket' in App.Data.Food[c] ? App.Data.Food[c]["InMarket"] : true ); });
+                    entry = App.PR.GetRandomListItem(keys);
+                    qty = (1 + (Math.floor(Math.random() * 4)));
                     this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
                         {"CATEGORY":   "COMMON", "TYPE": "FOOD", "QTY":   qty, "MAX":   qty, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
                 }
 
                 if (roll >= 60 && roll < 80) { // drugs
-                    entry = Object.keys(App.Data.Drugs)[(Math.floor(Math.random() * Object.keys(App.Data.Drugs).length))];
-                    var qty = (1 + (Math.floor(Math.random() * 4)));
+                    keys = $.grep(Object.keys(App.Data.Drugs), function(c) {  return ( 'InMarket' in App.Data.Drugs[c] ? App.Data.Drugs[c]["InMarket"] : true ); });
+                    entry = App.PR.GetRandomListItem(keys);
+                    qty = (1 + (Math.floor(Math.random() * 4)));
                     this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
                         {"CATEGORY":   "COMMON", "TYPE": "DRUGS", "QTY":   qty, "MAX":   qty, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
                 }
@@ -162,13 +168,13 @@ var Store = function(Player, NPC, StoreData) {
 
                     // if roll == 95 then include legendary items
                     if (roll == 95 ) {
-                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) {  return ( 'InMarket' in App.Data.Clothes[c] ? App.Data.Clothes[c]["InMarket"] : true ); });
+                        keys = $.grep(Object.keys(App.Data.Clothes), function(c) {  return ( 'InMarket' in App.Data.Clothes[c] ? App.Data.Clothes[c]["InMarket"] : true ); });
                     } else {
-                        var keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( 'InMarket' in App.Data.Clothes[c] ? App.Data.Clothes[c]["InMarket"] : true ) && App.Data.Clothes[c]["Style"] != "LEGENDARY"; });
+                        keys = $.grep(Object.keys(App.Data.Clothes), function(c) { return ( 'InMarket' in App.Data.Clothes[c] ? App.Data.Clothes[c]["InMarket"] : true ) && App.Data.Clothes[c]["Style"] != "LEGENDARY"; });
                     }
 
                     if (keys && keys.length > 0 ) {
-                        var entry = keys[(Math.floor(Math.random() * keys.length))];
+                         entry = keys[(Math.floor(Math.random() * keys.length))];
                         if (App.Data.Clothes[entry]["Style"] == "LEGENDARY") {
                             this._Player.StoreInventory[this._Data["ID"]]["RARE"].push(
                                 {

@@ -18,6 +18,13 @@ App.Data.Clothes["cow headband"] = { // +9
     "WearEffect":[ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
 
+App.Data.Clothes["cat ears"] = {
+    "Name": "cat ears", "ShortDesc": "a pair of fluffy {COLOR} cat ears",
+    "LongDesc": "These large furry cat ears are attached by a headband to be worn.",
+    "Slot": "Hat", "Restrict": ["Hat"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",
+    "Category" : [ "Pet Girl" ]
+};
+
 // NECK SLOT
 App.Data.Clothes["cow collar"] = { // +9
     "Name": "cow collar", "ShortDesc": " a cute gold cowbell and collar",
