@@ -11,6 +11,7 @@ App.Rogue.Engine = new function() {
     this._level = null;
     this._display = null;
     this._textBuffer = null;
+    this._sideBar = null;
     this._element = null;
 
     this.LoadScene = function(Player, Element) {
@@ -18,8 +19,9 @@ App.Rogue.Engine = new function() {
         this._player = new App.Rogue.Player(Player);
         this._scheduler = new ROT.Scheduler.Speed();
         this._engine = new ROT.Engine(this._scheduler);
-        this._display = new ROT.Display( {width: 80, height:40, fontSize:12} );
+        this._display = new ROT.Display( {width: 100, height:40, fontSize:12} );
         this._textBuffer = new App.Rogue.TextBuffer(this._display);
+        this._sideBar = new App.Rogue.Sidebar(this._display);
         this._player = new App.Rogue.Player();
 
         var level =  this._genLevel();
@@ -61,12 +63,24 @@ App.Rogue.Engine = new function() {
         var size = this._level.getSize();
 
         var bufferSize = 3;
-        this._display.setOptions({width:size.x, height:size.y + bufferSize});
+        this._display.setOptions({width:size.x+20, height:size.y + bufferSize});
+        //Side status panel
+
+        this._sideBar.configure({
+           display: this._display,
+            position: new App.Rogue.XY(0, 0),
+            size: new App.Rogue.XY(20, size.y + bufferSize)
+        });
+
+        this._sideBar.clear();
+
+        //Bottom chat window
         this._textBuffer.configure({
             display: this._display,
             position: new App.Rogue.XY(0, size.y),
             size: new App.Rogue.XY(size.x, bufferSize)
         });
+
         this._textBuffer.clear();
 
         var xy = new App.Rogue.XY();
@@ -97,6 +111,7 @@ App.Rogue.Engine = new function() {
         }
 
         // Draw borders.
+
         cells = this._level.getBorders();
         for (key in cells)
         {
