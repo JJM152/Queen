@@ -184,7 +184,8 @@ App.Data.NPCS["Emily"] = {
     "Lust": 40,
     "DailyLust": 10,
     "Title": "NPC_NAME, Food Vendor",
-    "LongDesc": "Thickset and quick-tempered, she channels her obvious disdain for the world into thrusting the sausages, loaves and other hand foods she sells into the fires of her portable clay oven. A large, waxed canvas apron protects her plain dress and petticoats from stray embers and spills, and a leather tricorne shades her head. Meanwhile, her barbed-but-quick-witted tongue capably defends the rest of her."
+    "LongDesc": "Thickset and quick-tempered, she channels her obvious disdain for the world into thrusting the sausages, loaves and other hand foods she sells into the fires of her portable clay oven. A large, waxed canvas apron protects her plain dress and petticoats from stray embers and spills, and a leather tricorne shades her head. Meanwhile, her barbed-but-quick-witted tongue capably defends the rest of her.",
+    "Store" : "Emily"
 };
 
 App.Data.NPCS["Bradshaw"] = {
@@ -194,7 +195,8 @@ App.Data.NPCS["Bradshaw"] = {
     "Lust": 40,
     "DailyLust": 10,
     "Title": "NPC_NAME, Booze Trader",
-    "LongDesc": "A hirsute, barrel-chested man in sailors' slops with scars of battle on every extremity sits upon a stool before you. In a raucous voice, he hawks the bottled contents of several elicit crates. Contrary to his puzzling nickname, both of his eyes are fully intact. However, he has a wooden peg leg in place of one calf, a makeshift brace on the opposite knee, a hook instead of one hand, and two missing fingers on the other. He wears a Monmouth cap tilted low to one side, helping him cast a salty look at anyone who stares too long."
+    "LongDesc": "A hirsute, barrel-chested man in sailors' slops with scars of battle on every extremity sits upon a stool before you. In a raucous voice, he hawks the bottled contents of several elicit crates. Contrary to his puzzling nickname, both of his eyes are fully intact. However, he has a wooden peg leg in place of one calf, a makeshift brace on the opposite knee, a hook instead of one hand, and two missing fingers on the other. He wears a Monmouth cap tilted low to one side, helping him cast a salty look at anyone who stares too long.",
+    "Store" : "Bradshaw"
 };
 
 App.Data.NPCS["Amos"] = {
@@ -216,7 +218,8 @@ App.Data.NPCS["Barnaby Long"] = {
     "Lust": 40,
     "DailyLust": 10,
     "Title": "NPC_NAME, Public House Owner",
-    "LongDesc": "Paunchy but supremely good-natured, he moves around his house in stride, happily catering to the perpetual influx of guests. Here he mixes and serves a sought-after drink, there he turns the roast and stirs the kettle. While his home and attire may be humble, his obliging manners and cheerful bearing are fit for royalty."
+    "LongDesc": "Paunchy but supremely good-natured, he moves around his house in stride, happily catering to the perpetual influx of guests. Here he mixes and serves a sought-after drink, there he turns the roast and stirs the kettle. While his home and attire may be humble, his obliging manners and cheerful bearing are fit for royalty.",
+    "Store" : "BarnabyLong"
 };
 
 App.Data.NPCS["Meghan Long"] = {
@@ -226,7 +229,8 @@ App.Data.NPCS["Meghan Long"] = {
     "Lust": 40,
     "DailyLust": 10,
     "Title": "NPC_NAME, Public House Matron",
-    "LongDesc": "A statuesque woman with an endearing presence, she chops, cooks, cleans and entertains for the public house to its great success. Her homespun clothing needs no fancy additions to improve her simple but abundant charm - a few moments' study makes plain she is the beating heart of this venture."
+    "LongDesc": "A statuesque woman with an endearing presence, she chops, cooks, cleans and entertains for the public house to its great success. Her homespun clothing needs no fancy additions to improve her simple but abundant charm - a few moments' study makes plain she is the beating heart of this venture.",
+    "Store" : "MeghanLong"
 };
 
 // Levant
@@ -240,12 +244,13 @@ App.Data.NPCS["Solenn"] = {
     "LongDesc": "The madam of the house is a mature woman who looks far younger than her years, with china-white skin, olive black hair, piercing silvery-blue eyes and lips painted in deep garnet. Her gown is elegant and made from splendid materials, but unbustled and cut to reveal her body far beyond the toleration of polite society. Having laid eyes on her, it becomes strangely difficult to look away or think of other things. A slight smile from her suggests she is aware of having the effect."
 };
 
-App.Data.NPCS["Isabela Ioveanu"] = {
-    "Name": "Isabela Ioveanu",
+App.Data.NPCS["Isabella Ioveanu"] = {
+    "Name": "Isabella Ioveanu",
     "Mood": 40,
     "DailyMood": 0,
     "Lust": 40,
     "DailyLust": 10,
     "Title": "NPC_NAME, Diviner",
-    "LongDesc": "Though she seems much junior in age to her mistress, this young woman carries herself with equal poise. Beyond sharing a scandalous taste in dress, other similarities exist: the same midnight black hair, snowy pale complexion and identical, striking blue irises. Though her wide-set eyes and high cheekbones should place her heritage far more east in the continent than her madam's, there remains an uncanny resemblance between the two."
+    "LongDesc": "Though she seems much junior in age to her mistress, this young woman carries herself with equal poise. Beyond sharing a scandalous taste in dress, other similarities exist: the same midnight black hair, snowy pale complexion and identical, striking blue irises. Though her wide-set eyes and high cheekbones should place her heritage far more east in the continent than her madam's, there remains an uncanny resemblance between the two.",
+    "Store" : "Isabella"
 };

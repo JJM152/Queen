@@ -292,28 +292,28 @@ App.Data.EffectLib["FITNESS_XP_COMMON"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Item.Consumable} o*/
     function(o,p) { p.AdjustStatXP('Fitness', 25); },
-    "VALUE" : 10, "KNOWLEDGE" : [ "Fitness Up+" ]
+    "VALUE" : 100, "KNOWLEDGE" : [ "Fitness Up+" ]
 };
 
 App.Data.EffectLib["FITNESS_XP_UNCOMMON"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Item.Consumable} o*/
     function(o,p) { p.AdjustStatXP('Fitness', 50); },
-    "VALUE" : 20, "KNOWLEDGE" : [ "Fitness Up++" ]
+    "VALUE" : 200, "KNOWLEDGE" : [ "Fitness Up++" ]
 };
 
 App.Data.EffectLib["FITNESS_XP_RARE"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Item.Consumable} o*/
     function(o,p) { p.AdjustStatXP('Fitness', 100); },
-    "VALUE" : 50, "KNOWLEDGE" : [ "Fitness Up+++" ]
+    "VALUE" : 300, "KNOWLEDGE" : [ "Fitness Up+++" ]
 };
 
 App.Data.EffectLib["FITNESS_XP_LEGENDARY"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Item.Consumable} o*/
     function(o,p) { p.AdjustStatXP('Fitness', 200); },
-    "VALUE" : 100, "KNOWLEDGE" : [ "Fitness Up++++" ]
+    "VALUE" : 400, "KNOWLEDGE" : [ "Fitness Up++++" ]
 };
 
 /** HORMONES */

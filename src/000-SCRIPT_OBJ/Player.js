@@ -118,7 +118,13 @@ App.Entity.Player = function (){
             "SAUCY_SLATTERN":   { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "YVONNE_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "MARKET_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "BAZAAR_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
+            "BAZAAR_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "Emily":            { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "Bradshaw":         { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "BarnabyLong":      { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "MeghanLong":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "Isabella":         { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "Fineas":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
         };
     };
 

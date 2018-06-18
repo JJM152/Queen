@@ -121,5 +121,6 @@ App.Data.NPCS["Fineas Quincy"] = {
     "Lust": 40,
     "DailyLust": 10,
     "Title": "NPC_NAME, Apothecary",
-    "LongDesc": "An experienced practitioner of physick, he plies his trade with a studied confidence. He is dressed in a first-rate white periwig, a long, black robe, and a broad, white falling band covering his throat and shoulders. Their combined effect creates a dignified, learned appearance."
+    "LongDesc": "An experienced practitioner of physick, he plies his trade with a studied confidence. He is dressed in a first-rate white periwig, a long, black robe, and a broad, white falling band covering his throat and shoulders. Their combined effect creates a dignified, learned appearance.",
+    "Store" : "Fineas"
 };
