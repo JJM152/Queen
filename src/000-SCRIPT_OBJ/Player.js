@@ -425,14 +425,14 @@ App.Entity.Player = function (){
      * Simple routine to check if the player can reapply their style.
      * @returns {boolean}
      */
-    this.CanReStyle = function(){
-
+    this.CanReStyle = function()
+    {
         if(this.CoreStats["Energy"] < 1) return false;
         if (this.LastUsedMakeup == this.MakeupStyle) return false;
         var m1 = (typeof this.GetItemByName('basic makeup') !== 'undefined') ? this.GetItemByName('basic makeup').Charges() : 0;
         var m2 = (typeof this.GetItemByName('expensive makeup') !== 'undefined') ? this.GetItemByName('expensive makeup').Charges() : 0;
-        var h1 = (typeof this.GetItemByName('haircare accessories') !== 'undefined') ? this.GetItemByName('haircare accessories').Charges() : 0;
-        var h2 = (typeof this.GetItemByName('haircare supplies') !== 'undefined') ? this.GetItemByName('haircare supplies').Charges() : 0;
+        var h1 = (typeof this.GetItemByName('hair accessories') !== 'undefined') ? this.GetItemByName('hair accessories').Charges() : 0;
+        var h2 = (typeof this.GetItemByName('hair products') !== 'undefined') ? this.GetItemByName('hair products').Charges() : 0;
         var lm = this.LastUsedMakeup;
         var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0];
         if ( (m1 < Makeup["RESOURCE1"]) || (m2 < Makeup["RESOURCE2"])) return false;
