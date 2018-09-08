@@ -2,6 +2,18 @@ App = App || { Data: { }, Entity: { } };
 
 App.PR = new function() {
 
+	/** Shortcut
+	 */
+	this.lengthString = function(x, compact) {
+		return App.unitSystem.lengthString(x, compact);
+	}
+
+	/** Shortcut
+	 */
+	this.lengthValue = function(x) {
+		return App.unitSystem.lengthValue(x);
+	}
+
     /**
      * Fetch a rating for a statistic/value
      * @param Type
@@ -59,7 +71,8 @@ App.PR = new function() {
         String = String.replace(/pHIPS/g, this.pHips(Player, 1));
         String = String.replace(/pHORMONES/g, this.pHormones(Player, 1));
         String = String.replace(/ADJECTIVE/g, this.GetAdjective(Type, Stat, Player.GetStat(Type, Stat)));
-        String = String.replace(/INCHES/g, this.CMtoINCH(this.StatToCM(Player,Stat)).toString());
+        String = String.replace(/LENGTH_C/g, this.lengthString(this.StatToCM(Player,Stat), true).toString());
+        String = String.replace(/LENGTH/g, this.lengthString(this.StatToCM(Player,Stat), false).toString());
 
         return String;
     };
@@ -502,10 +515,7 @@ App.PR = new function() {
      */
         this.pHeight = function (Player) {
             var pHeight = this.StatToCM(Player, "Height");
-            var realFeet = (this.CMtoINCH(pHeight) / 12);
-            var feet = Math.floor(realFeet);
-            var inches = Math.round((realFeet - feet) * 12);
-            return feet + "&prime;" + inches + "&Prime; tall";
+            return this.lengthString(pHeight, true) + " tall";
         };
 
     this.pFetish = function (Player) {
@@ -682,11 +692,11 @@ App.PR = new function() {
             var Wig = Player.Equipment["Wig"];
             if (Wig!= 0)
                 return "You are wearing a wig to hide your natural hair. It is " +Wig.HairColor()+ " and " +
-                    this.CMtoINCH(Wig.HairLength()) + " inches long, styled in " +
+                    this.lengthString(Wig.HairLength()) + " long, styled in " +
                     this.ColorizeString(Wig.HairBonus(), Wig.HairStyle()) + ".";
 
-                return "Your hair is " + Player.HairColor + " and " + this.CMtoINCH(this.StatToCM(Player,"Hair")) +
-                    " inches long, styled in " + this.ColorizeString(Player.HairRating(), Player.HairStyle) +".";
+                return "Your hair is " + Player.HairColor + " and " + this.lengthString(this.StatToCM(Player,"Hair"), false) +
+                    " long, styled in " + this.ColorizeString(Player.HairRating(), Player.HairStyle) +".";
         };
 
     /**
