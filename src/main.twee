@@ -28,6 +28,16 @@ Config.navigation.override = function (passageName) {
         }
     };
 
+
+// Setting for showing numbers along with the meters
+Setting.addToggle("displayMeterNumber", {
+	label    : "Display numbers in (pseudo-)graphical meters",
+	desc     : "Controls printing number values for each meter bar in addition to the graphical representation",
+	default  : false,
+	onInit   : handleMetersNumberValueSettingChanged,
+	onChange : handleMetersNumberValueSettingChanged
+});
+
 App.EventHandlers.Init();
 
 
