@@ -1600,3 +1600,9 @@ var handleMetersNumberValueSettingChanged = function() {
 
     App.PR.RefreshTwineScore();
 };
+
+var handleDisplayBodyScoreChanged = function () {
+    if (!SugarCube.settings.displayBodyScore) {
+        $('#bodyScoreContainer').empty();
+    }
+};

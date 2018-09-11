@@ -85,6 +85,12 @@ Setting.addToggle("displayNPC", {
     onChange: App.Avatar.NPCSettingHandler
 });
 
+Setting.addToggle("displayBodyScore", {
+    label: "Display numerical body parameters",
+    default: false,
+    onChange: handleDisplayBodyScoreChanged
+});
+
 Setting.addToggle("fastAnimations", {
     label: "Fast Animations",
     default: false
@@ -146,6 +152,9 @@ Config.saves.isAllowed = function() {
         var container = $("<div id='avatarContainer'></div>").appendTo($("#ui-bar"));
         var portrait = $("<div id='avatarFace'></div").appendTo(container);
     }
+if ( $('#bodyScoreContainer').length == 0) {
+    var container = $("<div id='bodyScoreContainer'></div>").appendTo($("#ui-bar"));
+}
 
 :: Start
 <<set $GameBookmark = passage(); >>
