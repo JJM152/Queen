@@ -74,7 +74,7 @@ App.PR = new function() {
     {
         String = String.replace(/PLAYER_NAME/g, Player.SlaveName);
         String = String.replace(/pBUST/g, this.pBust(Player, 1));
-        String = String.replace(/pASS/g, this.pBust(Player, 1));
+        String = String.replace(/pASS/g, this.pAss(Player, 1));
         String = String.replace(/pCUP/g, this.pCup(Player));
         String = String.replace(/pHIPS/g, this.pHips(Player, 1));
         String = String.replace(/pHORMONES/g, this.pHormones(Player, 1));
