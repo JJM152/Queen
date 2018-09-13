@@ -4,11 +4,11 @@ Off in the distance you can make out the path back to the @@color:gold;'Lonely P
 still continues towards the northern marshlands, evocatively named the @@color:gold;'Black Swamp'@@.
 
 <<set _JE = window.App.JobEngine; >>\
-<<if (_JE.HasJobFlag($Player, "RUINS_FOUND") == false || _JE.HasJobFlag($Player, "COVE_FOUND") == false) && $Player.IsEquipped("worn machete")>>\
+<<if (_JE.HasJobFlag(setup.player, "RUINS_FOUND") == false || _JE.HasJobFlag(setup.player, "COVE_FOUND") == false) && setup.player.IsEquipped("worn machete")>>\
 With the @@color:purple;worn machete@@ in your hands, you might be able to hack a path through the underbrush if you put some effort into it.
 
 <<jobLinks "JUNGLE" 1>>
 <</if>>\
 @@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[The Black Swamp|AB_BlackSwamp]] \
-<<if _JE.HasJobFlag($Player, "COVE_FOUND")>>| [[Hidden Cove|HiddenCove]] <</if>>\
-<<if _JE.HasJobFlag($Player, "RUINS_FOUND")>>| [[Into the Ruins|Ruins]]<</if>>
+<<if _JE.HasJobFlag(setup.player, "COVE_FOUND")>>| [[Hidden Cove|HiddenCove]] <</if>>\
+<<if _JE.HasJobFlag(setup.player, "RUINS_FOUND")>>| [[Into the Ruins|Ruins]]<</if>>

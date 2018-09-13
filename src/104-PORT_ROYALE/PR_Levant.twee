@@ -1,5 +1,5 @@
 :: PR_Levant
-<<if window.App.QuestEngine.GetQuestFlag($Player, "LEVANT_PLACEHOLDER") != "COMPLETED">>\
+<<if window.App.QuestEngine.GetQuestFlag(setup.player, "LEVANT_PLACEHOLDER") != "COMPLETED">>\
 Curtains of crushed velvet and lace are draped across a series of mirrors, making it difficult to judge the size of this intimate salon. \
 Between the tapestry, paintings of reclining nudes and romantic scenes hang from peeling, lacquered walls. Nearby, worn, padded stools \
 and couches with distressed gilding make for a kind of shabby luxury, and rose water perfume helps disguise the underlying dinginess. Despite \

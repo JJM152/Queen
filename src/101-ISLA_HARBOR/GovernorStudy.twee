@@ -1,7 +1,7 @@
 :: GovernorStudy
 The Governor's study is just exactly how you imagined it would be -- simple but stately, much like the man himself. A large picture window in the wall grants a view down upon the harbor. Sitting in front of it is a solid oak desk that his Lordship the Governor uses for official purposes.
 
-A large painted portrait of @@color:pink;<<= $Player.GirlfriendName >>@@ dominates one of the study walls. You feel a pang in your heart as you look upon it as she looks every bit a prim and proper young lady. Though perhaps a bit... //too// young? It certainly appears to be a recent painting, but you don't ever recall her wearing her hair in that childish manner. Or ever wearing such a ridiculously frilly dress that -- now that you get a better look at it -- she seems to have quite outgrown. And everything is just so... //@@color:pink;pink@@//.
+A large painted portrait of @@color:HotPink;<<= setup.player.GirlfriendName >>@@ dominates one of the study walls. You feel a pang in your heart as you look upon it as she looks every bit a prim and proper young lady. Though perhaps a bit... //too// young? It certainly appears to be a recent painting, but you don't ever recall her wearing her hair in that childish manner. Or ever wearing such a ridiculously frilly dress that -- now that you get a better look at it -- she seems to have quite outgrown. And everything is just so... //@@color:pink;pink@@//.
 
 <<NPC "LordRowe">>
 

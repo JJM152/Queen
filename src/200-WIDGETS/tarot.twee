@@ -5,7 +5,7 @@
 <<set _Dict = App.Data.Tarot[_Card];>>\
 <<= _Dict.Msg>>
 <<run $args[0].ApplySelfEffects(_Dict.Effects);>>
-<<run delete $Player.JobFlags["TAROT_CARD"];>>\
+<<run delete setup.player.JobFlags["TAROT_CARD"];>>\
 <</if>>\
 <</widget>>
 

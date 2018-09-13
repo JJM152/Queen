@@ -1,15 +1,15 @@
 :: vanityMenu [widget]
 <<widget "vanityMenu">>\
 <<set _Hair = window.App.Data.Lists["HairStyles"];>>\
-<<set _H1 = $Player.GetItemCharges("hair tool");>>\
-<<set _H2 = $Player.GetItemCharges("hair treatment");>>
-<<set _HL = $Player.GetStat("BODY", "Hair"); >>\
-<<set _M1 = $Player.GetItemCharges("basic makeup");>>\
-<<set _M2 = $Player.GetItemCharges("expensive makeup");>>
+<<set _H1 = setup.player.GetItemCharges("hair tool");>>\
+<<set _H2 = setup.player.GetItemCharges("hair treatment");>>
+<<set _HL = setup.player.GetStat("BODY", "Hair"); >>\
+<<set _M1 = setup.player.GetItemCharges("basic makeup");>>\
+<<set _M2 = setup.player.GetItemCharges("expensive makeup");>>
 <<set _Makeup = window.App.Data.Lists["MakeupStyles"];>>\
-<<set _Wig = $Player.Equipment["Wig"];>>\
-<<set _Wigs = $Player.WardrobeItemsBySlot("Wig");>>\
-<<set _TRIM = $Player.GetStat("BODY", "Hair") - 5;>>\
+<<set _Wig = setup.player.Equipment["Wig"];>>\
+<<set _Wigs = setup.player.WardrobeItemsBySlot("Wig");>>\
+<<set _TRIM = setup.player.GetStat("BODY", "Hair") - 5;>>\
 <<set _PR = window.App.PR;>>\
 <<nobr>>
 <table class="MyTable">
@@ -37,7 +37,7 @@
 <<for _i = 0; _i < _Wigs.length; _i++>>
 <tr>
     <td style="text-align:center;width:30px;">
-<<print '<<radiobutton "$HairStyle" "'+_Wigs[_i].Id()+'">>'>>	
+<<print '<<radiobutton "$HairStyle" "'+_Wigs[_i].Id()+'">>'>>
    </td>
 	<td><<print _PR.ColorizeString(_Wigs[_i].HairBonus(), "⇑Wig");>> <<print _Wigs[_i].Description()>></td>
 	<td style="text-align:center;width:30px;"> - </td>
@@ -49,7 +49,7 @@
 <tr>
 <<if ( _H1 < _Hair[_i]["RESOURCE1"] ) ||
 	 ( _H2 < _Hair[_i]["RESOURCE2"] ) ||
-	 ( _HL < _Hair[_i]["MIN"] ) || 
+	 ( _HL < _Hair[_i]["MIN"] ) ||
 	 ( _HL > _Hair[_i]["MAX"] )>>
 		 <td> </td>
 	     <td>
@@ -71,7 +71,7 @@
 		</td>
 <<else>>
 	<td style="text-align:center;">
-	<<if $Player.LastUsedHair == _Hair[_i]["SHORT"] && _Wig == 0>>
+	<<if setup.player.LastUsedHair == _Hair[_i]["SHORT"] && _Wig == 0>>
 <<print '<<radiobutton "$HairStyle" "'+_Hair[_i]["NAME"] +'" checked>>'>><<else>><<print '<<radiobutton "$HairStyle" "'+_Hair[_i]["NAME"] +'">>'>><</if>>
 	</td>
 	<td><<print _PR.ColorizeString(_Hair[_i]["STYLE"], "⇑Style") + " "+ _Hair[_i]["SHORT"];>></td>
@@ -83,8 +83,8 @@
             <tr style="border-top:1px solid white;">
 				<td> </td>
                 <td style="text-align:right;font-size:smaller">Accessories & Products Owned</td>
-                <td style="width:30px;text-align:center;"><<print $Player.GetItemCharges("hair tool");>></td>
-                <td style="width:30px;text-align:center;"><<print $Player.GetItemCharges("hair treatment");>></td>
+                <td style="width:30px;text-align:center;"><<print setup.player.GetItemCharges("hair tool");>></td>
+                <td style="width:30px;text-align:center;"><<print setup.player.GetItemCharges("hair treatment");>></td>
             </tr>
             </tbody>
         </table>
@@ -100,7 +100,8 @@
             </tr>
 <<for _i = 0; _i < _Makeup.length; _i++>>
 <tr>
-<<if ( _M1 < _Makeup[_i]["RESOURCE1"] ) || ( _M2 < _Makeup[_i]["RESOURCE2"] )>>
+<<if ( _M1 < _Makeup[_i]["RESOURCE1"] ) ||
+	 ( _M2 < _Makeup[_i]["RESOURCE2"] )>>
 		 <td> </td>
 	     <td>
 <<print _PR.ColorizeString(_Makeup[_i]["STYLE"], "⇑Style")>> @@color:grey;<<print _Makeup[_i]["SHORT"];>>@@
@@ -119,7 +120,7 @@
 		</td>
 <<else>>
 	<td style="text-align:center;">
-	<<if $Player.LastUsedMakeup == _Makeup[_i]["SHORT"]>>
+	<<if setup.player.LastUsedMakeup == _Makeup[_i]["SHORT"]>>
 <<print '<<radiobutton "$MakeupStyle" "'+_Makeup[_i]["NAME"] +'" checked>>'>><<else>><<print '<<radiobutton "$MakeupStyle" "'+_Makeup[_i]["NAME"] +'">>'>><</if>>
 	</td>
 	<td><<print _PR.ColorizeString(_Makeup[_i]["STYLE"], "⇑Style") + " "+ _Makeup[_i]["SHORT"];>></td>
@@ -141,8 +142,8 @@
             <tr style="border-top:1px solid white;">
 				<td> </td>
                 <td style="text-align:right;font-size:smaller">Basic & Expensive Makeup Owned</td>
-                <td style="width:30px;text-align:center;"><<print $Player.GetItemCharges("basic makeup");>></td>
-                <td style="width:30px;text-align:center;"><<print $Player.GetItemCharges("expensive makeup");>></td>
+                <td style="width:30px;text-align:center;"><<print setup.player.GetItemCharges("basic makeup");>></td>
+                <td style="width:30px;text-align:center;"><<print setup.player.GetItemCharges("expensive makeup");>></td>
             </tr>
             </tbody>
         </table>
@@ -150,39 +151,39 @@
 	</tr>
 	<tr>
 		<td colspan="2" style="text-align:left;">
-@@color:yellow;Action@@: 
-<<if $Player.GetStat("STAT", "Energy") < 1>>
+@@color:yellow;Action@@:
+<<if setup.player.GetStat("STAT", "Energy") < 1>>
 @@color:grey;Do Makeup and Hair@@
 <<else>>
 <<click "Do Makeup and Hair" "Vanity">>
-<<run $Player.AdjustStat("Energy", -1);>>
-<<run $Player.DoStyling($HairStyle, $MakeupStyle);>>
+<<run setup.player.AdjustStat("Energy", -1);>>
+<<run setup.player.DoStyling($HairStyle, $MakeupStyle);>>
 <</click>>
 <</if>>
 @@color:yellow; (1 Energy)@@ |
-<<if $Player.MakeupStyle == "plain faced">>
+<<if setup.player.MakeupStyle == "plain faced">>
 @@color:grey;Remove Makeup@@
 <<else>>
 <<click "Remove Makeup" "Vanity">>
-<<set $Player.MakeupStyle = "plain faced";>>
-<<set $Player.MakeupBonus = 0>>
+<<set setup.player.MakeupStyle = "plain faced";>>
+<<set setup.player.MakeupBonus = 0>>
 <</click>>
 <</if>>
- | 
+ |
 <<if _TRIM < 5>>
 <<click "Trim Hair" "Vanity">>
-<<set $Player.BodyStats["Hair"] = 5;>>
+<<set setup.player.BodyStats["Hair"] = 5;>>
 <<if _Wig != 0>>
-<<run $Player.Remove($Player.Equipment["Wig"]);>>.
+<<run setup.player.Remove(setup.player.Equipment["Wig"]);>>.
 <</if>>
-<</click>> (<<print _PR.CMtoINCH(_PR.StatToCM($Player, "Hair"));>> in ⇒ <<print _PR.CMtoINCH(_PR.StatToCM($Player, "Hair", (5 - $Player.GetStat("BODY", "Hair"))));>> in)
+<</click>> (<<print _PR.CMtoINCH(_PR.StatToCM(setup.player, "Hair"));>> in ⇒ <<print _PR.CMtoINCH(_PR.StatToCM(setup.player, "Hair", (5 - setup.player.GetStat("BODY", "Hair"))));>> in)
 <<else>>
 <<click "Trim Hair" "Vanity">>
-<<run $Player.AdjustBody("Hair", -5);>>
+<<run setup.player.AdjustBody("Hair", -5);>>
 <<if _Wig != 0>>
-<<run $Player.Remove($Player.Equipment["Wig"]);>>.
+<<run setup.player.Remove(setup.player.Equipment["Wig"]);>>.
 <</if>>
-<</click>> (<<print _PR.CMtoINCH(_PR.StatToCM($Player, "Hair"));>> in. -> <<print _PR.CMtoINCH( (_PR.StatToCM($Player, "Hair",-5)));>> in.)<</if>></td>
+<</click>> (<<print _PR.CMtoINCH(_PR.StatToCM(setup.player, "Hair"));>> in. -> <<print _PR.CMtoINCH( (_PR.StatToCM(setup.player, "Hair",-5)));>> in.)<</if>></td>
 	</tr>
 	</tbody>
 </table>

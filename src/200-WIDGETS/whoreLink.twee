@@ -1,9 +1,9 @@
 :: whoreLink [widget]
 <<widget "whoreLink">><<nobr>>
 <<click "Whore" "Whore">>
-<<if $Player.WhoreTutorial == false>><<run $Player.WhoreTutorial = true;>><<set $WhoreLink = $args[0];>><<set $WhorePassage = passage();>><<goto WhoreTutorial>>
+<<if setup.player.WhoreTutorial == false>><<run setup.player.WhoreTutorial = true;>><<set $WhoreLink = $args[0];>><<set $WhorePassage = passage();>><<goto WhoreTutorial>>
 <<else>>
 <<set _Passage = passage(); >>
-<<run $Player.AdjustStat("Energy", -1);>>
-<<run App.SlotEngine.LoadScene($args[0], _Passage, $Player);>><</if>><</click>>
+<<run setup.player.AdjustStat("Energy", -1);>>
+<<run App.SlotEngine.LoadScene($args[0], _Passage, setup.player);>><</if>><</click>>
 <</nobr>><</widget>>

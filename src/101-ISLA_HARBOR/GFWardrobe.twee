@@ -2,7 +2,7 @@
 <<set _QE = window.App.QuestEngine>>\
 <<set $GameBookmark = passage(); >>\
 You are standing infront of a beautiful mahogany wardrobe. It's rich, dark-varnished color is accentuated with burnished brass and inlaid ivory accents. It's worth more than you are! But then again, you're very cheap these days, aren't you?
-<<if _QE.QuestCompleted($Player, "GFWARDROBE") == false>>
+<<if _QE.QuestCompleted(setup.player, "GFWARDROBE") == false>>
 <<set $irr = random(991,1009) >>\
 Opening the door, you find some interesting items...
 
@@ -12,15 +12,15 @@ Opening the door, you find some interesting items...
 &bull; @@color:purple;a portfolio of pornographic drawings@@
 &bull; @@color:gold;<<print $irr >> gold coins@@
 
-You scratch your head. What are these awful, vulgar things doing in darling sweet @@color:pink;<<= $Player.GirlfriendName >>@@'s wardrobe? A blushing maiden like her -- or at least like she //used// to be -- wouldn't have any interest in these filthy drawings much less a dildo of such preposterous length and girth!
+You scratch your head. What are these awful, vulgar things doing in darling sweet @@color:pink;<<= setup.player.GirlfriendName >>@@'s wardrobe? A blushing maiden like her -- or at least like she //used// to be -- wouldn't have any interest in these filthy drawings much less a dildo of such preposterous length and girth!
 
 Despite the onset of a rather sudden stomachache, you shake your head against the worrisome thoughts and gather the items from the wardrobe.
-<<run $Player.AddItem("CLOTHES", "pink gingham dress", 1);>>\
-<<run $Player.AddItem("CLOTHES", "white knee socks", 1); >>\
-<<run $Player.AddItem("QUEST", "14 inch purple dildo", 1); >>\
-<<run $Player.AddItem("QUEST", "porno portfolio", 1); >>\
-<<run $Player.AdjustMoney($irr);>>\
-<<run _QE.SetQuestFlag($Player, "GFWARDROBE", "COMPLETED");>>
+<<run setup.player.AddItem("CLOTHES", "pink gingham dress", 1);>>\
+<<run setup.player.AddItem("CLOTHES", "white knee socks", 1); >>\
+<<run setup.player.AddItem("QUEST", "14 inch purple dildo", 1); >>\
+<<run setup.player.AddItem("QUEST", "porno portfolio", 1); >>\
+<<run setup.player.AdjustMoney($irr);>>\
+<<run _QE.SetQuestFlag(setup.player, "GFWARDROBE", "COMPLETED");>>
 <</if>>
 @@color:cyan;Interact:@@ [[Exit|GirlfriendRoom]] | [[Vanity|GFVanity]] | [[Mirror|GFMirror]]
 <span id="WardrobeUI"><<WearingTable>></span>

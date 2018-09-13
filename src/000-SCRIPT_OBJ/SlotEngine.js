@@ -434,7 +434,7 @@ App.SlotEngine = new function() {
         root.empty();
         
         // Calculate locked slots.
-        var lockedSlots = this._Player._MaxSlots - this._Player._CurrentSlots;
+        var lockedSlots = this._Player.MaxSlots - this._Player.CurrentSlots;
         var before, after;
         switch(lockedSlots) {
             case 1: before = 0; after = 9; break;
@@ -450,18 +450,18 @@ App.SlotEngine = new function() {
 
         // Draw active.
         var i = 0, slot;
-        for (var key in this._Player._Slots) {
+        for (var key in this._Player.Slots) {
             i++;
-            if (!this._Player._Slots.hasOwnProperty(key)) continue;
-            var reel = this._Player._Slots[key];
+            if (!this._Player.Slots.hasOwnProperty(key)) continue;
+            var reel = this._Player.Slots[key];
             // Check to see if this is a locked slot.
-            if ((this._Player._Slots[key] == null || typeof this._Player._Slots[key] === 'undefined') && i <= before) {
+            if ((this._Player.Slots[key] == null || typeof this._Player.Slots[key] === 'undefined') && i <= before) {
                 // Empty slot that is not unlocked. Add a place holder.
                 slot = $('<div class="LockedSlot2"></div>');
-            } else if ((this._Player._Slots[key] == null || typeof this._Player._Slots[key] === 'undefined') && i >= after) {
+            } else if ((this._Player.Slots[key] == null || typeof this._Player.Slots[key] === 'undefined') && i >= after) {
                 // Empty slot that is not unlocked. Add a place holder.
                 slot = $('<div class="LockedSlot2"></div>');
-            } else if ((this._Player._Slots[key] == null || typeof this._Player._Slots[key] === 'undefined') && i >= before && i <= after ) {
+            } else if ((this._Player.Slots[key] == null || typeof this._Player.Slots[key] === 'undefined') && i >= before && i <= after ) {
                 // Slot is empty AND unlocked.
                 slot = $('<div>').attr('id', 'SlotInventory_'+key).addClass('OpenSlot');
                 slot.on("click", { slot : key }, this._SelectSlotCB.bind(this));
@@ -534,13 +534,13 @@ App.SlotEngine = new function() {
         var current = $('<div>').addClass('SlotCurrent');
         root.append(current);
 
-        if (this._Player._Slots[this._SelectedSlot] == null || typeof this._Player._Slots[this._SelectedSlot] === 'undefined') {
+        if (this._Player.Slots[this._SelectedSlot] == null || typeof this._Player.Slots[this._SelectedSlot] === 'undefined') {
             var tempHeader = $('<div>').addClass('SlotCurrentHeader').text("EMPTY SLOT SELECTED");
             current.append(tempHeader);
 
         } else {
 
-            var reel = this._Player._Slots[this._SelectedSlot];
+            var reel = this._Player.Slots[this._SelectedSlot];
 
             var header = $('<div>').addClass('SlotCurrentHeader').html("("+reel.Rank()+") "+reel.Name());
 

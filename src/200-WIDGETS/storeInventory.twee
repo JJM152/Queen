@@ -2,7 +2,7 @@
 <<widget storeInventory>>\
 <<set _NPC = $MenuAction>>\
 <<set _SE = window.App.StoreEngine;>>\
-<<set _ST = _SE.OpenStore($Player, _NPC);>>\
+<<set _ST = _SE.OpenStore(setup.player, _NPC);>>\
 <<set _CI = _ST.GetCommonInventory();>>\
 <<set _RI = _ST.GetRareInventory(); >>\
 <<nobr>>

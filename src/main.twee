@@ -15,6 +15,8 @@ console.log("Sugarcube Config...");
 Config.history.controls = false;
 Config.history.maxStates = 1;
 
+setup.player = new Player();
+
 // Override navigation on death.
 Config.navigation.override = function (passageName) {
         if (State.variables.Player.GetStat("STAT", "Health") <= 0) {
@@ -71,13 +73,13 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
 [[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | <a href="https://www.tfgamessite.com/index.php?module=viewgame&id=1680">IGDB Entry</a> | <a href="https://github.com/JJM152/Queen">GitHub Repository</a>
 
 :: Difficulty
-<<set $Player = new window.App.Entity.Player();>>\
+<<set $PlayerState = new window.App.Entity.PlayerState();>>\
+<<set setup.player.Init();>>\
 <<set $InIntro = 1;>>\
-<<run $Player.Init(); >>\
 <span id="difficulty">\
 !!!!Select a Difficulty
 <<click "Normal">>\
-    <<run $Player.difficultySetting = 0;>>\
+    <<run $PlayerState.difficultySetting = 0;>>\
     <<replace "#difficulty">>\
     @@color:lightGreen;Normal difficulty selected.@@
     Normal skill and stat rolls. (+0)
@@ -86,8 +88,8 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
     <</replace>>\
 <</click>> - @@color:lightGreen;Default Setting@@ - //The way the author intended it.//
 <<click "Landlubber">>\
-    <<run $Player.difficultySetting = 1;>>\
-    <<run $Player.AddItem("LOOT_BOX", "landlubber chest", 1);>>
+    <<run $PlayerState.difficultySetting = 1;>>\
+    <<run setup.player.AddItem("LOOT_BOX", "landlubber chest", 1);>>
     <<replace "#difficulty">>\
     @@color:pink;Landlubber difficulty selected.@@
     A small bonus to all sorts of skill and stat rolls (+5)
@@ -97,8 +99,8 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
     <</replace>>\
 <</click>> - @@color:pink;Easier Setting@@ - //Because you're really kind of lame.//
 <<click "Pathetic Loser">>\
-    <<run $Player.difficultySetting = 2;>>\
-    <<run $Player.AddItem("LOOT_BOX", "pathetic loser chest", 1);>>\
+    <<run $PlayerState.difficultySetting = 2;>>\
+    <<run setup.player.AddItem("LOOT_BOX", "pathetic loser chest", 1);>>\
     <<replace "#difficulty">>\
     @@color:purple;Pathetic Loser difficulty selected.@@
     A big bonus to all sorts of skill and stat rolls (+10)
@@ -111,81 +113,81 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
 
 :: Intro1
 <<nobr>>
-Your name is @@color:yellow;<<= $Player.OriginalName >> Smythe@@, the middle son of a <span id="familyJob">
+Your name is @@color:yellow;<<= setup.player.OriginalName >> Smythe@@, the middle son of a <span id="familyJob">
 <<click "farmer">>
-    <<run $Player.AdjustStat("Fitness", 10);>>
+    <<run player().AdjustStat("Fitness", 10);>>
     <<replace "#familyJob">>@@color:yellow;farmer@@<</replace>>
     <<replace "#nextPage">>[[Go and meet your lover|Intro2]]<</replace>>
 <</click>> |
 <<click "sailor">>
-    <<run $Player.AdjustSkill("Navigating", 5);>>
-    <<run $Player.AdjustSkill("Sailing", 5);>>
+    <<run setup.player.AdjustSkill("Navigating", 5);>>
+    <<run setup.player.AdjustSkill("Sailing", 5);>>
     <<replace "#familyJob">>@@color:yellow;sailor@@<</replace>>
     <<replace "#nextPage">>[[Go and meet your lover|Intro2]]<</replace>>
 <</click>> |
 <<click "baker">>
-    <<run $Player.AdjustSkill("Cooking", 5);>>
-    <<run $Player.AdjustSkill("Serving", 10);>>
+    <<run setup.player.AdjustSkill("Cooking", 5);>>
+    <<run setup.player.AdjustSkill("Serving", 10);>>
     <<replace "#familyJob">>@@color:yellow;baker@@<</replace>>
     <<replace "#nextPage">>[[Go and meet your lover|Intro2]]<</replace>>
 <</click>></span>.
 <</nobr>>
 You've spent your entire life in @@color:cyan;Isla Harbor@@, a small, but quaint island in the middle situated towards the south of a large chain of other islands. All your life \
 you've longed to travel and explore, to leave behind your humble beginnings and make something of your self, but even more so now that you've fallen in love with your sweet \
-@@color:Pink;<<= $Player.GirlfriendName>>@@.
+@@color:Pink;<<= setup.player.GirlfriendName>>@@.
 
-The reason being that @@color:Pink;<<= $Player.GirlfriendName>>@@ happens to be the daughter of @@color:cyan;Lord Rowe@@, the nominal ruler of this tiny isle and hence so far \
+The reason being that @@color:Pink;<<= setup.player.GirlfriendName>>@@ happens to be the daughter of @@color:cyan;Lord Rowe@@, the nominal ruler of this tiny isle and hence so far \
 outside of your social class that such a relationship, if it should be known, would be swiftly aborted.
 
-Despite this challenge, and despite @@color:Pink;<<= $Player.GirlfriendName>>'s@@ rather sheltered upbringing, the two of you have agreed to elope. You meet tonight \
+Despite this challenge, and despite @@color:Pink;<<= setup.player.GirlfriendName>>'s@@ rather sheltered upbringing, the two of you have agreed to elope. You meet tonight \
 to discuss the plan.
 
 <span id="nextPage">@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]</span>
 
 
 :: Intro2
-You wait until nightfall and meet @@color:Pink;<<= $Player.GirlfriendName>>@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
+You wait until nightfall and meet @@color:Pink;<<= setup.player.GirlfriendName>>@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \
 <<nobr>>
 <span id="flirting">
 <<click "serenading her">>
-    <<run $Player.AdjustSkill("Singing", 5);>>
+    <<run setup.player.AdjustSkill("Singing", 5);>>
     <<replace "#flirting">>@@color:yellow;serenading her@@ with heart felt emotion, gazing lovingly into each others eyes...<</replace>>
     <<replace "#nextPage">>[[Go and meet this Captain Reginald|Intro3]]<</replace>>
 <</click>> |
 <<click "reciting poetry to her">>
-    <<run $Player.AdjustSkill("Seduction", 5);>>
+    <<run setup.player.AdjustSkill("Seduction", 5);>>
     <<replace "#flirting">>@@color:yellow;reciting poetry to her@@ under the starlight, listening to her swoon...<</replace>>
     <<replace "#nextPage">>[[Go and meet this Captain Reginald|Intro3]]<</replace>>
 <</click>> |
 <<click "feeling her up">>
-    <<run $Player.AdjustStat("Perversion", 5);>>
+    <<run setup.player.AdjustStat("Perversion", 5);>>
     <<replace "#flirting">>@@color:yellow;feeling her up@@, ah such wonderful and magical nights! The sweet caresses, the heaving bosoms...<</replace>>
     <<replace "#nextPage">>[[Go and meet this Captain Reginald|Intro3]]<</replace>>
 <</click>>.</span>
-<</nobr>> @@color:Pink;<<= $Player.GirlfriendName>>@@ notices you approaching and clears her throat, snapping you out of your reverie. You approach her under the starlight and clasp hands \
+<</nobr>> @@color:Pink;<<= setup.player.GirlfriendName>>@@ notices you approaching and clears her throat, snapping you out of your reverie. You approach her under the starlight and clasp hands \
 earnestly.
 
-@@color:deepPink;"Oh, <<= $Player.OriginalName>>! Is it true? Is tonight the night we make our grand escape?"@@ she asks.
+@@color:deepPink;"Oh, <<= setup.player.OriginalName>>! Is it true? Is tonight the night we make our grand escape?"@@ she asks.
 
 You nod in the affirmative and lay out the plan before you. Together you shall steal away to a tavern by the docks and meet a man, the captain of a merchant vessel. He has \
 asked for only a small sum to transport the two of you to @@color:cyan;Port Royale@@, one of the largest islands in this archipelago. There, you can find work and the two of you \
 can begin a new chapter as man and wife.
 
-@@color:Pink;<<= $Player.GirlfriendName>>@@ looks at you with wistful eyes as she listens to your story. It's clear she's as eager as you are to depart tonight!
+@@color:Pink;<<= setup.player.GirlfriendName>>@@ looks at you with wistful eyes as she listens to your story. It's clear she's as eager as you are to depart tonight!
 
 <span id="nextPage">@@color:cyan;Select an activity to continue@@</span>
 
 :: Intro3
-With haste you depart to the docks, entering the sole tavern on the island. The hour is late so there are not many patrons around and @@color:Pink;<<= $Player.GirlfriendName>>@@ is wearing an overly large \
+With haste you depart to the docks, entering the sole tavern on the island. The hour is late so there are not many patrons around and @@color:Pink;<<= setup.player.GirlfriendName>>@@ is wearing an overly large \
 cowl to hide her appearance. It wouldn't do for anyone to see the Governor's daughter in such a place. Out of the corner of your eye a man waves at you. You recognize him as the gentle-sir you \
 spoke to yesterday, a fellow by the name of @@color:cyan;Reginald@@. You make your way to his table and take a seat.
 
-@@color:Pink;<<= $Player.GirlfriendName>>@@ looks on, somewhat concerned as the two of you discuss the passage, but you do your best to reassure her with smiles and a gentle \
+@@color:Pink;<<= setup.player.GirlfriendName>>@@ looks on, somewhat concerned as the two of you discuss the passage, but you do your best to reassure her with smiles and a gentle \
 caress on her hand. Soon, the three of you depart and stealing through the night board the captains ship, the @@color:cyan;"Salty Mermaid"@@. You remark to yourself that it's quite the \
 colorful name, eliciting a titter from your fiance.
 
 On board the ship, @@color:cyan;Captain Reginald@@ shows you to your quarters, it's a little sparse, but the situation is dire so you dare not complain. He leaves you with a meal and some refreshments and \
-takes his leave. You and @@color:Pink;<<= $Player.GirlfriendName>>@@ look at each other, both of you thinking about what you can finally do now that you're alone and have some \
+takes his leave. You and @@color:Pink;<<= setup.player.GirlfriendName>>@@ look at each other, both of you thinking about what you can finally do now that you're alone and have some \
 privacy. Emboldened, you share a celebratory toast. The ale is bitter, but still cool. Just as you put your first cup down, a wave of light-headedness crashes into you...
 
 [[It all goes dark...|Intro4]]
@@ -199,7 +201,7 @@ take stock of your situation, but your ears are ringing. Slowly, the world seems
 
 That voice, those sounds... no, it couldn't be?
 
-You lift your head and your eyes adjust to the dim lantern light. Your heart nearly stops as you take in what is happening before you - @@color:Pink;<<= $Player.GirlfriendName>>@@, your \
+You lift your head and your eyes adjust to the dim lantern light. Your heart nearly stops as you take in what is happening before you - @@color:Pink;<<= setup.player.GirlfriendName>>@@, your \
 sweet, innocent love, is nude from the waist down, her voluptuous breasts spilling over the top of her now torn blouse, and frantically riding the turgid member of @@color:cyan;Captain Reginald@@.
 
 @@color:cyan;"Finally awake are you lass? Good! The crew was getting a little restless without enough sluts to go around!"@@ he taunts.
@@ -208,7 +210,7 @@ The words barely sink into your head before you feel something, a hard pressure 
 at the experience and sensation as you slowly come to terms that you are being sodomized from behind by a rough looking man. Although it's painful at first, soon that pain starts to feel \
 good and to your shame, your cock gets hard and you start to groan.
 
-In a moment of lucidity, you scream out, demanding to know what the dastardly captain has done to you, but he only grins and bucks hard into @@color:Pink;<<= $Player.GirlfriendName>>'s'@@ \
+In a moment of lucidity, you scream out, demanding to know what the dastardly captain has done to you, but he only grins and bucks hard into @@color:Pink;<<= setup.player.GirlfriendName>>'s'@@ \
 no longer virgin cunt, the motion and the force sending her into a screaming orgasm as he finishes off inside her.
 
 The rest of the evening is a blur... clearly your drinks were spiked and something, it must be a drug of some sort, is controlling your actions. After all, there's no way you could possibly enjoy \
@@ -221,7 +223,7 @@ being raped by a man!
 Some time later you wake up naked in a small cell. Your body is in pain and your smell like a sewer. You make a tentative gesture to probe your bottom and wince. You have no idea how many \
 cocks you took up there last night (was it last night?) and you shudder when you realize the remnants are still dripping out of your open arsehole.
 
-Before long a pirate (clearly these men are pirates!) comes by to feed you. You plead for information about @@color:Pink;<<= $Player.GirlfriendName>>@@, but he just taunts you that \
+Before long a pirate (clearly these men are pirates!) comes by to feed you. You plead for information about @@color:Pink;<<= setup.player.GirlfriendName>>@@, but he just taunts you that \
 the Captain is raping her right now and planning to sell her off to a slave market in the next port. You grimace in disgust and curse your foolishness. If only you had chosen a more \
 reliable man. If only you had never gotten on board this ship. If only...
 
@@ -229,15 +231,15 @@ Your thoughts are interrupted by the sound of slop hitting a bowl. It's putrid, 
 cell door closed.
 
 <span id="gruel"><<click "Eat the gruel.">>
-    <<run $Player.AdjustStat("Perversion", 5);>>
-    <<run $Player.AdjustStat("WillPower", -5);>>
-    <<run $Player.AdjustStatXP("Hormones", 50);>>
+    <<run setup.player.AdjustStat("Perversion", 5);>>
+    <<run setup.player.AdjustStat("WillPower", -5);>>
+    <<run setup.player.AdjustStatXP("Hormones", 50);>>
     <<replace "#gruel">>Knowing that this is likely to be the best you'll get from these bastards, you tentatively take a taste of the gruel. It's @@color:brown;disgusting and rancid@@ and definitely filled with \
 "additional protein" supplied by the crew, but with no other choice, you'll have to make due so long as you're a prisoner here.<</replace>>
     <<replace "#nextPage">>[[Days pass...|Intro6]]<</replace>>
 <</click>>
 <<click "No way in hell.">>
-    <<run $Player.AdjustStat("Nutrition", -60);>>
+    <<run setup.player.AdjustStat("Nutrition", -60);>>
     <<replace "#gruel">>You would @@color:red;rather starve to death@@ than eat such a perverse meal. You hastily kick the bowl over and scream in frustration. However, your complaints and wails fall on deaf ears...<</replace>>
     <<replace "#nextPage">>[[Days pass...|IntroSlow1]]<</replace>>
 <</click>></span>
@@ -255,25 +257,25 @@ After what seems like ages @@color:cyan;Captain Reginald@@ and his First mate co
 
  He howls in laughter and you struggle to your feet, blinking back tears. It seems that your situation is even more dire than you imagined. Before you can collect yourself, the black giant grabs you by \
  the arm and half shoves you towards the deck. It's night time, the first real night you've seen since you've left @@color:cyan;Isla Harbor@@ and much to your surprise, the entire crew of the \
- ship is present. It doesn't take long for you to understand why as you hear a loud, feminine scream and then see your sweet @@color:Pink;<<= $Player.GirlfriendName>>@@ being raped on deck.
+ ship is present. It doesn't take long for you to understand why as you hear a loud, feminine scream and then see your sweet @@color:Pink;<<= setup.player.GirlfriendName>>@@ being raped on deck.
 
  It appears pirates are throwing a party to celebrate their 'farewell' to their new slaves, as tomorrow they are meeting with a black market slaver who deals in whores. For tonight however, you and \
- @@color:Pink;<<= $Player.GirlfriendName>>@@ are the 'party favors' for their celebration.
+ @@color:Pink;<<= setup.player.GirlfriendName>>@@ are the 'party favors' for their celebration.
 
  @@color:cyan;Kipler@@ brings you in front of your fiance, to witness her cruel treatment by the crew. You expect to see her distraught, crying, or otherwise objecting and are surprised to find her \
  panting and moaning in lust. Your dick gets hard at the sight of her being raped and you feel an intense amount of shame at the fact.
 
 The rest of the night goes slowly, far slower than you had hoped. This time the pirates don't drug you, so you're forced to bear the brunt of their abuse for hours on end. Eventually however the pain \
-and fatigue starts to break down your mind and you lose yourself a little bit. The last thing you remember is your 'parting gift' - your first and only blow job from @@color:Pink;<<= $Player.GirlfriendName>>@@ \
+and fatigue starts to break down your mind and you lose yourself a little bit. The last thing you remember is your 'parting gift' - your first and only blow job from @@color:Pink;<<= setup.player.GirlfriendName>>@@ \
 while the two of you are both being ass raped by burly pirates.
 
-Broken, beaten and exhausted, you are literally dragged and thrown back into your cell. @@color:Pink;<<= $Player.GirlfriendName>>@@ had stopped making noises hours ago. You fear the worst.
+Broken, beaten and exhausted, you are literally dragged and thrown back into your cell. @@color:Pink;<<= setup.player.GirlfriendName>>@@ had stopped making noises hours ago. You fear the worst.
 
 [[Succumb to the pain|Intro7]]
 
 
 :: Intro7
-Two days later you're led from your cell to the Captain's quarters by the First Mate. Once there, he explains that you're now part of the crew, their live-in "Cabin Girl" and that your new name is going to be @@color:deepPink;"<<= $Player.SlaveName>>"@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women's clothes and you sigh internally. You shouldn't have expected anything else after the treatment you've been given so far. Still, as embarrassing as it is, it's not as bad as being naked all the time.
+Two days later you're led from your cell to the Captain's quarters by the First Mate. Once there, he explains that you're now part of the crew, their live-in "Cabin Girl" and that your new name is going to be @@color:deepPink;"<<= setup.player.SlaveName>>"@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women's clothes and you sigh internally. You shouldn't have expected anything else after the treatment you've been given so far. Still, as embarrassing as it is, it's not as bad as being naked all the time.
 
 Before you go, he has some final words for you.
 
@@ -299,15 +301,15 @@ You only stare at him, unwilling to recall how you were raped and how your body 
 
 The Captain curses and spits. @@color:cyan;"Ah, blast ye, Conroy! You've a way with swayin' a man that I'll never ken. But this'll mean double-doings for the other bounty lass. She'll be bloated with bilge at night's end, boyo!"@@
 
-You hear a wailing shriek that you recognize must be from your love, @@color:Pink;<<= $Player.GirlfriendName>>@@! But her outcry quickly gives to dramatically loud panting and disgusting foul language from her sweet mouth, demanding her violator squeeze her breasts and pump her naughty wet cunt harder and faster.
+You hear a wailing shriek that you recognize must be from your love, @@color:Pink;<<= setup.player.GirlfriendName>>@@! But her outcry quickly gives to dramatically loud panting and disgusting foul language from her sweet mouth, demanding her violator squeeze her breasts and pump her naughty wet cunt harder and faster.
 
 A pitiful sob bubbles out of your lips as you realize she is genuinely enjoying being defiled by these depraved brutes.
 
 "I'd wager that the girl will be more than up to the task," Conroy says.
 
-The Captain laughs as the lusty squeals from @@color:Pink;<<= $Player.GirlfriendName>>@@ continue to echo from somewhere above. He slaps Conroy on the back and then pivots on his foot to leave the two of you alone in the cell, cackling all the way.
+The Captain laughs as the lusty squeals from @@color:Pink;<<= setup.player.GirlfriendName>>@@ continue to echo from somewhere above. He slaps Conroy on the back and then pivots on his foot to leave the two of you alone in the cell, cackling all the way.
 
-"Let us get acquainted." Conroy sits cross-legged on the floor in front of you, mindless of the dust and grime that will surely spoil his fine trousers. "My name is Conroy. It's a pleasure to meet you, @@color:deepPink;<<= $Player.SlaveName>>@@."
+"Let us get acquainted." Conroy sits cross-legged on the floor in front of you, mindless of the dust and grime that will surely spoil his fine trousers. "My name is Conroy. It's a pleasure to meet you, @@color:deepPink;<<= setup.player.SlaveName>>@@."
 
 [[But that's not your name...|IntroSlow2]]
 
@@ -318,7 +320,7 @@ He smiles, showing off neat white teeth. "It is. You simply did not know it unti
 
 "No I'm not!"
 
-"Yes, you are, @@color:deepPink;<<= $Player.SlaveName>>@@. Everyone here knows it -- the Captain knew it the moment he met you and so did I. The very instant I stepped into this cell, I knew you to be a delicate damsel indeed."
+"Yes, you are, @@color:deepPink;<<= setup.player.SlaveName>>@@. Everyone here knows it -- the Captain knew it the moment he met you and so did I. The very instant I stepped into this cell, I knew you to be a delicate damsel indeed."
 
 "I have a cock!"
 
@@ -326,14 +328,14 @@ He sighs. "That's what makes a man, is it? I think not. What parts we have matte
 
 <span id="shame">
 <<click "Of course not.">>
-    <<run $Player.AdjustStat("WillPower", -5);>>
+    <<run setup.player.AdjustStat("WillPower", -5);>>
     <<replace "#shame">>"Of course not," you say.
     
     "Of course not," he agrees with a smile and nod. "Girls are beautiful creatures indeed and, the truth is, men only serve to nuture you. If anyone should be ashamed, it is me, not you. I've been remiss in my chivalrous duties!"<</replace>>
     <<replace "#nextPage">>[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]<</replace>>
 <</click>>
 <<click "No, but I'm not a lovely lass.">>
-    <<run $Player.AdjustStat("WillPower", -5);>>
+    <<run setup.player.AdjustStat("WillPower", -5);>>
     <<replace "#shame">>"No," you say, "but I'm not a lovely lass."
     
     "Perhaps you don't see it... yet," he says, "but I see it very clearly. And with a little care, I'm quite certain you'll see it, too. I would be honored to help you see what a lovely lass you are indeed."<</replace>>
@@ -342,7 +344,7 @@ He sighs. "That's what makes a man, is it? I think not. What parts we have matte
 <<click "Girls are fragile and silly!">>
     <<replace "#shame">>"Girls are fragile and silly!" you tell him.
     
-    "Fragile and silly?" He sighs. "I simply must beg to differ. Women are the entire reason men exist at all. You are our poetry. You are the sun and the moon. Fine lasses like yourself, @@color:deepPink;<<= $Player.SlaveName>>@@, are our very hearts. Everything we do that is neither fragile nor silly we do in your honor. And I would very much like to show you how much I respect that."<</replace>>
+    "Fragile and silly?" He sighs. "I simply must beg to differ. Women are the entire reason men exist at all. You are our poetry. You are the sun and the moon. Fine lasses like yourself, @@color:deepPink;<<= setup.player.SlaveName>>@@, are our very hearts. Everything we do that is neither fragile nor silly we do in your honor. And I would very much like to show you how much I respect that."<</replace>>
     <<replace "#nextPage">>[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]<</replace>>
 <</click>>
 </span>
@@ -356,9 +358,9 @@ Conroy sets the bucket beside him and rolls out a mat on the floor. He beckons y
 
 You shake your head slowly.
 
-The echoed moans from @@color:Pink;<<= $Player.GirlfriendName>>@@ crescendo into a fever-pitch of delirious squeals as the love of your life apparently succumbs to yet another forceful orgasm. You bite your lip and stare at the ceiling.
+The echoed moans from @@color:Pink;<<= setup.player.GirlfriendName>>@@ crescendo into a fever-pitch of delirious squeals as the love of your life apparently succumbs to yet another forceful orgasm. You bite your lip and stare at the ceiling.
 
-He smiles wistfully. "I know this must be difficult for you, but she has learned a lot about herself these past few days as well, @@color:deepPink;<<= $Player.SlaveName>>@@. It need not diminish your love for her that she has found bliss in the company of others. Indeed, if you do truly love her, perhaps you might try to consider her happiness before your own."
+He smiles wistfully. "I know this must be difficult for you, but she has learned a lot about herself these past few days as well, @@color:deepPink;<<= setup.player.SlaveName>>@@. It need not diminish your love for her that she has found bliss in the company of others. Indeed, if you do truly love her, perhaps you might try to consider her happiness before your own."
 
 She lets out a long shuddering whimper that is quickly cut short by a surprised mewling as she is evidentally mounted by yet another lover. Your lip trembles and you feel your body heave in dejected misery. Her fair voice trills raunchy solicitations as her obscene panting beings anew.
 
@@ -381,7 +383,7 @@ You look to him in surprise as he continues to massage your foot with the sponge
 
 You cover yourself with your hands as he moves to kneel beside you. With both your hands cupping your crotch, you don't have much choice but to comply when he gently turns you onto your stomach. Immediately you feel the sponge delve between your ass cheeks and you suck in a sharp breath.
 
-"Don't fret, sweetheart," he coos, "I am only cleaning up the mess those mannerless men left behind. I'm afraid some of us are like that, @@color:deepPink;<<= $Player.SlaveName>>@@, so you'll have to ensure to take care of this sort of thing yourself in the future."
+"Don't fret, sweetheart," he coos, "I am only cleaning up the mess those mannerless men left behind. I'm afraid some of us are like that, @@color:deepPink;<<= setup.player.SlaveName>>@@, so you'll have to ensure to take care of this sort of thing yourself in the future."
 
 [[Let him wash your backside.|IntroSlow5]]
 
@@ -390,7 +392,7 @@ Finally, Conroy turns you over and helps you sit up with a gentle hand behind yo
 
 He sits in front of you cross-legged and grasps under your knees to pull you close to him. Your legs rest over his now and his face is mere inches from your own.
 
-"I see you, @@color:deepPink;<<= $Player.SlaveName>>@@," he says, smiling again. "I knew I'd find you in there." He tenderly takes your hands and pries them away from your crotch to place them onto your thighs.
+"I see you, @@color:deepPink;<<= setup.player.SlaveName>>@@," he says, smiling again. "I knew I'd find you in there." He tenderly takes your hands and pries them away from your crotch to place them onto your thighs.
 
 Your eyes go wide and you let out a gasp as one of his hands cup your sack and the other gently grasps your petrified penis. Slowly, he starts to stroke you as he stares into your eyes.
 
@@ -415,8 +417,8 @@ When you open your eyes, you see him still smiling. He brings his hand up and lo
 
 <span id="eatit">
 <<click "Open your mouth.">>
-    <<run $Player.AdjustStat("Perversion", 5);>>
-		<<run $Player.AdjustStat("WillPower", -3);>>
+    <<run setup.player.AdjustStat("Perversion", 5);>>
+		<<run setup.player.AdjustStat("WillPower", -3);>>
     <<replace "#eatit">>You feel your lips part as if all on their own and he touches the cum-covered fingertip to your lips. Slowly he slides his finger into your mouth, slathering your tongue with the slimy substance, and when he puckers his lips you find yourself doing the same, so that his finger slips from your lips clean.<</replace>>
     <<replace "#nextPage">>[[He takes your chin in his unsullied hand and smiles at you.|IntroSlow7]]<</replace>>
 <</click>>
@@ -437,17 +439,17 @@ Conroy stands and wipes the tears from his eyes. He says in a sorrowful tone, "I
 
 He steps forward and you lean back. His cock isn't much bigger than your own but it looks immense from this angle -- especially so close to your face!
 
-"Generous and gentle @@color:deepPink;<<= $Player.SlaveName>>@@," he says with a sad pout, "surely you will do me the kind consideration of relieving me of this burdensome arousal?" He inches the trembling erection closer to your mouth. "If I might implore those luscious lips to open and accept me, I will one day die a most grateful and fulfilled man, once shown compassion and perhaps even some sweet smidgen of love -- if but only fleeting -- by such a kindhearted and pretty lass as yourself."
+"Generous and gentle @@color:deepPink;<<= setup.player.SlaveName>>@@," he says with a sad pout, "surely you will do me the kind consideration of relieving me of this burdensome arousal?" He inches the trembling erection closer to your mouth. "If I might implore those luscious lips to open and accept me, I will one day die a most grateful and fulfilled man, once shown compassion and perhaps even some sweet smidgen of love -- if but only fleeting -- by such a kindhearted and pretty lass as yourself."
 
 [[Open your mouth.|IntroSlow8yes]]
 [[Shake your head.|IntroSlow8no]]
 
 :: IntroSlow8yes
-<<run $Player.AdjustStat("Perversion", 5);>>
-<<run $Player.AdjustStat("WillPower", -3);>>
+<<run setup.player.AdjustStat("Perversion", 5);>>
+<<run setup.player.AdjustStat("WillPower", -3);>>
 You stare in his eyes as you let your lips part. He smiles and strokes your hair. The tip of his trembling prick slides to rests upon your bottom lip, gently nudging against your top lip. He closes his eyes as you open your mouth wide and use your tongue to lure his cockhead inside.
 
-"Oh, sweet @@color:deepPink;<<= $Player.SlaveName>>@@," he sighs. "How wonderfully I do feel in your warm embrace!"
+"Oh, sweet @@color:deepPink;<<= setup.player.SlaveName>>@@," he sighs. "How wonderfully I do feel in your warm embrace!"
 
 Conroy seems content to let you entirely control the activity as his only action is to continue to lightly brush his fingers through your hair, gently grazing your scalp with his nails as he does so. Though you have to admit to yourself that alone does feel amazing.
 
@@ -463,7 +465,7 @@ You continue to stare in his eyes as you bob your head on his cock. You're almos
 
 He releases you and your mouth slides off his cock with a sloppy slurp. You gasp and drool. He takes your chin in his hand and directs your gaze to his eyes again.
 
-"Take a breath, @@color:deepPink;<<= $Player.SlaveName>>@@." He strokes his other hand through your hair again. "You have such a strong womanly desire to please, and it's ever so endearing, but I hate to see you uncomfortable. Please be more careful, sweetheart."
+"Take a breath, @@color:deepPink;<<= setup.player.SlaveName>>@@." He strokes his other hand through your hair again. "You have such a strong womanly desire to please, and it's ever so endearing, but I hate to see you uncomfortable. Please be more careful, sweetheart."
 
 With that, he presses his cock through your lips and into your mouth. You place grasp his legs in your hands start bobbing your head on his cock again. You remind yourself to keep looking at him despite the tears in your eyes and snot running from your nose.
 
@@ -479,7 +481,7 @@ When he finally releases you, his prick is entirely clean of cum. He smiles and 
 
 You turn, wide-eyed, to see the Captain standing at the cell entrance with his hands on his hips and a huge grin on his face. How long was he watching?!
 
-"Stay sweet, @@color:deepPink;<<= $Player.SlaveName>>@@," Conroy says, patting your head. "Don't let these men turn you sour." He steps by you and stands in front of the captain with his palm out. Captain Reginald huffs but drops a bag of coins into Conroy's waiting hand.
+"Stay sweet, @@color:deepPink;<<= setup.player.SlaveName>>@@," Conroy says, patting your head. "Don't let these men turn you sour." He steps by you and stands in front of the captain with his palm out. Captain Reginald huffs but drops a bag of coins into Conroy's waiting hand.
 
 @@color:cyan;"I don't know what devilry has me payin' you fer gettin' a day-long buttery blow from me new cabin-girl,"@@ he gripes.
 
@@ -498,7 +500,7 @@ Conroy's shoulders slump and he lets out a long sigh.
 
 He kneels down in front of you, grinning, and pulls a vial of clear liquid from his pocket.
 
-"Lie back, @@color:deepPink;<<= $Player.SlaveName>>@@." He unstoppers the vial. "I'll make sure you're comfortable, sweetie."
+"Lie back, @@color:deepPink;<<= setup.player.SlaveName>>@@." He unstoppers the vial. "I'll make sure you're comfortable, sweetie."
 
 You realize he's gotten the impression that you want to get fucked.
 
@@ -506,8 +508,8 @@ You realize he's gotten the impression that you want to get fucked.
 [[Shake your head "no" more vigorously.|IntroSlow8nono]]
 
 :: IntroSlow8noyes
-<<run $Player.AdjustStat("Perversion", 5);>>
-<<run $Player.AdjustStat("WillPower", -3);>>
+<<run setup.player.AdjustStat("Perversion", 5);>>
+<<run setup.player.AdjustStat("WillPower", -3);>>
 You lie back and watch Conroy as he pours some of the clear liquid onto his index and middle finger. Then he lowers his hand between your legs and you feel him press the tips of his fingers right into your asshole.
 
 "Ah!" you cry, squirming away.
@@ -530,7 +532,7 @@ Conroy showers your neck and shoulders with brief kisses as he starts to pump hi
 
 The rhythm becomes almost hypnotic. You find yourself pushing against him as his hot meat burrows deep in your tingling guts. Your own cock throbs impotently against the contraption he's locked on your genitals in -- you try to make a mental note to ask him why but you can't concentrate with him growling in your ear while ravaging your prickling pucker with his rigid manhood.
 
-You find that your head is swimming. Your body starts sparking and sizzling inside and out. Your toes are curl and you start whimpering and mewling the very same way you heard <<= $Player.GirlfriendName>> doing earlier.
+You find that your head is swimming. Your body starts sparking and sizzling inside and out. Your toes are curl and you start whimpering and mewling the very same way you heard <<= setup.player.GirlfriendName>> doing earlier.
 
 //@@color:pink;Is this what it feels like to be a girl?@@//
 
@@ -546,7 +548,7 @@ That voice is more than enough to snap you out of your post-fuck relaxation.
 
 You sit up and turn, wide-eyed, to see the Captain standing at the cell entrance with his hands on his hips and a huge grin on his face. How long was he watching?!
 
-"Stay sweet, @@color:deepPink;<<= $Player.SlaveName>>@@," Conroy says, patting your head. "Don't let these men turn you sour." He steps by you and stands in front of the captain with his palm out. Captain Reginald huffs but drops a bag of coins into Conroy's waiting hand.
+"Stay sweet, @@color:deepPink;<<= setup.player.SlaveName>>@@," Conroy says, patting your head. "Don't let these men turn you sour." He steps by you and stands in front of the captain with his palm out. Captain Reginald huffs but drops a bag of coins into Conroy's waiting hand.
 
 @@color:cyan;"I don't know what devilry has me payin' you fer fillin' up me new cabin-girl with yer hoity-toity stuck-up spunk,"@@ he gripes.
 
@@ -571,7 +573,7 @@ He stoppers the vial and slips it back into his pocket. Then he stands and tucks
 
 You turn, wide-eyed, to see the Captain standing at the cell entrance with his hands on his hips and a scowl on his face. How long was he watching?!
 
-"My apologies, Captain," he says. "Honestly, I do see great potential in her. But she stubbornly refuses to accept the truth." He looks to you with a sad smile. "Destiny brought her here, to this ship, because she has wantonly rejected every call to her fate. @@color:deepPink;<<= $Player.SlaveName>>@@, you're a lovely lass and I truly do hope you have the courage to accept that one day."
+"My apologies, Captain," he says. "Honestly, I do see great potential in her. But she stubbornly refuses to accept the truth." He looks to you with a sad smile. "Destiny brought her here, to this ship, because she has wantonly rejected every call to her fate. @@color:deepPink;<<= setup.player.SlaveName>>@@, you're a lovely lass and I truly do hope you have the courage to accept that one day."
 
 @@color:cyan;"That'll be enough of that rot, ye prophesying fiend."@@ The captain thumbs over his shoulder. @@color:cyan;"Out with you, Mister Conroy. I'll have me crew pound her fate into her, I will, then we'll heave the bloated bitch to the bloody mermaids."@@
 
@@ -607,7 +609,7 @@ He chuckles and leaves the cell, locking it behind him.
 
 :: IntroSlow10
 
-Two days later you're led from your cell to the Captain's quarters by the First Mate. Once there, he officiously explains that you're now part of the Salty Mermaid crew, as their live-in "Cabin Girl" of course, and that you'd best get used to your name, @@color:deepPink;"<<= $Player.SlaveName>>"@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women's clothes and you sigh internally. You shouldn't have expected anything else after the treatment you've been given so far. Still, as embarrassing as it is, it's not as bad as being naked all the time.
+Two days later you're led from your cell to the Captain's quarters by the First Mate. Once there, he officiously explains that you're now part of the Salty Mermaid crew, as their live-in "Cabin Girl" of course, and that you'd best get used to your name, @@color:deepPink;"<<= setup.player.SlaveName>>"@@. Abruptly, he throws full sack at you. You peak inside and realize that they are women's clothes and you sigh internally. You shouldn't have expected anything else after the treatment you've been given so far. Still, as embarrassing as it is, it's not as bad as being naked all the time.
 
 Before you go, he has some final words for you.
 

@@ -1,5 +1,5 @@
 :: Examine [custom-menu]
-<<= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.ShortDesc())>>
-<<= window.App.PR.TokenizeString($Player, $MenuAction, $MenuAction.LongDesc())>>
+<<= window.App.PR.TokenizeString(setup.player, $MenuAction, $MenuAction.ShortDesc())>>
+<<= window.App.PR.TokenizeString(setup.player, $MenuAction, $MenuAction.LongDesc())>>
 
 @@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>

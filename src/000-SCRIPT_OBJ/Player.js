@@ -1,10 +1,11 @@
 App = App || { Data: { }, Entity: { } };
 
 /**
- * The basic player object.
+ * The basic player state object.
+ * This will be serialized by the SugarCube and thus may not contain any functions
  * @constructor
  */
-App.Entity.Player = function (){
+App.Entity.PlayerState = function (){
     // Player Basic Variables
     this.OriginalName = "Joseph";
     this.SlaveName = "Josie";
@@ -44,147 +45,6 @@ App.Entity.Player = function (){
     // Game/Environment Variables
     this.Day = 1;
     this.Phase = 0; // 0 morning, 1 afternoon, 2 evening, 3 night, 4 late night
-
-    this.Init = function() {
-
-        this.OriginalName = window.App.Data.Names["Male"][Math.floor(Math.random() * window.App.Data.Names["Male"].length)];
-        this.SlaveName = window.App.Data.Names["Sissy"][Math.floor(Math.random() * window.App.Data.Names["Sissy"].length)];
-        var GfName = window.App.Data.Names["Female"][Math.floor(Math.random() * window.App.Data.Names["Female"].length)];
-
-        while (GfName == this.SlaveName) {
-            GfName = window.App.Data.Names["Female"][Math.floor(Math.random() * window.App.Data.Names["Female"].length)];
-        }
-
-        this.GirlfriendName = GfName;
-
-        this.SetStartingStats("STAT");
-        this.SetStartingStats("BODY");
-        this.SetStartingStats("SKILL");
-
-        this.Inventory = [
-            window.App.Item.Factory("COSMETICS", "hair accessories",    10),
-            window.App.Item.Factory("COSMETICS", "hair products",       10),
-            window.App.Item.Factory("COSMETICS", "basic makeup",        10),
-            window.App.Item.Factory("REEL", "COMMON_WHORE",             0),
-            window.App.Item.Factory("REEL", "COMMON_WILDCARD",          0),
-            window.App.Item.Factory("REEL", "COMMON_WHORE",             0)
-        ];
-
-        this.Equipment = {
-            "Wig":              window.App.Item.Factory("CLOTHES", "cheap wig"),
-            "Hat":              0,
-            "Neck":             window.App.Item.Factory("CLOTHES", "collar"),
-            "Nipples":          0,
-            "Bra":              window.App.Item.Factory("CLOTHES", "chemise"),
-            "Corset":           0,
-            "Panty":            window.App.Item.Factory("CLOTHES", "cotton bloomers"),
-            "Stockings":        window.App.Item.Factory("CLOTHES", "cotton stockings"),
-            "Shirt":            0,
-            "Pants":            0,
-            "Dress":            window.App.Item.Factory("CLOTHES", "cotton dress"),
-            "Costume":          0,
-            "Shoes":            window.App.Item.Factory("CLOTHES", "worn boots"),
-            "Butt":             0,
-            "Penis":            window.App.Item.Factory("CLOTHES", "chastity cage"),
-            "Weapon":           0
-        };
-
-        this.NPCS = { };
-
-        /**
-         * Previously we stored a dictionary of NPC objects. Now we just store some vital information and make new ones as needed.
-         * @param npcTag {string}
-         * @returns {App.Entity.NPC}
-         */
-        this.GetNPC = function(npcTag ){
-            var data = App.Data.NPCS[npcTag];
-              if (!this.NPCS.hasOwnProperty(npcTag)) {
-                  this.NPCS[npcTag] = { QuestFlags: { }, Mood: data["Mood"], Lust: data["Lust"] };
-                  return new App.Entity.NPC( data, this.NPCS[npcTag]);
-              }
-            return new App.Entity.NPC(data, this.NPCS[npcTag])
-        };
-
-
-        this.StoreInventory = {
-            "GALLEY":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "CARGO":            { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "ISLATAVERN":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "ISLASTORE":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "SMUGGLERS":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "GOLDEN_GOODS":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "LUSTY_LASS":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "SAUCY_SLATTERN":   { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "YVONNE_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "MARKET_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "BAZAAR_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "Emily":            { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "Bradshaw":         { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "BarnabyLong":      { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "MeghanLong":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "Isabella":         { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "Fineas":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
-        };
-    };
-
-    /**
-     * Helper function. Sets the starting statistics for a player from the config objects.
-     * @param Type
-     */
-    this.SetStartingStats = function (Type) {
-        var Prop;
-        var ConfigOb;
-
-        ConfigOb = this.GetStatConfig(Type);
-
-        for (Prop in ConfigOb) {
-            if(!ConfigOb.hasOwnProperty(Prop)) continue;
-            if (Type == "BODY") this.AdjustBody(Prop, ConfigOb[Prop]["START"]);
-            if (Type == "SKILL") this.AdjustSkill(Prop, ConfigOb[Prop]["START"]);
-            if (Type == "STAT") this.AdjustStat(Prop, ConfigOb[Prop]["START"]);
-        }
-    };
-
-    /**
-     * Helping function to get the starting value of a statistic.
-     * @param {string} Type
-     * @param {string} Stat
-     * @returns {number}
-     */
-    this.GetStartStat = function(Type, Stat) {
-        return this.GetStatConfig(Type)[Stat]["START"];
-    };
-
-    /**
-     * With Icon = true then return string time with Icon.
-     * With Icon = false return numerical time of day.
-     * @param {boolean} Icon
-     * @returns {*}
-     */
-    this.GetPhase = function (Icon) {
-        if (typeof Icon === 'undefined') Icon = false;
-        if (this.Phase == 0) return Icon ? "morning @@color:yellow;&#9788;@@" : "morning";
-        if (this.Phase == 1) return Icon ? "afternoon @@color:orange;&#9728;@@" : "afternoon";
-        if (this.Phase == 2) return Icon ? "evening @@color:azure;&#9734;@@" : "evening";
-        if (this.Phase == 3) return Icon ? "night @@color:cornflowerblue;&#9789;@@" : "night";
-        if (this.Phase == 4) return Icon ? "late night @@color:DeepPink;&#9789;@@" : "late night";
-        return this.Phase;
-    };
-
-    /**
-     * Returns the phase icon for the current phase.
-     * @param {number} Arg
-     * @returns {string}
-     */
-    this.GetPhaseIcon = function(Arg) {
-        if (Arg == 0) return "@@color:yellow;&#9788;@@";
-        if (Arg == 1) return "@@color:orange;&#9728;@@";
-        if (Arg == 2) return "@@color:azure;&#9734;@@";
-        if (Arg == 3) return "@@color:cornflowerblue;&#9789;@@";
-        if (Arg == 4) return "@@color:DeepPink;&#9789;@@";
-        return "@@color:DeepPink;&#9789;@@";
-    };
 
     // Player Statistic Variables
     this.CoreStats = {
@@ -279,35 +139,193 @@ App.Entity.Player = function (){
      * @type {Array}
      */
     this.Wardrobe = [ ];
+	this.Inventory = { };
+	this.Equipment = { };
+	this.StoreInventory = { };
+	this.NPCS = { };
 
-    /**
-     * Performs a skill roll.
-     * @param {string} SkillName - Skill to check.
-     * @param {number} Difficulty - Test difficulty.
-     * @param {boolean} [Scaling] - Return value is always the XpMod and never 0.
-     * @returns {number} - result of check.
-     */
-    this._SkillRoll = function (SkillName, Difficulty, Scaling) {
-        Scaling = Scaling || false;
-        var Target      = this.CalculateSkillTarget(SkillName, Difficulty);
-        var DiceRoll    = Math.floor(Math.random() * 100);
-        var Synergy     = this.GetSynergyBonus(SkillName);
-
-        DiceRoll += Math.max(0, Math.min(Synergy, 100)); // Cap 100
-        DiceRoll += this._RollBonus("SKILL", SkillName);
-
-        var BaseXp      = Math.max(10, Math.min((Difficulty - this.GetStat("SKILL", SkillName)), 50));
-        var XpMod       = Math.max(0.25, Math.min((DiceRoll  / Target), 2.0)); // 0.25 - 2.0
-        var XpEarned    = Math.ceil(BaseXp * XpMod);
-
-        this.AdjustSkillXP(SkillName, XpEarned);
-
-        if (this.debugMode) console.log("SkillRoll(" + SkillName + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " XPMod="+XpMod+"\n");
-
-        if (Scaling == true) return XpMod;
-        if (DiceRoll >= Target ) return 1;
-        return 0;
+	this.Slots = {
+        0: null, 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null
     };
+
+    this.CurrentSlots = 3; // Starting allocation of whoring
+};
+
+class Player {
+    /**
+    * @returns {App.Entity.PlayerState}
+    */
+    get _state() {
+        return State.variables.PlayerState;
+    }
+
+	Init() {
+		this._state.OriginalName = window.App.Data.Names["Male"][Math.floor(Math.random() * window.App.Data.Names["Male"].length)];
+		this._state.SlaveName = window.App.Data.Names["Sissy"][Math.floor(Math.random() * window.App.Data.Names["Sissy"].length)];
+		var GfName = window.App.Data.Names["Female"][Math.floor(Math.random() * window.App.Data.Names["Female"].length)];
+
+		while (GfName == this._state.SlaveName) {
+			GfName = window.App.Data.Names["Female"][Math.floor(Math.random() * window.App.Data.Names["Female"].length)];
+		}
+
+		this._state.GirlfriendName = GfName;
+
+		this.SetStartingStats("STAT");
+		this.SetStartingStats("BODY");
+		this.SetStartingStats("SKILL");
+
+		this._state.Inventory = [
+			window.App.Item.Factory("COSMETICS", "hair accessories",    10),
+			window.App.Item.Factory("COSMETICS", "hair products",       10),
+			window.App.Item.Factory("COSMETICS", "basic makeup",        10),
+			window.App.Item.Factory("REEL", "COMMON_WHORE",             0),
+			window.App.Item.Factory("REEL", "COMMON_WILDCARD",          0),
+			window.App.Item.Factory("REEL", "COMMON_WHORE",             0)
+		];
+
+		this._state.Equipment = {
+			"Wig":              window.App.Item.Factory("CLOTHES", "cheap wig"),
+			"Hat":              0,
+			"Neck":             window.App.Item.Factory("CLOTHES", "collar"),
+			"Nipples":          0,
+			"Bra":              window.App.Item.Factory("CLOTHES", "chemise"),
+			"Corset":           0,
+			"Panty":            window.App.Item.Factory("CLOTHES", "cotton bloomers"),
+			"Stockings":        window.App.Item.Factory("CLOTHES", "cotton stockings"),
+			"Shirt":            0,
+			"Pants":            0,
+			"Dress":            window.App.Item.Factory("CLOTHES", "cotton dress"),
+			"Costume":          0,
+			"Shoes":            window.App.Item.Factory("CLOTHES", "worn boots"),
+			"Butt":             0,
+			"Penis":            window.App.Item.Factory("CLOTHES", "chastity cage"),
+			"Weapon":           0
+		};
+
+		this._state.NPCS = { };
+
+		this._state.StoreInventory = {
+			"GALLEY":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"CARGO":            { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"ISLATAVERN":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"ISLASTORE":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"SMUGGLERS":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"GOLDEN_GOODS":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"LUSTY_LASS":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"SAUCY_SLATTERN":   { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"YVONNE_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"MARKET_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"BAZAAR_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"Emily":            { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"Bradshaw":         { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"BarnabyLong":      { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"MeghanLong":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"Isabella":         { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"Fineas":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
+		};
+	};
+
+	/**
+	* Previously we stored a dictionary of NPC objects. Now we just store some vital information and make new ones as needed.
+	* @param npcTag {string}
+	* @returns {App.Entity.NPC}
+	*/
+	GetNPC(npcTag ){
+		var data = App.Data.NPCS[npcTag];
+			if (!this._state.NPCS.hasOwnProperty(npcTag)) {
+				this._state.NPCS[npcTag] = { QuestFlags: { }, Mood: data["Mood"], Lust: data["Lust"] };
+				return new App.Entity.NPC( data, this._state.NPCS[npcTag]);
+			}
+		return new App.Entity.NPC(data, this._state.NPCS[npcTag])
+	};
+
+	/**
+		* Helper function. Sets the starting statistics for a player from the config objects.
+		* @param Type
+		*/
+	SetStartingStats(Type) {
+		var Prop;
+		var ConfigOb;
+
+		ConfigOb = this.GetStatConfig(Type);
+
+		for (Prop in ConfigOb) {
+			if(!ConfigOb.hasOwnProperty(Prop)) continue;
+			if (Type == "BODY") this.AdjustBody(Prop, ConfigOb[Prop]["START"]);
+			if (Type == "SKILL") this.AdjustSkill(Prop, ConfigOb[Prop]["START"]);
+			if (Type == "STAT") this.AdjustStat(Prop, ConfigOb[Prop]["START"]);
+		}
+	};
+
+	/**
+		* Helping function to get the starting value of a statistic.
+		* @param {string} Type
+		* @param {string} Stat
+		* @returns {number}
+		*/
+	GetStartStat(Type, Stat) {
+		return this.GetStatConfig(Type)[Stat]["START"];
+	};
+
+	/**
+		* With Icon = true then return string time with Icon.
+		* With Icon = false return numerical time of day.
+		* @param {boolean} Icon
+		* @returns {*}
+		*/
+	GetPhase (Icon) {
+		if (typeof Icon === 'undefined') Icon = false;
+		if (this._state.Phase == 0) return Icon ? "morning @@color:yellow;&#9788;@@" : "morning";
+		if (this._state.Phase == 1) return Icon ? "afternoon @@color:orange;&#9728;@@" : "afternoon";
+		if (this._state.Phase == 2) return Icon ? "evening @@color:azure;&#9734;@@" : "evening";
+		if (this._state.Phase == 3) return Icon ? "night @@color:cornflowerblue;&#9789;@@" : "night";
+		if (this._state.Phase == 4) return Icon ? "late night @@color:DeepPink;&#9789;@@" : "late night";
+		return this._state.Phase;
+	};
+
+	/**
+		* Returns the phase icon for the current phase.
+		* @param {number} Arg
+		* @returns {string}
+		*/
+	GetPhaseIcon(Arg) {
+		if (Arg == 0) return "@@color:yellow;&#9788;@@";
+		if (Arg == 1) return "@@color:orange;&#9728;@@";
+		if (Arg == 2) return "@@color:azure;&#9734;@@";
+		if (Arg == 3) return "@@color:cornflowerblue;&#9789;@@";
+		if (Arg == 4) return "@@color:DeepPink;&#9789;@@";
+		return "@@color:DeepPink;&#9789;@@";
+	};
+
+	/**
+		* Performs a skill roll.
+		* @param {string} SkillName - Skill to check.
+		* @param {number} Difficulty - Test difficulty.
+		* @param {boolean} [Scaling] - Return value is always the XpMod and never 0.
+		* @returns {number} - result of check.
+		*/
+	_SkillRoll (SkillName, Difficulty, Scaling) {
+		Scaling = Scaling || false;
+		var Target      = this.CalculateSkillTarget(SkillName, Difficulty);
+		var DiceRoll    = Math.floor(Math.random() * 100);
+		var Synergy     = this.GetSynergyBonus(SkillName);
+
+		DiceRoll += Math.max(0, Math.min(Synergy, 100)); // Cap 100
+		DiceRoll += this._RollBonus("SKILL", SkillName);
+
+		var BaseXp      = Math.max(10, Math.min((Difficulty - this.GetStat("SKILL", SkillName)), 50));
+		var XpMod       = Math.max(0.25, Math.min((DiceRoll  / Target), 2.0)); // 0.25 - 2.0
+		var XpEarned    = Math.ceil(BaseXp * XpMod);
+
+		this.AdjustSkillXP(SkillName, XpEarned);
+
+		if (this._state.debugMode) console.log("SkillRoll(" + SkillName + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " XPMod="+XpMod+"\n");
+
+		if (Scaling == true) return XpMod;
+		if (DiceRoll >= Target ) return 1;
+		return 0;
+	};
 
     /**
      *
@@ -316,12 +334,12 @@ App.Entity.Player = function (){
      * @returns {number}
      * @private
      */
-    this._RollBonus = function(Type, Name) {
+    _RollBonus(Type, Name) {
       var bonus = 0;
 
-        if (this.VoodooEffects.hasOwnProperty("PIRATES_PROWESS") && Type == "SKILL") bonus += this.VoodooEffects["PIRATES_PROWESS"];
-        if (this.difficultySetting == 1) bonus += 5;
-        if (this.difficultySetting == 2) bonus += 10;
+        if (this._state.VoodooEffects.hasOwnProperty("PIRATES_PROWESS") && Type == "SKILL") bonus += this._state.VoodooEffects["PIRATES_PROWESS"];
+        if (this._state.difficultySetting == 1) bonus += 5;
+        if (this._state.difficultySetting == 2) bonus += 10;
         bonus += this.GetWornSkillBonus(Name);
 
         return bonus;
@@ -336,11 +354,11 @@ App.Entity.Player = function (){
      * @param {boolean} [Scaling]
      * @returns {number}
      */
-    this.SkillRoll = function(SkillName, Difficulty, Amount, Scaling)
+    SkillRoll(SkillName, Difficulty, Amount, Scaling)
     {
         var Mod = this._SkillRoll(SkillName, Difficulty, Scaling);
         var ret = Math.ceil(Amount * Mod);
-        if (this.debugMode) console.log("SkillRoll: Mod="+Mod+",Amount="+Amount+",Ret="+ret+"\n");
+        if (this._state.debugMode) console.log("SkillRoll: Mod="+Mod+",Amount="+Amount+",Ret="+ret+"\n");
         return Math.ceil(Amount * Mod);
     };
 
@@ -353,7 +371,7 @@ App.Entity.Player = function (){
      * @param {boolean} Scaling
      * @returns {number}
      */
-    this.StatRoll = function(Type, Name, Difficulty, Amount, Scaling)
+    StatRoll(Type, Name, Difficulty, Amount, Scaling)
     {
         Scaling = Scaling || false;
         var Target      = this.CalculateSkillTarget(Name, Difficulty, Type);
@@ -364,7 +382,7 @@ App.Entity.Player = function (){
 
         var Mod         = Math.max(0.10, Math.min((DiceRoll  / Target), 2.0)); // 0.1 - 2.0
 
-        if(this.debugMode) console.log("StatRoll(" + Name + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " Mod="+Mod+"\n");
+        if(this._state.debugMode) console.log("StatRoll(" + Name + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " Mod="+Mod+"\n");
 
         if (Scaling == true) return (Amount * Mod);
         if (DiceRoll >= Target) return 1;
@@ -378,7 +396,7 @@ App.Entity.Player = function (){
      * @param {string} [Alternate]
      * @returns {number}
      */
-    this.CalculateSkillTarget = function(SkillName, Difficulty, Alternate) {
+    CalculateSkillTarget(SkillName, Difficulty, Alternate) {
         Alternate = Alternate || "SKILL";
 
         var SkillVal = this.GetStat(Alternate, SkillName);
@@ -391,7 +409,7 @@ App.Entity.Player = function (){
      * @param {string} SkillName
      * @returns {number}
      */
-    this.GetSynergyBonus = function (SkillName) {
+    GetSynergyBonus (SkillName) {
         if (!App.Data.Lists["SkillSynergy"].hasOwnProperty(SkillName)) return 0;
         var Bonus = 0;
         var Synergy = App.Data.Lists["SkillSynergy"][SkillName];
@@ -404,16 +422,16 @@ App.Entity.Player = function (){
     /**
      * Restyle hair.
      */
-    this.ReStyle = function()
+    ReStyle()
     {
         if (this.CanReStyle() == false) return;
-        var lm = this.LastUsedMakeup;
+        var lm = this._state.LastUsedMakeup;
         var Makeup = App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0]["NAME"];
-        var lh = this.LastUsedHair;
+        var lh = this._state.LastUsedHair;
         var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0]["NAME"];
 
-        if (this.Equipment["Wig"] != 0) {
-            this.DoStyling(this.Equipment["Wig"].Id(), Makeup);
+        if (this._state.Equipment["Wig"] != 0) {
+            this.DoStyling(this._state.Equipment["Wig"].Id(), Makeup);
         } else {
             this.DoStyling(Hair, Makeup);
         }
@@ -425,8 +443,8 @@ App.Entity.Player = function (){
      * Simple routine to check if the player can reapply their style.
      * @returns {boolean}
      */
-    this.CanReStyle = function()
-    {
+	CanReStyle()
+	{
         if(this.CoreStats["Energy"] < 1) return false;
         if (this.LastUsedMakeup == this.MakeupStyle) return false;
         var m1 = (typeof this.GetItemByName('basic makeup') !== 'undefined') ? this.GetItemByName('basic makeup').Charges() : 0;
@@ -437,8 +455,8 @@ App.Entity.Player = function (){
         var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0];
         if ( (m1 < Makeup["RESOURCE1"]) || (m2 < Makeup["RESOURCE2"])) return false;
 
-        if (this.Equipment["Wig"] !== 0) return true;
-        var lh = this.LastUsedHair;
+        if (this._state.Equipment["Wig"] !== 0) return true;
+        var lh = this._state.LastUsedHair;
         var Hair = window.App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0];
         return ( (h1 >= Hair["RESOURCE1"]) && (h2 >= Hair["RESOURCE2"]));
     };
@@ -450,22 +468,22 @@ App.Entity.Player = function (){
      * @param {string} HairID
      * @param {string} MakeupID
      */
-    this.DoStyling = function(HairID, MakeupID )
+    DoStyling(HairID, MakeupID )
     {
 
         var obj = this.GetItemById(HairID);
         if (typeof obj !== 'undefined') { // We passed an Item Id and found an item.
-            if ((this.Equipment["Wig"] == 0) || (this.Equipment["Wig"].Id() != HairID))
+            if ((this._state.Equipment["Wig"] == 0) || (this._state.Equipment["Wig"].Id() != HairID))
                 this.Wear( this.WardrobeItem(HairID));
         } else {
-            if (this.Equipment["Wig"] != 0) this.Remove(this.Equipment["Wig"]);
+            if (this._state.Equipment["Wig"] != 0) this.Remove(this._state.Equipment["Wig"]);
 
             var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["NAME"] == HairID; })[0];
 
             if ( this.GetItemCharges("hair tool") >= Hair["RESOURCE1"] && this.GetItemCharges("hair treatment") >= Hair["RESOURCE2"]) {
-                this.HairStyle = Hair["SHORT"];
-                this.HairBonus = this.SkillRoll("Styling", Hair["DIFFICULTY"], Hair["STYLE"], true);
-                this.LastUsedHair = Hair["SHORT"];
+                this._state.HairStyle = Hair["SHORT"];
+                this._state.HairBonus = this.SkillRoll("Styling", Hair["DIFFICULTY"], Hair["STYLE"], true);
+                this._state.LastUsedHair = Hair["SHORT"];
                 this.UseItemCharges("hair tool", Hair["RESOURCE1"]);
                 this.UseItemCharges("hair treatment", Hair["RESOURCE2"]);
             }
@@ -474,9 +492,9 @@ App.Entity.Player = function (){
         var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["NAME"] == MakeupID; })[0];
 
         if ( this.GetItemCharges("basic makeup") >= Makeup["RESOURCE1"] && this.GetItemCharges("expensive makeup") >= Makeup["RESOURCE2"]) {
-            this.MakeupStyle = Makeup["SHORT"];
-            this.MakeupBonus = this.SkillRoll("Styling", Makeup["DIFFICULTY"], Makeup["STYLE"], true);
-            this.LastUsedMakeup = Makeup["SHORT"];
+            this._state.MakeupStyle = Makeup["SHORT"];
+            this._state.MakeupBonus = this.SkillRoll("Styling", Makeup["DIFFICULTY"], Makeup["STYLE"], true);
+            this._state.LastUsedMakeup = Makeup["SHORT"];
             this.UseItemCharges("basic makeup", Makeup["RESOURCE1"]);
             this.UseItemCharges("expensive makeup", Makeup["RESOURCE2"]);
         }
@@ -486,7 +504,7 @@ App.Entity.Player = function (){
      * Calculates the Players "Beauty" based on other statistics.
      * @returns {number}
      */
-    this.Beauty = function () {
+    Beauty () {
         var cBeauty = Math.round((this.GetStat("BODY", "Face") * 0.4) + (this.Figure() * 0.3 ) + (this.GetStat("STAT", "Fitness") * 0.3));
         return Math.max(1, Math.min(cBeauty, 100));
     };
@@ -497,7 +515,7 @@ App.Entity.Player = function (){
      * other activities.
      * @returns {number}
      */
-    this.Fetish = function () {
+    Fetish() {
         var score = 0;
         // 5 - 15 for boobs and ass each   (30 pts)
         if (this.GetStatPercent("BODY", "Bust") >= 60)  score += Math.round ((5 + (this.GetStatPercent("BODY", "Bust")/10)));
@@ -521,7 +539,7 @@ App.Entity.Player = function (){
      * Derived statistic that reports "style" made up out of hair, makeup and clothing.
      * @returns {number}
      */
-    this.Style = function () {
+    Style () {
         var cStyle = Math.round(( this.HairRating() * 0.25 ) + ( this.MakeupRating() * 0.25 ) + (this.ClothesRating() * 0.5));
         return Math.max(0, Math.min(cStyle, 100));
     };
@@ -531,40 +549,40 @@ App.Entity.Player = function (){
      * a wig and then reports that number instead.
      * @returns {number}
      */
-    this.HairRating = function () {
-        if (this.Equipment["Wig"] != 0) return Math.max(0, Math.min(this.Equipment["Wig"].HairBonus(), 100));
-        return Math.max(0, Math.min(this.HairBonus, 100));
+    HairRating () {
+        if (this._state.Equipment["Wig"] != 0) return Math.max(0, Math.min(this._state.Equipment["Wig"].HairBonus(), 100));
+        return Math.max(0, Math.min(this._state.HairBonus, 100));
     };
 
     /**
      * @returns {string}
      */
-    this.GetHairStyle = function () {
-        if (this.Equipment["Wig"] != 0) return this.Equipment["Wig"].HairStyle();
-        return this.HairStyle;
+    GetHairStyle () {
+        if (this._state.Equipment["Wig"] != 0) return this._state.Equipment["Wig"].HairStyle();
+        return this._state.HairStyle;
     };
 
     /**
      * @returns {string}
      */
-    this.GetHairColor = function () {
-        if (this.Equipment["Wig"] != 0) return this.Equipment["Wig"].HairColor();
-        return this.HairColor;
+    GetHairColor () {
+        if (this._state.Equipment["Wig"] != 0) return this._state.Equipment["Wig"].HairColor();
+        return this._state.HairColor;
     };
 
     /**
      * The makeup rating of the player.
      * @returns {number}
      */
-    this.MakeupRating = function () {
-        return Math.max(0, Math.min(this.MakeupBonus, 100));
+    MakeupRating () {
+        return Math.max(0, Math.min(this._state.MakeupBonus, 100));
     };
 
     /**
      * Derived statistic (face + makeup). Bonus payout for hand jobs if you have a good face.
      * @returns {number}
      */
-    this.FaceRating = function () {
+    FaceRating () {
         return Math.ceil(Math.max(0, Math.min((( this.MakeupRating() + this.GetStat("BODY", "Face")) / 2), 100)));
     };
 
@@ -572,13 +590,13 @@ App.Entity.Player = function (){
      * Iterates through players worn items and sums .Style() property.
      * @returns {number}
      */
-    this.ClothesRating = function () {
+    ClothesRating () {
         var cStyle = 0;
 
-        for (var prop in this.Equipment) {
-            if (!this.Equipment.hasOwnProperty(prop)) continue;
-            if (this.Equipment[prop] == 0) continue;
-            cStyle += this.Equipment[prop].Style();
+        for (var prop in this._state.Equipment) {
+            if (!this._state.Equipment.hasOwnProperty(prop)) continue;
+            if (this._state.Equipment[prop] == 0) continue;
+            cStyle += this._state.Equipment[prop].Style();
         }
         return Math.max(1, Math.min(Math.round(((cStyle / 100 ) * 100)), 100)); // 1 - 100 rating
     };
@@ -588,15 +606,15 @@ App.Entity.Player = function (){
      * @param {string} Spec
      * @returns {number}
      */
-    this.GetStyleSpecRating = function(Spec){
+    GetStyleSpecRating(Spec){
         var Rating = 0;
 
-        for (var prop in this.Equipment)
+        for (var prop in this._state.Equipment)
         {
-            if (!this.Equipment.hasOwnProperty(prop)) continue;
-            if (this.Equipment[prop] == 0) continue;
+            if (!this._state.Equipment.hasOwnProperty(prop)) continue;
+            if (this._state.Equipment[prop] == 0) continue;
 
-            Rating += this.Equipment[prop].CategoryBonus(Spec);
+            Rating += this._state.Equipment[prop].CategoryBonus(Spec);
         }
         return Rating;
     };
@@ -605,7 +623,7 @@ App.Entity.Player = function (){
      * Derived statistic, lends itself to Beauty. WaistRating, BustRating, HipsRating and AssRating contribute.
      * @returns {number}
      */
-    this.Figure = function () {
+    Figure () {
         var tFig = Math.round((this.WaistRating() + this.BustRating() + this.HipsRating() + this.AssRating()) / 4);
         return Math.max(1, Math.min(tFig, 100)); // Normalize between 1 - 100
     };
@@ -614,7 +632,7 @@ App.Entity.Player = function (){
      * Calculates "golden ratio" for waist @ Player's height and then returns a score relative their current waist.
      * @returns {number}
      */
-    this.WaistRating = function () {
+    WaistRating () {
         var GoldenWaist = Math.round((window.App.PR.StatToCM(this, "Height") * 0.375)); // 54cm to 78cm
         return Math.round(((GoldenWaist / window.App.PR.WaistInCM(this)) / 1.8) * 100);
     };
@@ -623,7 +641,7 @@ App.Entity.Player = function (){
      * Calculates "golden ratio" for bust @ Player's height and then returns a score relative their current bust.
      * @returns {number}
      */
-    this.BustRating = function () {
+    BustRating () {
         var GoldenBust = (Math.round((window.App.PR.StatToCM(this, "Height") * 0.375)) * 1.5 );
         return Math.round(((window.App.PR.BustCCtoCM(this) / GoldenBust) / 1.6) * 100);
     };
@@ -632,7 +650,7 @@ App.Entity.Player = function (){
      * Calculates "golden ratio" for hips @ Player's height and then returns a score relative their current bust.
      * @returns {number}
      */
-    this.HipsRating = function () {
+    HipsRating () {
         var GoldenHips = (Math.round((App.PR.StatToCM(this, "Height") * 0.375)) * 1.5 );
         return Math.round(((App.PR.HipsInCM(this) / GoldenHips) / 1.6) * 100);
     };
@@ -641,7 +659,7 @@ App.Entity.Player = function (){
      * Combination of Ass + Hips.
      * @returns {number}
      */
-    this.AssRating = function () {
+    AssRating () {
         return Math.round((this.GetStatPercent("BODY", "Ass") + this.GetStatPercent("BODY", "Hips")) / 2);
     };
 
@@ -649,7 +667,7 @@ App.Entity.Player = function (){
      * For now just the percentage of the lips 1-100.
      * @returns {number}
      */
-    this.LipsRating = function () {
+    LipsRating () {
         return this.GetStatPercent("BODY", "Lips");
     };
 
@@ -658,7 +676,7 @@ App.Entity.Player = function (){
      * @param {string} Type - STAT | SKILL | BODY
      * @returns {*}
      */
-    this.GetStatConfig = function (Type) {
+    GetStatConfig (Type) {
         if (Type == "STAT") return App.Data.Lists.StatConfig;
         if (Type == "SKILL") return App.Data.Lists.SkillConfig;
         if (Type == "BODY") return App.Data.Lists.BodyConfig;
@@ -669,10 +687,10 @@ App.Entity.Player = function (){
      * @param {string} StatName
      * @returns {number}
      */
-    this.GetStat = function (Type, StatName) {
-        if (Type == "STAT") return this.CoreStats[StatName];
-        if (Type == "SKILL") return this.Skills[StatName];
-        if (Type == "BODY") return this.BodyStats[StatName];
+    GetStat (Type, StatName) {
+        if (Type == "STAT") return this._state.CoreStats[StatName];
+        if (Type == "SKILL") return this._state.Skills[StatName];
+        if (Type == "BODY") return this._state.BodyStats[StatName];
     };
 
     /**
@@ -681,16 +699,16 @@ App.Entity.Player = function (){
      * @param {string} StatName
      * @returns {number}
      */
-    this.GetStatXP = function (Type, StatName) {
-        if (Type == "STAT") return this.CoreStatsXP[StatName];
-        if (Type == "SKILL") return this.SkillsXP[StatName];
-        if (Type == "BODY") return this.BodyXP[StatName];
+    GetStatXP (Type, StatName) {
+        if (Type == "STAT") return this._state.CoreStatsXP[StatName];
+        if (Type == "SKILL") return this._state.SkillsXP[StatName];
+        if (Type == "BODY") return this._state.BodyXP[StatName];
     };
 
-    this.GetMaxStat = function (Type, StatName) {
+    GetMaxStat (Type, StatName) {
         return this.GetStatConfig(Type)[StatName]["MAX"];
     };
-    this.GetMinStat = function (Type, StatName) {
+    GetMinStat (Type, StatName) {
         return this.GetStatConfig(Type)[StatName]["MIN"];
     };
 
@@ -699,11 +717,11 @@ App.Entity.Player = function (){
      * @param {string} StatName
      * @returns {number}
      */
-    this.GetStatPercent = function (Type, StatName) {
+    GetStatPercent (Type, StatName) {
         return Math.floor(((this.GetStat(Type, StatName) - this.GetMinStat(Type, StatName)) / ((this.GetMaxStat(Type, StatName) - this.GetMinStat(Type, StatName)))) * 100);
     };
 
-    this.GetLeveling = function (Type, StatName, TargetScore) {
+    GetLeveling (Type, StatName, TargetScore) {
         var Levels = this.GetStatConfig(Type)[StatName]["LEVELING"];
         //var Percent = Math.round(( (( TargetScore - this.GetMinStat(Type, StatName)) / ( this.GetMaxStat(Type, StatName) - this.GetMinStat(Type,StatName))) * 100));
         var Percent = this.GetStatPercent(Type, StatName) + TargetScore;
@@ -729,29 +747,29 @@ App.Entity.Player = function (){
      * @param {number} Amount
      * @returns {number}
      */
-    this.GetCapStat = function (Type, StatName, Amount) {
+    GetCapStat (Type, StatName, Amount) {
         return Math.round((Math.max(this.GetMinStat(Type, StatName), Math.min(Amount, this.GetMaxStat(Type, StatName)))) * 100) / 100;
     };
 
-    this.AdjustStat = function (StatName, Amount) {
-        if (this.debugMode) console.log("AdjustStat: Name="+StatName+", Amount="+Amount);
-        this.CoreStats[StatName] = this.GetCapStat("STAT", StatName, ( this.CoreStats[StatName] + Amount));
+    AdjustStat (StatName, Amount) {
+        if (this._state.debugMode) console.log("AdjustStat: Name="+StatName+", Amount="+Amount);
+        this._state.CoreStats[StatName] = this.GetCapStat("STAT", StatName, ( this._state.CoreStats[StatName] + Amount));
     };
 
-    this.AdjustBody = function (StatName, Amount) {
-        if (this.debugMode) console.log("AdjustBody: Name="+StatName+", Amount="+Amount);
-        this.BodyStats[StatName] = this.GetCapStat("BODY", StatName, ( this.BodyStats[StatName] + Amount));
+    AdjustBody (StatName, Amount) {
+        if (this._state.debugMode) console.log("AdjustBody: Name="+StatName+", Amount="+Amount);
+        this._state.BodyStats[StatName] = this.GetCapStat("BODY", StatName, ( this._state.BodyStats[StatName] + Amount));
     };
 
-    this.AdjustSkill = function (StatName, Amount) {
-        if (this.debugMode) console.log("AdjustSkill: Name="+StatName+", Amount="+Amount);
-        this.Skills[StatName] = this.GetCapStat("SKILL", StatName, ( this.Skills[StatName] + Amount));
+    AdjustSkill (StatName, Amount) {
+        if (this._state.debugMode) console.log("AdjustSkill: Name="+StatName+", Amount="+Amount);
+        this._state.Skills[StatName] = this.GetCapStat("SKILL", StatName, ( this._state.Skills[StatName] + Amount));
     };
 
-    this.AdjustXP = function (Type, StatName, Amount, Limiter) {
+    AdjustXP (Type, StatName, Amount, Limiter) {
         Amount = Math.ceil(Amount); // No floats.
         if (typeof Limiter === 'undefined') Limiter = 0;
-        if (this.debugMode)
+        if (this._state.debugMode)
         console.debug("AdjustXP: Type="+Type+",Stat="+StatName+",Amount="+Amount+",Limit="+Limiter);
 
         if ((Amount > 0) && (this.GetStat(Type, StatName) >= Limiter) && (Limiter != 0)) return;
@@ -761,24 +779,24 @@ App.Entity.Player = function (){
         if (Math.abs(this.GetStatXP(Type, StatName)) >= 250) Amount = Math.ceil(Amount / 2);
         if (Math.abs(this.GetStatXP(Type, StatName)) >= 500) Amount = Math.ceil(Amount / 4);
         if (Math.abs(this.GetStatXP(Type, StatName)) >= 1000) Amount = Math.ceil(Amount / 10);
-        if (Type == "STAT")  this.CoreStatsXP[StatName] += Amount;
-        if (Type == "SKILL") this.SkillsXP[StatName] += Amount;
-        if (Type == "BODY")  this.BodyXP[StatName] += Amount;
-        if (this.debugMode)
+        if (Type == "STAT")  this._state.CoreStatsXP[StatName] += Amount;
+        if (Type == "SKILL") this._state.SkillsXP[StatName] += Amount;
+        if (Type == "BODY")  this._state.BodyXP[StatName] += Amount;
+        if (this._state.debugMode)
         console.debug("AdjustXP: Adjusted by "+Amount);
     };
 
-    this.AdjustStatXP = function (StatName, Amount, Limiter) {
+    AdjustStatXP (StatName, Amount, Limiter) {
         return this.AdjustXP("STAT", StatName, Amount, Limiter);
     };
-    this.AdjustBodyXP = function (StatName, Amount, Limiter) {
+    AdjustBodyXP (StatName, Amount, Limiter) {
         return this.AdjustXP("BODY", StatName, Amount, Limiter);
     };
-    this.AdjustSkillXP = function (StatName, Amount, Limiter) {
+    AdjustSkillXP (StatName, Amount, Limiter) {
         return this.AdjustXP("SKILL", StatName, Amount, Limiter);
     };
 
-    this.LevelStat = function (Type, StatName) {
+    LevelStat (Type, StatName) {
         var TargetScore = this.GetStatXP(Type, StatName) < 0 ? -1 : 1;
         var Leveling = this.GetLeveling(Type, StatName, TargetScore);
         if ((Math.abs(this.GetStatXP(Type, StatName))) < Leveling["COST"]) return;
@@ -794,17 +812,17 @@ App.Entity.Player = function (){
         if (Type == "STAT") {
             if (StatName == "WillPower") {
                 if (Step < 0) {
-                    this.SleepLog.push(this.pBodyChange("WillPower", "Shrink"));
+                    this._state.SleepLog.push(this.pBodyChange("WillPower", "Shrink"));
                 } else {
-                    this.SleepLog.push(this.pBodyChange("WillPower", "Grow"));
+                    this._state.SleepLog.push(this.pBodyChange("WillPower", "Grow"));
                 }
             }
 
             if (StatName == "Hormones") {
                 if (Step < 0 ) {
-                    this.SleepLog.push(this.pBodyChange("Hormones", "Shrink"));
+                    this._state.SleepLog.push(this.pBodyChange("Hormones", "Shrink"));
                 } else {
-                    this.SleepLog.push(this.pBodyChange("Hormones", "Grow"));
+                    this._state.SleepLog.push(this.pBodyChange("Hormones", "Grow"));
                 }
             }
             this.AdjustStat(StatName, Step);
@@ -814,33 +832,33 @@ App.Entity.Player = function (){
         if (Type == "BODY") {
             this.AdjustBody(StatName, Step);
             if (Step < 0) {
-                this.SleepLog.push(this.pBodyChange(StatName, "Shrink"));
+                this._state.SleepLog.push(this.pBodyChange(StatName, "Shrink"));
             } else {
-                this.SleepLog.push(this.pBodyChange(StatName, "Grow"));
+                this._state.SleepLog.push(this.pBodyChange(StatName, "Grow"));
             }
         }
         this.AdjustXP(Type, StatName, Cost);
 
     };
 
-    this.LevelStatGroup = function (Type) {
+    LevelStatGroup (Type) {
         var Keys;
-        if (Type == "STAT") Keys = Object.keys(this.CoreStats);
-        if (Type == "SKILL") Keys = Object.keys(this.Skills);
-        if (Type == "BODY") Keys = Object.keys(this.BodyStats);
+        if (Type == "STAT") Keys = Object.keys(this._state.CoreStats);
+        if (Type == "SKILL") Keys = Object.keys(this._state.Skills);
+        if (Type == "BODY") Keys = Object.keys(this._state.BodyStats);
 
         for (var i = 0; i < Keys.length; i++) this.LevelStat(Type, Keys[i]);
     };
 
-    this.AdjustMoney = function (m) {
-        this.Money = Math.max(0, (this.Money + m));
+    AdjustMoney (m) {
+        this._state.Money = Math.max(0, (this._state.Money + m));
     };
 
-    this.RandomAdjustBodyXP = function (Amount) {
-        this.AdjustBodyXP(Object.keys(this.BodyStats)[Math.floor(Math.random() * Object.keys(this.BodyStats).length)], Amount, 0);
+    RandomAdjustBodyXP (Amount) {
+        this.AdjustBodyXP(Object.keys(this._state.BodyStats)[Math.floor(Math.random() * Object.keys(this._state.BodyStats).length)], Amount, 0);
     };
 
-    this.DoHealing = function (OvernightFlag) {
+    DoHealing (OvernightFlag) {
         var Heal = 5 + ( (this.GetStat("STAT", "Energy")*2) + (this.GetStat("STAT", "Fitness") / 10));
         Heal = Heal * (( 100 - Math.max(0, Math.min(this.GetStat("STAT", "Toxicity"), 100))) / 100); // Toxicity up to 100 reduces natural healing.
 
@@ -853,33 +871,33 @@ App.Entity.Player = function (){
             var PoisonDamage = Math.ceil((this.GetStat("STAT", "Health") * ((Math.max(0, Math.min((this.GetStat("STAT", "Toxicity") - 100), 200)) / 10) * 0.1))); // 0 - .2
             if (PoisonDamage > 0) {
                 this.AdjustStat("Health", (PoisonDamage * -0.5));
-                this.SleepLog.push("@@color:red;&dArr;You feel slightly sick@@... your current " + window.App.PR.ColorizeString(this.GetStatPercent("STAT", "Toxicity"), "Toxicity") +
+                this._state.SleepLog.push("@@color:red;&dArr;You feel slightly sick@@... your current " + window.App.PR.ColorizeString(this.GetStatPercent("STAT", "Toxicity"), "Toxicity") +
                     " is probably to blame.");
             }
         }
     };
 
     // Resting and Sleeping functions.
-    this.NextDay = function () {
-        this.SleepLog = []; // Null the overnight results text log.
+    NextDay () {
+        this._state.SleepLog = []; // Null the overnight results text log.
 
         // Gain 'Knowledge' about worn clothes, log days worn.
         // Apply passive effects on worn items.
-        for (var prop in this.Equipment) {
-            if (!this.Equipment.hasOwnProperty(prop)) continue;
-            if (this.Equipment[prop] == 0) continue;
+        for (var prop in this._state.Equipment) {
+            if (!this._state.Equipment.hasOwnProperty(prop)) continue;
+            if (this._state.Equipment[prop] == 0) continue;
 
             if (Math.floor(Math.random() * 100) > 80)
-                this.AddHistory('CLOTHING_KNOWLEDGE', this.Equipment[prop].Name(), 1); // tracking effect knowledge
-            this.AddHistory("DAYS_WORN", this.Equipment[prop].Name(), 1); // tracking just days worn
-            this.Equipment[prop].ApplyEffects(this);
-            var logMsg = this.Equipment[prop].LearnKnowledge(this);
-            if ((typeof logMsg != 'undefined') && logMsg != "") this.SleepLog.push(logMsg);
+                this.AddHistory('CLOTHING_KNOWLEDGE', this._state.Equipment[prop].Name(), 1); // tracking effect knowledge
+            this.AddHistory("DAYS_WORN", this._state.Equipment[prop].Name(), 1); // tracking just days worn
+            this._state.Equipment[prop].ApplyEffects(this);
+            var logMsg = this._state.Equipment[prop].LearnKnowledge(this);
+            if ((typeof logMsg != 'undefined') && logMsg != "") this._state.SleepLog.push(logMsg);
         }
 
         // Basic Stat Mods
         this.AdjustStat("Nutrition", -5);
-        this.AdjustStat("Toxicity", -( (5 + (this.CoreStats["Fitness"] / 10)))*2);
+        this.AdjustStat("Toxicity", -( (5 + (this._state.CoreStats["Fitness"] / 10)))*2);
         this.DoHealing(1);
 
         // Basic XP Adding
@@ -919,24 +937,24 @@ App.Entity.Player = function (){
         this.LevelStatGroup("BODY");
         this.LevelStatGroup("SKILL");
 
-        this.HairBonus = 0;
-        this.MakeupBonus = 0;
-        this.HairStyle = "bed head";
-        this.MakeupStyle = "plain faced";
+        this._state.HairBonus = 0;
+        this._state.MakeupBonus = 0;
+        this._state.HairStyle = "bed head";
+        this._state.MakeupStyle = "plain faced";
 
-        this.Day++;
+        this._state.Day++;
 		// What day are we on our current voyage.
-        this.SailDays = ((this.SailDays + 1) >= App.Data.Lists["ShipRoute"].length) ? 0 : (this.SailDays + 1);
-        this.Phase = 0;
+        this._state.SailDays = ((this._state.SailDays + 1) >= App.Data.Lists["ShipRoute"].length) ? 0 : (this._state.SailDays + 1);
+        this._state.Phase = 0;
 
         // Going hungry, lose some belly fat.
-        if (this.CoreStats["Nutrition"] < 50) {
+        if (this._state.CoreStats["Nutrition"] < 50) {
             this.AdjustBodyXP("Waist", -25);
         }
 
         // Starving. Yikes.
-        if (this.CoreStats["Nutrition"] < 20) {
-            this.SleepLog.push("@@color:red;You are starving!@@");
+        if (this._state.CoreStats["Nutrition"] < 20) {
+            this._state.SleepLog.push("@@color:red;You are starving!@@");
             this.AdjustStat("Energy", -1); // Reduce Energy.
             this.AdjustStat("Health", -15);
             this.AdjustBodyXP("Waist", -50);
@@ -954,27 +972,27 @@ App.Entity.Player = function (){
      * Move time counter to next phase of day.
      * @param [Opt] - Number of phases to increment.
      */
-    this.NextPhase = function (Opt) {
-        if (this.Phase == 4) return; // Can't advance to next day, only do that when sleeping.
+    NextPhase (Opt) {
+        if (this._state.Phase == 4) return; // Can't advance to next day, only do that when sleeping.
         Opt = Opt || 1;
 
         for (var i = 0; i < Opt; i++ ) {
-            this.Phase++;
+            this._state.Phase++;
             this.AdjustStat("Nutrition", -5);
             this.LevelStat("STAT", "Nutrition");
-            if (this.Phase == 4) break;
+            if (this._state.Phase == 4) break;
         }
     };
 
-    this.Rest = function () {
-        this.SleepLog = [];
+    Rest () {
+        this._state.SleepLog = [];
         this.NextPhase(1);
         this.DoHealing(0);
         this.AdjustStat("Energy", 1);
         this.LevelStatGroup("SKILL");
     };
 
-    this.NPCNextDay = function () {
+    NPCNextDay () {
         for (var prop in this.NPCS) { // NPC mood/desire/quest flags.
             if (!this.NPCS.hasOwnProperty(prop)) continue;
             if (this.NPCS[prop] == 0) continue;
@@ -987,20 +1005,20 @@ App.Entity.Player = function (){
     /**
      * @returns {*}
      */
-    this.GetShipLocation = function () {
+    GetShipLocation () {
         var Routes = window.App.Data.Lists["ShipRoute"];
-        if (this.SailDays >= Routes.length) this.SailDays = 0; // Shouldn't happen, but fix it if it does.
-		
-		var dict = { "X" : Routes[this.SailDays]["X"], "Y" : Routes[this.SailDays] };
-		
-		switch(Routes[this.SailDays]["P"]) {
+        if (this._state.SailDays >= Routes.length) this._state.SailDays = 0; // Shouldn't happen, but fix it if it does.
+
+		var dict = { "X" : Routes[this._state.SailDays]["X"], "Y" : Routes[this._state.SailDays] };
+
+		switch(Routes[this._state.SailDays]["P"]) {
 			case 'IslaHarbor': dict["Passage"] = "IslaHarbor"; dict["Title"] = "Isla Harbor"; break;
 			case 'GoldenIsle': dict["Passage"] = "GoldenIsle"; dict["Title"] = "Golden Isle"; break;
 			case 'Abamond': dict["Passage"] = "Abamond"; dict["Title"] = "Abamond"; break;
 			case 'PortRoyale': dict["Passage"] = "PortRoyale"; dict["Title"] = "Port Royale"; break;
 			default: dict["Passage"] = ""; dict["Title"] = "";
 		}
-			
+
         return dict;
     };
 
@@ -1013,7 +1031,7 @@ App.Entity.Player = function (){
      * @param Name
      * @returns {boolean}
      */
-    this.OwnsWardrobeItem = function(ItemDictOrType, Name)
+    OwnsWardrobeItem(ItemDictOrType, Name)
     {
 		var Type;
 		if (typeof(ItemDictOrType) === "object" && !(ItemDictOrType instanceof String) && typeof(Name) === "undefined") {
@@ -1027,9 +1045,9 @@ App.Entity.Player = function (){
 		}
 
         if (Type != "CLOTHES" && Type != "WEAPON") return false;
-        if (this.Wardrobe.filter( function(o) { return o.Name() == Name; }).length > 0 ) return true;
+        if (this._state.Wardrobe.filter( function(o) { return o.Name() == Name; }).length > 0 ) return true;
         var Slot = window.App.Data.Clothes[Name].Slot;
-		var EquipmentInSlot = this.Equipment[Slot];
+		var EquipmentInSlot = this._state.Equipment[Slot];
 		if (EquipmentInSlot == null || EquipmentInSlot == 0) return false;
         return EquipmentInSlot.Name() == Name;
     };
@@ -1038,7 +1056,7 @@ App.Entity.Player = function (){
      * @param ItemDict
      * @returns {boolean}
      */
-    this.MaxItemCapacity = function(ItemDict)
+    MaxItemCapacity(ItemDict)
     {
         var o = this.GetItemByName(ItemDict["TAG"]);
 
@@ -1048,34 +1066,34 @@ App.Entity.Player = function (){
         return false;
     };
 
-    this.WardrobeItem = function (id) {
-        return this.Wardrobe.filter(function (o) {
+    WardrobeItem (id) {
+        return this._state.Wardrobe.filter(function (o) {
             return o.Id() == id;
         })[0];
     };
 
-    this.WardrobeItemsBySlot = function(Slot) {
-        return this.Wardrobe.filter(function(Item) { return Item.Slot() == Slot;});
+    WardrobeItemsBySlot(Slot) {
+        return this._state.Wardrobe.filter(function(Item) { return Item.Slot() == Slot;});
     };
 
     /**
      * @param {string} Slot
      * @returns {string}
      */
-    this.PrintEquipment = function(Slot)
+    PrintEquipment(Slot)
     {
-        if (!this.Equipment.hasOwnProperty(Slot)) return "@@color:grey;Nothing@@";
-        if (this.Equipment[Slot] == 0 ) return "@@color:grey;Nothing@@";
-        return this.Equipment[Slot].Description();
+        if (!this._state.Equipment.hasOwnProperty(Slot)) return "@@color:grey;Nothing@@";
+        if (this._state.Equipment[Slot] == 0 ) return "@@color:grey;Nothing@@";
+        return this._state.Equipment[Slot].Description();
     };
 
     /**
      * @param {string} Slot
      * @returns {*}
      */
-    this.GetEquipmentInSlot = function(Slot) {
-        if ( (!this.Equipment.hasOwnProperty(Slot)) || (this.Equipment[Slot] == 0 )) return 0;
-        return this.Equipment[Slot];
+    GetEquipmentInSlot(Slot) {
+        if ( (!this._state.Equipment.hasOwnProperty(Slot)) || (this._state.Equipment[Slot] == 0 )) return 0;
+        return this._state.Equipment[Slot];
     };
 
     /**
@@ -1083,32 +1101,32 @@ App.Entity.Player = function (){
      * @param {string} Name
      * @returns {boolean}
      */
-    this.IsEquipped = function(Name) {
-        for (var prop in this.Equipment) {
-            if (!this.Equipment.hasOwnProperty(prop)) continue;
-            if (this.Equipment[prop] == 0) continue;
-            if (this.Equipment[prop].Name() == Name) return true;
+    IsEquipped(Name) {
+        for (var prop in this._state.Equipment) {
+            if (!this._state.Equipment.hasOwnProperty(prop)) continue;
+            if (this._state.Equipment[prop] == 0) continue;
+            if (this._state.Equipment[prop].Name() == Name) return true;
         }
         return false;
     };
 
-    this.Wear = function (item) {
-        for (var i = 0; i < item.Restrict().length; i++) this.Remove(this.Equipment[item.Restrict()[i]]);
-        this.Equipment[item.Slot()] = item;
-        this.Wardrobe = this.Wardrobe.filter(function (o) {
+    Wear (item) {
+        for (var i = 0; i < item.Restrict().length; i++) this.Remove(this._state.Equipment[item.Restrict()[i]]);
+        this._state.Equipment[item.Slot()] = item;
+        this._state.Wardrobe = this._state.Wardrobe.filter(function (o) {
             return o.Id() != item.Id();
         });
     };
 
-	this.AutoWearCategory = function (Category) {
-		for (var slot in this.Equipment) {
-			if (!this.Equipment.hasOwnProperty(slot)) continue;
-			var currentlyWorn = this.Equipment[slot];
+	AutoWearCategory (Category) {
+		for (var slot in this._state.Equipment) {
+			if (!this._state.Equipment.hasOwnProperty(slot)) continue;
+			var currentlyWorn = this._state.Equipment[slot];
 
 			if (currentlyWorn != 0 && currentlyWorn.IsLocked()) continue;
 
 			// Get all matching items by Category and Slot.
-			var matchingItems = $.grep(this.Wardrobe, function(clothing) {
+			var matchingItems = $.grep(this._state.Wardrobe, function(clothing) {
 				return clothing.Slot() == slot && $.inArray(Category, clothing.Category()) >= 0;
 			});
 
@@ -1125,48 +1143,48 @@ App.Entity.Player = function (){
 		}
 	};
 
-    this.Strip = function() {
-        for (var prop in this.Equipment) {
-            if (!this.Equipment.hasOwnProperty(prop)) continue;
-            if (this.Equipment[prop] == 0) continue;
-            if (this.Equipment[prop].IsLocked()) continue;
+    Strip() {
+        for (var prop in this._state.Equipment) {
+            if (!this._state.Equipment.hasOwnProperty(prop)) continue;
+            if (this._state.Equipment[prop] == 0) continue;
+            if (this._state.Equipment[prop].IsLocked()) continue;
 
-            this.Remove(this.Equipment[prop]);
+            this.Remove(this._state.Equipment[prop]);
         }
     };
 
-    this.Remove = function (item) {
+    Remove (item) {
         if (item == 0) return;
-        this.Equipment[item.Slot()] = 0;
-        this.Wardrobe.push(item);
+        this._state.Equipment[item.Slot()] = 0;
+        this._state.Wardrobe.push(item);
     };
 
-    this.HasItemByType = function (Type) {
-        return this.Inventory.filter(function (o) {
+    HasItemByType (Type) {
+        return this._state.Inventory.filter(function (o) {
             return o.Type() == Type;
         });
     };
-    this.GetItemByName = function (Name) {
-        return this.Inventory.filter(function (o) {
+    GetItemByName (Name) {
+        return this._state.Inventory.filter(function (o) {
             return o.Name() == Name;
         })[0];
     };
-    this.GetItemById = function (Id) {
+    GetItemById (Id) {
         var result;
 
-        var ItemList = this.Inventory.filter(function (o) {return o.Id() == Id; }); // Look in items first.
+        var ItemList = this._state.Inventory.filter(function (o) {return o.Id() == Id; }); // Look in items first.
 
         if (ItemList.length < 1) { // Now check wardrobe
-            ItemList = this.Wardrobe.filter(function(o) { return o.Id() == Id; });
+            ItemList = this._state.Wardrobe.filter(function(o) { return o.Id() == Id; });
         }
 
         if (ItemList.length < 1 ) { // Check worn stuff.
-            for (var k in this.Equipment)
+            for (var k in this._state.Equipment)
             {
-                if (!this.Equipment.hasOwnProperty(k)) continue;
-                if (this.Equipment[k] != 0) {
-                    if (this.Equipment[k].Id() == Id) {
-                        result = this.Equipment[k];
+                if (!this._state.Equipment.hasOwnProperty(k)) continue;
+                if (this._state.Equipment[k] != 0) {
+                    if (this._state.Equipment[k].Id() == Id) {
+                        result = this._state.Equipment[k];
                         break;
                     }
                 }
@@ -1177,8 +1195,8 @@ App.Entity.Player = function (){
         return result;
     };
 
-    this.GetItemByTypes = function (Types) {
-        return this.Inventory.filter(function (o) {
+    GetItemByTypes (Types) {
+        return this._state.Inventory.filter(function (o) {
             return Types.indexOf(o.Type()) != -1;
         });
     };
@@ -1188,8 +1206,8 @@ App.Entity.Player = function (){
      * @param {string} Type
      * @returns {number}
      */
-    this.GetItemCharges = function(Type) {
-        var Items = this.Inventory.filter(function (o) { return o.Type() == Type; });
+    GetItemCharges(Type) {
+        var Items = this._state.Inventory.filter(function (o) { return o.Type() == Type; });
         var Count = 0;
         for (var i = 0; i < Items.length; i++) Count += Items[i].Charges();
         return Count;
@@ -1201,9 +1219,9 @@ App.Entity.Player = function (){
      * @param {string} Type
      * @param {number} Amount
      */
-    this.UseItemCharges = function(Type, Amount) {
+    UseItemCharges(Type, Amount) {
         if (Amount <= 0) return ;
-        var Items = this.Inventory.filter(function (o) { return o.Type() == Type; });
+        var Items = this._state.Inventory.filter(function (o) { return o.Type() == Type; });
         var Count = 0;
 
         while(Amount > 0 && Count < Items.length) {
@@ -1218,8 +1236,8 @@ App.Entity.Player = function (){
         }
     };
 
-    this.DeleteItem = function (item) {
-        this.Inventory = this.Inventory.filter(function (o) {
+    DeleteItem (item) {
+        this._state.Inventory = this._state.Inventory.filter(function (o) {
             return o.Id() != item.Id();
         });
     };
@@ -1231,24 +1249,24 @@ App.Entity.Player = function (){
      * @param {number} Count
      * @param {string} [Opt]
      */
-    this.AddItem = function (Category, Name, Count, Opt) {
+    AddItem (Category, Name, Count, Opt) {
         //Count = Count || 1;
 
         var Item = window.App.Item.Factory(Category, Name, Count);
 
         if (Category == "CLOTHES" || Category == "WEAPON" ) {
             if (this.OwnsWardrobeItem(Category, Name)) return; // No duplicate equipment allowed.
-            this.Wardrobe.push(Item);
+            this._state.Wardrobe.push(Item);
             if (Opt == "WEAR") this.Wear(Item);
             return;
         }
 
-        var ItemArray = $.grep(this.Inventory, function(o) { return o.Name() == Item.Name(); });
+        var ItemArray = $.grep(this._state.Inventory, function(o) { return o.Name() == Item.Name(); });
 
         if (ItemArray.length != 0 && (typeof ItemArray[0].AddCharge !== 'undefined')) {
             ItemArray[0].AddCharge(Item.Charges());
         } else {
-            this.Inventory.push(Item);
+            this._state.Inventory.push(Item);
         }
     };
 
@@ -1256,15 +1274,15 @@ App.Entity.Player = function (){
      * @param {string} Skill
      * @returns {number}
      */
-    this.GetWornSkillBonus = function (Skill) {
+    GetWornSkillBonus (Skill) {
         var bonus = 0;
-        for (var prop in this.Equipment) {
-            if (!this.Equipment.hasOwnProperty(prop)) continue;
-            if (this.Equipment[prop] == 0) continue;
-            var tBonus = this.Equipment[prop].GetBonus(Skill);
+        for (var prop in this._state.Equipment) {
+            if (!this._state.Equipment.hasOwnProperty(prop)) continue;
+            if (this._state.Equipment[prop] == 0) continue;
+            var tBonus = this._state.Equipment[prop].GetBonus(Skill);
             if (tBonus > 0 ) {
                 bonus += tBonus;
-                if (this.debugMode == true) console.log("Found skill bonus : "+Skill+" on" + this.Equipment[prop].Name());
+                if (this._state.debugMode == true) console.log("Found skill bonus : "+Skill+" on" + this._state.Equipment[prop].Name());
             }
         }
         return bonus;
@@ -1274,7 +1292,7 @@ App.Entity.Player = function (){
      * Use an item. Apply effects. Delete from inventory if out of charges.
      * @param ItemId {string}
      */
-    this.UseItem = function (ItemId) {
+    UseItem (ItemId) {
         var o = this.GetItemById(ItemId);
         this.AddHistory("ITEMS", o.Name(), 1);
         o.ApplyEffects(this);
@@ -1284,14 +1302,14 @@ App.Entity.Player = function (){
         return msg;
     };
 
-    this.ApplySelfEffects = function (EffectList )
+    ApplySelfEffects (EffectList )
     {
       for (var i = 0; i < EffectList.length; i++) {
           App.Data.EffectLib[EffectList[i]]["FUN"](0, this);
       }
     };
 
-    this.pBodyChange = function (BodyPart, Direction) {
+    pBodyChange (BodyPart, Direction) {
         return window.App.Data.Lists["BodyChanges"][BodyPart][Direction];
     };
 
@@ -1300,23 +1318,23 @@ App.Entity.Player = function (){
      * @param {string} Flag
      * @returns {*}
      */
-    this.GetHistory = function(Type, Flag) {
-        if ((typeof this.History[Type] === 'undefined')) return 0;
-        if ((typeof this.History[Type][Flag] === 'undefined')) return 0;
+    GetHistory(Type, Flag) {
+        if ((typeof this._state.History[Type] === 'undefined')) return 0;
+        if ((typeof this._state.History[Type][Flag] === 'undefined')) return 0;
 
-        return this.History[Type][Flag];
+        return this._state.History[Type][Flag];
     };
 
-    this.AddHistory = function(Type, Flag, Amount) {
-        if ((typeof this.History[Type] === 'undefined')) this.History[Type] = { };
-        if ((typeof this.History[Type][Flag] === 'undefined')) this.History[Type][Flag] = 0;
+    AddHistory(Type, Flag, Amount) {
+        if ((typeof this._state.History[Type] === 'undefined')) this._state.History[Type] = { };
+        if ((typeof this._state.History[Type][Flag] === 'undefined')) this._state.History[Type][Flag] = 0;
 
         var t = this.GetHistory(Type, Flag);
-        this.History[Type][Flag] = (t + Amount);
+        this._state.History[Type][Flag] = (t + Amount);
     };
 
-    this.RemoveHistory = function(Type, Flag) {
-        if ((typeof this.History[Type][Flag] !== 'undefined')) delete this.History[Type][Flag];
+    RemoveHistory(Type, Flag) {
+        if ((typeof this._state.History[Type][Flag] !== 'undefined')) delete this._state.History[Type][Flag];
     };
 
 // Voodoo
@@ -1324,39 +1342,39 @@ App.Entity.Player = function (){
      * @param {string} Hex
      * @returns {boolean}
      */
-    this.HasHex = function(Hex) {
-        return this.VoodooEffects.hasOwnProperty(Hex) != false;
+    HasHex(Hex) {
+        return this._state.VoodooEffects.hasOwnProperty(Hex) != false;
     };
 
-    this.SetHex = function(Hex, Value) {
-        this.VoodooEffects[Hex] = Value;
+    SetHex(Hex, Value) {
+        this._state.VoodooEffects[Hex] = Value;
     };
 
-    this.RemoveHex = function(Hex) {
-        delete this.VoodooEffects[Hex];
+    RemoveHex(Hex) {
+        delete this._state.VoodooEffects[Hex];
     };
 
-    this.EndHexDuration = function() {
+    EndHexDuration() {
 
-        for(var prop in this.VoodooEffects) {
+        for(var prop in this._state.VoodooEffects) {
 
-            if (!this.VoodooEffects.hasOwnProperty(prop)) continue;
+            if (!this._state.VoodooEffects.hasOwnProperty(prop)) continue;
 
             switch(prop) {
 
                 case "PIRATES_PROWESS_DURATION":
-                    this.VoodooEffects[prop]--;
-                    if (this.VoodooEffects[prop] <= 0) {
-                        delete this.VoodooEffects["PIRATES_PROWESS"];
-                        delete this.VoodooEffects["PIRATES_PROWESS_DURATION"];
-                        this.SleepLog.push("You feel the effects of your pirates skill leave you...")
+                    this._state.VoodooEffects[prop]--;
+                    if (this._state.VoodooEffects[prop] <= 0) {
+                        delete this._state.VoodooEffects["PIRATES_PROWESS"];
+                        delete this._state.VoodooEffects["PIRATES_PROWESS_DURATION"];
+                        this._state.SleepLog.push("You feel the effects of your pirates skill leave you...")
                     }
             }
         }
     };
 
 	// Acquire everything for debug purposes
-	this.AcquireAllItems = function() {
+	AcquireAllItems() {
 		console.group("AcquireAllItems");
 		for (var prop in window.App.Data.Clothes) {
 			if (window.App.Data.Clothes.hasOwnProperty(prop)) {
@@ -1375,7 +1393,7 @@ App.Entity.Player = function (){
      * Returns number that represents how high-class the PC looks. 0 is obvious commoner and 100 is a rich noble. Can be higher or lower.
      * @returns {number}
      */
-	this.HighClassPresentability = function() {
+	HighClassPresentability() {
 		// For now just consider "Slutty Lady" the proper attire, while other clothes contribute only part of their style.
 		// Do not count parts that are not visible in a "proper" situation.
 		var getBonus = function(slot, equipmentItem) {
@@ -1402,11 +1420,11 @@ App.Entity.Player = function (){
 		console.group("HighClassPresentability");
         var result = 0;
 
-		for (var slot in this.Equipment) {
+		for (var slot in this._state.Equipment) {
 			if (slot == "Nipples" || slot == "Bra" || slot == "Panty" || slot == "Butt" || slot == "Penis") continue;
-			if (!this.Equipment.hasOwnProperty(slot)) continue;
+			if (!this._state.Equipment.hasOwnProperty(slot)) continue;
 
-			var equipmentItem = this.Equipment[slot];
+			var equipmentItem = this._state.Equipment[slot];
 			if (equipmentItem == null || equipmentItem == 0) continue;
 
 			result += getBonus(slot, equipmentItem);
@@ -1430,18 +1448,18 @@ App.Entity.Player = function (){
      * Returns number that represents how obvious it is that the PC is male. 100 means completely unpassable and 0 means completely passable. Can be higher or lower.
      * @returns {number}
      */
-	this.ObviousTrappiness = function() {
+	ObviousTrappiness() {
 		console.group("ObviousTrappiness");
-		console.log(this.BodyStats);
-		console.log(this.CoreStats);
+		console.log(this._state.BodyStats);
+		console.log(this._state.CoreStats);
 
 		// Huge penis makes trappiness very, very obvious
-		var penisOversizing = Math.max(this.BodyStats.Penis - 75, 0);
+		var penisOversizing = Math.max(this._state.BodyStats.Penis - 75, 0);
 		var penisContribution = penisOversizing * penisOversizing;
 		console.log("penisContribution: " + penisContribution);
 
 		// Let's say DD breasts give -50, and we have diminishing returns
-		var bustContribution = - Math.sqrt(this.BodyStats.Bust * 50 * 50 / 11);
+		var bustContribution = - Math.sqrt(this._state.BodyStats.Bust * 50 * 50 / 11);
 		console.log("bustContribution: " + bustContribution);
 
 		// Style gives a small contribution, but synergizes with femininity
@@ -1449,11 +1467,11 @@ App.Entity.Player = function (){
 		console.log("styleContribution: " + styleContribution);
 
 		// Femininity is important
-		var femininityContribution = - this.CoreStats.Femininity * .3;
+		var femininityContribution = - this._state.CoreStats.Femininity * .3;
 		console.log("femininityContribution: " + femininityContribution);
 
 		// Full femininity and full style give -50 together
-		var femininityStyleSynergy = - this.CoreStats.Femininity * this.ClothesRating() * .005;
+		var femininityStyleSynergy = - this._state.CoreStats.Femininity * this.ClothesRating() * .005;
 		console.log("femininityStyleSynergy: " + femininityStyleSynergy);
 
 		// Base value is full
@@ -1470,20 +1488,13 @@ App.Entity.Player = function (){
 
     // region SLOT wheel stuff
 
-    this._Slots = {
-        0: null, 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null
-    };
-
-    this._MaxSlots = 9; // YOU SHALL NOT PASS
-    this._CurrentSlots = 3; // Starting allocation of whoring
-
     /**
      * Unlock a slot.
      * @returns {boolean}
      */
-    this.UnlockSlot = function() {
-      if (this._CurrentSlots + 1 > 9) return false;
-        this._CurrentSlots++;
+    UnlockSlot() {
+      if (this._state.CurrentSlots + 1 > this.MaxSlots) return false;
+        this._state.CurrentSlots++;
         return true;
     };
 
@@ -1491,8 +1502,8 @@ App.Entity.Player = function (){
      * Fetch all reels in the players inventory.
      * @returns {Array.<App.Item.Reel>}
      */
-    this.GetReelsInInventory = function() {
-        return this.Inventory.filter( function(o) { return (typeof o.Type === 'function') && (o.Type() == 'REEL'); });
+    GetReelsInInventory() {
+        return this._state.Inventory.filter( function(o) { return (typeof o.Type === 'function') && (o.Type() == 'REEL'); });
     };
 
     /**
@@ -1500,7 +1511,7 @@ App.Entity.Player = function (){
      * @param filterID
      * @returns {App.Item.Reel}
      */
-    this.GetReelByID = function(filterID) {
+    GetReelByID(filterID) {
         var arr = this.GetReelsInInventory();
         arr = arr.filter( function(o) { return (typeof o.Id === 'function') && (o.Id() == filterID); });
         if (arr.length > 0) return arr[0]; // huh? At least grab the first one.
@@ -1512,24 +1523,24 @@ App.Entity.Player = function (){
      * @param {string} toEquipID
      * @param {string} reelSlot
      */
-    this.EquipReel = function(toEquipID, reelSlot ) {
+    EquipReel(toEquipID, reelSlot ) {
         var reelToEquip = this.GetReelByID(toEquipID);
 
-        if (this._Slots[reelSlot] != null) this.Inventory.push(this._Slots[reelSlot]);
-        this._Slots[reelSlot] = reelToEquip;
+        if (this._state.Slots[reelSlot] != null) this._state.Inventory.push(this._state.Slots[reelSlot]);
+        this._state.Slots[reelSlot] = reelToEquip;
 
-        this.Inventory = this.Inventory.filter(function(o) { return (typeof o.Id === 'function') && (o.Id() != toEquipID); });
+        this._state.Inventory = this._state.Inventory.filter(function(o) { return (typeof o.Id === 'function') && (o.Id() != toEquipID); });
     };
 
     /**
      * Remove an equipped reel and place it in the inventory.
      * @param slotID
      */
-    this.RemoveReel = function(slotID) {
+    RemoveReel(slotID) {
 
-        if ( (typeof this._Slots[slotID] !== 'undefined') && (this._Slots[slotID] != null)) {
-            this.Inventory.push(this._Slots[slotID]);
-            this._Slots[slotID] = null;
+        if ( (typeof this._state.Slots[slotID] !== 'undefined') && (this._state.Slots[slotID] != null)) {
+            this._state.Inventory.push(this.Slots[slotID]);
+            this._state.Slots[slotID] = null;
         }
     };
 
@@ -1537,12 +1548,70 @@ App.Entity.Player = function (){
      * Turn the equipped reels into an array to iterate/read.
      * @returns {Array.<App.Item.Reel>}
      */
-    this.GetReels = function() {
-        var arr = Object.values(this._Slots).filter(function(o) { return (typeof o !== 'undefined') && (o != null); });
+    GetReels() {
+        var arr = Object.values(this._state.Slots).filter(function(o) { return (typeof o !== 'undefined') && (o != null); });
         return (typeof arr === 'undefined') ? [ ] : arr;
     };
 
     // endregion
+
+	// redirections for the state properties
+
+	get OriginalName() { return this._state.OriginalName; }
+	get SlaveName() { return this._state.SlaveName; }
+	get GirlfriendName() { return this._state.GirlfriendName; }
+	get NickName() { return this._state.NickName; }
+	get HairColor() { return this._state.HairColor; }
+	set HairColor(c) { this._state.HairColor = c; }
+	get HairStyle() { return this._state.HairStyle; }
+	get HairBonus() { return this._state.HairBonus; }
+	get MakeupStyle() { return this._state.MakeupStyle; }
+	get MakeupBonus() { return this._state.MakeupBonus; }
+	get EyeColor() { return this._state.EyeColor; }
+	get Money() { return this._state.Money; }
+	get SleepLog() { return this._state.SleepLog; }
+	/** @type {number} */
+	get SailDays() { return this._state.SailDays; }
+	get LastUsedMakeup() { return this._state.LastUsedMakeup; }
+	get LastUsedHair() { return this._state.LastUsedHair; }
+	get LastQuickWardrobe() { return this._state.LastQuickWardrobe; }
+	get debugMode() { return this._state.debugMode; }
+	get difficultySetting() { return this._state.difficultySetting; }
+	get WhoreTutorial() { return this._state.WhoreTutorial; }
+	set WhoreTutorial(v) { this._state.WhoreTutorial = v; }
+
+	get JobFlags() { return this._state.JobFlags; }
+	get VoodooEffects() { return this._state.VoodooEffects; }
+	get QuestFlags() { return this._state.QuestFlags; } // Default Quest.
+
+	get History() { return this._state.History; }
+
+	// Game/Environment Variables
+	get Day() { return this._state.Day; }
+	get Phase() { return this._state.Phase; } // 0 morning, 1 afternoon, 2 evening, 3 night, 4 late night
+
+	// Player Statistic Variables
+	get CoreStats() { return this._state.CoreStats; }
+
+	get CoreStatsXP() { return this._state.CoreStatsXP; }
+
+	get BodyStats() { return this._state.BodyStats; }
+
+	get BodyXP() { return this._state.BodyXP; }
+
+	get Skills() { return this._state.Skills; }
+
+	get SkillsXP() { return this._state.SkillsXP; }
+
+	get Wardrobe() { return this._state.Wardrobe; }
+	get Inventory() { return this._state.Inventory; }
+	get Equipment() { return this._state.Equipment; }
+
+	get StoreInventory() { return this._state.StoreInventory; }
+	get NPCS() { return this._state.NPCS; }
+
+	get Slots() { return this._state.Slots; }
+	get CurrentSlots() { return this._state.CurrentSlots; } // Starting allocation of whoring
+
+	get MaxSlots() { return 9; } // YOU SHALL NOT PASS
 };
-
-

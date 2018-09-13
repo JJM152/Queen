@@ -3,22 +3,22 @@
 <<set _ID = $args[0]["ID"]>>\
 <<set _QE = window.App.QuestEngine;>>\
 <<set $ChoiceItem = 0>>\
-<<set _NPC = $Player.GetNPC($MenuAction)>>\
-<<if _QE.GetQuestFlag($Player, _ID) == 0>>\
-<<print window.App.PR.pQuestDialog(_ID, "INTRO", $Player, _NPC); >>
+<<set _NPC = setup.player.GetNPC($MenuAction)>>\
+<<if _QE.GetQuestFlag(setup.player, _ID) == 0>>\
+<<print window.App.PR.pQuestDialog(_ID, "INTRO", setup.player, _NPC); >>
 
 @@.cmdButton;<<button "Accept">>\
-<<run _QE.AcceptQuest($Player, _ID)>>\
+<<run _QE.AcceptQuest(setup.player, _ID)>>\
 <<replace "#QuestUI">><<questList>><</replace>><</button>>@@   @@.cmdButton;<<button "Decline">><<replace "#QuestUI">><<questList>><</replace>><</button>>@@
 <<else>>\
-<<if _QE.CanCompleteQuest($Player, _ID) == 0>>\
-<<print window.App.PR.pQuestDialog(_ID, "MIDDLE", $Player, _NPC); >>
+<<if _QE.CanCompleteQuest(setup.player, _ID) == 0>>\
+<<print window.App.PR.pQuestDialog(_ID, "MIDDLE", setup.player, _NPC); >>
 
-<<print window.App.PR.pQuestRequirements(_ID, $Player);>>
+<<print window.App.PR.pQuestRequirements(_ID, setup.player);>>
 
 @@.cmdButton;<<button "Okay, fine">><<replace "#QuestUI">><<questList>><</replace>><</button>>@@
 <<else>>\
-<<print window.App.PR.pQuestDialog(_ID, "FINISH", $Player, _NPC); >>
+<<print window.App.PR.pQuestDialog(_ID, "FINISH", setup.player, _NPC); >>
 
 <<if $args[0]["REWARD"].length != 0>>\
 @@color:DeepPink;Quest Rewards@@:
@@ -39,8 +39,8 @@
 <</if>>\
 <</if>>
 @@.cmdButton;<<button "Complete Quest" $GameBookmark>>\
-<<run _QE.CompleteQuest($Player, _ID, $ChoiceItem); >>\
-<<if _QE.GetQuestFlag($Player, "GAME_WON") == 1>>\
+<<run _QE.CompleteQuest(setup.player, _ID, $ChoiceItem); >>\
+<<if _QE.GetQuestFlag(setup.player, "GAME_WON") == 1>>\
 <<goto "GameWon">>\
 <</if>>\
 <</button>>@@

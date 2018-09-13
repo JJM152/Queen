@@ -1,5 +1,5 @@
 :: GameWon [custom-menu]
-<<if $Player.GetStatPercent("STAT", "WillPower") <= 40>><!-- Contributed by mightyakira @ TFGamesSite Forums -->
+<<if setup.player.GetStatPercent("STAT", "WillPower") <= 40>><!-- Contributed by mightyakira @ TFGamesSite Forums -->
 You daintily walk into the captain’s cabins and kneel before Captain Reginald, all on your own accord. You have learnt \
 much from your time with the crew and captain of the Mermaid, it’s almost your second nature now to act exactly the way \
 everybody aboard wants you to act.
@@ -8,7 +8,7 @@ You prostrate yourself in front of Captain Reginald, and looks up to him with yo
  to present you a sum of 50,000 coins for my freedom!” You tell the captain proudly and with gusto.
 
 Captain Reginald looks at you, his eyes filled with amazement. He says, “I honestly have never thought you’d be able to \
-do it, and I have to say that I am almost sad that you actually managed the impossible. You were a fine whore <<= $Player.SlaveName>>\
+do it, and I have to say that I am almost sad that you actually managed the impossible. You were a fine whore <<= setup.player.SlaveName>>\
 , perhaps even finer than a real woman. Well, I don’t go back on my words and I’ll take those coins and get that collar \
 off your neck.”
 
@@ -64,7 +64,7 @@ back to his chair, and you kneel to clean him up.
 You are now free, and it looks like you’ve already found employment! You strut confidently towards the exit of Captain Reginald’s \
 cabin, towards your new life.
 <<else>>\
-<<if $Player.GetStatPercent("STAT", "WillPower") <= 70>><!-- Contributed by mightyakira @ TFGamesSite Forums -->
+<<if setup.player.GetStatPercent("STAT", "WillPower") <= 70>><!-- Contributed by mightyakira @ TFGamesSite Forums -->
 You daintily walk into the captain’s cabins and kneel before Captain Reginald, as the captain always wants you to do. You have \
 learnt much from your time with the crew and captain of the Mermaid, and you know you will only make it worse for yourself if \
 you don’t do exactly what they want you to act.
@@ -73,7 +73,7 @@ You look up to Captain Reginald from on your knees and present him with a large 
 have come to buy my freedom. I have made as you have requested, the full amount of 50,000 coins.” You tell the captain nervously.
 
 Captain Reginald looks at you, his eyes filled with amazement. He says, “I honestly have never thought you’d be able to do it, and \
-I have to say that I am almost sad that you actually managed the impossible. You were a fine whore <<= $Player.SlaveName>>, perhaps almost \
+I have to say that I am almost sad that you actually managed the impossible. You were a fine whore <<= setup.player.SlaveName>>, perhaps almost \
 as fine as a real woman. Well, I don’t go back on my words and I’ll take those coins and get that collar off your neck.”
 
 Captain Reginald waves his signet ring over your neck and the collar drops off with a loud thud. But somehow you don’t really feel \
@@ -134,7 +134,7 @@ Captain Reginald, sitting behind his desk. You slam the bag of coins upon his de
 bag is 50,000 coins.”
 
 Captain Reginald looks at you wide eyed, both amazement and almost a certain amusement. He says, “I honestly have never thought \
-you’d be able to do it, and I have to say that I’m almost sad that you actually managed the impossible. You made a fine whore <<= $Player.SlaveName>>, \
+you’d be able to do it, and I have to say that I’m almost sad that you actually managed the impossible. You made a fine whore <<= setup.player.SlaveName>>, \
 for a sissy that is. Well, I don’t go back on my words and I’ll take those coins and get that collar off your neck.”
 
 Captain Reginald waves his signet ring over your neck and the collar drops off with a loud thud. You are suddenly filled with relief \
@@ -186,4 +186,4 @@ Of course, you have no intention of staying a second longer nor the intention of
 <</replace>><</click>></span>
 <</if>>
 <</if>>
-<<if $Player.debugMode == true>>[[Cheat Room|DebugPassage]]<</if>>
+<<if setup.player.debugMode == true>>[[Cheat Room|DebugPassage]]<</if>>

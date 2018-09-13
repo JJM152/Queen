@@ -1,5 +1,5 @@
 :: WhoreEnd [no-teleport]
 <<set _Exit = App.SlotEngine._ReturnPassage;>>\
-<<= App.SlotEngine.PrintResults($Player);>>
+<<= App.SlotEngine.PrintResults(setup.player);>>
 
 @@color:cyan;Interact@@: <<click "Exit" _Exit>><</click>>

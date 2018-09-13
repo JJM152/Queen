@@ -1,9 +1,9 @@
 :: Rest [custom-menu]
-<<run $Player.Rest();>>You recline leisurely in your room. There isn't much to do so you after a few minutes you find yourself napping and trying to escape into your fantasies...
+<<run setup.player.Rest();>>You recline leisurely in your room. There isn't much to do so you after a few minutes you find yourself napping and trying to escape into your fantasies...
 
 You wake up not long after, feeling slightly more energetic.
 
-<<if $Player.SleepLog.length != 0>><<for _i to 0; _i lt $Player.SleepLog.length; _i++>>\
-<<print $Player.SleepLog[_i]>><br/><</for>><</if>>\
+<<if setup.player.SleepLog.length != 0>><<for _i to 0; _i lt setup.player.SleepLog.length; _i++>>\
+<<print setup.player.SleepLog[_i]>><br/><</for>><</if>>\
 @@color:cyan;Interact@@: [[Exit|Cabin]]
-@@color:yellow;Action@@: <<if $Player.Phase != 3>><<if $Player.CoreStats["Energy"] < $Player.GetMaxStat("STAT", "Energy")>>[[Continue Resting|Rest]]<<else>>@@color:grey;[Continue Resting]@@<</if>><<else>>[[Sleep]]<</if>>
+@@color:yellow;Action@@: <<if setup.player.Phase != 3>><<if setup.player.CoreStats["Energy"] < setup.player.GetMaxStat("STAT", "Energy")>>[[Continue Resting|Rest]]<<else>>@@color:grey;[Continue Resting]@@<</if>><<else>>[[Sleep]]<</if>>

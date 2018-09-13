@@ -34,7 +34,7 @@ App.Data.JobData["BLANCHE_TAROT"] = {
             ],
             // Just print widget
             "START" :
-            "<<readTarot $Player>>",
+            "<<readTarot setup.player>>",
             "RESULTS" : [ ],
             "END" :
                 ""

@@ -1,8 +1,8 @@
 :: IslaCloudDistrictGuards
 
-<<if $Player.HighClassPresentability() > 80 >>
+<<if setup.player.HighClassPresentability() > 80 >>
 
-<<if $Player.ObviousTrappiness() > 50 >>
+<<if setup.player.ObviousTrappiness() > 50 >>
 As you pass the guards, they give you weird looks. Do they see that you are a man? Well, at least they don't try to stop you, \
 but you probably should be careful inside. If you get arrested, your fate would probably be worse than that of a woman.
 <<else>>
