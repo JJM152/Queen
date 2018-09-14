@@ -787,6 +787,25 @@ App.Data.Lists = {
                       200 : { "COST" : 190, "STEP" : 1, "ADJECTIVE" : "ladylike"    , "COLOR" : 16}
                     }
                 },
+                "Futa": { "MIN" : 0, "MAX" : 100, "START" : 0,
+                "LEVELING" : {
+                     5 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "shy"           , "COLOR" :  1},
+                    10 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "timid"         , "COLOR" :  2},
+                    15 : { "COST" :  125, "STEP" : 1, "ADJECTIVE" : "timid"         , "COLOR" :  3},
+                    20 : { "COST" :  125, "STEP" : 1, "ADJECTIVE" : "diffident"     , "COLOR" :  4},
+                    30 : { "COST" :  200, "STEP" : 1, "ADJECTIVE" : "diffident"     , "COLOR" :  5},
+                    32 : { "COST" :  225, "STEP" : 1, "ADJECTIVE" : "open"          , "COLOR" :  6},
+                    38 : { "COST" :  250, "STEP" : 1, "ADJECTIVE" : "open"          , "COLOR" :  7},
+                    46 : { "COST" :  300, "STEP" : 1, "ADJECTIVE" : "outright"      , "COLOR" :  8},
+                    54 : { "COST" :  350, "STEP" : 1, "ADJECTIVE" : "outright"      , "COLOR" :  9},
+                    62 : { "COST" :  400, "STEP" : 1, "ADJECTIVE" : "daring"        , "COLOR" : 10},
+                    71 : { "COST" :  450, "STEP" : 1, "ADJECTIVE" : "daring"        , "COLOR" : 12},
+                    80 : { "COST" :  500, "STEP" : 1, "ADJECTIVE" : "daring"        , "COLOR" : 13},
+                    89 : { "COST" :  550, "STEP" : 1, "ADJECTIVE" : "perfect"       , "COLOR" : 15},
+                    98 : { "COST" :  600, "STEP" : 1, "ADJECTIVE" : "perfect"       , "COLOR" : 16},
+                   100 : { "COST" : 1500, "STEP" : 1, "ADJECTIVE" : "perfect"       , "COLOR" : 16}
+                }
+            },
                 "Energy": { "MIN" : 0, "MAX" : 10, "START" : 3,
 					"LEVELING" : {
 						"NONE" : { "COST" : 0, "STEP" : 0 }

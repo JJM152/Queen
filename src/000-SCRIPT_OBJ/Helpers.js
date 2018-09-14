@@ -922,6 +922,33 @@ App.PR = new function() {
 		};
 
     /**
+     * Print how does the futa state matches current body state
+     * @param {App.Entity.Player} Player
+     * @returns {string}
+     */
+    this.pFutaStatus = function (Player) {
+        const pFuta = Player.GetStatPercent("STAT", "Futa");
+        const hormones = Player.GetStat("STAT", "Hormones");
+        if ((hormones > 100)) {
+            const pPenis = Player.GetStatPercent("BODY", "Penis");
+            const dp = pFuta - pPenis;
+            if (dp > 90) return "You crave for a bigger penis."
+            if (dp > 60) return "You feel an urge to grow a bigger penis."
+            if (dp > 30) return "You are pretty sure a bigger penis would be a good thing to get."
+            if (dp > 5) return "You feel your penis could be a bit bigger."
+            return "You consider your penis size to be about right for you."
+        } else if (hormones) {
+            const pBust = Player.GetStatPercent("BODY", "Bust");
+            const db = pFuta - pBust;
+            if (db > 90) return "You crave for bigger tits."
+            if (db > 60) return "You feel an urge to grow your boobs."
+            if (db > 30) return "You are pretty sure bigger tits would be a good thing to get."
+            if (db > 5) return "You feel your bust could be a bit bigger."
+            return "You consider your bust size to be about right for you."
+        }
+    }
+
+    /**
      * Prints out a description of the Player's height statistic.
      * @param {App.Entity.Player} Player
      * @returns {string}
