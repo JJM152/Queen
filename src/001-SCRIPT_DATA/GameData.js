@@ -49,25 +49,25 @@ App.Data.Names = {
                 "Yvette", "Yolanda", "Yessica",
                 "Zoe"],
             "Sissy": [
-                "Abigail", "Angelica", "Annabelle", "Annie", 
-                "Bambi", "Bambina", "Bebelle", "Bliss", "Blossom", "Bonnie", "Boo", "Bootie", "Brandi", "Brie", "Bubbles", "Bunny", "Buttercup", "Butterscotch", 
-                "Camilla", "Candi", "Capri", "Caramella", "Cassie", "Cecily", "Celia", "Chastity", "Chéri", "Cherry", "Cici", "Cinnamon", "Claribel", "Clarissa", "Cosi", "Crystal", 
-                "Daisy", "Delia", "Delilah", "Dixie", "Dolly", "Dottie", 
-                "Elisabetta", "Elise", "Eliza", "Esposa", "Evie", 
-                "Felicity", "Fiona", "Flora", "Foxy", "Freckles", 
-                "Gabbi", "Ginger", "Giselle", "Goldie", 
-                "Isadora", "Izzy", 
-                "Jade", "Jasmine", "Jewel", "Jezie", "Jilly", "Josie", "Juliette", "Juniper", 
-                "Kandi", "Karma", "Kelli", "Kimmy", "Katty", "Kitty", "Krissy", 
-                "Larissa", "Layla", "Liliana", "Lily", "Lizzy", "Lola", "Lolita", "Lolly", "Lottie", "Luanna", "Luella", "Lulu", "Lyla", 
-                "Maddie", "Maisie", "Mariella", "Marigold", "Merci", "Minnie", "Minx", "Missy", "Muffin", "Muffy", 
-                "Nellie", "Nicolette", "Nissa", 
-                "Peaches", "Pippa", "Pippy", "Pixie", "Polly", "Prim", "Princess", "Priss", 
-                "Queenie", "Quinnie", 
-                "Richelle", "Rosie", "Roxie", 
-                "Sadie", "Sassy", "Scarlett", "Seraphina", "Shari", "Shayla", "Sheila", "Silvie", "Sirena", "Susie", "Süsse", 
-                "Tammi", "Tatiana", "Tessa", "Tiana", "Tiffy", "Tillie", "Tizzy", "Tottie", "Tulip", 
-                "Viola", "Violeta", "Vixen", "Yazmin", "Ysela", 
+                "Abigail", "Angelica", "Annabelle", "Annie",
+                "Bambi", "Bambina", "Bebelle", "Bliss", "Blossom", "Bonnie", "Boo", "Bootie", "Brandi", "Brie", "Bubbles", "Bunny", "Buttercup", "Butterscotch",
+                "Camilla", "Candi", "Capri", "Caramella", "Cassie", "Cecily", "Celia", "Chastity", "Chéri", "Cherry", "Cici", "Cinnamon", "Claribel", "Clarissa", "Cosi", "Crystal",
+                "Daisy", "Delia", "Delilah", "Dixie", "Dolly", "Dottie",
+                "Elisabetta", "Elise", "Eliza", "Esposa", "Evie",
+                "Felicity", "Fiona", "Flora", "Foxy", "Freckles",
+                "Gabbi", "Ginger", "Giselle", "Goldie",
+                "Isadora", "Izzy",
+                "Jade", "Jasmine", "Jewel", "Jezie", "Jilly", "Josie", "Juliette", "Juniper",
+                "Kandi", "Karma", "Kelli", "Kimmy", "Katty", "Kitty", "Krissy",
+                "Larissa", "Layla", "Liliana", "Lily", "Lizzy", "Lola", "Lolita", "Lolly", "Lottie", "Luanna", "Luella", "Lulu", "Lyla",
+                "Maddie", "Maisie", "Mariella", "Marigold", "Merci", "Minnie", "Minx", "Missy", "Muffin", "Muffy",
+                "Nellie", "Nicolette", "Nissa",
+                "Peaches", "Pippa", "Pippy", "Pixie", "Polly", "Prim", "Princess", "Priss",
+                "Queenie", "Quinnie",
+                "Richelle", "Rosie", "Roxie",
+                "Sadie", "Sassy", "Scarlett", "Seraphina", "Shari", "Shayla", "Sheila", "Silvie", "Sirena", "Susie", "Süsse",
+                "Tammi", "Tatiana", "Tessa", "Tiana", "Tiffy", "Tillie", "Tizzy", "Tottie", "Tulip",
+                "Viola", "Violeta", "Vixen", "Yazmin", "Ysela",
                 "Zelda", "Zoey"]
         };
 
@@ -599,17 +599,17 @@ App.Data.Lists = {
 			},
 			"StatConfig" : {
                 "Health": { "MIN" : 0, "MAX" : 100, "START" : 80,
-					"LEVELING" : { 
+					"LEVELING" : {
 						"FIXED" : { "COST" : 100, "STEP" : 1 }
 						}
 					},
                 "Nutrition": { "MIN" : 0, "MAX" : 100, "START" : 100,
-					"LEVELING" : { 
+					"LEVELING" : {
 						"FIXED" : { "COST" : 100, "STEP" : 10 }
 						}
 					},
                 "WillPower": { "MIN" : 0, "MAX" : 100, "START" : 100,
-					"LEVELING" : { 
+					"LEVELING" : {
 						"FIXED" : { "COST" : 100, "STEP" : 1 }
 						}
 					},
@@ -671,7 +671,7 @@ App.Data.Lists = {
                     }
                 },
                 "Toxicity": { "MIN" : 0, "MAX" : 300, "START" : 30,
-					"LEVELING" : { 
+					"LEVELING" : {
 						"FIXED" : { "COST" : 100, "STEP" : 1 }
 						}
 					},
@@ -716,6 +716,7 @@ App.Data.Lists = {
 					}
 				},
             "MakeupStyles" : [ // RES1 = BASIC MAKEUP, RES2 = EXPENSIVE MAKEUP
+                    {"NAME"  : "clean",         "DIFFICULTY" :  0,  "RESOURCE1" : 0,    "RESOURCE2" : 0 ,   "STYLE" :  0,   "SHORT" : "carefully cleaned and washed face"},
                     {"NAME"  : "minimal",       "DIFFICULTY" : 20,  "RESOURCE1" : 1,    "RESOURCE2" : 0 ,   "STYLE" : 20,   "SHORT" : "minimal blush and lipstick"},
                     {"NAME"  : "basic",         "DIFFICULTY" : 30,  "RESOURCE1" : 1,    "RESOURCE2" : 0 ,   "STYLE" : 25,   "SHORT" : "basic lipstick and eyeshadow"},
                     {"NAME"  : "youthful",      "DIFFICULTY" : 40,  "RESOURCE1" : 2,    "RESOURCE2" : 0 ,   "STYLE" : 30,   "SHORT" : "bright and youthful looking"},
@@ -1027,7 +1028,7 @@ App.Data.Lists = {
 				}
 			},
 			// The route the ship takes in the game.
-			"ShipRoute" : [ 
+			"ShipRoute" : [
 				// Isla Harbor Port
 					{ "P" : "IslaHarbor", "left" : 300, "top" : 60 }, { "P" : "IslaHarbor", "left" : 300, "top" : 60 }, { "P" : "IslaHarbor", "left" : 300, "top" : 60 }, { "P" : "IslaHarbor", "left" : 300, "top" : 60 },
 				// At Sea
