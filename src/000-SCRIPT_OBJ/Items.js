@@ -535,10 +535,11 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
     /**
      * Examine an item, relate detailed description and any knowledge.
      * @param {App.Entity.Player} Player
+     * @param {boolean} [OmitDescription]
      * @returns {string}
      */
-    Examine(Player) {
-        var Output = this.Data["LongDesc"];
+    Examine(Player, OmitDescription) {
+        var Output = OmitDescription ? "" : this.Data["LongDesc"];
         var Usages = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Tag());
 
         Output += "\n";
@@ -768,19 +769,20 @@ App.Items.Consumable = /** @class Consumable @extends {App.Item} */ class Consum
     /**
      * Shows long description of item and any knowledge known about it.
      * @param {App.Entity.Player} Player
+     * @param {boolean} [OmitDescription]
      * @returns {string}
      */
-    Examine(Player) {
-        var Output = this.Data["LongDesc"];
+    Examine(Player, OmitDescription) {
+        var Output = OmitDescription ? "" : this.Data["LongDesc"];
         var Usages = Player.GetHistory("ITEMS", this.Tag());
 
         if (Usages == 0) return Output;
 
-        Output += "\n\n";
+        if (!OmitDescription) Output += "\n\n";
         var max = Math.min(Usages, this.GetKnowledge().length);
 
         for(var i = 0; i < max; i++)
-            Output += App.PR.pEffectMeter(this.GetKnowledge()[i], this) + "&nbsp;&nbsp;";
+            Output += App.PR.pEffectMeter(this.GetKnowledge()[i], this) + "  ";
 
         return Output;
     }
@@ -921,10 +923,11 @@ App.Items.QuestItem = /** @class QuestItem @extends {App.Item} */ class QuestIte
     /**
      * Long description of item. No knowledge on quest items.
      * @param {App.Entity.Player} Player
+     * @param {boolean} [OmitDescription]
      * @returns {string}
      */
-    Examine(Player) {
-        return this.Data["LongDesc"];
+    Examine(Player, OmitDescription) {
+        return OmitDescription ? "" : this.Data["LongDesc"];
     }
 
     /**
@@ -979,12 +982,13 @@ App.Items.Reel = /** @class Reel @extends {App.Item} */ class Reel extends App.I
 
     /**
      * @param {App.Entity.Player} Player
+     * @param {boolean} [OmitDescription]
      * @returns {string}
      */
-    Examine(Player) {
+    Examine(Player, OmitDescription) {
         var attrs = [ 'ASS', 'BJ', 'HAND', 'TITS', 'FEM', 'PERV', 'BEAUTY'];
         var text = ['Ass Fucking', 'Blowjobs', 'Handjobs', 'Tit Fucking', 'Femininity', 'Perversion', 'Beauty'];
-        var output = "A slot reel used for whoring. It has the following attributes:\n";
+        var output = OmitDescription ? "" : "A slot reel used for whoring. It has the following attributes:\n";
         for (var x = 0; x < attrs.length; x++) {
             var percent = this.CalcPercent(attrs[x]);
             if (percent <= 0) continue;

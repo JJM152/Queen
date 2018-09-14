@@ -213,6 +213,27 @@ var Store = function(Player, NPC, StoreData) {
         }
     };
 
+    /**
+     * Returns days until the next restocking
+     * @returns {number}
+     */
+    this.DaysUntilRestocking = function()
+    {
+        // Don't stock stuff in markets
+        if (this._Data["RESTOCK"] == 0) return 0;
+        return this._Data["RESTOCK"] - (this._Player.Day
+             - this._Player.StoreInventory[this._Data["ID"]]["LAST_STOCKED"]);
+    };
+
+    /**
+     * Owner's mood
+     * @returns {number}
+     */
+    this.OwnerMood = function()
+    {
+        return this._NPC.Mood();
+    };
+
     /* FIXME: Let's make this trigger for the SHIP whenever you land at a port. But not otherwise. */
     this.StockInventory = function()
     {
@@ -244,9 +265,15 @@ var Store = function(Player, NPC, StoreData) {
     this.PrintItem = function(Item)
     {
         var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"]);
-        var res = oItem.Description();
+        var res = "<span class='inventoryItem'>" + oItem.Description();
         if (this._Player.Inventory.IsFavorite(oItem.Id())) {
             res += "&nbsp;" + App.PR.GetItemFavoriteIcon(true);
+        }
+
+        if (SugarCube.settings.inlineItemDetails) {
+            res += "</span><br><span class='inventoryItemDetails'>" + oItem.Examine(this._Player, true) + '</span>';
+        } else {
+            res += '<span class="tooltip">' + oItem.Examine(this._Player, false) + '</span></span>';
         }
         return res;
     };
