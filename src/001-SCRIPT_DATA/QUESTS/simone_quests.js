@@ -35,7 +35,7 @@ App.Data.Quests["SIMONE_MISSING_FRIEND"] = {
         "\"Like I promised, I'll let you work out of my bar when you're in town and hell, I'll throw in a special reward as well. I'm sure there'll be something " +
         "inside one of these that an enterprising whore like yourself can find useful."
     ,
-    "JOURNAL_ENTRY": "NPC_NAME has asked you to find her a 'replacement' for her 'special tool' that was stolen from her room. The only real requirement she mentioned is that it needs to be 'huge'.",
+    "JOURNAL_ENTRY": "NPC_NAME from @@color:gold;Port Royale@@ has asked you to find her a 'replacement' for her 'special tool' that was stolen from her room. The only real requirement she mentioned is that it needs to be 'huge'.",
     "JOURNAL_COMPLETE": "You're not too sure how you feel about handing in your fiance's hidden dildo to a complete stranger. On one hand, it's kind of disgusting, on the other hand "+
         "now you can whore out of the @@color:gold;'Lusty Lass'@@, which is... well, honestly, kind of disgusting as well. Win some, lose some."
 };
@@ -47,7 +47,8 @@ App.Data.Quests["SIMONE_CUSTOMER_SERVICE"] = {
         { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_1", "VALUE" : "COMPLETED" },
         { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_2", "VALUE" : "COMPLETED" },
         { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_3", "VALUE" : "COMPLETED" },
-        { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_4", "VALUE" : "COMPLETED" }
+        { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_4", "VALUE" : "COMPLETED" },
+        { "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_MISSING_FRIEND", "VALUE" : "COMPLETED" }
     ],
     "POST": [ ],
     "CHECKS": [
