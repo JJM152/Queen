@@ -11,6 +11,7 @@
 <<set _Wigs = $Player.WardrobeItemsBySlot("Wig");>>\
 <<set _TRIM = $Player.GetStat("BODY", "Hair") - 5;>>\
 <<set _PR = window.App.PR;>>\
+<<set _US = window.App.unitSystem;>>\
 <<nobr>>
 <table class="MyTable">
     <tbody>
@@ -37,7 +38,7 @@
 <<for _i = 0; _i < _Wigs.length; _i++>>
 <tr>
     <td style="text-align:center;width:30px;">
-<<print '<<radiobutton "$HairStyle" "'+_Wigs[_i].Id()+'">>'>>	
+<<print '<<radiobutton "$HairStyle" "'+_Wigs[_i].Id()+'">>'>>
    </td>
 	<td><<print _PR.ColorizeString(_Wigs[_i].HairBonus(), "⇑Wig");>> <<print _Wigs[_i].Description()>></td>
 	<td style="text-align:center;width:30px;"> - </td>
@@ -49,7 +50,7 @@
 <tr>
 <<if ( _H1 < _Hair[_i]["RESOURCE1"] ) ||
 	 ( _H2 < _Hair[_i]["RESOURCE2"] ) ||
-	 ( _HL < _Hair[_i]["MIN"] ) || 
+	 ( _HL < _Hair[_i]["MIN"] ) ||
 	 ( _HL > _Hair[_i]["MAX"] )>>
 		 <td> </td>
 	     <td>
@@ -150,7 +151,7 @@
 	</tr>
 	<tr>
 		<td colspan="2" style="text-align:left;">
-@@color:yellow;Action@@: 
+@@color:yellow;Action@@:
 <<if $Player.GetStat("STAT", "Energy") < 1>>
 @@color:grey;Do Makeup and Hair@@
 <<else>>
@@ -168,21 +169,21 @@
 <<set $Player.MakeupBonus = 0>>
 <</click>>
 <</if>>
- | 
+ |
 <<if _TRIM < 5>>
 <<click "Trim Hair" "Vanity">>
 <<set $Player.BodyStats["Hair"] = 5;>>
 <<if _Wig != 0>>
 <<run $Player.Remove($Player.Equipment["Wig"]);>>.
 <</if>>
-<</click>> (<<print _PR.CMtoINCH(_PR.StatToCM($Player, "Hair"));>> in ⇒ <<print _PR.CMtoINCH(_PR.StatToCM($Player, "Hair", (5 - $Player.GetStat("BODY", "Hair"))));>> in)
+<</click>> (<<print _US.lengthString(_PR.StatToCM(setup.player, "Hair"), false);>> ⇒ <<print _US.lengthString(_PR.StatToCM(setup.player, "Hair", (5 - setup.player.GetStat("BODY", "Hair"))), false);>>)
 <<else>>
 <<click "Trim Hair" "Vanity">>
 <<run $Player.AdjustBody("Hair", -5);>>
 <<if _Wig != 0>>
 <<run $Player.Remove($Player.Equipment["Wig"]);>>.
 <</if>>
-<</click>> (<<print _PR.CMtoINCH(_PR.StatToCM($Player, "Hair"));>> in. -> <<print _PR.CMtoINCH( (_PR.StatToCM($Player, "Hair",-5)));>> in.)<</if>></td>
+<</click>> (<<print _US.lengthString(_PR.StatToCM(setup.player, "Hair"), false);>> -> <<print _US.lengthString((_PR.StatToCM(setup.player, "Hair",-5)), false);>>)<</if>></td>
 	</tr>
 	</tbody>
 </table>
