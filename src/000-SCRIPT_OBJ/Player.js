@@ -151,6 +151,11 @@ App.Entity.PlayerState = function (){
     };
 
     this.CurrentSlots = 3; // Starting allocation of whoring
+
+    /**
+     * @type {string[]}
+     */
+    this.BodyEffects = [ ]; // lists effect names
 };
 
 /**
@@ -1161,13 +1166,36 @@ App.Entity.Player = class Player {
     /**
      * Returns the config settings for a statistic type.
      * @param {string} Type - STAT | SKILL | BODY
-     * @returns {*}
+     * @returns {object}
      */
     GetStatConfig (Type) {
         if (Type == "STAT") return App.Data.Lists.StatConfig;
         if (Type == "SKILL") return App.Data.Lists.SkillConfig;
         if (Type == "BODY") return App.Data.Lists.BodyConfig;
-    };
+    }
+
+    /**
+     * Returns object that holds stat values
+     * @param {string} Type
+     * @returns {object}
+     */
+    GetStatObject(Type) {
+        if (Type == "STAT") return this._state.CoreStats;
+        if (Type == "SKILL") return this._state.Skills;
+        if (Type == "BODY") return this._state.BodyStats;
+    }
+
+    /**
+     * Returns object that holds stat XP values
+     * @param {string} Type
+     * @returns {object}
+     */
+    GetStatXPObject(Type) {
+        if (Type == "STAT") return this._state.CoreStatsXP;
+        if (Type == "SKILL") return this._state.SkillsXP;
+        if (Type == "BODY") return this._state.BodyXP;
+    }
+
     /**
      * Return a statistic value (raw)
      * @param {string} Type
@@ -1175,10 +1203,15 @@ App.Entity.Player = class Player {
      * @returns {number}
      */
     GetStat (Type, StatName) {
-        if (Type == "STAT") return this._state.CoreStats[StatName];
-        if (Type == "SKILL") return this._state.Skills[StatName];
-        if (Type == "BODY") return this._state.BodyStats[StatName];
-    };
+        var statObj = this.GetStatObject(Type);
+        if (!statObj.hasOwnProperty(StatName)) {
+            var st = this.GetStartStat(Type, StatName);
+            if (st != undefined) {
+                statObj[StatName] = st;
+            }
+        }
+        return statObj[StatName];
+    }
 
     /**
      * Returns the current XP of a statistic.
@@ -1187,10 +1220,12 @@ App.Entity.Player = class Player {
      * @returns {number}
      */
     GetStatXP (Type, StatName) {
-        if (Type == "STAT") return this._state.CoreStatsXP[StatName];
-        if (Type == "SKILL") return this._state.SkillsXP[StatName];
-        if (Type == "BODY") return this._state.BodyXP[StatName];
-    };
+        var xpObj = this.GetStatXPObject(Type);
+        if (!xpObj.hasOwnProperty(StatName)) {
+            xpObj[StatName] = 0;
+        }
+        return xpObj[StatName];
+    }
 
     GetMaxStat (Type, StatName) {
         return this.GetStatConfig(Type)[StatName]["MAX"];
@@ -1240,17 +1275,17 @@ App.Entity.Player = class Player {
 
     AdjustStat (StatName, Amount) {
         if (this._state.debugMode) console.log("AdjustStat: Name="+StatName+", Amount="+Amount);
-        this._state.CoreStats[StatName] = this.GetCapStat("STAT", StatName, ( this._state.CoreStats[StatName] + Amount));
+        this._state.CoreStats[StatName] = this.GetCapStat("STAT", StatName, ( this.GetStat("STAT", StatName) + Amount));
     };
 
     AdjustBody (StatName, Amount) {
         if (this._state.debugMode) console.log("AdjustBody: Name="+StatName+", Amount="+Amount);
-        this._state.BodyStats[StatName] = this.GetCapStat("BODY", StatName, ( this._state.BodyStats[StatName] + Amount));
+        this._state.BodyStats[StatName] = this.GetCapStat("BODY", StatName, ( this.GetStat('BODY', StatName) + Amount));
     };
 
     AdjustSkill (StatName, Amount) {
         if (this._state.debugMode) console.log("AdjustSkill: Name="+StatName+", Amount="+Amount);
-        this._state.Skills[StatName] = this.GetCapStat("SKILL", StatName, ( this._state.Skills[StatName] + Amount));
+        this._state.Skills[StatName] = this.GetCapStat("SKILL", StatName, ( this.GetStat('SKILL', StatName) + Amount));
     };
 
     AdjustXP (Type, StatName, Amount, Limiter) {
@@ -1362,7 +1397,12 @@ App.Entity.Player = class Player {
                     " is probably to blame.");
             }
         }
-    };
+	};
+
+	BodyEffects() {
+        if(this._state.BodyEffects !== undefined) return App.Data.NaturalBodyEffects.concat(this._state.BodyEffects);
+        return App.Data.NaturalBodyEffects;
+	}
 
     // Resting and Sleeping functions.
     NextDay () {
@@ -1382,45 +1422,9 @@ App.Entity.Player = class Player {
             if ((typeof logMsg != 'undefined') && logMsg != "") this._state.SleepLog.push(logMsg);
         }
 
-        // Basic Stat Mods
-        this.AdjustStat("Nutrition", -5);
-        this.AdjustStat("Toxicity", -( (5 + (this._state.CoreStats["Fitness"] / 10)))*2);
-        this.DoHealing(1);
-
-        // Basic XP Adding
-        this.AdjustStatXP("Hormones", ((this.GetStat("BODY", "Balls") / 5) * -1.0)); // Bigger balls add more male hormones.
-        this.AdjustBodyXP("Hair", 4, 0); // Hair grows about 0.05 CM per day.
+        this.ApplyEffects(this.BodyEffects());
 
         this.LevelStatGroup("STAT");
-
-        //Adjust physical characteristics based on hormone balance. Only shift body if there is XP related to the hormone
-        //shift stored in the player object.
-        var HormoneShift = 0;
-
-        if ((this.GetStat("STAT", "Hormones") > 100) && this.GetStatXP("STAT", "Hormones") > 0 ) {
-            HormoneShift = ( this.GetStat("STAT", "Hormones") - 100 );
-            this.AdjustBodyXP("Face",   HormoneShift            ,     40);
-            this.AdjustBodyXP("Bust",   HormoneShift            ,      5);
-            this.AdjustBodyXP("Lips",   HormoneShift            ,     40);
-            this.AdjustBodyXP("Ass",    HormoneShift            ,     10);
-            this.AdjustBodyXP("Hips",   HormoneShift            ,     10);
-            this.AdjustBodyXP("Penis", (HormoneShift * -1.0)    ,      1);
-            this.AdjustBodyXP("Balls", (HormoneShift * -1.0)    ,      0);
-        } else {
-            if (this.GetStatXP("STAT", "Hormones") < 0) {
-                HormoneShift = ( 100 - this.GetStat("STAT", "Hormones"));
-                this.AdjustBodyXP("Face", (HormoneShift * -1.0), this.GetStartStat("BODY", "Face"));
-                this.AdjustBodyXP("Bust", (HormoneShift * -1.0), this.GetStartStat("BODY", "Bust"));
-                this.AdjustBodyXP("Lips", (HormoneShift * -1.0), this.GetStartStat("BODY", "Lips"));
-                this.AdjustBodyXP("Ass",  (HormoneShift * -1.0), this.GetStartStat("BODY", "Ass"));
-                this.AdjustBodyXP("Hips", (HormoneShift * -1.0), this.GetStartStat("BODY", "Hips"));
-                this.AdjustBodyXP("Penis", HormoneShift, this.GetStartStat("BODY", "Penis"));
-                this.AdjustBodyXP("Balls", HormoneShift, this.GetStartStat("BODY", "Balls"));
-            }
-        }
-
-        //Level remaining stats
-        if ( this.GetStatXP("STAT", "Nutrition") > 150) this.AdjustBodyXP("Waist", (this.GetStatXP("STAT", "Nutrition")-150)); // Get Fatter!?
         this.LevelStatGroup("BODY");
         this.LevelStatGroup("SKILL");
 
@@ -1434,26 +1438,11 @@ App.Entity.Player = class Player {
         this._state.SailDays = ((this._state.SailDays + 1) >= App.Data.Lists["ShipRoute"].length) ? 0 : (this._state.SailDays + 1);
         this._state.Phase = 0;
 
-        // Going hungry, lose some belly fat.
-        if (this._state.CoreStats["Nutrition"] < 50) {
-            this.AdjustBodyXP("Waist", -25);
-        }
-
-        // Starving. Yikes.
-        if (this._state.CoreStats["Nutrition"] < 20) {
-            this._state.SleepLog.push("@@color:red;You are starving!@@");
-            this.AdjustStat("Energy", -1); // Reduce Energy.
-            this.AdjustStat("Health", -15);
-            this.AdjustBodyXP("Waist", -50);
-        }
-
-        // Decrease Lactation (if any)
-        this.AdjustBody("Lactation", -1);
         // Decrease voodoo effects
         this.EndHexDuration();
         this.NPCNextDay();
 
-    }; // NextDay
+    } // NextDay
 
     /**
      * Move time counter to next phase of day.
@@ -1830,12 +1819,16 @@ App.Entity.Player = class Player {
         return msg;
     };
 
-    ApplySelfEffects (EffectList )
+    /**
+     * Applies named effests on the player
+     * @param {string[]} EffectNames
+     */
+    ApplyEffects(EffectNames)
     {
-        for (var i = 0; i < EffectList.length; i++) {
-            App.Data.EffectLib[EffectList[i]]["FUN"](0, this);
+        for (const eName of EffectNames) {
+            App.Data.EffectLib[eName]["FUN"].call(App.Data.EffectLib[eName], null, this);
         }
-    };
+    }
 
     pBodyChange (BodyPart, Direction) {
         return window.App.Data.Lists["BodyChanges"][BodyPart][Direction];

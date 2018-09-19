@@ -4,7 +4,7 @@
 <<if typeof _Card !== 'undefined' && App.Data.Tarot.hasOwnProperty(_Card)>>\
 <<set _Dict = App.Data.Tarot[_Card];>>\
 <<= _Dict.Msg>>
-<<run $args[0].ApplySelfEffects(_Dict.Effects);>>
+<<run $args[0].ApplyEffects(_Dict.Effects);>>
 <<run delete setup.player.JobFlags["TAROT_CARD"];>>\
 <</if>>\
 <</widget>>
