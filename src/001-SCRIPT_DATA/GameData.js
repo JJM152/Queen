@@ -43,7 +43,7 @@ App.Data.Names = {
                 "Rosie", "Robin",
                 "Sylvie", "Shelli", "Suzy", "Svetlana", "Sybil", "Susanna",
                 "Tessa", "Tanis", "Taffy", "Telia", "Tabbi",
-                "Uma", "Ursula", "Uta", "Ursula",
+                "Uma", "Ursula", "Uta",
                 "Vannesa", "Vicki", "Victoria",
                 "Wanda", "Winnie",
                 "Yvette", "Yolanda", "Yessica",

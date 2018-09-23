@@ -1,6 +1,6 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.7 - 06/05/2018
+!!!0.7 - 09/23/2018
 !!!!General
 * Added some new effects to the effect library.
 * Breast size bug in Lusty Lass Tit Fucking job fixed.
@@ -10,6 +10,8 @@
 * Added some more information to the slot tutorial.
 * Fixed bug in seeing Lord Rowe's Delivery quest showing up even if you hadn't accepted Petey's quest yet.
 * Fixed bug with haircare products not showing up as 'FULL' in shop UI when they were, well, full.
+!!!!UI
+* You can now toggle units and display of numbers for stat / skill meters. (added by @@color:deepPink;ezsh@@)
 !!!!Golden Isle
 * Charmaine now has a shop, jobs on offer and a hidden quest available, similar to Simone in Port Royale and with equally similar rewards.
 * You now have to unlock whoring at the Saucy Slattern by doing well on all four of Charmaine's jobs and accepting her quest.
