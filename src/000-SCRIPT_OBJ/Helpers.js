@@ -23,16 +23,21 @@ App.PR = new function() {
      */
 	    this.GetRating = function (Type, Value, Colorize) {
             Colorize    = Colorize || false;
-            var Rating  = App.Data.Ratings[Type];
+            var Ratings  = App.Data.Ratings[Type];
 
-            for (var prop in Rating) {
-                if (!Rating.hasOwnProperty(prop)) continue;
-
-                if ((Value <= prop) && (Colorize == true)) return this.ColorizeString(Value, Rating[prop]);
-                if (Value <= prop) return Rating[prop];
+            var lastSmallerRating;
+            for (var prop in Ratings) {
+                if (!Ratings.hasOwnProperty(prop)) continue;
+                if (prop > Value) break;
+                lastSmallerRating = prop;
             }
 
-            return "Untyped rating: " + Type + "," + Value;
+            if (lastSmallerRating == undefined)  return "Untyped rating: " + Type + "," + Value;
+            if (Colorize == true) {
+                return this.ColorizeString(Value, Ratings[lastSmallerRating]);
+            } else {
+                return Ratings[lastSmallerRating];
+            }
         };
 
     /**
@@ -46,11 +51,14 @@ App.PR = new function() {
         {
             var Ratings = this.GetStatConfig(Type)[Stat]["LEVELING"];
             var Arr = App.Data.Lists.ColorScale;
+            var lastSmallerProp;
             for (var prop in Ratings) {
                 if (!Ratings.hasOwnProperty(prop)) continue;
-                if (Value <= prop)
-                    return "@@color:" + Arr[Ratings[prop]["COLOR"]] + ";" + Ratings[prop]["ADJECTIVE"] +"@@";
+                if (prop > Value) break;
+                lastSmallerProp = prop;
             }
+            if (lastSmallerProp !== undefined)
+                return "@@color:" + Arr[Ratings[lastSmallerProp]["COLOR"]] + ";" + Ratings[lastSmallerProp]["ADJECTIVE"] +"@@";
             return "";
         };
 
