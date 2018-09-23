@@ -4718,12 +4718,10 @@ App.Entity.Player = function (){
         var lm = this.LastUsedMakeup;
         var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0];
         if ( (m1 < Makeup["RESOURCE1"]) || (m2 < Makeup["RESOURCE2"])) return false;
-        if (this.GetStat("SKILL", "Styling") < Makeup[_i]["DIFFICULTY"]) return false;
 
         if (this.Equipment["Wig"] !== 0) return true;
         var lh = this.LastUsedHair;
         var Hair = window.App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0];
-        if (this.GetStat("SKILL", "Styling") < Hair[_i]["DIFFICULTY"]) return false;
         return ( (h1 >= Hair["RESOURCE1"]) && (h2 >= Hair["RESOURCE2"]));
     };
 
