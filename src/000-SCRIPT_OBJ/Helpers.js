@@ -160,7 +160,11 @@ App.PR = new function() {
 						sMeter += HtmlSafe ? "</span>" : "@@";
 					}
 
-				return "[" + sMeter + "]"
+				if (App.PR.numericalMeters) {
+					return "[" + sMeter + "] " + Score;
+				} else {
+					return "[" + sMeter + "]";
+				}
         };
 
     /**
@@ -790,4 +794,18 @@ App.PR = new function() {
     this.GetRandomListItem = function (List) {
         return List[Math.floor(Math.random() * List.length)];
     };
+
+/**
+ * Handler for the meters 'print numbers' setting
+ */
+  var handleMetersNumberValueSettingChanged = function() {
+    if (SugarCube.settings.displayMeterNumber) {
+      // to accommodate longer meters
+      $('#ui-bar').css("width","19em");
+      App.PR.numericalMeters = true;
+    } else {
+      App.PR.numericalMeters = false;
+      $('#ui-bar').css("width","");
+    }
+  };
 };
