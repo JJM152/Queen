@@ -1061,14 +1061,15 @@ App.Data.Lists = {
 
 App.Data.Ratings = {
             "Lust": {
-                20: "Content", 40: "Satisfied", 60: "Horny",
+                0: "Content", 20: "Content", 40: "Satisfied", 60: "Horny",
                 80: "Lustful", 99: "Aggressive", 100: "Overpowering"
             },
             "Mood": {
-                20: "Angry", 40: "Annoyed", 60: "Satisfied",
+                0: "Angry", 20: "Angry", 40: "Annoyed", 60: "Satisfied",
                 80: "Happy", 99: "Cheerful", 100: "Ecstatic!"
             },
             "Fetish": {
+                 0: "completely non-existent",
                 10: "completely non-existent",
                 20: "barely there",
                 30: "of minor notice",
@@ -1082,6 +1083,7 @@ App.Data.Ratings = {
                 100: "utterly depraved and perverse"
             },
             "Beauty": {
+                 0: "masculine and ugly",
                 10: "masculine and ugly",
                 20: "mannish and unappealing",
                 30: "a perpetual wallflower",
@@ -1095,6 +1097,7 @@ App.Data.Ratings = {
                 100: "utterly bewitching"
             },
             "Balls": {
+                  0: "ADJECTIVE testes, so small they have shrunk into your abdomen",
                   1: "ADJECTIVE testes, so small they have shrunk into your abdomen",
                   5: "ADJECTIVE sissy balls",
                  10: "ADJECTIVE pitiful testicles",
@@ -1112,6 +1115,7 @@ App.Data.Ratings = {
                 100: "ADJECTIVE balls that signify you are one of natures true freaks. They are so bloated with cum that even the slightest touch if painful"
             },
             "Penis": {
+                 0: "a ADJECTIVE penis, a perfect sissy clit",
                  1: "a ADJECTIVE penis, a perfect sissy clit",
                  5: "a ADJECTIVE penis, a perfect sissy clit",
                 10: "a LENGTH ADJECTIVE dick or over sized sissy clit",
@@ -1129,6 +1133,7 @@ App.Data.Ratings = {
                100: "a ADJECTIVE LENGTH_C tool, so big it's impossible to hide and serves as an advertisement for your perverse body"
             },
             "Waist": {
+                0:  "You have a LENGTH ADJECTIVE waist, freakishly small like a doll or small child",
                 1:  "You have a LENGTH ADJECTIVE waist, freakishly small like a doll or small child",
                 5:  "You have a LENGTH ADJECTIVE waist, freakishly small like a doll or small child",
                 10: "You have a ADJECTIVE LENGTH waist, incredibly small for your size",
@@ -1224,6 +1229,7 @@ App.Data.Ratings = {
                100 : "Your ADJECTIVE pCUP sized tits make it known to everyone that you're a total fuck slut ready for sex. They shake and jiggle at the slightest motion and spill out of your top every couple of minutes. When you eat, you place them on the table to avoid back strain and you have to sleep on your side or you'll suffocate."
             },
             "Lips": {
+                  0: "ADJECTIVE lips like an old person or a zombie.",
                   5: "ADJECTIVE lips like an old person or a zombie.",
                  10: "ADJECTIVE lips that look unappealing and harsh.",
                  15: "ADJECTIVE lips that look dry and parched.",
@@ -1241,6 +1247,7 @@ App.Data.Ratings = {
                 100: "ADJECTIVE lips, so enormous that they look like a pair of pillows made for sucking cock. They cause you to speak with a pronounced lisp and they're always so wet with your saliva that you often find yourself constantly wiping your own drool from your pBUST tits."
             },
             "Style": {
+                 0: "repulsive, like a homeless person",
                 10: "repulsive, like a homeless person",
                 20: "frumpy and unattractive",
                 30: "plain and uninspired",
@@ -1254,6 +1261,7 @@ App.Data.Ratings = {
                 100: "the height of sexual allure and beauty"
             },
             "Clothing": {
+                 0: "barely better than rags.",
                 10: "barely better than rags.",
                 20: "horrible looking",
                 30: "completely out of fashion",
@@ -1293,6 +1301,7 @@ App.Data.Ratings = {
                 100: "ADJECTIVE pHORMONES looking face"
             },
             "Fitness": {
+                0: "extremely ADJECTIVE, almost sickly and ill.",
                 5: "extremely ADJECTIVE, almost sickly and ill.",
                 10: "extremely ADJECTIVE, almost sickly and ill.",
                 15: "extremely ADJECTIVE, almost sickly and ill.",
