@@ -6,13 +6,13 @@ App.PR = new function() {
 	 */
 	this.lengthString = function(x, compact) {
 		return App.unitSystem.lengthString(x, compact);
-	}
+	};
 
 	/** Shortcut
 	 */
 	this.lengthValue = function(x) {
 		return App.unitSystem.lengthValue(x);
-	}
+	};
 
     /**
      * Fetch a rating for a statistic/value
@@ -795,17 +795,32 @@ App.PR = new function() {
         return List[Math.floor(Math.random() * List.length)];
     };
 
+};
+
 /**
  * Handler for the meters 'print numbers' setting
  */
-  var handleMetersNumberValueSettingChanged = function() {
+var handleMetersNumberValueSettingChanged = function() {
     if (SugarCube.settings.displayMeterNumber) {
-      // to accommodate longer meters
-      $('#ui-bar').css("width","19em");
-      App.PR.numericalMeters = true;
+        // to accommodate longer meters
+        $('#ui-bar').css("width","320px"); // seems to work better on most browsers
+        App.PR.numericalMeters = true;
     } else {
-      App.PR.numericalMeters = false;
-      $('#ui-bar').css("width","");
+        App.PR.numericalMeters = false;
+        $('#ui-bar').css("width","");
     }
-  };
+    // Redraw Energy Bars
+    try {
+        $('#Health').html(App.PR.pStatMeter("Health", SugarCube.State.variables.Player, 0, true));
+        $('#Energy').html(App.PR.pStatMeter("Energy", SugarCube.State.variables.Player, 0, true));
+        $('#WillPower').html(App.PR.pStatMeter("WillPower", SugarCube.State.variables.Player, 0, true));
+        $('#Perversion').html(App.PR.pStatMeter("Perversion", SugarCube.State.variables.Player, 0, true));
+        $('#Nutrition').html(App.PR.pStatMeter("Nutrition", SugarCube.State.variables.Player, 0, true));
+        $('#Femininity').html(App.PR.pStatMeter("Femininity", SugarCube.State.variables.Player, 0, true));
+        $('#Toxicity').html(App.PR.pStatMeter("Toxicity", SugarCube.State.variables.Player, 0, true));
+        $('#Hormones').html(App.PR.pStatMeter("Hormones", SugarCube.State.variables.Player, 0, true));
+    } catch (err) {
+        //no-op
+    }
+
 };

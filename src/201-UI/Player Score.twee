@@ -18,11 +18,11 @@ Coins: <span id="Money"><<print $Player.Money>></span>
 </tr>
 <tr>
 	<td>Willpower:</td>
-	<td><span id="fixed-font"><<print window.App.PR.pStatMeter("WillPower", $Player); >></span></td>
+	<td><span id="WillPower"><<print window.App.PR.pStatMeter("WillPower", $Player); >></span></td>
 </tr>
 <tr>
 	<td>Perversion:</td>
-	<td><span id="fixed-font"><<print window.App.PR.pStatMeter("Perversion", $Player); >></span></td>
+	<td><span id="Perversion"><<print window.App.PR.pStatMeter("Perversion", $Player); >></span></td>
 </tr>
 <tr>
 	<td>Nutrition:</td>
@@ -30,15 +30,15 @@ Coins: <span id="Money"><<print $Player.Money>></span>
 </tr>
 <tr>
 	<td>Femininity:</td>
-	<td><span id="fixed-font"><<print window.App.PR.pStatMeter("Femininity", $Player); >></span></td>
+	<td><span id="Femininity"><<print window.App.PR.pStatMeter("Femininity", $Player); >></span></td>
 </tr>
 <tr>
 	<td>Toxicity:</td>
-	<td><span id="fixed-font"><<print window.App.PR.pStatMeter("Toxicity", $Player, 1); >></span></td>
+	<td><span id="Toxicity"><<print window.App.PR.pStatMeter("Toxicity", $Player, 1); >></span></td>
 </tr>
 <tr>
 	<td>Hormones:</td>
-	<td><span id="fixed-font"><<print window.App.PR.pStatMeter("Hormones",$Player);>></span><<if $Player.GetStat("STAT","Hormones") < 78>>@@color:cyan;♂@@<<else>><<if $Player.GetStat("STAT","Hormones") >= 144>>@@color:DeepPink;♀@@<<else>>@@color:orange;⚥<</if>><</if>></td>
+	<td><span id="Hormones"><<print window.App.PR.pStatMeter("Hormones",$Player);>></span><<if $Player.GetStat("STAT","Hormones") < 78>>@@color:cyan;♂@@<<else>><<if $Player.GetStat("STAT","Hormones") >= 144>>@@color:DeepPink;♀@@<<else>>@@color:orange;⚥<</if>><</if>></td>
 </tr>
 </tbody>
 </table>
