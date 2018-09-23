@@ -28,14 +28,24 @@ Config.navigation.override = function (passageName) {
         }
     };
 
-
 // Setting for showing numbers along with the meters
 Setting.addToggle("displayMeterNumber", {
 	label    : "Display numbers in (pseudo-)graphical meters",
 	desc     : "Controls printing number values for each meter bar in addition to the graphical representation",
 	default  : false,
 	onInit   : handleMetersNumberValueSettingChanged,
-	onChange : handleMetersNumberValueSettingChanged
+	onChange : handleMetersNumberValueSettingChanged 
+  });
+
+App.unitSystem = new App.UnitSystem();
+// Setting up a basic list control for the settings property 'units'
+Setting.addList("units", {
+	label   : "Unit system",
+	desc    : "Choose the unit system.",
+	list    : ["Imperial", "Metric"],
+	default : "Imperial",
+	onInit  : unitSettingChangedHandler,
+	onChange: unitSettingChangedHandler
 });
 
 App.EventHandlers.Init();

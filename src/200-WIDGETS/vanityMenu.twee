@@ -47,7 +47,8 @@
 <</if>>
 <<for _i = 0; _i < _Hair.length; _i++>>
 <tr>
-<<if ( _H1 < _Hair[_i]["RESOURCE1"] ) ||
+<<if ( $Player.GetStat("SKILL", "Styling") < _Hair[_i]["DIFFICULTY"]) ||
+	 ( _H1 < _Hair[_i]["RESOURCE1"] ) ||
 	 ( _H2 < _Hair[_i]["RESOURCE2"] ) ||
 	 ( _HL < _Hair[_i]["MIN"] ) || 
 	 ( _HL > _Hair[_i]["MAX"] )>>
@@ -100,8 +101,9 @@
             </tr>
 <<for _i = 0; _i < _Makeup.length; _i++>>
 <tr>
-<<if ( _M1 < _Makeup[_i]["RESOURCE1"] ) ||
-	 ( _M2 < _Makeup[_i]["RESOURCE2"] )>>
+<<if ( $Player.GetStat("SKILL", "Styling") < _Makeup[_i]["DIFFICULTY"]) ||
+	( _M1 < _Makeup[_i]["RESOURCE1"] ) ||
+	( _M2 < _Makeup[_i]["RESOURCE2"] )>>
 		 <td> </td>
 	     <td>
 <<print _PR.ColorizeString(_Makeup[_i]["STYLE"], "⇑Style")>> @@color:grey;<<print _Makeup[_i]["SHORT"];>>@@
