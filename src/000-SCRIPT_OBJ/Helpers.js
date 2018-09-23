@@ -2,6 +2,18 @@ App = App || { Data: { }, Entity: { } };
 
 App.PR = new function() {
 
+	/** Shortcut
+	 */
+	this.lengthString = function(x, compact) {
+		return App.unitSystem.lengthString(x, compact);
+	}
+
+	/** Shortcut
+	 */
+	this.lengthValue = function(x) {
+		return App.unitSystem.lengthValue(x);
+	}
+
     /**
      * Fetch a rating for a statistic/value
      * @param Type
@@ -59,7 +71,8 @@ App.PR = new function() {
         String = String.replace(/pHIPS/g, this.pHips(Player, 1));
         String = String.replace(/pHORMONES/g, this.pHormones(Player, 1));
         String = String.replace(/ADJECTIVE/g, this.GetAdjective(Type, Stat, Player.GetStat(Type, Stat)));
-        String = String.replace(/INCHES/g, this.CMtoINCH(this.StatToCM(Player,Stat)).toString());
+        String = String.replace(/LENGTH_C/g, this.lengthString(this.StatToCM(Player,Stat), true).toString());
+        String = String.replace(/LENGTH/g, this.lengthString(this.StatToCM(Player,Stat), false).toString());
 
         return String;
     };
@@ -502,10 +515,7 @@ App.PR = new function() {
      */
         this.pHeight = function (Player) {
             var pHeight = this.StatToCM(Player, "Height");
-            var realFeet = (this.CMtoINCH(pHeight) / 12);
-            var feet = Math.floor(realFeet);
-            var inches = Math.round((realFeet - feet) * 12);
-            return feet + "&prime;" + inches + "&Prime; tall";
+            return this.lengthString(pHeight, true) + " tall";
         };
 
     this.pFetish = function (Player) {
@@ -559,8 +569,14 @@ App.PR = new function() {
      * @returns {XML|string|void}
      */
     this.pCup = function (Player) {
-        var bPercent = Player.GetStatPercent("BODY", "Bust");
-        return this.GetRating("Cup", bPercent) + " cup";
+        var bust = this.BustCCtoCM(Player);
+        return App.unitSystem.cupString(bust, 80) + " cup";
+        // now we compute underbust measure assuming that it's proportional
+        // to the player's height. The starting height of 50% corresponds to
+        // the underbust length of 80 cm
+//         var underbust = 80.0 * Player.GetStat("BODY", "Height") / ;
+//         var bPercent = Player.GetStatPercent("BODY", "Bust");
+//         return this.GetRating("Cup", bPercent) + " cup";
     };
 
     /**
@@ -682,11 +698,11 @@ App.PR = new function() {
             var Wig = Player.Equipment["Wig"];
             if (Wig!= 0)
                 return "You are wearing a wig to hide your natural hair. It is " +Wig.HairColor()+ " and " +
-                    this.CMtoINCH(Wig.HairLength()) + " inches long, styled in " +
+                    this.lengthString(Wig.HairLength()) + " long, styled in " +
                     this.ColorizeString(Wig.HairBonus(), Wig.HairStyle()) + ".";
 
-                return "Your hair is " + Player.HairColor + " and " + this.CMtoINCH(this.StatToCM(Player,"Hair")) +
-                    " inches long, styled in " + this.ColorizeString(Player.HairRating(), Player.HairStyle) +".";
+                return "Your hair is " + Player.HairColor + " and " + this.lengthString(this.StatToCM(Player,"Hair"), false) +
+                    " long, styled in " + this.ColorizeString(Player.HairRating(), Player.HairStyle) +".";
         };
 
     /**
@@ -698,18 +714,21 @@ App.PR = new function() {
             var pBust = Player.GetStatPercent("BODY", "Bust");
             var pWaist = Player.GetStatPercent("BODY", "Waist");
             var pHips = Player.GetStatPercent("BODY", "Hips");
-            var sCurve = "a @@color:yellow;waifish@@ figure";
+            var statsStr = this.lengthValue(this.StatToCM(Player, "Bust"), false).toString() + '-' +
+                           this.lengthValue(this.StatToCM(Player, "Waist"), false).toString() + '-' +
+                           this.lengthValue(this.StatToCM(Player, "Hips"), false).toString() + " figure";
+            var sCurve = "a @@color:yellow;waifish@@" + statsStr;
 
-            if (pWaist >= 20) sCurve = "a @@color:yellow;small@@ figure";
-            if (pWaist >= 30) sCurve = "a @@color:yellow;thin@@ figure";
-            if (pWaist >= 40) sCurve = "an @@color:yellow;average@@ figure";
-            if (pWaist >= 60) sCurve = "a @@color:yellow;chubby@@ figure";
-            if (pWaist >= 80) sCurve = "an @@color:red;obese@@ figure";
+            if (pWaist >= 20) sCurve = "a @@color:yellow;small@@" + statsStr;
+            if (pWaist >= 30) sCurve = "a @@color:yellow;thin@@" + statsStr;
+            if (pWaist >= 40) sCurve = "an @@color:yellow;average@@" + statsStr;
+            if (pWaist >= 60) sCurve = "a @@color:yellow;chubby@@" + statsStr;
+            if (pWaist >= 80) sCurve = "an @@color:red;obese@@" + statsStr;
 
-            if ( (pWaist + 10 < pBust) && (pWaist + 10 < pHips )) sCurve = "a @@color:lime;slightly curvy@@ figure";
-            if ( (pWaist + 20 < pBust) && (pWaist + 20 < pHips )) sCurve = "a @@color:cyan;sexy and curvy@@ figure";
-            if ( (pWaist + 30 < pBust) && (pWaist + 30 < pHips )) sCurve = "an @@color:magenta;hourglass@@ figure";
-            if ( (pWaist + 40 < pBust) && (pWaist + 40 < pHips )) sCurve = "an @@color:DeepPink;extreme hourglass@@ figure";
+            if ( (pWaist + 10 < pBust) && (pWaist + 10 < pHips )) sCurve = "a @@color:lime;slightly curvy@@" + statsStr;
+            if ( (pWaist + 20 < pBust) && (pWaist + 20 < pHips )) sCurve = "a @@color:cyan;sexy and curvy@@" + statsStr;
+            if ( (pWaist + 30 < pBust) && (pWaist + 30 < pHips )) sCurve = "a @@color:magenta;hourglass@@" + statsStr;
+            if ( (pWaist + 40 < pBust) && (pWaist + 40 < pHips )) sCurve = "an @@color:DeepPink;extreme hourglass@@" + statsStr;
 
             return sCurve;
         };
