@@ -13,7 +13,7 @@ App.UnitSystem = function () {
 		lengthScaleFactors: [100, 1000],
 		lengthSymbolDelim : '&thinsp;',
 		braCups: { // difference in cm, taken from http://brasizecalculator.eu/ for underbust of  80 cm
-			 0 : "Flat",
+			 0 : "AA",
 			 5 : "AA",
 			 7 : "A",
 			 9 : "B",
@@ -52,7 +52,7 @@ App.UnitSystem = function () {
 		lengthScaleFactors: [12, 5280],
 		lengthSymbolDelim : '',
 		braCups: { // difference in inches, taken from http://brasizecalculator.eu/
-			 0 : "Flat",
+			 0 : "AA",
 			 1 : "AA",
 			 2 : "A",
 			 3 : "B",
