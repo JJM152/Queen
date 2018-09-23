@@ -729,18 +729,18 @@ App.PR = new function() {
             var statsStr = this.lengthValue(this.StatToCM(Player, "Bust"), false).toString() + '-' +
                            this.lengthValue(this.StatToCM(Player, "Waist"), false).toString() + '-' +
                            this.lengthValue(this.StatToCM(Player, "Hips"), false).toString() + " figure";
-            var sCurve = "a @@color:yellow;waifish@@" + statsStr;
+            var sCurve = "a @@color:yellow;waifish@@ " + statsStr;
 
-            if (pWaist >= 20) sCurve = "a @@color:yellow;small@@" + statsStr;
-            if (pWaist >= 30) sCurve = "a @@color:yellow;thin@@" + statsStr;
-            if (pWaist >= 40) sCurve = "an @@color:yellow;average@@" + statsStr;
-            if (pWaist >= 60) sCurve = "a @@color:yellow;chubby@@" + statsStr;
-            if (pWaist >= 80) sCurve = "an @@color:red;obese@@" + statsStr;
+            if (pWaist >= 20) sCurve = "a @@color:yellow;small@@ " + statsStr;
+            if (pWaist >= 30) sCurve = "a @@color:yellow;thin@@ " + statsStr;
+            if (pWaist >= 40) sCurve = "an @@color:yellow;average@@ " + statsStr;
+            if (pWaist >= 60) sCurve = "a @@color:yellow;chubby@@ " + statsStr;
+            if (pWaist >= 80) sCurve = "an @@color:red;obese@@ " + statsStr;
 
-            if ( (pWaist + 10 < pBust) && (pWaist + 10 < pHips )) sCurve = "a @@color:lime;slightly curvy@@" + statsStr;
-            if ( (pWaist + 20 < pBust) && (pWaist + 20 < pHips )) sCurve = "a @@color:cyan;sexy and curvy@@" + statsStr;
-            if ( (pWaist + 30 < pBust) && (pWaist + 30 < pHips )) sCurve = "a @@color:magenta;hourglass@@" + statsStr;
-            if ( (pWaist + 40 < pBust) && (pWaist + 40 < pHips )) sCurve = "an @@color:DeepPink;extreme hourglass@@" + statsStr;
+            if ( (pWaist + 10 < pBust) && (pWaist + 10 < pHips )) sCurve = "a @@color:lime;slightly curvy@@ " + statsStr;
+            if ( (pWaist + 20 < pBust) && (pWaist + 20 < pHips )) sCurve = "a @@color:cyan;sexy and curvy@@ " + statsStr;
+            if ( (pWaist + 30 < pBust) && (pWaist + 30 < pHips )) sCurve = "a @@color:magenta;hourglass@@ " + statsStr;
+            if ( (pWaist + 40 < pBust) && (pWaist + 40 < pHips )) sCurve = "an @@color:DeepPink;extreme hourglass@@ " + statsStr;
 
             return sCurve;
         };
