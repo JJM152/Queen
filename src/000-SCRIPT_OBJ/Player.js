@@ -1651,16 +1651,25 @@ App.Entity.Player = class Player {
     };
 
     /**
+     * Find item and reduce charges. Delete from inventory if out of charges.
+     * @param ItemId {string}
+     * @returns The item object
+     */
+    TakeItem (ItemId) {
+        var o = this.GetItemById(ItemId);
+        o.RemoveCharges(1);
+        return o;
+    };
+
+    /**
      * Use an item. Apply effects. Delete from inventory if out of charges.
      * @param ItemId {string}
      */
     UseItem (ItemId) {
-        var o = this.GetItemById(ItemId);
+        var o = this.TakeItem(ItemId);
         this.AddHistory("ITEMS", o.Name(), 1);
         o.ApplyEffects(this);
         var msg = o.Message(this);
-        o.RemoveCharge(1);
-        if (o.Charges() <= 0) this.DeleteItem(o);
         return msg;
     };
 

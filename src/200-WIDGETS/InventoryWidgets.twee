@@ -1,17 +1,18 @@
 :: InventoryWidgets [widget]
 <<widget "InspectItem">>\
 <<set _Item = setup.player.GetItemById($args[0]); >>\
-<table class=".MyTable" style="width:750px;">
+<table class=".MyTable" style="width:830px;">
 <tbody>
 	<tr><td colspan="2">@@color:yellow;Inspecting - @@<<= _Item.Description()>></td>
-		<td colspan="2" style="text-align:right">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
+		<td colspan="3" style="text-align:right">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
 	</tr>
 	<tr style="border-bottom:1px solid white;">
 		<td style="width:80px;"> </td>
-		<td style="width:440px;"> </td>
+		<td style="width:520px;"> </td>
 		<td style="width:80px;"> </td>
 		<td style="width:80px;"> </td>
-	</tr>	
+		<td style="width:80px;"> </td>
+	</tr>
 	<tr>
 		<td> </td>
 		<td colspan="2">
@@ -22,18 +23,35 @@
 </table><</widget>>
 
 <<widget "UseItem">><<set _Item = setup.player.GetItemById($args[0]); >>\
-<table class=".MyTable" style="width:750px;">
+<table class=".MyTable" style="width:830px;">
 <tbody>
 	<tr><td style="width:670px;">@@color:yellow;Using - @@<<= _Item.Description()>><<if ((typeof _Item !== 'undefined') && ((_Item.Charges()-1) > 0));>> (<<= _Item.Charges()-1 >>)<</if>></td>
 		<td style="text-align:right;width:80px;">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
 	</tr>
 	<tr style="border-bottom:1px solid white;">
 		<td colspan="2">&nbsp;</td>
-	</tr>	
+	</tr>
 	<tr>
 		<td style="width:670px;">
 			<<= setup.player.UseItem($args[0]);>></td>
 		<td style="width:80px;text-align: right;vertical-align:top;"><<if ((typeof _Item !== 'undefined') && (_Item.Charges() > 0));>>@@.wardrobeButton;<<button "Use Again">><<replace "#InventoryUI">><<UseItem $args[0] $args[1]>><</replace>><</button>>@@<<else>>@@.disabledWardrobeButton;<<button "Use Again">><</button>>@@<</if>></td>
+	</tr>
+</tbody>
+</table><<replace "#PlayerScore">><<score>><</replace>><</widget>>
+
+<<widget "ThrowItem">><<set _Item = setup.player.GetItemById($args[0]); >>\
+<table class=".MyTable" style="width:830px;">
+<tbody>
+	<tr><td style="width:670px;">@@color:yellow;Using - @@<<= _Item.Description()>><<if ((typeof _Item !== 'undefined') && ((_Item.Charges()-1) > 0));>> (<<= _Item.Charges()-1 >>)<</if>></td>
+		<td style="text-align:right;width:80px;">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
+	</tr>
+	<tr style="border-bottom:1px solid white;">
+		<td colspan="2">&nbsp;</td>
+	</tr>
+	<tr>
+		<td style="width:670px;">
+			You threw away <<= setup.player.TakeItem($args[0]).Description();>>.</td>
+		<td style="width:80px;text-align: right;vertical-align:top;"><<if ((typeof _Item !== 'undefined') && (_Item.Charges() > 0));>>@@.wardrobeButton;<<button "Throw more">><<replace "#InventoryUI">><<ThrowItem $args[0] $args[1]>><</replace>><</button>>@@<<else>>@@.disabledWardrobeButton;<<button "Throw more">><</button>>@@<</if>></td>
 	</tr>
 </tbody>
 </table><<replace "#PlayerScore">><<score>><</replace>><</widget>>
@@ -50,8 +68,14 @@
 <</button>>@@
 <</nobr>><</widget>>
 
+<<widget "ThrowItemButton">><<nobr>>
+@@.wardrobeButton;<<button "Throw out">>
+<<replace "#InventoryUI">><<ThrowItem $args[0] $args[1]>><</replace>>
+<</button>>@@
+<</nobr>><</widget>>
+
 <<widget "InventoryTable">><<nobr>>
-<table class=".MyTable" style="width:750px;">
+<table class=".MyTable" style="width:830px;">
 <tbody>
 <tr>
 <<if $args[0] == "food">>
@@ -132,7 +156,7 @@
 </tr>
 </tbody>
 </table>
-<table class=".MyTable" style="width:750px;">
+<table class=".MyTable" style="width:830px;">
 <tbody>
 
 <<if $args[0] == "misc">>
@@ -141,12 +165,14 @@
 		<td style="width:440px;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
+		<td style="width:80px;">&nbsp;</td>
 </tr>
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
 <td><<= _Items[_i].Charges() >></td>
 <td><<= _Items[_i].Description() >></td>
 <td style="text-align:right">&nbsp;</td>
+<td style="text-align:right"><<= "<<ThrowItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 <td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 
 </tr>
@@ -155,7 +181,7 @@
 <<if $args[0] == "gear">>
 <tr style="border-bottom:1px solid white;">
 		<td style="width:80px;">&nbsp;</td>
-		<td style="width:590px;">&nbsp;</td>
+		<td style="width:680px;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
 </tr>
 <<set _Slots = Object.keys(setup.player.Equipment); >>
@@ -171,7 +197,7 @@
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
     <td style="width:80px;"><<if _i eq 0>>''@@color:gold;<<= _Slots[_x] >>@@''<</if>></td>
-    <td style="width:590px;"><<if  setup.player.Equipment[_Slots[_x]] eq _Items[_i]>>(@@color:lime;worn@@) <</if>><<= _Items[_i].Description() >></td>
+    <td style="width:680px;"><<if  setup.player.Equipment[_Slots[_x]] eq _Items[_i]>>(@@color:lime;worn@@) <</if>><<= _Items[_i].Description() >></td>
     <td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 </tr>
 <</for>>
@@ -184,13 +210,15 @@
 		<td style="width:440px;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
+		<td style="width:80px;">&nbsp;</td>
 </tr>
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
 <td><<= _Items[_i].Charges() >></td>
 <td><<= _Items[_i].Description() >></td>
-<td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 <td style="text-align:right"><<= "<<UseItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
+<td style="text-align:right"><<= "<<ThrowItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
+<td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 </tr>
 <</for>>
 <</if>>
@@ -200,13 +228,15 @@
 		<td style="width:440px;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
+		<td style="width:80px;">&nbsp;</td>
 </tr>
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
 <td><<= _Items[_i].Charges() >></td>
 <td><<= _Items[_i].Description() >></td>
-<td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
+<td></td>
 <td style="text-align:right"><<if _Items[_i].Type() == "LOOT_BOX">><<= "<<UseItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >><</if>> </td>
+<td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 </tr>
 <</for>>
 <</if>>
@@ -229,7 +259,7 @@
 <</nobr>><</widget>>
 
 <<widget "DrawCollarTable">><<nobr>>
-<table class=".MyTable" style="width:750px;">
+<table class=".MyTable" style="width:830px;">
 <tbody>
 <tr style="border-bottom:1px solid white;">
 		<td style="width:80px;">&nbsp;</td>
@@ -284,7 +314,7 @@
 
 <<widget "InspectCollar">>\
 <<set _Item = setup.player.GetItemById($args[0]); >>\
-<table class=".MyTable" style="width:750px;">
+<table class=".MyTable" style="width:830px;">
 <tbody>
 	<tr><td colspan="2">@@color:yellow;Inspecting - @@<<= _Item.Description()>></td>
 		<td colspan="2" style="text-align:right">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<DrawCollarTable>><</replace>><</button>>@@</td>
@@ -292,6 +322,7 @@
 	<tr style="border-bottom:1px solid white;">
 		<td style="width:80px;"> </td>
 		<td style="width:440px;"> </td>
+		<td style="width:80px;"> </td>
 		<td style="width:80px;"> </td>
 		<td style="width:80px;"> </td>
 	</tr>
