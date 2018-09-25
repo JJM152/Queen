@@ -135,11 +135,11 @@ App.SlotEngine = new function() {
 
     /**
      * Called from the skills panel to draw the interface for slot management.
-     * @param {App.Entity.Player} Player 
+     * @param {App.Entity.Player} Player
      */
     this.DrawSlotInventory = function(Player) {
         if (typeof Player !== 'undefined') this._Player = Player;
-        $(document).one(":passageend", this._DrawSlotInventoryCB.bind(this));  
+        $(document).one(":passageend", this._DrawSlotInventoryCB.bind(this));
     };
 
 
@@ -212,12 +212,18 @@ App.SlotEngine = new function() {
                 this._Player.GetNPC(npcTags[i]).AdjustStat("Lust", lust);
 
         // Show XP gain.
-        for (var key in this._XPEarned) {
-            if (!this._XPEarned.hasOwnProperty(key) || key == 'BEAUTY') continue;
+        // Sort gain by XP points via a temporary array
+        var xpArray = Object.keys(this._XPEarned).map(function(key) { return {"key" : key, "value" : this._XPEarned[key]}; }, this);
+         // Sort the array based on the "value" element property
+        xpArray.sort(function(first, second) { return second.value - first.value; });
+
+        for (var i = 0; i < xpArray.length; ++i) {
+            var key = xpArray[i].key;
+            if (key == 'BEAUTY') continue;
 
             var name = this._SlotTypesToNames[key];
             var statName = this._SlotTypesToSkillNames[key];
-            var xp = this._XPEarned[key];
+            var xp = xpArray[i].value;
             if (key == 'PERV' || key == 'FEM') {
                 this._Player.AdjustStatXP(statName, xp);
             } else {
@@ -250,13 +256,13 @@ App.SlotEngine = new function() {
         }
         return this._EndStatus.join("\n");
     };
-    
+
     // endregion
 
     // region PRIVATE FUNCTIONS
 
     // UI SPECIFIC FUNCTIONS
-    
+
     this._DrawCustomers = function() {
         var i;
         for (i = 0; i < 6; i++ )
@@ -432,7 +438,7 @@ App.SlotEngine = new function() {
         var root = $(this._InventoryElement);
         // Find the container div and empty it
         root.empty();
-        
+
         // Calculate locked slots.
         var lockedSlots = this._Player._MaxSlots - this._Player._CurrentSlots;
         var before, after;
@@ -933,7 +939,7 @@ App.SlotEngine = new function() {
 
     // 0.0 to 1.0 mods.
     this._StyleBonus = function(player, arg) { return (player.Beauty()/100); };
-    this._FemBonus = function(player, arg) { return player.GetStat('STAT', 'Femininity')/ 100; };   
+    this._FemBonus = function(player, arg) { return player.GetStat('STAT', 'Femininity')/ 100; };
     this._PervBonus = function(player, arg) { return player.GetStat('STAT', 'Perversion')/100; };
 
     this._BonusMods = { };
@@ -1000,7 +1006,7 @@ App.SlotEngine = new function() {
                     wantMod = (i == 0) ? 1.0 : (i == 1) ? 0.75 : 0.5;
                 }
         } else { // This was a wildcard match
-            wantMod = this._CalcBonus(key, this._Player, key); 
+            wantMod = this._CalcBonus(key, this._Player, key);
         }
 
         if (wantMod == 0) return [ ]; // What? We didn't even WANT this. It's not a payout.
@@ -1525,7 +1531,7 @@ App.SlotEngine = new function() {
 
         this._SelectedCustomer = e.data.customer;
     };
-    
+
     /**
      * Attached to the 'Buy more spins' button.
      * @param {*} e event object.
