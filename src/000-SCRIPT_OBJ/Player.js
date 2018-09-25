@@ -510,11 +510,11 @@ App.Entity.Player = function (){
         if (this.GetStatPercent("BODY", "Waist") <= 15) score += 5;
         if (this.GetStatPercent("BODY", "Waist") <= 1)  score += 5;
 
-        // Penis and Balls, 10 each. (20 pts)
+        // Penis and Balls, 10 each. (10 pts)
         if ((this.GetStatPercent("BODY", "Penis") <= 10) && (this.GetStatPercent("BODY", "Balls") <= 10)) score += 10; // tiny genitals!
         if ((this.GetStatPercent("BODY", "Penis") >= 90) && (this.GetStatPercent("BODY", "Balls") >= 90)) score += 10; // big genitals
 
-        return Math.max(0, Math.min(Math.round((( score / 85 ) * 100)), 100)); // clamp 1 - 100 rating
+        return Math.max(0, Math.min(Math.round((( score / 75 ) * 100)), 100)); // clamp 1 - 100 rating
     };
 
     /**
