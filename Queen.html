@@ -1994,14 +1994,8 @@ App.PR = new function() {
      * @returns {XML|string|void}
      */
     this.pCup = function (Player) {
-        var bust = this.BustCCtoCM(Player);
-        return App.unitSystem.cupString(bust, 80) + " cup";
-        // now we compute underbust measure assuming that it's proportional
-        // to the player's height. The starting height of 50% corresponds to
-        // the underbust length of 80 cm
-//         var underbust = 80.0 * Player.GetStat("BODY", "Height") / ;
-//         var bPercent = Player.GetStatPercent("BODY", "Bust");
-//         return this.GetRating("Cup", bPercent) + " cup";
+        var bPercent = Player.GetStatPercent("BODY", "Bust");
+        return this.GetRating("Cup", bPercent) + " cup";
     };
 
     /**
@@ -8802,7 +8796,7 @@ App.UnitSystem = function () {
 			return l + this.system.lengthSymbolDelim + this.system.lengthSymbols[0];
 		}
 
-		var cmpts = [l]
+		var cmpts = [l];
 		var unitsCount = this.system.lengthUnits.length;
 		for (var i = 1; i < unitsCount; i++) {
 			var nextFactor = this.system.lengthScaleFactors[i-1];
@@ -8821,6 +8815,7 @@ App.UnitSystem = function () {
 		res += cmpts[0] + this.system.lengthSymbolDelim + this.system.lengthSymbols[0];
 		return res;
 	};
+
 
 	this.cupString = function(bustCM, underbustCM) {
 		var diff = this.lengthValue(bustCM - underbustCM);
@@ -11923,12 +11918,8 @@ App.Data.Lists = {
                 },
                 "Bust": { "MIN" : 0, "MAX" : 100, "START" : 0, "CM_MIN" : 80, "CM_MAX": 130,
                     "LEVELING" : {
-                        0 : { "COST" : 100, "STEP" : 1, "ADJECTIVE" : "flat",        "COLOR" :  0},
-                        1 : { "COST" : 100, "STEP" : 1, "ADJECTIVE" : "swollen",     "COLOR" :  1},
-                        2 : { "COST" : 100, "STEP" : 1, "ADJECTIVE" : "small",       "COLOR" :  2},
-                        3 : { "COST" : 150, "STEP" : 1, "ADJECTIVE" : "perky",       "COLOR" :  3},
-                        5 : { "COST" : 150, "STEP" : 1, "ADJECTIVE" : "average",     "COLOR" :  3},
-                        8 : { "COST" : 150, "STEP" : 1, "ADJECTIVE" : "ample",       "COLOR" :  4},
+                        5 : { "COST" : 150, "STEP" : 1, "ADJECTIVE" : "swollen",     "COLOR" :  3},
+                        8 : { "COST" : 150, "STEP" : 1, "ADJECTIVE" : "perky",       "COLOR" :  4},
                        11 : { "COST" : 175, "STEP" : 1, "ADJECTIVE" : "shapely",     "COLOR" :  5},
                        15 : { "COST" : 175, "STEP" : 1, "ADJECTIVE" : "sizable",     "COLOR" :  6},
                        19 : { "COST" : 200, "STEP" : 1, "ADJECTIVE" : "prominent",   "COLOR" :  7},
@@ -12988,6 +12979,32 @@ App.Data.Ratings = {
                 88 : "Your ADJECTIVE ass shakes and wobbles at the most minor movement of your pHIPS hips. Clothing can barely contain it and men lust after it.",
                 94 : "Your ADJECTIVE ass shakes and wobbles at the most minor movement of your pHIPS hips. Clothing can barely contain it and men lust after it.",
                100 : "Your ADJECTIVE ass jiggles almost uncontrollably at the most minor prompting. A small slap sends off an 'butt quake' of jiggly ass flesh and men dream of fucking it."
+            },
+            "Cup": {
+                0 : "Flat",
+                1 : "A",
+                2 : "AA",
+                3 : "B",
+                5 : "C",
+                8 : "D",
+                11 : "DD",
+                15 : "E",
+                19 : "F",
+                24 : "FF",
+                29 : "G",
+                34 : "GG",
+                39 : "H",
+                44 : "HH",
+                49 : "J",
+                54 : "JJ",
+                59 : "K",
+                64 : "KK",
+                70 : "M",
+                76 : "MM",
+                82 : "MMM",
+                88 : "Q",
+                94 : "QQ",
+                100 : "QQQ"
             },
             "Bust": {
                 0 : "Your chest is ADJECTIVE and unappealing.",

@@ -115,7 +115,7 @@ App.UnitSystem = function () {
 			return l + this.system.lengthSymbolDelim + this.system.lengthSymbols[0];
 		}
 
-		var cmpts = [l]
+		var cmpts = [l];
 		var unitsCount = this.system.lengthUnits.length;
 		for (var i = 1; i < unitsCount; i++) {
 			var nextFactor = this.system.lengthScaleFactors[i-1];
@@ -134,6 +134,7 @@ App.UnitSystem = function () {
 		res += cmpts[0] + this.system.lengthSymbolDelim + this.system.lengthSymbols[0];
 		return res;
 	};
+
 
 	this.cupString = function(bustCM, underbustCM) {
 		var diff = this.lengthValue(bustCM - underbustCM);

@@ -581,14 +581,8 @@ App.PR = new function() {
      * @returns {XML|string|void}
      */
     this.pCup = function (Player) {
-        var bust = this.BustCCtoCM(Player);
-        return App.unitSystem.cupString(bust, 80) + " cup";
-        // now we compute underbust measure assuming that it's proportional
-        // to the player's height. The starting height of 50% corresponds to
-        // the underbust length of 80 cm
-//         var underbust = 80.0 * Player.GetStat("BODY", "Height") / ;
-//         var bPercent = Player.GetStatPercent("BODY", "Bust");
-//         return this.GetRating("Cup", bPercent) + " cup";
+        var bPercent = Player.GetStatPercent("BODY", "Bust");
+        return this.GetRating("Cup", bPercent) + " cup";
     };
 
     /**
