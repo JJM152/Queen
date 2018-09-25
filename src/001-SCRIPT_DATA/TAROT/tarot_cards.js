@@ -2,6 +2,23 @@ App = App || { Data: { }, Entity: { } };
 
 App.Data.Tarot = App.Data.Tarot || { };
 
+App.Data.Tarot["VALIDATE"] = function(){
+    console.log("Validating Tarot Card Effects");
+    for (var prop in window.App.Data.Tarot) {
+        if (prop != "VALIDATE" && window.App.Data.Tarot.hasOwnProperty(prop)) {
+            console.group(prop + " " + window.App.Data.Tarot[prop].Name);
+            for (var i = 0; i < window.App.Data.Tarot[prop].Effects.length; i++) {
+                if (window.App.Data.EffectLib.hasOwnProperty(window.App.Data.Tarot[prop].Effects[i])) {
+                  console.log("Effect " + window.App.Data.Tarot[prop].Effects[i] + " found");
+                } else {
+                    console.log("***Effect " + window.App.Data.Tarot[prop].Effects[i] + " not found");
+                }
+            }
+            console.groupEnd();
+        }
+    }
+};
+
 App.Data.Tarot["001"] = {
     Name: "The Magician",
     Css: "tcard1",
@@ -94,7 +111,7 @@ App.Data.Tarot["010"] = {
     Chat: "\"Ah, this card signals a turning point. @@color:cyan;The Wheel of Fortune@@ brings forth destiny, offering luck in misfortune and opportunity that springs from accidents. It is said the Wheel can change one's stars, though it is up to you to chart the course that suits you most.\"\n\n"+
     "As Madame Blanche lays the card on the tablecloth, a light sea breeze inexplicably blows through the room, stirring against draperies, fabric and the locks of your hair. In a moment, the draft reverses direction and your eyes flutter as the warm breeze caresses your cheek. As the air returns to its former calm, you enjoy the premonition of a new direction ahead.",
     Msg: "Just as you're about to fall asleep, the same strange sea breeze you felt at the fortune teller's filters through your berth, replacing the dankness of the ship's grimy decks with the clean scent of the sea. If only for a few passing moments, you feel like things could be looking up.",
-    Effects : [ "BOLSTER_WILL_RARE", "HEALING_RARE", "ENERGY_RARE" ]
+    Effects : [ "BOLSTER_WILL_RARE", "HEAL_RARE", "ENERGY_RARE" ]
 };
 
 App.Data.Tarot["011"] = {

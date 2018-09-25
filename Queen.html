@@ -1487,7 +1487,7 @@ App.PR = new function() {
     {
         String = String.replace(/PLAYER_NAME/g, Player.SlaveName);
         String = String.replace(/pBUST/g, this.pBust(Player, 1));
-        String = String.replace(/pASS/g, this.pBust(Player, 1));
+        String = String.replace(/pASS/g, this.pAss(Player, 1));
         String = String.replace(/pCUP/g, this.pCup(Player));
         String = String.replace(/pHIPS/g, this.pHips(Player, 1));
         String = String.replace(/pHORMONES/g, this.pHormones(Player, 1));
@@ -6965,11 +6965,11 @@ App.SlotEngine = new function() {
 
     /**
      * Called from the skills panel to draw the interface for slot management.
-     * @param {App.Entity.Player} Player 
+     * @param {App.Entity.Player} Player
      */
     this.DrawSlotInventory = function(Player) {
         if (typeof Player !== 'undefined') this._Player = Player;
-        $(document).one(":passageend", this._DrawSlotInventoryCB.bind(this));  
+        $(document).one(":passageend", this._DrawSlotInventoryCB.bind(this));
     };
 
 
@@ -7042,12 +7042,18 @@ App.SlotEngine = new function() {
                 this._Player.GetNPC(npcTags[i]).AdjustStat("Lust", lust);
 
         // Show XP gain.
-        for (var key in this._XPEarned) {
-            if (!this._XPEarned.hasOwnProperty(key) || key == 'BEAUTY') continue;
+        // Sort gain by XP points via a temporary array
+        var xpArray = Object.keys(this._XPEarned).map(function(key) { return {"key" : key, "value" : this._XPEarned[key]}; }, this);
+         // Sort the array based on the "value" element property
+        xpArray.sort(function(first, second) { return second.value - first.value; });
+
+        for (var i = 0; i < xpArray.length; ++i) {
+            var key = xpArray[i].key;
+            if (key == 'BEAUTY') continue;
 
             var name = this._SlotTypesToNames[key];
             var statName = this._SlotTypesToSkillNames[key];
-            var xp = this._XPEarned[key];
+            var xp = xpArray[i].value;
             if (key == 'PERV' || key == 'FEM') {
                 this._Player.AdjustStatXP(statName, xp);
             } else {
@@ -7080,13 +7086,13 @@ App.SlotEngine = new function() {
         }
         return this._EndStatus.join("\n");
     };
-    
+
     // endregion
 
     // region PRIVATE FUNCTIONS
 
     // UI SPECIFIC FUNCTIONS
-    
+
     this._DrawCustomers = function() {
         var i;
         for (i = 0; i < 6; i++ )
@@ -7262,7 +7268,7 @@ App.SlotEngine = new function() {
         var root = $(this._InventoryElement);
         // Find the container div and empty it
         root.empty();
-        
+
         // Calculate locked slots.
         var lockedSlots = this._Player._MaxSlots - this._Player._CurrentSlots;
         var before, after;
@@ -7763,7 +7769,7 @@ App.SlotEngine = new function() {
 
     // 0.0 to 1.0 mods.
     this._StyleBonus = function(player, arg) { return (player.Beauty()/100); };
-    this._FemBonus = function(player, arg) { return player.GetStat('STAT', 'Femininity')/ 100; };   
+    this._FemBonus = function(player, arg) { return player.GetStat('STAT', 'Femininity')/ 100; };
     this._PervBonus = function(player, arg) { return player.GetStat('STAT', 'Perversion')/100; };
 
     this._BonusMods = { };
@@ -7830,7 +7836,7 @@ App.SlotEngine = new function() {
                     wantMod = (i == 0) ? 1.0 : (i == 1) ? 0.75 : 0.5;
                 }
         } else { // This was a wildcard match
-            wantMod = this._CalcBonus(key, this._Player, key); 
+            wantMod = this._CalcBonus(key, this._Player, key);
         }
 
         if (wantMod == 0) return [ ]; // What? We didn't even WANT this. It's not a payout.
@@ -8355,7 +8361,7 @@ App.SlotEngine = new function() {
 
         this._SelectedCustomer = e.data.customer;
     };
-    
+
     /**
      * Attached to the 'Buy more spins' button.
      * @param {*} e event object.
@@ -21682,7 +21688,7 @@ App.Data.Stores["YVONNE_STORE"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":   10,     "MAX":   10,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "expensive makeup"         },
         { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":   10,     "MAX":   10,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "hair accessories"         },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "red hair dye"   		   },
-        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "black  hair dye"   	   },
+        { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "black hair dye"    	   },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "brown hair dye"   		   },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "blond hair dye"   		   },
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    5,     "MAX":    5,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "face cream"   		       },
@@ -21695,6 +21701,23 @@ App.Data.Stores["YVONNE_STORE"] = {
 App = App || { Data: { }, Entity: { } };
 
 App.Data.Tarot = App.Data.Tarot || { };
+
+App.Data.Tarot["VALIDATE"] = function(){
+    console.log("Validating Tarot Card Effects");
+    for (var prop in window.App.Data.Tarot) {
+        if (prop != "VALIDATE" && window.App.Data.Tarot.hasOwnProperty(prop)) {
+            console.group(prop + " " + window.App.Data.Tarot[prop].Name);
+            for (var i = 0; i < window.App.Data.Tarot[prop].Effects.length; i++) {
+                if (window.App.Data.EffectLib.hasOwnProperty(window.App.Data.Tarot[prop].Effects[i])) {
+                  console.log("Effect " + window.App.Data.Tarot[prop].Effects[i] + " found");
+                } else {
+                    console.log("***Effect " + window.App.Data.Tarot[prop].Effects[i] + " not found");
+                }
+            }
+            console.groupEnd();
+        }
+    }
+};
 
 App.Data.Tarot["001"] = {
     Name: "The Magician",
@@ -21788,7 +21811,7 @@ App.Data.Tarot["010"] = {
     Chat: "\"Ah, this card signals a turning point. @@color:cyan;The Wheel of Fortune@@ brings forth destiny, offering luck in misfortune and opportunity that springs from accidents. It is said the Wheel can change one's stars, though it is up to you to chart the course that suits you most.\"\n\n"+
     "As Madame Blanche lays the card on the tablecloth, a light sea breeze inexplicably blows through the room, stirring against draperies, fabric and the locks of your hair. In a moment, the draft reverses direction and your eyes flutter as the warm breeze caresses your cheek. As the air returns to its former calm, you enjoy the premonition of a new direction ahead.",
     Msg: "Just as you're about to fall asleep, the same strange sea breeze you felt at the fortune teller's filters through your berth, replacing the dankness of the ship's grimy decks with the clean scent of the sea. If only for a few passing moments, you feel like things could be looking up.",
-    Effects : [ "BOLSTER_WILL_RARE", "HEALING_RARE", "ENERGY_RARE" ]
+    Effects : [ "BOLSTER_WILL_RARE", "HEAL_RARE", "ENERGY_RARE" ]
 };
 
 App.Data.Tarot["011"] = {
@@ -30485,6 +30508,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;&lt;set _Wigs = $Player.WardrobeItemsBySlot(&quot;Wig&quot;);&gt;&gt;\
 &lt;&lt;set _TRIM = $Player.GetStat(&quot;BODY&quot;, &quot;Hair&quot;) - 5;&gt;&gt;\
 &lt;&lt;set _PR = window.App.PR;&gt;&gt;\
+&lt;&lt;set _US = window.App.unitSystem;&gt;&gt;\
 &lt;&lt;nobr&gt;&gt;
 &lt;table class=&quot;MyTable&quot;&gt;
     &lt;tbody&gt;
@@ -30511,7 +30535,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;&lt;for _i = 0; _i &lt; _Wigs.length; _i++&gt;&gt;
 &lt;tr&gt;
     &lt;td style=&quot;text-align:center;width:30px;&quot;&gt;
-&lt;&lt;print &#39;&lt;&lt;radiobutton &quot;$HairStyle&quot; &quot;&#39;+_Wigs[_i].Id()+&#39;&quot;&gt;&gt;&#39;&gt;&gt;	
+&lt;&lt;print &#39;&lt;&lt;radiobutton &quot;$HairStyle&quot; &quot;&#39;+_Wigs[_i].Id()+&#39;&quot;&gt;&gt;&#39;&gt;&gt;
    &lt;/td&gt;
 	&lt;td&gt;&lt;&lt;print _PR.ColorizeString(_Wigs[_i].HairBonus(), &quot;⇑Wig&quot;);&gt;&gt; &lt;&lt;print _Wigs[_i].Description()&gt;&gt;&lt;/td&gt;
 	&lt;td style=&quot;text-align:center;width:30px;&quot;&gt; - &lt;/td&gt;
@@ -30523,7 +30547,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;tr&gt;
 &lt;&lt;if ( _H1 &lt; _Hair[_i][&quot;RESOURCE1&quot;] ) ||
 	 ( _H2 &lt; _Hair[_i][&quot;RESOURCE2&quot;] ) ||
-	 ( _HL &lt; _Hair[_i][&quot;MIN&quot;] ) || 
+	 ( _HL &lt; _Hair[_i][&quot;MIN&quot;] ) ||
 	 ( _HL &gt; _Hair[_i][&quot;MAX&quot;] )&gt;&gt;
 		 &lt;td&gt; &lt;/td&gt;
 	     &lt;td&gt;
@@ -30624,7 +30648,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 	&lt;/tr&gt;
 	&lt;tr&gt;
 		&lt;td colspan=&quot;2&quot; style=&quot;text-align:left;&quot;&gt;
-@@color:yellow;Action@@: 
+@@color:yellow;Action@@:
 &lt;&lt;if $Player.GetStat(&quot;STAT&quot;, &quot;Energy&quot;) &lt; 1&gt;&gt;
 @@color:grey;Do Makeup and Hair@@
 &lt;&lt;else&gt;&gt;
@@ -30642,21 +30666,21 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;&lt;set $Player.MakeupBonus = 0&gt;&gt;
 &lt;&lt;/click&gt;&gt;
 &lt;&lt;/if&gt;&gt;
- | 
+ |
 &lt;&lt;if _TRIM &lt; 5&gt;&gt;
 &lt;&lt;click &quot;Trim Hair&quot; &quot;Vanity&quot;&gt;&gt;
 &lt;&lt;set $Player.BodyStats[&quot;Hair&quot;] = 5;&gt;&gt;
 &lt;&lt;if _Wig != 0&gt;&gt;
 &lt;&lt;run $Player.Remove($Player.Equipment[&quot;Wig&quot;]);&gt;&gt;.
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/click&gt;&gt; (&lt;&lt;print _PR.CMtoINCH(_PR.StatToCM($Player, &quot;Hair&quot;));&gt;&gt; in ⇒ &lt;&lt;print _PR.CMtoINCH(_PR.StatToCM($Player, &quot;Hair&quot;, (5 - $Player.GetStat(&quot;BODY&quot;, &quot;Hair&quot;))));&gt;&gt; in)
+&lt;&lt;/click&gt;&gt; (&lt;&lt;print _US.lengthString(_PR.StatToCM($Player, &quot;Hair&quot;), false);&gt;&gt; ⇒ &lt;&lt;print _US.lengthString(_PR.StatToCM($Player, &quot;Hair&quot;, (5 - $Player.GetStat(&quot;BODY&quot;, &quot;Hair&quot;))), false);&gt;&gt;)
 &lt;&lt;else&gt;&gt;
 &lt;&lt;click &quot;Trim Hair&quot; &quot;Vanity&quot;&gt;&gt;
 &lt;&lt;run $Player.AdjustBody(&quot;Hair&quot;, -5);&gt;&gt;
 &lt;&lt;if _Wig != 0&gt;&gt;
 &lt;&lt;run $Player.Remove($Player.Equipment[&quot;Wig&quot;]);&gt;&gt;.
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/click&gt;&gt; (&lt;&lt;print _PR.CMtoINCH(_PR.StatToCM($Player, &quot;Hair&quot;));&gt;&gt; in. -&gt; &lt;&lt;print _PR.CMtoINCH( (_PR.StatToCM($Player, &quot;Hair&quot;,-5)));&gt;&gt; in.)&lt;&lt;/if&gt;&gt;&lt;/td&gt;
+&lt;&lt;/click&gt;&gt; (&lt;&lt;print _US.lengthString(_PR.StatToCM($Player, &quot;Hair&quot;), false);&gt;&gt; -&gt; &lt;&lt;print _US.lengthString((_PR.StatToCM($Player, &quot;Hair&quot;,-5)), false);&gt;&gt;)&lt;&lt;/if&gt;&gt;&lt;/td&gt;
 	&lt;/tr&gt;
 	&lt;/tbody&gt;
 &lt;/table&gt;
