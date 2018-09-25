@@ -176,14 +176,14 @@
 <<if _Wig != 0>>
 <<run $Player.Remove($Player.Equipment["Wig"]);>>.
 <</if>>
-<</click>> (<<print _US.lengthString(_PR.StatToCM(setup.player, "Hair"), false);>> ⇒ <<print _US.lengthString(_PR.StatToCM(setup.player, "Hair", (5 - setup.player.GetStat("BODY", "Hair"))), false);>>)
+<</click>> (<<print _US.lengthString(_PR.StatToCM($Player, "Hair"), false);>> ⇒ <<print _US.lengthString(_PR.StatToCM($Player, "Hair", (5 - $Player.GetStat("BODY", "Hair"))), false);>>)
 <<else>>
 <<click "Trim Hair" "Vanity">>
 <<run $Player.AdjustBody("Hair", -5);>>
 <<if _Wig != 0>>
 <<run $Player.Remove($Player.Equipment["Wig"]);>>.
 <</if>>
-<</click>> (<<print _US.lengthString(_PR.StatToCM(setup.player, "Hair"), false);>> -> <<print _US.lengthString((_PR.StatToCM(setup.player, "Hair",-5)), false);>>)<</if>></td>
+<</click>> (<<print _US.lengthString(_PR.StatToCM($Player, "Hair"), false);>> -> <<print _US.lengthString((_PR.StatToCM($Player, "Hair",-5)), false);>>)<</if>></td>
 	</tr>
 	</tbody>
 </table>
