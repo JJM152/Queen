@@ -4427,6 +4427,7 @@ App.Entity.PlayerState = function (){
     this.CurrentSlots = 3; // Starting allocation of whoring
 };
 
+//TODO: Contemplating redoing this as an ECMA 5.1 compliant implementation.
 App.Entity.Player = class Player {
     /**
      * @returns {App.Entity.PlayerState}
@@ -30762,14 +30763,14 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;&lt;if _Wig != 0&gt;&gt;
 &lt;&lt;run setup.player.Remove(setup.player.Equipment[&quot;Wig&quot;]);&gt;&gt;.
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/click&gt;&gt; (&lt;&lt;print _US.lengthString(_PR.StatToCM($Player, &quot;Hair&quot;), false);&gt;&gt; ⇒ &lt;&lt;print _US.lengthString(_PR.StatToCM($Player, &quot;Hair&quot;, (5 - $Player.GetStat(&quot;BODY&quot;, &quot;Hair&quot;))), false);&gt;&gt;)
+&lt;&lt;/click&gt;&gt; (&lt;&lt;print _US.lengthString(_PR.StatToCM(setup.player, &quot;Hair&quot;), false);&gt;&gt; ⇒ &lt;&lt;print _US.lengthString(_PR.StatToCM(setup.player, &quot;Hair&quot;, (5 - setup.player.GetStat(&quot;BODY&quot;, &quot;Hair&quot;))), false);&gt;&gt;)
 &lt;&lt;else&gt;&gt;
 &lt;&lt;click &quot;Trim Hair&quot; &quot;Vanity&quot;&gt;&gt;
 &lt;&lt;run setup.player.AdjustBody(&quot;Hair&quot;, -5);&gt;&gt;
 &lt;&lt;if _Wig != 0&gt;&gt;
 &lt;&lt;run setup.player.Remove(setup.player.Equipment[&quot;Wig&quot;]);&gt;&gt;.
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/click&gt;&gt; (&lt;&lt;print _US.lengthString(_PR.StatToCM($Player, &quot;Hair&quot;), false);&gt;&gt; -&gt; &lt;&lt;print _US.lengthString((_PR.StatToCM($Player, &quot;Hair&quot;,-5)), false);&gt;&gt;)&lt;&lt;/if&gt;&gt;&lt;/td&gt;
+&lt;&lt;/click&gt;&gt; (&lt;&lt;print _US.lengthString(_PR.StatToCM(setup.player, &quot;Hair&quot;), false);&gt;&gt; -&gt; &lt;&lt;print _US.lengthString((_PR.StatToCM(setup.player, &quot;Hair&quot;,-5)), false);&gt;&gt;)&lt;&lt;/if&gt;&gt;&lt;/td&gt;
 	&lt;/tr&gt;
 	&lt;/tbody&gt;
 &lt;/table&gt;
