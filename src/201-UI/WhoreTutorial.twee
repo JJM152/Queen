@@ -3,8 +3,8 @@
 
 You can <<click "skip this" "Whore">>\
         <<set _Passage = passage(); >>\
-        <<run $Player.AdjustStat("Energy", -1);>>\
-        <<run App.SlotEngine.LoadScene($WhoreLink, $WhorePassage, $Player);>><</click>> tutorial if you already know how to play.
+        <<run setup.player.AdjustStat("Energy", -1);>>\
+        <<run App.SlotEngine.LoadScene($WhoreLink, $WhorePassage, setup.player);>><</click>> tutorial if you already know how to play.
 
 @@color:deepPink;The Basic Game@@
 ''Queen of the Seas'' uses a simple slot machine type game to simulate the vagaries of (unwillingly) exchanging sex for money. The basic premise is thus, "Spin the wheel and \

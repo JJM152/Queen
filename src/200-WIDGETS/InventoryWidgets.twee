@@ -1,6 +1,6 @@
 :: InventoryWidgets [widget]
 <<widget "InspectItem">>\
-<<set _Item = $Player.GetItemById($args[0]); >>\
+<<set _Item = setup.player.GetItemById($args[0]); >>\
 <table class=".MyTable" style="width:750px;">
 <tbody>
 	<tr><td colspan="2">@@color:yellow;Inspecting - @@<<= _Item.Description()>></td>
@@ -15,13 +15,13 @@
 	<tr>
 		<td> </td>
 		<td colspan="2">
-		<<print _Item.Examine($Player);>></td>
+		<<print _Item.Examine(setup.player);>></td>
 		<td> </td>
 	</tr>
 </tbody>
 </table><</widget>>
 
-<<widget "UseItem">><<set _Item = $Player.GetItemById($args[0]); >>\
+<<widget "UseItem">><<set _Item = setup.player.GetItemById($args[0]); >>\
 <table class=".MyTable" style="width:750px;">
 <tbody>
 	<tr><td style="width:670px;">@@color:yellow;Using - @@<<= _Item.Description()>><<if ((typeof _Item !== 'undefined') && ((_Item.Charges()-1) > 0));>> (<<= _Item.Charges()-1 >>)<</if>></td>
@@ -32,7 +32,7 @@
 	</tr>	
 	<tr>
 		<td style="width:670px;">
-			<<= $Player.UseItem($args[0]);>></td>
+			<<= setup.player.UseItem($args[0]);>></td>
 		<td style="width:80px;text-align: right;vertical-align:top;"><<if ((typeof _Item !== 'undefined') && (_Item.Charges() > 0));>>@@.wardrobeButton;<<button "Use Again">><<replace "#InventoryUI">><<UseItem $args[0] $args[1]>><</replace>><</button>>@@<<else>>@@.disabledWardrobeButton;<<button "Use Again">><</button>>@@<</if>></td>
 	</tr>
 </tbody>
@@ -55,7 +55,7 @@
 <tbody>
 <tr>
 <<if $args[0] == "food">>
-<<set _Items = $Player.GetItemByTypes(["food"]);>>
+<<set _Items = setup.player.GetItemByTypes(["food"]);>>
 	<td colspan=3 style="width:500px;">@@color:yellow;Inventory - Food and Drink@@</td>
 	<td colspan=1 style="width:250px;text-align:right">@@color:grey;Food@@ |
 	<<click "Potions">>
@@ -67,7 +67,7 @@
     <</click>></td>
 <<else>>
 <<if $args[0] == "potion">>
-<<set _Items = $Player.GetItemByTypes(["potion"]);>>
+<<set _Items = setup.player.GetItemByTypes(["potion"]);>>
 	<td colspan=3 style="width:500px;">@@color:yellow;Inventory - Potions and Drugs@@</td>
 	<td colspan=1 style="width:250px;text-align:right"><<click "Food">>
 		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
@@ -79,7 +79,7 @@
     </td>
 <<else>>
 <<if $args[0] == "quest">>
-<<set _Items = $Player.GetItemByTypes(["QUEST", "LOOT_BOX"]);>>
+<<set _Items = setup.player.GetItemByTypes(["QUEST", "LOOT_BOX"]);>>
 	<td colspan=3 style="width:500px;">@@color:yellow;Inventory - Loot Items@@</td>
 	<td colspan=1 style="width:250px;text-align:right"><<click "Food">>
 		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
@@ -91,7 +91,7 @@
     </td>
 <<else>>
 <<if $args[0] == 'gear'>>
-<<set _Items = $Player.Wardrobe>>
+<<set _Items = setup.player.Wardrobe>>
 	<td colspan=3 style="width:500px;">@@color:yellow;Inventory - Clothing and Weapons@@</td>
 	<td colspan=1 style="width:250px;text-align:right"><<click "Food">>
 		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
@@ -117,20 +117,20 @@
 		<td style="width:590px;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
 </tr>
-<<set _Slots = Object.keys($Player.Equipment); >>
+<<set _Slots = Object.keys(setup.player.Equipment); >>
 <<for _x = 0; _x < _Slots.length; _x++>>
-<<if $Player.Equipment[_Slots[_x]] != 0>>
-    <<set _Items = [ $Player.Equipment[_Slots[_x]] ];>>
-    <<set _WardrobeItems = $Player.WardrobeItemsBySlot(_Slots[_x]); >>
+<<if setup.player.Equipment[_Slots[_x]] != 0>>
+    <<set _Items = [ setup.player.Equipment[_Slots[_x]] ];>>
+    <<set _WardrobeItems = setup.player.WardrobeItemsBySlot(_Slots[_x]); >>
     <<if _WardrobeItems.length > 0>><<set _Items = _Items.concat(_WardrobeItems);>><</if>>
         <<else>>
-     <<set _Items = $Player.WardrobeItemsBySlot(_Slots[_x]);>>
+     <<set _Items = setup.player.WardrobeItemsBySlot(_Slots[_x]);>>
 <</if>>
 <<if (_Items.length > 0)>>
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
     <td style="width:80px;"><<if _i eq 0>>''@@color:gold;<<= _Slots[_x] >>@@''<</if>></td>
-    <td style="width:590px;"><<if  $Player.Equipment[_Slots[_x]] eq _Items[_i]>>(@@color:lime;worn@@) <</if>><<= _Items[_i].Description() >></td>
+    <td style="width:590px;"><<if  setup.player.Equipment[_Slots[_x]] eq _Items[_i]>>(@@color:lime;worn@@) <</if>><<= _Items[_i].Description() >></td>
     <td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 </tr>
 <</for>>
@@ -174,7 +174,7 @@
 <</nobr>><</widget>>
 
 <<widget "DrawWardrobeInventoryLine">><<nobr>>
-<<set _Items = $Player.WardrobeItemsBySlot($args[0])>>
+<<set _Items = setup.player.WardrobeItemsBySlot($args[0])>>
 <<if (_Items.length > 0)>>
 <tr><td style="width:80px;">&nbsp;</td><td colspan=2 style="width:590x;"> @@color:yellow;<<= $args[0] >>@@</td><td style="width=80px">&nbsp;</td></tr>
 <<for _i = 0; _i lt _Items.length; _i++>>
@@ -195,12 +195,12 @@
 		<td style="width:590px;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
 </tr>
-<<set _Items = $Player.WardrobeItemsBySlot("Neck")>>
-<<if $Player.GetEquipmentInSlot("Neck") != 0;>>
+<<set _Items = setup.player.WardrobeItemsBySlot("Neck")>>
+<<if setup.player.GetEquipmentInSlot("Neck") != 0;>>
 <tr>
     <td style="width:80px;">@@color:orange;Worn@@</td>
-    <td style="width:590px;"><<= $Player.GetEquipmentInSlot("Neck").Description(); >></td>
-    <td style="text-align:right"><<= "<<ExamineCollarButton \"" + $Player.GetEquipmentInSlot("Neck").Id() + "\" \"Neck\" >>" >></td>
+    <td style="width:590px;"><<= setup.player.GetEquipmentInSlot("Neck").Description(); >></td>
+    <td style="text-align:right"><<= "<<ExamineCollarButton \"" + setup.player.GetEquipmentInSlot("Neck").Id() + "\" \"Neck\" >>" >></td>
 </tr>
 <</if>>
 <<if (_Items.length > 0)>>
@@ -227,14 +227,14 @@
 <</nobr>><</widget>>
 
 <<widget "SwapCollarButton">><<nobr>>
-<<if $Player.Money < 300>>@@.disabledWardrobeButton;<<button "Swap">><</button>>@@
+<<if setup.player.Money < 300>>@@.disabledWardrobeButton;<<button "Swap">><</button>>@@
 <<else>>
 @@.wardrobeButton;<<button "Swap">>
-<<set _Current = $Player.GetEquipmentInSlot("Neck");>>
-<<set _New = $Player.GetItemById($args[0]);>>
-<<run $Player.AdjustMoney(-300);>>
+<<set _Current = setup.player.GetEquipmentInSlot("Neck");>>
+<<set _New = setup.player.GetItemById($args[0]);>>
+<<run setup.player.AdjustMoney(-300);>>
 <<run _Current.o.Locked = false;>>
-<<run $Player.Wear( $Player.GetItemById($args[0]));>>
+<<run setup.player.Wear( setup.player.GetItemById($args[0]));>>
 <<run _New.o.Locked = true>>
 <<goto "CollarSwap">>
 <</button>>@@
@@ -242,7 +242,7 @@
 <</nobr>><</widget>>
 
 <<widget "InspectCollar">>\
-<<set _Item = $Player.GetItemById($args[0]); >>\
+<<set _Item = setup.player.GetItemById($args[0]); >>\
 <table class=".MyTable" style="width:750px;">
 <tbody>
 	<tr><td colspan="2">@@color:yellow;Inspecting - @@<<= _Item.Description()>></td>
@@ -257,7 +257,7 @@
 	<tr>
 		<td> </td>
 		<td colspan="2">
-		<<print _Item.Examine($Player);>></td>
+		<<print _Item.Examine(setup.player);>></td>
 		<td> </td>
 	</tr>
 </tbody>

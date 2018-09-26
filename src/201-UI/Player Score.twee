@@ -1,8 +1,8 @@
 :: Player Score [widget]
 <<widget "score">>\
-@@color:DeepPink;"<<= $Player.SlaveName >>"@@
-<span id="DayCount">Day <<print $Player.Day; >>, <<print $Player.GetPhase(1); >></span>.
-Coins: <span id="Money"><<print $Player.Money>></span>
+@@color:DeepPink;"<<= setup.player.SlaveName >>"@@
+<span id="DayCount">Day <<print setup.player.Day; >>, <<print setup.player.GetPhase(1); >></span>.
+Coins: <span id="Money"><<print setup.player.Money>></span>
 <table class="#score-table" width="100%">
 <tbody>
 <tr>
@@ -11,36 +11,35 @@ Coins: <span id="Money"><<print $Player.Money>></span>
 	</td>
 </tr>
 <tr>
-	<td>Health:</td><td><span id="Health"><<print window.App.PR.pStatMeter("Health", $Player); >></span></td>
+	<td>Health:</td><td><span id="Health"><<print window.App.PR.pStatMeter("Health", setup.player); >></span></td>
 </tr>
 <tr>
-<td>Energy:</td><td><span id="Energy"><<print window.App.PR.pStatMeter("Energy", $Player); >></span></td>
+<td>Energy:</td><td><span id="Energy"><<print window.App.PR.pStatMeter("Energy", setup.player); >></span></td>
 </tr>
 <tr>
 	<td>Willpower:</td>
-	<td><span id="WillPower"><<print window.App.PR.pStatMeter("WillPower", $Player); >></span></td>
+	<td><span id="fixed-font"><<print window.App.PR.pStatMeter("WillPower", setup.player); >></span></td>
 </tr>
 <tr>
 	<td>Perversion:</td>
-	<td><span id="Perversion"><<print window.App.PR.pStatMeter("Perversion", $Player); >></span></td>
+	<td><span id="fixed-font"><<print window.App.PR.pStatMeter("Perversion", setup.player); >></span></td>
 </tr>
 <tr>
 	<td>Nutrition:</td>
-	<td><span id="Nutrition"><<print window.App.PR.pStatMeter("Nutrition", $Player); >></span></td>
+	<td><span id="Nutrition"><<print window.App.PR.pStatMeter("Nutrition", setup.player); >></span></td>
 </tr>
 <tr>
 	<td>Femininity:</td>
-	<td><span id="Femininity"><<print window.App.PR.pStatMeter("Femininity", $Player); >></span></td>
+	<td><span id="fixed-font"><<print window.App.PR.pStatMeter("Femininity", setup.player); >></span></td>
 </tr>
 <tr>
 	<td>Toxicity:</td>
-	<td><span id="Toxicity"><<print window.App.PR.pStatMeter("Toxicity", $Player, 1); >></span></td>
+	<td><span id="fixed-font"><<print window.App.PR.pStatMeter("Toxicity", setup.player, 1); >></span></td>
 </tr>
 <tr>
 	<td>Hormones:</td>
-	<td><span id="Hormones"><<print window.App.PR.pStatMeter("Hormones",$Player);>></span><<if $Player.GetStat("STAT","Hormones") < 78>>@@color:cyan;♂@@<<else>><<if $Player.GetStat("STAT","Hormones") >= 144>>@@color:DeepPink;♀@@<<else>>@@color:orange;⚥<</if>><</if>></td>
+	<td><span id="fixed-font"><<print window.App.PR.pStatMeter("Hormones",setup.player);>></span><<if setup.player.GetStat("STAT","Hormones") < 78>>@@color:cyan;♂@@<<else>><<if setup.player.GetStat("STAT","Hormones") >= 144>>@@color:DeepPink;♀@@<<else>>@@color:orange;⚥<</if>><</if>></td>
 </tr>
 </tbody>
 </table>
 <</widget>>
-

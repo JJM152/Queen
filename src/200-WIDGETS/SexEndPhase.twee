@@ -1,20 +1,20 @@
 :: SexEndPhase [widget]
 <<widget "sexEndButtons">>\
 <<nobr>>
-<<if $Player.GetStat("STAT", "Health") < 1>>
+<<if setup.player.GetStat("STAT", "Health") < 1>>
 @@.cmdButton;<<button "Game Over" "DeathEnd">><</button>>@@
 <<else>>
 @@.cmdButton;<<button "Exit" $GameBookmark>>
-<<run $Player.NextPhase();>>
+<<run setup.player.NextPhase();>>
 <<set $WhoreTurn = 0>>
 <</button>>@@
 
-<<if ($CL.length > 0) and ($Player.GetStat("STAT", "Energy") >= 1)>>
+<<if ($CL.length > 0) and (setup.player.GetStat("STAT", "Energy") >= 1)>>
 @@.cmdButton;<<button "Continue Whoring">>
 <<set $WhoreTurn = 0>>
 <<set $Customer = $CL.shift()>>
 <<if  ( $Customer.SexAct == "TitFucking" ) &&              
-	  ( $Player.GetStatPercent("BODY", "Bust") < 6 ) >>
+	  ( setup.player.GetStatPercent("BODY", "Bust") < 6 ) >>
 <<set $Customer.SexAct = "HandJobs">>
 <</if>>
 <<replace "#SexProgress">> <</replace>>
@@ -23,7 +23,7 @@
 <<replace "#WhoreDialog">>
 Deciding that there's still coin to be earned, you do your best to clean yourself up so that you're minimally presentable for the next customer.<br/><br/>
 
-<<print "@@color:cyan;" + $Customer.Name + "@@ says: "+ $Customer.DoChat($Player, "CustomerIntro");>><br/><br/>
+<<print "@@color:cyan;" + $Customer.Name + "@@ says: "+ $Customer.DoChat(setup.player, "CustomerIntro");>><br/><br/>
 <</replace>>
 <</button>>
 <</if>>
@@ -34,17 +34,17 @@ Deciding that there's still coin to be earned, you do your best to clean yoursel
 <<nobr>>
 
 <<set _Cmd = window.App.Data.Lists.SexCommands[$Customer.SexAct][4]>>
-<<print $Customer.Fuck($Player, _Cmd); >><br/><br/>
-<<set _Pay = $Customer.PayOut($Player); >>
-<<run $Player.AdjustMoney(_Pay); >>
+<<print $Customer.Fuck(setup.player, _Cmd); >><br/><br/>
+<<set _Pay = $Customer.PayOut(setup.player); >>
+<<run setup.player.AdjustMoney(_Pay); >>
 <<run _NPC.AdjustStat("Mood", ( $Customer.GetServiceRating() / 10));>>
 <<run _NPC.AdjustStat("Lust", -($Customer.GetArousal()/10));>>
-<<run $Player.AdjustStat("Energy",-1); >>
+<<run setup.player.AdjustStat("Energy",-1); >>
 <<replace "#PlayerScore">><<score>><</replace>>
 <<replace "#SexProgress">><<sexProgress>><</replace>>
 <<replace "#MoodScore">><<print _NPC.pMood(); >><</replace>>
 <<replace "#LustScore">><<print _NPC.pLust(); >><</replace>>
-<<if $Player.GetStat("STAT", "Health") < 1>>
+<<if setup.player.GetStat("STAT", "Health") < 1>>
 You subcumb to the beating and die...
 <<else>>
 <<print $Customer.Name + " walks away, leaving you " + _Pay + " coins.">><br/><br/>

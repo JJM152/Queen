@@ -1,9 +1,9 @@
 :: Cabin [no-teleport event]
 Your "cabin" is really a converted jail cell used for holding prisoners -- or in your case, a slave. It's been poorly \
 fitted with some decrepit furnishings and just enough amenities for you to sustain your life as a whore. \
-<<if $Player.QuestFlags.CABIN_DECORATION eq "COMPLETED">>Although you have managed to secure some small comforts to brighten up the place a little. <</if>>\
+<<if setup.player.QuestFlags.CABIN_DECORATION eq "COMPLETED">>Although you have managed to secure some small comforts to brighten up the place a little. <</if>>\
 In one cramped corner sits a large wooden wardrobe, badly battered and all over splinters but intact enough to provide storage for your spare clothes. \
-A grand mirror sits atop a cheap vanity wedged in another corner, provided so that you can tend to your appearance.<<if $Player.QuestFlags.CABIN_DECORATION eq "COMPLETED">>\
+A grand mirror sits atop a cheap vanity wedged in another corner, provided so that you can tend to your appearance.<<if setup.player.QuestFlags.CABIN_DECORATION eq "COMPLETED">>\
  On the bulkhead opposite your bed hangs a <<click 'painting'>><<replace '#descSpan'>>
  ...A large and lovely picture of the sea, complete with seven stunning mermaids sunning \
 upon a rock and shamelessly showcasing their splendid tits. Another painting portraying the full nude form of an incredibly beautiful and buxom brunette \
@@ -13,9 +13,9 @@ and from the ceiling dangles a shiny brass <<click 'lantern'>><<replace '#descSp
 ...In additional to the paintings, you also have a bright shiny brass lantern \
 for light and a velvety purple curtain draped next to your bed that brings some much-need warmth and color to your room.
 <</replace>><</click>>.\
-<<if $Player.QuestFlags.CABIN_RUG eq "COMPLETED">>\
+<<if setup.player.QuestFlags.CABIN_RUG eq "COMPLETED">>\
  The plush purple-pink rug spread on your cabin floor is deliciously delightful underfoot.<</if>><</if>>\
-<<if $Player.QuestFlags.BETTER_BED eq "COMPLETED">>\
+<<if setup.player.QuestFlags.BETTER_BED eq "COMPLETED">>\
  A surprisingly comfy bunk jammed against one wall serves as your bed and the soft sheets and blanket piled on top of it are your cherished nightly comforts.
 <<else>>\
  An uncomfortable cot jammed against one wall serves as your bed and the tattered sheets and itchy blanket piled on top of it are your only nightly comforts.
@@ -23,8 +23,8 @@ for light and a velvety purple curtain draped next to your bed that brings some 
 <<set $InIntro = 0>>\
 <span id='descSpan'></span>
 @@color:cyan;Interact@@: [[Wardrobe]] | [[Vanity]] | [[Mirror]]
-@@color:yellow;Action@@: <<if $Player.Phase < 3>><<if $Player.CoreStats["Energy"] == $Player.GetMaxStat("STAT","Energy");>>@@color:grey;[Rest]@@<<else>>[[Rest]]<</if>><<else>>[[Sleep]]<</if>> | \
-<<if $Player.CanReStyle() == true>><<link [[Quick Makeup and Hair|Cabin]]>><<run $Player.ReStyle()>><</link>><<else>>@@color:grey;[Quick Makeup and Hair]@@<</if>>
+@@color:yellow;Action@@: <<if setup.player.Phase < 3>><<if setup.player.CoreStats["Energy"] == setup.player.GetMaxStat("STAT","Energy");>>@@color:grey;[Rest]@@<<else>>[[Rest]]<</if>><<else>>[[Sleep]]<</if>> | \
+<<if setup.player.CanReStyle() == true>><<link [[Quick Makeup and Hair|Cabin]]>><<run setup.player.ReStyle()>><</link>><<else>>@@color:grey;[Quick Makeup and Hair]@@<</if>>
 @@color:lime;Travel@@: [[Deck]]
 
-<<if $Player.debugMode != false>>[[Cheat Room|DebugPassage]]<</if>>
+<<if $PlayerState.debugMode != false>>[[Cheat Room|DebugPassage]]<</if>>

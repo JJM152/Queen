@@ -1,5 +1,5 @@
 :: WardrobeWidgets [widget]
-<<widget "InspectClothing">><<set _Item = $Player.GetEquipmentInSlot($args[0]); >>\
+<<widget "InspectClothing">><<set _Item = setup.player.GetEquipmentInSlot($args[0]); >>\
 <<nobr>>
 <table class=".MyTable">
 <tbody>
@@ -21,11 +21,11 @@
 You spy with your little eye...
 
 <<print _Item.Description() >>
-<<print _Item.Examine($Player);>>
+<<print _Item.Examine(setup.player);>>
 <</widget>>
 
 <<widget "WearingExa">><<nobr>>
-<<set _Item = $Player.GetEquipmentInSlot($args[0]); >>
+<<set _Item = setup.player.GetEquipmentInSlot($args[0]); >>
 <<if _Item == 0>>@@.disabledWardrobeButton;<<button "Examine">><</button>>@@
 <<else>>
 @@.wardrobeButton;<<button "Examine">>
@@ -36,7 +36,7 @@ You spy with your little eye...
 <</widget>>
 
 <<widget "InspectWardrobe">><<nobr>>
-<<set _Item = $Player.WardrobeItem($args[0]); >>
+<<set _Item = setup.player.WardrobeItem($args[0]); >>
 <<set _Slot = $args[1];>>
 <table class=".MyTable">
 <tbody>
@@ -58,7 +58,7 @@ You spy with your little eye...
 You spy with your little eye...
 
 <<print _Item.Description() >>
-<<print _Item.Examine($Player);>>
+<<print _Item.Examine(setup.player);>>
 <</widget>>
 
 <<widget "WardrobeExamine">><<nobr>>
@@ -68,24 +68,24 @@ You spy with your little eye...
 <</nobr>><</widget>>
 
 <<widget "WardrobeWear">><<nobr>>
-<<set _Worn = $Player.GetEquipmentInSlot($args[1])>>
+<<set _Worn = setup.player.GetEquipmentInSlot($args[1])>>
 <<if _Worn != 0>>
 	<<if _Worn.IsLocked()>>
 		@@.disabledWardrobeButton;<<button "LOCKED">><</button>>@@
 	<<else>>
 		@@.wardrobeButton;<<button "Wear">>
-		<<run $Player.Wear($Player.WardrobeItem($args[0])) >><<replace "#WardrobeUI">><<WearingTable>><</replace>>
+		<<run setup.player.Wear(setup.player.WardrobeItem($args[0])) >><<replace "#WardrobeUI">><<WearingTable>><</replace>>
 		<</button>>@@		
 	<</if>>
 <<else>>
 		@@.wardrobeButton;<<button "Wear">>
-		<<run $Player.Wear($Player.WardrobeItem($args[0])) >><<replace "#WardrobeUI">><<WearingTable>><</replace>>
+		<<run setup.player.Wear(setup.player.WardrobeItem($args[0])) >><<replace "#WardrobeUI">><<WearingTable>><</replace>>
 		<</button>>@@		
 <</if>>
 <</nobr>><</widget>>
 
 <<widget "WardrobeTable">><<nobr>>
-<<set _Items = $Player.WardrobeItemsBySlot($args[0])>>
+<<set _Items = setup.player.WardrobeItemsBySlot($args[0])>>
 <table class=".MyTable">
 <tbody>
 	<tr><td colspan="3">
@@ -115,19 +115,19 @@ You spy with your little eye...
 <</nobr>><</widget>>
 
 <<widget "WearingChange">><<nobr>>
-<<set _Item = $Player.GetEquipmentInSlot($args[0]); >>
+<<set _Item = setup.player.GetEquipmentInSlot($args[0]); >>
 <<if _Item != 0>>
 	<<if _Item.IsLocked()>>
 		@@.disabledWardrobeButton;<<button "LOCKED">><</button>>@@
 	<<else>>
-		<<if $Player.WardrobeItemsBySlot($args[0]).length > 0>>
+		<<if setup.player.WardrobeItemsBySlot($args[0]).length > 0>>
 			@@.wardrobeButton;<<button "Change">><<replace "#WardrobeUI">><<WardrobeTable $args[0]>><</replace>><</button>>@@		
 		<<else>>
 			@@.disabledWardrobeButton;<<button "Change">><</button>>@@
 		<</if>>
 	<</if>>
 <<else>>
-	<<if $Player.WardrobeItemsBySlot($args[0]).length > 0>>
+	<<if setup.player.WardrobeItemsBySlot($args[0]).length > 0>>
 		@@.wardrobeButton;<<button "Change">><<replace "#WardrobeUI">><<WardrobeTable $args[0]>><</replace>><</button>>@@		
 	<<else>>
 		@@.disabledWardrobeButton;<<button "Change">><</button>>@@
@@ -136,12 +136,12 @@ You spy with your little eye...
 <</nobr>><</widget>>
 
 <<widget "WearingRemove">><<nobr>>
-<<if $Player.GetEquipmentInSlot($args[0]) != 0>>
-	<<if $Player.GetEquipmentInSlot($args[0]).IsLocked()>>
+<<if setup.player.GetEquipmentInSlot($args[0]) != 0>>
+	<<if setup.player.GetEquipmentInSlot($args[0]).IsLocked()>>
 		@@.disabledWardrobeButton;<<button "LOCKED">><</button>>@@
 	<<else>>
 		@@.wardrobeButton;<<button "Remove">>
-		<<run $Player.Remove($Player.GetEquipmentInSlot($args[0]))>>
+		<<run setup.player.Remove(setup.player.GetEquipmentInSlot($args[0]))>>
 		<<replace "#WardrobeUI">><<WearingTable>><</replace>><</button>>@@		
 	<</if>>
 <<else>>
@@ -173,30 +173,30 @@ You spy with your little eye...
 		<td style="width:80px;"> </td>
 	</tr>	
 </tbody></table><</nobr>>
-The style and fashion of your clothing is <<= window.App.PR.pClothing($Player) >>
+The style and fashion of your clothing is <<= window.App.PR.pClothing(setup.player) >>
 
 <table class="#score-table">
 <tbody>
 <tr><td colspan="6" style="border-bottom: 1px solid">@@color:yellow;Current Fashion Breakdown@@ (click a name to automatically dress that way)</td></tr>
 	<tr>
-		<td>Ordinary:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Ordinary", $Player); >></span></td>
-		<td><<link "Pirate Slut" "Wardrobe">><<run $Player.AutoWearCategory('Pirate Slut');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Pirate Slut", $Player); >></span></td>
-		<td><<link "Bimbo" "Wardrobe">><<run $Player.AutoWearCategory('Bimbo');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Bimbo", $Player); >></span></td>
+		<td>Ordinary:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Ordinary", setup.player); >></span></td>
+		<td><<link "Pirate Slut" "Wardrobe">><<run setup.player.AutoWearCategory('Pirate Slut');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Pirate Slut", setup.player); >></span></td>
+		<td><<link "Bimbo" "Wardrobe">><<run setup.player.AutoWearCategory('Bimbo');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Bimbo", setup.player); >></span></td>
 	</tr>
 	<tr>
-		<td><<link "Sissy Lolita" "Wardrobe">><<run $Player.AutoWearCategory('Sissy Lolita');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Sissy Lolita", $Player); >></span></td>
-		<td><<link "Gothic Lolita" "Wardrobe">><<run $Player.AutoWearCategory('Gothic Lolita');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Gothic Lolita", $Player); >></span></td>
-		<td><<link "BDSM" "Wardrobe">><<run $Player.AutoWearCategory('BDSM');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("BDSM", $Player); >></span></td>
+		<td><<link "Sissy Lolita" "Wardrobe">><<run setup.player.AutoWearCategory('Sissy Lolita');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Sissy Lolita", setup.player); >></span></td>
+		<td><<link "Gothic Lolita" "Wardrobe">><<run setup.player.AutoWearCategory('Gothic Lolita');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Gothic Lolita", setup.player); >></span></td>
+		<td><<link "BDSM" "Wardrobe">><<run setup.player.AutoWearCategory('BDSM');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("BDSM", setup.player); >></span></td>
 	</tr>
 	<tr>
-		<td><<link "Daddy's Girl" "Wardrobe">><<run $Player.AutoWearCategory("Daddy's Girl");>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Daddy's Girl", $Player); >></span></td>
-		<td><<link "Naughty Nun" "Wardrobe">><<run $Player.AutoWearCategory('Naughty Nun');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Naughty Nun", $Player); >></span></td>
-		<td><<link "Pet Girl" "Wardrobe">><<run $Player.AutoWearCategory('Pet Girl');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Pet Girl", $Player); >></span></td>
+		<td><<link "Daddy's Girl" "Wardrobe">><<run setup.player.AutoWearCategory("Daddy's Girl");>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Daddy's Girl", setup.player); >></span></td>
+		<td><<link "Naughty Nun" "Wardrobe">><<run setup.player.AutoWearCategory('Naughty Nun');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Naughty Nun", setup.player); >></span></td>
+		<td><<link "Pet Girl" "Wardrobe">><<run setup.player.AutoWearCategory('Pet Girl');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Pet Girl", setup.player); >></span></td>
 	</tr>
 	<tr>
-		<td><<link "High Class Whore" "Wardrobe">><<run $Player.AutoWearCategory('High Class Whore');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("High Class Whore", $Player); >></span></td>
-		<td><<link "Slutty Lady" "Wardrobe">><<run $Player.AutoWearCategory('Slutty Lady');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Slutty Lady", $Player); >></span></td>
-		<td><<link "Sexy Dancer" "Wardrobe">><<run $Player.AutoWearCategory('Sexy Dancer');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Sexy Dancer", $Player); >></span></td>
+		<td><<link "High Class Whore" "Wardrobe">><<run setup.player.AutoWearCategory('High Class Whore');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("High Class Whore", setup.player); >></span></td>
+		<td><<link "Slutty Lady" "Wardrobe">><<run setup.player.AutoWearCategory('Slutty Lady');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Slutty Lady", setup.player); >></span></td>
+		<td><<link "Sexy Dancer" "Wardrobe">><<run setup.player.AutoWearCategory('Sexy Dancer');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Sexy Dancer", setup.player); >></span></td>
 	</tr>	
 </tbody>
 </table>
@@ -209,7 +209,7 @@ The style and fashion of your clothing is <<= window.App.PR.pClothing($Player) >
 <tr>
 	<td colspan=2><h3>@@color:yellow;Worn Items@@</h3></td>
 	<td colspan=3 style="text-align:right"><<click "Get naked">>
-		<<run $Player.Strip();>>
+		<<run setup.player.Strip();>>
 		<<replace "#WardrobeUI">><<WearingTable>><</replace>>
 	<</click>> | <<click "Inspect Outfit">>
 		<<replace "#WardrobeUI">><<StyleDisplay>><</replace>>
@@ -224,112 +224,112 @@ The style and fashion of your clothing is <<= window.App.PR.pClothing($Player) >
 </tr>
 <tr>
     <td><<wlink "Wig">></td>
-	<td><<= $Player.PrintEquipment("Wig") >></td>
+	<td><<= setup.player.PrintEquipment("Wig") >></td>
 	<td><<WearingExa "Wig">></td>
 	<td><<WearingChange "Wig">></td>
 	<td><<WearingRemove "Wig">></td>
 </tr>
 <tr>
     <td><<wlink "Hat">></td>
-	<td><<= $Player.PrintEquipment("Hat") >></td>
+	<td><<= setup.player.PrintEquipment("Hat") >></td>
 	<td><<WearingExa "Hat">></td>
 	<td><<WearingChange "Hat">></td>
 	<td><<WearingRemove "Hat">></td>	
 </tr>
 <tr>
     <td><<wlink "Neck">></td>
-	<td><<= $Player.PrintEquipment("Neck") >></td>
+	<td><<= setup.player.PrintEquipment("Neck") >></td>
 	<td><<WearingExa "Neck">></td>
 	<td><<WearingChange "Neck">></td>
 	<td><<WearingRemove "Neck">></td>
 </tr>
 <tr>
     <td><<wlink "Nipples">></td>
-	<td><<= $Player.PrintEquipment("Nipples") >></td>
+	<td><<= setup.player.PrintEquipment("Nipples") >></td>
 	<td><<WearingExa "Nipples">></td>
 	<td><<WearingChange "Nipples">></td>
 	<td><<WearingRemove "Nipples">></td>	
 </tr>
 <tr>
     <td><<wlink "Bra">></td>
-	<td><<= $Player.PrintEquipment("Bra") >></td>
+	<td><<= setup.player.PrintEquipment("Bra") >></td>
 	<td><<WearingExa "Bra">></td>
 	<td><<WearingChange "Bra">></td>
 	<td><<WearingRemove "Bra">></td>
 </tr>
 <tr>
     <td><<wlink "Corset">></td>
-	<td><<= $Player.PrintEquipment("Corset") >></td>
+	<td><<= setup.player.PrintEquipment("Corset") >></td>
 	<td><<WearingExa "Corset">></td>
 	<td><<WearingChange "Corset">></td>
 	<td><<WearingRemove "Corset">></td>
 </tr>
 <tr>
     <td><<wlink "Panty">></td>
-	<td><<= $Player.PrintEquipment("Panty") >></td>
+	<td><<= setup.player.PrintEquipment("Panty") >></td>
 	<td><<WearingExa "Panty">></td>
 	<td><<WearingChange "Panty">></td>
 	<td><<WearingRemove "Panty">></td>
 </tr>
 <tr>
     <td><<wlink "Stockings">></td>
-	<td><<= $Player.PrintEquipment("Stockings") >></td>
+	<td><<= setup.player.PrintEquipment("Stockings") >></td>
 	<td><<WearingExa "Stockings">></td>
 	<td><<WearingChange "Stockings">></td>
 	<td><<WearingRemove "Stockings">></td>
 </tr>
 <tr>
     <td><<wlink "Shirt">></td>
-	<td><<= $Player.PrintEquipment("Shirt") >></td>
+	<td><<= setup.player.PrintEquipment("Shirt") >></td>
 	<td><<WearingExa "Shirt">></td>
 	<td><<WearingChange "Shirt">></td>
 	<td><<WearingRemove "Shirt">></td>
 </tr>
 <tr>
     <td><<wlink "Pants">></td>
-	<td><<= $Player.PrintEquipment("Pants") >></td>
+	<td><<= setup.player.PrintEquipment("Pants") >></td>
 	<td><<WearingExa "Pants">></td>
 	<td><<WearingChange "Pants">></td>
 	<td><<WearingRemove "Pants">></td>
 </tr>
 <tr>
     <td><<wlink "Dress">></td>
-	<td><<= $Player.PrintEquipment("Dress") >></td>
+	<td><<= setup.player.PrintEquipment("Dress") >></td>
 	<td><<WearingExa "Dress">></td>
 	<td><<WearingChange "Dress">></td>
 	<td><<WearingRemove "Dress">></td>
 </tr>
 <tr>
     <td><<wlink "Costume">></td>
-	<td><<= $Player.PrintEquipment("Costume") >></td>
+	<td><<= setup.player.PrintEquipment("Costume") >></td>
 	<td><<WearingExa "Costume">></td>
 	<td><<WearingChange "Costume">></td>
 	<td><<WearingRemove "Costume">></td>
 </tr>
 <tr>
     <td><<wlink "Shoes">></td>
-	<td><<= $Player.PrintEquipment("Shoes") >></td>
+	<td><<= setup.player.PrintEquipment("Shoes") >></td>
 	<td><<WearingExa "Shoes">></td>
 	<td><<WearingChange "Shoes">></td>
 	<td><<WearingRemove "Shoes">></td>
 </tr>
 <tr>
     <td><<wlink "Butt">></td>
-	<td><<= $Player.PrintEquipment("Butt") >></td>
+	<td><<= setup.player.PrintEquipment("Butt") >></td>
 	<td><<WearingExa "Butt">></td>
 	<td><<WearingChange "Butt">></td>
 	<td><<WearingRemove "Butt">></td>
 </tr>
 <tr>
     <td><<wlink "Penis">></td>
-	<td><<= $Player.PrintEquipment("Penis") >></td>
+	<td><<= setup.player.PrintEquipment("Penis") >></td>
 	<td><<WearingExa "Penis">></td>
 	<td><<WearingChange "Penis">></td>
 	<td><<WearingRemove "Penis">></td>
 </tr>
 <tr>
     <td><<wlink "Weapon">></td>
-	<td><<= $Player.PrintEquipment("Weapon") >></td>
+	<td><<= setup.player.PrintEquipment("Weapon") >></td>
 	<td><<WearingExa "Weapon">></td>
 	<td><<WearingChange "Weapon">></td>
 	<td><<WearingRemove "Weapon">></td>

@@ -1,11 +1,11 @@
 :: IslaMansion
-<<set _GFN = $Player.GirlfriendName + "'s Room";>>\
-<<set _GFL = $Player.GirlfriendName + "'s Room">>\
-The Governor's Mansion is the largest and most elegant building on Isla Harbor. You've only been in a few times, mostly when @@color:pink;$Player.GirlfriendName@@ would sneak you past the house staff, but it's largely how you remember it: high vaulted ceilings, dark wood panelling, and lush carpets covering the tiled floors.
+<<set _GFN = setup.player.GirlfriendName + "'s Room";>>\
+<<set _GFL = setup.player.GirlfriendName + "'s Room">>\
+The Governor's Mansion is the largest and most elegant building on Isla Harbor. You've only been in a few times, mostly when @@color:HotPink;<<-setup.player.GirlfriendName>>@@ would sneak you past the house staff, but it's largely how you remember it: high vaulted ceilings, dark wood panelling, and lush carpets covering the tiled floors.
 
-The Governor himself isn't much for such opulance, but as $Player.GirlfriendName explained to you, there's a certain level of extravagance that's expected with such a prestigous position in society.
+The Governor himself isn't much for such opulance, but as @@color:HotPink;<<-setup.player.GirlfriendName>>@@ explained to you, there's a certain level of extravagance that's expected with such a prestigous position in society.
 
-<<if $Player.Phase < 3>><<NPC "Jarvis">>
+<<if setup.player.Phase < 3>><<NPC "Jarvis">>
 
 @@color:lime;Travel@@: [[Town Center|IslaTown]] | \
 <<click _GFL>>\
@@ -18,7 +18,7 @@ As you attempt to gain entry into @@color:HotPink;<<print _GFL >>@@ the steward 
 <</replace>>\
 <</click>>\
  | \
-<<if window.App.QuestEngine.GetQuestFlag($Player, "DADDYSGIRL") != "COMPLETED">>\
+<<if window.App.QuestEngine.GetQuestFlag(setup.player, "DADDYSGIRL") != "COMPLETED">>\
 <<click "Study">>\
 <<replace "#Notification">>\
 You move forward toward's the @@color:gold;Governor's Study@@, but the steward steps forward and blocks your way.

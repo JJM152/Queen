@@ -7,8 +7,8 @@ App.EventHandlers = new function() {
 
       // Add a hyperlink to run back to your Cabin when it's very, very late.
           $(document).on(':passagerender', function (ev) {
-              if (App.EventHandlers.exists("SugarCube.State.variables.Player")) {
-                  if (SugarCube.State.variables.Player.Phase >= 4) {
+              if (App.EventHandlers.exists("SugarCube.setup.player")) {
+                  if (SugarCube.setup.player.Phase >= 4) {
                       $(ev.content).wiki("<<lateNightTeleport>>");
                   }
               }

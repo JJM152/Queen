@@ -15,8 +15,8 @@ App.Data.Quests["BETTER_BED"] = {
     "INTRO": 
         "NPC_NAME twitches nervously and looks around even though it's obvious only the two of you are in the room. He starts to speak but stops to look around again. Finally, he says, \"Okay, PLAYER_NAME, I actually can get you a better bunk for your room. But you have to do something for me first.\"\n\n"+
         "You roll your eyes. Of course no one wants to just fuckin' //help// on this blasted boat! You sigh and nod to him in resignation.\n\n"+
-        "He smiles and raises his hands to his chest to twiddle his fingers together in excitement. \"I've been working on a new liniment -- a bona fide breakthrough! -- and you're going to help me test it. Come see me tomorrow <<if $Player.Equipment['Shoes'] neq 0>>and make sure you're ''barefoot''.<<else>>but don't put on shoes before then.<</if>>\""+
-        "<<set $Player.QuestFlags.JULIUS_DATE to ($Player.Day + 1)>>",
+        "He smiles and raises his hands to his chest to twiddle his fingers together in excitement. \"I've been working on a new liniment -- a bona fide breakthrough! -- and you're going to help me test it. Come see me tomorrow <<if setup.player.Equipment['Shoes'] neq 0>>and make sure you're ''barefoot''.<<else>>but don't put on shoes before then.<</if>>\""+
+        "<<set setup.player.QuestFlags.JULIUS_DATE to (setup.player.Day + 1)>>",
     "MIDDLE": 
         "NPC_NAME says in clear agitation, \"I said to wait and come back ''barefoot'', PLAYER_NAME! It's not that hard, ya ditzy nympho!\" He looks surprised at his own words and then, after making sure no one else is around, he quietly adds, \"Just... start paying attention, how about?\"\n\n"+
         "You frown at being called a 'nympho' since you obviously didn't choose this life and you're getting fucked whether you want it or not, but you don't see any point in arguing with him.",
@@ -53,7 +53,7 @@ App.Data.Quests["CABIN_DECORATION"] = {
         "\"So you want some gimcrack and gewgaw to spruce up your cabin, huh PLAYER_NAME?\" he asks, smirking weasily. \"Of course I can help!\" He looks around. \"//After// you help me.\"\n\n"+
         "You sigh and nod, very used to the game of give-and-take aboard this scabrous ship by now.\n\n"+
         "\"Same as before, come back tomorrow -- barefoot, of course. I've revised the liniment formula and we need to test it.\" He shoots you a conspiratorial wink and then shoos you away.\n\n"+
-        "<<set $Player.QuestFlags.JULIUS_DATE to ($Player.Day + 1)>>",
+        "<<set setup.player.QuestFlags.JULIUS_DATE to (setup.player.Day + 1)>>",
     "MIDDLE": 
         "NPC_NAME says in clear agitation, \"I said to wait and come back ''barefoot'', PLAYER_NAME! Why do you keep being so thick, ya damned doofy butt-slut?\"\n\n"+
         "You roll your eyes at being called a 'butt-slut' but yet again you don't see any point in arguing with him.",
@@ -96,7 +96,7 @@ App.Data.Quests["CABIN_RUG"] = {
         "You nod at him as if you care about his nasty spunk-salve.\n\n"+
         "\"You know the deal, sweetfeet. Come back tomorrow prepared to test the liniment and I will see about securing you a patch of carpet in your cabin for your tender footsies.\" He grins and wiggles his eyebrows.\n\n"+
         "Again you nod. With a satisfied simper, he gestures for you to scram."+
-        "<<set $Player.QuestFlags.JULIUS_DATE to ($Player.Day + 1)>>",
+        "<<set setup.player.QuestFlags.JULIUS_DATE to (setup.player.Day + 1)>>",
     "MIDDLE": 
         "NPC_NAME stares at you, his weak jaw clenched tight. \"You are the dumbest dingbat I've ever met, PLAYER_NAME. Wait. And. Come. Back. Barefoot. You. Silly. Cock-sock.\"\n\n"+
         "You snort at the term juvenile 'cock-sock' but once more you don't see any point in arguing with him.",

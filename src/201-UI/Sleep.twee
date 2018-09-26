@@ -1,6 +1,6 @@
 :: Sleep [custom-menu]
-<<tarot $Player>>\
-<<if $Player.Phase >= 3>><<run $Player.NextDay(); >><</if>>\
+<<tarot setup.player>>\
+<<if setup.player.Phase >= 3>><<run setup.player.NextDay(); >><</if>>\
 <<set $irr to random(1,3)>>\
 <<if $irr eq 1>>\
   Night finally comes and you drag yourself to bed.
@@ -10,7 +10,7 @@
   The day is done and over, for better or worse. You fall into bed.
 <</if>>\
 //
-<<switch $Player.Day>>\
+<<switch setup.player.Day>>\
 <<case 2>>\
   You're finding it difficult to fall asleep with this callous contraption cramping your genitals. You massage around the device in an attempt to relieve the constraint, but the ache only intensifies as your trapped cock bulges against its imprisonment in stunted arousal. You smother your face with your pillow and groan in abject misery.
 
@@ -60,7 +60,7 @@
 <<case 12>>\
   You don't even want to think about the buzzing in your head and the sour ache in your balls tonight. You smash your face into your pillow, scream out in distress, and suffocate yourself to sleep.
 <<case 13>>\
-  <<if $Player.Equipment["Pants"] neq 0 || $Player.Equipment["Panty"] neq 0 || $Player.Equipment["Dress"] neq 0 || $Player.Equipment["Costume"] neq 0 || $Player.Equipment["Corset"] neq 0 || $Player.Equipment["Bra"] neq 0 || $Player.Equipment["Shoes"] neq 0 || $Player.Equipment["Stockings"] neq 0>>For some reason, you slip back out of bed and remove all your clothing. You're not sure why you're doing it in the moment but when you slide back into bed naked it just feels right. <<else>>For some reason, sleeping naked just feels right. <</if>>You clasp your hands atop your stomach but they don't stay there for long -- as if having a mind of their own, they begin caressing your belly and chest. Your fingers find your nipples and pinch and twist them.
+  <<if setup.player.Equipment["Pants"] neq 0 || setup.player.Equipment["Panty"] neq 0 || setup.player.Equipment["Dress"] neq 0 || setup.player.Equipment["Costume"] neq 0 || setup.player.Equipment["Corset"] neq 0 || setup.player.Equipment["Bra"] neq 0 || setup.player.Equipment["Shoes"] neq 0 || setup.player.Equipment["Stockings"] neq 0>>For some reason, you slip back out of bed and remove all your clothing. You're not sure why you're doing it in the moment but when you slide back into bed naked it just feels right. <<else>>For some reason, sleeping naked just feels right. <</if>>You clasp your hands atop your stomach but they don't stay there for long -- as if having a mind of their own, they begin caressing your belly and chest. Your fingers find your nipples and pinch and twist them.
 
   You grit your teeth and will yourself to stop this nonsense as the sickening ache in your imprisoned genitals grows. But your hands don't obey. They rub your face, your lips, your chest, your stomach, your hips, and down around your thighs. A whimper escapes you as your cock throbs angrily in its punishing prison but can't seem to stop yourself. Your hands palm your nipples and squeeze the flesh of your chest. Your thighs rub together, your toes wriggle and your feet wrestle, your tongue slathers your lips with hot drool.
 
@@ -70,7 +70,7 @@
 
   Before you can even wonder what the hell just happened, you pass into a peaceful slumber.
 <<case 14>>\
-  You entirely too giddy to fall asleep tonight. <<if $Player.Equipment["Pants"] neq 0 || $Player.Equipment["Panty"] neq 0 || $Player.Equipment["Dress"] neq 0 || $Player.Equipment["Costume"] neq 0 || $Player.Equipment["Corset"] neq 0 || $Player.Equipment["Bra"] neq 0 || $Player.Equipment["Shoes"] neq 0 || $Player.Equipment["Stockings"] neq 0>>You strip off your clothes and toss them aside to lie naked on your bed <<else>>You're already naked, of course, <</if>>because you definitely have to try to repeat whatever happened to you last night!
+  You entirely too giddy to fall asleep tonight. <<if setup.player.Equipment["Pants"] neq 0 || setup.player.Equipment["Panty"] neq 0 || setup.player.Equipment["Dress"] neq 0 || setup.player.Equipment["Costume"] neq 0 || setup.player.Equipment["Corset"] neq 0 || setup.player.Equipment["Bra"] neq 0 || setup.player.Equipment["Shoes"] neq 0 || setup.player.Equipment["Stockings"] neq 0>>You strip off your clothes and toss them aside to lie naked on your bed <<else>>You're already naked, of course, <</if>>because you definitely have to try to repeat whatever happened to you last night!
 
   Starting with your hands gently caressing your stomach and chest, you slowly surrender to the flourishing desire to fondle yourself. You start to feel a tingle in your body as you mash your thighs together and you refuse to let the unhappy ache of your confined cock and bound balls distract you. This is about more than them, this is about your entire being!
 
@@ -80,14 +80,14 @@
 
   You purr in supreme satisfaction and gleefully fall asleep in your own slippery mess.
 <<default>>\
-  <<if $Player.Equipment["Pants"] neq 0 || $Player.Equipment["Panty"] neq 0 || $Player.Equipment["Dress"] neq 0 || $Player.Equipment["Costume"] neq 0 || $Player.Equipment["Corset"] neq 0 || $Player.Equipment["Bra"] neq 0 || $Player.Equipment["Shoes"] neq 0 || $Player.Equipment["Stockings"] neq 0>>Within moments of laying down your tired body succumbs to sleep.<<else>>Buck naked and ready for some personal time, you proceed to molest yourself with wild abandon. You squeeze and pinch and fondle your body in sadistic but oh-so-satisfying self-rape. Then you cork your spasming starfish with your spit-slick fingers and work to please your quivering boy-pussy. Your other hand continues to maul every bit of your body it can reach.
+  <<if setup.player.Equipment["Pants"] neq 0 || setup.player.Equipment["Panty"] neq 0 || setup.player.Equipment["Dress"] neq 0 || setup.player.Equipment["Costume"] neq 0 || setup.player.Equipment["Corset"] neq 0 || setup.player.Equipment["Bra"] neq 0 || setup.player.Equipment["Shoes"] neq 0 || setup.player.Equipment["Stockings"] neq 0>>Within moments of laying down your tired body succumbs to sleep.<<else>>Buck naked and ready for some personal time, you proceed to molest yourself with wild abandon. You squeeze and pinch and fondle your body in sadistic but oh-so-satisfying self-rape. Then you cork your spasming starfish with your spit-slick fingers and work to please your quivering boy-pussy. Your other hand continues to maul every bit of your body it can reach.
 
   It doesn't take long before you succumb to a yummy orgasm. You let out a long whorish moan as you carelessly drool clit-jizz all over your bed sheets.
 
   Falling asleep after that is as easy as you are.<</if>>
 <</switch>>\
 //
-<<if $Player.SleepLog.length != 0>><<for _i to 0; _i lt $Player.SleepLog.length; _i++>>\
-<<print $Player.SleepLog[_i]>><br/><</for>><</if>>\
+<<if setup.player.SleepLog.length != 0>><<for _i to 0; _i lt setup.player.SleepLog.length; _i++>>\
+<<print setup.player.SleepLog[_i]>><br/><</for>><</if>>\
 
 <<wakeUpHandler>>
