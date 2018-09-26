@@ -151,7 +151,7 @@ App.Entity.PlayerState = function (){
     this.CurrentSlots = 3; // Starting allocation of whoring
 };
 
-//TODO: Contemplating redoing this as an ECMA 5.1 compliant implementation. 
+//TODO: Contemplating redoing this as an ECMA 5.1 compliant implementation.
 App.Entity.Player = class Player {
     /**
      * @returns {App.Entity.PlayerState}
