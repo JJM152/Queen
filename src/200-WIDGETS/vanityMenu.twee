@@ -11,6 +11,7 @@
 <<set _Wigs = setup.player.WardrobeItemsBySlot("Wig");>>\
 <<set _TRIM = setup.player.GetStat("BODY", "Hair") - 5;>>\
 <<set _PR = window.App.PR;>>\
+<<set _US = window.App.unitSystem;>>\
 <<nobr>>
 <table class="MyTable">
     <tbody>
@@ -176,14 +177,14 @@
 <<if _Wig != 0>>
 <<run setup.player.Remove(setup.player.Equipment["Wig"]);>>.
 <</if>>
-<</click>> (<<print _PR.CMtoINCH(_PR.StatToCM(setup.player, "Hair"));>> in ⇒ <<print _PR.CMtoINCH(_PR.StatToCM(setup.player, "Hair", (5 - setup.player.GetStat("BODY", "Hair"))));>> in)
+<</click>> (<<print _US.lengthString(_PR.StatToCM($Player, "Hair"), false);>> ⇒ <<print _US.lengthString(_PR.StatToCM($Player, "Hair", (5 - $Player.GetStat("BODY", "Hair"))), false);>>)
 <<else>>
 <<click "Trim Hair" "Vanity">>
 <<run setup.player.AdjustBody("Hair", -5);>>
 <<if _Wig != 0>>
 <<run setup.player.Remove(setup.player.Equipment["Wig"]);>>.
 <</if>>
-<</click>> (<<print _PR.CMtoINCH(_PR.StatToCM(setup.player, "Hair"));>> in. -> <<print _PR.CMtoINCH( (_PR.StatToCM(setup.player, "Hair",-5)));>> in.)<</if>></td>
+<</click>> (<<print _US.lengthString(_PR.StatToCM($Player, "Hair"), false);>> -> <<print _US.lengthString((_PR.StatToCM($Player, "Hair",-5)), false);>>)<</if>></td>
 	</tr>
 	</tbody>
 </table>

@@ -57,15 +57,15 @@ window.App.QuestEngine = new function() {
                 break;
             case "STAT_BODY":
                 if ((Player.GetStatPercent("BODY", Key) < Value) && (Reverse == 0)) return false;
-                if ((Player.GetStatPercent("BODY", Key) >= Value) && (Reverse == 1)) return false;
+                if ((Player.GetStatPercent("BODY", Key) > Value) && (Reverse == 1)) return false;
                 break;
             case "STAT_SKILL":
                 if ((Player.GetStatPercent("SKILL", Key) < Value) && (Reverse == 0)) return false;
-                if ((Player.GetStatPercent("SKILL", Key) >= Value) && (Reverse == 1)) return false;
+                if ((Player.GetStatPercent("SKILL", Key) > Value) && (Reverse == 1)) return false;
                 break;
             case "STAT_CORE":
                 if ((Player.GetStatPercent("STAT", Key) < Value) && (Reverse == 0)) return false;
-                if ((Player.GetStatPercent("STAT", Key) >= Value) && (Reverse == 1)) return false;
+                if ((Player.GetStatPercent("STAT", Key) > Value) && (Reverse == 1)) return false;
                 break;
             case "HAS_ITEM":
                 if ((Player.GetItemByName(Key).length < 1)) return false;

@@ -1,5 +1,16 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.7b - 09/26/2018
+!!!!General
+* Added unix build script to github repository (@@color:deepPink;ezsh@@)
+* Issue with quests not completing properly for small waist requirements.
+* Bug in player's Fetish score calculation fixed. You can obtain 100% now.
+* Reverted changes in bust / cup size descriptions.
+* Trim hair from vanity now uses settings for units (metric or imperial) (@@color:deepPink;ezsh@@)
+* Some substitution strings were using adjectives for bust instead of ass. (@@color:deepPink;ezsh@@)
+* Fixed black dye bug in Yvonne's shop fixed (@@color:deepPink;ezsh@@)
+* Fixed bug with one of the Tarot card readings not applying effects properly overnight.
+* Whoring results page now sorts status messages by XP gained. (@@color:deepPink;ezsh@@)
 !!!0.7 - 09/23/2018
 !!!!General
 * Added some new effects to the effect library.

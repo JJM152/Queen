@@ -74,7 +74,7 @@ App.PR = new function() {
     {
         String = String.replace(/PLAYER_NAME/g, Player.SlaveName);
         String = String.replace(/pBUST/g, this.pBust(Player, 1));
-        String = String.replace(/pASS/g, this.pBust(Player, 1));
+        String = String.replace(/pASS/g, this.pAss(Player, 1));
         String = String.replace(/pCUP/g, this.pCup(Player));
         String = String.replace(/pHIPS/g, this.pHips(Player, 1));
         String = String.replace(/pHORMONES/g, this.pHormones(Player, 1));
@@ -581,14 +581,8 @@ App.PR = new function() {
      * @returns {XML|string|void}
      */
     this.pCup = function (Player) {
-        var bust = this.BustCCtoCM(Player);
-        return App.unitSystem.cupString(bust, 80) + " cup";
-        // now we compute underbust measure assuming that it's proportional
-        // to the player's height. The starting height of 50% corresponds to
-        // the underbust length of 80 cm
-//         var underbust = 80.0 * Player.GetStat("BODY", "Height") / ;
-//         var bPercent = Player.GetStatPercent("BODY", "Bust");
-//         return this.GetRating("Cup", bPercent) + " cup";
+        var bPercent = Player.GetStatPercent("BODY", "Bust");
+        return this.GetRating("Cup", bPercent) + " cup";
     };
 
     /**
