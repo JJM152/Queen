@@ -1,13 +1,10 @@
 :: StorySettings
 ifid:2281acf9-aff5-4833-bd11-9d4317bce5ae
 
-
 :: StoryTitle
 Queen of the Seas (v 0.7b)
 
-
 :: Story Stylesheet [stylesheet]
-
 
 :: Story JavaScript [script]
 //Sugarcube config
@@ -15,16 +12,16 @@ console.log("Sugarcube Config...");
 Config.history.controls = false;
 Config.history.maxStates = 1;
 
-setup.player = new Player();
+setup.player = new App.Entity.Player();
 
 // Override navigation on death.
 Config.navigation.override = function (passageName) {
-        if (State.variables.Player.GetStat("STAT", "Health") <= 0) {
+        if (setup.player.GetStat("STAT", "Health") <= 0) {
             State.temporary.followup = passageName;
             return "DeathEnd";
         }
 
-        if (State.variables.Player.GetStat("STAT", "WillPower") < 20) {
+        if (setup.player.GetStat("STAT", "WillPower") < 20) {
             State.temporary.followup = passageName;
             return "WillPowerEnd";
         }
@@ -115,7 +112,7 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
 <<nobr>>
 Your name is @@color:yellow;<<= setup.player.OriginalName >> Smythe@@, the middle son of a <span id="familyJob">
 <<click "farmer">>
-    <<run player().AdjustStat("Fitness", 10);>>
+    <<run setup.player.AdjustStat("Fitness", 10);>>
     <<replace "#familyJob">>@@color:yellow;farmer@@<</replace>>
     <<replace "#nextPage">>[[Go and meet your lover|Intro2]]<</replace>>
 <</click>> |
