@@ -13,23 +13,52 @@ App.Rogue.Engine = new function() {
     this._textBuffer = null;
     this._sideBar = null;
     this._element = null;
+    this._passage = null;
+    this._depth = 1;
+    this._maxDepth = 100;
 
-    this.LoadScene = function(Player, Element) {
+    this.LoadScene = function(Player, Element, ExitPassage) {
         this._element = Element;
         this._player = new App.Rogue.Player(Player);
+        this._passage = ExitPassage;
         this._scheduler = new ROT.Scheduler.Speed();
         this._engine = new ROT.Engine(this._scheduler);
         this._display = new ROT.Display( {width: 100, height:40, fontSize:12} );
         this._textBuffer = new App.Rogue.TextBuffer(this._display);
         this._sideBar = new App.Rogue.Sidebar(this._display);
-        this._player = new App.Rogue.Player();
 
-        var level =  this._genLevel();
+        var level =  this._genLevel(this._depth);
         var size = level.getSize();
 
         this._switchLevel(level);
 
         this._level.setEntity(this._player, this._level.getEntrance());
+    };
+
+    /** @returns {number} */
+    this.GetDepth = function() { return this._depth; };
+
+    this.Descend = function() {
+        console.log("Current depth:"+this._depth);
+        this._depth += 1;
+        console.log("Moving to depth:"+this._depth);
+        var level = this._genLevel(this._depth);
+        this._switchLevel(level);
+        this._level.setEntity(this._player, this._level.getEntrance());
+    };
+
+    this.Ascend = function() {
+        console.log("Current depth:"+this._depth);
+        this._depth -= 1;
+        console.log("Moving to depth:"+this._depth);
+        if (this._depth <= 0) {
+            console.log("Exiting dungeon...");
+            SugarCube.State.display(this._passage);
+        } else {
+            var level = this._genLevel(this._depth);
+            this._switchLevel(level);
+            this._level.setEntity(this._player, this._level.getEntrance());
+        }
     };
 
     this.DrawUI = function(Player) {
@@ -48,8 +77,8 @@ App.Rogue.Engine = new function() {
         /* FIXME show something */
     };
 
-    this._genLevel = function() {
-        var level = new App.Rogue.Level();
+    this._genLevel = function(depth) {
+        var level = new App.Rogue.Level(depth);
         level.generateMap(80, 40);
         level.fillBorders(80, 40);
         level.genEntrance();

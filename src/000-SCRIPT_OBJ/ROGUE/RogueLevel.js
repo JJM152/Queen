@@ -1,7 +1,10 @@
 App = App || { Data: { }, Entity: { } };
 App.Rogue = App.Rogue || { };
 
-App.Rogue.Level = function() {
+App.Rogue.Level = function(depth) {
+
+    this._depth = depth;
+
     /* FIXME data structure for storing entities */
     this._beings = {};
 
@@ -153,6 +156,8 @@ App.Rogue.Level = function() {
      */
     this.genExit = function()
     {
+        if (this._depth >= 100) return;
+
         if(typeof this._entrance === 'undefined') this.genEntrance();
         var cells = this.cellsOutsideRadius(this._entrance.x, this._entrance.y, 30, true);
         var exit = cells[Math.floor(Math.random() * cells.length)];
@@ -162,7 +167,8 @@ App.Rogue.Level = function() {
     };
 
     this.getEntrance = function() { return this._entrance; };
-    
+    this.getExit = function() { return this._exit };
+
     this.setEntity = function(entity, xy) {
         /* FIXME remove from old position, draw */
         if (entity.getLevel() == this) {

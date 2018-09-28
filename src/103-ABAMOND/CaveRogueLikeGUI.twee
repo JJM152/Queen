@@ -1,5 +1,5 @@
 :: CaveRogueLikeGUI
 @@color:red;DANGER - WORK IN PROGRESS@@
 @@color:lime;Travel@@:  [[Back to the Cave Entrance|OceanCave]]
-<<run App.Rogue.Engine.LoadScene(setup.player,"#passage-caveroguelikegui");>>\
+<<run App.Rogue.Engine.LoadScene(setup.player,"#passage-caveroguelikegui", "OceanCave");>>\
 <<run App.Rogue.Engine.DrawUI(setup.player);>>

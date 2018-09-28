@@ -61,8 +61,20 @@ App.Rogue.Player = function(Player) {
     };
 
     this._handleKey = function(code) {
+
         if (code in this._keys) {
             App.Rogue.Engine._textBuffer.clear();
+
+            // Traverse staircase
+            if (code == ROT.VK_NUMPAD5) {
+                console.log("Player="+this.getXY()+",Entrance="+this._level.getEntrance()+",Exit="+this._level.getExit());
+                if (this.getXY().toString() == this._level.getEntrance().toString()) {
+                    App.Rogue.Engine.Ascend();
+                } else if (this.getXY().toString() == this._level.getExit().toString()) {
+                    App.Rogue.Engine.Descend();
+                }
+                return true;
+            }
 
             var direction = this._keys[code];
             if (direction == -1) { /* noop */

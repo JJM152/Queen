@@ -6342,23 +6342,52 @@ App.Rogue.Engine = new function() {
     this._textBuffer = null;
     this._sideBar = null;
     this._element = null;
+    this._passage = null;
+    this._depth = 1;
+    this._maxDepth = 100;
 
-    this.LoadScene = function(Player, Element) {
+    this.LoadScene = function(Player, Element, ExitPassage) {
         this._element = Element;
         this._player = new App.Rogue.Player(Player);
+        this._passage = ExitPassage;
         this._scheduler = new ROT.Scheduler.Speed();
         this._engine = new ROT.Engine(this._scheduler);
         this._display = new ROT.Display( {width: 100, height:40, fontSize:12} );
         this._textBuffer = new App.Rogue.TextBuffer(this._display);
         this._sideBar = new App.Rogue.Sidebar(this._display);
-        this._player = new App.Rogue.Player();
 
-        var level =  this._genLevel();
+        var level =  this._genLevel(this._depth);
         var size = level.getSize();
 
         this._switchLevel(level);
 
         this._level.setEntity(this._player, this._level.getEntrance());
+    };
+
+    /** @returns {number} */
+    this.GetDepth = function() { return this._depth; };
+
+    this.Descend = function() {
+        console.log("Current depth:"+this._depth);
+        this._depth += 1;
+        console.log("Moving to depth:"+this._depth);
+        var level = this._genLevel(this._depth);
+        this._switchLevel(level);
+        this._level.setEntity(this._player, this._level.getEntrance());
+    };
+
+    this.Ascend = function() {
+        console.log("Current depth:"+this._depth);
+        this._depth -= 1;
+        console.log("Moving to depth:"+this._depth);
+        if (this._depth <= 0) {
+            console.log("Exiting dungeon...");
+            SugarCube.State.display(this._passage);
+        } else {
+            var level = this._genLevel(this._depth);
+            this._switchLevel(level);
+            this._level.setEntity(this._player, this._level.getEntrance());
+        }
     };
 
     this.DrawUI = function(Player) {
@@ -6377,8 +6406,8 @@ App.Rogue.Engine = new function() {
         /* FIXME show something */
     };
 
-    this._genLevel = function() {
-        var level = new App.Rogue.Level();
+    this._genLevel = function(depth) {
+        var level = new App.Rogue.Level(depth);
         level.generateMap(80, 40);
         level.fillBorders(80, 40);
         level.genEntrance();
@@ -6502,7 +6531,10 @@ App.Rogue.Entity = function(visual) {
 App = App || { Data: { }, Entity: { } };
 App.Rogue = App.Rogue || { };
 
-App.Rogue.Level = function() {
+App.Rogue.Level = function(depth) {
+
+    this._depth = depth;
+
     /* FIXME data structure for storing entities */
     this._beings = {};
 
@@ -6654,6 +6686,8 @@ App.Rogue.Level = function() {
      */
     this.genExit = function()
     {
+        if (this._depth >= 100) return;
+
         if(typeof this._entrance === 'undefined') this.genEntrance();
         var cells = this.cellsOutsideRadius(this._entrance.x, this._entrance.y, 30, true);
         var exit = cells[Math.floor(Math.random() * cells.length)];
@@ -6663,7 +6697,8 @@ App.Rogue.Level = function() {
     };
 
     this.getEntrance = function() { return this._entrance; };
-    
+    this.getExit = function() { return this._exit };
+
     this.setEntity = function(entity, xy) {
         /* FIXME remove from old position, draw */
         if (entity.getLevel() == this) {
@@ -6755,8 +6790,20 @@ App.Rogue.Player = function(Player) {
     };
 
     this._handleKey = function(code) {
+
         if (code in this._keys) {
             App.Rogue.Engine._textBuffer.clear();
+
+            // Traverse staircase
+            if (code == ROT.VK_NUMPAD5) {
+                console.log("Player="+this.getXY()+",Entrance="+this._level.getEntrance()+",Exit="+this._level.getExit());
+                if (this.getXY().toString() == this._level.getEntrance().toString()) {
+                    App.Rogue.Engine.Ascend();
+                } else if (this.getXY().toString() == this._level.getExit().toString()) {
+                    App.Rogue.Engine.Descend();
+                }
+                return true;
+            }
 
             var direction = this._keys[code];
             if (direction == -1) { /* noop */
@@ -28937,7 +28984,7 @@ spawns a powerful sense of being watched by invisible, lurking entities somewher
 
 @@color:lime;Travel@@: [[Back to The Salty Mermaid|Deck]] | [[Far Beach|FarBeach]] | [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="118" name="CaveRogueLikeGUI" tags="" position="975,1475">@@color:red;DANGER - WORK IN PROGRESS@@
 @@color:lime;Travel@@:  [[Back to the Cave Entrance|OceanCave]]
-&lt;&lt;run App.Rogue.Engine.LoadScene(setup.player,&quot;#passage-caveroguelikegui&quot;);&gt;&gt;\
+&lt;&lt;run App.Rogue.Engine.LoadScene(setup.player,&quot;#passage-caveroguelikegui&quot;, &quot;OceanCave&quot;);&gt;&gt;\
 &lt;&lt;run App.Rogue.Engine.DrawUI(setup.player);&gt;&gt;</tw-passagedata><tw-passagedata pid="119" name="FarBeach" tags="" position="1100,1475">The northern beach of Abamond comes to an abrupt end at a large rock face that has been so beaten down by the crashing sea that you cannot find any purchase to climb. Despite that, you do notice that there are some small openings -- caves by the look of it -- that dot the meridian between the sandy beach and the cliffs above. Off in the distance you can still see the massive @@color:gold;&#39;Lonely Pier&#39;@@.
 
 @@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[Explore the caves|OceanCave]]</tw-passagedata><tw-passagedata pid="120" name="HiddenCove" tags="" position="1225,1475">&lt;&lt;set _Quest = window.App.QuestEngine; &gt;&gt;\
