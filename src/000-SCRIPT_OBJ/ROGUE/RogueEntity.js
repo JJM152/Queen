@@ -18,7 +18,6 @@ App.Rogue.Entity = function(visual) {
     };
 
     this.setPosition = function(xy, level) {
-        console.log("App.Rogue.Entity.setPosition: called");
         this._xy = xy;
         this._level = level;
         return this;

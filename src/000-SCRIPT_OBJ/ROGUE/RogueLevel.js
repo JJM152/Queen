@@ -42,6 +42,7 @@ App.Rogue.Level = function() {
         var xy = new App.Rogue.XY(x, y);
         if (v) {
             this._freeCells[xy] = new App.Rogue.Entity( { ch:null, fg:null, bg:null });
+            //this._freeCells[xy].setPosition(xy, this);
         } else {
             this._walls[xy] = new App.Rogue.Entity( { ch:'.', fg:"#888", bg:null });
         }
@@ -93,7 +94,51 @@ App.Rogue.Level = function() {
             this._borders[key] = new App.Rogue.Entity( {ch:'#', fg:"white", bg:null });
         }
     };
-    
+
+    this.cellsAtRadius = function(x, y, r, free)
+    {
+        var cells = [ ];
+
+        var startY = Math.max( 0,(y - r));
+        var endY = Math.min( this._size.y - 1, (y + r));
+
+        console.log("startY="+startY+",endY="+endY);
+
+        for(var row = startY ; row <= endY ; row++){
+
+            var rangeX = r - Math.abs(row - y);
+            var startX = Math.max(0, (x - rangeX));
+            var endX = Math.min(this._size.x - 1, (x + rangeX));
+            console.log("rangeX"+rangeX+",startX="+startX+",endX="+endX);
+
+            for(var col = startX ; col <= endX ; col++){
+                var xy = col+","+row;
+                if(free == true && typeof this._freeCells[xy] !== 'undefined') {
+                    cells.push(xy);
+                } else if (free == false) {
+                    cells.push(xy);
+                }
+            }
+        }
+
+        return cells;
+    };
+
+    this.cellsOutsideRadius = function(x, y, r, free)
+    {
+        var cells = [ ];
+        // Get inclusion cells
+        var inside =  this.cellsAtRadius(x, y, r, free);
+
+        cells = Object.keys(this._freeCells).filter(function(key) { return inside.includes(key) == false; });
+        if (free == false) cells = cells.concat(Object.keys(this._walls).filter(function(key) { return inside.includes(key) == false }));
+
+        return cells;
+    };
+
+    /**
+     * Pick a random free cell and plop down the staircase up/out
+     */
     this.genEntrance = function()
     {
         var entrance = Object.keys(this._freeCells)[Math.floor(Math.random() * Object.keys(this._freeCells).length)];
@@ -102,7 +147,15 @@ App.Rogue.Level = function() {
         this._freeCells[entrance] = new App.Rogue.Entity({ ch:'O', fg:'#3f3', bg:null})
 
     };
-    
+
+    /**
+     * Pick a random free cell minimum distance of 10 spaces away
+     */
+    this.genExit = function()
+    {
+
+    };
+
     this.getEntrance = function() { return this._entrance; };
     
     this.setEntity = function(entity, xy) {
