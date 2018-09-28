@@ -53,6 +53,7 @@ App.Rogue.Engine = new function() {
         level.generateMap(80, 40);
         level.fillBorders(80, 40);
         level.genEntrance();
+        level.genExit();
         return level;
     };
 

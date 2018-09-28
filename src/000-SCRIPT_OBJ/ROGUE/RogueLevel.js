@@ -149,11 +149,16 @@ App.Rogue.Level = function() {
     };
 
     /**
-     * Pick a random free cell minimum distance of 10 spaces away
+     * Pick a random free cell minimum distance of 30 spaces away
      */
     this.genExit = function()
     {
-
+        if(typeof this._entrance === 'undefined') this.genEntrance();
+        var cells = this.cellsOutsideRadius(this._entrance.x, this._entrance.y, 30, true);
+        var exit = cells[Math.floor(Math.random() * cells.length)];
+        this._exit = new App.Rogue.XY();
+        this._exit.setStr(exit);
+        this._freeCells[exit] = new App.Rogue.Entity(( { ch:'X', fg: '#1ABC9C', bg:null}))
     };
 
     this.getEntrance = function() { return this._entrance; };
