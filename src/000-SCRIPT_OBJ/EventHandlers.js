@@ -7,7 +7,7 @@ App.EventHandlers = new function() {
 
       // Add a hyperlink to run back to your Cabin when it's very, very late.
           $(document).on(':passagerender', function (ev) {
-              if (App.EventHandlers.exists("SugarCube.setup.player")) {
+              if (App.EventHandlers.HasPlayerState() == true) {
                   if (SugarCube.setup.player.Phase >= 4) {
                       $(ev.content).wiki("<<lateNightTeleport>>");
                   }
@@ -21,6 +21,14 @@ App.EventHandlers = new function() {
       //          }
       //
       //      });
+    };
+
+    /**
+     * Do we have a player state and a player object?
+     * @returns {boolean}
+     */
+    this.HasPlayerState = function() {
+        return (this.exists("Sugarcube.setup.player") == true && this.exists("Sugarcube.State.variables.PlayerState") == true);
     };
 
     this.exists = function(namespace)

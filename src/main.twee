@@ -16,6 +16,7 @@ setup.player = new App.Entity.Player();
 
 // Override navigation on death.
 Config.navigation.override = function (passageName) {
+        if (App.EventHandlers.HasPlayerState() == false) return; //ignore these checks if there is no player state.
         if (setup.player.GetStat("STAT", "Health") <= 0) {
             State.temporary.followup = passageName;
             return "DeathEnd";

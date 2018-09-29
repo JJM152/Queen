@@ -1386,7 +1386,7 @@ App.EventHandlers = new function() {
 
       // Add a hyperlink to run back to your Cabin when it's very, very late.
           $(document).on(':passagerender', function (ev) {
-              if (App.EventHandlers.exists("SugarCube.setup.player")) {
+              if (App.EventHandlers.HasPlayerState() == true) {
                   if (SugarCube.setup.player.Phase >= 4) {
                       $(ev.content).wiki("<<lateNightTeleport>>");
                   }
@@ -1400,6 +1400,14 @@ App.EventHandlers = new function() {
       //          }
       //
       //      });
+    };
+
+    /**
+     * Do we have a player state and a player object?
+     * @returns {boolean}
+     */
+    this.HasPlayerState = function() {
+        return (this.exists("Sugarcube.setup.player") == true && this.exists("Sugarcube.State.variables.PlayerState") == true);
     };
 
     this.exists = function(namespace)
@@ -28632,6 +28640,7 @@ setup.player = new App.Entity.Player();
 
 // Override navigation on death.
 Config.navigation.override = function (passageName) {
+        if (App.EventHandlers.HasPlayerState() == false) return; //ignore these checks if there is no player state.
         if (setup.player.GetStat("STAT", "Health") <= 0) {
             State.temporary.followup = passageName;
             return "DeathEnd";
