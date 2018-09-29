@@ -3,7 +3,7 @@
 <<set _JobTitle = $args[0].Title(true); >>
 <<click _JobTitle "SelfJobs">>
 <<set $MenuAction = $args[0]>>
-<<if not tags().contains("custom-menu")>><<set $GameBookmark = passage(); >><</if>>
+<<if tags().includes("custom-menu") == false;>><<set $GameBookmark = passage();>><</if>>
 <</click>>
 <</nobr>><</widget>>
 

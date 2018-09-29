@@ -30350,9 +30350,10 @@ Your available options are: Attract customers using your &lt;&lt;print _PR.Color
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="160" name="customMenuLink" tags="widget" position="1225,1975">&lt;&lt;widget &quot;customMenuLink&quot;&gt;&gt;\
-&lt;&lt;click $args[0] $args[0]&gt;&gt;
+&lt;&lt;link $args[0]&gt;&gt;
 &lt;&lt;if def $args[1]&gt;&gt;&lt;&lt;set $MenuAction = $args[1]&gt;&gt;&lt;&lt;/if&gt;&gt;\
-&lt;&lt;if not tags().contains(&quot;custom-menu&quot;)&gt;&gt;&lt;&lt;set $GameBookmark = passage(); &gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/click&gt;&gt;\
+&lt;&lt;if tags().includes(&quot;custom-menu&quot;) == false;&gt;&gt;&lt;&lt;set $GameBookmark = passage();&gt;&gt;&lt;&lt;/if&gt;&gt;\
+&lt;&lt;goto $args[0]&gt;&gt;&lt;&lt;/link&gt;&gt;\
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="161" name="lateNightTeleport" tags="widget" position="100,2100">&lt;&lt;widget &quot;lateNightTeleport&quot;&gt;&gt;\
 &lt;&lt;if (!tags().contains(&quot;custom-menu&quot;) &amp;&amp; !tags().contains(&quot;no-teleport&quot;))&gt;&gt;
 It&#39;s getting kind of late... [[head back to the Mermaid|Cabin]]&lt;&lt;/if&gt;&gt;\

@@ -12,7 +12,7 @@
         <<set $MenuAction = _NPC>>
         <<run setup.player.AdjustStat("Energy", -1);>>
         <<run setup.player.NextPhase(1);>>
-        <<if not tags().contains("custom-menu")>><<set $GameBookmark = passage(); >><</if>><</click>> - [@@color:lime;Time 1@@, @@color:yellow;Energy 1@@]
+        <<if tags().includes("custom-menu") == false;>><<set $GameBookmark = passage();>><</if>><</click>> - [@@color:lime;Time 1@@, @@color:yellow;Energy 1@@]
     <</if>>
 <<else>>
     @@color:grey;Shop - closed@@
