@@ -6824,11 +6824,17 @@ App.Rogue.Player = function() {
 
             // Use a light
             if (code == ROT.VK_SLASH || code == ROT.VK_DIVIDE) {
-                console.log("Lighting torch...");
-                this._lightLevel = 10;
-                this._lightDuration = 100;
-                App.Rogue.Engine._drawWithLight(this._xy);
-                return true;
+                var torch = setup.player.GetItemByName("torch");
+                if (typeof torch !== 'undefined') {
+                    setup.player.UseItem(torch.Id()); // draw down a charge
+                    App.Rogue.Engine._textBuffer.write("You light a torch.");
+                    this._lightLevel = 10;
+                    this._lightDuration = 100;
+                    App.Rogue.Engine._drawWithLight(this._xy);
+                    return true;
+                } else {
+                    App.Rogue.Engine._textBuffer.write("You don't have any torches!");
+                }
             }
 
             var direction = this._keys[code];
