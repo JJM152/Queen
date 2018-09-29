@@ -9,6 +9,8 @@ App.Data.Stores["GOLDEN_GOODS"] =  {
         { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":   10,     "MAX":   10,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "basic makeup"           },
         { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":   10,     "MAX":   10,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "hair products"          },
         { "CATEGORY":   "COMMON",   "TYPE": "DRUGS",        "QTY":    8,     "MAX":    8,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "medicinal herbs"        },
+        { "CATEGORY":   "COMMON",   "TYPE": "MISC_CONSUMABLE","QTY": 10,     "MAX":   20,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "torch"                  },
+        { "CATEGORY":   "COMMON",   "TYPE": "MISC_CONSUMABLE","QTY":  8,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "shovel"                 },
 		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "black hair dye"   	     },
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate boots"           },
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pirate bra"             },
