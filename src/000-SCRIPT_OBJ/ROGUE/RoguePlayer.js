@@ -1,15 +1,15 @@
 App.Rogue = App.Rogue || { };
 
 // Player Code.
-App.Rogue.Player = function(Player) {
+App.Rogue.Player = function() {
 
-    this._player = Player;
     this._visual = {ch:"@", fg:"deepPink"};
     this._xy = null;
     this._level = null;
     this._speed = 100;
     this._hp = 10;
-    this._lightLevel = 10;
+    this._lightLevel = 1;
+    this._lightDuration = 0;
 
     this._keys = {};
     this._keys[ROT.VK_K] = 0;
@@ -35,14 +35,22 @@ App.Rogue.Player = function(Player) {
 
     this._keys[ROT.VK_PERIOD] = -1;
     this._keys[ROT.VK_CLEAR] = -1;
+
+    // Ascend / Descend
     this._keys[ROT.VK_NUMPAD5] = -1;
+    this._keys[ROT.VK_DIVIDE] = -1;
+    // Use torch
+    this._keys[ROT.VK_SLASH] = -1;
+    // Dig here.
+    this._keys[ROT.VK_ASTERISK] = -1;
 
     this.act = function() {
         console.log("Player:act() called");
         App.Rogue.Engine._textBuffer.write("It is your turn, press any relevant key.");
         App.Rogue.Engine._textBuffer.flush();
         App.Rogue.Engine._engine.lock();
-        window.addEventListener("keydown", this);
+       // window.addEventListener("keydown", this);
+        $(document).on("keydown", this.handleEvent.bind(this));
     };
 
     this.die = function() {
@@ -56,12 +64,15 @@ App.Rogue.Player = function(Player) {
         var keyHandled = this._handleKey(e.keyCode);
 
         if (keyHandled) {
-            window.removeEventListener("keydown", this);
+            $(document).off("keydown");
+            //window.removeEventListener("keydown", this);
             App.Rogue.Engine._engine.unlock();
         }
     };
 
     this._handleKey = function(code) {
+
+        console.log("code="+code);
 
         if (code in this._keys) {
             App.Rogue.Engine._textBuffer.clear();
@@ -74,6 +85,15 @@ App.Rogue.Player = function(Player) {
                 } else if (this.getXY().toString() == this._level.getExit().toString()) {
                     App.Rogue.Engine.Descend();
                 }
+                return true;
+            }
+
+            // Use a light
+            if (code == ROT.VK_SLASH || code == ROT.VK_DIVIDE) {
+                console.log("Lighting torch...");
+                this._lightLevel = 10;
+                this._lightDuration = 100;
+                App.Rogue.Engine._drawWithLight(this._xy);
                 return true;
             }
 
@@ -91,6 +111,8 @@ App.Rogue.Player = function(Player) {
                 return true;
             }
 
+            if (this._lightDuration > 0) this._lightDuration--;
+            if (this._lightDuration < 1) this._lightLevel = 1;
             this._level.setEntity(this, xy);
             App.Rogue.Engine.redraw(xy);
             return true;

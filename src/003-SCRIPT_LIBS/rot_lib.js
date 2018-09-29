@@ -1962,17 +1962,17 @@
          * Resume execution (paused by a previous lock)
          */
         ROT.Engine.prototype.unlock = function() {
-            console.log("Rot.Engine.unlock() called");
+            //console.log("Rot.Engine.unlock() called");
             if (!this._lock) { throw new Error("Cannot unlock unlocked engine"); }
             this._lock--;
-            console.log("Lock="+this._lock);
+            //console.log("Lock="+this._lock);
             while (!this._lock) {
                 var actor = this._scheduler.next();
-                console.log(actor);
+                //console.log(actor);
                 if (!actor) { return this.lock(); } /* no actors */
-                console.log("Rot.Engine.unlock: Calling actor.act()...");
+                //console.log("Rot.Engine.unlock: Calling actor.act()...");
                 var result = actor.act();
-                console.log("Result="+result);
+                //console.log("Result="+result);
                 if (result && result.then) { /* actor returned a "thenable", looks like a Promise */
                     this.lock();
                     result.then(this.unlock.bind(this));

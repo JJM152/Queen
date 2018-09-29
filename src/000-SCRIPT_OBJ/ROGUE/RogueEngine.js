@@ -19,9 +19,9 @@ App.Rogue.Engine = new function() {
     this._lastDrawnCells = [ ];
     this._currentDrawnCells = [ ];
 
-    this.LoadScene = function(Player, Element, ExitPassage) {
+    this.LoadScene = function(Element, ExitPassage) {
         this._element = Element;
-        this._player = new App.Rogue.Player(Player);
+        this._player = new App.Rogue.Player();
         this._passage = ExitPassage;
         this._scheduler = new ROT.Scheduler.Speed();
         this._engine = new ROT.Engine(this._scheduler);
@@ -59,8 +59,7 @@ App.Rogue.Engine = new function() {
         }
     };
 
-    this.DrawUI = function(Player) {
-        if (typeof Player !== 'undefined') this._player = new App.Rogue.Player(Player);
+    this.DrawUI = function() {
         $(document).one(":passageend", this._DrawUICB.bind(this));
     };
 

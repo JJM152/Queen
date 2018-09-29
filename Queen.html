@@ -6348,9 +6348,9 @@ App.Rogue.Engine = new function() {
     this._lastDrawnCells = [ ];
     this._currentDrawnCells = [ ];
 
-    this.LoadScene = function(Player, Element, ExitPassage) {
+    this.LoadScene = function(Element, ExitPassage) {
         this._element = Element;
-        this._player = new App.Rogue.Player(Player);
+        this._player = new App.Rogue.Player();
         this._passage = ExitPassage;
         this._scheduler = new ROT.Scheduler.Speed();
         this._engine = new ROT.Engine(this._scheduler);
@@ -6388,8 +6388,7 @@ App.Rogue.Engine = new function() {
         }
     };
 
-    this.DrawUI = function(Player) {
-        if (typeof Player !== 'undefined') this._player = new App.Rogue.Player(Player);
+    this.DrawUI = function() {
         $(document).one(":passageend", this._DrawUICB.bind(this));
     };
 
@@ -6725,15 +6724,15 @@ App.Rogue.Level = function(depth) {
 App.Rogue = App.Rogue || { };
 
 // Player Code.
-App.Rogue.Player = function(Player) {
+App.Rogue.Player = function() {
 
-    this._player = Player;
     this._visual = {ch:"@", fg:"deepPink"};
     this._xy = null;
     this._level = null;
     this._speed = 100;
     this._hp = 10;
-    this._lightLevel = 10;
+    this._lightLevel = 1;
+    this._lightDuration = 0;
 
     this._keys = {};
     this._keys[ROT.VK_K] = 0;
@@ -6759,14 +6758,22 @@ App.Rogue.Player = function(Player) {
 
     this._keys[ROT.VK_PERIOD] = -1;
     this._keys[ROT.VK_CLEAR] = -1;
+
+    // Ascend / Descend
     this._keys[ROT.VK_NUMPAD5] = -1;
+    this._keys[ROT.VK_DIVIDE] = -1;
+    // Use torch
+    this._keys[ROT.VK_SLASH] = -1;
+    // Dig here.
+    this._keys[ROT.VK_ASTERISK] = -1;
 
     this.act = function() {
         console.log("Player:act() called");
         App.Rogue.Engine._textBuffer.write("It is your turn, press any relevant key.");
         App.Rogue.Engine._textBuffer.flush();
         App.Rogue.Engine._engine.lock();
-        window.addEventListener("keydown", this);
+       // window.addEventListener("keydown", this);
+        $(document).on("keydown", this.handleEvent.bind(this));
     };
 
     this.die = function() {
@@ -6780,12 +6787,15 @@ App.Rogue.Player = function(Player) {
         var keyHandled = this._handleKey(e.keyCode);
 
         if (keyHandled) {
-            window.removeEventListener("keydown", this);
+            $(document).off("keydown");
+            //window.removeEventListener("keydown", this);
             App.Rogue.Engine._engine.unlock();
         }
     };
 
     this._handleKey = function(code) {
+
+        console.log("code="+code);
 
         if (code in this._keys) {
             App.Rogue.Engine._textBuffer.clear();
@@ -6798,6 +6808,15 @@ App.Rogue.Player = function(Player) {
                 } else if (this.getXY().toString() == this._level.getExit().toString()) {
                     App.Rogue.Engine.Descend();
                 }
+                return true;
+            }
+
+            // Use a light
+            if (code == ROT.VK_SLASH || code == ROT.VK_DIVIDE) {
+                console.log("Lighting torch...");
+                this._lightLevel = 10;
+                this._lightDuration = 100;
+                App.Rogue.Engine._drawWithLight(this._xy);
                 return true;
             }
 
@@ -6815,6 +6834,8 @@ App.Rogue.Player = function(Player) {
                 return true;
             }
 
+            if (this._lightDuration > 0) this._lightDuration--;
+            if (this._lightDuration < 1) this._lightLevel = 1;
             this._level.setEntity(this, xy);
             App.Rogue.Engine.redraw(xy);
             return true;
@@ -25098,17 +25119,17 @@ jQuery.extend( jQuery.easing,
          * Resume execution (paused by a previous lock)
          */
         ROT.Engine.prototype.unlock = function() {
-            console.log("Rot.Engine.unlock() called");
+            //console.log("Rot.Engine.unlock() called");
             if (!this._lock) { throw new Error("Cannot unlock unlocked engine"); }
             this._lock--;
-            console.log("Lock="+this._lock);
+            //console.log("Lock="+this._lock);
             while (!this._lock) {
                 var actor = this._scheduler.next();
-                console.log(actor);
+                //console.log(actor);
                 if (!actor) { return this.lock(); } /* no actors */
-                console.log("Rot.Engine.unlock: Calling actor.act()...");
+                //console.log("Rot.Engine.unlock: Calling actor.act()...");
                 var result = actor.act();
-                console.log("Result="+result);
+                //console.log("Result="+result);
                 if (result && result.then) { /* actor returned a "thenable", looks like a Promise */
                     this.lock();
                     result.then(this.unlock.bind(this));
@@ -28981,8 +29002,8 @@ spawns a powerful sense of being watched by invisible, lurking entities somewher
 
 @@color:lime;Travel@@: [[Back to The Salty Mermaid|Deck]] | [[Far Beach|FarBeach]] | [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="118" name="CaveRogueLikeGUI" tags="" position="975,1475">@@color:red;DANGER - WORK IN PROGRESS@@
 @@color:lime;Travel@@:  [[Back to the Cave Entrance|OceanCave]]
-&lt;&lt;run App.Rogue.Engine.LoadScene(setup.player,&quot;#passage-caveroguelikegui&quot;, &quot;OceanCave&quot;);&gt;&gt;\
-&lt;&lt;run App.Rogue.Engine.DrawUI(setup.player);&gt;&gt;</tw-passagedata><tw-passagedata pid="119" name="FarBeach" tags="" position="1100,1475">The northern beach of Abamond comes to an abrupt end at a large rock face that has been so beaten down by the crashing sea that you cannot find any purchase to climb. Despite that, you do notice that there are some small openings -- caves by the look of it -- that dot the meridian between the sandy beach and the cliffs above. Off in the distance you can still see the massive @@color:gold;&#39;Lonely Pier&#39;@@.
+&lt;&lt;run App.Rogue.Engine.LoadScene(&quot;#passage-caveroguelikegui&quot;, &quot;OceanCave&quot;);&gt;&gt;\
+&lt;&lt;run App.Rogue.Engine.DrawUI();&gt;&gt;</tw-passagedata><tw-passagedata pid="119" name="FarBeach" tags="" position="1100,1475">The northern beach of Abamond comes to an abrupt end at a large rock face that has been so beaten down by the crashing sea that you cannot find any purchase to climb. Despite that, you do notice that there are some small openings -- caves by the look of it -- that dot the meridian between the sandy beach and the cliffs above. Off in the distance you can still see the massive @@color:gold;&#39;Lonely Pier&#39;@@.
 
 @@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[Explore the caves|OceanCave]]</tw-passagedata><tw-passagedata pid="120" name="HiddenCove" tags="" position="1225,1475">&lt;&lt;set _Quest = window.App.QuestEngine; &gt;&gt;\
 This hidden cove is easily missed from the sea, being concealed between two massive sheer rock faces and a small atoll of overgrown trees. The path from the jungle leads to a small secluded beach, the waves lazily drifting against its rocky shore. It&#39;s apparent that someone has made a camp here recently as you can still see the remains of a cooking fire with several fish bones strewn haphazardly near by.
