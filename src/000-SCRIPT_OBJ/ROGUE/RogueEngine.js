@@ -16,6 +16,8 @@ App.Rogue.Engine = new function() {
     this._passage = null;
     this._depth = 1;
     this._maxDepth = 100;
+    this._lastDrawnCells = [ ];
+    this._currentDrawnCells = [ ];
 
     this.LoadScene = function(Player, Element, ExitPassage) {
         this._element = Element;
@@ -28,11 +30,9 @@ App.Rogue.Engine = new function() {
         this._sideBar = new App.Rogue.Sidebar(this._display);
 
         var level =  this._genLevel(this._depth);
-        var size = level.getSize();
 
         this._switchLevel(level);
 
-        this._level.setEntity(this._player, this._level.getEntrance());
     };
 
     /** @returns {number} */
@@ -44,7 +44,6 @@ App.Rogue.Engine = new function() {
         console.log("Moving to depth:"+this._depth);
         var level = this._genLevel(this._depth);
         this._switchLevel(level);
-        this._level.setEntity(this._player, this._level.getEntrance());
     };
 
     this.Ascend = function() {
@@ -57,7 +56,6 @@ App.Rogue.Engine = new function() {
         } else {
             var level = this._genLevel(this._depth);
             this._switchLevel(level);
-            this._level.setEntity(this._player, this._level.getEntrance());
         }
     };
 
@@ -67,9 +65,16 @@ App.Rogue.Engine = new function() {
     };
 
     this.draw = function(xy) {
+        console.log("Drawing="+xy);
+        console.log(xy);
         var entity = this._level.getEntityAt(xy);
         var visual = entity.getVisual();
         this._display.draw(xy.x, xy.y, visual.ch, visual.fg, visual.bg);
+    };
+
+    this.redraw = function(xy) {
+        this._lastDrawnCells = this._currentDrawnCells;
+        this._drawWithLight(xy);
     };
 
     this.over = function() {
@@ -88,8 +93,9 @@ App.Rogue.Engine = new function() {
 
     this._switchLevel = function(level) {
         this._scheduler.clear();
-
         this._level = level;
+        this._level.setEntity(this._player, this._level.getEntrance());
+
         var size = this._level.getSize();
 
         var bufferSize = 3;
@@ -113,45 +119,8 @@ App.Rogue.Engine = new function() {
 
         this._textBuffer.clear();
 
-        var xy = new App.Rogue.XY();
-        var parts = "";
-        var key = "";
-        // Draw walls.
-        var cells = this._level.getWalls();
-        for (key in cells)
-        {
-            if (cells.hasOwnProperty(key)) {
-                parts = key.split(",");
-                xy.x = parseInt(parts[0]);
-                xy.y = parseInt(parts[1]);
-                this.draw(xy);
-            }
-        }
-
-        // Draw open spaces.
-        cells = this._level.getFreeCells();
-        for (key in cells)
-        {
-            if (cells.hasOwnProperty(key)) {
-                parts = key.split(",");
-                xy.x = parseInt(parts[0]);
-                xy.y = parseInt(parts[1]);
-                this.draw(xy);
-            }
-        }
-
-        // Draw borders.
-
-        cells = this._level.getBorders();
-        for (key in cells)
-        {
-            if (cells.hasOwnProperty(key)) {
-                parts = key.split(",");
-                xy.x = parseInt(parts[0]);
-                xy.y = parseInt(parts[1]);
-                this.draw(xy);
-            }
-        }
+        this._display.clear();
+        this._drawWithLight(this._level.getEntrance());
 
         /* add new beings to the scheduler */
         var beings = this._level.getBeings();
@@ -161,6 +130,32 @@ App.Rogue.Engine = new function() {
         }
     };
 
+    this._drawWithLight = function(pxy) {
+        this._currentDrawnCells = this._level.cellsAtRadius( pxy.x, pxy.y, this._player._lightLevel, false );
+        for (var i = 0; i < this._currentDrawnCells.length; i++) {
+            var xy = new App.Rogue.XY();
+            xy.setStr(this._currentDrawnCells[i]);
+            this.draw(xy);
+        }
+
+        if (this._lastDrawnCells.length > 0 ) {
+            var mapped = this._mapCells(this._currentDrawnCells, this._lastDrawnCells);
+            this._drawBlank(mapped);
+        }
+    };
+
+    this._mapCells = function( dest, source ) {
+        return source.filter(function(key) { return dest.includes(key) == false; });
+    };
+
+    this._drawBlank = function(cells)
+    {
+        for (var i = 0; i < cells.length; i++) {
+            var xy = new App.Rogue.XY();
+            xy.setStr(cells[i]);
+            this._display.draw(xy.x, xy.y, null, null, null);
+        }
+    };
     /** CALL BACKS **/
 
     this._DrawUICB = function() {

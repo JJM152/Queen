@@ -9,6 +9,7 @@ App.Rogue.Player = function(Player) {
     this._level = null;
     this._speed = 100;
     this._hp = 10;
+    this._lightLevel = 10;
 
     this._keys = {};
     this._keys[ROT.VK_K] = 0;
@@ -91,6 +92,7 @@ App.Rogue.Player = function(Player) {
             }
 
             this._level.setEntity(this, xy);
+            App.Rogue.Engine.redraw(xy);
             return true;
         }
 

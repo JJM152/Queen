@@ -51,7 +51,7 @@ App.Rogue.Level = function(depth) {
         }
     };
     this._connectCB = function( from, to) {
-        console.log("from="+from+", to="+to);
+        //console.log("from="+from+", to="+to);
         //this._cells[from] = new App.Rogue.Entity( { ch:"X", fg:"#777", bg:null });
         //this._cells[to] = new App.Rogue.Entity( { ch:"O", fg:"#777", bg:null });
     };
@@ -105,14 +105,14 @@ App.Rogue.Level = function(depth) {
         var startY = Math.max( 0,(y - r));
         var endY = Math.min( this._size.y - 1, (y + r));
 
-        console.log("startY="+startY+",endY="+endY);
+       // console.log("startY="+startY+",endY="+endY);
 
         for(var row = startY ; row <= endY ; row++){
 
             var rangeX = r - Math.abs(row - y);
             var startX = Math.max(0, (x - rangeX));
             var endX = Math.min(this._size.x - 1, (x + rangeX));
-            console.log("rangeX"+rangeX+",startX="+startX+",endX="+endX);
+            //console.log("rangeX"+rangeX+",startX="+startX+",endX="+endX);
 
             for(var col = startX ; col <= endX ; col++){
                 var xy = col+","+row;
