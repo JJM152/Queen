@@ -12,6 +12,7 @@ App.Item = new function() {
         if (Type == "DRUGS") return App.Data.Drugs;
         if (Type == "FOOD") return App.Data.Food;
         if (Type == "COSMETICS") return App.Data.Cosmetics;
+        if (Type == "MISC_CONSUMABLE") return App.Data.Misc;
         if (Type == "CLOTHES") return App.Data.Clothes;
         if (Type == "WEAPON") return App.Data.Clothes;
         if (Type == "STORE") return App.Data.Stores;
@@ -85,6 +86,7 @@ App.Item = new function() {
                 }
                 break;
             case 'COSMETICS':
+            case 'MISC_CONSUMABLE':
                 price = (typeof d["VALUE"] !== 'undefined') ? d["VALUE"] : 25;
                 break;
             case 'CLOTHES':
@@ -178,6 +180,7 @@ App.Item = new function() {
             case 'DRUGS': d = App.Data.Drugs; break;
             case 'FOOD' : d = App.Data.Food; break;
             case 'COSMETICS': d = App.Data.Cosmetics; break;
+            case 'MISC_CONSUMABLE': d = App.Data.Misc; break;
             case 'WEAPON':
             case 'CLOTHES': d = App.Data.Clothes; break;
             case 'REEL': d = App.Data.Slots; break;
@@ -262,7 +265,7 @@ App.Item = new function() {
 
         if (Type == "QUEST") o = new this.QuestItem(d);
 
-        if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" ) o = new this.Consumable(d);
+        if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" || Type == 'MISC_CONSUMABLE') o = new this.Consumable(d);
         if ((Count != 0) && (typeof d["Charges"] !== 'undefined')) o.Data["Charges"] = Count;
 
         return o;
@@ -283,7 +286,7 @@ App.Item = new function() {
         var Table       = App.Data.LootTables[Type];
         var output      = "";
 
-        if (Player.debugMode == true)
+        if (Player.debugMode() == true)
         console.log("DoLootBox: Type="+Type+", Minimum="+Minimum+", Bonus="+Bonus);
 
         DiceRoll = ( DiceRoll + Bonus) < Minimum ? Minimum : (DiceRoll + Bonus);
