@@ -151,6 +151,355 @@ App.Entity.PlayerState = function (){
     this.CurrentSlots = 3; // Starting allocation of whoring
 };
 
+/**
+ * Provides convinient methods for inspecting an inventory objects (@see App.Entity.PlayerState.Inventory
+ *  and below the Player class).
+ *
+ * Might be used by NPCs in a future version, thus is not part of the Player class.
+ *
+ * This object is not meant to be serialized by SugarCube
+ */
+App.Entity.InventoryManager = class InventoryManager {
+    /**
+     *
+     * @param {App.Entity.PlayerState} stateObj
+     */
+    constructor(stateObj) {
+        this._state = stateObj;
+        this._MAX_ITEM_CHARGES = 100;
+
+        // create item objects for each record
+        this._items = {};
+        this._ForEachItemRecord(undefined, undefined, function(charges, name, itemClass) {
+            this._ensureWrapObjectExists(itemClass, name, charges);
+        }, this);
+
+        this._reelInSlots = {};
+        for (var slot in this._state.Slots) {
+            if (!this._state.Slots.hasOwnProperty(slot)) continue;
+            if (this._state.Slots[slot] == null) {
+                this._reelInSlots[slot] = null;
+            } else {
+                this._reelInSlots[slot] = App.Item.Factory("REEL", this._state.Slots[slot], this);
+            }
+        }
+    }
+
+    /**
+     * Looks through all classes for item with the given name and returns the itme class
+     * @param {boolean} [FindAll] return all matching items (the first one otherwise)
+     * @returns {string|string[]}
+     * @private
+     * TODO refactor the loop to exit early if FindAll = true
+     */
+    _FindItemClass(Name, FindAll) {
+        var res = [];
+        Object.keys(this._state.Inventory).forEach(function(type) {
+            if (!this._state.Inventory.hasOwnProperty(type)) return;
+            if (this._state.Inventory[type].hasOwnProperty(Name)) {
+                res.push(type);
+            }
+        });
+        if (res.length == 0) return undefined;
+        return FindAll == true ? res[0] : res;
+    }
+
+    /**
+     * @callback forEachCallback
+     * @param {number} charges
+     * @param {string} name
+     * @param {string} itemClass
+     */
+
+    /**
+     * @param {string} ItemClass
+     * @param {string} Name
+     * @param {forEachCallback} func
+     * @param {*} [thisObj]
+     * @private
+     */
+    _ForEachItemRecord(Name, ItemClass, func, thisObj) {
+        var types = ItemClass == undefined ? Object.keys(this._state.Inventory) : [ItemClass];
+        types.forEach(function(type) {
+            if (!this._state.Inventory.hasOwnProperty(type)) return;
+            if (Name != undefined) {
+                if (this._state.Inventory[type].hasOwnProperty(Name)) {
+                    func.call(thisObj, this._state.Inventory[type][Name], Name, type);
+                }
+            } else {
+                for (var n in this._state.Inventory[type]) {
+                    if (!this._state.Inventory[type].hasOwnProperty(n)) continue;
+                    func.call(thisObj, this._state.Inventory[type][n], n, type);
+                }
+            }
+        }, this);
+    }
+
+    /**
+     *
+     * @param {string} ItemClass
+     * @param {string} Name
+     * @param {number} Charges
+     * @param {string} [Id]
+     */
+    _ensureWrapObjectExists(ItemClass, Name, Charges, Id){
+        if (Id == undefined) Id = App.Item.MakeId(ItemClass, Name);
+        if (!this._items.hasOwnProperty(Id)) {
+            this._items[Id] = App.Item.Factory(ItemClass, Name, this, 0); // charges is stored already, hence '0' to prevent stack overflowing
+        }
+        return this._items[Id];
+    }
+
+    /**
+     * @returns {App.Item[]}
+     */
+    filter(func, thisObj) {
+        var res = [];
+        this._ForEachItemRecord(undefined, undefined, function(ch, nm, cl){
+            var itemId = App.Item.MakeId(cl, nm);
+            var itemWrapObj = this._ensureWrapObjectExists(cl, nm, ch, itemId);
+            if (func.call(thisObj, itemWrapObj) == true) res.push(itemWrapObj);
+        }, this);
+        return res;
+    }
+
+    /**
+     * @param {string} ItemClass
+     * @param {string} Name
+     * @returns {number}
+     */
+    Charges(ItemClass, Name) {
+        var res = 0;
+        this._ForEachItemRecord(Name, ItemClass, function(n) { res += n;});
+        return res;
+    }
+
+    /**
+     *
+     * @param {string} Name
+     * @param {string} Type
+     * @param {number} Count
+     * @returns {number}
+     */
+    SetCharges(ItemClass, Name, Count) {
+        var cl = (ItemClass == undefined) ? this._FindItemClass(Name) : ItemClass;
+        var clamped = Math.clamp(Math.floor(Count), 0, this._MAX_ITEM_CHARGES);
+        if (clamped == 0 && this._state.Inventory.hasOwnProperty(cl) && this._state.Inventory[cl].hasOwnProperty(Name)) {
+            delete this._state.Inventory[cl][Name];
+            delete this._items[App.Item.MakeId(cl, Name)];
+        } else {
+            if (!this._state.Inventory.hasOwnProperty(cl)) this._state.Inventory[cl] = {};
+            this._state.Inventory[cl][Name] = clamped;
+            this._ensureWrapObjectExists(ItemClass, Name, clamped);
+        }
+        return clamped;
+    }
+
+    /**
+     * Adds (or removes) charges to a given item. If item is not in the inventory and Amount > 0, item record is created.
+     * If Amount < 0, resulting number of charges does not go below zero.
+     * @param {string} Name
+     * @param {number} Amount
+     * @param {string} ItemClass
+     * @returns {number} new number of charges
+     */
+    AddCharges(ItemClass, Name, Amount){
+        var cl = (ItemClass == undefined) ? this._FindItemClass(Name) : ItemClass;
+        if (cl == undefined) throw Error("No item named '" + Name + "'");
+        if (!this._state.Inventory.hasOwnProperty(cl)) this._state.Inventory[cl] = {};
+        if (!this._state.Inventory[cl].hasOwnProperty(Name)) {
+            this._state.Inventory[cl][Name] = 0;
+        }
+        return this.SetCharges(cl,Name, this._state.Inventory[cl][Name] + Amount);
+    }
+
+    /**
+     * @param {string} ItemClass
+     * @param {string} Name
+     * @param {number} Charges
+     * @returns {App.Item}
+     */
+    AddItem(ItemClass, Name, Charges) {
+        this.SetCharges(ItemClass, Name, Charges == undefined ? 1 : Charges);
+        return this._items[App.Item.MakeId(ItemClass, Name)];
+    }
+
+    /**
+     * @param {string} Id
+     */
+    RemoveItem(Id) {
+        var n = App.Item.SplitId(Id);
+        this.SetCharges(n.Category, n.Name, 0);
+    }
+
+    /**
+    * Attempt to pick a reel from inventory by Id() and then equip it to a slot. It will remove any reel
+    * equipped in that slot and place it back in the inventory.
+    * @param {string} toEquipID
+    * @param {string} reelSlot
+    */
+    EquipReel(toEquipID, reelSlot ) {
+        var nm = App.Item.SplitId(toEquipID);
+        this.AddCharges(nm.Category, nm.Name, -1);
+
+        if (this._state.Slots[reelSlot] != null) {
+            this.AddCharges("REEL", this._state.Slots[reelSlot], 1);
+        }
+
+        this._state.Slots[reelSlot] = nm.Name;
+        this._reelInSlots[reelSlot] = App.Item.Factory(nm.Category, nm.Name, this);
+    }
+
+    /**
+     * Remove an equipped reel and place it in the inventory.
+     * @param slotID
+     */
+    RemoveReel(slotID) {
+        if ( (typeof this._state.Slots[slotID] !== 'undefined') && (this._state.Slots[slotID] != null)) {
+            this.AddCharges("REEL", this._state.Slots[slotID], 1);
+            this._state.Slots[slotID] = null;
+            this._reelInSlots[slotID] = null;
+        }
+    }
+
+    /**
+    * Turn the equipped reels into an array to iterate/read.
+    * @returns {Array.<App.Item.Reel>}
+    */
+    EquipedReelItems() {
+       var arr = Object.values(this._reelInSlots).filter(function(o) { return (typeof o !== 'undefined') && (o != null); });
+       return (typeof arr === 'undefined') ? [ ] : arr;
+    }
+
+    ReelSlots() {
+        return this._reelInSlots;
+    }
+};
+
+App.Entity.ClothingManager = class ClothingManager {
+
+    /**
+     * Creates object for tracking equipment state
+     * @param {string} Id
+     * @param {boolean} [isLocked]
+     */
+    static EquipmentRecord(Id, isLocked) {
+        return {ID: Id, Locked: isLocked == undefined ? false : isLocked};
+    }
+    /**
+     *
+     * @param {string[]} wardrobe
+     * @param {*} equipment
+     */
+    constructor(wardrobe, equipment) {
+        this._wardrobe = wardrobe;
+        this._equipment = equipment;
+
+        /** @type {App.Items.Clothing[]} */
+        this._wardrobeItems = [];
+        for (var i = 0; i < this._wardrobe.length; ++i) {
+            // wardrobe lists item ids
+            var t = App.Item.SplitId(this._wardrobe[i]);
+            this._ensureWrapObjectExists(t.Name);
+        }
+
+        this._equipedItems = {};
+        for (var prop in this._equipment) {
+            if (!this._equipment.hasOwnProperty(prop)) continue;
+            if (this._equipment[prop] == 0) {this._equipedItems[prop] = 0; continue; }
+            var n = App.Item.SplitId(this._equipment[prop].ID);
+            this._equipedItems[prop] = App.Item.Factory(n.Category, n.Name, this);
+            this._equipedItems[prop].SetIsLocked(this._equipment[prop].Locked);
+        }
+    }
+
+    _ensureWrapObjectExists(Name, Id){
+        if (Id == undefined) Id = App.Item.MakeId("CLOTHES", Name);
+        for (var i = 0; i < this._wardrobeItems.length; ++i) {
+            if (this._wardrobeItems[i].Id() == Id) return this._wardrobeItems[i];
+        }
+        this._wardrobeItems.push(App.Item.Factory("CLOTHES", Name, this));
+        return this._wardrobeItems[this._wardrobeItems.length - 1];
+    }
+
+    _isWorn(Id) {
+        for (var prop in this._equipedItems) {
+            if (!this._equipedItems.hasOwnProperty(prop) || this._equipedItems[prop] == 0) continue;
+            if (this._equipedItems[prop].Id() == Id) return true;
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param {string} Id
+     */
+    Wear(Id) {
+        if (this._isWorn(Id)) return;
+
+        for (var i = 0; i < this._wardrobeItems.length; ++i) {
+            if (this._wardrobeItems[i].Id() != Id) continue;
+            var itm = this._wardrobeItems[i];
+            var slot = itm.Slot();
+            if (this._equipedItems[slot] != 0) {
+                // move worn item into the wardrobe
+                this._wardrobeItems.push(this._equipedItems[slot]);
+                this._wardrobe.push(this._equipedItems[slot].Id());
+            }
+            this._equipedItems[slot] = itm;
+            this._wardrobeItems.splice(i, 1);
+            this._equipment[slot] = ClothingManager.EquipmentRecord(itm.Id(), itm.IsLocked());
+            this._wardrobe.splice(i, 1);
+            break;
+        }
+    }
+
+    /**
+     *
+     * @param {string} Id
+     */
+    TakeOff(Id) {
+        for (var prop in this._equipedItems) {
+            if (!this._equipedItems.hasOwnProperty(prop) || this._equipedItems[prop].Id() != Id) continue;
+            var itm = this._equipedItems[prop];
+            this._equipedItems[prop] = 0;
+            this._equipment[prop] = 0;
+            this._wardrobeItems.push(itm);
+            this._wardrobe.push(itm.Id()); // push(Id) ?
+            break;
+        }
+    }
+
+    /**
+     *
+     * @param {string} Name
+     * @param {boolean} [Wear]
+     * @returns {App.Items.Clothing}
+     */
+    AddItem(Name, Wear) {
+        var item = App.Item.Factory("CLOTHES", Name, this);
+        this._wardrobe.push(item.Id());
+        if (Wear == true) {
+            this.Wear(item.Id());
+        }
+        return item;
+    }
+
+    /**
+     * @return {App.Items.Clothing[]}
+     */
+    get Wardrobe() {
+        return this._wardrobeItems;
+    }
+
+    /**
+     * @return {App.Items.Clothing[]}
+     */
+    get Equipment() {
+        return this._equipedItems;
+    }
+};
+
 //TODO: Contemplating redoing this as an ECMA 5.1 compliant implementation.
 App.Entity.Player = class Player {
     /**
@@ -169,63 +518,73 @@ App.Entity.Player = class Player {
             GfName = window.App.Data.Names["Female"][Math.floor(Math.random() * window.App.Data.Names["Female"].length)];
         }
 
-        this._state.GirlfriendName = GfName;
+		this._state.GirlfriendName = GfName;
 
-        this.SetStartingStats("STAT");
-        this.SetStartingStats("BODY");
-        this.SetStartingStats("SKILL");
+		this.SetStartingStats("STAT");
+		this.SetStartingStats("BODY");
+		this.SetStartingStats("SKILL");
 
-        this._state.Inventory = [
-            window.App.Item.Factory("COSMETICS", "hair accessories",    10),
-            window.App.Item.Factory("COSMETICS", "hair products",       10),
-            window.App.Item.Factory("COSMETICS", "basic makeup",        10),
-            window.App.Item.Factory("REEL", "COMMON_WHORE",             0),
-            window.App.Item.Factory("REEL", "COMMON_WILDCARD",          0),
-            window.App.Item.Factory("REEL", "COMMON_WHORE",             0)
-        ];
-
-        this._state.Equipment = {
-            "Wig":              window.App.Item.Factory("CLOTHES", "cheap wig"),
-            "Hat":              0,
-            "Neck":             window.App.Item.Factory("CLOTHES", "collar"),
-            "Nipples":          0,
-            "Bra":              window.App.Item.Factory("CLOTHES", "chemise"),
-            "Corset":           0,
-            "Panty":            window.App.Item.Factory("CLOTHES", "cotton bloomers"),
-            "Stockings":        window.App.Item.Factory("CLOTHES", "cotton stockings"),
-            "Shirt":            0,
-            "Pants":            0,
-            "Dress":            window.App.Item.Factory("CLOTHES", "cotton dress"),
-            "Costume":          0,
-            "Shoes":            window.App.Item.Factory("CLOTHES", "worn boots"),
-            "Butt":             0,
-            "Penis":            window.App.Item.Factory("CLOTHES", "chastity cage"),
-            "Weapon":           0
+		this._state.Inventory = {
+			"COSMETICS": {
+                "hair accessories": 10,
+                "hair products": 10,
+                "basic makeup": 10
+            },
+            "REEL" : {
+                "COMMON_WHORE": 2,
+                "COMMON_WILDCARD": 1
+            }
         };
 
-        this._state.NPCS = { };
+        // TODO replace with App.Data.Clothes lookup
+        function makeEquipRecord(Name) {
+            var tmp = App.Data.Clothes[Name];
+            return App.Entity.ClothingManager.EquipmentRecord(
+                App.Item.MakeId("CLOTHES", Name), tmp.hasOwnProperty("Locked") ? tmp.Locked : false);
+        }
 
-        this._state.StoreInventory = {
-            "GALLEY":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "CARGO":            { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "ISLATAVERN":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "ISLASTORE":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "SMUGGLERS":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "GOLDEN_GOODS":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "LUSTY_LASS":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "SAUCY_SLATTERN":   { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "YVONNE_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "MARKET_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "BAZAAR_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "Emily":            { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "Bradshaw":         { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "BarnabyLong":      { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "MeghanLong":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "Isabella":         { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "Fineas":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
+		this._state.Equipment = {
+			"Wig":              makeEquipRecord("cheap wig"),
+			"Hat":              0,
+			"Neck":             makeEquipRecord("collar"),
+			"Nipples":          0,
+			"Bra":              makeEquipRecord("chemise"),
+			"Corset":           0,
+			"Panty":            makeEquipRecord("cotton bloomers"),
+			"Stockings":        makeEquipRecord("cotton stockings"),
+			"Shirt":            0,
+			"Pants":            0,
+			"Dress":            makeEquipRecord("cotton dress"),
+			"Costume":          0,
+			"Shoes":            makeEquipRecord("worn boots"),
+			"Butt":             0,
+			"Penis":            makeEquipRecord("chastity cage"),
+			"Weapon":           0
+		};
+
+		this._state.NPCS = { };
+
+		this._state.StoreInventory = {
+			"GALLEY":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"CARGO":            { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"ISLATAVERN":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"ISLASTORE":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"SMUGGLERS":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"GOLDEN_GOODS":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"LUSTY_LASS":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"SAUCY_SLATTERN":   { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"YVONNE_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"MARKET_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"BAZAAR_STORE":     { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"Emily":            { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"Bradshaw":         { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"BarnabyLong":      { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"MeghanLong":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"Isabella":         { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+			"Fineas":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
         };
-    };
+	};
 
     /**
      * Previously we stored a dictionary of NPC objects. Now we just store some vital information and make new ones as needed.
@@ -239,7 +598,7 @@ App.Entity.Player = class Player {
             return new App.Entity.NPC( data, this._state.NPCS[npcTag]);
         }
         return new App.Entity.NPC(data, this._state.NPCS[npcTag])
-    };
+    }
 
     /**
      * Helper function. Sets the starting statistics for a player from the config objects.
@@ -257,7 +616,7 @@ App.Entity.Player = class Player {
             if (Type == "SKILL") this.AdjustSkill(Prop, ConfigOb[Prop]["START"]);
             if (Type == "STAT") this.AdjustStat(Prop, ConfigOb[Prop]["START"]);
         }
-    };
+    }
 
     /**
      * Helping function to get the starting value of a statistic.
@@ -267,7 +626,7 @@ App.Entity.Player = class Player {
      */
      GetStartStat(Type, Stat) {
         return this.GetStatConfig(Type)[Stat]["START"];
-    };
+    }
 
     /**
      * With Icon = true then return string time with Icon.
@@ -283,7 +642,7 @@ App.Entity.Player = class Player {
         if (this._state.Phase == 3) return Icon ? "night @@color:cornflowerblue;&#9789;@@" : "night";
         if (this._state.Phase == 4) return Icon ? "late night @@color:DeepPink;&#9789;@@" : "late night";
         return this._state.Phase;
-    };
+    }
 
     /**
      * Returns the phase icon for the current phase.
@@ -402,7 +761,7 @@ App.Entity.Player = class Player {
 
         var SkillVal = this.GetStat(Alternate, SkillName);
         return (100 - Math.max(5, Math.min((50 + (SkillVal - Difficulty)), 95)));
-    };
+    }
 
     /**
      * Checks the SkillSynergy dictionary and adds any skill bonuses to dice rolls on
@@ -418,7 +777,7 @@ App.Entity.Player = class Player {
             Bonus += Math.ceil(this.GetStatPercent(Synergy[i]["TYPE"], Synergy[i]["NAME"]) * Synergy[i]["BONUS"]);
         }
         return Bonus;
-    };
+    }
 
     /**
      * Restyle hair.
@@ -431,8 +790,8 @@ App.Entity.Player = class Player {
         var lh = this._state.LastUsedHair;
         var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0]["NAME"];
 
-        if (this._state.Equipment["Wig"] != 0) {
-            this.DoStyling(this._state.Equipment["Wig"].Id(), Makeup);
+        if (this._clothing.Equipment["Wig"] != 0) {
+            this.DoStyling(this._clothing.Equipment["Wig"].Id(), Makeup);
         } else {
             this.DoStyling(Hair, Makeup);
         }
@@ -446,17 +805,17 @@ App.Entity.Player = class Player {
      */
     CanReStyle()
     {
-        if(this.CoreStats["Energy"] < 1) return false;
-        if (this.LastUsedMakeup == this.MakeupStyle) return false;
-        var m1 = (typeof this.GetItemByName('basic makeup') !== 'undefined') ? this.GetItemByName('basic makeup').Charges() : 0;
-        var m2 = (typeof this.GetItemByName('expensive makeup') !== 'undefined') ? this.GetItemByName('expensive makeup').Charges() : 0;
-        var h1 = (typeof this.GetItemByName('hair accessories') !== 'undefined') ? this.GetItemByName('hair accessories').Charges() : 0;
-        var h2 = (typeof this.GetItemByName('hair products') !== 'undefined') ? this.GetItemByName('hair products').Charges() : 0;
-        var lm = this.LastUsedMakeup;
+        if(this._state.CoreStats["Energy"] < 1) return false;
+        if (this._state.LastUsedMakeup == this._state.MakeupStyle) return false;
+        var m1 = this.Inventory.Charges('COSMETICS', 'basic makeup');
+        var m2 = this.Inventory.Charges('COSMETICS', 'expensive makeup');
+        var h1 = this.Inventory.Charges('COSMETICS', 'hair accessories');
+        var h2 = this.Inventory.Charges('COSMETICS', 'hair products');
+        var lm = this._state.LastUsedMakeup;
         var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0];
         if ( (m1 < Makeup["RESOURCE1"]) || (m2 < Makeup["RESOURCE2"])) return false;
 
-        if (this._state.Equipment["Wig"] !== 0) return true;
+        if (this.Clothing.Equipment["Wig"] !== 0) return true;
         var lh = this._state.LastUsedHair;
         var Hair = window.App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0];
         return ( (h1 >= Hair["RESOURCE1"]) && (h2 >= Hair["RESOURCE2"]));
@@ -474,10 +833,10 @@ App.Entity.Player = class Player {
 
         var obj = this.GetItemById(HairID);
         if (typeof obj !== 'undefined') { // We passed an Item Id and found an item.
-            if ((this._state.Equipment["Wig"] == 0) || (this._state.Equipment["Wig"].Id() != HairID))
+            if ((this._clothing.Equipment["Wig"] == 0) || (this._clothing.Equipment["Wig"].Id() != HairID))
                 this.Wear( this.WardrobeItem(HairID));
         } else {
-            if (this._state.Equipment["Wig"] != 0) this.Remove(this._state.Equipment["Wig"]);
+            if (this._clothing.Equipment["Wig"] != 0) this.Remove(this._clothing.Equipment["Wig"]);
 
             var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["NAME"] == HairID; })[0];
 
@@ -551,7 +910,7 @@ App.Entity.Player = class Player {
      * @returns {number}
      */
     HairRating () {
-        if (this._state.Equipment["Wig"] != 0) return Math.max(0, Math.min(this._state.Equipment["Wig"].HairBonus(), 100));
+        if (this._clothing.Equipment["Wig"] != 0) return Math.max(0, Math.min(this._clothing.Equipment["Wig"].HairBonus(), 100));
         return Math.max(0, Math.min(this._state.HairBonus, 100));
     };
 
@@ -559,7 +918,7 @@ App.Entity.Player = class Player {
      * @returns {string}
      */
     GetHairStyle () {
-        if (this._state.Equipment["Wig"] != 0) return this._state.Equipment["Wig"].HairStyle();
+        if (this._clothing.Equipment["Wig"] != 0) return this._clothing.Equipment["Wig"].HairStyle();
         return this._state.HairStyle;
     };
 
@@ -567,7 +926,7 @@ App.Entity.Player = class Player {
      * @returns {string}
      */
     GetHairColor () {
-        if (this._state.Equipment["Wig"] != 0) return this._state.Equipment["Wig"].HairColor();
+        if (this._clothing.Equipment["Wig"] != 0) return this._clothing.Equipment["Wig"].HairColor();
         return this._state.HairColor;
     };
 
@@ -594,10 +953,10 @@ App.Entity.Player = class Player {
     ClothesRating () {
         var cStyle = 0;
 
-        for (var prop in this._state.Equipment) {
-            if (!this._state.Equipment.hasOwnProperty(prop)) continue;
-            if (this._state.Equipment[prop] == 0) continue;
-            cStyle += this._state.Equipment[prop].Style();
+        for (var prop in this._clothing.Equipment) {
+            if (!this._clothing.Equipment.hasOwnProperty(prop)) continue;
+            if (this._clothing.Equipment[prop] == 0) continue;
+            cStyle += this._clothing.Equipment[prop].Style();
         }
         return Math.max(1, Math.min(Math.round(((cStyle / 100 ) * 100)), 100)); // 1 - 100 rating
     };
@@ -610,12 +969,12 @@ App.Entity.Player = class Player {
     GetStyleSpecRating(Spec){
         var Rating = 0;
 
-        for (var prop in this._state.Equipment)
+        for (var prop in this._clothing.Equipment)
         {
-            if (!this._state.Equipment.hasOwnProperty(prop)) continue;
-            if (this._state.Equipment[prop] == 0) continue;
+            if (!this._clothing.Equipment.hasOwnProperty(prop)) continue;
+            if (this._clothing.Equipment[prop] == 0) continue;
 
-            Rating += this._state.Equipment[prop].CategoryBonus(Spec);
+            Rating += this._clothing.Equipment[prop].CategoryBonus(Spec);
         }
         return Rating;
     };
@@ -884,15 +1243,15 @@ App.Entity.Player = class Player {
 
         // Gain 'Knowledge' about worn clothes, log days worn.
         // Apply passive effects on worn items.
-        for (var prop in this._state.Equipment) {
-            if (!this._state.Equipment.hasOwnProperty(prop)) continue;
-            if (this._state.Equipment[prop] == 0) continue;
+        for (var prop in this._clothing.Equipment) {
+            if (!this._clothing.Equipment.hasOwnProperty(prop)) continue;
+            if (this._clothing.Equipment[prop] == 0) continue;
 
             if (Math.floor(Math.random() * 100) > 80)
-                this.AddHistory('CLOTHING_KNOWLEDGE', this._state.Equipment[prop].Name(), 1); // tracking effect knowledge
-            this.AddHistory("DAYS_WORN", this._state.Equipment[prop].Name(), 1); // tracking just days worn
-            this._state.Equipment[prop].ApplyEffects(this);
-            var logMsg = this._state.Equipment[prop].LearnKnowledge(this);
+                this.AddHistory('CLOTHING_KNOWLEDGE', this._clothing.Equipment[prop].Name(), 1); // tracking effect knowledge
+            this.AddHistory("DAYS_WORN", this._clothing.Equipment[prop].Name(), 1); // tracking just days worn
+            this._clothing.Equipment[prop].ApplyEffects(this);
+            var logMsg = this._clothing.Equipment[prop].LearnKnowledge(this);
             if ((typeof logMsg != 'undefined') && logMsg != "") this._state.SleepLog.push(logMsg);
         }
 
@@ -1046,12 +1405,12 @@ App.Entity.Player = class Player {
         }
 
         if (Type != "CLOTHES" && Type != "WEAPON") return false;
-        if (this._state.Wardrobe.filter( function(o) { return o.Name() == Name; }).length > 0 ) return true;
+        if (this.Clothing.Wardrobe.filter( function(o) { return o.Name() == Name; }).length > 0 ) return true;
         var Slot = window.App.Data.Clothes[Name].Slot;
-        var EquipmentInSlot = this._state.Equipment[Slot];
+        var EquipmentInSlot = this._clothing.Equipment[Slot];
         if (EquipmentInSlot == null || EquipmentInSlot == 0) return false;
         return EquipmentInSlot.Name() == Name;
-    };
+    }
 
     /**
      * @param ItemDict
@@ -1065,17 +1424,17 @@ App.Entity.Player = class Player {
             if ( o.Charges() >= 100 ) return true;
         }
         return false;
-    };
+    }
 
     WardrobeItem (id) {
-        return this._state.Wardrobe.filter(function (o) {
+        return this.Clothing.Wardrobe.filter(function (o) {
             return o.Id() == id;
         })[0];
-    };
+    }
 
     WardrobeItemsBySlot(Slot) {
-        return this._state.Wardrobe.filter(function(Item) { return Item.Slot() == Slot;});
-    };
+        return this.Clothing.Wardrobe.filter(function(Item) { return Item.Slot() == Slot;});
+    }
 
     /**
      * @param {string} Slot
@@ -1083,19 +1442,19 @@ App.Entity.Player = class Player {
      */
     PrintEquipment(Slot)
     {
-        if (!this._state.Equipment.hasOwnProperty(Slot)) return "@@color:grey;Nothing@@";
-        if (this._state.Equipment[Slot] == 0 ) return "@@color:grey;Nothing@@";
-        return this._state.Equipment[Slot].Description();
-    };
+        if (!this.Clothing.Equipment.hasOwnProperty(Slot)) return "@@color:grey;Nothing@@";
+        if (this.Clothing.Equipment[Slot] == 0 ) return "@@color:grey;Nothing@@";
+        return this.Clothing.Equipment[Slot].Description();
+    }
 
     /**
      * @param {string} Slot
      * @returns {*}
      */
     GetEquipmentInSlot(Slot) {
-        if ( (!this._state.Equipment.hasOwnProperty(Slot)) || (this._state.Equipment[Slot] == 0 )) return 0;
-        return this._state.Equipment[Slot];
-    };
+        if ( (!this.Clothing.Equipment.hasOwnProperty(Slot)) || (this.Clothing.Equipment[Slot] == 0 )) return 0;
+        return this.Clothing.Equipment[Slot];
+    }
 
     /**
      * Search equipped items
@@ -1103,31 +1462,27 @@ App.Entity.Player = class Player {
      * @returns {boolean}
      */
     IsEquipped(Name) {
-        for (var prop in this._state.Equipment) {
-            if (!this._state.Equipment.hasOwnProperty(prop)) continue;
-            if (this._state.Equipment[prop] == 0) continue;
-            if (this._state.Equipment[prop].Name() == Name) return true;
+        for (var prop in this.Clothing.Equipment) {
+            if (!this.Clothing.Equipment.hasOwnProperty(prop)) continue;
+            if (this.Clothing.Equipment[prop] == 0) continue;
+            if (this.Clothing.Equipment[prop].Name() == Name) return true;
         }
         return false;
-    };
+    }
 
     Wear (item) {
-        for (var i = 0; i < item.Restrict().length; i++) this.Remove(this._state.Equipment[item.Restrict()[i]]);
-        this._state.Equipment[item.Slot()] = item;
-        this._state.Wardrobe = this._state.Wardrobe.filter(function (o) {
-            return o.Id() != item.Id();
-        });
-    };
+        this.Clothing.Wear(item.Id());
+    }
 
     AutoWearCategory (Category) {
-        for (var slot in this._state.Equipment) {
-            if (!this._state.Equipment.hasOwnProperty(slot)) continue;
-            var currentlyWorn = this._state.Equipment[slot];
+        for (var slot in this.Clothing.Equipment) {
+            if (!this.Clothing.Equipment.hasOwnProperty(slot)) continue;
+            var currentlyWorn = this.Clothing.Equipment[slot];
 
             if (currentlyWorn != 0 && currentlyWorn.IsLocked()) continue;
 
             // Get all matching items by Category and Slot.
-            var matchingItems = $.grep(this._state.Wardrobe, function(clothing) {
+            var matchingItems = $.grep(this.Clothing.Wardrobe, function(clothing) {
                 return clothing.Slot() == slot && $.inArray(Category, clothing.Category()) >= 0;
             });
 
@@ -1142,50 +1497,49 @@ App.Entity.Player = class Player {
 
             if (wear) this.Wear(matchingItems[0]);
         }
-    };
+    }
 
     Strip() {
-        for (var prop in this._state.Equipment) {
-            if (!this._state.Equipment.hasOwnProperty(prop)) continue;
+        for (var prop in this._clothing.Equipment) {
+            if (!this._clothing.Equipment.hasOwnProperty(prop)) continue;
             if (this._state.Equipment[prop] == 0) continue;
             if (this._state.Equipment[prop].IsLocked()) continue;
 
-            this.Remove(this._state.Equipment[prop]);
+            this.Clothing.TakeOff(this.Clothing.Equipment[prop].Id());
         }
-    };
+    }
 
     Remove (item) {
         if (item == 0) return;
-        this._state.Equipment[item.Slot()] = 0;
-        this._state.Wardrobe.push(item);
-    };
+        this.Clothing.TakeOff(item.Id());
+    }
 
-    HasItemByType (Type) {
-        return this._state.Inventory.filter(function (o) {
-            return o.Type() == Type;
-        });
-    };
     GetItemByName (Name) {
-        return this._state.Inventory.filter(function (o) {
+        return this.Inventory.filter(function (o) {
             return o.Name() == Name;
         })[0];
-    };
+    }
+
+    /**
+     *
+     * @param {string} Id String of "CATEGORY/NAME" template
+     */
     GetItemById (Id) {
         var result;
 
-        var ItemList = this._state.Inventory.filter(function (o) {return o.Id() == Id; }); // Look in items first.
+        var ItemList = this.Inventory.filter(function (o) {return o.Id() == Id; }); // Look in items first.
 
         if (ItemList.length < 1) { // Now check wardrobe
-            ItemList = this._state.Wardrobe.filter(function(o) { return o.Id() == Id; });
+            ItemList = this.Clothing.Wardrobe.filter(function(o) { return o.Id() == Id; });
         }
 
         if (ItemList.length < 1 ) { // Check worn stuff.
-            for (var k in this._state.Equipment)
+            for (var k in this.Clothing.Equipment)
             {
-                if (!this._state.Equipment.hasOwnProperty(k)) continue;
-                if (this._state.Equipment[k] != 0) {
-                    if (this._state.Equipment[k].Id() == Id) {
-                        result = this._state.Equipment[k];
+                if (!this.Clothing.Equipment.hasOwnProperty(k)) continue;
+                if (this.Clothing.Equipment[k] != 0) {
+                    if (this.Clothing.Equipment[k].Id() == Id) {
+                        result = this.Clothing.Equipment[k];
                         break;
                     }
                 }
@@ -1194,10 +1548,10 @@ App.Entity.Player = class Player {
 
         if (!result && ItemList.length > 0) result = ItemList[0];
         return result;
-    };
+    }
 
     GetItemByTypes (Types) {
-        return this._state.Inventory.filter(function (o) {
+        return this.Inventory.filter(function (o) {
             return Types.indexOf(o.Type()) != -1;
         });
     };
@@ -1208,21 +1562,31 @@ App.Entity.Player = class Player {
      * @returns {number}
      */
     GetItemCharges(Type) {
-        var Items = this._state.Inventory.filter(function (o) { return o.Type() == Type; });
+        var Items = this.Inventory.filter(function (o) { return o.Type() == Type; });
         var Count = 0;
         for (var i = 0; i < Items.length; i++) Count += Items[i].Charges();
         return Count;
-    };
+    }
+
+    /**
+     * Returns number of charges for item with the given name and type (if provided) or among all types otherwise.
+     * @param {string} Name Item name
+     * @param {string} [Type] Item type (category) name
+     * @returns Nmmber of charges available or zero.
+     */
+    ItemCharges(Name, Type) {
+        return this.Inventory.Charges(Type, Name);
+    }
 
     /**
      * Attempt to iterate through all items of same type and consume charges from them until Amount has been
      * satisfied. It will delete items if it consumes all their charges.
-     * @param {string} Type
+     * @param {string} Name
      * @param {number} Amount
      */
     UseItemCharges(Type, Amount) {
         if (Amount <= 0) return ;
-        var Items = this._state.Inventory.filter(function (o) { return o.Type() == Type; });
+        var Items = this.Inventory.filter(function (o) { return o.Type() == Type; });
         var Count = 0;
 
         while(Amount > 0 && Count < Items.length) {
@@ -1231,17 +1595,15 @@ App.Entity.Player = class Player {
                 this.DeleteItem(Item);
                 Count++;
             } else {
-                Item.RemoveCharge(1);
+                Item.RemoveCharges(1);
                 Amount -= 1;
             }
         }
-    };
+    }
 
-    DeleteItem (item) {
-        this._state.Inventory = this._state.Inventory.filter(function (o) {
-            return o.Id() != item.Id();
-        });
-    };
+    DeleteItem(item) {
+        this.Inventory.RemoveItem(item.Id());
+    }
 
     /**
      * Create and add an item to the player.
@@ -1250,26 +1612,25 @@ App.Entity.Player = class Player {
      * @param {number} Count
      * @param {string} [Opt]
      */
-    AddItem (Category, Name, Count, Opt) {
+    AddItem(Category, Name, Count, Opt) {
         //Count = Count || 1;
 
-        var Item = window.App.Item.Factory(Category, Name, Count);
+        var Item = this.Inventory.AddItem(Category, Name, Count);
 
         if (Category == "CLOTHES" || Category == "WEAPON" ) {
             if (this.OwnsWardrobeItem(Category, Name)) return; // No duplicate equipment allowed.
-            this._state.Wardrobe.push(Item);
-            if (Opt == "WEAR") this.Wear(Item);
+            this.Clothing.AddItem(Name, Opt == "WEAR");
             return;
         }
 
-        var ItemArray = $.grep(this._state.Inventory, function(o) { return o.Name() == Item.Name(); });
+        var ItemArray = $.grep(this.Inventory.Items, function(o) { return o.Name() == Item.Name(); });
 
         if (ItemArray.length != 0 && (typeof ItemArray[0].AddCharge !== 'undefined')) {
             ItemArray[0].AddCharge(Item.Charges());
         } else {
-            this._state.Inventory.push(Item);
+            this.Inventory.AddCharges(Category, Name, Count);
         }
-    };
+    }
 
     /**
      * @param {string} Skill
@@ -1278,12 +1639,12 @@ App.Entity.Player = class Player {
     GetWornSkillBonus (Skill) {
         var bonus = 0;
         for (var prop in this._state.Equipment) {
-            if (!this._state.Equipment.hasOwnProperty(prop)) continue;
-            if (this._state.Equipment[prop] == 0) continue;
-            var tBonus = this._state.Equipment[prop].GetBonus(Skill);
+            if (!this.Clothing.Equipment.hasOwnProperty(prop)) continue;
+            if (this.Clothing.Equipment[prop] == 0) continue;
+            var tBonus = this.Clothing.Equipment[prop].GetBonus(Skill);
             if (tBonus > 0 ) {
                 bonus += tBonus;
-                if (this._state.debugMode == true) console.log("Found skill bonus : "+Skill+" on" + this._state.Equipment[prop].Name());
+                if (this._state.debugMode == true) console.log("Found skill bonus : "+Skill+" on" + this.Clothing.Equipment[prop].Name());
             }
         }
         return bonus;
@@ -1504,7 +1865,7 @@ App.Entity.Player = class Player {
      * @returns {Array.<App.Item.Reel>}
      */
     GetReelsInInventory() {
-        return this._state.Inventory.filter( function(o) { return (typeof o.Type === 'function') && (o.Type() == 'REEL'); });
+        return this.Inventory.filter( function(o) { return (typeof o.Type === 'function') && (o.Type() == 'REEL'); });
     };
 
     /**
@@ -1525,36 +1886,46 @@ App.Entity.Player = class Player {
      * @param {string} reelSlot
      */
     EquipReel(toEquipID, reelSlot ) {
-        var reelToEquip = this.GetReelByID(toEquipID);
-
-        if (this._state.Slots[reelSlot] != null) this._state.Inventory.push(this._state.Slots[reelSlot]);
-        this._state.Slots[reelSlot] = reelToEquip;
-
-        this._state.Inventory = this._state.Inventory.filter(function(o) { return (typeof o.Id === 'function') && (o.Id() != toEquipID); });
-    };
+        this.Inventory.EquipReel(toEquipID, reelSlot);
+    }
 
     /**
      * Remove an equipped reel and place it in the inventory.
      * @param slotID
      */
     RemoveReel(slotID) {
-
-        if ( (typeof this._state.Slots[slotID] !== 'undefined') && (this._state.Slots[slotID] != null)) {
-            this._state.Inventory.push(this.Slots[slotID]);
-            this._state.Slots[slotID] = null;
-        }
-    };
+        this.Inventory.RemoveReel(slotID);
+    }
 
     /**
      * Turn the equipped reels into an array to iterate/read.
      * @returns {Array.<App.Item.Reel>}
      */
     GetReels() {
-        var arr = Object.values(this._state.Slots).filter(function(o) { return (typeof o !== 'undefined') && (o != null); });
-        return (typeof arr === 'undefined') ? [ ] : arr;
-    };
+        return this.Inventory.EquipedReelItems();
+    }
 
     // endregion
+
+    /**
+     * @returns {App.Entity.InventoryManager}
+     */
+    get InventoryManager() {
+        if (!this._inventory) {
+            this._inventory = new App.Entity.InventoryManager(this._state);
+        }
+        return this._inventory;
+    }
+
+    /**
+     * @returns {App.Entity.ClothingManager}
+     */
+    get Clothing() {
+        if (!this._clothing) {
+            this._clothing = new App.Entity.ClothingManager(this._state.Wardrobe, this._state.Equipment);
+        }
+        return this._clothing;
+    }
 
     // redirections for the state properties
 
@@ -1605,14 +1976,20 @@ App.Entity.Player = class Player {
 
     get SkillsXP() { return this._state.SkillsXP; }
 
-    get Wardrobe() { return this._state.Wardrobe; }
-    get Inventory() { return this._state.Inventory; }
-    get Equipment() { return this._state.Equipment; }
+    get Wardrobe() { return this.Clothing.Wardrobe; }
+
+    /**
+     * @returns {App.Entity.InventoryManager}
+     */
+    get Inventory() {
+         return this.InventoryManager;
+    }
+    get Equipment() { return this.Clothing.Equipment; }
 
     get StoreInventory() { return this._state.StoreInventory; }
     get NPCS() { return this._state.NPCS; }
 
-    get Slots() { return this._state.Slots; }
+    get Slots() { return this.Inventory.ReelSlots(); }
     get CurrentSlots() { return this._state.CurrentSlots; } // Starting allocation of whoring
 
     get MaxSlots() { return 9; } // YOU SHALL NOT PASS

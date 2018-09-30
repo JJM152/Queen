@@ -1,14 +1,14 @@
 App = App || { Data: { }, Entity: { } };
 
-App.Item = new function() {
-
+App.Item = class Item {
     /**
      * Return the appropriate data dictionary for the item in question. If item type is invalid, returns null.
      * @param Type
      * @returns {*}
      * @private
+     * @static
      */
-    this._TryGetItemsDictionary = function(Type) {
+    static _TryGetItemsDictionary(Type) {
         if (Type == "DRUGS") return App.Data.Drugs;
         if (Type == "FOOD") return App.Data.Food;
         if (Type == "COSMETICS") return App.Data.Cosmetics;
@@ -21,7 +21,7 @@ App.Item = new function() {
         if (Type == "LOOT_BOX") return App.Data.LootBoxes;
         if (Type == 'REEL') return App.Data.Slots;
 		return null;
-    };
+    }
 
     /**
      * Return the appropriate data dictionary item for the item in question. If item type is invalid or
@@ -30,8 +30,9 @@ App.Item = new function() {
      * @param Name
      * @returns {*}
      * @private
+     * @static
      */
-    this._FetchData = function(Type, Name) {
+    static _FetchData(Type, Name) {
 		var itemsDictionary = this._TryGetItemsDictionary(Type);
         var errorMessage;
 		if (itemsDictionary == null) {
@@ -48,7 +49,7 @@ App.Item = new function() {
 		}
 
 		return itemData;
-    };
+    }
 
     /**
      * Automatically calculate the price of an item based on it's attributes.
@@ -56,7 +57,7 @@ App.Item = new function() {
      * @param {string} Tag the key of the item
      * @returns {number} the price in gold coins.
      */
-    this.CalculateBasePrice = function(Category, Tag) {
+    CalculateBasePrice(Category, Tag) {
 		try {
 	        var d = this._FetchData(Category, Tag);
 		} catch (e) {
@@ -136,7 +137,7 @@ App.Item = new function() {
 		}
 
         return (price == 0 ) ? 100 : price;
-    };
+    }
 
     /**
      * Search and find clothing items by a variety of categories.
@@ -144,8 +145,9 @@ App.Item = new function() {
      * @param {string} Rank
      * @param {string} Slot
      * @returns {Array}
+     * @static
      */
-    this.ListAllClothes = function(Category, Rank, Slot ) {
+    static ListAllClothes(Category, Rank, Slot ) {
         var Clothes = [ ];
 
         for (var k in App.Data.Clothes) {
@@ -166,13 +168,14 @@ App.Item = new function() {
 
         return Clothes;
 
-    };
+    }
     /** Just a debug function
      * @param {string} Category
      * @param {number} Filter;
      * @returns {Array.<*>}
+     * @static
      */
-    this.ListAllPrices = function(Category, Filter) {
+    static ListAllPrices(Category, Filter) {
         Filter = Filter || false;
         var out = [ ];
         var d;
@@ -207,15 +210,16 @@ App.Item = new function() {
 
         out.sort(function(a, b) { return a.price - b.price;});
         return (Filter) ? out.filter(function(a) { return a.price < Filter; }) : out;
-    };
+    }
 
     /**
      * Fetch a random item based on price / category.
      * @param {string|Array.<string>} Category
      * @param {*} filterOb
      * @returns {null|*}
+     * @static
      */
-    this.PickItem = function(Category, filterOb) {
+    static PickItem(Category, filterOb) {
         var items = [ ];
         console.log(filterOb);
         if (Category.constructor === Array) {
@@ -238,38 +242,48 @@ App.Item = new function() {
             items = items.filter(function(o) { return o.meta != null && o.meta.contains(filterOb.meta_key);});
         console.log(items);
         return items.length > 0 ? App.PR.GetRandomListItem(items) : null;
-    };
+    }
 
-    this.Factory = function(Type, Name, Count) {
+    /**
+     *
+     * @param {string} Type
+     * @param {string} Name
+     * @param {App.Entity.InventoryManager} Inventory
+     * @param {number} [Count]
+     * @returns {Item}
+     */
+    static Factory(Type, Name, Inventory, Count) {
 
         var d = this._FetchData(Type, Name);
         var o;
 
         // might change this in the future, for now weapons are "clothing"
-        if (Type == "CLOTHES") o = new this.Clothing(d);
-        if (Type == "WEAPON") o = new this.Clothing(d);
+        if (Type == "CLOTHES") o = new App.Items.Clothing(d, Inventory);
+        if (Type == "WEAPON") o = new App.Items.Clothing(d, Inventory);
 
         if (Type == "NPC") o = new window.App.Entity.NPC(d);
 
         if (Type == "STORE")
         {
-            o = new this.Store(d);
+            o = new App.Items.Store(d, Inventory);
             o.Init();
             return o;
         }
 
         if (Type == "REEL") {
-            o = new this.Reel(d);
+            o = new App.Items.Reel(Name, d, Inventory);
             return o;
         }
 
-        if (Type == "QUEST") o = new this.QuestItem(d);
+        if (Type == "QUEST") o = new App.Items.QuestItem(d, Inventory);
 
-        if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" || Type == 'MISC_CONSUMABLE') o = new this.Consumable(d);
-        if ((Count != 0) && (typeof d["Charges"] !== 'undefined')) o.Data["Charges"] = Count;
+        if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" || Type == 'MISC_CONSUMABLE') {
+             o = new App.Items.Consumable(Type, d, Inventory);
+        }
+        if ((Count != 0) && (typeof d["Charges"] !== 'undefined')) o.SetCharges(Count);
 
         return o;
-    };
+    }
 
     /**
      * Open a loot box!
@@ -280,7 +294,7 @@ App.Item = new function() {
      * @returns {string}
      * @constructor
      */
-    this.DoLootBox = function( Player, Type, Minimum, Bonus) {
+    static DoLootBox(Player, Type, Minimum, Bonus) {
 
         var DiceRoll    = Math.floor(Math.random() * 100);
         var Table       = App.Data.LootTables[Type];
@@ -331,434 +345,490 @@ App.Item = new function() {
         }
 
         return (output != "" ? output : "Nothing?!?!?");
-    };
+    }
 
-    this.Shop = function(ShopName)
-    {
+    /**
+     * Generate an item id
+     * @returns {string}
+     */
+    static MakeId (Category, Name) {
+        return Category + '/' + Name;
+    }
 
-    };
+    /**
+     *
+     * @param {string} Id
+     * @returns {{Category: string, Name:string}}
+     */
+    static SplitId(Id) {
+        var _t = Id.split('/');
+        return {Category: _t[0], Name: _t[1]};
+    }
 
-    this.Clothing = function(d) {
+    /**
+     *
+     * @param {string} ItemClass
+     * @param {string} Name
+     * @param {App.Entity.InventoryManager} Inventory
+     * @constructor
+     */
+    constructor(ItemClass, Name, Inventory) {
+        this._itemClass = ItemClass;
+        this._name = Name;
+        this._inventory = Inventory;
+    }
+
+    /**
+     * @returns {string}
+     */
+    Id() {
+        return Item.MakeId(this._itemClass, this._name);
+    }
+
+    /**
+     * @returns {string}
+     */
+    Name() {
+        return this._name;
+    }
+
+    /**
+     * @returns {string}
+     */
+    ItemClass() {
+        return this._itemClass;
+    }
+};
+
+App.Items = {};
+
+App.Items.Shop = class Shop extends App.Item {
+    constructor(ShopName, InventoryObj) {
+        super('SHOP', ShopName, InventoryObj);
+    }
+
+};
+
+App.Items.Clothing = class Clothing extends App.Item {
+    constructor(d, InventoryObj) {
+        super('CLOTHES', d['Name'], InventoryObj);
         this.o = $.extend( true, {}, d );
-        this._id = App.Item.uuidv4();
         this._Knowlege = [ ];
 
-        this.Id = function () {
-            return this._id;
-        };
-        this.Name = function () {
-            return this.o["Name"];
-        };
+        // Init knowledge variable
 
-		this.Description = function () {
-			var result = this.o.ShortDesc;
-			if (result instanceof String) result = String(result);
-			if (typeof (result) !== "string" || result === "") return this.Name();
-			result = result.replace("{COLOR}", String(this.o.Color));
+         for(var i = 0; i < this.WearEffect().length; i++)
+            this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[this.WearEffect()[i]]["KNOWLEDGE"]);
+        for(i = 0; i < this.ActiveEffect().length; i++)
+            this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[this.ActiveEffect()[i]]["KNOWLEDGE"]);
+    }
 
-			var locked = this.o.Locked;
-			if (typeof (locked) === "boolean" && locked) result += " @@color:red;(Locked)@@";
+    Description() {
+        var result = this.o.ShortDesc;
+        if (result instanceof String) result = String(result);
+        if (typeof (result) !== "string" || result === "") return this.Name();
+        result = result.replace("{COLOR}", String(this.o.Color));
 
-			return result;
-		};
+        var locked = this.o.Locked;
+        if (typeof (locked) === "boolean" && locked) result += " @@color:red;(Locked)@@";
 
-        this.Examine = function (Player) {
-            var Output = this.o["LongDesc"];
-            var Usages = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Name());
-            Output += "\n";
+        return result;
+    }
 
-            Output += "@@color:yellow;Style Categories  @@ ";
-            Output += this.Category().join(", ");
-            Output += "\n";
-            Output += "@@color:yellow;Rank @@ " + this.Rank() + "\n";
-            var max = Math.min(Usages, this.GetKnowledge().length);
+    Examine(Player) {
+        var Output = this.o["LongDesc"];
+        var Usages = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Name());
+        Output += "\n";
 
-            for(var i = 0; i < max; i++)
-                Output += App.PR.pEffectMeter(this.GetKnowledge()[i], this) + "&nbsp;&nbsp;";
-            return Output;
-        };
-        /**
-         * Apply all effects of this clothing item, usually overnight.
-         * @param {App.Entity.Player} Player
-         */
-        this.ApplyEffects = function(Player) {
-            var tmp;
+        Output += "@@color:yellow;Style Categories  @@ ";
+        Output += this.Category().join(", ");
+        Output += "\n";
+        Output += "@@color:yellow;Rank @@ " + this.Rank() + "\n";
+        var max = Math.min(Usages, this.GetKnowledge().length);
 
-            for (var i = 0; i < this.WearEffect().length;i++) {
-                if (Player.debugMode == true) console.log("Applying effect: "+this.WearEffect()[i]);
-                App.Data.EffectLib[this.WearEffect()[i]]["FUN"](this, Player);
-            }
-        };
+        for(var i = 0; i < max; i++)
+            Output += App.PR.pEffectMeter(this.GetKnowledge()[i], this) + "&nbsp;&nbsp;";
+        return Output;
+    }
 
-        /**
-         * Learn Knowledge sleeping...
-         * @param {App.Entity.Player} Player
-         * @returns {string}
-         */
-        this.LearnKnowledge = function(Player)
-        {
-            var flag = ( Player.GetHistory("CLOTHING_KNOWLEDGE", this.Name()) > 0);
-            var know = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Name());
-            if (flag && know < this.GetKnowledge().length){
-                var output = "@@color:yellow;You learn something... your " + this.Name() +" has an effect!@@ " + App.PR.pEffectMeter(this.GetKnowledge()[know], this);
-                Player.AddHistory("CLOTHING_EFFECTS_KNOWN", this.Name(), 1);
-                Player.RemoveHistory("CLOTHING_KNOWLEDGE", this.Name());
-                return output;
-            }
-        };
+    /**
+     * Apply all effects of this clothing item, usually overnight.
+     * @param {App.Entity.Player} Player
+     */
+    ApplyEffects(Player) {
+        var tmp;
 
-        this.Category = function()
-        {
-          if (this.o.hasOwnProperty("Category") == false) return [ "Ordinary" ];
-            return this.o["Category"];
-        };
+        for (var i = 0; i < this.WearEffect().length;i++) {
+            if (Player.debugMode == true) console.log("Applying effect: "+this.WearEffect()[i]);
+            App.Data.EffectLib[this.WearEffect()[i]]["FUN"](this, Player);
+        }
+    }
 
-        /**
-         * Return the style of the item if it fits within the category supplied.
-         * @param {string} Cat
-         * @returns {number}
-         */
-        this.CategoryBonus = function(Cat)
-        {
-            return ( $.inArray(Cat, this.Category()) != -1 ) ? this.Style() : 0;
-        };
+    /**
+     * Learn Knowledge sleeping...
+     * @param {App.Entity.Player} Player
+     * @returns {string}
+     */
+    LearnKnowledge(Player)
+    {
+        var flag = ( Player.GetHistory("CLOTHING_KNOWLEDGE", this.Name()) > 0);
+        var know = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Name());
+        if (flag && know < this.GetKnowledge().length){
+            var output = "@@color:yellow;You learn something... your " + this.Name() +" has an effect!@@ " + App.PR.pEffectMeter(this.GetKnowledge()[know], this);
+            Player.AddHistory("CLOTHING_EFFECTS_KNOWN", this.Name(), 1);
+            Player.RemoveHistory("CLOTHING_KNOWLEDGE", this.Name());
+            return output;
+        }
+    }
 
-        this.Slot = function () {
-            return this.o["Slot"];
-        };
-        this.Restrict = function () {
-            return this.o["Restrict"];
-        };
-        this.WearEffect = function () {
-            return (typeof this.o["WearEffect"] !== 'undefined') ? this.o["WearEffect"] : [ ];
-        };
-        this.ActiveEffect = function () {
-            return (typeof this.o["ActiveEffect"] !== 'undefined') ? this.o["ActiveEffect"] : [ ];
-        };
+    Category()
+    {
+        if (this.o.hasOwnProperty("Category") == false) return [ "Ordinary" ];
+        return this.o["Category"];
+    }
 
-        this.Color = function () {
-            return this.o["Color"];
-        };
+    /**
+     * Return the style of the item if it fits within the category supplied.
+     * @param {string} Cat
+     * @returns {number}
+     */
+    CategoryBonus(Cat)
+    {
+        return ( $.inArray(Cat, this.Category()) != -1 ) ? this.Style() : 0;
+    }
 
-        this.Type = function() {
-            return this.o["Type"];
-        };
+    Slot() {
+        return this.o["Slot"];
+    }
+    Restrict() {
+        return this.o["Restrict"];
+    }
+    WearEffect() {
+        return (typeof this.o["WearEffect"] !== 'undefined') ? this.o["WearEffect"] : [ ];
+    }
+    ActiveEffect() {
+        return (typeof this.o["ActiveEffect"] !== 'undefined') ? this.o["ActiveEffect"] : [ ];
+    }
+
+    Color() {
+        return this.o["Color"];
+    }
+
+    Type() {
+        return this.o["Type"];
+    }
 
 // STYLE TABLE
 // TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
 // ACCESSORY    3       6           9       12
 // CLOTHING     5       10          15      20
 // ONE PIECE    10      20          30      40
-        /** @returns {number} */
-        this.Style = function () {
-            var bonus = {
-                "ACCESSORY" : { "COMMON" : 3, "UNCOMMON" : 6, "RARE" : 9, "LEGENDARY" : 12 },
-                "WEAPON"    : { "COMMON" : 3, "UNCOMMON" : 6, "RARE" : 9, "LEGENDARY" : 12 },
-                "CLOTHING"  : { "COMMON" : 5, "UNCOMMON" : 10, "RARE" : 15, "LEGENDARY" : 20 },
-                "ONE PIECE" : { "COMMON" : 10, "UNCOMMON" : 20, "RARE" : 30, "LEGENDARY" : 40 }
-            };
-
-            if (this.Type() == "WEAPON") return 0;
-            return bonus[this.Type()][this.o["Style"]];
-        };
-        /**
-         * Show stars relating to rank on clothing.
-         * @returns {string}
-         */
-        this.Rank = function() {
-            if (this.o["Style"] == "COMMON") return "@@color:gold;&#9733;@@";
-            if (this.o["Style"] == "UNCOMMON") return "@@color:gold;&#9733;&#9733;@@";
-            if (this.o["Style"] == "RARE") return "@@color:gold;&#9733;&#9733;&#9733;@@";
-            if (this.o["Style"] == "LEGENDARY") return "@@color:gold;&#9733;&#9733;&#9733;&#9733;@@";
-            return "@@color:gold;&#9733;@@";
+    /** @returns {number} */
+    Style() {
+        const bonus = {
+            "ACCESSORY" : { "COMMON" : 3, "UNCOMMON" : 6, "RARE" : 9, "LEGENDARY" : 12 },
+            "WEAPON"    : { "COMMON" : 3, "UNCOMMON" : 6, "RARE" : 9, "LEGENDARY" : 12 },
+            "CLOTHING"  : { "COMMON" : 5, "UNCOMMON" : 10, "RARE" : 15, "LEGENDARY" : 20 },
+            "ONE PIECE" : { "COMMON" : 10, "UNCOMMON" : 20, "RARE" : 30, "LEGENDARY" : 40 }
         };
 
-        /** @returns {string} */
-        this.HairColor = function () {
-            return this.o["Color"] ? this.o["Color"] : "black";
-        };
-
-        /** @returns {number} */
-        this.HairLength = function () {
-            return this.o["HairLength"] ? this.o["HairLength"] : 0;
-        };
-
-        /** @returns {string} */
-        this.HairStyle = function () {
-            return this.o["HairStyle"] ? this.o["HairStyle"] : "";
-        };
-
-        /** @returns {number} */
-        this.HairBonus = function () {
-            return this.o["HairBonus"] ? this.o["HairBonus"] : 0;
-        };
-
-		/** @returns {boolean} */
-		this.IsLocked = function () {
-			var locked = this.o.Locked;
-			return typeof (locked) === "boolean" ? locked : false;
-		};
-
-        /**
-         * Query the effects (if present) on this piece of clothing and return the bonus
-         * @param {string} skillName
-         * @returns {number}
-         */
-        this.GetBonus = function (skillName) {
-            var bonus = 0;
-            for (var i = 0; i < this.ActiveEffect().length;i++) bonus += App.Data.EffectLib[this.ActiveEffect()[i]]["FUN"](this,skillName);
-            return bonus;
-        };
-
-		/**
-		 * Checks whether this item can be sold in shops
-		 * @returns {boolean}
-		 */
-		this.InMarket = function() {
-			var inMarket = this.o.InMarket;
-			return typeof (inMarket) === "boolean" ? inMarket : true // Default to yes.
-		};
-
-        // Init knowledge variable
-
-        for(var i = 0; i < this.WearEffect().length; i++)
-            this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[this.WearEffect()[i]]["KNOWLEDGE"]);
-        for(i = 0; i < this.ActiveEffect().length; i++)
-            this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[this.ActiveEffect()[i]]["KNOWLEDGE"]);
-
-
-        this.GetKnowledge = function() { return this._Knowlege.sort(); };
+        if (this.Type() == "WEAPON") return 0;
+        return bonus[this.Type()][this.o["Style"]];
+    }
+    /**
+     * Show stars relating to rank on clothing.
+     * @returns {string}
+     */
+    Rank() {
+        if (this.o["Style"] == "COMMON") return "@@color:gold;&#9733;@@";
+        if (this.o["Style"] == "UNCOMMON") return "@@color:gold;&#9733;&#9733;@@";
+        if (this.o["Style"] == "RARE") return "@@color:gold;&#9733;&#9733;&#9733;@@";
+        if (this.o["Style"] == "LEGENDARY") return "@@color:gold;&#9733;&#9733;&#9733;&#9733;@@";
+        return "@@color:gold;&#9733;@@";
     };
+
+    /** @returns {string} */
+    HairColor() {
+        return this.o["Color"] ? this.o["Color"] : "black";
+    }
+
+    /** @returns {number} */
+    HairLength() {
+        return this.o["HairLength"] ? this.o["HairLength"] : 0;
+    }
+
+    /** @returns {string} */
+    HairStyle() {
+        return this.o["HairStyle"] ? this.o["HairStyle"] : "";
+    }
+
+    /** @returns {number} */
+    HairBonus() {
+        return this.o["HairBonus"] ? this.o["HairBonus"] : 0;
+    }
+
+    /** @returns {boolean} */
+    IsLocked() {
+        var locked = this.o.Locked;
+        return typeof (locked) === "boolean" ? locked : false;
+    }
+
+    /**
+     *
+     * @param {boolean} locked
+     */
+    SetIsLocked(locked) {
+        this.o.Locked = locked;
+    }
+
+    /**
+     * Query the effects (if present) on this piece of clothing and return the bonus
+     * @param {string} skillName
+     * @returns {number}
+     */
+    GetBonus(skillName) {
+        var bonus = 0;
+        for (var i = 0; i < this.ActiveEffect().length;i++) bonus += App.Data.EffectLib[this.ActiveEffect()[i]]["FUN"](this,skillName);
+        return bonus;
+    }
+
+    /**
+     * Checks whether this item can be sold in shops
+     * @returns {boolean}
+     */
+    InMarket() {
+        var inMarket = this.o.InMarket;
+        return typeof (inMarket) === "boolean" ? inMarket : true // Default to yes.
+    }
+
+    GetKnowledge() { return this._Knowlege.sort(); }
+};
 
     /**
      * A consumable object.
      * @param d {*}
      * @constructor
      */
-    this.Consumable = function(d) {
+App.Items.Consumable = class Consumable extends App.Item {
+    constructor(Category, d, InventoryObj) {
+        super(Category, d["Name"], InventoryObj);
         this.Data = $.extend( true, {}, d );
-
-        this._id = App.Item.uuidv4();
 
         this._messageBuffer = [ ];
 
         this._Knowlege = [ ];
-
-        this.Id = function () {
-            return this._id;
-        };
-        this.Name = function () {
-            return this.Data["Name"];
-        };
-        this.Description = function () {
-            return this.Data["ShortDesc"];
-        };
-        this.Examine = function (Player) {
-            var Output = this.Data["LongDesc"];
-            var Usages = Player.GetHistory("ITEMS", this.Name());
-
-            if (Usages == 0) return Output;
-
-            Output += "\n\n";
-            var max = Math.min(Usages, this.GetKnowledge().length);
-
-            for(var i = 0; i < max; i++)
-                Output += App.PR.pEffectMeter(this.GetKnowledge()[i], this) + "&nbsp;&nbsp;";
-
-            return Output;
-        };
-
-        this.Type = function () {
-            return this.Data["Type"];
-        };
-        this.Charges = function () {
-            return this.Data["Charges"];
-        };
-
-        /** @returns {*}*/
-        this.UseEffect = function () {
-            return (typeof this.Data["Effects"] !== 'undefined') ? this.Data["Effects"] : [ ];
-        };
-
-        /**
-         * Apply all effects of this consumable item.
-         * @param {App.Entity.Player} Player
-         */
-        this.ApplyEffects = function(Player) {
-
-            if (this.Data.hasOwnProperty("Effects") == false) return;
-            var tmp;
-            for (var i = 0; i < this.Data["Effects"].length;i++) {
-                if (Player.debugMode == true) console.log("Applying effect: "+this.Data["Effects"][i]);
-                tmp = App.Data.EffectLib[this.Data["Effects"][i]]["FUN"](this, Player);
-                if ((typeof tmp !== 'undefined') && (tmp != "")) this._messageBuffer.push(tmp);
-            }
-
-            // Knowledge.
-            var Usages = Player.GetHistory("ITEMS", this.Name());
-
-            if (Usages <= this.GetKnowledge().length)
-                this._messageBuffer.push("\n\n@@color:yellow;You learn something... this item has an effect!@@ " + App.PR.pEffectMeter(this.GetKnowledge()[(Usages-1)], this));
-
-        };
-
-        /** This message is printed when a player uses an item
-         * @returns {string} */
-        this.Message = function (Player) {
-            var Output = this.Data["Message"];
-            if (this._messageBuffer.length > 0) Output += this._messageBuffer.join("\n");
-            this._messageBuffer = [ ];
-            return Output;
-        };
-
-        this.Price = function () {
-            return this.Data["Price"];
-        };
-
-        this.RemoveCharge = function (n) {
-            this.Data["Charges"] = Math.max(0, Math.min((this.Charges() - n), 100));
-        };
-
-        this.AddCharge = function (n) {
-            this.Data["Charges"] = Math.max(0, Math.min((this.Data["Charges"] + n), 100));
-        };
-
-        /** @returns {boolean}*/
-        this.IsFull = function () {
-            return this.Data["Charges"] == 100;
-        };
-
-        /**
-         * Determine if an item has a bonus of a specific type.
-         * @param b {string}
-         * @returns {boolean}
-         */
-        this.HasBonus = function (b) {
-            if (this.Data.hasOwnProperty("SkillBonus") == false) return false;
-            return this.Data["SkillBonus"].hasOwnProperty(b);
-        };
-
-        this.GetBonus = function (b) {
-            if (this.Data.hasOwnProperty("SkillBonus") == false) return [0, 0, 0];
-            if (this.Data["SkillBonus"].hasOwnProperty(b) == false) return [0, 0, 0];
-            return this.Data["SkillBonus"][b];
-        };
 
         // Init knowledge variable
 
         for(var i = 0; i < this.UseEffect().length; i++){
             this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[this.UseEffect()[i]]["KNOWLEDGE"]);
         }
+    }
 
-        this.GetKnowledge = function() { return this._Knowlege.sort(); };
-    };
+    Description() {
+        return this.Data["ShortDesc"];
+    }
 
-    this.QuestItem = function(d) {
-        this.Data = $.extend( true, {}, d );
+    Examine(Player) {
+        var Output = this.Data["LongDesc"];
+        var Usages = Player.GetHistory("ITEMS", this.Name());
 
-        this._id = App.Item.uuidv4();
+        if (Usages == 0) return Output;
 
-        this.Id = function () {
-            return this._id;
-        };
-        this.Name = function () {
-            return this.Data["Name"];
-        };
-        this.Description = function () {
-            return this.Data["ShortDesc"];
-        };
-        this.Examine = function (Player) {
-            return this.Data["LongDesc"];
-        };
-        this.Type = function () {
-            return this.Data["Type"];
-        };
-        /** @returns {number} */
-        this.AddCharge = function(n) { return 1; };
+        Output += "\n\n";
+        var max = Math.min(Usages, this.GetKnowledge().length);
 
-        /** Fake: This makes it so that quest items are unique.
-         * @returns {number} */
-        this.Charges = function() { return 1; }
+        for(var i = 0; i < max; i++)
+            Output += App.PR.pEffectMeter(this.GetKnowledge()[i], this) + "&nbsp;&nbsp;";
 
-    };
+        return Output;
+    }
 
-    this.Reel = function(d) {
-        this.Data = $.extend(true, { }, d);
+    Type() {
+        return this.Data["Type"];
+    }
 
-        this._id = App.Item.uuidv4();
-
-        /** @returns {string|*} */
-        this.Id = function () {
-            return this._id;
-        };
-        this.Name = function () {
-            return this.Data["NAME"];
-        };
-
-        /** @returns {string} */
-        this.Description = function () {
-            var color;
-            switch(this.Data["RANK"]) {
-                case 'COMMON': color="grey"; break;
-                case 'UNCOMMON' : color="lime"; break;
-                case 'RARE' : color="cyan"; break;
-                case 'LEGENDARY': color="orange"; break;
-            }
-            return "@@color:"+color+";("+ this.Data['RANK']+ ") "+this.Data["NAME"]+"@@";
-        };
-
-        /**
-         * @param {App.Entity.Player} Player
-         * @returns {string}
-         */
-        this.Examine = function (Player) {
-            var attrs = [ 'ASS', 'BJ', 'HAND', 'TITS', 'FEM', 'PERV', 'BEAUTY'];
-            var text = ['Ass Fucking', 'Blowjobs', 'Handjobs', 'Tit Fucking', 'Femininity', 'Perversion', 'Beauty'];
-            var output = "A slot reel used for whoring. It has the following attributes:\n";
-            for (var x = 0; x < attrs.length; x++) {
-                var percent = this.CalcPercent(attrs[x]);
-                if (percent <= 0) continue;
-                output += text[x] + " - " + percent + "% ";
-            }
-            return output;
-        };
-
-        /** @returns {number} */
-        this.CalcPercent = function(key) {
-            var filterArr = this.Data['DATA'].filter(function(o) { return o == key; });
-            return Math.round( (filterArr.length/ this.Data['DATA'].length) * 100);
-        };
-
-        this.Rank = function() { return this.Data['RANK']; };
-
-        this.Reels = function() {
-            return this.Data["DATA"];
-        };
-
-        this.Css = function() {
-            return this.Data["CSS"];
-        };
-
-        this.Symbol = function(index) {
-            return this.Data["DATA"][index];
-        };
-
-        /** @returns {string} */
-        this.Type = function() { return 'REEL' };
-
-    };
+    /** @returns {*}*/
+    UseEffect() {
+        return (typeof this.Data["Effects"] !== 'undefined') ? this.Data["Effects"] : [ ];
+    }
 
     /**
-     * Generate a uuid
-     * @returns {string}
+     * Apply all effects of this consumable item.
+     * @param {App.Entity.Player} Player
      */
-    this.uuidv4 = function() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-          return v.toString(16);
-        });
-      };
+   ApplyEffects(Player) {
+
+        if (this.Data.hasOwnProperty("Effects") == false) return;
+        var tmp;
+        for (var i = 0; i < this.Data["Effects"].length;i++) {
+            if (Player.debugMode == true) console.log("Applying effect: "+this.Data["Effects"][i]);
+            tmp = App.Data.EffectLib[this.Data["Effects"][i]]["FUN"](this, Player);
+            if ((typeof tmp !== 'undefined') && (tmp != "")) this._messageBuffer.push(tmp);
+        }
+
+        // Knowledge.
+        var Usages = Player.GetHistory("ITEMS", this.Name());
+
+        if (Usages <= this.GetKnowledge().length)
+            this._messageBuffer.push("\n\n@@color:yellow;You learn something... this item has an effect!@@ " + App.PR.pEffectMeter(this.GetKnowledge()[(Usages-1)], this));
+
+    }
+
+    /** This message is printed when a player uses an item
+     * @param {App.Entity.Player} Player
+     * @returns {string} */
+    Message(Player) {
+        var Output = this.Data["Message"];
+        if (this._messageBuffer.length > 0) Output += this._messageBuffer.join("\n");
+        this._messageBuffer = [ ];
+        return Output;
+    }
+
+    Price() {
+        return this.Data["Price"];
+    }
+
+    /**
+     * @returns {number}
+     */
+    Charges() {
+        return this._inventory.Charges(this._itemClass, this._name);
+    }
+
+    /**
+     *
+     * @param {number} Count
+     */
+    SetCharges(Count) {
+        this._inventory.SetCharges(this._itemClass, this._name, Count);
+    }
+
+    /**
+     *
+     * @param {number} n
+     * @returns {number}
+     */
+    AddCharges(n) {
+        return this._inventory.AddCharges(this._itemClass, this._name, n);
+    }
+
+     /**
+     *
+     * @param {number} Amount
+     * @returns {number}
+     */
+    RemoveCharges(n) {
+        return this._inventory.AddCharges(this._itemClass, this._name, -n);
+    }
+
+    /** @returns {boolean}*/
+    IsFull() {
+        return this.Charges() == this._inventory._MAX_ITEM_CHARGES;
+    }
+
+    /**
+     * Determine if an item has a bonus of a specific type.
+     * @param b {string}
+     * @returns {boolean}
+     */
+    HasBonus(b) {
+        if (this.Data.hasOwnProperty("SkillBonus") == false) return false;
+        return this.Data["SkillBonus"].hasOwnProperty(b);
+    }
+
+    GetBonus(b) {
+        if (this.Data.hasOwnProperty("SkillBonus") == false) return [0, 0, 0];
+        if (this.Data["SkillBonus"].hasOwnProperty(b) == false) return [0, 0, 0];
+        return this.Data["SkillBonus"][b];
+    }
+
+    GetKnowledge() { return this._Knowlege.sort(); };
 };
 
+App.Items.QuestItem = class QuestItem extends App.Item {
+    constructor(d, InventoryObj) {
+        super("QUEST", d["Name"], InventoryObj);
+        this.Data = $.extend( true, {}, d );
+    }
 
+    Description() {
+        return this.Data["ShortDesc"];
+    }
 
+    Examine(Player) {
+        return this.Data["LongDesc"];
+    }
+    Type() {
+        return this.Data["Type"];
+    }
+    /** @returns {number} */
+    AddCharge(n) { return 1; };
+
+    /** Fake: This makes it so that quest items are unique.
+     * @returns {number} */
+    Charges() { return 1; }
+
+}
+
+App.Items.Reel = class Reel extends App.Item {
+    constructor(id, d) {
+        super("REEL", id);
+        this.Data = $.extend(true, { }, d);
+    }
+
+    Name() {
+        return this.Data["NAME"];
+    }
+
+    /** @returns {string} */
+    Description() {
+        var color;
+        switch(this.Data["RANK"]) {
+            case 'COMMON': color="grey"; break;
+            case 'UNCOMMON' : color="lime"; break;
+            case 'RARE' : color="cyan"; break;
+            case 'LEGENDARY': color="orange"; break;
+        }
+        return "@@color:"+color+";("+ this.Data['RANK']+ ") "+this.Data["NAME"]+"@@";
+    }
+
+    /**
+     * @param {App.Entity.Player} Player
+     * @returns {string}
+     */
+    Examine(Player) {
+        var attrs = [ 'ASS', 'BJ', 'HAND', 'TITS', 'FEM', 'PERV', 'BEAUTY'];
+        var text = ['Ass Fucking', 'Blowjobs', 'Handjobs', 'Tit Fucking', 'Femininity', 'Perversion', 'Beauty'];
+        var output = "A slot reel used for whoring. It has the following attributes:\n";
+        for (var x = 0; x < attrs.length; x++) {
+            var percent = this.CalcPercent(attrs[x]);
+            if (percent <= 0) continue;
+            output += text[x] + " - " + percent + "% ";
+        }
+        return output;
+    }
+
+    /** @returns {number} */
+    CalcPercent(key) {
+        var filterArr = this.Data['DATA'].filter(function(o) { return o == key; });
+        return Math.round( (filterArr.length/ this.Data['DATA'].length) * 100);
+    }
+
+    Rank() { return this.Data['RANK']; }
+
+    Reels() {
+        return this.Data["DATA"];
+    }
+
+    Css() {
+        return this.Data["CSS"];
+    }
+
+    Symbol(index) {
+        return this.Data["DATA"][index];
+    }
+
+    /** @returns {string} */
+    Type() { return this.ItemClass(); }
+};

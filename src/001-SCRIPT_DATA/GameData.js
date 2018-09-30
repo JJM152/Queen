@@ -1403,3 +1403,7 @@ App.Data.Encounters = {
                 "ENEMIES" : [ { "ENEMY" : "PIRATE_A", "MIN" : 1, "MAX" : 1 }]}
         ]
 };
+
+App.Data.Game = {
+    Version : 0.08
+};
