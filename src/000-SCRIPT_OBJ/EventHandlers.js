@@ -154,9 +154,4 @@ App.EventHandlers = new function() {
 
         save.id = SugarCube.session.id; // the game title includes version, hence this overwrite
     };
-
-    this.onSave = function(save)
-    {
-        save.version = App.Data.Game.Version;
-    };
 };
