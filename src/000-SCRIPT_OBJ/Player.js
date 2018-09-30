@@ -1577,6 +1577,7 @@ App.Entity.Player = class Player {
     get LastUsedHair() { return this._state.LastUsedHair; }
     get LastQuickWardrobe() { return this._state.LastQuickWardrobe; }
     get debugMode() { return this._state.debugMode; }
+    set debugMode(v) { this._state.debugMode = v; }
     get difficultySetting() { return this._state.difficultySetting; }
     get WhoreTutorial() { return this._state.WhoreTutorial; }
     set WhoreTutorial(v) { this._state.WhoreTutorial = v; }

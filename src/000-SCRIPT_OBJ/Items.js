@@ -286,7 +286,7 @@ App.Item = new function() {
         var Table       = App.Data.LootTables[Type];
         var output      = "";
 
-        if (Player.debugMode() == true)
+        if (Player.debugMode == true)
         console.log("DoLootBox: Type="+Type+", Minimum="+Minimum+", Bonus="+Bonus);
 
         DiceRoll = ( DiceRoll + Bonus) < Minimum ? Minimum : (DiceRoll + Bonus);
