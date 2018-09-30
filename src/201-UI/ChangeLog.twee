@@ -1,5 +1,14 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.8 - 09/30/2018
+!!!!General
+* Merged code from (@@color:deepPink;ezsh@@) to separate player state and player object to reduce save size.
+* Attempt to fix bug where eating food in cabin would return you to a different room when you exit the inventory interface. (couldn't reproduce) issue <a href="https://github.com/JJM152/Queen/issues/41">#41</a>
+* Attempt to fix null reference in slot machine code. (couldn't reproduce) issue <a href="https://github.com/JJM152/Queen/issues/42">#42</a>
+!!!!UI
+* There is now an additional tab in the Inventory dialogue called 'Misc' that shows various items you own that can't be used from the inventory interface (makeup, torches, shovels, etc)
+!!!!Abamond
+* Rogue-like game has had many enhancements.
 !!!0.7b - 09/26/2018
 !!!!General
 * Added unix build script to github repository (@@color:deepPink;ezsh@@)
