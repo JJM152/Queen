@@ -57,7 +57,7 @@ App.Item = class Item {
      * @param {string} Tag the key of the item
      * @returns {number} the price in gold coins.
      */
-    CalculateBasePrice(Category, Tag) {
+    static CalculateBasePrice(Category, Tag) {
 		try {
 	        var d = this._FetchData(Category, Tag);
 		} catch (e) {
@@ -280,7 +280,7 @@ App.Item = class Item {
         if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" || Type == 'MISC_CONSUMABLE') {
              o = new App.Items.Consumable(Type, d, Inventory);
         }
-        if ((Count != 0) && (typeof d["Charges"] !== 'undefined')) o.SetCharges(Count);
+        if (Count != 0 ) o.SetCharges(Count);
 
         return o;
     }
