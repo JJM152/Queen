@@ -1456,9 +1456,11 @@ App.SlotEngine = new function() {
      */
     this._UnlockSpinnerCB = function()
     {
-        if (this._Customers[this._SelectedCustomer].Satisfaction >= 100) this._RemoveCustomer(this._SelectedCustomer);
+        if (this._SelectedCustomer != null && typeof this._SelectedCustomer !== 'undefined' && this._Customers.length > this._SelectedCustomer) {
+            var oCustomer = this._Customers[this._SelectedCustomer];
+            if (typeof oCustomer !== 'undefined' && oCustomer.Satisfaction >= 100) this._RemoveCustomer(this._SelectedCustomer);
+        }
         this._Spinning = false;
-
     };
 
     /**

@@ -8490,9 +8490,11 @@ App.SlotEngine = new function() {
      */
     this._UnlockSpinnerCB = function()
     {
-        if (this._Customers[this._SelectedCustomer].Satisfaction >= 100) this._RemoveCustomer(this._SelectedCustomer);
+        if (this._SelectedCustomer != null && typeof this._SelectedCustomer !== 'undefined' && this._Customers.length > this._SelectedCustomer) {
+            var oCustomer = this._Customers[this._SelectedCustomer];
+            if (typeof oCustomer !== 'undefined' && oCustomer.Satisfaction >= 100) this._RemoveCustomer(this._SelectedCustomer);
+        }
         this._Spinning = false;
-
     };
 
     /**
@@ -29840,7 +29842,7 @@ Penis size: \
 &lt;&lt;set _JobTitle = $args[0].Title(true); &gt;&gt;
 &lt;&lt;click _JobTitle &quot;SelfJobs&quot;&gt;&gt;
 &lt;&lt;set $MenuAction = $args[0]&gt;&gt;
-&lt;&lt;if not tags().contains(&quot;custom-menu&quot;)&gt;&gt;&lt;&lt;set $GameBookmark = passage(); &gt;&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if tags().includes(&quot;custom-menu&quot;) == false;&gt;&gt;&lt;&lt;set $GameBookmark = passage();&gt;&gt;&lt;&lt;/if&gt;&gt;
 &lt;&lt;/click&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;
 
@@ -30370,7 +30372,7 @@ It&#39;s getting kind of late... [[head back to the Mermaid|Cabin]]&lt;&lt;/if&g
         &lt;&lt;set $MenuAction = _NPC&gt;&gt;
         &lt;&lt;run setup.player.AdjustStat(&quot;Energy&quot;, -1);&gt;&gt;
         &lt;&lt;run setup.player.NextPhase(1);&gt;&gt;
-        &lt;&lt;if not tags().contains(&quot;custom-menu&quot;)&gt;&gt;&lt;&lt;set $GameBookmark = passage(); &gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/click&gt;&gt; - [@@color:lime;Time 1@@, @@color:yellow;Energy 1@@]
+        &lt;&lt;if tags().includes(&quot;custom-menu&quot;) == false;&gt;&gt;&lt;&lt;set $GameBookmark = passage();&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/click&gt;&gt; - [@@color:lime;Time 1@@, @@color:yellow;Energy 1@@]
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;else&gt;&gt;
     @@color:grey;Shop - closed@@
