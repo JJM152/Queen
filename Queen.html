@@ -8463,7 +8463,7 @@ App.SlotEngine = new function() {
             var jackpot = [ 'JACKPOT', 'JACKPOT', 'JACKPOT', 'DOUBLE JACKPOT', 'TRIPLE JACKPOT', 'QUADRUPLE JACKPOT', 'SUPER JACKPOT', 'MEGA JACKPOT', 'ULTRA JACKPOT' ];
             var colors = [ 'lime', 'lime', 'lime', 'gold', 'gold', 'orange', 'orange', 'cyan', 'purple'];
             this._RisingDialog(jackpot[payout.length-1], colors[payout.length-1]);
-            $('#DesperationButton').removeClass("DesperationButtonActivated").addClass("DesperationButtonDeactivated");
+            //$('#DesperationButton').removeClass("DesperationButtonActivated").addClass("DesperationButtonDeactivated");
         } else {
             // We missed.
             this._Misses++;
@@ -8587,10 +8587,11 @@ App.SlotEngine = new function() {
     };
 
     this._DesperationButtonCB = function(e) {
-        if (this._Misses < 5) return;
+        if (this._Misses < 5 || this._Spinning == true ) return;
         this._DesperationSpins++;
         this._Spinning = true;
         this._Reels.win(this._Customers[this._SelectedCustomer].Wants[0]);
+        $('#DesperationButton').removeClass("DesperationButtonActivated").addClass("DesperationButtonDeactivated");
     };
 
     this._DrawUICB = function() {
