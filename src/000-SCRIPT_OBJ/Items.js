@@ -277,7 +277,9 @@ App.Item = class Item {
 
         if (Type == "QUEST") o = new App.Items.QuestItem(d, Inventory);
 
-        if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" || Type == 'MISC_CONSUMABLE') o = new this.Consumable(d);
+        if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" || Type == 'MISC_CONSUMABLE') {
+             o = new App.Items.Consumable(Type, d, Inventory);
+        }
         if ((Count != 0) && (typeof d["Charges"] !== 'undefined')) o.SetCharges(Count);
 
         return o;
