@@ -11,6 +11,7 @@ Queen of the Seas (v 0.8)
 console.log("Sugarcube Config...");
 Config.history.controls = false;
 Config.history.maxStates = 1;
+Config.saves.version = App.Data.Game.Version;
 
 setup.player = new App.Entity.Player();
 
@@ -51,7 +52,6 @@ Config.navigation.override = function (passageName) {
 App.EventHandlers.Init();
 
 Config.saves.onLoad = App.EventHandlers.onLoad;
-Config.saves.onSave = App.EventHandlers.onSave;
 
 :: Start
 <<set $GameBookmark = passage(); >>
