@@ -324,17 +324,14 @@ App.Item = class Item {
                         output += "@@color:yellow;"+coins + " gold coins.@@\n";
                         continue;
                     }
-                    var obj;
                     for (var x = 0; x < Items[i]["QTY"]; x++) {
-                        obj = this.Factory(Items[i]["TYPE"], Items[i]["TAG"], Player.Inventory);
-
                         if ( (Items[i]["TYPE"] == "CLOTHES") && (Player.OwnsWardrobeItem(Items[i]) == true)) {
                             // We own this already. Give some cash.
                             var coins = Math.floor((this.CalculateBasePrice(Items[i]["TYPE"], Items[i]["TAG"]) * 0.25));
                             Player.AdjustMoney( coins );
                             output += "@@color:yellow;"+coins + " gold coins.@@\n";
                         } else {
-                            Player.AddItem(Items[i]["TYPE"], Items[i]["TAG"], 0);
+                            var obj = Player.AddItem(Items[i]["TYPE"], Items[i]["TAG"], 0);
                             if (x == 0) {
                                 output += obj.Description();
                                 output += Items[i]["QTY"] > 1 ? "@@color:gold; x " + Items[i]["QTY"] + "@@\n" : "\n";
@@ -416,6 +413,14 @@ App.Item = class Item {
     static GetCharges(Type, Tag) {
         var rec = this._FetchData(Type, Tag);
         return rec.hasOwnProperty("Charges") ? rec["Charges"] : 1;
+    }
+
+    Charges() {
+        console.log("Error: calling Item.Charges() for class " + this.Id());
+    }
+
+    AddCharges(n) {
+        console.log("Error: calling Item.AddCharges() for class " + this.Id());
     }
 };
 
@@ -901,11 +906,11 @@ App.Items.QuestItem = class QuestItem extends App.Item {
      * Doesn't work. You can't have more than 1 of any quest item.
      * @param {number} n
      * @returns {number} */
-    static AddCharge(n) { return 1; };
+    AddCharges(n) { return 1; };
 
     /** Fake: This makes it so that quest items are unique.
      * @returns {number} */
-    static Charges() { return 1; }
+    Charges() { return 1; }
 
 };
 
@@ -918,8 +923,8 @@ App.Items.Reel = class Reel extends App.Item {
      * @param {string} id
      * @param {object} d
      */
-    constructor(id, d) {
-        super("REEL", id);
+    constructor(id, d, InventoryObj) {
+        super("REEL", id, InventoryObj);
         this.Data = $.extend(true, { }, d);
     }
 
@@ -989,4 +994,14 @@ App.Items.Reel = class Reel extends App.Item {
 
     /** @returns {string} */
     Type() { return this.ItemClass(); }
+
+    /**
+     * No. of uses
+     * @returns {number}
+     */
+    Charges() {
+        console.log("Charges Called:"+this.Tag());
+        console.log("Amount:"+this._inventory.Charges(this._itemClass, this.Tag()));
+        return this._inventory.Charges(this._itemClass, this.Tag());
+    }
 };

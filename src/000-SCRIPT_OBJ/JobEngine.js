@@ -304,7 +304,7 @@ App.Job = function(Data) {
                     break;
                 case "ITEM":
                     var o = Player.GetItemByName(Name);
-                    o.RemoveCharge(Value);
+                    o.RemoveCharges(Value);
                     if (o.Charges() <= 0) Player.DeleteItem(o);
                     break;
                 case "TIME":
@@ -1033,7 +1033,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 if (this._Player.StoreInventory[Name]["INVENTORY"].length < 1) {
                     App.StoreEngine.OpenStore(this._Player, this._NPC);
                 }
-                
+
                 if (Opt == "LOCK") App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 1);
                 if (Opt == "UNLOCK") App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 0);
                 break;
