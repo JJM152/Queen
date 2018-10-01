@@ -280,7 +280,7 @@ App.Item = class Item {
         if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" || Type == 'MISC_CONSUMABLE') {
              o = new App.Items.Consumable(Type, d, Inventory);
         }
-        if (Count != 0 ) o.SetCharges(Count);
+        if (Count > 0 ) o.SetCharges(Count);
 
         return o;
     }
