@@ -28,7 +28,7 @@ App.EventHandlers = new function() {
      * @returns {boolean}
      */
     this.HasPlayerState = function() {
-        return (this.exists("Sugarcube.setup.player") == true && this.exists("Sugarcube.State.variables.PlayerState") == true);
+        return (this.exists("SugarCube.setup.player") == true && this.exists("SugarCube.State.variables.PlayerState") == true);
     };
 
     this.exists = function(namespace)
@@ -36,7 +36,7 @@ App.EventHandlers = new function() {
         var tokens = namespace.split('.');
         return tokens.reduce(function(prev, curr) {
             return (typeof prev == "undefined") ? prev : prev[curr];
-        }, window);
+        }, window) != undefined;
     };
 
     this.onLoad = function(save)
