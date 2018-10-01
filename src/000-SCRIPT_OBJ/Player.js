@@ -282,6 +282,7 @@ App.Entity.InventoryManager = class InventoryManager {
      * @returns {number}
      */
     SetCharges(ItemClass, Name, Count) {
+        console.log("SetCharges: "+ItemClass+","+Name+","+Count);
         var cl = (ItemClass == undefined) ? this._FindItemClass(Name) : ItemClass;
         var clamped = Math.clamp(Math.floor(Count), 0, this._MAX_ITEM_CHARGES);
         if (clamped == 0 && this._state.Inventory.hasOwnProperty(cl) && this._state.Inventory[cl].hasOwnProperty(Name)) {
@@ -304,6 +305,7 @@ App.Entity.InventoryManager = class InventoryManager {
      * @returns {number} new number of charges
      */
     AddCharges(ItemClass, Name, Amount){
+        console.log("AddCharges: "+ItemClass+","+Name+","+Amount);
         var cl = (ItemClass == undefined) ? this._FindItemClass(Name) : ItemClass;
         if (cl == undefined) throw Error("No item named '" + Name + "'");
         if (!this._state.Inventory.hasOwnProperty(cl)) this._state.Inventory[cl] = {};
@@ -320,7 +322,7 @@ App.Entity.InventoryManager = class InventoryManager {
      * @returns {App.Item}
      */
     AddItem(ItemClass, Name, Charges) {
-        this.SetCharges(ItemClass, Name, Charges == undefined ? 1 : Charges);
+        this.AddCharges(ItemClass, Name, Charges == undefined ? 1 : Charges);
         return this._items[App.Item.MakeId(ItemClass, Name)];
     }
 
@@ -1613,23 +1615,15 @@ App.Entity.Player = class Player {
      * @param {string} [Opt]
      */
     AddItem(Category, Name, Count, Opt) {
-        //Count = Count || 1;
-
-        var Item = this.Inventory.AddItem(Category, Name, Count);
-
+        var Item;
         if (Category == "CLOTHES" || Category == "WEAPON" ) {
             if (this.OwnsWardrobeItem(Category, Name)) return; // No duplicate equipment allowed.
-            this.Clothing.AddItem(Name, Opt == "WEAR");
-            return;
-        }
-
-        var ItemArray = $.grep(this.Inventory.Items, function(o) { return o.Name() == Item.Name(); });
-
-        if (ItemArray.length != 0 && (typeof ItemArray[0].AddCharge !== 'undefined')) {
-            ItemArray[0].AddCharge(Item.Charges());
+            Item = this.Clothing.AddItem(Name, Opt == "WEAR");
         } else {
-            this.Inventory.AddCharges(Category, Name, Count);
+            Item = this.Inventory.AddItem(Category, Name, Count);
         }
+
+        return Item;
     }
 
     /**
@@ -1651,16 +1645,25 @@ App.Entity.Player = class Player {
     };
 
     /**
+     * Find item and reduce charges. Delete from inventory if out of charges.
+     * @param ItemId {string}
+     * @returns The item object
+     */
+    TakeItem (ItemId) {
+        var o = this.GetItemById(ItemId);
+        o.RemoveCharges(1);
+        return o;
+    };
+
+    /**
      * Use an item. Apply effects. Delete from inventory if out of charges.
      * @param ItemId {string}
      */
     UseItem (ItemId) {
-        var o = this.GetItemById(ItemId);
+        var o = this.TakeItem(ItemId);
         this.AddHistory("ITEMS", o.Name(), 1);
         o.ApplyEffects(this);
         var msg = o.Message(this);
-        o.RemoveCharge(1);
-        if (o.Charges() <= 0) this.DeleteItem(o);
         return msg;
     };
 
@@ -1998,4 +2001,5 @@ App.Entity.Player = class Player {
         delete this._inventory;
         delete this._clothing;
     }
+
 };

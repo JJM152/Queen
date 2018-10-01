@@ -87,6 +87,7 @@ App.Rogue.Engine = new function() {
         level.fillBorders(80, 40);
         level.genEntrance();
         level.genExit();
+        level.genTreasure();
         return level;
     };
 

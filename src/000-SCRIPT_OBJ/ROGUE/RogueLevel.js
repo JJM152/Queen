@@ -16,6 +16,7 @@ App.Rogue.Level = function(depth) {
     this._borders = { };
     this._entrance = { };
     this._exit = { };
+    this._treasure = { };
 
     this._empty = new App.Rogue.Entity({ch:".", fg:"#888", bg:null});
     
@@ -137,6 +138,29 @@ App.Rogue.Level = function(depth) {
         if (free == false) cells = cells.concat(Object.keys(this._walls).filter(function(key) { return inside.includes(key) == false }));
 
         return cells;
+    };
+
+    /**
+     * Each  level can have up to 5 treasure spots on it. The chance is basically 1% per depth for each spot.
+     */
+    this.genTreasure = function()
+    {
+        var count = 0;
+        for (var i = 0; i < 5; i++) {
+            if ((Math.round(Math.random() * 100)+1) <= 100 ) count++;
+        }
+
+        if (count < 1) return; // noop
+        var cells = Object.keys(this._freeCells);
+        //Remove stairs from array
+        cells = $.grep(cells, function(e) { return (e != this._exit.toString() && e != this._entrance.toString())}.bind(this));
+        for (i = 0; i < count; i++) {
+            var treasure = cells[Math.floor(Math.random() * cells.length)];
+            var XY = new App.Rogue.XY();
+            XY.setStr(treasure);
+            this._treasure[treasure] = XY;
+            this._freeCells[treasure] = App.Rogue.Entity({ ch:'*', fg:'#A52A2A', bg:null })
+        }
     };
 
     /**
