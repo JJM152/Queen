@@ -1,5 +1,8 @@
 App = App || { Data: { }, Entity: { } };
 
+/**
+ * @Class Item
+ */
 App.Item = class Item {
     /**
      * Return the appropriate data dictionary for the item in question. If item type is invalid, returns null.
@@ -247,19 +250,19 @@ App.Item = class Item {
     /**
      *
      * @param {string} Type
-     * @param {string} Name
-     * @param {App.Entity.InventoryManager} Inventory
+     * @param {string} Tag
+     * @param {InventoryManager|ClothingManager} Inventory
      * @param {number} [Count]
-     * @returns {Item}
+     * @returns {Item|Consumable|Quest|Clothing|Reel|Store|NPC}
      */
-    static Factory(Type, Name, Inventory, Count) {
+    static Factory(Type, Tag, Inventory, Count) {
 
-        var d = this._FetchData(Type, Name);
+        var d = this._FetchData(Type, Tag);
         var o;
 
         // might change this in the future, for now weapons are "clothing"
-        if (Type == "CLOTHES") o = new App.Items.Clothing(d, Inventory);
-        if (Type == "WEAPON") o = new App.Items.Clothing(d, Inventory);
+        if (Type == "CLOTHES") o = new App.Items.Clothing(Tag, d, Inventory);
+        if (Type == "WEAPON") o = new App.Items.Clothing(Tag, d, Inventory);
 
         if (Type == "NPC") o = new window.App.Entity.NPC(d);
 
@@ -271,14 +274,14 @@ App.Item = class Item {
         }
 
         if (Type == "REEL") {
-            o = new App.Items.Reel(Name, d, Inventory);
+            o = new App.Items.Reel(Tag, d, Inventory);
             return o;
         }
 
-        if (Type == "QUEST") o = new App.Items.QuestItem(d, Inventory);
+        if (Type == "QUEST") o = new App.Items.QuestItem(Tag, d, Inventory);
 
         if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" || Type == 'MISC_CONSUMABLE') {
-             o = new App.Items.Consumable(Type, d, Inventory);
+             o = new App.Items.Consumable(Type, Tag, d, Inventory);
         }
         if (Count > 0 ) o.SetCharges(Count);
 
@@ -287,12 +290,11 @@ App.Item = class Item {
 
     /**
      * Open a loot box!
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @param {string} Type
      * @param {number} Minimum
      * @param {number} Bonus
      * @returns {string}
-     * @constructor
      */
     static DoLootBox(Player, Type, Minimum, Bonus) {
 
@@ -324,7 +326,7 @@ App.Item = class Item {
                     }
                     var obj;
                     for (var x = 0; x < Items[i]["QTY"]; x++) {
-                        obj = this.Factory(Items[i]["TYPE"], Items[i]["TAG"]);
+                        obj = this.Factory(Items[i]["TYPE"], Items[i]["TAG"], Player.Inventory);
 
                         if ( (Items[i]["TYPE"] == "CLOTHES") && (Player.OwnsWardrobeItem(Items[i]) == true)) {
                             // We own this already. Give some cash.
@@ -348,33 +350,40 @@ App.Item = class Item {
     }
 
     /**
+     * @param {string} Category
+     * @param {string} Tag
      * Generate an item id
      * @returns {string}
      */
-    static MakeId (Category, Name) {
-        return Category + '/' + Name;
+    static MakeId (Category, Tag) {
+        return Category + '/' + Tag;
     }
 
     /**
-     *
      * @param {string} Id
-     * @returns {{Category: string, Name:string}}
+     * @returns {{Category: string, Tag:string}}
      */
     static SplitId(Id) {
         var _t = Id.split('/');
-        return {Category: _t[0], Name: _t[1]};
+        return {Category: _t[0], Tag: _t[1]};
     }
 
     /**
      *
      * @param {string} ItemClass
-     * @param {string} Name
-     * @param {App.Entity.InventoryManager} Inventory
+     * @param {string} Tag
+     * @param {InventoryManager} Inventory
      * @constructor
      */
-    constructor(ItemClass, Name, Inventory) {
+    constructor(ItemClass, Tag, Inventory) {
+        /** @type {string}
+         * @private */
         this._itemClass = ItemClass;
-        this._name = Name;
+        /** @type {string}
+         * @private */
+        this._tag = Tag;
+        /** @type {InventoryManager}
+         * @private */
         this._inventory = Inventory;
     }
 
@@ -382,26 +391,40 @@ App.Item = class Item {
      * @returns {string}
      */
     Id() {
-        return Item.MakeId(this._itemClass, this._name);
+        return Item.MakeId(this._itemClass, this._tag);
     }
 
     /**
      * @returns {string}
      */
-    Name() {
-        return this._name;
+    Tag() {
+        return this._tag;
     }
-
     /**
      * @returns {string}
      */
     ItemClass() {
         return this._itemClass;
     }
+
+    /**
+     * Fetch the default charges from an items data record.
+     * @param {string} Type
+     * @param {string} Tag
+     * @returns {number}
+     */
+    static GetCharges(Type, Tag) {
+        var rec = this._FetchData(Type, Tag);
+        return rec.hasOwnProperty("Charges") ? rec["Charges"] : 1;
+    }
 };
 
 App.Items = {};
 
+/**
+ * @Class Shop
+ * @extends {Item}
+ */
 App.Items.Shop = class Shop extends App.Item {
     constructor(ShopName, InventoryObj) {
         super('SHOP', ShopName, InventoryObj);
@@ -409,20 +432,31 @@ App.Items.Shop = class Shop extends App.Item {
 
 };
 
+/**
+ * @Class Clothing
+ * @extends {Item}
+ */
 App.Items.Clothing = class Clothing extends App.Item {
-    constructor(d, InventoryObj) {
-        super('CLOTHES', d['Name'], InventoryObj);
+    /**
+     * @param {string} Tag
+     * @param {object} d
+     * @param {InventoryManager} InventoryObj
+     */
+    constructor(Tag, d, InventoryObj) {
+        super('CLOTHES', Tag, InventoryObj);
         this.o = $.extend( true, {}, d );
         this._Knowlege = [ ];
 
-        // Init knowledge variable
-
-         for(var i = 0; i < this.WearEffect().length; i++)
+        for(var i = 0; i < this.WearEffect().length; i++)
             this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[this.WearEffect()[i]]["KNOWLEDGE"]);
         for(i = 0; i < this.ActiveEffect().length; i++)
             this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[this.ActiveEffect()[i]]["KNOWLEDGE"]);
     }
 
+    /**
+     * Short description of item
+     * @returns {string}
+     */
     Description() {
         var result = this.o.ShortDesc;
         if (result instanceof String) result = String(result);
@@ -435,9 +469,15 @@ App.Items.Clothing = class Clothing extends App.Item {
         return result;
     }
 
+    /**
+     * Examine an item, relate detailed description and any knowledge.
+     * @param {Player} Player
+     * @returns {string}
+     */
     Examine(Player) {
         var Output = this.o["LongDesc"];
-        var Usages = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Name());
+        var Usages = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Tag());
+
         Output += "\n";
 
         Output += "@@color:yellow;Style Categories  @@ ";
@@ -452,11 +492,11 @@ App.Items.Clothing = class Clothing extends App.Item {
     }
 
     /**
+     * Apply (worn) affects overnight like skill gains / body mods.
      * Apply all effects of this clothing item, usually overnight.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      */
     ApplyEffects(Player) {
-        var tmp;
 
         for (var i = 0; i < this.WearEffect().length;i++) {
             if (Player.debugMode == true) console.log("Applying effect: "+this.WearEffect()[i]);
@@ -466,21 +506,25 @@ App.Items.Clothing = class Clothing extends App.Item {
 
     /**
      * Learn Knowledge sleeping...
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @returns {string}
      */
     LearnKnowledge(Player)
     {
-        var flag = ( Player.GetHistory("CLOTHING_KNOWLEDGE", this.Name()) > 0);
-        var know = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Name());
+        var flag = ( Player.GetHistory("CLOTHING_KNOWLEDGE", this.Tag()) > 0);
+        var know = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Tag());
         if (flag && know < this.GetKnowledge().length){
             var output = "@@color:yellow;You learn something... your " + this.Name() +" has an effect!@@ " + App.PR.pEffectMeter(this.GetKnowledge()[know], this);
-            Player.AddHistory("CLOTHING_EFFECTS_KNOWN", this.Name(), 1);
-            Player.RemoveHistory("CLOTHING_KNOWLEDGE", this.Name());
+            Player.AddHistory("CLOTHING_EFFECTS_KNOWN", this.Tag(), 1);
+            Player.RemoveHistory("CLOTHING_KNOWLEDGE", this.Tag());
             return output;
         }
     }
 
+    /**
+     * List all categories this piece of clothing belongs to.
+     * @returns {string[]}
+     */
     Category()
     {
         if (this.o.hasOwnProperty("Category") == false) return [ "Ordinary" ];
@@ -497,25 +541,60 @@ App.Items.Clothing = class Clothing extends App.Item {
         return ( $.inArray(Cat, this.Category()) != -1 ) ? this.Style() : 0;
     }
 
+    /**
+     * What slot this is worn in.
+     * @returns {string}
+     */
     Slot() {
         return this.o["Slot"];
     }
+
+    /**
+     * Slots to disable when this is worn.
+     * @returns {string[]}
+     */
     Restrict() {
         return this.o["Restrict"];
     }
+
+    /**
+     * Effects that happen when the item is worn, overnight.
+     * @returns {string[]}
+     */
     WearEffect() {
         return (typeof this.o["WearEffect"] !== 'undefined') ? this.o["WearEffect"] : [ ];
     }
+
+    /**
+     * Effects that can be applied to active skill rolls.
+     * @returns {string[]}
+     */
     ActiveEffect() {
         return (typeof this.o["ActiveEffect"] !== 'undefined') ? this.o["ActiveEffect"] : [ ];
     }
 
+    /**
+     * Color of item.
+     * @returns {string}
+     */
     Color() {
         return this.o["Color"];
     }
 
+    /**
+     * Type of clothing piece.
+     * @returns {string}
+     */
     Type() {
         return this.o["Type"];
+    }
+
+    /**
+     * Name of item.
+     * @returns {string}
+     */
+    Name() {
+        return this.o["Name"];
     }
 
 // STYLE TABLE
@@ -523,7 +602,9 @@ App.Items.Clothing = class Clothing extends App.Item {
 // ACCESSORY    3       6           9       12
 // CLOTHING     5       10          15      20
 // ONE PIECE    10      20          30      40
-    /** @returns {number} */
+    /**
+     * Style bonus related to quality of clothing item.
+     * @returns {number} */
     Style() {
         const bonus = {
             "ACCESSORY" : { "COMMON" : 3, "UNCOMMON" : 6, "RARE" : 9, "LEGENDARY" : 12 },
@@ -574,7 +655,7 @@ App.Items.Clothing = class Clothing extends App.Item {
     }
 
     /**
-     *
+     * Locked items cannot be removed unless unlocked.
      * @param {boolean} locked
      */
     SetIsLocked(locked) {
@@ -598,40 +679,55 @@ App.Items.Clothing = class Clothing extends App.Item {
      */
     InMarket() {
         var inMarket = this.o.InMarket;
-        return typeof (inMarket) === "boolean" ? inMarket : true // Default to yes.
+        return typeof (inMarket) === "boolean" ? inMarket : true; // Default to yes.
     }
 
+    /**
+     * @returns {string[]}
+     */
     GetKnowledge() { return this._Knowlege.sort(); }
 };
 
-    /**
-     * A consumable object.
-     * @param d {*}
-     * @constructor
-     */
+/**
+ * @Class Consumable
+ * @extends {Item}
+ */
 App.Items.Consumable = class Consumable extends App.Item {
-    constructor(Category, d, InventoryObj) {
-        super(Category, d["Name"], InventoryObj);
+    /**
+     * @param {string} Category
+     * @param {string} Tag
+     * @param {object} d
+     * @param {InventoryManager} InventoryObj
+     */
+    constructor(Category, Tag, d, InventoryObj) {
+        super(Category, Tag, InventoryObj);
         this.Data = $.extend( true, {}, d );
 
         this._messageBuffer = [ ];
 
         this._Knowlege = [ ];
 
-        // Init knowledge variable
-
         for(var i = 0; i < this.UseEffect().length; i++){
             this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[this.UseEffect()[i]]["KNOWLEDGE"]);
         }
     }
 
+    /**
+     * Short description of item
+     * @returns {string}
+     */
     Description() {
         return this.Data["ShortDesc"];
     }
 
+    /**
+     * Shows long description of item and any knowledge known about it.
+     * @param {Player} Player
+     * @returns {string}
+     */
     Examine(Player) {
         var Output = this.Data["LongDesc"];
-        var Usages = Player.GetHistory("ITEMS", this.Name());
+        var Usages = Player.GetHistory("ITEMS", this.Tag());
 
         if (Usages == 0) return Output;
 
@@ -644,6 +740,7 @@ App.Items.Consumable = class Consumable extends App.Item {
         return Output;
     }
 
+    /** @returns {string} */
     Type() {
         return this.Data["Type"];
     }
@@ -655,7 +752,7 @@ App.Items.Consumable = class Consumable extends App.Item {
 
     /**
      * Apply all effects of this consumable item.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      */
    ApplyEffects(Player) {
 
@@ -668,15 +765,16 @@ App.Items.Consumable = class Consumable extends App.Item {
         }
 
         // Knowledge.
-        var Usages = Player.GetHistory("ITEMS", this.Name());
+        var Usages = Player.GetHistory("ITEMS", this.Tag());
 
         if (Usages <= this.GetKnowledge().length)
             this._messageBuffer.push("\n\n@@color:yellow;You learn something... this item has an effect!@@ " + App.PR.pEffectMeter(this.GetKnowledge()[(Usages-1)], this));
 
     }
 
-    /** This message is printed when a player uses an item
-     * @param {App.Entity.Player} Player
+    /**
+     * This message is printed when a player uses an item
+     * @param {Player} Player
      * @returns {string} */
     Message(Player) {
         var Output = this.Data["Message"];
@@ -685,41 +783,43 @@ App.Items.Consumable = class Consumable extends App.Item {
         return Output;
     }
 
+    /**
+     * Price of the item
+     * @returns {number}
+     */
     Price() {
         return this.Data["Price"];
     }
 
     /**
+     * No. of uses
      * @returns {number}
      */
     Charges() {
-        return this._inventory.Charges(this._itemClass, this._name);
+        console.log("Charges Called:"+this.Tag());
+        console.log("Amount:"+this._inventory.Charges(this._itemClass, this.Tag()));
+        return this._inventory.Charges(this._itemClass, this.Tag());
+    }
+
+    /** @param {number} n */
+    SetCharges(n) {
+        this._inventory.SetCharges(this._itemClass, this.Tag(), n);
     }
 
     /**
-     *
-     * @param {number} Count
-     */
-    SetCharges(Count) {
-        this._inventory.SetCharges(this._itemClass, this._name, Count);
-    }
-
-    /**
-     *
      * @param {number} n
      * @returns {number}
      */
     AddCharges(n) {
-        return this._inventory.AddCharges(this._itemClass, this._name, n);
+        return this._inventory.AddCharges(this._itemClass, this.Tag(), n);
     }
 
      /**
-     *
-     * @param {number} Amount
+     * @param {number} n
      * @returns {number}
      */
     RemoveCharges(n) {
-        return this._inventory.AddCharges(this._itemClass, this._name, -n);
+        return this._inventory.AddCharges(this._itemClass, this.Tag(), -n);
     }
 
     /** @returns {boolean}*/
@@ -727,6 +827,7 @@ App.Items.Consumable = class Consumable extends App.Item {
         return this.Charges() == this._inventory._MAX_ITEM_CHARGES;
     }
 
+    // TODO: HasBonus / GetBonus should probably be factored out of the game. Not sure if this was ever used.
     /**
      * Determine if an item has a bonus of a specific type.
      * @param b {string}
@@ -737,46 +838,95 @@ App.Items.Consumable = class Consumable extends App.Item {
         return this.Data["SkillBonus"].hasOwnProperty(b);
     }
 
+    /**
+     * Get the bonus for an item by key
+     * @param {string} b - bonus type to find
+     * @returns {number[]}
+     */
     GetBonus(b) {
         if (this.Data.hasOwnProperty("SkillBonus") == false) return [0, 0, 0];
         if (this.Data["SkillBonus"].hasOwnProperty(b) == false) return [0, 0, 0];
         return this.Data["SkillBonus"][b];
     }
 
+    /**
+     * @returns {string[]}
+     */
     GetKnowledge() { return this._Knowlege.sort(); };
 };
 
+/**
+ * @Class QuestItem
+ * @extends {Item}
+ */
 App.Items.QuestItem = class QuestItem extends App.Item {
-    constructor(d, InventoryObj) {
-        super("QUEST", d["Name"], InventoryObj);
+    /**
+     *
+     * @param {string} Tag
+     * @param {string} d
+     * @param {InventoryManager} InventoryObj
+     * @constructor
+     */
+    constructor(Tag, d, InventoryObj) {
+        super("QUEST", Tag, InventoryObj);
         this.Data = $.extend( true, {}, d );
     }
 
+    /**
+     * Short description
+     * @returns {string}
+     */
     Description() {
         return this.Data["ShortDesc"];
     }
 
+    /**
+     * Long description of item. No knowledge on quest items.
+     * @param {Player} Player
+     * @returns {string}
+     */
     Examine(Player) {
         return this.Data["LongDesc"];
     }
+
+    /**
+     * Sub category of quest item. If applicable.
+     * @returns {string}
+     */
     Type() {
         return this.Data["Type"];
     }
-    /** @returns {number} */
-    AddCharge(n) { return 1; };
+
+    /**
+     * Doesn't work. You can't have more than 1 of any quest item.
+     * @param {number} n
+     * @returns {number} */
+    static AddCharge(n) { return 1; };
 
     /** Fake: This makes it so that quest items are unique.
      * @returns {number} */
-    Charges() { return 1; }
+    static Charges() { return 1; }
 
-}
+};
 
+/**
+ * @Class Reel
+ * @extends {Item}
+ */
 App.Items.Reel = class Reel extends App.Item {
+    /**
+     * @param {string} id
+     * @param {object} d
+     */
     constructor(id, d) {
         super("REEL", id);
         this.Data = $.extend(true, { }, d);
     }
 
+    /**
+     * The name of the reel.
+     * @returns {string}
+     */
     Name() {
         return this.Data["NAME"];
     }
@@ -794,7 +944,7 @@ App.Items.Reel = class Reel extends App.Item {
     }
 
     /**
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @returns {string}
      */
     Examine(Player) {
@@ -815,16 +965,24 @@ App.Items.Reel = class Reel extends App.Item {
         return Math.round( (filterArr.length/ this.Data['DATA'].length) * 100);
     }
 
+    /** @returns {string} */
     Rank() { return this.Data['RANK']; }
 
+    /** @returns {string} */
     Reels() {
         return this.Data["DATA"];
     }
 
+    /** @returns {string} */
     Css() {
         return this.Data["CSS"];
     }
 
+    /**
+     * Find a particular symbol at an array index
+     * @param {number} index
+     * @returns {string}
+     */
     Symbol(index) {
         return this.Data["DATA"][index];
     }

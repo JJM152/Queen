@@ -3,6 +3,7 @@ App = App || { Data: { }, Entity: { } };
 /**
  * The basic player state object.
  * This will be serialized by the SugarCube and thus may not contain any functions
+ * @Type {PlayerState}
  * @constructor
  */
 App.Entity.PlayerState = function (){
@@ -152,26 +153,32 @@ App.Entity.PlayerState = function (){
 };
 
 /**
- * Provides convinient methods for inspecting an inventory objects (@see App.Entity.PlayerState.Inventory
- *  and below the Player class).
+ * @Class InventoryManager
+ * Provides convenient methods for inspecting an inventory objects (@see App.Entity.PlayerState.Inventory
+ * and below the Player class).
  *
  * Might be used by NPCs in a future version, thus is not part of the Player class.
  *
  * This object is not meant to be serialized by SugarCube
+ *
  */
 App.Entity.InventoryManager = class InventoryManager {
     /**
-     *
-     * @param {App.Entity.PlayerState} stateObj
+     * @param {PlayerState} stateObj
      */
     constructor(stateObj) {
+        /**
+         * @type {PlayerState}
+         * @private
+         */
         this._state = stateObj;
+
         this._MAX_ITEM_CHARGES = 100;
 
         // create item objects for each record
         this._items = {};
-        this._ForEachItemRecord(undefined, undefined, function(charges, name, itemClass) {
-            this._ensureWrapObjectExists(itemClass, name, charges);
+        this._ForEachItemRecord(undefined, undefined, function(charges, tag, itemClass) {
+            this._ensureWrapObjectExists(itemClass, tag, charges);
         }, this);
 
         this._reelInSlots = {};
@@ -186,17 +193,18 @@ App.Entity.InventoryManager = class InventoryManager {
     }
 
     /**
-     * Looks through all classes for item with the given name and returns the itme class
+     * Looks through all classes for item with the given tag and returns the item class
+     * @param {string} Tag
      * @param {boolean} [FindAll] return all matching items (the first one otherwise)
      * @returns {string|string[]}
      * @private
      * TODO refactor the loop to exit early if FindAll = true
      */
-    _FindItemClass(Name, FindAll) {
+    _FindItemClass(Tag, FindAll) {
         var res = [];
         Object.keys(this._state.Inventory).forEach(function(type) {
             if (!this._state.Inventory.hasOwnProperty(type)) return;
-            if (this._state.Inventory[type].hasOwnProperty(Name)) {
+            if (this._state.Inventory[type].hasOwnProperty(Tag)) {
                 res.push(type);
             }
         });
@@ -212,19 +220,19 @@ App.Entity.InventoryManager = class InventoryManager {
      */
 
     /**
-     * @param {string} ItemClass
-     * @param {string} Name
+     * @param {string|undefined} Tag
+     * @param {string|undefined} ItemClass
      * @param {forEachCallback} func
      * @param {*} [thisObj]
      * @private
      */
-    _ForEachItemRecord(Name, ItemClass, func, thisObj) {
+    _ForEachItemRecord(Tag, ItemClass, func, thisObj) {
         var types = ItemClass == undefined ? Object.keys(this._state.Inventory) : [ItemClass];
         types.forEach(function(type) {
             if (!this._state.Inventory.hasOwnProperty(type)) return;
-            if (Name != undefined) {
-                if (this._state.Inventory[type].hasOwnProperty(Name)) {
-                    func.call(thisObj, this._state.Inventory[type][Name], Name, type);
+            if (Tag != undefined) {
+                if (this._state.Inventory[type].hasOwnProperty(Tag)) {
+                    func.call(thisObj, this._state.Inventory[type][Tag], Tag, type);
                 }
             } else {
                 for (var n in this._state.Inventory[type]) {
@@ -238,14 +246,14 @@ App.Entity.InventoryManager = class InventoryManager {
     /**
      *
      * @param {string} ItemClass
-     * @param {string} Name
+     * @param {string} Tag
      * @param {number} Charges
      * @param {string} [Id]
      */
-    _ensureWrapObjectExists(ItemClass, Name, Charges, Id){
-        if (Id == undefined) Id = App.Item.MakeId(ItemClass, Name);
+    _ensureWrapObjectExists(ItemClass, Tag, Charges, Id){
+        if (Id == undefined) Id = App.Item.MakeId(ItemClass, Tag);
         if (!this._items.hasOwnProperty(Id)) {
-            this._items[Id] = App.Item.Factory(ItemClass, Name, this, 0); // charges is stored already, hence '0' to prevent stack overflowing
+            this._items[Id] = App.Item.Factory(ItemClass, Tag, this, 0); // charges is stored already, hence '0' to prevent stack overflowing
         }
         return this._items[Id];
     }
@@ -265,33 +273,32 @@ App.Entity.InventoryManager = class InventoryManager {
 
     /**
      * @param {string} ItemClass
-     * @param {string} Name
+     * @param {string} Tag
      * @returns {number}
      */
-    Charges(ItemClass, Name) {
+    Charges(ItemClass, Tag) {
         var res = 0;
-        this._ForEachItemRecord(Name, ItemClass, function(n) { res += n;});
+        this._ForEachItemRecord(Tag, ItemClass, function(n) { res += n;});
         return res;
     }
 
     /**
      *
-     * @param {string} Name
-     * @param {string} Type
+     * @param {string} ItemClass
+     * @param {string} Tag
      * @param {number} Count
      * @returns {number}
      */
-    SetCharges(ItemClass, Name, Count) {
-        console.log("SetCharges: "+ItemClass+","+Name+","+Count);
-        var cl = (ItemClass == undefined) ? this._FindItemClass(Name) : ItemClass;
+    SetCharges(ItemClass, Tag, Count) {
+        var cl = (ItemClass == undefined) ? this._FindItemClass(Tag) : ItemClass;
         var clamped = Math.clamp(Math.floor(Count), 0, this._MAX_ITEM_CHARGES);
-        if (clamped == 0 && this._state.Inventory.hasOwnProperty(cl) && this._state.Inventory[cl].hasOwnProperty(Name)) {
-            delete this._state.Inventory[cl][Name];
-            delete this._items[App.Item.MakeId(cl, Name)];
+        if (clamped == 0 && this._state.Inventory.hasOwnProperty(cl) && this._state.Inventory[cl].hasOwnProperty(Tag)) {
+            delete this._state.Inventory[cl][Tag];
+            delete this._items[App.Item.MakeId(cl, Tag)];
         } else {
             if (!this._state.Inventory.hasOwnProperty(cl)) this._state.Inventory[cl] = {};
-            this._state.Inventory[cl][Name] = clamped;
-            this._ensureWrapObjectExists(ItemClass, Name, clamped);
+            this._state.Inventory[cl][Tag] = clamped;
+            this._ensureWrapObjectExists(ItemClass, Tag, clamped);
         }
         return clamped;
     }
@@ -299,31 +306,31 @@ App.Entity.InventoryManager = class InventoryManager {
     /**
      * Adds (or removes) charges to a given item. If item is not in the inventory and Amount > 0, item record is created.
      * If Amount < 0, resulting number of charges does not go below zero.
-     * @param {string} Name
+     * @param {string} Tag
      * @param {number} Amount
      * @param {string} ItemClass
      * @returns {number} new number of charges
      */
-    AddCharges(ItemClass, Name, Amount){
-        console.log("AddCharges: "+ItemClass+","+Name+","+Amount);
-        var cl = (ItemClass == undefined) ? this._FindItemClass(Name) : ItemClass;
-        if (cl == undefined) throw Error("No item named '" + Name + "'");
+    AddCharges(ItemClass, Tag, Amount){
+        var cl = (ItemClass == undefined) ? this._FindItemClass(Tag) : ItemClass;
+        if (cl == undefined) throw Error("No item tagged '" + Tag + "'");
         if (!this._state.Inventory.hasOwnProperty(cl)) this._state.Inventory[cl] = {};
-        if (!this._state.Inventory[cl].hasOwnProperty(Name)) {
-            this._state.Inventory[cl][Name] = 0;
+        if (!this._state.Inventory[cl].hasOwnProperty(Tag)) {
+            this._state.Inventory[cl][Tag] = 0;
         }
-        return this.SetCharges(cl,Name, this._state.Inventory[cl][Name] + Amount);
+        Amount = Amount == 0 ? App.Item.GetCharges(cl, Tag) : Amount;
+        return this.SetCharges(cl,Tag, this._state.Inventory[cl][Tag] + Amount);
     }
 
     /**
      * @param {string} ItemClass
-     * @param {string} Name
+     * @param {string} Tag
      * @param {number} Charges
      * @returns {App.Item}
      */
-    AddItem(ItemClass, Name, Charges) {
-        this.AddCharges(ItemClass, Name, Charges == undefined ? 1 : Charges);
-        return this._items[App.Item.MakeId(ItemClass, Name)];
+    AddItem(ItemClass, Tag, Charges) {
+        this.AddCharges(ItemClass, Tag, Charges == undefined ? 1 : Charges);
+        return this._items[App.Item.MakeId(ItemClass, Tag)];
     }
 
     /**
@@ -331,7 +338,7 @@ App.Entity.InventoryManager = class InventoryManager {
      */
     RemoveItem(Id) {
         var n = App.Item.SplitId(Id);
-        this.SetCharges(n.Category, n.Name, 0);
+        this.SetCharges(n.Category, n.Tag, 0);
     }
 
     /**
@@ -342,19 +349,19 @@ App.Entity.InventoryManager = class InventoryManager {
     */
     EquipReel(toEquipID, reelSlot ) {
         var nm = App.Item.SplitId(toEquipID);
-        this.AddCharges(nm.Category, nm.Name, -1);
+        this.AddCharges(nm.Category, nm.Tag, -1);
 
         if (this._state.Slots[reelSlot] != null) {
             this.AddCharges("REEL", this._state.Slots[reelSlot], 1);
         }
 
-        this._state.Slots[reelSlot] = nm.Name;
-        this._reelInSlots[reelSlot] = App.Item.Factory(nm.Category, nm.Name, this);
+        this._state.Slots[reelSlot] = nm.Tag;
+        this._reelInSlots[reelSlot] = App.Item.Factory(nm.Category, nm.Tag, this);
     }
 
     /**
      * Remove an equipped reel and place it in the inventory.
-     * @param slotID
+     * @param {string} slotID
      */
     RemoveReel(slotID) {
         if ( (typeof this._state.Slots[slotID] !== 'undefined') && (this._state.Slots[slotID] != null)) {
@@ -368,16 +375,22 @@ App.Entity.InventoryManager = class InventoryManager {
     * Turn the equipped reels into an array to iterate/read.
     * @returns {Array.<App.Item.Reel>}
     */
-    EquipedReelItems() {
+    EquippedReelItems() {
        var arr = Object.values(this._reelInSlots).filter(function(o) { return (typeof o !== 'undefined') && (o != null); });
        return (typeof arr === 'undefined') ? [ ] : arr;
     }
 
+    /**
+     * @returns {object}
+     */
     ReelSlots() {
         return this._reelInSlots;
     }
 };
 
+/**
+ * @Class ClothingManager
+ */
 App.Entity.ClothingManager = class ClothingManager {
 
     /**
@@ -397,12 +410,12 @@ App.Entity.ClothingManager = class ClothingManager {
         this._wardrobe = wardrobe;
         this._equipment = equipment;
 
-        /** @type {App.Items.Clothing[]} */
+        /** @type {Clothing[]} */
         this._wardrobeItems = [];
         for (var i = 0; i < this._wardrobe.length; ++i) {
             // wardrobe lists item ids
             var t = App.Item.SplitId(this._wardrobe[i]);
-            this._ensureWrapObjectExists(t.Name);
+            this._ensureWrapObjectExists(t.Tag);
         }
 
         this._equipedItems = {};
@@ -410,20 +423,31 @@ App.Entity.ClothingManager = class ClothingManager {
             if (!this._equipment.hasOwnProperty(prop)) continue;
             if (this._equipment[prop] == 0) {this._equipedItems[prop] = 0; continue; }
             var n = App.Item.SplitId(this._equipment[prop].ID);
-            this._equipedItems[prop] = App.Item.Factory(n.Category, n.Name, this);
+            this._equipedItems[prop] = App.Item.Factory(n.Category, n.Tag, this);
             this._equipedItems[prop].SetIsLocked(this._equipment[prop].Locked);
         }
     }
 
-    _ensureWrapObjectExists(Name, Id){
-        if (Id == undefined) Id = App.Item.MakeId("CLOTHES", Name);
+    /**
+     * @param {string} Tag
+     * @param {string=} Id
+     * @returns {Clothing}
+     * @private
+     */
+    _ensureWrapObjectExists(Tag, Id){
+        if (Id == undefined) Id = App.Item.MakeId("CLOTHES", Tag);
         for (var i = 0; i < this._wardrobeItems.length; ++i) {
             if (this._wardrobeItems[i].Id() == Id) return this._wardrobeItems[i];
         }
-        this._wardrobeItems.push(App.Item.Factory("CLOTHES", Name, this));
+        this._wardrobeItems.push(App.Item.Factory("CLOTHES", Tag, this));
         return this._wardrobeItems[this._wardrobeItems.length - 1];
     }
 
+    /**
+     * @param {string} Id
+     * @returns {boolean}
+     * @private
+     */
     _isWorn(Id) {
         for (var prop in this._equipedItems) {
             if (!this._equipedItems.hasOwnProperty(prop) || this._equipedItems[prop] == 0) continue;
@@ -433,7 +457,6 @@ App.Entity.ClothingManager = class ClothingManager {
     }
 
     /**
-     *
      * @param {string} Id
      */
     Wear(Id) {
@@ -488,14 +511,14 @@ App.Entity.ClothingManager = class ClothingManager {
     }
 
     /**
-     * @return {App.Items.Clothing[]}
+     * @return {Clothing[]}
      */
     get Wardrobe() {
         return this._wardrobeItems;
     }
 
     /**
-     * @return {App.Items.Clothing[]}
+     * @return {Clothing[]}
      */
     get Equipment() {
         return this._equipedItems;
@@ -503,9 +526,13 @@ App.Entity.ClothingManager = class ClothingManager {
 };
 
 //TODO: Contemplating redoing this as an ECMA 5.1 compliant implementation.
+/**
+ * Class Player
+ * @type {Player}
+ */
 App.Entity.Player = class Player {
     /**
-     * @returns {App.Entity.PlayerState}
+     * @returns {PlayerState}
      */
     get _state() {
         return State.variables.PlayerState;
@@ -651,7 +678,7 @@ App.Entity.Player = class Player {
      * @param {number} Arg
      * @returns {string}
      */
-     GetPhaseIcon(Arg) {
+     static GetPhaseIcon(Arg) {
         if (Arg == 0) return "@@color:yellow;&#9788;@@";
         if (Arg == 1) return "@@color:orange;&#9728;@@";
         if (Arg == 2) return "@@color:azure;&#9734;@@";
@@ -1518,7 +1545,7 @@ App.Entity.Player = class Player {
 
     GetItemByName (Name) {
         return this.Inventory.filter(function (o) {
-            return o.Name() == Name;
+            return o.Tag() == Name;
         })[0];
     }
 
@@ -1645,25 +1672,15 @@ App.Entity.Player = class Player {
     };
 
     /**
-     * Find item and reduce charges. Delete from inventory if out of charges.
-     * @param ItemId {string}
-     * @returns The item object
-     */
-    TakeItem (ItemId) {
-        var o = this.GetItemById(ItemId);
-        o.RemoveCharges(1);
-        return o;
-    };
-
-    /**
      * Use an item. Apply effects. Delete from inventory if out of charges.
-     * @param ItemId {string}
+     * @param {string} ItemId
      */
     UseItem (ItemId) {
-        var o = this.TakeItem(ItemId);
-        this.AddHistory("ITEMS", o.Name(), 1);
+        var o = this.GetItemById(ItemId);
+        this.AddHistory("ITEMS", o.Tag(), 1);
         o.ApplyEffects(this);
         var msg = o.Message(this);
+        o.RemoveCharges(1);
         return msg;
     };
 
@@ -1905,13 +1922,13 @@ App.Entity.Player = class Player {
      * @returns {Array.<App.Item.Reel>}
      */
     GetReels() {
-        return this.Inventory.EquipedReelItems();
+        return this.Inventory.EquippedReelItems();
     }
 
     // endregion
 
     /**
-     * @returns {App.Entity.InventoryManager}
+     * @returns {InventoryManager}
      */
     get InventoryManager() {
         if (!this._inventory) {
@@ -1982,7 +1999,7 @@ App.Entity.Player = class Player {
     get Wardrobe() { return this.Clothing.Wardrobe; }
 
     /**
-     * @returns {App.Entity.InventoryManager}
+     * @returns {InventoryManager}
      */
     get Inventory() {
          return this.InventoryManager;

@@ -3,6 +3,7 @@ App = App || { Data: { }, Entity: { } };
 /**
  * NPC Entity
  * @param {Object} Data
+ * @Type {NPC}
  * @constructor
  */
 App.Entity.NPC = function(Data, PlayerData) {
