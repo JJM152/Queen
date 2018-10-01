@@ -153,5 +153,7 @@ App.EventHandlers = new function() {
         }
 
         save.id = SugarCube.session.id; // the game title includes version, hence this overwrite
+
+        SugarCube.setup.player.SaveLoaded()
     };
 };

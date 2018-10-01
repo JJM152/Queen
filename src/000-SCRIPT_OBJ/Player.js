@@ -1996,4 +1996,10 @@ App.Entity.Player = class Player {
     get CurrentSlots() { return this._state.CurrentSlots; } // Starting allocation of whoring
 
     get MaxSlots() { return 9; } // YOU SHALL NOT PASS
+
+    SaveLoaded() {
+        delete this._inventory;
+        delete this._clothing;
+    }
+
 };
