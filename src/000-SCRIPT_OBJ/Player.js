@@ -487,7 +487,8 @@ App.Entity.ClothingManager = class ClothingManager {
      */
     TakeOff(Id) {
         for (var prop in this._equipedItems) {
-            if (!this._equipedItems.hasOwnProperty(prop) || this._equipedItems[prop].Id() != Id) continue;
+            if (!this._equipedItems.hasOwnProperty(prop) || this._equipedItems[prop] == 0 ||
+                this._equipedItems[prop].Id() != Id) continue;
             var itm = this._equipedItems[prop];
             this._equipedItems[prop] = 0;
             this._equipment[prop] = 0;
