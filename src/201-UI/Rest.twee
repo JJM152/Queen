@@ -1,4 +1,5 @@
 :: Rest [custom-menu]
+<<set $GameBookmark = passage();>>
 <<run setup.player.Rest();>>You recline leisurely in your room. There isn't much to do so you after a few minutes you find yourself napping and trying to escape into your fantasies...
 
 You wake up not long after, feeling slightly more energetic.
