@@ -821,8 +821,8 @@ App.Entity.Player = class Player {
         var lh = this._state.LastUsedHair;
         var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0]["NAME"];
 
-        if (this._clothing.Equipment["Wig"] != 0) {
-            this.DoStyling(this._clothing.Equipment["Wig"].Id(), Makeup);
+        if (this.Clothing.Equipment["Wig"] != 0) {
+            this.DoStyling(this.Clothing.Equipment["Wig"].Id(), Makeup);
         } else {
             this.DoStyling(Hair, Makeup);
         }
@@ -864,10 +864,10 @@ App.Entity.Player = class Player {
 
         var obj = this.GetItemById(HairID);
         if (typeof obj !== 'undefined') { // We passed an Item Id and found an item.
-            if ((this._clothing.Equipment["Wig"] == 0) || (this._clothing.Equipment["Wig"].Id() != HairID))
+            if ((this.Clothing.Equipment["Wig"] == 0) || (this.Clothing.Equipment["Wig"].Id() != HairID))
                 this.Wear( this.WardrobeItem(HairID));
         } else {
-            if (this._clothing.Equipment["Wig"] != 0) this.Remove(this._clothing.Equipment["Wig"]);
+            if (this.Clothing.Equipment["Wig"] != 0) this.Remove(this.Clothing.Equipment["Wig"]);
 
             var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["NAME"] == HairID; })[0];
 
@@ -941,7 +941,7 @@ App.Entity.Player = class Player {
      * @returns {number}
      */
     HairRating () {
-        if (this._clothing.Equipment["Wig"] != 0) return Math.max(0, Math.min(this._clothing.Equipment["Wig"].HairBonus(), 100));
+        if (this.Clothing.Equipment["Wig"] != 0) return Math.max(0, Math.min(this.Clothing.Equipment["Wig"].HairBonus(), 100));
         return Math.max(0, Math.min(this._state.HairBonus, 100));
     };
 
@@ -949,7 +949,7 @@ App.Entity.Player = class Player {
      * @returns {string}
      */
     GetHairStyle () {
-        if (this._clothing.Equipment["Wig"] != 0) return this._clothing.Equipment["Wig"].HairStyle();
+        if (this.Clothing.Equipment["Wig"] != 0) return this.Clothing.Equipment["Wig"].HairStyle();
         return this._state.HairStyle;
     };
 
@@ -957,7 +957,7 @@ App.Entity.Player = class Player {
      * @returns {string}
      */
     GetHairColor () {
-        if (this._clothing.Equipment["Wig"] != 0) return this._clothing.Equipment["Wig"].HairColor();
+        if (this.Clothing.Equipment["Wig"] != 0) return this.Clothing.Equipment["Wig"].HairColor();
         return this._state.HairColor;
     };
 
@@ -984,10 +984,10 @@ App.Entity.Player = class Player {
     ClothesRating () {
         var cStyle = 0;
 
-        for (var prop in this._clothing.Equipment) {
-            if (!this._clothing.Equipment.hasOwnProperty(prop)) continue;
-            if (this._clothing.Equipment[prop] == 0) continue;
-            cStyle += this._clothing.Equipment[prop].Style();
+        for (var prop in this.Clothing.Equipment) {
+            if (!this.Clothing.Equipment.hasOwnProperty(prop)) continue;
+            if (this.Clothing.Equipment[prop] == 0) continue;
+            cStyle += this.Clothing.Equipment[prop].Style();
         }
         return Math.max(1, Math.min(Math.round(((cStyle / 100 ) * 100)), 100)); // 1 - 100 rating
     };
@@ -1000,12 +1000,12 @@ App.Entity.Player = class Player {
     GetStyleSpecRating(Spec){
         var Rating = 0;
 
-        for (var prop in this._clothing.Equipment)
+        for (var prop in this.Clothing.Equipment)
         {
-            if (!this._clothing.Equipment.hasOwnProperty(prop)) continue;
-            if (this._clothing.Equipment[prop] == 0) continue;
+            if (!this.Clothing.Equipment.hasOwnProperty(prop)) continue;
+            if (this.Clothing.Equipment[prop] == 0) continue;
 
-            Rating += this._clothing.Equipment[prop].CategoryBonus(Spec);
+            Rating += this.Clothing.Equipment[prop].CategoryBonus(Spec);
         }
         return Rating;
     };
@@ -1274,15 +1274,15 @@ App.Entity.Player = class Player {
 
         // Gain 'Knowledge' about worn clothes, log days worn.
         // Apply passive effects on worn items.
-        for (var prop in this._clothing.Equipment) {
-            if (!this._clothing.Equipment.hasOwnProperty(prop)) continue;
-            if (this._clothing.Equipment[prop] == 0) continue;
+        for (var prop in this.Clothing.Equipment) {
+            if (!this.Clothing.Equipment.hasOwnProperty(prop)) continue;
+            if (this.Clothing.Equipment[prop] == 0) continue;
 
             if (Math.floor(Math.random() * 100) > 80)
-                this.AddHistory('CLOTHING_KNOWLEDGE', this._clothing.Equipment[prop].Name(), 1); // tracking effect knowledge
-            this.AddHistory("DAYS_WORN", this._clothing.Equipment[prop].Name(), 1); // tracking just days worn
-            this._clothing.Equipment[prop].ApplyEffects(this);
-            var logMsg = this._clothing.Equipment[prop].LearnKnowledge(this);
+                this.AddHistory('CLOTHING_KNOWLEDGE', this.Clothing.Equipment[prop].Name(), 1); // tracking effect knowledge
+            this.AddHistory("DAYS_WORN", this.Clothing.Equipment[prop].Name(), 1); // tracking just days worn
+            this.Clothing.Equipment[prop].ApplyEffects(this);
+            var logMsg = this.Clothing.Equipment[prop].LearnKnowledge(this);
             if ((typeof logMsg != 'undefined') && logMsg != "") this._state.SleepLog.push(logMsg);
         }
 
@@ -1438,7 +1438,7 @@ App.Entity.Player = class Player {
         if (Type != "CLOTHES" && Type != "WEAPON") return false;
         if (this.Clothing.Wardrobe.filter( function(o) { return o.Name() == Name; }).length > 0 ) return true;
         var Slot = window.App.Data.Clothes[Name].Slot;
-        var EquipmentInSlot = this._clothing.Equipment[Slot];
+        var EquipmentInSlot = this.Clothing.Equipment[Slot];
         if (EquipmentInSlot == null || EquipmentInSlot == 0) return false;
         return EquipmentInSlot.Name() == Name;
     }
@@ -1531,8 +1531,8 @@ App.Entity.Player = class Player {
     }
 
     Strip() {
-        for (var prop in this._clothing.Equipment) {
-            if (!this._clothing.Equipment.hasOwnProperty(prop)) continue;
+        for (var prop in this.Clothing.Equipment) {
+            if (!this.Clothing.Equipment.hasOwnProperty(prop)) continue;
             if (this._state.Equipment[prop] == 0) continue;
             if (this._state.Equipment[prop].IsLocked()) continue;
 
