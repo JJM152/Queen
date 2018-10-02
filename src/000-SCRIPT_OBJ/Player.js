@@ -163,15 +163,23 @@ App.Entity.PlayerState = function (){
  *
  */
 App.Entity.InventoryManager = class InventoryManager {
+
     /**
-     * @param {PlayerState} stateObj
+     * @returns {any}
      */
-    constructor(stateObj) {
+    get _state() {
+        return State.variables[this._stateObjName];
+    }
+
+    /**
+     * @param {string} stateObjName
+     */
+    constructor(stateObjName) {
         /**
-         * @type {PlayerState}
+         * @type {string}
          * @private
          */
-        this._state = stateObj;
+        this._stateObjName = stateObjName;
 
         this._MAX_ITEM_CHARGES = 100;
 
@@ -396,6 +404,27 @@ App.Entity.InventoryManager = class InventoryManager {
 App.Entity.ClothingManager = class ClothingManager {
 
     /**
+     * @returns {any}
+     */
+    get _state() {
+        return State.variables[this._stateObjName];
+    }
+
+    /**
+     * @returns {string[]}
+     */
+    get _wardrobe() {
+        return this._state.Wardrobe;
+    }
+
+     /**
+     * @returns {any}
+     */
+    get _equipment() {
+        return this._state.Equipment;
+    }
+
+    /**
      * Creates object for tracking equipment state
      * @param {string} Id
      * @param {boolean} [isLocked]
@@ -405,12 +434,10 @@ App.Entity.ClothingManager = class ClothingManager {
     }
     /**
      *
-     * @param {string[]} wardrobe
-     * @param {*} equipment
+     * @param {string} stateObjName
      */
-    constructor(wardrobe, equipment) {
-        this._wardrobe = wardrobe;
-        this._equipment = equipment;
+    constructor(stateObjName) {
+        this._stateObjName = stateObjName;
 
         /** @type {Clothing[]} */
         this._wardrobeItems = [];
@@ -1946,7 +1973,7 @@ App.Entity.Player = class Player {
      */
     get InventoryManager() {
         if (!this._inventory) {
-            this._inventory = new App.Entity.InventoryManager(this._state);
+            this._inventory = new App.Entity.InventoryManager("PlayerState");
         }
         return this._inventory;
     }
@@ -1956,7 +1983,7 @@ App.Entity.Player = class Player {
      */
     get Clothing() {
         if (!this._clothing) {
-            this._clothing = new App.Entity.ClothingManager(this._state.Wardrobe, this._state.Equipment);
+            this._clothing = new App.Entity.ClothingManager("PlayerState");
         }
         return this._clothing;
     }
