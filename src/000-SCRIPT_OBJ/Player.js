@@ -1721,7 +1721,6 @@ App.Entity.Player = class Player {
         this.AddHistory("ITEMS", o.Tag(), 1);
         o.ApplyEffects(this);
         var msg = o.Message(this);
-        o.RemoveCharges(1);
         return msg;
     };
 
