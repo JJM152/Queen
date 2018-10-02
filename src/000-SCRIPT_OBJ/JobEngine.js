@@ -562,7 +562,7 @@ App.Job = function(Data) {
         if (this.OnCoolDown(Player) == false && this._CheckTime(Player) == false) {
           Output = "@@color:yellow;Only Available@@ ";
             for (var i = 0; i < this.Phases().length; i++)
-                Output += Player.GetPhaseIcon(this.Phases()[i]) + " ";
+                Output += App.Entity.Player.GetPhaseIcon(this.Phases()[i]) + " ";
         }
 
         if (this._MissingRequirements.length > 0)
