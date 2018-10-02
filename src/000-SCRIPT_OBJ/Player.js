@@ -292,9 +292,11 @@ App.Entity.InventoryManager = class InventoryManager {
     SetCharges(ItemClass, Tag, Count) {
         var cl = (ItemClass == undefined) ? this._FindItemClass(Tag) : ItemClass;
         var clamped = Math.clamp(Math.floor(Count), 0, this._MAX_ITEM_CHARGES);
-        if (clamped == 0 && this._state.Inventory.hasOwnProperty(cl) && this._state.Inventory[cl].hasOwnProperty(Tag)) {
-            delete this._state.Inventory[cl][Tag];
-            delete this._items[App.Item.MakeId(cl, Tag)];
+        if (clamped == 0) {
+            if (this._state.Inventory.hasOwnProperty(cl) && this._state.Inventory[cl].hasOwnProperty(Tag)) {
+                delete this._state.Inventory[cl][Tag];
+                delete this._items[App.Item.MakeId(cl, Tag)];
+            }
         } else {
             if (!this._state.Inventory.hasOwnProperty(cl)) this._state.Inventory[cl] = {};
             this._state.Inventory[cl][Tag] = clamped;
@@ -1672,11 +1674,22 @@ App.Entity.Player = class Player {
     };
 
     /**
+     * Find item and reduce charges. Delete from inventory if out of charges.
+     * @param ItemId {string}
+     * @returns The item object
+     */
+    TakeItem (ItemId) {
+        var o = this.GetItemById(ItemId);
+        o.RemoveCharges(1); // will remove the item from inventory if charges reaches 0
+        return o;
+    };
+
+    /**
      * Use an item. Apply effects. Delete from inventory if out of charges.
      * @param {string} ItemId
      */
     UseItem (ItemId) {
-        var o = this.GetItemById(ItemId);
+        var o = this.TakeItem(ItemId);
         this.AddHistory("ITEMS", o.Tag(), 1);
         o.ApplyEffects(this);
         var msg = o.Message(this);
@@ -1928,7 +1941,7 @@ App.Entity.Player = class Player {
     // endregion
 
     /**
-     * @returns {InventoryManager}
+     * @returns {App.Entity.InventoryManager}
      */
     get InventoryManager() {
         if (!this._inventory) {
@@ -1999,7 +2012,7 @@ App.Entity.Player = class Player {
     get Wardrobe() { return this.Clothing.Wardrobe; }
 
     /**
-     * @returns {InventoryManager}
+     * @returns {App.Entity.InventoryManager}
      */
     get Inventory() {
          return this.InventoryManager;

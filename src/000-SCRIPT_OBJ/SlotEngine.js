@@ -504,7 +504,7 @@ App.SlotEngine = new function() {
 
         for(var i = 0; i < reels.length; i++) {
             var item = $('<div>').addClass('SlotInventoryItem');
-            var head = $('<span>').addClass('SlotHeader').html("("+ reels[i].Rank() + ") " + reels[i].Name());
+            var head = $('<span>').addClass('SlotHeader').html(reels[i].Charges() + " x (" + reels[i].Rank() + ") " + reels[i].Name());
 
             switch(reels[i].Rank()) {
                 case 'COMMON': head.css('color', 'grey'); break;
