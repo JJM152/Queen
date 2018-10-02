@@ -4912,7 +4912,6 @@ App.Entity.InventoryManager = class InventoryManager {
      */
     Charges(ItemClass, Tag) {
         var res = 0;
-        console.log("Inventory Manager/Charges: ItemClass="+ItemClass+",Name="+Tag);
         this._ForEachItemRecord(Tag, ItemClass, function(n) { res += n;});
         return res;
     }
@@ -4925,7 +4924,6 @@ App.Entity.InventoryManager = class InventoryManager {
      * @returns {number}
      */
     SetCharges(ItemClass, Tag, Count) {
-        console.log("SetCharges: "+ItemClass+","+Tag+","+Count);
         var cl = (ItemClass == undefined) ? this._FindItemClass(Tag) : ItemClass;
         var clamped = Math.clamp(Math.floor(Count), 0, this._MAX_ITEM_CHARGES);
         if (clamped == 0 && this._state.Inventory.hasOwnProperty(cl) && this._state.Inventory[cl].hasOwnProperty(Tag)) {
@@ -4948,7 +4946,6 @@ App.Entity.InventoryManager = class InventoryManager {
      * @returns {number} new number of charges
      */
     AddCharges(ItemClass, Tag, Amount){
-        console.log("AddCharges: "+ItemClass+","+Tag+","+Amount);
         var cl = (ItemClass == undefined) ? this._FindItemClass(Tag) : ItemClass;
         if (cl == undefined) throw Error("No item tagged '" + Tag + "'");
         if (!this._state.Inventory.hasOwnProperty(cl)) this._state.Inventory[cl] = {};
@@ -29497,7 +29494,7 @@ for light and a velvety purple curtain draped next to your bed that brings some 
 &lt;&lt;set $InIntro = 0&gt;&gt;\
 &lt;span id=&#39;descSpan&#39;&gt;&lt;/span&gt;
 @@color:cyan;Interact@@: [[Wardrobe]] | [[Vanity]] | [[Mirror]]
-@@color:yellow;Action@@: &lt;&lt;if setup.player.Phase &lt; 3&gt;&gt;&lt;&lt;if setup.player.CoreStats[&quot;Energy&quot;] == setup.player.GetMaxStat(&quot;STAT&quot;,&quot;Energy&quot;);&gt;&gt;@@color:grey;[Rest]@@&lt;&lt;else&gt;&gt;[[Rest]]&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;[[Sleep]]&lt;&lt;/if&gt;&gt; | \
+@@color:yellow;Action@@: &lt;&lt;if setup.player.Phase &lt; 3&gt;&gt;&lt;&lt;if setup.player.CoreStats[&quot;Energy&quot;] == setup.player.GetMaxStat(&quot;STAT&quot;,&quot;Energy&quot;);&gt;&gt;@@color:grey;[Rest]@@&lt;&lt;else&gt;&gt;&lt;&lt;customMenuLink &quot;Rest&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;else&gt;&gt;&lt;&lt;customMenuLink &quot;Sleep&quot;&gt;&gt;&lt;&lt;/if&gt;&gt; | \
 &lt;&lt;if setup.player.CanReStyle() == true&gt;&gt;&lt;&lt;link [[Quick Makeup and Hair|Cabin]]&gt;&gt;&lt;&lt;run setup.player.ReStyle()&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;else&gt;&gt;@@color:grey;[Quick Makeup and Hair]@@&lt;&lt;/if&gt;&gt;
 @@color:lime;Travel@@: [[Deck]]
 
