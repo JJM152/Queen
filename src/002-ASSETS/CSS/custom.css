@@ -1,6 +1,6 @@
 /* MY specific styles */
 
-#story-title { 
+#story-title {
 	font-size:large;
 	text-align: center;
 }
@@ -158,7 +158,7 @@ input[type="text"] {
 	background-color: CornflowerBlue;
 	font-size: smaller;
 	border-radius: 12px;
-	padding: 4px;	
+	padding: 4px;
 }
 
 
@@ -171,7 +171,7 @@ input[type="text"] {
 }
 
 .cmdDisabledButton button {
-	opacity: 0.6; 
+	opacity: 0.6;
   cursor: not-allowed !important;
 	width: 140px; !important;
 	color: White;
@@ -197,7 +197,7 @@ input[type="text"] {
   border: 0;
   font-size: 100%;
   font-family: inherit;
-  vertical-align: baseline;	
+  vertical-align: baseline;
 }
 .passage tr, .passage th, .passage td, .passage caption {
 	line-height: 1.0; !important;

@@ -56,6 +56,31 @@
 </tbody>
 </table><<replace "#PlayerScore">><<score>><</replace>><</widget>>
 
+<<widget "FavoriteItem">><<set _Item = setup.player.GetItemById($args[0]); >>\
+<table class=".MyTable" style="width:830px;">
+<tbody>
+	<tr><td style="width:670px;">@@color:yellow;Using - @@<<= _Item.Description()>><<if ((typeof _Item !== 'undefined') && ((_Item.Charges()-1) > 0));>> (<<= _Item.Charges()-1 >>)<</if>></td>
+		<td style="text-align:right;width:80px;">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
+	</tr>
+	<tr style="border-bottom:1px solid white;">
+		<td colspan="2">&nbsp;</td>
+	</tr>
+	<tr>
+		<td style="width:670px;">
+			You moved <<= _Item.Description();>> to the <<if _Item.ToggleFavorite()>>top<<else>>bottom<</if>> of your locker.</td>
+	</tr>
+</tbody>
+</table><<replace "#PlayerScore">><<score>><</replace>><</widget>>
+
+<<widget "FavoriteItemButton">><<nobr>>
+<<if setup.player.GetItemById($args[0]).IsFavorite()>>\
+<<set _isfSym to "@@color:yellow;&#9733;@@">><<else>><<set _isfSym to "@@color:white;&#9734;@@">>
+<</if>>
+<<link "_isfSym">>
+<<replace "#InventoryUI">><<FavoriteItem $args[0] $args[1]>><</replace>>
+<</link>>
+<</nobr>><</widget>>
+
 <<widget "ExamineItemButton">><<nobr>>
 @@.wardrobeButton;<<button "Examine">>
 <<replace "#InventoryUI">><<InspectItem $args[0] $args[1]>><</replace>>
@@ -79,7 +104,7 @@
 <tbody>
 <tr>
 <<if $args[0] == "food">>
-<<set _Items = setup.player.GetItemByTypes(["food"]);>>
+<<set _Items = setup.player.GetItemByTypes(["food"], true);>>
 	<td colspan=3 style="width:450px;">@@color:yellow;Inventory - Food and Drink@@</td>
 	<td colspan=1 style="width:300px;text-align:right">@@color:grey;Food@@ |
 	<<click "Potions">>
@@ -94,7 +119,7 @@
     </td>
 <<else>>
 <<if $args[0] == "potion">>
-<<set _Items = setup.player.GetItemByTypes(["potion"]);>>
+<<set _Items = setup.player.GetItemByTypes(["potion"], true);>>
 	<td colspan=3 style="width:450px;">@@color:yellow;Inventory - Potions and Drugs@@</td>
 	<td colspan=1 style="width:300px;text-align:right"><<click "Food">>
 		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
@@ -108,7 +133,7 @@
     </td>
 <<else>>
 <<if $args[0] == "quest">>
-<<set _Items = setup.player.GetItemByTypes(["QUEST", "LOOT_BOX"]);>>
+<<set _Items = setup.player.GetItemByTypes(["QUEST", "LOOT_BOX"], true);>>
 	<td colspan=3 style="width:450px;">@@color:yellow;Inventory - Loot Items@@</td>
 	<td colspan=1 style="width:300px;text-align:right"><<click "Food">>
 		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
@@ -136,7 +161,7 @@
     </td>
 <<else>>
 <<if $args[0] == 'misc'>>
-<<set _Items = setup.player.GetItemByTypes(["misc", "hair tool", "hair treatment", "basic makeup", "expensive makeup" ]); >>
+<<set _Items = setup.player.GetItemByTypes(["misc", "hair tool", "hair treatment", "basic makeup", "expensive makeup" ], true); >>
 	<td colspan=3 style="width:500px;">@@color:yellow;Inventory - Miscellaneous Items@@</td>
 	<td colspan=1 style="width:250px;text-align:right"><<click "Food">>
 		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
@@ -161,6 +186,7 @@
 
 <<if $args[0] == "misc">>
 <tr style="border-bottom:1px solid white;">
+		<td style="width:1em;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
 		<td style="width:440px;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
@@ -169,6 +195,7 @@
 </tr>
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
+<td><<= "<<FavoriteItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 <td><<= _Items[_i].Charges() >></td>
 <td><<= _Items[_i].Description() >></td>
 <td style="text-align:right">&nbsp;</td>
@@ -206,6 +233,7 @@
 <</if>>
 <<if ($args[0] == "food") or ($args[0] == "potion") >>
 <tr style="border-bottom:1px solid white;">
+		<td style="width:1em;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
 		<td style="width:440px;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
@@ -214,6 +242,7 @@
 </tr>
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
+<td><<= "<<FavoriteItemButton \""+ _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 <td><<= _Items[_i].Charges() >></td>
 <td><<= _Items[_i].Description() >></td>
 <td style="text-align:right"><<= "<<UseItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
@@ -224,6 +253,7 @@
 <</if>>
 <<if $args[0] == "quest">>
 <tr style="border-bottom:1px solid white;">
+		<td style="width:1em;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
 		<td style="width:440px;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
@@ -232,6 +262,7 @@
 </tr>
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
+<td><<= "<<FavoriteItemButton \""+ _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 <td><<= _Items[_i].Charges() >></td>
 <td><<= _Items[_i].Description() >></td>
 <td></td>

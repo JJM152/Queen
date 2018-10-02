@@ -405,6 +405,33 @@ App.Item = class Item {
     }
 
     /**
+     * @returns {boolean}
+     */
+    IsFavorite() {
+        return this._inventory.IsFavorite(this.Id());
+    }
+
+    /**
+     * @param {boolean} Value
+     * @returns {boolean} Value
+     */
+    SetFavorite(Value) {
+        if (Value == true) {
+            this._inventory.AddFavorite(this.Id());
+        } else {
+            this._inventory.DeleteFavorite(this.Id());
+        }
+        return Value;
+    }
+
+    /**
+     * @returns {boolean} new value for IsFavorite()
+     */
+    ToggleFavorite() {
+        return this.SetFavorite(!this.IsFavorite());
+    }
+
+    /**
      * Fetch the default charges from an items data record.
      * @param {string} Type
      * @param {string} Tag

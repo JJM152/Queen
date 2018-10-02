@@ -140,7 +140,8 @@ App.Entity.PlayerState = function (){
      * @type {Array}
      */
     this.Wardrobe = [ ];
-	this.Inventory = { };
+    this.Inventory = { };
+    this.InventoryFavorites = new Set();
 	this.Equipment = { };
 	this.StoreInventory = { };
 	this.NPCS = { };
@@ -198,6 +199,7 @@ App.Entity.InventoryManager = class InventoryManager {
                 this._reelInSlots[slot] = App.Item.Factory("REEL", this._state.Slots[slot], this);
             }
         }
+        if (this._state.InventoryFavorites == undefined) this._state.InventoryFavorites = new Set();
     }
 
     /**
@@ -396,6 +398,31 @@ App.Entity.InventoryManager = class InventoryManager {
     ReelSlots() {
         return this._reelInSlots;
     }
+
+    /**
+     * Adds item to the set of favorites
+     * @param {string} Id
+     */
+    AddFavorite(Id) {
+        this._state.InventoryFavorites.add(Id);
+    }
+
+    /**
+     * Removes item from the favorites set
+     * @param {string} Id
+     */
+    DeleteFavorite(Id) {
+        this._state.InventoryFavorites.delete(Id);
+    }
+
+    /**
+     * Tests whether the item is in the favorites set
+     * @param {boolean} Id
+     */
+    IsFavorite(Id) {
+        return this._state.InventoryFavorites.has(Id);
+    }
+
 };
 
 /**
@@ -1609,11 +1636,25 @@ App.Entity.Player = class Player {
         return result;
     }
 
-    GetItemByTypes (Types) {
-        return this.Inventory.filter(function (o) {
+    /**
+     *
+     * @param {string[]} Types
+     * @param {boolean} [Sort]
+     */
+    GetItemByTypes (Types, Sort) {
+        var res = this.Inventory.filter(function (o) {
             return Types.indexOf(o.Type()) != -1;
         });
-    };
+
+        if (Sort != true) return res;
+
+        res.sort(function(a, b) {
+            var af = a.IsFavorite();
+            if (af != b.IsFavorite()) {return af ? -1 : 1;}
+            return a.Tag().localeCompare(b.Tag());
+        });
+        return res;
+    }
 
     /**
      * Returns the total number of charges across all items belonging to a certain type.
