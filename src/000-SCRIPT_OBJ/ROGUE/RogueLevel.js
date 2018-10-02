@@ -141,13 +141,13 @@ App.Rogue.Level = function(depth) {
     };
 
     /**
-     * Each  level can have up to 5 treasure spots on it. The chance is basically 1% per depth for each spot.
+     * Each  level can have up to 10 treasure spots on it. The chance is basically 1% per depth for each spot.
      */
     this.genTreasure = function()
     {
         var count = 0;
-        for (var i = 0; i < 5; i++) {
-            if ((Math.round(Math.random() * 100)+1) <= 100 ) count++;
+        for (var i = 0; i < 10; i++) {
+            if ((Math.round(Math.random() * 100)+1) <= this._depth ) count++;
         }
 
         if (count < 1) return; // noop
@@ -159,7 +159,8 @@ App.Rogue.Level = function(depth) {
             var XY = new App.Rogue.XY();
             XY.setStr(treasure);
             this._treasure[treasure] = XY;
-            this._freeCells[treasure] = App.Rogue.Entity({ ch:'*', fg:'#A52A2A', bg:null })
+            this._freeCells[XY] = new App.Rogue.Entity({ ch:'*', fg:'#A52A2A', bg:null })
+            this._freeCells[XY].SetType('dig_spot');
         }
     };
 
@@ -172,6 +173,7 @@ App.Rogue.Level = function(depth) {
         this._entrance = new App.Rogue.XY();
         this._entrance.setStr(entrance);
         this._freeCells[entrance] = new App.Rogue.Entity({ ch:'O', fg:'#3f3', bg:null})
+        this._freeCells[entrance].SetType("stairs_up");
 
     };
 
@@ -188,6 +190,7 @@ App.Rogue.Level = function(depth) {
         this._exit = new App.Rogue.XY();
         this._exit.setStr(exit);
         this._freeCells[exit] = new App.Rogue.Entity(( { ch:'X', fg: '#1ABC9C', bg:null}))
+        this._freeCells[exit].SetType("stairs_down");
     };
 
     this.getEntrance = function() { return this._entrance; };
@@ -207,7 +210,7 @@ App.Rogue.Level = function(depth) {
         this._beings[xy] = entity;
         if (App.Rogue.Engine._level == this) {
             App.Rogue.Engine.draw(xy);
-            App.Rogue.Engine._textBuffer.write("An entity moves to " + xy + ".");
+            //App.Rogue.Engine._textBuffer.write("An entity moves to " + xy + ".");
         }
     };
 

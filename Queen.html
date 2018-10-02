@@ -2684,17 +2684,14 @@ App.Item = class Item {
                         output += "@@color:yellow;"+coins + " gold coins.@@\n";
                         continue;
                     }
-                    var obj;
                     for (var x = 0; x < Items[i]["QTY"]; x++) {
-                        obj = this.Factory(Items[i]["TYPE"], Items[i]["TAG"], Player.Inventory);
-
                         if ( (Items[i]["TYPE"] == "CLOTHES") && (Player.OwnsWardrobeItem(Items[i]) == true)) {
                             // We own this already. Give some cash.
                             var coins = Math.floor((this.CalculateBasePrice(Items[i]["TYPE"], Items[i]["TAG"]) * 0.25));
                             Player.AdjustMoney( coins );
                             output += "@@color:yellow;"+coins + " gold coins.@@\n";
                         } else {
-                            Player.AddItem(Items[i]["TYPE"], Items[i]["TAG"], 0);
+                            var obj = Player.AddItem(Items[i]["TYPE"], Items[i]["TAG"], 0);
                             if (x == 0) {
                                 output += obj.Description();
                                 output += Items[i]["QTY"] > 1 ? "@@color:gold; x " + Items[i]["QTY"] + "@@\n" : "\n";
@@ -2776,6 +2773,14 @@ App.Item = class Item {
     static GetCharges(Type, Tag) {
         var rec = this._FetchData(Type, Tag);
         return rec.hasOwnProperty("Charges") ? rec["Charges"] : 1;
+    }
+
+    Charges() {
+        console.log("Error: calling Item.Charges() for class " + this.Id());
+    }
+
+    AddCharges(n) {
+        console.log("Error: calling Item.AddCharges() for class " + this.Id());
     }
 };
 
@@ -3261,11 +3266,11 @@ App.Items.QuestItem = class QuestItem extends App.Item {
      * Doesn't work. You can't have more than 1 of any quest item.
      * @param {number} n
      * @returns {number} */
-    static AddCharge(n) { return 1; };
+    AddCharges(n) { return 1; };
 
     /** Fake: This makes it so that quest items are unique.
      * @returns {number} */
-    static Charges() { return 1; }
+    Charges() { return 1; }
 
 };
 
@@ -3278,8 +3283,8 @@ App.Items.Reel = class Reel extends App.Item {
      * @param {string} id
      * @param {object} d
      */
-    constructor(id, d) {
-        super("REEL", id);
+    constructor(id, d, InventoryObj) {
+        super("REEL", id, InventoryObj);
         this.Data = $.extend(true, { }, d);
     }
 
@@ -3349,6 +3354,16 @@ App.Items.Reel = class Reel extends App.Item {
 
     /** @returns {string} */
     Type() { return this.ItemClass(); }
+
+    /**
+     * No. of uses
+     * @returns {number}
+     */
+    Charges() {
+        console.log("Charges Called:"+this.Tag());
+        console.log("Amount:"+this._inventory.Charges(this._itemClass, this.Tag()));
+        return this._inventory.Charges(this._itemClass, this.Tag());
+    }
 };
 /* twine-user-script #5: "JobEngine.js" */
 App = App || { Data: { }, Entity: { } };
@@ -3657,7 +3672,7 @@ App.Job = function(Data) {
                     break;
                 case "ITEM":
                     var o = Player.GetItemByName(Name);
-                    o.RemoveCharge(Value);
+                    o.RemoveCharges(Value);
                     if (o.Charges() <= 0) Player.DeleteItem(o);
                     break;
                 case "TIME":
@@ -4386,7 +4401,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 if (this._Player.StoreInventory[Name]["INVENTORY"].length < 1) {
                     App.StoreEngine.OpenStore(this._Player, this._NPC);
                 }
-                
+
                 if (Opt == "LOCK") App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 1);
                 if (Opt == "UNLOCK") App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 0);
                 break;
@@ -4926,9 +4941,11 @@ App.Entity.InventoryManager = class InventoryManager {
     SetCharges(ItemClass, Tag, Count) {
         var cl = (ItemClass == undefined) ? this._FindItemClass(Tag) : ItemClass;
         var clamped = Math.clamp(Math.floor(Count), 0, this._MAX_ITEM_CHARGES);
-        if (clamped == 0 && this._state.Inventory.hasOwnProperty(cl) && this._state.Inventory[cl].hasOwnProperty(Tag)) {
-            delete this._state.Inventory[cl][Tag];
-            delete this._items[App.Item.MakeId(cl, Tag)];
+        if (clamped == 0) {
+            if (this._state.Inventory.hasOwnProperty(cl) && this._state.Inventory[cl].hasOwnProperty(Tag)) {
+                delete this._state.Inventory[cl][Tag];
+                delete this._items[App.Item.MakeId(cl, Tag)];
+            }
         } else {
             if (!this._state.Inventory.hasOwnProperty(cl)) this._state.Inventory[cl] = {};
             this._state.Inventory[cl][Tag] = clamped;
@@ -6306,11 +6323,22 @@ App.Entity.Player = class Player {
     };
 
     /**
+     * Find item and reduce charges. Delete from inventory if out of charges.
+     * @param ItemId {string}
+     * @returns The item object
+     */
+    TakeItem (ItemId) {
+        var o = this.GetItemById(ItemId);
+        o.RemoveCharges(1); // will remove the item from inventory if charges reaches 0
+        return o;
+    };
+
+    /**
      * Use an item. Apply effects. Delete from inventory if out of charges.
      * @param {string} ItemId
      */
     UseItem (ItemId) {
-        var o = this.GetItemById(ItemId);
+        var o = this.TakeItem(ItemId);
         this.AddHistory("ITEMS", o.Tag(), 1);
         o.ApplyEffects(this);
         var msg = o.Message(this);
@@ -6562,7 +6590,7 @@ App.Entity.Player = class Player {
     // endregion
 
     /**
-     * @returns {InventoryManager}
+     * @returns {App.Entity.InventoryManager}
      */
     get InventoryManager() {
         if (!this._inventory) {
@@ -6633,7 +6661,7 @@ App.Entity.Player = class Player {
     get Wardrobe() { return this.Clothing.Wardrobe; }
 
     /**
-     * @returns {InventoryManager}
+     * @returns {App.Entity.InventoryManager}
      */
     get Inventory() {
          return this.InventoryManager;
@@ -7119,6 +7147,9 @@ App.Rogue.Engine = new function() {
         this._display = new ROT.Display( {width: 100, height:40, fontSize:12} );
         this._textBuffer = new App.Rogue.TextBuffer(this._display);
         this._sideBar = new App.Rogue.Sidebar(this._display);
+        this._depth = 1;
+        this._maxDepth = 100;
+        this._lastDrawnCells = [ ];
 
         var level =  this._genLevel(this._depth);
 
@@ -7133,6 +7164,7 @@ App.Rogue.Engine = new function() {
         console.log("Current depth:"+this._depth);
         this._depth += 1;
         console.log("Moving to depth:"+this._depth);
+        this._lastDrawnCells = [ ]; // Clear buffer
         var level = this._genLevel(this._depth);
         this._switchLevel(level);
     };
@@ -7141,12 +7173,14 @@ App.Rogue.Engine = new function() {
         console.log("Current depth:"+this._depth);
         this._depth -= 1;
         console.log("Moving to depth:"+this._depth);
+        this._lastDrawnCells = [ ];
         if (this._depth <= 0) {
             console.log("Exiting dungeon...");
             SugarCube.State.display(this._passage);
         } else {
             var level = this._genLevel(this._depth);
-            this._switchLevel(level);
+            this._switchLevel(level, true);
+
         }
     };
 
@@ -7155,8 +7189,6 @@ App.Rogue.Engine = new function() {
     };
 
     this.draw = function(xy) {
-        console.log("Drawing="+xy);
-        console.log(xy);
         var entity = this._level.getEntityAt(xy);
         var visual = entity.getVisual();
         this._display.draw(xy.x, xy.y, visual.ch, visual.fg, visual.bg);
@@ -7182,11 +7214,15 @@ App.Rogue.Engine = new function() {
         return level;
     };
 
-    this._switchLevel = function(level) {
+    this._switchLevel = function(level, opt) {
         this._scheduler.clear();
         this._level = level;
-        this._level.setEntity(this._player, this._level.getEntrance());
 
+        if (typeof opt !== 'undefined') {
+            this._level.setEntity(this._player, this._level.getExit());
+        } else {
+            this._level.setEntity(this._player, this._level.getEntrance());
+        }
         var size = this._level.getSize();
 
         var bufferSize = 3;
@@ -7211,7 +7247,7 @@ App.Rogue.Engine = new function() {
         this._textBuffer.clear();
 
         this._display.clear();
-        this._drawWithLight(this._level.getEntrance());
+        this._drawWithLight(this._player.getXY());
 
         /* add new beings to the scheduler */
         var beings = this._level.getBeings();
@@ -7265,6 +7301,18 @@ App.Rogue.Entity = function(visual) {
     this._visual = visual;
     this._xy = null;
     this._level = null;
+    this._type = null;
+
+    /**
+     * @returns {null|string}
+     */
+    this.GetType = function() {
+        return this._type;
+    };
+
+    this.SetType = function(t) {
+        this._type = t;
+    };
 
     this.getVisual = function() {
         return this._visual;
@@ -7428,13 +7476,13 @@ App.Rogue.Level = function(depth) {
     };
 
     /**
-     * Each  level can have up to 5 treasure spots on it. The chance is basically 1% per depth for each spot.
+     * Each  level can have up to 10 treasure spots on it. The chance is basically 1% per depth for each spot.
      */
     this.genTreasure = function()
     {
         var count = 0;
-        for (var i = 0; i < 5; i++) {
-            if ((Math.round(Math.random() * 100)+1) <= 100 ) count++;
+        for (var i = 0; i < 10; i++) {
+            if ((Math.round(Math.random() * 100)+1) <= this._depth ) count++;
         }
 
         if (count < 1) return; // noop
@@ -7446,7 +7494,8 @@ App.Rogue.Level = function(depth) {
             var XY = new App.Rogue.XY();
             XY.setStr(treasure);
             this._treasure[treasure] = XY;
-            this._freeCells[treasure] = App.Rogue.Entity({ ch:'*', fg:'#A52A2A', bg:null })
+            this._freeCells[XY] = new App.Rogue.Entity({ ch:'*', fg:'#A52A2A', bg:null })
+            this._freeCells[XY].SetType('dig_spot');
         }
     };
 
@@ -7459,6 +7508,7 @@ App.Rogue.Level = function(depth) {
         this._entrance = new App.Rogue.XY();
         this._entrance.setStr(entrance);
         this._freeCells[entrance] = new App.Rogue.Entity({ ch:'O', fg:'#3f3', bg:null})
+        this._freeCells[entrance].SetType("stairs_up");
 
     };
 
@@ -7475,6 +7525,7 @@ App.Rogue.Level = function(depth) {
         this._exit = new App.Rogue.XY();
         this._exit.setStr(exit);
         this._freeCells[exit] = new App.Rogue.Entity(( { ch:'X', fg: '#1ABC9C', bg:null}))
+        this._freeCells[exit].SetType("stairs_down");
     };
 
     this.getEntrance = function() { return this._entrance; };
@@ -7494,7 +7545,7 @@ App.Rogue.Level = function(depth) {
         this._beings[xy] = entity;
         if (App.Rogue.Engine._level == this) {
             App.Rogue.Engine.draw(xy);
-            App.Rogue.Engine._textBuffer.write("An entity moves to " + xy + ".");
+            //App.Rogue.Engine._textBuffer.write("An entity moves to " + xy + ".");
         }
     };
 
@@ -7556,11 +7607,37 @@ App.Rogue.Player = function() {
 
     this.act = function() {
         console.log("Player:act() called");
-        App.Rogue.Engine._textBuffer.write("It is your turn, press any relevant key.");
+        this._printEntityAtLocationMessage();
         App.Rogue.Engine._textBuffer.flush();
         App.Rogue.Engine._engine.lock();
-       // window.addEventListener("keydown", this);
         $(document).on("keydown", this.handleEvent.bind(this));
+    };
+
+    this._printEntityAtLocationMessage = function()
+    {
+        if (this._level._freeCells.hasOwnProperty(this.getXY().toString()) != true) return;
+        var entity = this._level._freeCells[this.getXY()];
+        if (typeof entity === 'undefined') return;
+
+        console.log("EntityType:" + entity.GetType());
+
+        switch(entity.GetType()) {
+            case null:
+                break;
+            case 'stairs_up':
+                if (this._depth > 1) {
+                    App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to ascend a level.");
+                } else {
+                    App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to exit.");
+                }
+                break;
+            case 'stairs_down':
+                App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to descend a level.");
+                break;
+            case 'dig_spot':
+                App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to dig here");
+                break;
+        }
     };
 
     this.die = function() {
@@ -7575,7 +7652,6 @@ App.Rogue.Player = function() {
 
         if (keyHandled) {
             $(document).off("keydown");
-            //window.removeEventListener("keydown", this);
             App.Rogue.Engine._engine.unlock();
         }
     };
@@ -7589,12 +7665,16 @@ App.Rogue.Player = function() {
 
             // Traverse staircase
             if (code == ROT.VK_NUMPAD5) {
-                console.log("Player="+this.getXY()+",Entrance="+this._level.getEntrance()+",Exit="+this._level.getExit());
+
+                // Handle Up / Down
                 if (this.getXY().toString() == this._level.getEntrance().toString()) {
                     App.Rogue.Engine.Ascend();
+                    return true;
                 } else if (this.getXY().toString() == this._level.getExit().toString()) {
                     App.Rogue.Engine.Descend();
+                    return true;
                 }
+
                 return true;
             }
 
@@ -7627,8 +7707,13 @@ App.Rogue.Player = function() {
                 return true;
             }
 
+            if (this._lightDuration == 1) App.Rogue.Engine._textBuffer.write("Your torch goes out!");
             if (this._lightDuration > 0) this._lightDuration--;
-            if (this._lightDuration < 1) this._lightLevel = 1;
+            if (this._lightDuration < 1) {
+                App.Rogue.Engine._textBuffer.write("It is dark.");
+                this._lightLevel = 1;
+            }
+
             this._level.setEntity(this, xy);
             App.Rogue.Engine.redraw(xy);
             return true;
@@ -8314,7 +8399,7 @@ App.SlotEngine = new function() {
 
         for(var i = 0; i < reels.length; i++) {
             var item = $('<div>').addClass('SlotInventoryItem');
-            var head = $('<span>').addClass('SlotHeader').html("("+ reels[i].Rank() + ") " + reels[i].Name());
+            var head = $('<span>').addClass('SlotHeader').html(reels[i].Charges() + " x (" + reels[i].Rank() + ") " + reels[i].Name());
 
             switch(reels[i].Rank()) {
                 case 'COMMON': head.css('color', 'grey'); break;
@@ -12820,25 +12905,25 @@ App.Data.Names = {
                 "Yvette", "Yolanda", "Yessica",
                 "Zoe"],
             "Sissy": [
-                "Abigail", "Angelica", "Annabelle", "Annie", 
-                "Bambi", "Bambina", "Bebelle", "Bliss", "Blossom", "Bonnie", "Boo", "Bootie", "Brandi", "Brie", "Bubbles", "Bunny", "Buttercup", "Butterscotch", 
-                "Camilla", "Candi", "Capri", "Caramella", "Cassie", "Cecily", "Celia", "Chastity", "Chéri", "Cherry", "Cici", "Cinnamon", "Claribel", "Clarissa", "Cosi", "Crystal", 
-                "Daisy", "Delia", "Delilah", "Dixie", "Dolly", "Dottie", 
-                "Elisabetta", "Elise", "Eliza", "Esposa", "Evie", 
-                "Felicity", "Fiona", "Flora", "Foxy", "Freckles", 
-                "Gabbi", "Ginger", "Giselle", "Goldie", 
-                "Isadora", "Izzy", 
-                "Jade", "Jasmine", "Jewel", "Jezie", "Jilly", "Josie", "Juliette", "Juniper", 
-                "Kandi", "Karma", "Kelli", "Kimmy", "Katty", "Kitty", "Krissy", 
-                "Larissa", "Layla", "Liliana", "Lily", "Lizzy", "Lola", "Lolita", "Lolly", "Lottie", "Luanna", "Luella", "Lulu", "Lyla", 
-                "Maddie", "Maisie", "Mariella", "Marigold", "Merci", "Minnie", "Minx", "Missy", "Muffin", "Muffy", 
-                "Nellie", "Nicolette", "Nissa", 
-                "Peaches", "Pippa", "Pippy", "Pixie", "Polly", "Prim", "Princess", "Priss", 
-                "Queenie", "Quinnie", 
-                "Richelle", "Rosie", "Roxie", 
-                "Sadie", "Sassy", "Scarlett", "Seraphina", "Shari", "Shayla", "Sheila", "Silvie", "Sirena", "Susie", "Süsse", 
-                "Tammi", "Tatiana", "Tessa", "Tiana", "Tiffy", "Tillie", "Tizzy", "Tottie", "Tulip", 
-                "Viola", "Violeta", "Vixen", "Yazmin", "Ysela", 
+                "Abigail", "Angelica", "Annabelle", "Annie",
+                "Bambi", "Bambina", "Bebelle", "Bliss", "Blossom", "Bonnie", "Boo", "Bootie", "Brandi", "Brie", "Bubbles", "Bunny", "Buttercup", "Butterscotch",
+                "Camilla", "Candi", "Capri", "Caramella", "Cassie", "Cecily", "Celia", "Chastity", "Chéri", "Cherry", "Cici", "Cinnamon", "Claribel", "Clarissa", "Cosi", "Crystal",
+                "Daisy", "Delia", "Delilah", "Dixie", "Dolly", "Dottie",
+                "Elisabetta", "Elise", "Eliza", "Esposa", "Evie",
+                "Felicity", "Fiona", "Flora", "Foxy", "Freckles",
+                "Gabbi", "Ginger", "Giselle", "Goldie",
+                "Isadora", "Izzy",
+                "Jade", "Jasmine", "Jewel", "Jezie", "Jilly", "Josie", "Juliette", "Juniper",
+                "Kandi", "Karma", "Kelli", "Kimmy", "Katty", "Kitty", "Krissy",
+                "Larissa", "Layla", "Liliana", "Lily", "Lizzy", "Lola", "Lolita", "Lolly", "Lottie", "Luanna", "Luella", "Lulu", "Lyla",
+                "Maddie", "Maisie", "Mariella", "Marigold", "Merci", "Minnie", "Minx", "Missy", "Muffin", "Muffy",
+                "Nellie", "Nicolette", "Nissa",
+                "Peaches", "Pippa", "Pippy", "Pixie", "Polly", "Prim", "Princess", "Priss",
+                "Queenie", "Quinnie",
+                "Richelle", "Rosie", "Roxie",
+                "Sadie", "Sassy", "Scarlett", "Seraphina", "Shari", "Shayla", "Sheila", "Silvie", "Sirena", "Susie", "Süsse",
+                "Tammi", "Tatiana", "Tessa", "Tiana", "Tiffy", "Tillie", "Tizzy", "Tottie", "Tulip",
+                "Viola", "Violeta", "Vixen", "Yazmin", "Ysela",
                 "Zelda", "Zoey"]
         };
 
@@ -13370,17 +13455,17 @@ App.Data.Lists = {
 			},
 			"StatConfig" : {
                 "Health": { "MIN" : 0, "MAX" : 100, "START" : 80,
-					"LEVELING" : { 
+					"LEVELING" : {
 						"FIXED" : { "COST" : 100, "STEP" : 1 }
 						}
 					},
                 "Nutrition": { "MIN" : 0, "MAX" : 100, "START" : 100,
-					"LEVELING" : { 
+					"LEVELING" : {
 						"FIXED" : { "COST" : 100, "STEP" : 10 }
 						}
 					},
                 "WillPower": { "MIN" : 0, "MAX" : 100, "START" : 100,
-					"LEVELING" : { 
+					"LEVELING" : {
 						"FIXED" : { "COST" : 100, "STEP" : 1 }
 						}
 					},
@@ -13442,7 +13527,7 @@ App.Data.Lists = {
                     }
                 },
                 "Toxicity": { "MIN" : 0, "MAX" : 300, "START" : 30,
-					"LEVELING" : { 
+					"LEVELING" : {
 						"FIXED" : { "COST" : 100, "STEP" : 1 }
 						}
 					},
@@ -13487,6 +13572,7 @@ App.Data.Lists = {
 					}
 				},
             "MakeupStyles" : [ // RES1 = BASIC MAKEUP, RES2 = EXPENSIVE MAKEUP
+                    {"NAME"  : "clean",         "DIFFICULTY" :  0,  "RESOURCE1" : 0,    "RESOURCE2" : 0 ,   "STYLE" :  0,   "SHORT" : "carefully cleaned and washed face"},
                     {"NAME"  : "minimal",       "DIFFICULTY" : 20,  "RESOURCE1" : 1,    "RESOURCE2" : 0 ,   "STYLE" : 20,   "SHORT" : "minimal blush and lipstick"},
                     {"NAME"  : "basic",         "DIFFICULTY" : 30,  "RESOURCE1" : 1,    "RESOURCE2" : 0 ,   "STYLE" : 25,   "SHORT" : "basic lipstick and eyeshadow"},
                     {"NAME"  : "youthful",      "DIFFICULTY" : 40,  "RESOURCE1" : 2,    "RESOURCE2" : 0 ,   "STYLE" : 30,   "SHORT" : "bright and youthful looking"},
@@ -13798,7 +13884,7 @@ App.Data.Lists = {
 				}
 			},
 			// The route the ship takes in the game.
-			"ShipRoute" : [ 
+			"ShipRoute" : [
 				// Isla Harbor Port
 					{ "P" : "IslaHarbor", "left" : 300, "top" : 60 }, { "P" : "IslaHarbor", "left" : 300, "top" : 60 }, { "P" : "IslaHarbor", "left" : 300, "top" : 60 }, { "P" : "IslaHarbor", "left" : 300, "top" : 60 },
 				// At Sea

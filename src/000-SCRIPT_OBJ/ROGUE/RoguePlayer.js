@@ -46,11 +46,37 @@ App.Rogue.Player = function() {
 
     this.act = function() {
         console.log("Player:act() called");
-        App.Rogue.Engine._textBuffer.write("It is your turn, press any relevant key.");
+        this._printEntityAtLocationMessage();
         App.Rogue.Engine._textBuffer.flush();
         App.Rogue.Engine._engine.lock();
-       // window.addEventListener("keydown", this);
         $(document).on("keydown", this.handleEvent.bind(this));
+    };
+
+    this._printEntityAtLocationMessage = function()
+    {
+        if (this._level._freeCells.hasOwnProperty(this.getXY().toString()) != true) return;
+        var entity = this._level._freeCells[this.getXY()];
+        if (typeof entity === 'undefined') return;
+
+        console.log("EntityType:" + entity.GetType());
+
+        switch(entity.GetType()) {
+            case null:
+                break;
+            case 'stairs_up':
+                if (this._depth > 1) {
+                    App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to ascend a level.");
+                } else {
+                    App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to exit.");
+                }
+                break;
+            case 'stairs_down':
+                App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to descend a level.");
+                break;
+            case 'dig_spot':
+                App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to dig here");
+                break;
+        }
     };
 
     this.die = function() {
@@ -65,7 +91,6 @@ App.Rogue.Player = function() {
 
         if (keyHandled) {
             $(document).off("keydown");
-            //window.removeEventListener("keydown", this);
             App.Rogue.Engine._engine.unlock();
         }
     };
@@ -79,12 +104,16 @@ App.Rogue.Player = function() {
 
             // Traverse staircase
             if (code == ROT.VK_NUMPAD5) {
-                console.log("Player="+this.getXY()+",Entrance="+this._level.getEntrance()+",Exit="+this._level.getExit());
+
+                // Handle Up / Down
                 if (this.getXY().toString() == this._level.getEntrance().toString()) {
                     App.Rogue.Engine.Ascend();
+                    return true;
                 } else if (this.getXY().toString() == this._level.getExit().toString()) {
                     App.Rogue.Engine.Descend();
+                    return true;
                 }
+
                 return true;
             }
 
@@ -117,8 +146,13 @@ App.Rogue.Player = function() {
                 return true;
             }
 
+            if (this._lightDuration == 1) App.Rogue.Engine._textBuffer.write("Your torch goes out!");
             if (this._lightDuration > 0) this._lightDuration--;
-            if (this._lightDuration < 1) this._lightLevel = 1;
+            if (this._lightDuration < 1) {
+                App.Rogue.Engine._textBuffer.write("It is dark.");
+                this._lightLevel = 1;
+            }
+
             this._level.setEntity(this, xy);
             App.Rogue.Engine.redraw(xy);
             return true;

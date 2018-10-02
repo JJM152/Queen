@@ -28,6 +28,9 @@ App.Rogue.Engine = new function() {
         this._display = new ROT.Display( {width: 100, height:40, fontSize:12} );
         this._textBuffer = new App.Rogue.TextBuffer(this._display);
         this._sideBar = new App.Rogue.Sidebar(this._display);
+        this._depth = 1;
+        this._maxDepth = 100;
+        this._lastDrawnCells = [ ];
 
         var level =  this._genLevel(this._depth);
 
@@ -42,6 +45,7 @@ App.Rogue.Engine = new function() {
         console.log("Current depth:"+this._depth);
         this._depth += 1;
         console.log("Moving to depth:"+this._depth);
+        this._lastDrawnCells = [ ]; // Clear buffer
         var level = this._genLevel(this._depth);
         this._switchLevel(level);
     };
@@ -50,12 +54,14 @@ App.Rogue.Engine = new function() {
         console.log("Current depth:"+this._depth);
         this._depth -= 1;
         console.log("Moving to depth:"+this._depth);
+        this._lastDrawnCells = [ ];
         if (this._depth <= 0) {
             console.log("Exiting dungeon...");
             SugarCube.State.display(this._passage);
         } else {
             var level = this._genLevel(this._depth);
-            this._switchLevel(level);
+            this._switchLevel(level, true);
+
         }
     };
 
@@ -64,8 +70,6 @@ App.Rogue.Engine = new function() {
     };
 
     this.draw = function(xy) {
-        console.log("Drawing="+xy);
-        console.log(xy);
         var entity = this._level.getEntityAt(xy);
         var visual = entity.getVisual();
         this._display.draw(xy.x, xy.y, visual.ch, visual.fg, visual.bg);
@@ -91,11 +95,15 @@ App.Rogue.Engine = new function() {
         return level;
     };
 
-    this._switchLevel = function(level) {
+    this._switchLevel = function(level, opt) {
         this._scheduler.clear();
         this._level = level;
-        this._level.setEntity(this._player, this._level.getEntrance());
 
+        if (typeof opt !== 'undefined') {
+            this._level.setEntity(this._player, this._level.getExit());
+        } else {
+            this._level.setEntity(this._player, this._level.getEntrance());
+        }
         var size = this._level.getSize();
 
         var bufferSize = 3;
@@ -120,7 +128,7 @@ App.Rogue.Engine = new function() {
         this._textBuffer.clear();
 
         this._display.clear();
-        this._drawWithLight(this._level.getEntrance());
+        this._drawWithLight(this._player.getXY());
 
         /* add new beings to the scheduler */
         var beings = this._level.getBeings();
