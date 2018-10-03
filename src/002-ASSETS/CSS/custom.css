@@ -13,70 +13,8 @@
 	font-weight: 400;
 	line-height: 20px
 }
-#Energy {
-	font-family: monospace;
-	font-size: 14px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: 400;
-	line-height: 20px
-}
 
-#Health {
-	font-family: monospace;
-	font-size: 14px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: 400;
-	line-height: 20px
-}
-
-#Nutrition {
-	font-family: monospace;
-	font-size: 14px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: 400;
-	line-height: 20px
-}
-
-#WillPower {
-	font-family: monospace;
-	font-size: 14px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: 400;
-	line-height: 20px
-}
-
-#Perversion {
-	font-family: monospace;
-	font-size: 14px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: 400;
-	line-height: 20px
-}
-
-#Femininity {
-	font-family: monospace;
-	font-size: 14px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: 400;
-	line-height: 20px
-}
-
-#Toxicity {
-	font-family: monospace;
-	font-size: 14px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: 400;
-	line-height: 20px
-}
-
-#Hormones {
+#Energy, #Health, #Nutrition, #WillPower, #Perversion, #Femininity, #Toxicity, #Hormones {
 	font-family: monospace;
 	font-size: 14px;
 	font-style: normal;
@@ -121,7 +59,7 @@ input[type="text"] {
 	  text-align: left;
 }
 
-.storeButton button {
+.storeButton button, .disabledStoreButton button {
 	width: 80px; !important;
 	color: White;
 	background-color: CornflowerBlue;
@@ -131,38 +69,25 @@ input[type="text"] {
 }
 
 .disabledStoreButton button {
-	width: 80px; !important;
 	opacity: 0.6;
 	cursor: not-allowed !important;
-	color: White;
-	background-color: CornflowerBlue;
-	font-size: smaller;
-	border-radius: 12px;
-	padding: 4px;
 }
 
-.wardrobeButton button {
+.wardrobeButton button, .disabledWardrobeButton button {
 	width: 80px; !important;
-	color: White;
 	background-color: CornflowerBlue;
+	color: White;
 	font-size: smaller;
 	border-radius: 12px;
 	padding: 4px;
 }
 
 .disabledWardrobeButton button {
-	width: 80px; !important;
     opacity: 0.6;
     cursor: not-allowed !important;
-	color: White;
-	background-color: CornflowerBlue;
-	font-size: smaller;
-	border-radius: 12px;
-	padding: 4px;
 }
 
-
-.cmdButton button {
+.cmdButton button, .cmdDisabledButton button {
 	width: 140px; !important;
 	color: White;
 	background-color: SlateGrey;
@@ -172,12 +97,7 @@ input[type="text"] {
 
 .cmdDisabledButton button {
 	opacity: 0.6;
-  cursor: not-allowed !important;
-	width: 140px; !important;
-	color: White;
-	background-color: SlateGrey;
-	font-size: smaller;
-	padding: 4px;
+    cursor: not-allowed !important;
 }
 
 .passage {
