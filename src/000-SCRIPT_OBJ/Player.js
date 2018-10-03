@@ -1519,7 +1519,9 @@ App.Entity.Player = class Player {
     }
 
     WardrobeItemsBySlot(Slot) {
-        return this.Clothing.Wardrobe.filter(function(Item) { return Item.Slot() == Slot;});
+        var res = this.Clothing.Wardrobe.filter(function(Item) { return Item.Slot() == Slot; });
+        res.sort(function(a, b) { return a.Description().localeCompare(b.Description()); });
+        return res;
     }
 
     /**
