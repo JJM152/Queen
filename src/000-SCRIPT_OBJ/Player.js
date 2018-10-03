@@ -1694,7 +1694,6 @@ App.Entity.Player = class Player {
         while(Amount > 0 && Count < Items.length) {
             var Item = Items[Count];
             if (Item.Charges() <= 0) {
-                this.DeleteItem(Item);
                 Count++;
             } else {
                 Item.RemoveCharges(1);
