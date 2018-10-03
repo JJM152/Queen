@@ -140,7 +140,8 @@ App.Entity.PlayerState = function (){
      * @type {Array}
      */
     this.Wardrobe = [ ];
-	this.Inventory = { };
+    this.Inventory = { };
+    this.InventoryFavorites = new Set();
 	this.Equipment = { };
 	this.StoreInventory = { };
 	this.NPCS = { };
@@ -163,15 +164,23 @@ App.Entity.PlayerState = function (){
  *
  */
 App.Entity.InventoryManager = class InventoryManager {
+
     /**
-     * @param {PlayerState} stateObj
+     * @returns {any}
      */
-    constructor(stateObj) {
+    get _state() {
+        return State.variables[this._stateObjName];
+    }
+
+    /**
+     * @param {string} stateObjName
+     */
+    constructor(stateObjName) {
         /**
-         * @type {PlayerState}
+         * @type {string}
          * @private
          */
-        this._state = stateObj;
+        this._stateObjName = stateObjName;
 
         this._MAX_ITEM_CHARGES = 100;
 
@@ -190,6 +199,7 @@ App.Entity.InventoryManager = class InventoryManager {
                 this._reelInSlots[slot] = App.Item.Factory("REEL", this._state.Slots[slot], this);
             }
         }
+        if (this._state.InventoryFavorites == undefined) this._state.InventoryFavorites = new Set();
     }
 
     /**
@@ -388,12 +398,58 @@ App.Entity.InventoryManager = class InventoryManager {
     ReelSlots() {
         return this._reelInSlots;
     }
+
+    /**
+     * Adds item to the set of favorites
+     * @param {string} Id
+     */
+    AddFavorite(Id) {
+        this._state.InventoryFavorites.add(Id);
+    }
+
+    /**
+     * Removes item from the favorites set
+     * @param {string} Id
+     */
+    DeleteFavorite(Id) {
+        this._state.InventoryFavorites.delete(Id);
+    }
+
+    /**
+     * Tests whether the item is in the favorites set
+     * @param {boolean} Id
+     */
+    IsFavorite(Id) {
+        return this._state.InventoryFavorites.has(Id);
+    }
+
 };
 
 /**
  * @Class ClothingManager
  */
 App.Entity.ClothingManager = class ClothingManager {
+
+    /**
+     * @returns {any}
+     */
+    get _state() {
+        return State.variables[this._stateObjName];
+    }
+
+    /**
+     * @returns {string[]}
+     */
+    get _wardrobe() {
+        return this._state.Wardrobe;
+    }
+
+     /**
+     * @returns {any}
+     */
+    get _equipment() {
+        return this._state.Equipment;
+    }
 
     /**
      * Creates object for tracking equipment state
@@ -405,12 +461,10 @@ App.Entity.ClothingManager = class ClothingManager {
     }
     /**
      *
-     * @param {string[]} wardrobe
-     * @param {*} equipment
+     * @param {string} stateObjName
      */
-    constructor(wardrobe, equipment) {
-        this._wardrobe = wardrobe;
-        this._equipment = equipment;
+    constructor(stateObjName) {
+        this._stateObjName = stateObjName;
 
         /** @type {Clothing[]} */
         this._wardrobeItems = [];
@@ -1582,11 +1636,25 @@ App.Entity.Player = class Player {
         return result;
     }
 
-    GetItemByTypes (Types) {
-        return this.Inventory.filter(function (o) {
+    /**
+     *
+     * @param {string[]} Types
+     * @param {boolean} [Sort]
+     */
+    GetItemByTypes (Types, Sort) {
+        var res = this.Inventory.filter(function (o) {
             return Types.indexOf(o.Type()) != -1;
         });
-    };
+
+        if (Sort != true) return res;
+
+        res.sort(function(a, b) {
+            var af = a.IsFavorite();
+            if (af != b.IsFavorite()) {return af ? -1 : 1;}
+            return a.Tag().localeCompare(b.Tag());
+        });
+        return res;
+    }
 
     /**
      * Returns the total number of charges across all items belonging to a certain type.
@@ -1694,7 +1762,6 @@ App.Entity.Player = class Player {
         this.AddHistory("ITEMS", o.Tag(), 1);
         o.ApplyEffects(this);
         var msg = o.Message(this);
-        o.RemoveCharges(1);
         return msg;
     };
 
@@ -1946,7 +2013,7 @@ App.Entity.Player = class Player {
      */
     get InventoryManager() {
         if (!this._inventory) {
-            this._inventory = new App.Entity.InventoryManager(this._state);
+            this._inventory = new App.Entity.InventoryManager("PlayerState");
         }
         return this._inventory;
     }
@@ -1956,7 +2023,7 @@ App.Entity.Player = class Player {
      */
     get Clothing() {
         if (!this._clothing) {
-            this._clothing = new App.Entity.ClothingManager(this._state.Wardrobe, this._state.Equipment);
+            this._clothing = new App.Entity.ClothingManager("PlayerState");
         }
         return this._clothing;
     }
