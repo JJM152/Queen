@@ -9,13 +9,13 @@ App.Data.EffectLib["FEMININE_CLOTHING"] = {
     function(o,p) {
         var gain = 0;
         var limit = 0;
-        switch(o.o["Style"]) {
+        switch(o.Data.Style) {
             case 'COMMON': gain = 5; limit = 30; break;
             case 'UNCOMMON': gain = 10; limit = 60; break;
             case 'RARE': gain = 15; limit = 80; break;
             case 'LEGENDARY': gain = 20; limit = 0; break;
         }
-        switch(o.o["Type"]) {
+        switch(o.Data.Type) {
             case 'ACCESSORY': gain = Math.ceil(gain * 0.8); break;
             case 'ONE PIECE': gain = Math.ceil(gain * 2.2); break;
         }
@@ -30,13 +30,13 @@ App.Data.EffectLib["SEXY_CLOTHING"] = {
     function(o,p) {
         var gain = 0;
         var limit = 0;
-        switch(o.o["Style"]) {
+        switch(o.Data.Style) {
             case 'COMMON': gain = 5; limit = 30; break;
             case 'UNCOMMON': gain = 10; limit = 60; break;
             case 'RARE': gain = 15; limit = 80; break;
             case 'LEGENDARY': gain = 20; limit = 0; break;
         }
-        switch(o.o["Type"]) {
+        switch(o.Data.Type) {
             case 'ACCESSORY': gain = Math.ceil(gain * 0.8); break;
             case 'ONE PIECE': gain = Math.ceil(gain * 2.2); break;
         }
@@ -52,13 +52,13 @@ App.Data.EffectLib["PERVERTED_CLOTHING"] = {
     function(o,p) {
         var gain = 0;
         var limit = 0;
-        switch(o.o["Style"]) {
+        switch(o.Data.Style) {
             case 'COMMON': gain = 5; limit = 30; break;
             case 'UNCOMMON': gain = 10; limit = 60; break;
             case 'RARE': gain = 15; limit = 80; break;
             case 'LEGENDARY': gain = 20; limit = 0; break;
         }
-        switch(o.o["Type"]) {
+        switch(o.Data.Type) {
             case 'ACCESSORY': gain = Math.ceil(gain * 0.8); break;
             case 'ONE PIECE': gain = Math.ceil(gain * 2.2); break;
         }
@@ -73,13 +73,13 @@ App.Data.EffectLib["KINKY_CLOTHING"] = {
     function(o,p) {
         var gain = 0;
         var limit = 0;
-        switch(o.o["Style"]) {
+        switch(o.Data.Style) {
             case 'COMMON': gain = 5; limit = 15; break;
             case 'UNCOMMON': gain = 10; limit = 30; break;
             case 'RARE': gain = 15; limit = 40; break;
             case 'LEGENDARY': gain = 20; limit = 60; break;
         }
-        switch(o.o["Type"]) {
+        switch(o.Data.Type) {
             case 'ACCESSORY': gain = Math.ceil(gain * 0.8); break;
             case 'ONE PIECE': gain = Math.ceil(gain * 2.2); break;
         }
@@ -213,5 +213,3 @@ App.Data.EffectLib["MAIDS_PROWESS"] = {
     "VALUE" : 300,
         "KNOWLEDGE" : [ "Maid's Prowess++" ]
 };
-
-

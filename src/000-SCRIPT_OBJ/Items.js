@@ -369,10 +369,11 @@ App.Item = class Item {
      *
      * @param {string} ItemClass
      * @param {string} Tag
+     * * @param {object} d
      * @param {InventoryManager} Inventory
      * @constructor
      */
-    constructor(ItemClass, Tag, Inventory) {
+    constructor(ItemClass, Tag, d, Inventory) {
         /** @type {string}
          * @private */
         this._itemClass = ItemClass;
@@ -382,6 +383,11 @@ App.Item = class Item {
         /** @type {InventoryManager}
          * @private */
         this._inventory = Inventory;
+
+        /** @type {object}
+         * @private
+        */
+        this._o = $.extend( true, {}, d );
     }
 
     /**
@@ -402,6 +408,21 @@ App.Item = class Item {
      */
     ItemClass() {
         return this._itemClass;
+    }
+
+    /**
+     * @returns {object}
+     */
+    get Data() {
+        return this._o;
+    }
+
+    /**
+     * Name of item.
+     * @returns {string}
+     */
+    Name() {
+        return this._o["Name"];
     }
 
     /**
@@ -475,8 +496,7 @@ App.Items.Clothing = class Clothing extends App.Item {
      * @param {InventoryManager} InventoryObj
      */
     constructor(Tag, d, InventoryObj) {
-        super('CLOTHES', Tag, InventoryObj);
-        this.o = $.extend( true, {}, d );
+        super('CLOTHES', Tag, d, InventoryObj);
         this._Knowlege = [ ];
 
         for(var i = 0; i < this.WearEffect().length; i++)
@@ -490,12 +510,12 @@ App.Items.Clothing = class Clothing extends App.Item {
      * @returns {string}
      */
     Description() {
-        var result = this.o.ShortDesc;
+        var result = this.Data.ShortDesc;
         if (result instanceof String) result = String(result);
         if (typeof (result) !== "string" || result === "") return this.Name();
-        result = result.replace("{COLOR}", String(this.o.Color));
+        result = result.replace("{COLOR}", String(this.Data.Color));
 
-        var locked = this.o.Locked;
+        var locked = this.Data.Locked;
         if (typeof (locked) === "boolean" && locked) result += " @@color:red;(Locked)@@";
 
         return result;
@@ -507,7 +527,7 @@ App.Items.Clothing = class Clothing extends App.Item {
      * @returns {string}
      */
     Examine(Player) {
-        var Output = this.o["LongDesc"];
+        var Output = this.Data["LongDesc"];
         var Usages = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Tag());
 
         Output += "\n";
@@ -559,8 +579,8 @@ App.Items.Clothing = class Clothing extends App.Item {
      */
     Category()
     {
-        if (this.o.hasOwnProperty("Category") == false) return [ "Ordinary" ];
-        return this.o["Category"];
+        if (this.Data.hasOwnProperty("Category") == false) return [ "Ordinary" ];
+        return this.Data["Category"];
     }
 
     /**
@@ -578,7 +598,7 @@ App.Items.Clothing = class Clothing extends App.Item {
      * @returns {string}
      */
     Slot() {
-        return this.o["Slot"];
+        return this.Data["Slot"];
     }
 
     /**
@@ -586,7 +606,7 @@ App.Items.Clothing = class Clothing extends App.Item {
      * @returns {string[]}
      */
     Restrict() {
-        return this.o["Restrict"];
+        return this.Data["Restrict"];
     }
 
     /**
@@ -594,7 +614,7 @@ App.Items.Clothing = class Clothing extends App.Item {
      * @returns {string[]}
      */
     WearEffect() {
-        return (typeof this.o["WearEffect"] !== 'undefined') ? this.o["WearEffect"] : [ ];
+        return (typeof this.Data["WearEffect"] !== 'undefined') ? this.Data["WearEffect"] : [ ];
     }
 
     /**
@@ -602,7 +622,7 @@ App.Items.Clothing = class Clothing extends App.Item {
      * @returns {string[]}
      */
     ActiveEffect() {
-        return (typeof this.o["ActiveEffect"] !== 'undefined') ? this.o["ActiveEffect"] : [ ];
+        return (typeof this.Data["ActiveEffect"] !== 'undefined') ? this.Data["ActiveEffect"] : [ ];
     }
 
     /**
@@ -610,7 +630,7 @@ App.Items.Clothing = class Clothing extends App.Item {
      * @returns {string}
      */
     Color() {
-        return this.o["Color"];
+        return this.Data["Color"];
     }
 
     /**
@@ -618,15 +638,7 @@ App.Items.Clothing = class Clothing extends App.Item {
      * @returns {string}
      */
     Type() {
-        return this.o["Type"];
-    }
-
-    /**
-     * Name of item.
-     * @returns {string}
-     */
-    Name() {
-        return this.o["Name"];
+        return this.Data["Type"];
     }
 
 // STYLE TABLE
@@ -646,43 +658,43 @@ App.Items.Clothing = class Clothing extends App.Item {
         };
 
         if (this.Type() == "WEAPON") return 0;
-        return bonus[this.Type()][this.o["Style"]];
+        return bonus[this.Type()][this.Data["Style"]];
     }
     /**
      * Show stars relating to rank on clothing.
      * @returns {string}
      */
     Rank() {
-        if (this.o["Style"] == "COMMON") return "@@color:gold;&#9733;@@";
-        if (this.o["Style"] == "UNCOMMON") return "@@color:gold;&#9733;&#9733;@@";
-        if (this.o["Style"] == "RARE") return "@@color:gold;&#9733;&#9733;&#9733;@@";
-        if (this.o["Style"] == "LEGENDARY") return "@@color:gold;&#9733;&#9733;&#9733;&#9733;@@";
+        if (this.Data["Style"] == "COMMON") return "@@color:gold;&#9733;@@";
+        if (this.Data["Style"] == "UNCOMMON") return "@@color:gold;&#9733;&#9733;@@";
+        if (this.Data["Style"] == "RARE") return "@@color:gold;&#9733;&#9733;&#9733;@@";
+        if (this.Data["Style"] == "LEGENDARY") return "@@color:gold;&#9733;&#9733;&#9733;&#9733;@@";
         return "@@color:gold;&#9733;@@";
     };
 
     /** @returns {string} */
     HairColor() {
-        return this.o["Color"] ? this.o["Color"] : "black";
+        return this.Data["Color"] ? this.Data["Color"] : "black";
     }
 
     /** @returns {number} */
     HairLength() {
-        return this.o["HairLength"] ? this.o["HairLength"] : 0;
+        return this.Data["HairLength"] ? this.Data["HairLength"] : 0;
     }
 
     /** @returns {string} */
     HairStyle() {
-        return this.o["HairStyle"] ? this.o["HairStyle"] : "";
+        return this.Data["HairStyle"] ? this.Data["HairStyle"] : "";
     }
 
     /** @returns {number} */
     HairBonus() {
-        return this.o["HairBonus"] ? this.o["HairBonus"] : 0;
+        return this.Data["HairBonus"] ? this.Data["HairBonus"] : 0;
     }
 
     /** @returns {boolean} */
     IsLocked() {
-        var locked = this.o.Locked;
+        var locked = this.Data.Locked;
         return typeof (locked) === "boolean" ? locked : false;
     }
 
@@ -691,7 +703,7 @@ App.Items.Clothing = class Clothing extends App.Item {
      * @param {boolean} locked
      */
     SetIsLocked(locked) {
-        this.o.Locked = locked;
+        this.Data.Locked = locked;
     }
 
     /**
@@ -710,7 +722,7 @@ App.Items.Clothing = class Clothing extends App.Item {
      * @returns {boolean}
      */
     InMarket() {
-        var inMarket = this.o.InMarket;
+        var inMarket = this.Data.InMarket;
         return typeof (inMarket) === "boolean" ? inMarket : true; // Default to yes.
     }
 
@@ -732,8 +744,7 @@ App.Items.Consumable = class Consumable extends App.Item {
      * @param {InventoryManager} InventoryObj
      */
     constructor(Category, Tag, d, InventoryObj) {
-        super(Category, Tag, InventoryObj);
-        this.Data = $.extend( true, {}, d );
+        super(Category, Tag, d, InventoryObj);
 
         this._messageBuffer = [ ];
 
@@ -900,8 +911,7 @@ App.Items.QuestItem = class QuestItem extends App.Item {
      * @constructor
      */
     constructor(Tag, d, InventoryObj) {
-        super("QUEST", Tag, InventoryObj);
-        this.Data = $.extend( true, {}, d );
+        super("QUEST", Tag,d,  InventoryObj);
     }
 
     /**
@@ -952,7 +962,6 @@ App.Items.Reel = class Reel extends App.Item {
      */
     constructor(id, d, InventoryObj) {
         super("REEL", id, InventoryObj);
-        this.Data = $.extend(true, { }, d);
     }
 
     /**
