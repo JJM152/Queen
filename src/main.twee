@@ -52,6 +52,9 @@ Config.navigation.override = function (passageName) {
 App.EventHandlers.Init();
 
 Config.saves.onLoad = App.EventHandlers.onLoad;
+Config.saves.isAllowed = function() {
+    return !tags().includes("no-saving");
+};
 
 :: Start
 <<set $GameBookmark = passage(); >>
