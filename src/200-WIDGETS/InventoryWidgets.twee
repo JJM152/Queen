@@ -266,7 +266,7 @@
 <td><<= _Items[_i].Charges() >></td>
 <td><<= _Items[_i].Description() >></td>
 <td></td>
-<td style="text-align:right"><<if _Items[_i].Type() == "LOOT_BOX">><<= "<<UseItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >><</if>> </td>
+<td style="text-align:right"><<if _Items[_i].Type() == "LOOT_BOX">><<= "<<UseItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >><</if>></td>
 <td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 </tr>
 <</for>>
