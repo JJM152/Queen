@@ -1,4 +1,4 @@
-:: Whore [no-teleport]
+:: Whore [no-teleport no-saving]
 <div id="WhoreUI" class="WhoreGUI"></div>
 <div id="DesperationContainer" class="DesperationContainer"><div id="DesperationFiller" class="DesperationFiller"></div><div id="DesperationBar" class="DesperationBar"></div><img class="DesperationSlotIcon" data-passage="desperation_slot_icon"></div>
 <<run App.SlotEngine.DrawUI(setup.player);>>
