@@ -789,6 +789,14 @@ App.PR = new function() {
         return List[Math.floor(Math.random() * List.length)];
     };
 
+    /**
+     * Get icon for marking favorite item in inventory or shop lists
+     * @param {boolean} IsFavorite
+     * @returns {string}
+     */
+    this.GetItemFavoriteIcon = function (IsFavorite) {
+        return IsFavorite ? "@@color:yellow;&#9733;@@" : "@@color:white;&#9734;@@";
+    }
 };
 
 /**
