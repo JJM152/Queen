@@ -305,7 +305,6 @@ App.Job = function(Data) {
                 case "ITEM":
                     var o = Player.GetItemByName(Name);
                     o.RemoveCharges(Value);
-                    if (o.Charges() <= 0) Player.DeleteItem(o);
                     break;
                 case "TIME":
                     Player.NextPhase(Value);
