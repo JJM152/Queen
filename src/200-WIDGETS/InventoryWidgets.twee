@@ -73,10 +73,8 @@
 </table><<replace "#PlayerScore">><<score>><</replace>><</widget>>
 
 <<widget "FavoriteItemButton">><<nobr>>
-<<if setup.player.GetItemById($args[0]).IsFavorite()>>\
-<<set _isfSym to "@@color:yellow;&#9733;@@">><<else>><<set _isfSym to "@@color:white;&#9734;@@">>
-<</if>>
-<<link "_isfSym">>
+<<set _ifSym to App.PR.GetItemFavoriteIcon(setup.player.GetItemById($args[0]).IsFavorite());>>
+<<link "_ifSym" >>
 <<replace "#InventoryUI">><<FavoriteItem $args[0] $args[1]>><</replace>>
 <</link>>
 <</nobr>><</widget>>

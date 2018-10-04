@@ -11,7 +11,7 @@
 <tr><td colspan="5" style="font-size:larger;text-align:center;">@@color:cyan;<<print _ST.GetName();>>@@</td>
 </tr>
 <tr style="border-bottom:solid 1px white;">
-<td style="width: 310px;">@@color:yellow;General Items@@</td>
+<td style="width: 320px;">@@color:yellow;General Items@@</td>
 <td style="width: 80px;font-size:smaller;text-align:center;">Quantity</td>
 <td style="width: 60px;font-size:smaller;text-align:right;">Price</td>
 <td style="width: 80px;"> </td>

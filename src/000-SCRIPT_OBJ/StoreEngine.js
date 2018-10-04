@@ -243,7 +243,11 @@ var Store = function(Player, NPC, StoreData) {
     this.PrintItem = function(Item)
     {
         var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"]);
-        return oItem.Description();
+        var res = oItem.Description();
+        if (this._Player.Inventory.IsFavorite(oItem.Id())) {
+            res += "&nbsp;" + App.PR.GetItemFavoriteIcon(true);
+        }
+        return res;
     };
 
     /**
