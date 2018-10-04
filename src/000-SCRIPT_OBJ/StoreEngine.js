@@ -242,7 +242,7 @@ var Store = function(Player, NPC, StoreData) {
 
     this.PrintItem = function(Item)
     {
-        var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"], this._Player.InventoryManager);
+        var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"]);
         return oItem.Description();
     };
 
@@ -253,7 +253,7 @@ var Store = function(Player, NPC, StoreData) {
      */
     this.PrintItemLong = function(Item)
     {
-        var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"], this._Player.InventoryManager);
+        var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"]);
 		var Player = this._Player;
         return "@@color:yellow;You take a look at the @@" + oItem.Description()+ ".\n"+oItem.Examine(Player);
     };
