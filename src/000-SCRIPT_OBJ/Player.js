@@ -480,7 +480,6 @@ App.Entity.ClothingManager = class ClothingManager {
             if (this._equipment[prop] == 0) {this._equipedItems[prop] = 0; continue; }
             var n = App.Item.SplitId(this._equipment[prop].ID);
             this._equipedItems[prop] = App.Item.Factory(n.Category, n.Tag, this);
-            this._equipedItems[prop].SetIsLocked(this._equipment[prop].Locked);
         }
     }
 
@@ -500,39 +499,69 @@ App.Entity.ClothingManager = class ClothingManager {
     }
 
     /**
+     * Finds slot in which item with the given Id is worn
      * @param {string} Id
-     * @returns {boolean}
+     * @returns {?string} slot name or null
      * @private
      */
-    _isWorn(Id) {
+    _findWornSlot(Id) {
         for (var prop in this._equipedItems) {
             if (!this._equipedItems.hasOwnProperty(prop) || this._equipedItems[prop] == 0) continue;
-            if (this._equipedItems[prop].Id() == Id) return true;
+            if (this._equipedItems[prop].Id() == Id) return prop;
         }
-        return false;
+        return null;
     }
 
     /**
+     * Returns true an item with the given Id is worn in the given slot. If slot param is omitted,
+     * every slot is checked.
      * @param {string} Id
+     * @param {string} [Slot]
+     * @returns {boolean}
      */
-    Wear(Id) {
-        if (this._isWorn(Id)) return;
+    IsWorn(Id, Slot) {
+        if (Slot == undefined) return this._findWornSlot(Id) != null;
+        return (this._equipment.hasOwnProperty(Slot) &&
+            this._equipment[Slot] !== 0 &&
+            this._equipment[Slot].ID == Id);
+    }
 
-        for (var i = 0; i < this._wardrobeItems.length; ++i) {
-            if (this._wardrobeItems[i].Id() != Id) continue;
-            var itm = this._wardrobeItems[i];
-            var slot = itm.Slot();
-            if (this._equipedItems[slot] != 0) {
-                // move worn item into the wardrobe
-                this._wardrobeItems.push(this._equipedItems[slot]);
-                this._wardrobe.push(this._equipedItems[slot].Id());
+    /**
+     * Is item in the named slot is locked?
+     * @param {string} Slot
+     * @returns {boolean} True is there is an item in the slot and it's locked, false otherwise
+     */
+    IsLocked(Slot) {
+        return this._equipment.hasOwnProperty(Slot) &&
+            this._equipment[Slot] !== 0 &&
+            this._equipment[Slot].Locked;
+    }
+
+    /**
+     * Wear item and optionally set its 'locked' state.
+     * @param {string} Id
+     * @param {boolean} [Lock] lock or unlock item. Leaves locked state as is if the parameter is omitted.
+     */
+    Wear(Id, Lock) {
+        var slot = this._findWornSlot(Id);
+        if (slot === null) { // currently the item is not worn
+            for (var i = 0; i < this._wardrobeItems.length; ++i) {
+                if (this._wardrobeItems[i].Id() != Id) continue;
+                var itm = this._wardrobeItems[i];
+                slot = itm.Slot();
+                if (this._equipedItems[slot] != 0) {
+                    // move worn item into the wardrobe
+                    this._wardrobeItems.push(this._equipedItems[slot]);
+                    this._wardrobe.push(this._equipedItems[slot].Id());
+                }
+                this._equipedItems[slot] = itm;
+                this._wardrobeItems.splice(i, 1);
+                this._equipment[slot] = ClothingManager.EquipmentRecord(itm.Id(), itm.IsLocked());
+                this._wardrobe.splice(i, 1);
+                break;
             }
-            this._equipedItems[slot] = itm;
-            this._wardrobeItems.splice(i, 1);
-            this._equipment[slot] = ClothingManager.EquipmentRecord(itm.Id(), itm.IsLocked());
-            this._wardrobe.splice(i, 1);
-            break;
         }
+        if (Lock != undefined) this._equipment[slot].Locked = Lock;
     }
 
     /**
@@ -1559,8 +1588,8 @@ App.Entity.Player = class Player {
         return false;
     }
 
-    Wear (item) {
-        this.Clothing.Wear(item.Id());
+    Wear (item, lock) {
+        this.Clothing.Wear(item.Id(), lock);
     }
 
     AutoWearCategory (Category) {

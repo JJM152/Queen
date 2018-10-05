@@ -331,12 +331,11 @@
 <<else>>
 @@.wardrobeButton;<<button "Swap">>
 <<set _Current = setup.player.GetEquipmentInSlot("Neck");>>
+<<set _CurentIsLocked = _Current.IsLocked();>>
 <<set _New = setup.player.GetItemById($args[0]);>>
 <<run setup.player.AdjustMoney(-300);>>
-<<run _Current.o.Locked = false;>>
-<<run setup.player.Wear( setup.player.GetItemById($args[0]));>>
-<<run _New.o.Locked = true>>
-<<goto "CollarSwap">>
+<<run setup.player.Wear(setup.player.GetItemById($args[0]), _CurentIsLocked);>>
+<<goto "CollarSwap">>s
 <</button>>@@
 <</if>>
 <</nobr>><</widget>>
