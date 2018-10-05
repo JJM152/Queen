@@ -242,6 +242,17 @@ App.Data.Food["slave gruel"] = {
     "Charges": 1,
     "Effects" : [ "SLAVE_GRUEL" ]
 };
+
+App.Data.Food["hardtack"] = {
+    "Name": "hardtack",
+    "ShortDesc": "A piece of hardtack",
+    "LongDesc": "A well preserved biscuit. Plain, but nutritious and filling.",
+    "Message": "The dryness of the hardtack makes it difficult to consume without first soaking it in water. While boring to eat, ultimately you feel yourself refreshed.",
+    "Type": "food",
+    "Charges": 1,
+    "Effects" : [ "WHOLESOME_MEAL", "ENERGY_COMMON" ]
+};
+
 App.Data.Food["red plum"] = { 
     "Name": "red plum",
     "ShortDesc": "A dazzlingly bright red plum",

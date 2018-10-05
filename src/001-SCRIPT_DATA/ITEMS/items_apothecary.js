@@ -102,7 +102,7 @@ App.Data.Drugs["AP_damiana"] = {
     "Message": "You drink what tastes like potent, spiced rum. However, the usual burning feeling fills your entire middle, and lasts for minutes.",
     "Type": "potion",
     "Charges": 1,
-    "Effects" : [ "WAIST_REVERT_RARE", "HIPS_REVERT_RARE", "ASS_REVERT_RARE", "TOXICITY_COMMON" ]
+    "Effects" : [ "WAIST_XP_COMMON", "HIPS_REVERT_RARE", "ASS_REVERT_RARE", "TOXICITY_COMMON" ]
 };
 
 App.Data.Drugs["AP_rose"] = {
@@ -135,7 +135,7 @@ App.Data.Drugs["AP_frankincense"] = {
     "Effects" : [ "LIPS_REVERT_RARE", "TOXICITY_COMMON" ]
 };
 
-App.Data.Drugs["AP_ baneberry"] = {
+App.Data.Drugs["AP_baneberry"] = {
     "Name": "plaster of baneberry root and saw palmetto",
     "ShortDesc": "Plaster of Baneberry Root and Saw Palmetto",
     "LongDesc": "A muddy-brown mixture with the consistency of very wet clay, meant to enhance the shape of the bust.",
@@ -196,7 +196,7 @@ App.Data.Drugs["AP_starwort"] = {
     "Message": "This spicy, herbal tea tastes pungent and sweet, suggestive of cloves. Your body warms up quickly as you drink.",
     "Type": "potion",
     "Charges": 1,
-    "Effects" : [ "WAIST_REVERT_LEGENDARY", "HIPS_REVERT_LEGENDARY", "ASS_REVERT_LEGENDARY", "TOXICITY_COMMON" ]
+    "Effects" : [ "WAIST_XP_LEGENDARY", "HIPS_REVERT_LEGENDARY", "ASS_REVERT_LEGENDARY", "TOXICITY_COMMON" ]
 };
 
 App.Data.Drugs["AP_sarsaparilla"] = {

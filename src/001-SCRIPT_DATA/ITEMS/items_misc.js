@@ -19,3 +19,12 @@ App.Data.Misc["shovel"] = {
     "Charges": 1,
     "VALUE": 100
 };
+
+App.Data.Misc["junk"] = {
+    "Name": "junk",
+    "ShortDesc": "a random collection of junk",
+    "LongDesc": "Literally junk. Why are you carrying this around?",
+    "Type": "misc",
+    "Charges": 1,
+    "VALUE": 5
+};

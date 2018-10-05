@@ -99,6 +99,7 @@ App.Rogue.Engine = new function() {
 
     this.RefreshStatus = function() {
         this._sideBar.clear();
+        this._sideBar.flush();
         // Draw GUI.
         this._sideBar.Title(this._title);
         this._sideBar.Level("Level: "+this._depth + "/" + this._maxDepth);

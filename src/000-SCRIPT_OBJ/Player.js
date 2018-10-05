@@ -418,6 +418,7 @@ App.Entity.InventoryManager = class InventoryManager {
     /**
      * Tests whether the item is in the favorites set
      * @param {boolean} Id
+     * @returns {boolean}
      */
     IsFavorite(Id) {
         return this._state.InventoryFavorites.has(Id);
@@ -431,7 +432,7 @@ App.Entity.InventoryManager = class InventoryManager {
 App.Entity.ClothingManager = class ClothingManager {
 
     /**
-     * @returns {any}
+     * @returns {*}
      */
     get _state() {
         return State.variables[this._stateObjName];
@@ -445,7 +446,7 @@ App.Entity.ClothingManager = class ClothingManager {
     }
 
      /**
-     * @returns {any}
+     * @returns {*}
      */
     get _equipment() {
         return this._state.Equipment;
@@ -585,7 +586,7 @@ App.Entity.ClothingManager = class ClothingManager {
      *
      * @param {string} Name
      * @param {boolean} [Wear]
-     * @returns {App.Items.Clothing}
+     * @returns {Clothing}
      */
     AddItem(Name, Wear) {
         var item = App.Item.Factory("CLOTHES", Name, this);
