@@ -1521,7 +1521,7 @@ App.Entity.Player = class Player {
 
     WardrobeItemsBySlot(Slot) {
         var res = this.Clothing.Wardrobe.filter(function(Item) { return Item.Slot() == Slot; });
-        res.sort(function(a, b) { return a.Description().localeCompare(b.Description()); });
+        res.sort(function(a, b) { return a.Name().localeCompare(b.Name()); });
         return res;
     }
 
@@ -1654,7 +1654,7 @@ App.Entity.Player = class Player {
         res.sort(function(a, b) {
             var af = a.IsFavorite();
             if (af != b.IsFavorite()) {return af ? -1 : 1;}
-            return a.Tag().localeCompare(b.Tag());
+            return a.Name().localeCompare(b.Name());
         });
         return res;
     }
