@@ -411,6 +411,13 @@ App.Item = class Item {
     }
 
     /**
+     * @returns {InventoryManager}
+     */
+    get Inventory() {
+        return this._inventory;
+    }
+
+    /**
      * @returns {object}
      */
     get Data() {
@@ -515,8 +522,7 @@ App.Items.Clothing = class Clothing extends App.Item {
         if (typeof (result) !== "string" || result === "") return this.Name();
         result = result.replace("{COLOR}", String(this.Data.Color));
 
-        var locked = this.Data.Locked;
-        if (typeof (locked) === "boolean" && locked) result += " @@color:red;(Locked)@@";
+        if (this.IsLocked()) result += " @@color:red;(Locked)@@";
 
         return result;
     }
@@ -692,18 +698,13 @@ App.Items.Clothing = class Clothing extends App.Item {
         return this.Data["HairBonus"] ? this.Data["HairBonus"] : 0;
     }
 
-    /** @returns {boolean} */
-    IsLocked() {
-        var locked = this.Data.Locked;
-        return typeof (locked) === "boolean" ? locked : false;
-    }
-
     /**
      * Locked items cannot be removed unless unlocked.
-     * @param {boolean} locked
      */
-    SetIsLocked(locked) {
-        this.Data.Locked = locked;
+    IsLocked() {
+        if (this.Inventory.IsWorn(this.Id(), this.Slot())) return this.Inventory.IsLocked(this.Slot());
+        var locked = this.Data.Locked;
+        return typeof (locked) === "boolean" ? locked : false;
     }
 
     /**
