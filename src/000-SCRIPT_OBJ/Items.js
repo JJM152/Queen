@@ -283,7 +283,9 @@ App.Item = class Item {
         if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" || Type == 'MISC_CONSUMABLE') {
              o = new App.Items.Consumable(Type, Tag, d, Inventory);
         }
-        if (Count > 0 ) o.SetCharges(Count);
+
+        if (Count == undefined) Count = Item.GetCharges(undefined, undefined, d);
+        if (Count > 1) o.AddCharges(Count - 1);
 
         return o;
     }
@@ -463,10 +465,11 @@ App.Item = class Item {
      * Fetch the default charges from an items data record.
      * @param {string} Type
      * @param {string} Tag
+     * @param {object} [rec]
      * @returns {number}
      */
-    static GetCharges(Type, Tag) {
-        var rec = this._FetchData(Type, Tag);
+    static GetCharges(Type, Tag, rec) {
+        if (rec === undefined) rec = this._FetchData(Type, Tag);
         return rec.hasOwnProperty("Charges") ? rec["Charges"] : 1;
     }
 
@@ -702,7 +705,7 @@ App.Items.Clothing = class Clothing extends App.Item {
      * Locked items cannot be removed unless unlocked.
      */
     IsLocked() {
-        if (this.Inventory.IsWorn(this.Id(), this.Slot())) return this.Inventory.IsLocked(this.Slot());
+        if (this.Inventory !== undefined && this.Inventory.IsWorn(this.Id(), this.Slot())) return this.Inventory.IsLocked(this.Slot());
         var locked = this.Data.Locked;
         return typeof (locked) === "boolean" ? locked : false;
     }
