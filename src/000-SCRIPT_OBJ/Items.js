@@ -915,7 +915,7 @@ App.Items.QuestItem = class QuestItem extends App.Item {
      * @constructor
      */
     constructor(Tag, d, InventoryObj) {
-        super("QUEST", Tag,d,  InventoryObj);
+        super("QUEST", Tag, d, InventoryObj);
     }
 
     /**
@@ -965,7 +965,7 @@ App.Items.Reel = class Reel extends App.Item {
      * @param {object} d
      */
     constructor(id, d, InventoryObj) {
-        super("REEL", id, InventoryObj);
+        super("REEL", id, d, InventoryObj);
     }
 
     /**

@@ -34,6 +34,18 @@ Fitness: \
 [[80|DebugPassage][setup.player.CoreStats["Fitness"] to 80]] | \
 [[90|DebugPassage][setup.player.CoreStats["Fitness"] to 90]] | \
 [[100|DebugPassage][setup.player.CoreStats["Fitness"] to 100]]
+Hair: \
+[[Shortest|DebugPassage][setup.player.BodyStats["Hair"] to 0]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Hair"] to 5]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Hair"] to 10]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Hair"] to 20]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Hair"] to 30]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Hair"] to 40]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Hair"] to 50]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Hair"] to 60]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Hair"] to 70]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Hair"] to 85]] | \
+[[Longest|DebugPassage][setup.player.BodyStats["Hair"] to 100]]
 Face: \
 [[Ugliest|DebugPassage][setup.player.BodyStats["Face"] to 0]] | \
 [[⬤|DebugPassage][setup.player.BodyStats["Face"] to 5]] | \
@@ -72,6 +84,18 @@ Bust size: \
 [[G|DebugPassage][setup.player.BodyStats["Bust"] to 29]] | \
 [[G|DebugPassage][setup.player.BodyStats["Bust"] to 39]] | \
 [[QQQ|DebugPassage][setup.player.BodyStats["Bust"] to 100]]
+Height: \
+[[Shortest|DebugPassage][setup.player.BodyStats["Height"] to 0]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Height"] to 5]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Height"] to 10]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Height"] to 20]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Height"] to 30]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Height"] to 40]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Height"] to 50]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Height"] to 60]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Height"] to 70]] | \
+[[⬤|DebugPassage][setup.player.BodyStats["Height"] to 85]] | \
+[[Tallest|DebugPassage][setup.player.BodyStats["Height"] to 100]]
 Waist size: \
 [[Thinnest|DebugPassage][setup.player.BodyStats["Waist"] to 0]] | \
 [[⬤|DebugPassage][setup.player.BodyStats["Waist"] to 5]] | \
@@ -120,6 +144,41 @@ Penis size: \
 [[⬤|DebugPassage][setup.player.BodyStats["Penis"] to 70]] | \
 [[⬤|DebugPassage][setup.player.BodyStats["Penis"] to 85]] | \
 [[Biggest|DebugPassage][setup.player.BodyStats["Penis"] to 100]]
+
+Add <<textbox "_bodyXPPoints" "0">> Body XP points to \
+<<listbox "_bodyPart">>
+	<<option "Ass" "Ass">>
+	<<option "Balls" "Balls">>
+	<<option "Bust" "Bust">>
+	<<option "Face" "Face">>
+	<<option "Hair" "Hair">>
+	<<option "Height" "Height">>
+	<<option "Hips" "Hips">>
+	<<option "Lactation" "Lactation">>
+	<<option "Lips" "Lips">>
+	<<option "Penis" "Penis">>
+	<<option "Waist" "Waist">>
+<</listbox>> \
+<<button "Add">><<run setup.player.AdjustBodyXP(_bodyPart, _bodyXPPoints);>><</button>>
+
+Add <<textbox "_skillXPPoints" "0">> Skill XP Points to \
+<<listbox "_skillName">>
+	<<option "Handjobs" "HandJobs">>
+	<<option "Tit Fucking" "TitFucking">>
+	<<option "Blowjobs" "BlowJobs">>
+	<<option "Ass Fucking" "AssFucking">>
+	<<option "Dancing" "Dancing">>
+	<<option "Singing" "Singing">>
+	<<option "Seduction" "Seduction">>
+	<<option "Cleaning" "Cleaning">>
+	<<option "Cooking" "Cooking">>
+	<<option "Serving" "Serving">>
+	<<option "Swashbuckling" "Swashbuckling">>
+	<<option "Sailing" "Sailing">>
+	<<option "Navigating" "Navigating">>
+	<<option "Styling" "Styling">>
+<</listbox>> \
+<<button "Add">><<run setup.player.AdjustSkillXP(_skillName, _skillXPPoints);>><</button>>
 
 @@color:Cyan;Endings Menu@@
 [[Money Best Win|GameWon][setup.player.CoreStats["WillPower"] = 100;]] | [[Money Average Win|GameWon][setup.player.CoreStats["WillPower"] = 50;]] | [[Money Worst Win|GameWon][setup.player.CoreStats["WillPower"] = 30;]]
