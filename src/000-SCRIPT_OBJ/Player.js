@@ -561,6 +561,7 @@ App.Entity.ClothingManager = class ClothingManager {
     AddItem(Name, Wear) {
         var item = App.Item.Factory("CLOTHES", Name, this);
         this._wardrobe.push(item.Id());
+        this._wardrobeItems.push(item);
         if (Wear == true) {
             this.Wear(item.Id());
         }
