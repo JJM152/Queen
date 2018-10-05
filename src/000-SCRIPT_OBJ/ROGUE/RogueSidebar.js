@@ -21,6 +21,56 @@ App.Rogue.Sidebar = function() {
         this._data.push(text);
     };
 
+    this.Title = function(text) {
+        var o = this._options;
+        var d = o.display;
+        var pos = o.position;
+        var size = o.size;
+
+        d.drawText(pos.x, pos.y, text, size.x);
+    };
+
+    this.Level = function(text) {
+        var o = this._options;
+        var d = o.display;
+        var pos = o.position;
+        var size = o.size;
+
+        d.drawText(pos.x, pos.y+1, text, size.x);
+    };
+
+    this.Torches = function(text) {
+        var o = this._options;
+        var d = o.display;
+        var pos = o.position;
+        var size = o.size;
+
+        d.drawText(pos.x, pos.y+3, text, size.x);
+    };
+
+    this.Shovels = function(text) {
+        var o = this._options;
+        var d = o.display;
+        var pos = o.position;
+        var size = o.size;
+
+        d.drawText(pos.x, pos.y+4, text, size.x);
+    };
+
+    this.Help = function()
+    {
+        var o = this._options;
+        var d = o.display;
+        var pos = o.position;
+        var size = o.size;
+
+        d.drawText(pos.x, pos.y+6, "COMMANDS", size.x);
+        d.drawText(pos.x, pos.y+7, "Move = NUMPAD", size.x);
+        d.drawText(pos.x, pos.y+8, "Torch = /", size.x);
+        d.drawText(pos.x, pos.y+9, "Dig = NUMPAD5", size.x);
+        d.drawText(pos.x, pos.y+10, "Up/Down = NUMPAD5", size.x);
+    };
+
     this.flush = function() {
         var o = this._options;
         var d = o.display;

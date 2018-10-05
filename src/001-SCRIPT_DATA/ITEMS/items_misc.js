@@ -17,5 +17,5 @@ App.Data.Misc["shovel"] = {
     "LongDesc": "A sturdy shovel, useful for digging up buried treasure. A true pirate never leaves port without one.",
     "Type": "misc",
     "Charges": 1,
-    "VALUE": 200
+    "VALUE": 100
 };

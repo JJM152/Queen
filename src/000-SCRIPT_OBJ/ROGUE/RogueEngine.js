@@ -18,16 +18,18 @@ App.Rogue.Engine = new function() {
     this._maxDepth = 100;
     this._lastDrawnCells = [ ];
     this._currentDrawnCells = [ ];
+    this._title = "Dungeon";
 
     this.LoadScene = function(Element, ExitPassage) {
         this._element = Element;
         this._player = new App.Rogue.Player();
+        this._title = "Abamond Caves";
         this._passage = ExitPassage;
         this._scheduler = new ROT.Scheduler.Speed();
         this._engine = new ROT.Engine(this._scheduler);
         this._display = new ROT.Display( {width: 100, height:40, fontSize:12} );
-        this._textBuffer = new App.Rogue.TextBuffer(this._display);
-        this._sideBar = new App.Rogue.Sidebar(this._display);
+        this._textBuffer = new App.Rogue.TextBuffer();
+        this._sideBar = new App.Rogue.Sidebar();
         this._depth = 1;
         this._maxDepth = 100;
         this._lastDrawnCells = [ ];
@@ -95,6 +97,16 @@ App.Rogue.Engine = new function() {
         return level;
     };
 
+    this.RefreshStatus = function() {
+        this._sideBar.clear();
+        // Draw GUI.
+        this._sideBar.Title(this._title);
+        this._sideBar.Level("Level: "+this._depth + "/" + this._maxDepth);
+        this._sideBar.Torches("Torches: "+ this._player.getTorches());
+        this._sideBar.Shovels("Shovels: "+ this._player.getShovels());
+        this._sideBar.Help();
+    };
+
     this._switchLevel = function(level, opt) {
         this._scheduler.clear();
         this._level = level;
@@ -111,12 +123,10 @@ App.Rogue.Engine = new function() {
         //Side status panel
 
         this._sideBar.configure({
-           display: this._display,
-            position: new App.Rogue.XY(0, 0),
+            display: this._display,
+            position: new App.Rogue.XY(size.x+1, 0),
             size: new App.Rogue.XY(20, size.y + bufferSize)
         });
-
-        this._sideBar.clear();
 
         //Bottom chat window
         this._textBuffer.configure({
@@ -129,6 +139,8 @@ App.Rogue.Engine = new function() {
 
         this._display.clear();
         this._drawWithLight(this._player.getXY());
+
+        this.RefreshStatus();
 
         /* add new beings to the scheduler */
         var beings = this._level.getBeings();

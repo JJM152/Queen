@@ -160,7 +160,7 @@ App.SlotEngine = new function() {
 
     /**
      * Called from the 'WhoreEnd' passage to give out loot/rewards and to tell the player about it.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @returns {string}
      */
     this.PrintResults = function(Player) {

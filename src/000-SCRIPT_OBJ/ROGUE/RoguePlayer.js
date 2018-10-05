@@ -64,7 +64,7 @@ App.Rogue.Player = function() {
             case null:
                 break;
             case 'stairs_up':
-                if (this._depth > 1) {
+                if (this._level._depth > 1) {
                     App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to ascend a level.");
                 } else {
                     App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to exit.");
@@ -119,13 +119,14 @@ App.Rogue.Player = function() {
 
             // Use a light
             if (code == ROT.VK_SLASH || code == ROT.VK_DIVIDE) {
-                var torch = setup.player.GetItemByName("torch");
-                if (typeof torch !== 'undefined') {
+                if (this.getTorches() > 0 ) {
+                    var torch = setup.player.GetItemByName("torch");
                     setup.player.UseItem(torch.Id()); // draw down a charge
                     App.Rogue.Engine._textBuffer.write("You light a torch.");
                     this._lightLevel = 10;
                     this._lightDuration = 100;
                     App.Rogue.Engine._drawWithLight(this._xy);
+                    App.Rogue.Engine.RefreshStatus();
                     return true;
                 } else {
                     App.Rogue.Engine._textBuffer.write("You don't have any torches!");
@@ -149,7 +150,7 @@ App.Rogue.Player = function() {
             if (this._lightDuration == 1) App.Rogue.Engine._textBuffer.write("Your torch goes out!");
             if (this._lightDuration > 0) this._lightDuration--;
             if (this._lightDuration < 1) {
-                App.Rogue.Engine._textBuffer.write("It is dark.");
+                App.Rogue.Engine._textBuffer.write("It is dark. Press '/' to light a torch.");
                 this._lightLevel = 1;
             }
 
@@ -159,6 +160,16 @@ App.Rogue.Player = function() {
         }
 
         return false; /* unknown key */
+    };
+
+    this.getTorches = function() {
+        var torch = setup.player.GetItemByName("torch");
+        return typeof torch === 'undefined' ? 0 : torch.Charges();
+    };
+
+    this.getShovels = function() {
+        var shovel = setup.player.GetItemByName("shovel");
+        return typeof shovel === 'undefined' ? 0 : shovel.Charges();
     };
 
     this.getSpeed = function() {
