@@ -1,8 +1,5 @@
 App = App || { Data: { }, Entity: { } };
-
-App.Data.NPCS = {
-
-};
+App.Data.NPCS = App.Data.NPCS || { };
 
 App.Data.Names = {
             "Male": ["Ailen", "Aldritch", "Allan", "Arnold", "Austyn", "Ayden",
