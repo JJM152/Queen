@@ -112,8 +112,25 @@ App.Rogue.Player = function() {
                 } else if (this.getXY().toString() == this._level.getExit().toString()) {
                     App.Rogue.Engine.Descend();
                     return true;
-                }
+                } else if (this._level.isTreasure(this.getXY()) != null ) {
 
+                    if (this.getShovels() > 0 ) {
+                        App.Rogue.Engine._textBuffer.write("You start digging...");
+                        this._level.digAt(this.getXY());
+
+                        // Randomly draw down charge.
+                        if ( this._level._depth > (Math.random() * 100)) {
+                            var shovel = setup.player.GetItemByName("shovel");
+                            setup.player.UseItem(shovel.Id());
+                            App.Rogue.Engine._textBuffer.write("Your shovel breaks!");
+                        }
+                        App.Rogue.Engine.RefreshStatus();
+                        return true;
+                    } else {
+                        App.Rogue.Engine._textBuffer.write("Your shovel breaks!");
+                        return true;
+                    }
+                }
                 return true;
             }
 

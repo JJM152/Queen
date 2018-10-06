@@ -417,7 +417,7 @@ App.Entity.InventoryManager = class InventoryManager {
 
     /**
      * Tests whether the item is in the favorites set
-     * @param {boolean} Id
+     * @param {string} Id
      * @returns {boolean}
      */
     IsFavorite(Id) {
@@ -1328,7 +1328,7 @@ App.Entity.Player = class Player {
     };
 
     AdjustMoney (m) {
-        this._state.Money = Math.max(0, (this._state.Money + m));
+        this._state.Money = Math.max(0, (this._state.Money + Math.ceil(m)));
     };
 
     RandomAdjustBodyXP (Amount) {

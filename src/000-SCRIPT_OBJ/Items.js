@@ -966,6 +966,7 @@ App.Items.Reel = class Reel extends App.Item {
     /**
      * @param {string} id
      * @param {object} d
+     * @param {InventoryManager} InventoryObj
      */
     constructor(id, d, InventoryObj) {
         super("REEL", id, d, InventoryObj);

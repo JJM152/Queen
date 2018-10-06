@@ -147,7 +147,7 @@ App.Rogue.Level = function(depth) {
     {
         var count = 0;
         for (var i = 0; i < 10; i++) {
-            if ((Math.round(Math.random() * 100)+1) <= this._depth ) count++;
+            if ((Math.round(Math.random() * 100)+1) <= 100 ) count++;
         }
 
         if (count < 1) return; // noop
@@ -159,11 +159,61 @@ App.Rogue.Level = function(depth) {
             var XY = new App.Rogue.XY();
             XY.setStr(treasure);
             this._treasure[treasure] = XY;
-            this._freeCells[XY] = new App.Rogue.Entity({ ch:'*', fg:'#A52A2A', bg:null })
+            this._freeCells[XY] = new App.Rogue.Entity({ ch:'*', fg:'#A52A2A', bg:null });
             this._freeCells[XY].SetType('dig_spot');
         }
     };
 
+    this.isTreasure = function(xy) {
+        return this._treasure[xy] || null;
+    };
+
+    /**
+     * Real gross hack for now, need to fix with future refactor
+     */
+    this.digAt = function(xy) {
+        var nothing = (50 - this._depth);
+        var loot = { };
+
+        delete this._treasure[xy];
+        delete this._freeCells[xy];
+
+        this._freeCells[xy] = new App.Rogue.Entity( { ch:null, fg:null, bg:null });
+
+        // no loot
+        if (nothing > 0 && (nothing > Math.random() * 100)) {
+            App.Rogue.Engine._textBuffer.write("You find nothing!");
+            return;
+        }
+        var coins = Math.ceil(1 + ( Math.random() * (this._depth * 5)));
+        if ( Math.random() * 100 > 40 ) {
+            // Money
+            setup.player.AdjustMoney(coins);
+            App.Rogue.Engine._textBuffer.write("You find "+coins+" coins!");
+        } else {
+
+            if ( coins > 400 ) { // legendary
+                loot = App.PR.GetRandomListItem(App.Data.Loot["DUNGEON_LEGENDARY"]);
+            } else if (coins > 300 ) { // rare
+                loot = App.PR.GetRandomListItem(App.Data.Loot["DUNGEON_RARE"]);
+            } else if (coins > 150 ) { // uncommon
+                loot = App.PR.GetRandomListItem(App.Data.Loot["DUNGEON_UNCOMMON"]);
+            } else { // common
+                loot = App.PR.GetRandomListItem(App.Data.Loot["DUNGEON_COMMON"]);
+            }
+
+            var count = (Math.max( loot.min, (Math.round(Math.random() * loot.max) )));
+            setup.player.AddItem(loot.category, loot.tag, count);
+            var name = setup.player.GetItemByName(loot.tag);
+            if (typeof name !== 'undefined' && name != null ) {
+                App.Rogue.Engine._textBuffer.write("You find: "+name.Description()+"!");
+            } else {
+                App.Rogue.Engine._textBuffer.write("You find: "+ loot.tag +"(bug)!");
+            }
+
+        }
+
+    };
     /**
      * Pick a random free cell and plop down the staircase up/out
      */
@@ -172,7 +222,7 @@ App.Rogue.Level = function(depth) {
         var entrance = Object.keys(this._freeCells)[Math.floor(Math.random() * Object.keys(this._freeCells).length)];
         this._entrance = new App.Rogue.XY();
         this._entrance.setStr(entrance);
-        this._freeCells[entrance] = new App.Rogue.Entity({ ch:'O', fg:'#3f3', bg:null})
+        this._freeCells[entrance] = new App.Rogue.Entity({ ch:'O', fg:'#3f3', bg:null});
         this._freeCells[entrance].SetType("stairs_up");
 
     };
@@ -189,7 +239,7 @@ App.Rogue.Level = function(depth) {
         var exit = cells[Math.floor(Math.random() * cells.length)];
         this._exit = new App.Rogue.XY();
         this._exit.setStr(exit);
-        this._freeCells[exit] = new App.Rogue.Entity(( { ch:'X', fg: '#1ABC9C', bg:null}))
+        this._freeCells[exit] = new App.Rogue.Entity(( { ch:'X', fg: '#1ABC9C', bg:null}));
         this._freeCells[exit].SetType("stairs_down");
     };
 

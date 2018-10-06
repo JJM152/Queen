@@ -1,6 +1,7 @@
 App = App || { Data: { }, Entity: { } };
 App.Data.Loot = App.Data.Loot || { };
 
+// Not sure if I want to use this or not.
 App.Data.Loot["DUNGEON_COMMON"] = [
     { category: "MISC_CONSUMABLE", tag: "torch", min: 1, max: 3 },
     { category: "MISC_CONSUMABLE", tag: "shovel", min: 1, max: 1 },
