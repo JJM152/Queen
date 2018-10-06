@@ -1644,8 +1644,8 @@ App.Entity.Player = class Player {
     Strip() {
         for (var prop in this.Clothing.Equipment) {
             if (!this.Clothing.Equipment.hasOwnProperty(prop)) continue;
-            if (this._state.Equipment[prop] == 0) continue;
-            if (this._state.Equipment[prop].IsLocked()) continue;
+            if (this.Clothing.Equipment[prop] == 0) continue;
+            if (this.Clothing.Equipment[prop].IsLocked()) continue;
 
             this.Clothing.TakeOff(this.Clothing.Equipment[prop].Id());
         }
@@ -1785,7 +1785,7 @@ App.Entity.Player = class Player {
      */
     GetWornSkillBonus (Skill) {
         var bonus = 0;
-        for (var prop in this._state.Equipment) {
+        for (var prop in this.Clothing.Equipment) {
             if (!this.Clothing.Equipment.hasOwnProperty(prop)) continue;
             if (this.Clothing.Equipment[prop] == 0) continue;
             var tBonus = this.Clothing.Equipment[prop].GetBonus(Skill);
@@ -1938,11 +1938,11 @@ App.Entity.Player = class Player {
         console.group("HighClassPresentability");
         var result = 0;
 
-        for (var slot in this._state.Equipment) {
+        for (var slot in this.Clothing.Equipment) {
             if (slot == "Nipples" || slot == "Bra" || slot == "Panty" || slot == "Butt" || slot == "Penis") continue;
-            if (!this._state.Equipment.hasOwnProperty(slot)) continue;
+            if (!this.Clothing.Equipment.hasOwnProperty(slot)) continue;
 
-            var equipmentItem = this._state.Equipment[slot];
+            var equipmentItem = this.Clothing.Equipment[slot];
             if (equipmentItem == null || equipmentItem == 0) continue;
 
             result += getBonus(slot, equipmentItem);
