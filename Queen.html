@@ -30434,7 +30434,7 @@ could explore them if you wanted to.&lt;&lt;/if&gt;&gt;
 | &lt;&lt;click &quot;Continue Exploring&quot; &quot;CaveRogueLikeGUI&quot;&gt;&gt;&lt;&lt;run App.Rogue.Engine.LoadScene(&quot;#passage-caveroguelikegui&quot;, &quot;OceanCave&quot;, setup.player.JobFlags[&quot;ABAMOND_CAVE_LEVEL&quot;))&gt;&gt;&lt;&lt;/click&gt;&gt;\
  (Level: &lt;&lt;= setup.player.JobFlags[&quot;ABAMOND_CAVE_LEVEL&quot;]; &gt;&gt;)&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="123" name="Ruins" tags="" position="350,1600">These ruins look to belong to an ancient civilization, likely the same people who built the megalithic pier that has made this island a stop off point for ships traveling the Lost Coast. Deep jungle surrounds you on all sides and giant pieces of masonry peek out from the underbrush at every angle.
 
-A large central building draws your attention and you cautiously make your way towards it. The exterior is overgrown with vines and you have to chop them away to get through the opening. Once inside, your nose is overcome with a scent that you did not expect -- is that jasmine and honey? You shake your head to clear your thoughts to turn your focus to inspecting the room around you. It&#39;s dark and hard to see much of anything but you can make out various pictographs etched into the walls. Shards of pottery and a mess of unidentifiable but useless items and trinkets litter the ground.&lt;&lt;if setup.player.Equipment[&quot;Shoes&quot;].o.Name eq 0&gt;&gt; Being barefoot, you have to step carefully to avoid the jagged fragments of clay.&lt;&lt;/if&gt;&gt;
+A large central building draws your attention and you cautiously make your way towards it. The exterior is overgrown with vines and you have to chop them away to get through the opening. Once inside, your nose is overcome with a scent that you did not expect -- is that jasmine and honey? You shake your head to clear your thoughts to turn your focus to inspecting the room around you. It&#39;s dark and hard to see much of anything but you can make out various pictographs etched into the walls. Shards of pottery and a mess of unidentifiable but useless items and trinkets litter the ground.&lt;&lt;if setup.player.GetEquipmentInSlot(&quot;Shoes&quot;) eq 0&gt;&gt; Being barefoot, you have to step carefully to avoid the jagged fragments of clay.&lt;&lt;/if&gt;&gt;
 
 You&#39;re given to wonder if there is perhaps something still useful inside this ruin to recover...
 
@@ -32522,6 +32522,7 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 * The Caverns below Abamond are now up and running. Explore 100 procedurally generated levels and dig for treasure. Bring torches, shovels and energy food.
 !!!!Salty Mermaid
 * It&#39;s possible to work at the ships helm if you have two stars in Sailing / Navigating and you impress Kipler when taking a Sailing lesson.
+* If you do really well at the aforementioned job, it&#39;s possible to increase the speed of the ship and arrive at port faster. Takes a high degree of skill.
 !!!!UI
 * There is now an additional tab in the Inventory dialogue called &#39;Misc&#39; that shows various items you own that can&#39;t be used from the inventory interface (makeup, torches, shovels, etc)
 !!!!Abamond
