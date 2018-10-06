@@ -463,6 +463,23 @@ App.Data.JobData["MATE03"] =  {
                 "slutty sissy ass. Within seconds he has completely filled you, bottoming out someplace so deep that it almost makes you faint. Thankfully he starts off slow, giving you time to "+
                 "relax and get into the motion and ultimately you are able to match his motion and start thrusting your ass back towards him, reaching all the way to the root of his cock." }
             ]
+        },
+        {
+            "ID" : "SCENE04a",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "FLAG", "NAME" : "KIPLER_NAV_REWARD", "OPT" : "NOT_SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "FLAG", "NAME" : "KIPLER_NAV_REWARD", "VALUE" : 1, "OPT" : "SET" },
+                { "TYPE" : "QUEST_FLAG","NAME" : "SIMONE_REWARD", "VALUE" : 1, "OPT" : "SET" }
+            ],
+            "START" :   "NPC_NAME says, \"You showed some promise today PLAYER_NAME\". I could always use an assistant, why don't you polish your skills and join me some time at the helm? You can now work as a helmsman on the ship, if your skills are good enough.",
+            "END" : "",
+            "RESULTS" : [ ]
         }
     ],
     "END" :

@@ -1,10 +1,20 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.8 - 09/30/2018
+!!!0.8 - 10/06/2018
 !!!!General
 * Merged code from (@@color:deepPink;ezsh@@) to separate player state and player object to reduce save size.
-* Attempt to fix bug where eating food in cabin would return you to a different room when you exit the inventory interface. (couldn't reproduce) issue <a href="https://github.com/JJM152/Queen/issues/41">#41</a>
-* Attempt to fix null reference in slot machine code. (couldn't reproduce) issue <a href="https://github.com/JJM152/Queen/issues/42">#42</a>
+* Merged code from (@@color:deepPink;ezsh@@) to remove item objects from player save file.
+* Added backwards compatibility for save files (@@color:deepPink;ezsh@@). All of the above were a huge amount of work. Much thanks!
+* Fixed bug where eating food in cabin would return you to a different room when you exit the inventory interface.
+* Fixed null reference in slot machine code.
+* There is now a no makeup style at the vanity for going clean faced (@@color:deepPink;ezsh@@)
+* Fixed bug where you could spam desperation rolls.
+* Added "Misc" loot tab to inventory. You can now see your makeup supplies and other things that were previously hidden.
+* Added throwing away items and favorites to inventory interface. (@@color:deepPink;ezsh@@)
+!!!!Abamond
+* The Caverns below Abamond are now up and running. Explore 100 procedurally generated levels and dig for treasure. Bring torches, shovels and energy food.
+!!!!Salty Mermaid
+* It's possible to work at the ships helm if you have two stars in Sailing / Navigating and you impress Kipler when taking a Sailing lesson.
 !!!!UI
 * There is now an additional tab in the Inventory dialogue called 'Misc' that shows various items you own that can't be used from the inventory interface (makeup, torches, shovels, etc)
 !!!!Abamond
@@ -17,7 +27,7 @@
 * Reverted changes in bust / cup size descriptions.
 * Trim hair from vanity now uses settings for units (metric or imperial) (@@color:deepPink;ezsh@@)
 * Some substitution strings were using adjectives for bust instead of ass. (@@color:deepPink;ezsh@@)
-* Fixed black dye bug in Yvonne's shop fixed (@@color:deepPink;ezsh@@)
+* Fixed black dye bug in Yvonne's shop (@@color:deepPink;ezsh@@)
 * Fixed bug with one of the Tarot card readings not applying effects properly overnight.
 * Whoring results page now sorts status messages by XP gained. (@@color:deepPink;ezsh@@)
 !!!0.7 - 09/23/2018

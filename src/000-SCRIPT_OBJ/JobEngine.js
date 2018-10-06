@@ -224,6 +224,21 @@ App.Job = function(Data) {
     };
 
     /**
+     * @returns {number}
+     */
+    this.GetEnergyCost = function() {
+        return this._GetCost("STAT", "Energy");
+    };
+
+    /**
+     * @returns {number}
+     */
+    this.GetTimeCost = function()
+    {
+        return this._GetCost("TIME");
+    };
+    
+    /**
      * Print the title of a job.
      * @param {boolean} [Opt]
      * @returns {string}
@@ -315,8 +330,8 @@ App.Job = function(Data) {
 
     /**
      * Check to see if the player meets the other requirements to take the job. Usually skill, stat, body related or quest flags.
-     * @param {App.Entity.Player} Player
-     * @param {App.Entity.NPC|String} NPC
+     * @param {Player} Player
+     * @param NPC|String} NPC
      * @returns {boolean}
      */
     this.Requirements = function(Player, NPC) {
@@ -387,7 +402,12 @@ App.Job = function(Data) {
                 case "QUEST":
                     if (this._Cmp( Player.QuestFlags[Name], Value, Condition) == false) {
 
-                        ReqString += "@@color:gold;Quest '"+ App.Data.Quests[Name]["Title"]+"' not complete@@";
+                        ReqString = "@@color:gold;Quest '"+ App.Data.Quests[Name]["Title"]+"' not complete@@";
+                        StatusFlag = false;
+                    }
+                    break;
+                case "FLAG":
+                    if (this._Cmp( Player.JobFlags[Name], Value, Condition) == false ) {
                         StatusFlag = false;
                     }
                     break;
@@ -426,13 +446,24 @@ App.Job = function(Data) {
                 case "HAIR_STYLE":
                     if ( (Player.GetHairStyle() == Name ) != Value ) {
                         StatusFlag = false;
-                        ReqString = "@@color:Need '"+Name+"' hair style";
+                        ReqString = "@@color:red;Need '"+Name+"' hair style@@";
                     }
                     break;
                 case "HAIR_COLOR":
                     if ( (Player.GetHairColor() == Name ) != Value ) {
                         StatusFlag = false;
-                        ReqString = "@@color:Need '"+Name+"' hair color";
+                        ReqString = "@@color:red;Need '"+Name+"' hair color@@";
+                    }
+                    break;
+                case "PORT_NAME":
+                    if ( (Player.GetShipLocation() == Name) != Value) {
+                        StatusFlag = false;
+                        ReqString = "@@color:red; Need Port'"+Name+"'@@";
+                    }
+                    break;
+                case "IN_PORT":
+                    if ( Player.IsInPort(Value) != Condition) {
+                        StatusFlag = false;
                     }
                     break;
 
@@ -486,7 +517,7 @@ App.Job = function(Data) {
 
     /**
      * Check to see if the time cost falls within the open/allowed phases of the activity
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @param {boolean} [Opt]
      * @returns {boolean|number}
      * @private
@@ -501,7 +532,7 @@ App.Job = function(Data) {
 
     /**
      * Set's the last completed flag for the quest.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @private
      */
     this._SetLastCompleted = function(Player) {
@@ -511,8 +542,8 @@ App.Job = function(Data) {
 
     /**
      * Check to see if this job is available to be used.
-     * @param {App.Entity.Player} Player
-     * @param {App.Entity.NPC} [NPC]
+     * @param {Player} Player
+     * @param {App.Entity.NPC|NPC} NPC
      * @returns {boolean}
      */
     this.Available = function(Player, NPC) {
@@ -537,7 +568,7 @@ App.Job = function(Data) {
 
     /**
      * Return if the job is on cool down.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @returns {boolean}
      */
     this.OnCoolDown = function(Player) {
@@ -738,8 +769,8 @@ App.Job = function(Data) {
 
 /**
  * Stores and plays a "scene" from a job.
- * @param {App.Entity.Player} Player
- * @param {App.Entity.NPC} NPC
+ * @param {Player} Player
+ * @param {NPC} NPC
  * @param {object} SceneData
  * @param {object} Checks
  * @constructor
@@ -749,10 +780,10 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
     /** @type {boolean}
      *  @private */
     this._Debug     = true;
-    /** @type {App.Entity.Player}
+    /** @type {Player}
      *  @private */
     this._Player    = Player;
-    /** @type {App.Entity.NPC}
+    /** @type {NPC}
      *  @private */
     this._NPC       = NPC;
     /** @type {object}
@@ -1045,6 +1076,9 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 this._Player.GetNPC("Quartermaster").AdjustStat(Name, Value);
                 this._Player.GetNPC("FirstMate").AdjustStat(Name, Value);
                 this._Player.GetNPC("Captain").AdjustStat(Name, Value);
+                break;
+            case "SAIL_DAYS":
+                this._Player.AdvanceSailDays(Value);
                 break;
         }
     };

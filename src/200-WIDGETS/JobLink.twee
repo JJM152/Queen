@@ -4,7 +4,7 @@
 <<click _JobTitle "SelfJobs">>
 <<set $MenuAction = $args[0]>>
 <<if tags().includes("custom-menu") == false;>><<set $GameBookmark = passage();>><</if>>
-<</click>>
+<</click>> [E:<<= $args[0].GetEnergyCost();>>, T:<<= $args[0].GetTimeCost();>>]
 <</nobr>><</widget>>
 
 <<widget "jobLinks">><<nobr>>
@@ -17,7 +17,7 @@
 <<jobLink _JL[_i]>>
 <<else>>
 <<if _i > 0>>| <</if>>
-<<print '@@color:grey;'+_JL[_i].Title(true)+'@@';>>
+<<print '@@color:grey;'+_JL[_i].Title(true)+'@@ [E:'+_JL[_i].GetEnergyCost()+', T:'+_JL[_i].GetTimeCost()+']';>>
 <</if>>
 <</for>>
 <</nobr>><</widget>>

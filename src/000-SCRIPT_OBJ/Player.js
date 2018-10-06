@@ -1499,7 +1499,30 @@ App.Entity.Player = class Player {
         return dict;
     };
 
-    /** TODO: Refactor to not store objects on player, just data keys. Create objects dynamically as they are needed by the game engine */
+    /**
+     * @param {number=} n Number of days to look ahead.
+     * @returns {boolean}
+     */
+    IsInPort (n) {
+        n = n || 0;
+        var Routes = window.App.Data.Lists["ShipRoute"];
+        var days = (this._state.SailDays >= Routes.length ? n : this._state.SailDays + n);
+        return (Routes[days]["P"] != "AtSea");
+    };
+
+    /**
+     *
+     * @param {number=} n Days to advance
+     * @returns {boolean}
+     */
+    AdvanceSailDays (n) {
+        n = n || 1;
+        if ( this.IsInPort(0) == true || this.IsInPort(n) == true ) return false;
+        var Routes = window.App.Data.Lists["ShipRoute"];
+        this._state.SailDays = (this._state.SailDays >= Routes.length ? n : this._state.SailDays + n);
+        return true;
+    }
+
     // Equipment and Inventory Related Functions
 
     /**

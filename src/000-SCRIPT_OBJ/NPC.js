@@ -2,8 +2,9 @@ App = App || { Data: { }, Entity: { } };
 
 /**
  * NPC Entity
- * @param {Object} Data
- * @Type {NPC}
+ * @type {NPC}
+ * @param {object} Data
+ * @param {object} PlayerData
  * @constructor
  */
 App.Entity.NPC = function(Data, PlayerData) {
@@ -24,6 +25,7 @@ App.Entity.NPC = function(Data, PlayerData) {
 			this.ShortDesc = function() { return this.Title() + " (" + this.pMood() + ", " + this.pLust() +")"; };
 			this.LongDesc = function() { return this.Data["LongDesc"].replace("{NAME}", this.Name()); };
 			this.HasStore = function() { return (typeof this.Data["Store"] !== 'undefined'); };
+            /** @returns {string} */
 			this.StoreName = function() { return this.Data["Store"]; };
 
             this.GetFlag = function(Flag) {

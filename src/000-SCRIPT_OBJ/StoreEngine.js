@@ -4,18 +4,19 @@ window.App.StoreEngine = new function() {
 
     /**
      * Creates a store object and returns it to the Twine engine.
-     * @param {App.Entity.Player} Player
-     * @param {App.Entity.NPC} NPC
+     * @param {Player} Player
+     * @param {App.Entity.NPC|NPC} NPC
      * @returns {Store}
      */
     this.OpenStore = function(Player, NPC)
     {
+
         return new Store(Player, NPC, window.App.Data.Stores[NPC.StoreName()]);
     };
 
     /**
      * Checks to see if an NPC has a store inventory or not attached to them.
-     * @param {App.Entity.NPC} NPC
+     * @param {App.Entity.NPC|NPC} NPC
      * @returns {boolean}
      */
     this.HasStore = function(NPC) {
@@ -24,7 +25,7 @@ window.App.StoreEngine = new function() {
 
     /**
      * Is the NPCs store open.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @param {App.Entity.NPC} NPC
      * @returns {boolean}
      */
@@ -34,7 +35,7 @@ window.App.StoreEngine = new function() {
 
     /**
      * Lock/unlock a store item.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @param {string} StoreKey
      * @param {string} ItemTag
      * @param {number} Locked
@@ -55,8 +56,8 @@ window.App.StoreEngine = new function() {
 
 /**
  * Store Container Object
- * @param {App.Entity.Player} Player
- * @param {App.Entity.NPC} NPC
+ * @param {Player} Player
+ * @param {App.Entity.NPC|NPC} NPC
  * @param {object} StoreData
  * @constructor
  */
@@ -252,7 +253,7 @@ var Store = function(Player, NPC, StoreData) {
 
     /**
      * Used for examining items through shop interface
-     * @param Item
+     * @param {object} Item
      * @returns {string}
      */
     this.PrintItemLong = function(Item)

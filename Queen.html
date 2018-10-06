@@ -2559,8 +2559,8 @@ App.Item = class Item {
      *
      * @param {string} Type
      * @param {string} Tag
-     * @param {InventoryManager|ClothingManager} Inventory
-     * @param {number} [Count]
+     * @param {InventoryManager|ClothingManager=} Inventory
+     * @param {number=} [Count]
      * @returns {Item|Consumable|Quest|Clothing|Reel|Store|NPC}
      */
     static Factory(Type, Tag, Inventory, Count) {
@@ -3584,6 +3584,21 @@ App.Job = function(Data) {
     };
 
     /**
+     * @returns {number}
+     */
+    this.GetEnergyCost = function() {
+        return this._GetCost("STAT", "Energy");
+    };
+
+    /**
+     * @returns {number}
+     */
+    this.GetTimeCost = function()
+    {
+        return this._GetCost("TIME");
+    };
+    
+    /**
      * Print the title of a job.
      * @param {boolean} [Opt]
      * @returns {string}
@@ -3675,8 +3690,8 @@ App.Job = function(Data) {
 
     /**
      * Check to see if the player meets the other requirements to take the job. Usually skill, stat, body related or quest flags.
-     * @param {App.Entity.Player} Player
-     * @param {App.Entity.NPC|String} NPC
+     * @param {Player} Player
+     * @param NPC|String} NPC
      * @returns {boolean}
      */
     this.Requirements = function(Player, NPC) {
@@ -3747,7 +3762,12 @@ App.Job = function(Data) {
                 case "QUEST":
                     if (this._Cmp( Player.QuestFlags[Name], Value, Condition) == false) {
 
-                        ReqString += "@@color:gold;Quest '"+ App.Data.Quests[Name]["Title"]+"' not complete@@";
+                        ReqString = "@@color:gold;Quest '"+ App.Data.Quests[Name]["Title"]+"' not complete@@";
+                        StatusFlag = false;
+                    }
+                    break;
+                case "FLAG":
+                    if (this._Cmp( Player.JobFlags[Name], Value, Condition) == false ) {
                         StatusFlag = false;
                     }
                     break;
@@ -3786,13 +3806,24 @@ App.Job = function(Data) {
                 case "HAIR_STYLE":
                     if ( (Player.GetHairStyle() == Name ) != Value ) {
                         StatusFlag = false;
-                        ReqString = "@@color:Need '"+Name+"' hair style";
+                        ReqString = "@@color:red;Need '"+Name+"' hair style@@";
                     }
                     break;
                 case "HAIR_COLOR":
                     if ( (Player.GetHairColor() == Name ) != Value ) {
                         StatusFlag = false;
-                        ReqString = "@@color:Need '"+Name+"' hair color";
+                        ReqString = "@@color:red;Need '"+Name+"' hair color@@";
+                    }
+                    break;
+                case "PORT_NAME":
+                    if ( (Player.GetShipLocation() == Name) != Value) {
+                        StatusFlag = false;
+                        ReqString = "@@color:red; Need Port'"+Name+"'@@";
+                    }
+                    break;
+                case "IN_PORT":
+                    if ( Player.IsInPort(Value) != Condition) {
+                        StatusFlag = false;
                     }
                     break;
 
@@ -3846,7 +3877,7 @@ App.Job = function(Data) {
 
     /**
      * Check to see if the time cost falls within the open/allowed phases of the activity
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @param {boolean} [Opt]
      * @returns {boolean|number}
      * @private
@@ -3861,7 +3892,7 @@ App.Job = function(Data) {
 
     /**
      * Set's the last completed flag for the quest.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @private
      */
     this._SetLastCompleted = function(Player) {
@@ -3871,8 +3902,8 @@ App.Job = function(Data) {
 
     /**
      * Check to see if this job is available to be used.
-     * @param {App.Entity.Player} Player
-     * @param {App.Entity.NPC} [NPC]
+     * @param {Player} Player
+     * @param {App.Entity.NPC|NPC} NPC
      * @returns {boolean}
      */
     this.Available = function(Player, NPC) {
@@ -3897,7 +3928,7 @@ App.Job = function(Data) {
 
     /**
      * Return if the job is on cool down.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @returns {boolean}
      */
     this.OnCoolDown = function(Player) {
@@ -4098,8 +4129,8 @@ App.Job = function(Data) {
 
 /**
  * Stores and plays a "scene" from a job.
- * @param {App.Entity.Player} Player
- * @param {App.Entity.NPC} NPC
+ * @param {Player} Player
+ * @param {NPC} NPC
  * @param {object} SceneData
  * @param {object} Checks
  * @constructor
@@ -4109,10 +4140,10 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
     /** @type {boolean}
      *  @private */
     this._Debug     = true;
-    /** @type {App.Entity.Player}
+    /** @type {Player}
      *  @private */
     this._Player    = Player;
-    /** @type {App.Entity.NPC}
+    /** @type {NPC}
      *  @private */
     this._NPC       = NPC;
     /** @type {object}
@@ -4406,6 +4437,9 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 this._Player.GetNPC("FirstMate").AdjustStat(Name, Value);
                 this._Player.GetNPC("Captain").AdjustStat(Name, Value);
                 break;
+            case "SAIL_DAYS":
+                this._Player.AdvanceSailDays(Value);
+                break;
         }
     };
 
@@ -4565,8 +4599,9 @@ App = App || { Data: { }, Entity: { } };
 
 /**
  * NPC Entity
- * @param {Object} Data
- * @Type {NPC}
+ * @type {NPC}
+ * @param {object} Data
+ * @param {object} PlayerData
  * @constructor
  */
 App.Entity.NPC = function(Data, PlayerData) {
@@ -4587,6 +4622,7 @@ App.Entity.NPC = function(Data, PlayerData) {
 			this.ShortDesc = function() { return this.Title() + " (" + this.pMood() + ", " + this.pLust() +")"; };
 			this.LongDesc = function() { return this.Data["LongDesc"].replace("{NAME}", this.Name()); };
 			this.HasStore = function() { return (typeof this.Data["Store"] !== 'undefined'); };
+            /** @returns {string} */
 			this.StoreName = function() { return this.Data["Store"]; };
 
             this.GetFlag = function(Flag) {
@@ -6139,7 +6175,30 @@ App.Entity.Player = class Player {
         return dict;
     };
 
-    /** TODO: Refactor to not store objects on player, just data keys. Create objects dynamically as they are needed by the game engine */
+    /**
+     * @param {number=} n Number of days to look ahead.
+     * @returns {boolean}
+     */
+    IsInPort (n) {
+        n = n || 0;
+        var Routes = window.App.Data.Lists["ShipRoute"];
+        var days = (this._state.SailDays >= Routes.length ? n : this._state.SailDays + n);
+        return (Routes[days]["P"] != "AtSea");
+    };
+
+    /**
+     *
+     * @param {number=} n Days to advance
+     * @returns {boolean}
+     */
+    AdvanceSailDays (n) {
+        n = n || 1;
+        if ( this.IsInPort(0) == true || this.IsInPort(n) == true ) return false;
+        var Routes = window.App.Data.Lists["ShipRoute"];
+        this._state.SailDays = (this._state.SailDays >= Routes.length ? n : this._state.SailDays + n);
+        return true;
+    }
+
     // Equipment and Inventory Related Functions
 
     /**
@@ -9752,18 +9811,19 @@ window.App.StoreEngine = new function() {
 
     /**
      * Creates a store object and returns it to the Twine engine.
-     * @param {App.Entity.Player} Player
-     * @param {App.Entity.NPC} NPC
+     * @param {Player} Player
+     * @param {App.Entity.NPC|NPC} NPC
      * @returns {Store}
      */
     this.OpenStore = function(Player, NPC)
     {
+
         return new Store(Player, NPC, window.App.Data.Stores[NPC.StoreName()]);
     };
 
     /**
      * Checks to see if an NPC has a store inventory or not attached to them.
-     * @param {App.Entity.NPC} NPC
+     * @param {App.Entity.NPC|NPC} NPC
      * @returns {boolean}
      */
     this.HasStore = function(NPC) {
@@ -9772,7 +9832,7 @@ window.App.StoreEngine = new function() {
 
     /**
      * Is the NPCs store open.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @param {App.Entity.NPC} NPC
      * @returns {boolean}
      */
@@ -9782,7 +9842,7 @@ window.App.StoreEngine = new function() {
 
     /**
      * Lock/unlock a store item.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @param {string} StoreKey
      * @param {string} ItemTag
      * @param {number} Locked
@@ -9803,8 +9863,8 @@ window.App.StoreEngine = new function() {
 
 /**
  * Store Container Object
- * @param {App.Entity.Player} Player
- * @param {App.Entity.NPC} NPC
+ * @param {Player} Player
+ * @param {App.Entity.NPC|NPC} NPC
  * @param {object} StoreData
  * @constructor
  */
@@ -10000,7 +10060,7 @@ var Store = function(Player, NPC, StoreData) {
 
     /**
      * Used for examining items through shop interface
-     * @param Item
+     * @param {object} Item
      * @returns {string}
      */
     this.PrintItemLong = function(Item)
@@ -18611,6 +18671,23 @@ App.Data.JobData["MATE03"] =  {
                 "slutty sissy ass. Within seconds he has completely filled you, bottoming out someplace so deep that it almost makes you faint. Thankfully he starts off slow, giving you time to "+
                 "relax and get into the motion and ultimately you are able to match his motion and start thrusting your ass back towards him, reaching all the way to the root of his cock." }
             ]
+        },
+        {
+            "ID" : "SCENE04a",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "FLAG", "NAME" : "KIPLER_NAV_REWARD", "OPT" : "NOT_SET" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "FLAG", "NAME" : "KIPLER_NAV_REWARD", "VALUE" : 1, "OPT" : "SET" },
+                { "TYPE" : "QUEST_FLAG","NAME" : "SIMONE_REWARD", "VALUE" : 1, "OPT" : "SET" }
+            ],
+            "START" :   "NPC_NAME says, \"You showed some promise today PLAYER_NAME\". I could always use an assistant, why don't you polish your skills and join me some time at the helm? You can now work as a helmsman on the ship, if your skills are good enough.",
+            "END" : "",
+            "RESULTS" : [ ]
         }
     ],
     "END" :
@@ -19170,7 +19247,79 @@ App.Data.JobData["STRP02"] = {
 
 };
 
-/* twine-user-script #62: "simone_jobs.js" */
+/* twine-user-script #62: "mermaid_helm_interactions.js" */
+App = App || { Data: { }, Entity: { } };
+App.Data.JobData = App.Data.JobData || { };
+
+App.Data.JobData["SHIP_NAV01"] = {
+    "ID": "SHIP_NAV01", "TITLE": "Assist at the helm", "GIVER": "HELM", "PAY" : 100,
+    "RATING" : 3, // of 5
+    "PHASES" : [ 0 ],
+    "DAYS"   : 1,
+    "HIDDEN" : true,
+    "COST" : [
+        { "TYPE" : "TIME", "VALUE" : 3 },
+        { "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 5 } ],
+    "REQUIREMENTS" : [
+        { "TYPE" : "SKILL", "NAME" : "Navigating", "CONDITION" : "gte", "VALUE" : 20  },
+        { "TYPE" : "SKILL", "NAME" : "Sailing", "CONDITION" : "gte",  "VALUE" : 20   },
+        { "TYPE" : "FLAG", "NAME" : "KIPLER_NAV_REWARD", "CONDITION" : "eq", "VALUE": 1 },
+        { "TYPE" : "IN_PORT", "VALUE" : 0, "CONDITION": false }
+    ],
+    "INTRO" : "Not used",
+    "START" : `You approach the ships helm, nodding briefly to @@color:cyan;Kipler@@ as you assume your station. Normally the huge
+    pirate stares at you with lavacious eyes, but when it comes his job of piloting the @@color:cyan;Salty Mermaid@@ he's quite the professional.`,
+    "SCENES" : [
+        {
+            "ID" : "SCENE01",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [
+                { "TAG" : "A", "TYPE" : "SKILL", "NAME" : "Sailing", "DIFFICULTY" : 60, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 30, "OPT" : 0 },
+                { "TAG" : "B", "TYPE" : "SKILL", "NAME" : "Navigating", "DIFFICULTY" : 60, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 30, "OPT" : 0 }
+            ],
+            "POST" : [ ],
+            "START" : `The morning starts off well enough, easy sailing as they say. However by mid-afternoon a small squall looms on the horizon.
+
+            You do your best to try and avoid it, but ultimately you have no choice but to try and steer through it.`,
+            "RESULTS" : [
+                {"A":  40, "TEXT":
+                    `Unfortunately it becomes quickly apparent that @@your skills are not up for the task@@ and Kipler rushes over to the helm to assist
+                    you. Within moments he has the ship smoothly breaking the waves and heading on it's course, leaving you looking like a fool.`
+                },
+                {"A":  80, "TEXT":
+                    `You @@struggle painfully against the wheel@@ of the helm for what seems like hours, occasionally Kipler will come by and help you out
+                    of a particularly bad swell, but other than that you're left to fend for yourself.`
+                },
+                {"A": 500, "TEXT":
+                    `Your skills at the helm surprise even you as you @@masterfully navigate each swell@@ and guide the ship towards it's course.`
+                }
+            ],
+            "END" : `Eventually the clouds break and the seas calm. With a steady wind at your back you do your best to make up for lost time.`
+        },
+        {
+            "ID" : "GOOD_SAILING",
+            "TRIGGERS" :[
+                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
+                { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" }
+            ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [ ],
+            "POST" : [
+                { "TYPE" : "SAIL_DAYS", "VALUE": 1 }
+            ],
+            "START" : `You made amazing time today, even @@color:cyan;Kipler@@ noticed how switched on you were. You feel as if the wind was pushing
+             you towards your destination and all you had to do was just gently nudge the ship in the right direction. It's a satisfying feeling.`,
+            "RESULTS" : [ ],
+            "END" : ""
+        }
+    ],
+    "END" : "",
+    "JOB_RESULTS" : [
+    ]
+
+};
+/* twine-user-script #63: "simone_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -19987,7 +20136,7 @@ App.Data.JobData["SIMONE_JOB4"] = {
         "NPC_NAME fetches a small bag from behind the counter and counts your pay and tips for the night into your awaiting hands.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #63: "yvonne_jobs.js" */
+/* twine-user-script #64: "yvonne_jobs.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.JobData = App.Data.JobData || { };
 
@@ -20067,7 +20216,7 @@ App.Data.JobData["YVONNE_TRAINING"] = {
         "Despite your misgivings about makeup in general, the experience was good enough that you might just take her up on that offer.",
     "JOB_RESULTS" : [ ]
 };
-/* twine-user-script #64: "food_lootbox.js" */
+/* twine-user-script #65: "food_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -20199,7 +20348,7 @@ App.Data.LootTables["FOOD"] = {
         ] }
 };
 
-/* twine-user-script #65: "landlubber_lootbox.js" */
+/* twine-user-script #66: "landlubber_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -20249,7 +20398,7 @@ App.Data.LootTables["LANDLUBBER"] =  {
             { "TYPE" : "CLOTHES", "TAG" : "landlubber costume", "QTY" : 1} 
         ] }
 };
-/* twine-user-script #66: "lolita_sissy_lootbox.js" */
+/* twine-user-script #67: "lolita_sissy_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -20373,7 +20522,7 @@ App.Data.LootTables["LOLITA_SISSY"] =  {
             { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 2}
         ] }
 };
-/* twine-user-script #67: "pathetic_loser_lootbox.js" */
+/* twine-user-script #68: "pathetic_loser_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -20438,7 +20587,7 @@ App.Data.LootTables["PATHETIC_LOSER"] =  {
             { "TYPE" : "CLOTHES", "TAG" : "pathetic loser costume", "QTY" : 1}
         ] }        
 };
-/* twine-user-script #68: "pirate_bdsm_lootbox.js" */
+/* twine-user-script #69: "pirate_bdsm_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -20555,7 +20704,7 @@ App.Data.LootTables["PIRATE_BDSM"] =  {
             { "TYPE" : "FOOD", "TAG" : "pirates plunder", "QTY" : 3 }
         ] }
 };
-/* twine-user-script #69: "sexy_dancer_bimbo_lootbox.js" */
+/* twine-user-script #70: "sexy_dancer_bimbo_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -20710,7 +20859,7 @@ App.Data.LootTables["DANCER_BIMBO"] =  {
             { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 4 }
         ] }
 };
-/* twine-user-script #70: "sissy_bimbo_lootbox.js" */
+/* twine-user-script #71: "sissy_bimbo_lootbox.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.LootBoxes = App.Data.LootBoxes || { };
 App.Data.LootTables = App.Data.LootTables || { };
@@ -20827,7 +20976,7 @@ App.Data.LootTables["SISSY_BIMBO"] =  {
             { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 3 }
         ] }
 };
-/* twine-user-script #71: "abamond_npcs.js" */
+/* twine-user-script #72: "abamond_npcs.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.NPCS = App.Data.NPCS || { };
@@ -20851,7 +21000,7 @@ App.Data.NPCS["Papa Baba"] = {
     "Title": "NPC_NAME Houngan",
     "LongDesc": "This lean, dusky voodoo priest is dressed in a threadbare black coat with stained, off-white breeches and shoeless feet. On his head is an old capotain hat adorned with a spray of feathers and a crudely-painted death's head. He also wears a necklace of alternating beads and crocodile teeth, a hemp cord bracelet with a carved, wooden charm, and an ivory-colored sash tied around his waist. His solemn stare is slightly unsettling, his eyes distant as if he is seeing the spirit and material worlds all at once."
 };
-/* twine-user-script #72: "golden_isle_npcs.js" */
+/* twine-user-script #73: "golden_isle_npcs.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.NPCS = App.Data.NPCS || { };
@@ -20978,7 +21127,7 @@ App.Data.NPCS["Fineas Quincy"] = {
     "LongDesc": "An experienced practitioner of physick, he plies his trade with a studied confidence. He is dressed in a first-rate white periwig, a long, black robe, and a broad, white falling band covering his throat and shoulders. Their combined effect creates a dignified, learned appearance.",
     "Store" : "Fineas"
 };
-/* twine-user-script #73: "isla_harbor_npcs.js" */
+/* twine-user-script #74: "isla_harbor_npcs.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.NPCS = App.Data.NPCS || { };
@@ -21027,7 +21176,7 @@ App.Data.NPCS["LordRowe"] = {
     "fair, honest and plain spoken -- all relatively rare traits for a member of the aristocracy. Due to concealing your relationship with his daughter he never took much notice of you, which is definitely a good thing considering how you stumbled into Captain Reginald's trap and got his daughter sold off as a sex slave.\n\n"+
     "NPC_NAME is an older man, well into middle age, but still retaining an air of vitality. His hair is still full and he sports a salt-and-pepper colored beard."
 };
-/* twine-user-script #74: "port_royale_npcs.js" */
+/* twine-user-script #75: "port_royale_npcs.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.NPCS = App.Data.NPCS || { };
@@ -21284,7 +21433,7 @@ App.Data.NPCS["Isabella Ioveanu"] = {
     "LongDesc": "Though she seems much junior in age to her mistress, this young woman carries herself with equal poise. Beyond sharing a scandalous taste in dress, other similarities exist: the same midnight black hair, snowy pale complexion and identical, striking blue irises. Though her wide-set eyes and high cheekbones should place her heritage far more east in the continent than her madam's, there remains an uncanny resemblance between the two.",
     "Store" : "Isabella"
 };
-/* twine-user-script #75: "salty_mermaid_npcs.js" */
+/* twine-user-script #76: "salty_mermaid_npcs.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.NPCS = App.Data.NPCS || { };
@@ -21346,7 +21495,7 @@ App.Data.NPCS["Quartermaster"] = {
         "He eyes you with both delight and disdain as you approach, obviously viewing you as one of the very few onboard to whom he is superior.",
         "Store" : "CARGO"
 };
-/* twine-user-script #76: "blanche_quests.js" */
+/* twine-user-script #77: "blanche_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -21380,7 +21529,7 @@ App.Data.Quests["VOODOO_PICKUP"] = {
     "JOURNAL_ENTRY": "HIDDEN",
     "JOURNAL_COMPLETE": "HIDDEN"
 };
-/* twine-user-script #77: "bosun_quests.js" */
+/* twine-user-script #78: "bosun_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -21448,7 +21597,7 @@ App.Data.Quests["ISLA_TAVERN02"] = {
     "JOURNAL_COMPLETE": "You fetched a cask of Smuggler's Rum for NPC_NAME and he rewarded you with a @@color:purple;worn machete@@. It's a useful tool for any pirate or explorer."
 };
 
-/* twine-user-script #78: "charmaine_quests.js" */
+/* twine-user-script #79: "charmaine_quests.js" */
 App.Data.Quests["CHARMAINE_CUSTOMER_SERVICE"] = {
     "ID": "CHARMAINE_CUSTOMER_SERVICE", "Title": "Customer Service - The Saucy Slattern",
     "GIVER": "Charmaine",
@@ -21497,7 +21646,7 @@ App.Data.Quests["CHARMAINE_CUSTOMER_SERVICE"] = {
     "JOURNAL_COMPLETE": "You completed NPC_NAME's dubious task, screwing and sucking your way through her customer base and helping increase the notoriety of the @@color:gold;Saucy Slattern@@. "+
     "NPC_NAME was so grateful she gave you a fair sized cut of the profits and overall increased your whoring ability."
 };
-/* twine-user-script #79: "cookie._quests.js" */
+/* twine-user-script #80: "cookie._quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -21553,7 +21702,7 @@ App.Data.Quests["STRIPPING"] = {
     "on you can perform on the stage during the evenings for extra coin and to raise the lust of the crew."
 };
 
-/* twine-user-script #80: "jarvis_quests.js" */
+/* twine-user-script #81: "jarvis_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -21581,7 +21730,7 @@ App.Data.Quests["THEBACKDOOR"] = {
     "JOURNAL_ENTRY": "There must be some way to gain access to the Governor or at least entrance to the Mansion after hours. You'll have to keep your eyes open for an opportunity.",
     "JOURNAL_COMPLETE": "Using a combination of alcohol and your whorish skills, you were able to completely exhaust Jarvis and loot him of his house key. You can now come and go into the mansion after dark via the back door."
 };
-/* twine-user-script #81: "julius_quests.js" */
+/* twine-user-script #82: "julius_quests.js" */
 App.Data.Quests["BETTER_BED"] = {
     "ID": "BETTER_BED", "Title": "A Better Bed",
     "GIVER": "Quartermaster",
@@ -21701,7 +21850,7 @@ App.Data.Quests["CABIN_RUG"] = {
     "JOURNAL_COMPLETE" : 
         "Once again, NPC_NAME actually followed through with his promise and somehow managed to get a plush rug for your cabin floor. All it cost you was more dignity and another round of fetishy foot ravishment."
 };
-/* twine-user-script #82: "justus_quests.js" */
+/* twine-user-script #83: "justus_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -21741,7 +21890,7 @@ App.Data.Quests["JUSTUS_WHORING"] = {
     "JOURNAL_COMPLETE": "Somehow you managed a tour-de-force of whoring, completely satisfying 20 of Golden Isle's horniest guardsmen. True to his word, NPC_NAME has agreed to let you enter and "+
         "exit the @@color:gold;High Hill District@@ as you please."
 };
-/* twine-user-script #83: "kipler_quests.js" */
+/* twine-user-script #84: "kipler_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -21845,7 +21994,7 @@ App.Data.Quests["Q004"] = {
     "JOURNAL_COMPLETE": "It was difficult, but after days spent granting \"favors\" for Julius in the cargo hold, he's become quite fond of you. In the end it " +
     "paid off because not only did NPC_NAME give you a small reward, but now @@color:cyan;Julius@@ will occasionally sell you higher quality drugs."
 };
-/* twine-user-script #84: "lord_rowe_quests.js" */
+/* twine-user-script #85: "lord_rowe_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -21908,7 +22057,7 @@ App.Data.Quests["LORD_ROWE_DELIVERY"] = {
     "JOURNAL_ENTRY": "HIDDEN",
     "JOURNAL_COMPLETE": "HIDDEN"
 };
-/* twine-user-script #85: "paola_quests.js" */
+/* twine-user-script #86: "paola_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -21942,7 +22091,7 @@ App.Data.Quests["PAOLA_FETCH"] = {
         "@@color:cyan;Blanche@@ in @@color:gold;Port Royale@@ has it?",
     "JOURNAL_COMPLETE": "You fetched the bag of mojo for NPC_NAME. She will now provide some specialized 'voodoo' services."
 };
-/* twine-user-script #86: "petey_quests.js" */
+/* twine-user-script #87: "petey_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -22018,7 +22167,7 @@ App.Data.Quests["LORD_ROWE_PORNO_DELIVERY"] = {
     "JOURNAL_COMPLETE": "You delivered the contraband book to @@color:cyan;Lord Rowe@@ and while your purse is a fair bit richer, you shudder to think of the things you learned about the man and "+
         "his decided unwholesome interest in his own daughter."
 };
-/* twine-user-script #87: "reginald_quests.js" */
+/* twine-user-script #88: "reginald_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -22261,7 +22410,7 @@ App.Data.Quests["Q007"] =  {
     "looking young man, you've ended up as a slutty bimbo with huge tits, a jiggling ass and a pair of lips that could suck off a horse. Very few \"natural\" women could compete with " +
     "you when it comes to looks and technique, it'd be fitting to say that you're a Queen of a Whore."
 };
-/* twine-user-script #88: "simone_quests.js" */
+/* twine-user-script #89: "simone_quests.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
@@ -22353,7 +22502,7 @@ App.Data.Quests["SIMONE_CUSTOMER_SERVICE"] = {
     "JOURNAL_COMPLETE": "You completed NPC_NAME's dubious task, screwing and sucking your way through her customer base and helping increase the notoriety of the @@color:gold;Lusty Lass@@. "+
     "NPC_NAME was so grateful she gave you a fair sized cut of the profits and overall increased your whoring ability."
 };
-/* twine-user-script #89: "anal_angel_reel.js" */
+/* twine-user-script #90: "anal_angel_reel.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Slots = App.Data.Slots || { };
 
@@ -22403,7 +22552,7 @@ App.Data.Slots["LEGENDARY_ANAL_ANGEL"] =
 };
 
 // endregion
-/* twine-user-script #90: "boobjitsu__whore_reel.js" */
+/* twine-user-script #91: "boobjitsu__whore_reel.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Slots = App.Data.Slots || { };
 // apologies to dexter sinister - Mal.
@@ -22454,7 +22603,7 @@ App.Data.Slots["LEGENDARY_BOOBJITSU_MATRIARCH"] =
 };
 
 // endregion
-/* twine-user-script #91: "breath_mint_whore_reel.js" */
+/* twine-user-script #92: "breath_mint_whore_reel.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Slots = App.Data.Slots || { };
 // apologies to dexter sinister - Mal.
@@ -22505,7 +22654,7 @@ App.Data.Slots["LEGENDARY_BREATH_MINT"] =
 };
 
 // endregion
-/* twine-user-script #92: "concubine_whore_reel.js" */
+/* twine-user-script #93: "concubine_whore_reel.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Slots = App.Data.Slots || { };
 
@@ -22555,7 +22704,7 @@ App.Data.Slots["LEGENDARY_CONCUBINE"] =
 };
 
 // endregion
-/* twine-user-script #93: "generic_whore_reel.js" */
+/* twine-user-script #94: "generic_whore_reel.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Slots = App.Data.Slots || { };
 
@@ -22605,7 +22754,7 @@ App.Data.Slots["LEGENDARY_WHORE"] =
 };
 
 // endregion
-/* twine-user-script #94: "handmaiden_whore_reel.js" */
+/* twine-user-script #95: "handmaiden_whore_reel.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Slots = App.Data.Slots || { };
 
@@ -22655,7 +22804,7 @@ App.Data.Slots["LEGENDARY_HANDMAIDEN"] =
 };
 
 // endregion
-/* twine-user-script #95: "perverted_slut_whore_reel.js" */
+/* twine-user-script #96: "perverted_slut_whore_reel.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Slots = App.Data.Slots || { };
 
@@ -22705,7 +22854,7 @@ App.Data.Slots["LEGENDARY_PERVERTED_SLUT"] =
 };
 
 // endregion
-/* twine-user-script #96: "venus_whore_reel.js" */
+/* twine-user-script #97: "venus_whore_reel.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Slots = App.Data.Slots || { };
 
@@ -22755,7 +22904,7 @@ App.Data.Slots["LEGENDARY_VENUS"] =
 };
 
 // endregion
-/* twine-user-script #97: "wildcard_whore_reel.js" */
+/* twine-user-script #98: "wildcard_whore_reel.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Slots = App.Data.Slots || { };
 
@@ -22801,7 +22950,7 @@ App.Data.Slots["LEGENDARY_WILDCARD"] =
 };
 
 //endregion
-/* twine-user-script #98: "bazaar_store.js" */
+/* twine-user-script #99: "bazaar_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -22809,7 +22958,7 @@ App.Data.Stores["BAZAAR_STORE"] = {
     "ID" : "BAZAAR_STORE",    "NAME" : "The Bazaar",  "OPEN" : [0, 1, 2 ], "RESTOCK" : 0,
     "INVENTORY" : [ ] // Generated at runtime.
 };
-/* twine-user-script #99: "bradshaw_store.js" */
+/* twine-user-script #100: "bradshaw_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -22824,7 +22973,7 @@ App.Data.Stores["Bradshaw"] = {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "ambrosia"              }
     ]
 };
-/* twine-user-script #100: "cargo_store.js" */
+/* twine-user-script #101: "cargo_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -22850,7 +22999,7 @@ App.Data.Stores["CARGO"] = {
 
     ]
 };
-/* twine-user-script #101: "emily_store.js" */
+/* twine-user-script #102: "emily_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -22867,7 +23016,7 @@ App.Data.Stores["Emily"] = {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "peaches and cream" }
     ]
 };
-/* twine-user-script #102: "fineas_store.js" */
+/* twine-user-script #103: "fineas_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -22886,7 +23035,7 @@ App.Data.Stores["Fineas"] = {
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "AP_fireweed"           }
     ]
 };
-/* twine-user-script #103: "galley_store.js" */
+/* twine-user-script #104: "galley_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -22905,7 +23054,7 @@ App.Data.Stores["GALLEY"] = {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
-/* twine-user-script #104: "golden_goods_store.js" */
+/* twine-user-script #105: "golden_goods_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -22929,7 +23078,7 @@ App.Data.Stores["GOLDEN_GOODS"] =  {
         { "CATEGORY":   "RARE",     "TYPE": "FOOD",         "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "butter gourd"           }
     ]
 };
-/* twine-user-script #105: "grey_peacock_store.js" */
+/* twine-user-script #106: "grey_peacock_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -22945,7 +23094,7 @@ App.Data.Stores["PEACOCK"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    3,     "MAX":    3,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "orgeat"         }
     ]
 };
-/* twine-user-script #106: "isabela_store.js" */
+/* twine-user-script #107: "isabela_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -22960,7 +23109,7 @@ App.Data.Stores["Isabella"] = {
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",    "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "AP_thorn"              }
     ]
 };
-/* twine-user-script #107: "islageneral_store.js" */
+/* twine-user-script #108: "islageneral_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -22987,7 +23136,7 @@ App.Data.Stores["ISLASTORE"] = {
 		
     ]
 };
-/* twine-user-script #108: "islatavern_store.js" */
+/* twine-user-script #109: "islatavern_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -23002,7 +23151,7 @@ App.Data.Stores["ISLATAVERN"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
     ]
 };
-/* twine-user-script #109: "longs_store.js" */
+/* twine-user-script #110: "longs_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -23025,7 +23174,7 @@ App.Data.Stores["MeghanLong"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    2,     "MAX":    2,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "jojo nut pie"          }
     ]
 };
-/* twine-user-script #110: "lusty_lass_store.js" */
+/* twine-user-script #111: "lusty_lass_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -23062,7 +23211,7 @@ App.Data.Stores["LUSTY_LASS"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 1,  "TAG" : "COMMON_BREATH_MINT"   	   }
     ]
 };
-/* twine-user-script #111: "market_store.js" */
+/* twine-user-script #112: "market_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -23070,7 +23219,7 @@ App.Data.Stores["MARKET_STORE"] = {
     "ID" : "MARKET_STORE",    "NAME" : "The Great Market",  "OPEN" : [0, 1, 2 ], "RESTOCK" : 0,
     "INVENTORY" : [ ] // Generated at runtime.
 };
-/* twine-user-script #112: "saucy_slattern_store.js" */
+/* twine-user-script #113: "saucy_slattern_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -23106,7 +23255,7 @@ App.Data.Stores["SAUCY_SLATTERN"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "REEL",     "QTY":    1,    "MAX":    1,  "PRICE":  1.0, "MOOD": 80,   "LOCK": 1,  "TAG" : "COMMON_BREATH_MINT"   	   }
     ]
 };
-/* twine-user-script #113: "smugglers_store.js" */
+/* twine-user-script #114: "smugglers_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -23127,7 +23276,7 @@ App.Data.Stores["SMUGGLERS"] =  {
         { "CATEGORY":   "RARE",     "TYPE": "DRUGS",   "QTY":    1,     "MAX":    1,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "male mandrake"          }
     ]
 };
-/* twine-user-script #114: "yvonne_store.js" */
+/* twine-user-script #115: "yvonne_store.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Stores = App.Data.Stores || { };
 
@@ -23148,7 +23297,7 @@ App.Data.Stores["YVONNE_STORE"] = {
 
     ]
 };
-/* twine-user-script #115: "tarot_cards.js" */
+/* twine-user-script #116: "tarot_cards.js" */
 App = App || { Data: { }, Entity: { } };
 
 App.Data.Tarot = App.Data.Tarot || { };
@@ -23387,7 +23536,7 @@ App.Data.Tarot["022"] = {
     Effects : [ "HEAL_LEGENDARY", "ENERGY_LEGENDARY"]
 };
 
-/* twine-user-script #116: "goldenisle_guards.js" */
+/* twine-user-script #117: "goldenisle_guards.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Whoring = App.Data.Whoring || { };
 
@@ -23434,7 +23583,7 @@ App.Data.Whoring["Justus"] = {
     "RARES"     : [ ],
     "NPC_TAG"   : "Justus"
 };
-/* twine-user-script #117: "lusty_lass_whore_data.js" */
+/* twine-user-script #118: "lusty_lass_whore_data.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Whoring = App.Data.Whoring || { };
 
@@ -23459,7 +23608,7 @@ App.Data.Whoring["LustyLass"] = {
     "RARES"     : [ ],
     "NPC_TAG"   : "LustyLassCustomers"
 };
-/* twine-user-script #118: "salty_mermaid_whore_data.js" */
+/* twine-user-script #119: "salty_mermaid_whore_data.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Whoring = App.Data.Whoring || { };
 
@@ -23573,7 +23722,7 @@ App.Data.Whoring["Julius"] = {
     "RARES"     : [ ],
     "NPC_TAG"   : "Quartermaster"
 };
-/* twine-user-script #119: "saucy_slattern_whore_data.js" */
+/* twine-user-script #120: "saucy_slattern_whore_data.js" */
 App = App || { Data: { }, Entity: { } };
 App.Data.Whoring = App.Data.Whoring || { };
 
@@ -23598,7 +23747,7 @@ App.Data.Whoring["SaucySlattern"] = {
     "RARES"     : [ ],
     "NPC_TAG"   : "SlatternCustomers"
 };
-/* twine-user-script #120: "anime.min.js" */
+/* twine-user-script #121: "anime.min.js" */
 /*
  2017 Julian Garnier
  Released under the MIT license
@@ -24189,7 +24338,7 @@ App.Data.Whoring["SaucySlattern"] = {
         return n
     });
 }).call(window, window);
-/* twine-user-script #121: "jquery.easing.1.3.js" */
+/* twine-user-script #122: "jquery.easing.1.3.js" */
 /*
  * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
  *
@@ -24395,7 +24544,7 @@ jQuery.extend( jQuery.easing,
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-/* twine-user-script #122: "rot_lib.js" */
+/* twine-user-script #123: "rot_lib.js" */
 // Wrap rot.js code due to Twine's environment
 (function (window, define, exports) {
     /*
@@ -29811,7 +29960,7 @@ jQuery.extend( jQuery.easing,
     }));
 
 }).call(window, window);
-/* twine-user-script #123: "clothes_sanity_check.js" */
+/* twine-user-script #124: "clothes_sanity_check.js" */
 (function() {
 	if (App == null) {
 		alert("App == null!");
@@ -29838,7 +29987,7 @@ jQuery.extend( jQuery.easing,
 		}
 	}
 })();
-/* twine-user-script #124: "Story JavaScript" */
+/* twine-user-script #125: "Story JavaScript" */
 //Sugarcube config
 console.log("Sugarcube Config...");
 Config.history.controls = false;
@@ -29933,7 +30082,7 @@ for light and a velvety purple curtain draped next to your bed that brings some 
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="82" name="FirstMate" tags="no-teleport" position="225,1100">The helm of the Salty Mermaid is manned around the clock by a navigator and usually overseen by the First Mate. From here you have a commanding view of the decks and the scenery at sea. The crisp breeze and scent of the ocean assault your senses.
 
 &lt;&lt;NPC &quot;FirstMate&quot;&gt;&gt;
-
+&lt;&lt;jobLinks &quot;HELM&quot; 1&gt;&gt;
 @@color:lime;Travel@@: [[Deck]]</tw-passagedata><tw-passagedata pid="83" name="Galley" tags="no-teleport" position="350,1100">The galley is a small, but vital area on the ship. From here the cook and his helpers stock and prepare all the meals for the crew, working perpetually around the clock. While most of the crew takes their meals on the deck, there are rows of benches and tables scattered around as well as a small raised dias that looks something like a stage.
 
 &lt;&lt;NPC &quot;Cook&quot;&gt;&gt;
@@ -31171,7 +31320,7 @@ Add &lt;&lt;textbox &quot;_skillXPPoints&quot; &quot;0&quot;&gt;&gt; Skill XP Po
 &lt;&lt;click _JobTitle &quot;SelfJobs&quot;&gt;&gt;
 &lt;&lt;set $MenuAction = $args[0]&gt;&gt;
 &lt;&lt;if tags().includes(&quot;custom-menu&quot;) == false;&gt;&gt;&lt;&lt;set $GameBookmark = passage();&gt;&gt;&lt;&lt;/if&gt;&gt;
-&lt;&lt;/click&gt;&gt;
+&lt;&lt;/click&gt;&gt; [E:&lt;&lt;= $args[0].GetEnergyCost();&gt;&gt;, T:&lt;&lt;= $args[0].GetTimeCost();&gt;&gt;]
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;
 
 &lt;&lt;widget &quot;jobLinks&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
@@ -31184,7 +31333,7 @@ Add &lt;&lt;textbox &quot;_skillXPPoints&quot; &quot;0&quot;&gt;&gt; Skill XP Po
 &lt;&lt;jobLink _JL[_i]&gt;&gt;
 &lt;&lt;else&gt;&gt;
 &lt;&lt;if _i &gt; 0&gt;&gt;| &lt;&lt;/if&gt;&gt;
-&lt;&lt;print &#39;@@color:grey;&#39;+_JL[_i].Title(true)+&#39;@@&#39;;&gt;&gt;
+&lt;&lt;print &#39;@@color:grey;&#39;+_JL[_i].Title(true)+&#39;@@ [E:&#39;+_JL[_i].GetEnergyCost()+&#39;, T:&#39;+_JL[_i].GetTimeCost()+&#39;]&#39;;&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/for&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="155" name="NPC" tags="widget" position="600,1975">&lt;&lt;widget NPC&gt;&gt;\
@@ -32358,11 +32507,21 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 &lt;&lt;run setup.player.AdjustStat(&quot;Energy&quot;, -1);&gt;&gt;
 &lt;&lt;run App.SlotEngine.LoadScene($args[0], _Passage, setup.player);&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/click&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="181" name="ChangeLog" tags="custom-menu" position="100,2350">@@color:yellow;Change Log - Most Recent First@@ &lt;&lt;click &quot;Exit&quot; $GameBookmark&gt;&gt;&lt;&lt;/click&gt;&gt;
-!!!0.8 - 09/30/2018
+!!!0.8 - 10/06/2018
 !!!!General
 * Merged code from (@@color:deepPink;ezsh@@) to separate player state and player object to reduce save size.
-* Attempt to fix bug where eating food in cabin would return you to a different room when you exit the inventory interface. (couldn&#39;t reproduce) issue &lt;a href=&quot;https://github.com/JJM152/Queen/issues/41&quot;&gt;#41&lt;/a&gt;
-* Attempt to fix null reference in slot machine code. (couldn&#39;t reproduce) issue &lt;a href=&quot;https://github.com/JJM152/Queen/issues/42&quot;&gt;#42&lt;/a&gt;
+* Merged code from (@@color:deepPink;ezsh@@) to remove item objects from player save file.
+* Added backwards compatibility for save files (@@color:deepPink;ezsh@@). All of the above were a huge amount of work. Much thanks!
+* Fixed bug where eating food in cabin would return you to a different room when you exit the inventory interface.
+* Fixed null reference in slot machine code.
+* There is now a no makeup style at the vanity for going clean faced (@@color:deepPink;ezsh@@)
+* Fixed bug where you could spam desperation rolls.
+* Added &quot;Misc&quot; loot tab to inventory. You can now see your makeup supplies and other things that were previously hidden.
+* Added throwing away items and favorites to inventory interface. (@@color:deepPink;ezsh@@)
+!!!!Abamond
+* The Caverns below Abamond are now up and running. Explore 100 procedurally generated levels and dig for treasure. Bring torches, shovels and energy food.
+!!!!Salty Mermaid
+* It&#39;s possible to work at the ships helm if you have two stars in Sailing / Navigating and you impress Kipler when taking a Sailing lesson.
 !!!!UI
 * There is now an additional tab in the Inventory dialogue called &#39;Misc&#39; that shows various items you own that can&#39;t be used from the inventory interface (makeup, torches, shovels, etc)
 !!!!Abamond
@@ -32375,7 +32534,7 @@ The rest of the morning and the afternoon proceeds in much the same way. You are
 * Reverted changes in bust / cup size descriptions.
 * Trim hair from vanity now uses settings for units (metric or imperial) (@@color:deepPink;ezsh@@)
 * Some substitution strings were using adjectives for bust instead of ass. (@@color:deepPink;ezsh@@)
-* Fixed black dye bug in Yvonne&#39;s shop fixed (@@color:deepPink;ezsh@@)
+* Fixed black dye bug in Yvonne&#39;s shop (@@color:deepPink;ezsh@@)
 * Fixed bug with one of the Tarot card readings not applying effects properly overnight.
 * Whoring results page now sorts status messages by XP gained. (@@color:deepPink;ezsh@@)
 !!!0.7 - 09/23/2018

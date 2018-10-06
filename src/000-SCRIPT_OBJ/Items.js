@@ -251,8 +251,8 @@ App.Item = class Item {
      *
      * @param {string} Type
      * @param {string} Tag
-     * @param {InventoryManager|ClothingManager} Inventory
-     * @param {number} [Count]
+     * @param {InventoryManager|ClothingManager=} Inventory
+     * @param {number=} [Count]
      * @returns {Item|Consumable|Quest|Clothing|Reel|Store|NPC}
      */
     static Factory(Type, Tag, Inventory, Count) {
