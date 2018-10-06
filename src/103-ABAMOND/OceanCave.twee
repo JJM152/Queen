@@ -12,5 +12,5 @@ could explore them if you wanted to.<</if>>
 <<run App.Rogue.Engine.LoadScene("#passage-caveroguelikegui", "OceanCave", 1);>>\
 <</click>><</if>>\
 <<if setup.player.JobFlags.hasOwnProperty("ABAMOND_CAVE_LEVEL") && setup.player.Phase < 1>>\
-| <<click "Continue Exploring" "CaveRogueLikeGUI">><<run App.Rogue.Engine.LoadScene("#passage-caveroguelikegui", "OceanCave", setup.player.JobFlags["ABAMOND_CAVE_LEVEL"))>><</click>>\
+| <<click "Continue Exploring" "CaveRogueLikeGUI">><<run App.Rogue.Engine.LoadScene("#passage-caveroguelikegui", "OceanCave", setup.player.JobFlags["ABAMOND_CAVE_LEVEL"])>><</click>>\
  (Level: <<= setup.player.JobFlags["ABAMOND_CAVE_LEVEL"]; >>)<</if>>
