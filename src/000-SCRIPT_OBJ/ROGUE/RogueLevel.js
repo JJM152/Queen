@@ -190,6 +190,7 @@ App.Rogue.Level = function(depth) {
             // Money
             setup.player.AdjustMoney(coins);
             App.Rogue.Engine._textBuffer.write("You find "+coins+" coins!");
+            App.PR.RefreshTwineMoney();
         } else {
 
             if ( coins > 400 ) { // legendary

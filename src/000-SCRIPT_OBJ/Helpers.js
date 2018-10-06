@@ -796,7 +796,39 @@ App.PR = new function() {
      */
     this.GetItemFavoriteIcon = function (IsFavorite) {
         return IsFavorite ? "@@color:yellow;&#9733;@@" : "@@color:white;&#9734;@@";
-    }
+    };
+
+    this.RefreshTwineMoney = function() {
+        try {
+            $("#Money").html( setup.player.Money );
+        } catch (err) {
+
+        }
+    };
+
+    this.RefreshTwineMeter = function(m) {
+        try {
+            $("#"+m).html(this.pStatMeter(m, setup.player, 0, true));
+        } catch (err) {
+
+        }
+    };
+
+    this.RefreshTwineScore = function() {
+        // Redraw Energy Bars
+        try {
+            this.RefreshTwineMeter("Health");
+            this.RefreshTwineMeter("Energy");
+            this.RefreshTwineMeter("WillPower");
+            this.RefreshTwineMeter("Perversion");
+            this.RefreshTwineMeter("Nutrition");
+            this.RefreshTwineMeter("Femininity");
+            this.RefreshTwineMeter("Toxicity");
+            this.RefreshTwineMeter("Hormones");
+        } catch (err) {
+            //no-op
+        }
+    };
 };
 
 /**
@@ -811,18 +843,6 @@ var handleMetersNumberValueSettingChanged = function() {
         App.PR.numericalMeters = false;
         $('#ui-bar').css("width","");
     }
-    // Redraw Energy Bars
-    try {
-        $('#Health').html(App.PR.pStatMeter("Health", SugarCube.State.variables.Player, 0, true));
-        $('#Energy').html(App.PR.pStatMeter("Energy", SugarCube.State.variables.Player, 0, true));
-        $('#WillPower').html(App.PR.pStatMeter("WillPower", SugarCube.State.variables.Player, 0, true));
-        $('#Perversion').html(App.PR.pStatMeter("Perversion", SugarCube.State.variables.Player, 0, true));
-        $('#Nutrition').html(App.PR.pStatMeter("Nutrition", SugarCube.State.variables.Player, 0, true));
-        $('#Femininity').html(App.PR.pStatMeter("Femininity", SugarCube.State.variables.Player, 0, true));
-        $('#Toxicity').html(App.PR.pStatMeter("Toxicity", SugarCube.State.variables.Player, 0, true));
-        $('#Hormones').html(App.PR.pStatMeter("Hormones", SugarCube.State.variables.Player, 0, true));
-    } catch (err) {
-        //no-op
-    }
 
+    App.PR.RefreshTwineScore();
 };

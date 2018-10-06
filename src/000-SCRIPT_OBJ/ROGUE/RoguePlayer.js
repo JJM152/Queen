@@ -127,7 +127,7 @@ App.Rogue.Player = function() {
                         App.Rogue.Engine.RefreshStatus();
                         return true;
                     } else {
-                        App.Rogue.Engine._textBuffer.write("Your shovel breaks!");
+                        App.Rogue.Engine._textBuffer.write("Out of shovels!!");
                         return true;
                     }
                 }
