@@ -6735,6 +6735,7 @@ App.Entity.Player = class Player {
     // Game/Environment Variables
     get Day() { return this._state.Day; }
     get Phase() { return this._state.Phase; } // 0 morning, 1 afternoon, 2 evening, 3 night, 4 late night
+    set Phase(n) { this._state.Phase = n };
 
     // Player Statistic Variables
     get CoreStats() { return this._state.CoreStats; }
@@ -7230,7 +7231,7 @@ App.Rogue.Engine = new function() {
     this._currentDrawnCells = [ ];
     this._title = "Dungeon";
 
-    this.LoadScene = function(Element, ExitPassage) {
+    this.LoadScene = function(Element, ExitPassage, Depth) {
         this._element = Element;
         this._player = new App.Rogue.Player();
         this._title = "Abamond Caves";
@@ -7240,7 +7241,7 @@ App.Rogue.Engine = new function() {
         this._display = new ROT.Display( {width: 100, height:40, fontSize:12} );
         this._textBuffer = new App.Rogue.TextBuffer();
         this._sideBar = new App.Rogue.Sidebar();
-        this._depth = 1;
+        this._depth = Depth;
         this._maxDepth = 100;
         this._lastDrawnCells = [ ];
 
@@ -7254,9 +7255,12 @@ App.Rogue.Engine = new function() {
     this.GetDepth = function() { return this._depth; };
 
     this.Descend = function() {
-        console.log("Current depth:"+this._depth);
         this._depth += 1;
-        console.log("Moving to depth:"+this._depth);
+        if (setup.player.JobFlags.hasOwnProperty("ABAMOND_CAVE_LEVEL")) {
+            if ( setup.player.JobFlags["ABAMOND_CAVE_LEVEL"] < this._depth) setup.player.JobFlags["ABAMOND_CAVE_LEVEL"] = this._depth;
+        } else {
+            setup.player.JobFlags["ABAMOND_CAVE_LEVEL"] = this._depth;
+        }
         this._lastDrawnCells = [ ]; // Clear buffer
         var level = this._genLevel(this._depth);
         this._switchLevel(level);
@@ -7269,6 +7273,7 @@ App.Rogue.Engine = new function() {
         this._lastDrawnCells = [ ];
         if (this._depth <= 0) {
             console.log("Exiting dungeon...");
+            setup.player.Phase = 3;
             SugarCube.State.display(this._passage);
         } else {
             var level = this._genLevel(this._depth);
@@ -30243,9 +30248,7 @@ spawns a powerful sense of being watched by invisible, lurking entities somewher
 
 @@color:lime;Travel@@: [[Black Swamp|AB_BlackSwamp]] | [[Mysterious Landing|AB_MysteriousLanding]]</tw-passagedata><tw-passagedata pid="117" name="Abamond" tags="" position="850,1475">The sole pier on Abamond is a megalith, referred to by the locals as the @@color:gold;&#39;Lonely Pier&#39;@@. It is a structure of unknown origins that has been around for longer than anyone remembers and hints at the previously &#39;occupied&#39; nature of this now desolate island. From the sandy shale of this beach you can see a vast jungle ahead of you, denser than you could have possibly imagined a jungle could be, and to the north the beach stretches out along the coast to a stark rock face that looks to have been hewed out of stone by the force of the waves.
 
-@@color:lime;Travel@@: [[Back to The Salty Mermaid|Deck]] | [[Far Beach|FarBeach]] | [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="118" name="CaveRogueLikeGUI" tags="no-saving" position="975,1475">@@color:red;DANGER - WORK IN PROGRESS@@
-@@color:lime;Travel@@:  [[Back to the Cave Entrance|OceanCave]]
-&lt;&lt;run App.Rogue.Engine.LoadScene(&quot;#passage-caveroguelikegui&quot;, &quot;OceanCave&quot;);&gt;&gt;\
+@@color:lime;Travel@@: [[Back to The Salty Mermaid|Deck]] | [[Far Beach|FarBeach]] | [[Into the Jungle|Jungle]]</tw-passagedata><tw-passagedata pid="118" name="CaveRogueLikeGUI" tags="no-saving" position="975,1475">@@color:lime;Travel@@:  &lt;&lt;click &quot;Back to the Cave&quot; &quot;OceanCave&quot;&gt;&gt;&lt;&lt;run setup.player.Phase = 3&gt;&gt;&lt;&lt;/click&gt;&gt;
 &lt;&lt;run App.Rogue.Engine.DrawUI();&gt;&gt;</tw-passagedata><tw-passagedata pid="119" name="FarBeach" tags="" position="1100,1475">The northern beach of Abamond comes to an abrupt end at a large rock face that has been so beaten down by the crashing sea that you cannot find any purchase to climb. Despite that, you do notice that there are some small openings -- caves by the look of it -- that dot the meridian between the sandy beach and the cliffs above. Off in the distance you can still see the massive @@color:gold;&#39;Lonely Pier&#39;@@.
 
 @@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[Explore the caves|OceanCave]]</tw-passagedata><tw-passagedata pid="120" name="HiddenCove" tags="" position="1225,1475">&lt;&lt;set _Quest = window.App.QuestEngine; &gt;&gt;\
@@ -30266,9 +30269,21 @@ With the @@color:purple;worn machete@@ in your hands, you might be able to hack 
 &lt;&lt;/if&gt;&gt;\
 @@color:lime;Travel@@: [[Lonely Pier|Abamond]] | [[The Black Swamp|AB_BlackSwamp]] \
 &lt;&lt;if _JE.HasJobFlag(setup.player, &quot;COVE_FOUND&quot;)&gt;&gt;| [[Hidden Cove|HiddenCove]] &lt;&lt;/if&gt;&gt;\
-&lt;&lt;if _JE.HasJobFlag(setup.player, &quot;RUINS_FOUND&quot;)&gt;&gt;| [[Into the Ruins|Ruins]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="122" name="OceanCave" tags="" position="225,1600">These caves are set far enough back from the beach that even at the high tide they still do not completely flood. The air is damp and salty and other than the occasional wall covered with lichen you don&#39;t see any signs of life. A brief exploration has led you to conclude that there are some deeper tunnels that you could explore, if you were so inclined.
+&lt;&lt;if _JE.HasJobFlag(setup.player, &quot;RUINS_FOUND&quot;)&gt;&gt;| [[Into the Ruins|Ruins]]&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="122" name="OceanCave" tags="" position="225,1600">You recall hearing hushed discussions about these caves. Evidently they have been used in times past by various freebooters and pirates \
+as both a refuge as well as a place to store their ill gotten gains. This makes sense as these caves are set far enough back from the beach \
+that even at the high tide they still do not completely flood. The air is damp and salty and other than the occasional wall covered with \
+lichen you don&#39;t see any signs of life.
 
-@@color:lime;Travel@@: [[Far Beach|FarBeach]] | [[Explore the Caverns below Abamond|CaveRogueLikeGUI]]</tw-passagedata><tw-passagedata pid="123" name="Ruins" tags="" position="350,1600">These ruins look to belong to an ancient civilization, likely the same people who built the megalithic pier that has made this island a stop off point for ships traveling the Lost Coast. Deep jungle surrounds you on all sides and giant pieces of masonry peek out from the underbrush at every angle.
+&lt;&lt;if setup.player.Phase &gt; 1&gt;&gt;It&#39;s too late in the day to explore, but perhaps if you came back in the morning?&lt;&lt;else&gt;&gt;\
+A brief look around the area has led to the discovery of multiple passages that lead deeper. It&#39;s early enough in the day that you \
+could explore them if you wanted to.&lt;&lt;/if&gt;&gt;
+
+@@color:lime;Travel@@: [[Far Beach|FarBeach]] | &lt;&lt;if setup.player.Phase &gt; 0&gt;&gt;@@color:grey;Explore the Caverns below Abamond@@&lt;&lt;else&gt;&gt;&lt;&lt;click &quot;Explore the Caverns below Abamond&quot; &quot;CaveRogueLikeGUI&quot;&gt;&gt;\
+&lt;&lt;run App.Rogue.Engine.LoadScene(&quot;#passage-caveroguelikegui&quot;, &quot;OceanCave&quot;, 1);&gt;&gt;\
+&lt;&lt;/click&gt;&gt;&lt;&lt;/if&gt;&gt;\
+&lt;&lt;if setup.player.JobFlags.hasOwnProperty(&quot;ABAMOND_CAVE_LEVEL&quot;) &amp;&amp; setup.player.Phase &lt; 1&gt;&gt;\
+| &lt;&lt;click &quot;Continue Exploring&quot; &quot;CaveRogueLikeGUI&quot;&gt;&gt;&lt;&lt;run App.Rogue.Engine.LoadScene(&quot;#passage-caveroguelikegui&quot;, &quot;OceanCave&quot;, setup.player.JobFlags[&quot;ABAMOND_CAVE_LEVEL&quot;))&gt;&gt;&lt;&lt;/click&gt;&gt;\
+ (Level: &lt;&lt;= setup.player.JobFlags[&quot;ABAMOND_CAVE_LEVEL&quot;]; &gt;&gt;)&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="123" name="Ruins" tags="" position="350,1600">These ruins look to belong to an ancient civilization, likely the same people who built the megalithic pier that has made this island a stop off point for ships traveling the Lost Coast. Deep jungle surrounds you on all sides and giant pieces of masonry peek out from the underbrush at every angle.
 
 A large central building draws your attention and you cautiously make your way towards it. The exterior is overgrown with vines and you have to chop them away to get through the opening. Once inside, your nose is overcome with a scent that you did not expect -- is that jasmine and honey? You shake your head to clear your thoughts to turn your focus to inspecting the room around you. It&#39;s dark and hard to see much of anything but you can make out various pictographs etched into the walls. Shards of pottery and a mess of unidentifiable but useless items and trinkets litter the ground.&lt;&lt;if setup.player.Equipment[&quot;Shoes&quot;].o.Name eq 0&gt;&gt; Being barefoot, you have to step carefully to avoid the jagged fragments of clay.&lt;&lt;/if&gt;&gt;
 

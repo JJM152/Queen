@@ -1,4 +1,16 @@
 :: OceanCave
-These caves are set far enough back from the beach that even at the high tide they still do not completely flood. The air is damp and salty and other than the occasional wall covered with lichen you don't see any signs of life. A brief exploration has led you to conclude that there are some deeper tunnels that you could explore, if you were so inclined.
+You recall hearing hushed discussions about these caves. Evidently they have been used in times past by various freebooters and pirates \
+as both a refuge as well as a place to store their ill gotten gains. This makes sense as these caves are set far enough back from the beach \
+that even at the high tide they still do not completely flood. The air is damp and salty and other than the occasional wall covered with \
+lichen you don't see any signs of life.
 
-@@color:lime;Travel@@: [[Far Beach|FarBeach]] | [[Explore the Caverns below Abamond|CaveRogueLikeGUI]]
+<<if setup.player.Phase > 1>>It's too late in the day to explore, but perhaps if you came back in the morning?<<else>>\
+A brief look around the area has led to the discovery of multiple passages that lead deeper. It's early enough in the day that you \
+could explore them if you wanted to.<</if>>
+
+@@color:lime;Travel@@: [[Far Beach|FarBeach]] | <<if setup.player.Phase > 0>>@@color:grey;Explore the Caverns below Abamond@@<<else>><<click "Explore the Caverns below Abamond" "CaveRogueLikeGUI">>\
+<<run App.Rogue.Engine.LoadScene("#passage-caveroguelikegui", "OceanCave", 1);>>\
+<</click>><</if>>\
+<<if setup.player.JobFlags.hasOwnProperty("ABAMOND_CAVE_LEVEL") && setup.player.Phase < 1>>\
+| <<click "Continue Exploring" "CaveRogueLikeGUI">><<run App.Rogue.Engine.LoadScene("#passage-caveroguelikegui", "OceanCave", setup.player.JobFlags["ABAMOND_CAVE_LEVEL"))>><</click>>\
+ (Level: <<= setup.player.JobFlags["ABAMOND_CAVE_LEVEL"]; >>)<</if>>

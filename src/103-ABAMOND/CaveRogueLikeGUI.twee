@@ -1,5 +1,3 @@
 :: CaveRogueLikeGUI [no-saving]
-@@color:red;DANGER - WORK IN PROGRESS@@
-@@color:lime;Travel@@:  [[Back to the Cave Entrance|OceanCave]]
-<<run App.Rogue.Engine.LoadScene("#passage-caveroguelikegui", "OceanCave");>>\
+@@color:lime;Travel@@:  <<click "Back to the Cave" "OceanCave">><<run setup.player.Phase = 3>><</click>>
 <<run App.Rogue.Engine.DrawUI();>>

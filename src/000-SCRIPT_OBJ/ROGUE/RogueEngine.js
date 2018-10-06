@@ -20,7 +20,7 @@ App.Rogue.Engine = new function() {
     this._currentDrawnCells = [ ];
     this._title = "Dungeon";
 
-    this.LoadScene = function(Element, ExitPassage) {
+    this.LoadScene = function(Element, ExitPassage, Depth) {
         this._element = Element;
         this._player = new App.Rogue.Player();
         this._title = "Abamond Caves";
@@ -30,7 +30,7 @@ App.Rogue.Engine = new function() {
         this._display = new ROT.Display( {width: 100, height:40, fontSize:12} );
         this._textBuffer = new App.Rogue.TextBuffer();
         this._sideBar = new App.Rogue.Sidebar();
-        this._depth = 1;
+        this._depth = Depth;
         this._maxDepth = 100;
         this._lastDrawnCells = [ ];
 
@@ -44,9 +44,12 @@ App.Rogue.Engine = new function() {
     this.GetDepth = function() { return this._depth; };
 
     this.Descend = function() {
-        console.log("Current depth:"+this._depth);
         this._depth += 1;
-        console.log("Moving to depth:"+this._depth);
+        if (setup.player.JobFlags.hasOwnProperty("ABAMOND_CAVE_LEVEL")) {
+            if ( setup.player.JobFlags["ABAMOND_CAVE_LEVEL"] < this._depth) setup.player.JobFlags["ABAMOND_CAVE_LEVEL"] = this._depth;
+        } else {
+            setup.player.JobFlags["ABAMOND_CAVE_LEVEL"] = this._depth;
+        }
         this._lastDrawnCells = [ ]; // Clear buffer
         var level = this._genLevel(this._depth);
         this._switchLevel(level);
@@ -59,6 +62,7 @@ App.Rogue.Engine = new function() {
         this._lastDrawnCells = [ ];
         if (this._depth <= 0) {
             console.log("Exiting dungeon...");
+            setup.player.Phase = 3;
             SugarCube.State.display(this._passage);
         } else {
             var level = this._genLevel(this._depth);
