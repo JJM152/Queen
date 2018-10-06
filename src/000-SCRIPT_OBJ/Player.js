@@ -2095,6 +2095,7 @@ App.Entity.Player = class Player {
     // Game/Environment Variables
     get Day() { return this._state.Day; }
     get Phase() { return this._state.Phase; } // 0 morning, 1 afternoon, 2 evening, 3 night, 4 late night
+    set Phase(n) { this._state.Phase = n };
 
     // Player Statistic Variables
     get CoreStats() { return this._state.CoreStats; }
