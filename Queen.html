@@ -7823,14 +7823,33 @@ App.Rogue.Player = function() {
 
                 // Handle Up / Down
                 if (this.getXY().toString() == this._level.getEntrance().toString()) {
+                    if ( setup.player.GetStat("STAT", "Energy") < 1 ) {
+                        App.Rogue.Engine._textBuffer.write("You are too tired to climb up.");
+                        return 1;
+                    }
+                    setup.player.AdjustStat("Energy", -1);
+                    App.PR.RefreshTwineMeter("Energy");
                     App.Rogue.Engine.Ascend();
                     return true;
                 } else if (this.getXY().toString() == this._level.getExit().toString()) {
+                    if ( setup.player.GetStat("STAT", "Energy") < 1 ) {
+                        App.Rogue.Engine._textBuffer.write("You are too tired to climb down.");
+                        return 1;
+                    }
+                    setup.player.AdjustStat("Energy", -1);
+                    App.PR.RefreshTwineMeter("Energy");
                     App.Rogue.Engine.Descend();
                     return true;
                 } else if (this._level.isTreasure(this.getXY()) != null ) {
 
                     if (this.getShovels() > 0 ) {
+                        if ( setup.player.GetStat("STAT","Energy") < 1 ) {
+                            App.Rogue.Engine._textBuffer.write("You're too tired to dig.");
+                            return true;
+                        }
+
+                        setup.player.AdjustStat("Energy", -1);
+                        App.PR.RefreshTwineMeter("Energy");
                         App.Rogue.Engine._textBuffer.write("You start digging...");
                         this._level.digAt(this.getXY());
 
