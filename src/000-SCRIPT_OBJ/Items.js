@@ -284,7 +284,10 @@ App.Item = class Item {
              o = new App.Items.Consumable(Type, Tag, d, Inventory);
         }
 
-        if (Count == undefined) Count = Item.GetCharges(undefined, undefined, d);
+        // HACK: when an item is created in an "disconnected" state, without an inventory manager,
+        // this probably mean we want to get a description from the item. Thus we discard charges
+        // from the data record in that case.
+        if (Inventory !== undefined && Count == undefined) Count = Item.GetCharges(undefined, undefined, d);
         if (Count > 1) o.AddCharges(Count - 1);
 
         return o;
