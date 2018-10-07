@@ -73,6 +73,20 @@ input[type="text"] {
 	cursor: not-allowed !important;
 }
 
+.inventoryButton button, .disabledInventoryButton button {
+	width: 60px; !important;
+	background-color: CornflowerBlue;
+	color: White;
+	font-size: smaller;
+	border-radius: 12px;
+	padding: 4px;
+}
+
+.disabledInventoryButton button {
+	opacity: 0.6;
+	cursor: not-allowed !important;
+}
+
 .wardrobeButton button, .disabledWardrobeButton button {
 	width: 80px; !important;
 	background-color: CornflowerBlue;

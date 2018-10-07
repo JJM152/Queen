@@ -4,7 +4,7 @@
 <table class=".MyTable" style="width:830px;">
 <tbody>
 	<tr><td colspan="2">@@color:yellow;Inspecting - @@<<= _Item.Description()>></td>
-		<td colspan="3" style="text-align:right">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
+		<td colspan="3" style="text-align:right">@@.inventoryButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
 	</tr>
 	<tr style="border-bottom:1px solid white;">
 		<td style="width:80px;"> </td>
@@ -26,7 +26,7 @@
 <table class=".MyTable" style="width:830px;">
 <tbody>
 	<tr><td style="width:670px;">@@color:yellow;Using - @@<<= _Item.Description()>><<if ((typeof _Item !== 'undefined') && ((_Item.Charges()-1) > 0));>> (<<= _Item.Charges()-1 >>)<</if>></td>
-		<td style="text-align:right;width:80px;">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
+		<td style="text-align:right;width:80px;">@@.inventoryButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
 	</tr>
 	<tr style="border-bottom:1px solid white;">
 		<td colspan="2">&nbsp;</td>
@@ -34,7 +34,7 @@
 	<tr>
 		<td style="width:670px;">
 			<<= setup.player.UseItem($args[0]);>></td>
-		<td style="width:80px;text-align: right;vertical-align:top;"><<if ((typeof _Item !== 'undefined') && (_Item.Charges() > 0));>>@@.wardrobeButton;<<button "Use Again">><<replace "#InventoryUI">><<UseItem $args[0] $args[1]>><</replace>><</button>>@@<<else>>@@.disabledWardrobeButton;<<button "Use Again">><</button>>@@<</if>></td>
+		<td style="width:80px;text-align: right;vertical-align:top;"><<if ((typeof _Item !== 'undefined') && (_Item.Charges() > 0));>>@@.inventoryButton;<<button "Repeat">><<replace "#InventoryUI">><<UseItem $args[0] $args[1]>><</replace>><</button>>@@<<else>>@@.disabledWardrobeButton;<<button "Use Again">><</button>>@@<</if>></td>
 	</tr>
 </tbody>
 </table><<replace "#PlayerScore">><<score>><</replace>><</widget>>
@@ -43,7 +43,7 @@
 <table class=".MyTable" style="width:830px;">
 <tbody>
 	<tr><td style="width:670px;">@@color:yellow;Using - @@<<= _Item.Description()>><<if ((typeof _Item !== 'undefined') && ((_Item.Charges()-1) > 0));>> (<<= _Item.Charges()-1 >>)<</if>></td>
-		<td style="text-align:right;width:80px;">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
+		<td style="text-align:right;width:80px;">@@.inventoryButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
 	</tr>
 	<tr style="border-bottom:1px solid white;">
 		<td colspan="2">&nbsp;</td>
@@ -51,7 +51,7 @@
 	<tr>
 		<td style="width:670px;">
 			You threw away <<= setup.player.TakeItem($args[0]).Description();>>.</td>
-		<td style="width:80px;text-align: right;vertical-align:top;"><<if ((typeof _Item !== 'undefined') && (_Item.Charges() > 0));>>@@.wardrobeButton;<<button "Throw more">><<replace "#InventoryUI">><<ThrowItem $args[0] $args[1]>><</replace>><</button>>@@<<else>>@@.disabledWardrobeButton;<<button "Throw more">><</button>>@@<</if>></td>
+		<td style="width:80px;text-align: right;vertical-align:top;"><<if ((typeof _Item !== 'undefined') && (_Item.Charges() > 0));>>@@.inventoryButton;<<button "Repeat">><<replace "#InventoryUI">><<ThrowItem $args[0] $args[1]>><</replace>><</button>>@@<<else>>@@.disabledWardrobeButton;<<button "Throw more">><</button>>@@<</if>></td>
 	</tr>
 </tbody>
 </table><<replace "#PlayerScore">><<score>><</replace>><</widget>>
@@ -60,7 +60,7 @@
 <table class=".MyTable" style="width:830px;">
 <tbody>
 	<tr><td style="width:670px;">@@color:yellow;Using - @@<<= _Item.Description()>><<if ((typeof _Item !== 'undefined') && ((_Item.Charges()-1) > 0));>> (<<= _Item.Charges()-1 >>)<</if>></td>
-		<td style="text-align:right;width:80px;">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
+		<td style="text-align:right;width:80px;">@@.inventoryButton;<<button "Back">><<replace "#InventoryUI">><<InventoryTable $args[1]>><</replace>><</button>>@@</td>
 	</tr>
 	<tr style="border-bottom:1px solid white;">
 		<td colspan="2">&nbsp;</td>
@@ -80,19 +80,19 @@
 <</nobr>><</widget>>
 
 <<widget "ExamineItemButton">><<nobr>>
-@@.wardrobeButton;<<button "Examine">>
+@@.inventoryButton;<<button "Examine">>
 <<replace "#InventoryUI">><<InspectItem $args[0] $args[1]>><</replace>>
 <</button>>@@
 <</nobr>><</widget>>
 
 <<widget "UseItemButton">><<nobr>>
-@@.wardrobeButton;<<button "Use">>
+@@.inventoryButton;<<button "Use">>
 <<replace "#InventoryUI">><<UseItem $args[0] $args[1]>><</replace>>
 <</button>>@@
 <</nobr>><</widget>>
 
 <<widget "ThrowItemButton">><<nobr>>
-@@.wardrobeButton;<<button "Throw out">>
+@@.inventoryButton;<<button "Toss">>
 <<replace "#InventoryUI">><<ThrowItem $args[0] $args[1]>><</replace>>
 <</button>>@@
 <</nobr>><</widget>>
@@ -185,29 +185,29 @@
 <<if $args[0] == "misc">>
 <tr style="border-bottom:1px solid white;">
 		<td style="width:1em;">&nbsp;</td>
-		<td style="width:80px;">&nbsp;</td>
-		<td style="width:440px;">&nbsp;</td>
-		<td style="width:80px;">&nbsp;</td>
-		<td style="width:80px;">&nbsp;</td>
-		<td style="width:80px;">&nbsp;</td>
+		<td style="width:40px;">&nbsp;</td>
+	    <td style="width:80px;">&nbsp;</td>
+		<td style="width:500px;">&nbsp;</td>
+		<td style="width:70px;">&nbsp;</td>
+		<td style="width:70px;">&nbsp;</td>
 </tr>
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
 <td><<= "<<FavoriteItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 <td><<= _Items[_i].Charges() >></td>
+<td style="text-align:left"><<= "<<ThrowItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 <td><<= _Items[_i].Description() >></td>
 <td style="text-align:right">&nbsp;</td>
-<td style="text-align:right"><<= "<<ThrowItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 <td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
-
 </tr>
 <</for>>
 <</if>>
+
 <<if $args[0] == "gear">>
 <tr style="border-bottom:1px solid white;">
 		<td style="width:80px;">&nbsp;</td>
-		<td style="width:680px;">&nbsp;</td>
-		<td style="width:80px;">&nbsp;</td>
+		<td style="width:690px;">&nbsp;</td>
+		<td style="width:70px;">&nbsp;</td>
 </tr>
 <<set _Slots = Object.keys(setup.player.Equipment); >>
 <<for _x = 0; _x < _Slots.length; _x++>>
@@ -232,19 +232,19 @@
 <<if ($args[0] == "food") or ($args[0] == "potion") >>
 <tr style="border-bottom:1px solid white;">
 		<td style="width:1em;">&nbsp;</td>
+		<td style="width:40px;">&nbsp;</td>
 		<td style="width:80px;">&nbsp;</td>
-		<td style="width:440px;">&nbsp;</td>
-		<td style="width:80px;">&nbsp;</td>
-		<td style="width:80px;">&nbsp;</td>
-		<td style="width:80px;">&nbsp;</td>
+		<td style="width:500px;">&nbsp;</td>
+		<td style="width:70px;">&nbsp;</td>
+		<td style="width:70px;">&nbsp;</td>
 </tr>
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
 <td><<= "<<FavoriteItemButton \""+ _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 <td><<= _Items[_i].Charges() >></td>
+<td style="text-align:left"><<= "<<ThrowItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 <td><<= _Items[_i].Description() >></td>
 <td style="text-align:right"><<= "<<UseItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
-<td style="text-align:right"><<= "<<ThrowItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 <td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 </tr>
 <</for>>
@@ -252,18 +252,18 @@
 <<if $args[0] == "quest">>
 <tr style="border-bottom:1px solid white;">
 		<td style="width:1em;">&nbsp;</td>
-		<td style="width:80px;">&nbsp;</td>
-		<td style="width:440px;">&nbsp;</td>
-		<td style="width:80px;">&nbsp;</td>
-		<td style="width:80px;">&nbsp;</td>
-		<td style="width:80px;">&nbsp;</td>
+		<td style="width:40px;">&nbsp;</td>
+        <td style="width:80px;">&nbsp;</td>
+		<td style="width:500px;">&nbsp;</td>
+		<td style="width:70px;">&nbsp;</td>
+		<td style="width:70px;">&nbsp;</td>
 </tr>
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
 <td><<= "<<FavoriteItemButton \""+ _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 <td><<= _Items[_i].Charges() >></td>
+<td style="text-align:left"><<if _Items[_i].Type() == "LOOT_BOX">><<= "<<ThrowItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >><</if>></td>
 <td><<= _Items[_i].Description() >></td>
-<td></td>
 <td style="text-align:right"><<if _Items[_i].Type() == "LOOT_BOX">><<= "<<UseItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >><</if>></td>
 <td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
 </tr>
@@ -321,7 +321,7 @@
 <</nobr>><</widget>>
 
 <<widget "ExamineCollarButton">><<nobr>>
-@@.wardrobeButton;<<button "Examine">>
+@@.inventoryButton;<<button "Examine">>
 <<replace "#InventoryUI">><<InspectCollar $args[0] $args[1]>><</replace>>
 <</button>>@@
 <</nobr>><</widget>>
@@ -329,7 +329,7 @@
 <<widget "SwapCollarButton">><<nobr>>
 <<if setup.player.Money < 300>>@@.disabledWardrobeButton;<<button "Swap">><</button>>@@
 <<else>>
-@@.wardrobeButton;<<button "Swap">>
+@@.inventoryButton;<<button "Swap">>
 <<set _Current = setup.player.GetEquipmentInSlot("Neck");>>
 <<set _CurentIsLocked = _Current.IsLocked();>>
 <<set _New = setup.player.GetItemById($args[0]);>>
@@ -345,7 +345,7 @@
 <table class=".MyTable" style="width:830px;">
 <tbody>
 	<tr><td colspan="2">@@color:yellow;Inspecting - @@<<= _Item.Description()>></td>
-		<td colspan="2" style="text-align:right">@@.wardrobeButton;<<button "Back">><<replace "#InventoryUI">><<DrawCollarTable>><</replace>><</button>>@@</td>
+		<td colspan="2" style="text-align:right">@@.inventoryButton;<<button "Back">><<replace "#InventoryUI">><<DrawCollarTable>><</replace>><</button>>@@</td>
 	</tr>
 	<tr style="border-bottom:1px solid white;">
 		<td style="width:80px;"> </td>
