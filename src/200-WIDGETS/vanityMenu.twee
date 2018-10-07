@@ -7,7 +7,7 @@
 <<set _M1 = setup.player.GetItemCharges("basic makeup");>>\
 <<set _M2 = setup.player.GetItemCharges("expensive makeup");>>
 <<set _Makeup = window.App.Data.Lists["MakeupStyles"];>>\
-<<set _Wig = setup.player.Equipment["Wig"];>>\
+<<set _Wig = setup.player.GetEquipmentInSlot("Wig");>>\
 <<set _Wigs = setup.player.WardrobeItemsBySlot("Wig");>>\
 <<set _TRIM = setup.player.GetStat("BODY", "Hair") - 5;>>\
 <<set _PR = window.App.PR;>>\

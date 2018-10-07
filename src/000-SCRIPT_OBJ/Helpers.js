@@ -697,11 +697,11 @@ App.PR = new function() {
 
     /**
      * Print out a description of the Player's Hair.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @returns {string}
      */
     this.pHair = function (Player) {
-            var Wig = Player.Equipment["Wig"];
+            var Wig = Player.GetEquipmentInSlot("Wig");
             if (Wig!= 0)
                 return "You are wearing a wig to hide your natural hair. It is " +Wig.HairColor()+ " and " +
                     this.lengthString(Wig.HairLength()) + " long, styled in " +
@@ -742,7 +742,7 @@ App.PR = new function() {
 
     /**
      * Replace tokens in string with calculated/derived literals and return it.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @param {object} NPC
      * @param {string}String
      * @param {object} [Opt]

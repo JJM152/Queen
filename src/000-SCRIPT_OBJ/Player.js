@@ -907,8 +907,8 @@ App.Entity.Player = class Player {
         var lh = this._state.LastUsedHair;
         var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0]["NAME"];
 
-        if (this.Clothing.Equipment["Wig"] != 0) {
-            this.DoStyling(this.Clothing.Equipment["Wig"].Id(), Makeup);
+        if (this.GetEquipmentInSlot("Wig") != 0) {
+            this.DoStyling(this.GetEquipmentInSlot("Wig").Id(), Makeup);
         } else {
             this.DoStyling(Hair, Makeup);
         }
@@ -932,7 +932,7 @@ App.Entity.Player = class Player {
         var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0];
         if ( (m1 < Makeup["RESOURCE1"]) || (m2 < Makeup["RESOURCE2"])) return false;
 
-        if (this.Clothing.Equipment["Wig"] !== 0) return true;
+        if (this.GetEquipmentInSlot("Wig") !== 0) return true;
         var lh = this._state.LastUsedHair;
         var Hair = window.App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0];
         return ( (h1 >= Hair["RESOURCE1"]) && (h2 >= Hair["RESOURCE2"]));
@@ -950,10 +950,10 @@ App.Entity.Player = class Player {
 
         var obj = this.GetItemById(HairID);
         if (typeof obj !== 'undefined') { // We passed an Item Id and found an item.
-            if ((this.Clothing.Equipment["Wig"] == 0) || (this.Clothing.Equipment["Wig"].Id() != HairID))
+            if ((this.GetEquipmentInSlot("Wig") == 0) || (this.GetEquipmentInSlot("Wig").Id() != HairID))
                 this.Wear( this.WardrobeItem(HairID));
         } else {
-            if (this.Clothing.Equipment["Wig"] != 0) this.Remove(this.Clothing.Equipment["Wig"]);
+            if (this.GetEquipmentInSlot("Wig") != 0) this.Remove(this.GetEquipmentInSlot("Wig"));
 
             var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["NAME"] == HairID; })[0];
 
@@ -1027,7 +1027,7 @@ App.Entity.Player = class Player {
      * @returns {number}
      */
     HairRating () {
-        if (this.Clothing.Equipment["Wig"] != 0) return Math.max(0, Math.min(this.Clothing.Equipment["Wig"].HairBonus(), 100));
+        if (this.GetEquipmentInSlot("Wig") != 0) return Math.max(0, Math.min(this.GetEquipmentInSlot("Wig").HairBonus(), 100));
         return Math.max(0, Math.min(this._state.HairBonus, 100));
     };
 
@@ -1035,7 +1035,7 @@ App.Entity.Player = class Player {
      * @returns {string}
      */
     GetHairStyle () {
-        if (this.Clothing.Equipment["Wig"] != 0) return this.Clothing.Equipment["Wig"].HairStyle();
+        if (this.GetEquipmentInSlot("Wig") != 0) return this.GetEquipmentInSlot("Wig").HairStyle();
         return this._state.HairStyle;
     };
 
@@ -1043,7 +1043,7 @@ App.Entity.Player = class Player {
      * @returns {string}
      */
     GetHairColor () {
-        if (this.Clothing.Equipment["Wig"] != 0) return this.Clothing.Equipment["Wig"].HairColor();
+        if (this.GetEquipmentInSlot("Wig") != 0) return this.GetEquipmentInSlot("Wig").HairColor();
         return this._state.HairColor;
     };
 

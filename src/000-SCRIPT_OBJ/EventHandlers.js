@@ -41,7 +41,7 @@ App.EventHandlers = new function() {
 
     this.onLoad = function(save)
     {
-        function findItemId(Name) {
+        function findItemId(Name, Rank) {
 
             function tryFindInClass(cl, Name, NameProp) {
                 for (var prop in cl) {
@@ -50,6 +50,15 @@ App.EventHandlers = new function() {
                 }
                 return undefined;
             }
+
+            function tryFindReelInClass(cl, Name, Rank ) {
+                for (var prop in cl ) {
+                    if (!cl.hasOwnProperty(prop)) continue;
+                    if (cl[prop]["NAME"] == Name && cl[prop]["RANK"] == Rank) return prop;
+                }
+                return undefined;
+            }
+
             var nm = tryFindInClass(App.Data.Drugs, Name, "Name");
             if (nm) return ["DRUGS", nm];
             nm = tryFindInClass(App.Data.Food, Name, "Name");
@@ -69,7 +78,8 @@ App.EventHandlers = new function() {
             if (nm) return["QUEST", nm];
             nm = tryFindInClass(App.Data.LootBoxes, Name, "Name");
             if (nm) return["LOOT_BOX", nm];
-            nm = tryFindInClass(App.Data.Slots, Name, "NAME");
+            //nm = tryFindInClass(App.Data.Slots, Name, "NAME");
+            nm = tryFindReelInClass(App.Data.Slots, Name, Rank);
             if (nm) return["REEL", nm];
         }
 
@@ -81,42 +91,57 @@ App.EventHandlers = new function() {
         if (save.version < 0.08) {
             console.log("Migrating inventory format...")
             // migrating inventory and wardrobe
-            var oldInv = save.state.history[0].variables.PlayerState.Inventory; // array of items
+            var oldInv = save.state.history[0].variables.Player.Inventory; // array of items
             var newInv = {};
+            var id = "";
             for (var i = 0; i < oldInv.length; ++i) {
                 var oi = oldInv[i];
-                var id = findItemId(oi.Name());
+                if (typeof oi.Rank !== 'undefined') {
+                    id = findItemId(oi.Name(), oi.Rank());
+                } else {
+                    id = findItemId(oi.Name());
+                }
                 if (!newInv.hasOwnProperty(id[0])) newInv[id[0]] = {};
-                newInv[id[0]][id[1]] = 0;
+                if (!newInv[id[0]].hasOwnProperty(id[1])) newInv[id[0]][id[1]] = 0;
                 if (id[0] == "REEL") {
                     newInv[id[0]][id[1]] = newInv[id[0]][id[1]] + 1;
                     console.log("Item " + oi.Name() + " of id " + id + " has 1 charge");
                 } else {
-                    newInv[id[0]][id[1]] = oi.Charges()
+                    newInv[id[0]][id[1]] = oi.Charges();
                     console.log("Item " + oi.Name() + " of id " + id + " has " + oi.Charges() + " charges");
                 }
             }
 
             console.log("New Inventory:"); console.log(newInv);
+            if (!save.state.history[0].variables.hasOwnProperty("PlayerState")) {
+                save.state.history[0].variables["PlayerState"] = new App.Entity.PlayerState();
+            }
+
             save.state.history[0].variables.PlayerState.Inventory = newInv;
 
-            var oldSlots = save.state.history[0].variables.PlayerState.Slots;
+
+            var oldSlots = save.state.history[0].variables.Player._Slots;
             console.log("Old slots: "); console.log(oldSlots);
             var newSlots = {};
             for (var prop in oldSlots) {
                 if (!oldSlots.hasOwnProperty(prop)) continue;
                 if (oldSlots[prop] != null) {
-                    var reelId = findItemId(oldSlots[prop].Name());
+                    var reelId = findItemId(oldSlots[prop].Name(), oldSlots[prop].Rank());
                     newSlots[prop] = reelId[1];
+                    save.state.history[0].variables.PlayerState.Inventory[reelId] -= 1;
+                    if (save.state.history[0].variables.PlayerState.Inventory[reelId] <= 0)
+                        delete save.state.history[0].variables.PlayerState.Inventory[reelId];
                 } else {
                     newSlots[prop] = null;
                 }
             }
 
+
+
             console.log("New slots:"); console.log(newSlots);
             save.state.history[0].variables.PlayerState.Slots = newSlots;
 
-            var oldWb = save.state.history[0].variables.PlayerState.Wardrobe;
+            var oldWb = save.state.history[0].variables.Player.Wardrobe;
             console.log("Old wardrobe:"); console.log(oldWb);
 
             var newWb = [];
@@ -129,7 +154,7 @@ App.EventHandlers = new function() {
             save.state.history[0].variables.PlayerState.Wardrobe = newWb;
             console.log("New wardrobe:"); console.log(newWb);
 
-            var oldEqip = save.state.history[0].variables.PlayerState.Equipment;
+            var oldEqip = save.state.history[0].variables.Player.Equipment;
             console.log("Old equipment:"); console.log(oldEqip);
             var newEquip = {};
             for (var prop in oldEqip) {
@@ -144,6 +169,46 @@ App.EventHandlers = new function() {
             }
             save.state.history[0].variables.PlayerState.Equipment = newEquip;
             console.log("New equipment:"); console.log(newEquip);
+            // Copy variables from old player object.
+            var newP = save.state.history[0].variables.PlayerState;
+            var oldP = save.state.history[0].variables.Player;
+
+            newP.OriginalName = oldP.OriginalName;
+            newP.SlaveName = oldP.SlaveName;
+            newP.GirlfriendName = oldP.GirlfriendName;
+            newP.NickName = oldP.NickName;
+            newP.HairColor = oldP.HairColor;
+            newP.HairStyle = oldP.HairStyle;
+            newP.HairBonus = oldP.HairBonus;
+            newP.MakeupStyle = oldP.MakeupStyle;
+            newP.MakeupBonus = oldP.MakeupBonus;
+            newP.EyeColor = oldP.EyeColor;
+            newP.Money = oldP.Money;
+            newP.SleepLog = oldP.SleepLog;
+            newP.SailDays = oldP.SailDays;
+            newP.LastUsedMakeup = oldP.LastUsedMakeup;
+            newP.LastUsedHair = oldP.LastUsedHair;
+            newP.LastQuickWardrobe = oldP.LastQuickWardrobe;
+            newP.debugMode = oldP.debugMode;
+            newP.difficultySetting = oldP.difficultySetting;
+            newP.WhoreTutorial = oldP.WhoreTutorial;
+            newP.JobFlags = oldP.JobFlags;
+            newP.VoodooEffects = oldP.VoodooEffects;
+            newP.QuestFlags = oldP.QuestFlags;
+            newP.History = oldP.History;
+            newP.Day = oldP.Day;
+            newP.Phase = oldP.Phase;
+            newP.CoreStats = oldP.CoreStats;
+            newP.CoreStatsXP = oldP.CoreStatsXP;
+            newP.BodyStats = oldP.BodyStats;
+            newP.BodyXP = oldP.BodyXP;
+            newP.Skills = oldP.Skills;
+            newP.SkillsXP = oldP.SkillsXP;
+            newP.StoreInventory = oldP.StoreInventory;
+            newP.NPCS = oldP.NPCS;
+            newP.CurrentSlots = oldP._CurrentSlots;
+
+            delete save.state.history[0].variables.Player; // Clear old player object after copy.
         }
 
 

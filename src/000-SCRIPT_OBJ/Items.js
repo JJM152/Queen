@@ -308,7 +308,6 @@ App.Item = class Item {
         var output      = "";
 
         if (Player.debugMode == true)
-        console.log("DoLootBox: Type="+Type+", Minimum="+Minimum+", Bonus="+Bonus);
 
         DiceRoll = ( DiceRoll + Bonus) < Minimum ? Minimum : (DiceRoll + Bonus);
 
@@ -846,8 +845,6 @@ App.Items.Consumable = class Consumable extends App.Item {
      * @returns {number}
      */
     Charges() {
-        console.log("Charges Called:"+this.Tag());
-        console.log("Amount:"+this._inventory.Charges(this._itemClass, this.Tag()));
         return this._inventory.Charges(this._itemClass, this.Tag());
     }
 
@@ -1044,8 +1041,6 @@ App.Items.Reel = class Reel extends App.Item {
      * @returns {number}
      */
     Charges() {
-        console.log("Charges Called:"+this.Tag());
-        console.log("Amount:"+this._inventory.Charges(this._itemClass, this.Tag()));
         return this._inventory.Charges(this._itemClass, this.Tag());
     }
 };

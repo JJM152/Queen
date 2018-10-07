@@ -1354,7 +1354,7 @@ App.EventHandlers = new function() {
 
     this.onLoad = function(save)
     {
-        function findItemId(Name) {
+        function findItemId(Name, Rank) {
 
             function tryFindInClass(cl, Name, NameProp) {
                 for (var prop in cl) {
@@ -1363,6 +1363,15 @@ App.EventHandlers = new function() {
                 }
                 return undefined;
             }
+
+            function tryFindReelInClass(cl, Name, Rank ) {
+                for (var prop in cl ) {
+                    if (!cl.hasOwnProperty(prop)) continue;
+                    if (cl[prop]["NAME"] == Name && cl[prop]["RANK"] == Rank) return prop;
+                }
+                return undefined;
+            }
+
             var nm = tryFindInClass(App.Data.Drugs, Name, "Name");
             if (nm) return ["DRUGS", nm];
             nm = tryFindInClass(App.Data.Food, Name, "Name");
@@ -1382,7 +1391,8 @@ App.EventHandlers = new function() {
             if (nm) return["QUEST", nm];
             nm = tryFindInClass(App.Data.LootBoxes, Name, "Name");
             if (nm) return["LOOT_BOX", nm];
-            nm = tryFindInClass(App.Data.Slots, Name, "NAME");
+            //nm = tryFindInClass(App.Data.Slots, Name, "NAME");
+            nm = tryFindReelInClass(App.Data.Slots, Name, Rank);
             if (nm) return["REEL", nm];
         }
 
@@ -1394,42 +1404,57 @@ App.EventHandlers = new function() {
         if (save.version < 0.08) {
             console.log("Migrating inventory format...")
             // migrating inventory and wardrobe
-            var oldInv = save.state.history[0].variables.PlayerState.Inventory; // array of items
+            var oldInv = save.state.history[0].variables.Player.Inventory; // array of items
             var newInv = {};
+            var id = "";
             for (var i = 0; i < oldInv.length; ++i) {
                 var oi = oldInv[i];
-                var id = findItemId(oi.Name());
+                if (typeof oi.Rank !== 'undefined') {
+                    id = findItemId(oi.Name(), oi.Rank());
+                } else {
+                    id = findItemId(oi.Name());
+                }
                 if (!newInv.hasOwnProperty(id[0])) newInv[id[0]] = {};
-                newInv[id[0]][id[1]] = 0;
+                if (!newInv[id[0]].hasOwnProperty(id[1])) newInv[id[0]][id[1]] = 0;
                 if (id[0] == "REEL") {
                     newInv[id[0]][id[1]] = newInv[id[0]][id[1]] + 1;
                     console.log("Item " + oi.Name() + " of id " + id + " has 1 charge");
                 } else {
-                    newInv[id[0]][id[1]] = oi.Charges()
+                    newInv[id[0]][id[1]] = oi.Charges();
                     console.log("Item " + oi.Name() + " of id " + id + " has " + oi.Charges() + " charges");
                 }
             }
 
             console.log("New Inventory:"); console.log(newInv);
+            if (!save.state.history[0].variables.hasOwnProperty("PlayerState")) {
+                save.state.history[0].variables["PlayerState"] = new App.Entity.PlayerState();
+            }
+
             save.state.history[0].variables.PlayerState.Inventory = newInv;
 
-            var oldSlots = save.state.history[0].variables.PlayerState.Slots;
+
+            var oldSlots = save.state.history[0].variables.Player._Slots;
             console.log("Old slots: "); console.log(oldSlots);
             var newSlots = {};
             for (var prop in oldSlots) {
                 if (!oldSlots.hasOwnProperty(prop)) continue;
                 if (oldSlots[prop] != null) {
-                    var reelId = findItemId(oldSlots[prop].Name());
+                    var reelId = findItemId(oldSlots[prop].Name(), oldSlots[prop].Rank());
                     newSlots[prop] = reelId[1];
+                    save.state.history[0].variables.PlayerState.Inventory[reelId] -= 1;
+                    if (save.state.history[0].variables.PlayerState.Inventory[reelId] <= 0)
+                        delete save.state.history[0].variables.PlayerState.Inventory[reelId];
                 } else {
                     newSlots[prop] = null;
                 }
             }
 
+
+
             console.log("New slots:"); console.log(newSlots);
             save.state.history[0].variables.PlayerState.Slots = newSlots;
 
-            var oldWb = save.state.history[0].variables.PlayerState.Wardrobe;
+            var oldWb = save.state.history[0].variables.Player.Wardrobe;
             console.log("Old wardrobe:"); console.log(oldWb);
 
             var newWb = [];
@@ -1442,7 +1467,7 @@ App.EventHandlers = new function() {
             save.state.history[0].variables.PlayerState.Wardrobe = newWb;
             console.log("New wardrobe:"); console.log(newWb);
 
-            var oldEqip = save.state.history[0].variables.PlayerState.Equipment;
+            var oldEqip = save.state.history[0].variables.Player.Equipment;
             console.log("Old equipment:"); console.log(oldEqip);
             var newEquip = {};
             for (var prop in oldEqip) {
@@ -1457,6 +1482,46 @@ App.EventHandlers = new function() {
             }
             save.state.history[0].variables.PlayerState.Equipment = newEquip;
             console.log("New equipment:"); console.log(newEquip);
+            // Copy variables from old player object.
+            var newP = save.state.history[0].variables.PlayerState;
+            var oldP = save.state.history[0].variables.Player;
+
+            newP.OriginalName = oldP.OriginalName;
+            newP.SlaveName = oldP.SlaveName;
+            newP.GirlfriendName = oldP.GirlfriendName;
+            newP.NickName = oldP.NickName;
+            newP.HairColor = oldP.HairColor;
+            newP.HairStyle = oldP.HairStyle;
+            newP.HairBonus = oldP.HairBonus;
+            newP.MakeupStyle = oldP.MakeupStyle;
+            newP.MakeupBonus = oldP.MakeupBonus;
+            newP.EyeColor = oldP.EyeColor;
+            newP.Money = oldP.Money;
+            newP.SleepLog = oldP.SleepLog;
+            newP.SailDays = oldP.SailDays;
+            newP.LastUsedMakeup = oldP.LastUsedMakeup;
+            newP.LastUsedHair = oldP.LastUsedHair;
+            newP.LastQuickWardrobe = oldP.LastQuickWardrobe;
+            newP.debugMode = oldP.debugMode;
+            newP.difficultySetting = oldP.difficultySetting;
+            newP.WhoreTutorial = oldP.WhoreTutorial;
+            newP.JobFlags = oldP.JobFlags;
+            newP.VoodooEffects = oldP.VoodooEffects;
+            newP.QuestFlags = oldP.QuestFlags;
+            newP.History = oldP.History;
+            newP.Day = oldP.Day;
+            newP.Phase = oldP.Phase;
+            newP.CoreStats = oldP.CoreStats;
+            newP.CoreStatsXP = oldP.CoreStatsXP;
+            newP.BodyStats = oldP.BodyStats;
+            newP.BodyXP = oldP.BodyXP;
+            newP.Skills = oldP.Skills;
+            newP.SkillsXP = oldP.SkillsXP;
+            newP.StoreInventory = oldP.StoreInventory;
+            newP.NPCS = oldP.NPCS;
+            newP.CurrentSlots = oldP._CurrentSlots;
+
+            delete save.state.history[0].variables.Player; // Clear old player object after copy.
         }
 
 
@@ -2170,11 +2235,11 @@ App.PR = new function() {
 
     /**
      * Print out a description of the Player's Hair.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @returns {string}
      */
     this.pHair = function (Player) {
-            var Wig = Player.Equipment["Wig"];
+            var Wig = Player.GetEquipmentInSlot("Wig");
             if (Wig!= 0)
                 return "You are wearing a wig to hide your natural hair. It is " +Wig.HairColor()+ " and " +
                     this.lengthString(Wig.HairLength()) + " long, styled in " +
@@ -2215,7 +2280,7 @@ App.PR = new function() {
 
     /**
      * Replace tokens in string with calculated/derived literals and return it.
-     * @param {App.Entity.Player} Player
+     * @param {Player} Player
      * @param {object} NPC
      * @param {string}String
      * @param {object} [Opt]
@@ -2630,7 +2695,6 @@ App.Item = class Item {
         var output      = "";
 
         if (Player.debugMode == true)
-        console.log("DoLootBox: Type="+Type+", Minimum="+Minimum+", Bonus="+Bonus);
 
         DiceRoll = ( DiceRoll + Bonus) < Minimum ? Minimum : (DiceRoll + Bonus);
 
@@ -3168,8 +3232,6 @@ App.Items.Consumable = class Consumable extends App.Item {
      * @returns {number}
      */
     Charges() {
-        console.log("Charges Called:"+this.Tag());
-        console.log("Amount:"+this._inventory.Charges(this._itemClass, this.Tag()));
         return this._inventory.Charges(this._itemClass, this.Tag());
     }
 
@@ -3366,8 +3428,6 @@ App.Items.Reel = class Reel extends App.Item {
      * @returns {number}
      */
     Charges() {
-        console.log("Charges Called:"+this.Tag());
-        console.log("Amount:"+this._inventory.Charges(this._itemClass, this.Tag()));
         return this._inventory.Charges(this._itemClass, this.Tag());
     }
 };
@@ -5597,8 +5657,8 @@ App.Entity.Player = class Player {
         var lh = this._state.LastUsedHair;
         var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0]["NAME"];
 
-        if (this.Clothing.Equipment["Wig"] != 0) {
-            this.DoStyling(this.Clothing.Equipment["Wig"].Id(), Makeup);
+        if (this.GetEquipmentInSlot("Wig") != 0) {
+            this.DoStyling(this.GetEquipmentInSlot("Wig").Id(), Makeup);
         } else {
             this.DoStyling(Hair, Makeup);
         }
@@ -5622,7 +5682,7 @@ App.Entity.Player = class Player {
         var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0];
         if ( (m1 < Makeup["RESOURCE1"]) || (m2 < Makeup["RESOURCE2"])) return false;
 
-        if (this.Clothing.Equipment["Wig"] !== 0) return true;
+        if (this.GetEquipmentInSlot("Wig") !== 0) return true;
         var lh = this._state.LastUsedHair;
         var Hair = window.App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0];
         return ( (h1 >= Hair["RESOURCE1"]) && (h2 >= Hair["RESOURCE2"]));
@@ -5640,10 +5700,10 @@ App.Entity.Player = class Player {
 
         var obj = this.GetItemById(HairID);
         if (typeof obj !== 'undefined') { // We passed an Item Id and found an item.
-            if ((this.Clothing.Equipment["Wig"] == 0) || (this.Clothing.Equipment["Wig"].Id() != HairID))
+            if ((this.GetEquipmentInSlot("Wig") == 0) || (this.GetEquipmentInSlot("Wig").Id() != HairID))
                 this.Wear( this.WardrobeItem(HairID));
         } else {
-            if (this.Clothing.Equipment["Wig"] != 0) this.Remove(this.Clothing.Equipment["Wig"]);
+            if (this.GetEquipmentInSlot("Wig") != 0) this.Remove(this.GetEquipmentInSlot("Wig"));
 
             var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["NAME"] == HairID; })[0];
 
@@ -5717,7 +5777,7 @@ App.Entity.Player = class Player {
      * @returns {number}
      */
     HairRating () {
-        if (this.Clothing.Equipment["Wig"] != 0) return Math.max(0, Math.min(this.Clothing.Equipment["Wig"].HairBonus(), 100));
+        if (this.GetEquipmentInSlot("Wig") != 0) return Math.max(0, Math.min(this.GetEquipmentInSlot("Wig").HairBonus(), 100));
         return Math.max(0, Math.min(this._state.HairBonus, 100));
     };
 
@@ -5725,7 +5785,7 @@ App.Entity.Player = class Player {
      * @returns {string}
      */
     GetHairStyle () {
-        if (this.Clothing.Equipment["Wig"] != 0) return this.Clothing.Equipment["Wig"].HairStyle();
+        if (this.GetEquipmentInSlot("Wig") != 0) return this.GetEquipmentInSlot("Wig").HairStyle();
         return this._state.HairStyle;
     };
 
@@ -5733,7 +5793,7 @@ App.Entity.Player = class Player {
      * @returns {string}
      */
     GetHairColor () {
-        if (this.Clothing.Equipment["Wig"] != 0) return this.Clothing.Equipment["Wig"].HairColor();
+        if (this.GetEquipmentInSlot("Wig") != 0) return this.GetEquipmentInSlot("Wig").HairColor();
         return this._state.HairColor;
     };
 
@@ -32296,7 +32356,7 @@ As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two bur
 &lt;&lt;set _M1 = setup.player.GetItemCharges(&quot;basic makeup&quot;);&gt;&gt;\
 &lt;&lt;set _M2 = setup.player.GetItemCharges(&quot;expensive makeup&quot;);&gt;&gt;
 &lt;&lt;set _Makeup = window.App.Data.Lists[&quot;MakeupStyles&quot;];&gt;&gt;\
-&lt;&lt;set _Wig = setup.player.Equipment[&quot;Wig&quot;];&gt;&gt;\
+&lt;&lt;set _Wig = setup.player.GetEquipmentInSlot(&quot;Wig&quot;);&gt;&gt;\
 &lt;&lt;set _Wigs = setup.player.WardrobeItemsBySlot(&quot;Wig&quot;);&gt;&gt;\
 &lt;&lt;set _TRIM = setup.player.GetStat(&quot;BODY&quot;, &quot;Hair&quot;) - 5;&gt;&gt;\
 &lt;&lt;set _PR = window.App.PR;&gt;&gt;\
