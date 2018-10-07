@@ -19,8 +19,6 @@
 * There is now an additional tab in the Inventory dialogue called 'Misc' that shows various items you own that can't be used from the inventory interface (makeup, torches, shovels, etc)
 * You can now throw away (some) items from your inventory. Use the 'toss' button to do so.
 * You can now favorite items so they always appear at the top of your lists. Just click on a star to light it (favorite) or dim it (unfavorite).
-!!!!Abamond
-* Rogue-like game has had many enhancements.
 !!!0.7b - 09/26/2018
 !!!!General
 * Added unix build script to github repository
