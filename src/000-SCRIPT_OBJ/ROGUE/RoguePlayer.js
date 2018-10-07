@@ -140,7 +140,7 @@ App.Rogue.Player = function() {
                         // Randomly draw down charge.
                         if ( this._level._depth > (Math.random() * 100)) {
                             var shovel = setup.player.GetItemByName("shovel");
-                            setup.player.UseItem(shovel.Id());
+                            setup.player.UseItem(shovel.Id);
                             App.Rogue.Engine._textBuffer.write("Your shovel breaks!");
                         }
                         App.Rogue.Engine.RefreshStatus();
@@ -157,7 +157,7 @@ App.Rogue.Player = function() {
             if (code == ROT.VK_SLASH || code == ROT.VK_DIVIDE) {
                 if (this.getTorches() > 0 ) {
                     var torch = setup.player.GetItemByName("torch");
-                    setup.player.UseItem(torch.Id()); // draw down a charge
+                    setup.player.UseItem(torch.Id); // draw down a charge
                     App.Rogue.Engine._textBuffer.write("You light a torch.");
                     this._lightLevel = 10;
                     this._lightDuration = 100;

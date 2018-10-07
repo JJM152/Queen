@@ -398,7 +398,7 @@ App.SlotEngine = new function() {
         var winning = [ ];
 
         for (i = 0; i < this.GetSlots().length; i++) {
-            slots.push(this.GetSlots()[i].Reels());
+            slots.push(this.GetSlots()[i].Reels);
             starting.push(0);
             winning.push(0);
         }
@@ -475,7 +475,7 @@ App.SlotEngine = new function() {
             } else {
                 // Slot is not empty and it's unlocked.
                 slot = $('<div>').attr('id', 'SlotInventory_'+key).addClass('SlottedSlot');
-                slot.addClass(reel.Css());
+                slot.addClass(reel.Css);
                 slot.on("click", { slot : key }, this._SelectSlotCB.bind(this));
                 if (this._SelectedSlot == null) this._SelectedSlot = key;
             }
@@ -504,9 +504,9 @@ App.SlotEngine = new function() {
 
         for(var i = 0; i < reels.length; i++) {
             var item = $('<div>').addClass('SlotInventoryItem');
-            var head = $('<span>').addClass('SlotHeader').html(reels[i].Charges() + " x (" + reels[i].Rank() + ") " + reels[i].Name());
+            var head = $('<span>').addClass('SlotHeader').html(reels[i].Charges() + " x (" + reels[i].Rank + ") " + reels[i].Name);
 
-            switch(reels[i].Rank()) {
+            switch(reels[i].Rank) {
                 case 'COMMON': head.css('color', 'grey'); break;
                 case 'UNCOMMON' : head.css('color','lime');break;
                 case 'RARE' : head.css('color','cyan'); break;
@@ -524,7 +524,7 @@ App.SlotEngine = new function() {
 
             item.append($('<br>'));
             var button = $('<button>').addClass('EquipSlotButton').text('EQUIP');
-            button.on('click', { 'id' : reels[i].Id() }, this._EquipSlotCB.bind(this));
+            button.on('click', { 'id' : reels[i].Id }, this._EquipSlotCB.bind(this));
 
             item.append(button);
             inventory.append(item);
@@ -548,9 +548,9 @@ App.SlotEngine = new function() {
 
             var reel = this._Player.Slots[this._SelectedSlot];
 
-            var header = $('<div>').addClass('SlotCurrentHeader').html("("+reel.Rank()+") "+reel.Name());
+            var header = $('<div>').addClass('SlotCurrentHeader').html("("+reel.Rank+") "+reel.Name);
 
-            switch(reel.Rank()) {
+            switch(reel.Rank) {
                 case 'COMMON': header.css('color', 'grey'); break;
                 case 'UNCOMMON' : header.css('color','lime');break;
                 case 'RARE' : header.css('color','cyan'); break;

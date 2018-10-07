@@ -29,8 +29,8 @@
 <<if _Wig != 0>>
 <tr>
     <td style="text-align:center;width:30px;">
-	<<print '<<radiobutton "$HairStyle" "'+_Wig.Id()+'" checked>>'>></td>
-	<td><<print _PR.ColorizeString(_Wig.HairBonus(), "⇑Wig");>> <<print _Wig.Description()>></td>
+	<<print '<<radiobutton "$HairStyle" "'+_Wig.Id+'" checked>>'>></td>
+	<td><<print _PR.ColorizeString(_Wig.HairBonus(), "⇑Wig");>> <<print _Wig.Description>></td>
 	<td style="text-align:center;width:30px;"> - </td>
 	<td style="text-align:center;width:30px;"> - </td>
 </tr>
@@ -39,9 +39,9 @@
 <<for _i = 0; _i < _Wigs.length; _i++>>
 <tr>
     <td style="text-align:center;width:30px;">
-<<print '<<radiobutton "$HairStyle" "'+_Wigs[_i].Id()+'">>'>>
+<<print '<<radiobutton "$HairStyle" "'+_Wigs[_i].Id+'">>'>>
    </td>
-	<td><<print _PR.ColorizeString(_Wigs[_i].HairBonus(), "⇑Wig");>> <<print _Wigs[_i].Description()>></td>
+	<td><<print _PR.ColorizeString(_Wigs[_i].HairBonus(), "⇑Wig");>> <<print _Wigs[_i].Description>></td>
 	<td style="text-align:center;width:30px;"> - </td>
 	<td style="text-align:center;width:30px;"> - </td>
 </tr>

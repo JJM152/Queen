@@ -16,11 +16,11 @@
 		<td style="width:360px;"> </td>
 		<td style="width:80px;"> </td>
 		<td style="width:80px;"> </td>
-	</tr>	
+	</tr>
 </tbody></table><</nobr>>\
 You spy with your little eye...
 
-<<print _Item.Description() >>
+<<print _Item.Description >>
 <<print _Item.Examine(setup.player);>>
 <</widget>>
 
@@ -53,11 +53,11 @@ You spy with your little eye...
 		<td style="width:360px;"> </td>
 		<td style="width:80px;"> </td>
 		<td style="width:80px;"> </td>
-	</tr>	
+	</tr>
 </tbody></table><</nobr>>\
 You spy with your little eye...
 
-<<print _Item.Description() >>
+<<print _Item.Description >>
 <<print _Item.Examine(setup.player);>>
 <</widget>>
 
@@ -75,12 +75,12 @@ You spy with your little eye...
 	<<else>>
 		@@.wardrobeButton;<<button "Wear">>
 		<<run setup.player.Wear(setup.player.WardrobeItem($args[0])) >><<replace "#WardrobeUI">><<WearingTable>><</replace>>
-		<</button>>@@		
+		<</button>>@@
 	<</if>>
 <<else>>
 		@@.wardrobeButton;<<button "Wear">>
 		<<run setup.player.Wear(setup.player.WardrobeItem($args[0])) >><<replace "#WardrobeUI">><<WearingTable>><</replace>>
-		<</button>>@@		
+		<</button>>@@
 <</if>>
 <</nobr>><</widget>>
 
@@ -105,11 +105,11 @@ You spy with your little eye...
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
 <td> </td>
-<td><<= _Items[_i].Description() >></td>
-<td><<= "<<WardrobeExamine \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
-<td><<= "<<WardrobeWear \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
+<td><<= _Items[_i].Description >></td>
+<td><<= "<<WardrobeExamine \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
+<td><<= "<<WardrobeWear \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
 </tr>
-<</for>>	
+<</for>>
 </tbody>
 </table>
 <</nobr>><</widget>>
@@ -121,14 +121,14 @@ You spy with your little eye...
 		@@.disabledWardrobeButton;<<button "LOCKED">><</button>>@@
 	<<else>>
 		<<if setup.player.WardrobeItemsBySlot($args[0]).length > 0>>
-			@@.wardrobeButton;<<button "Change">><<replace "#WardrobeUI">><<WardrobeTable $args[0]>><</replace>><</button>>@@		
+			@@.wardrobeButton;<<button "Change">><<replace "#WardrobeUI">><<WardrobeTable $args[0]>><</replace>><</button>>@@
 		<<else>>
 			@@.disabledWardrobeButton;<<button "Change">><</button>>@@
 		<</if>>
 	<</if>>
 <<else>>
 	<<if setup.player.WardrobeItemsBySlot($args[0]).length > 0>>
-		@@.wardrobeButton;<<button "Change">><<replace "#WardrobeUI">><<WardrobeTable $args[0]>><</replace>><</button>>@@		
+		@@.wardrobeButton;<<button "Change">><<replace "#WardrobeUI">><<WardrobeTable $args[0]>><</replace>><</button>>@@
 	<<else>>
 		@@.disabledWardrobeButton;<<button "Change">><</button>>@@
 	<</if>>
@@ -142,7 +142,7 @@ You spy with your little eye...
 	<<else>>
 		@@.wardrobeButton;<<button "Remove">>
 		<<run setup.player.Remove(setup.player.GetEquipmentInSlot($args[0]))>>
-		<<replace "#WardrobeUI">><<WearingTable>><</replace>><</button>>@@		
+		<<replace "#WardrobeUI">><<WearingTable>><</replace>><</button>>@@
 	<</if>>
 <<else>>
 		@@.disabledWardrobeButton;<<button "Remove">><</button>>@@
@@ -172,7 +172,7 @@ You spy with your little eye...
 		<td style="width:360px;"> </td>
 		<td style="width:80px;"> </td>
 		<td style="width:80px;"> </td>
-	</tr>	
+	</tr>
 </tbody></table><</nobr>>
 The style and fashion of your clothing is <<= window.App.PR.pClothing(setup.player) >>
 
@@ -198,7 +198,7 @@ The style and fashion of your clothing is <<= window.App.PR.pClothing(setup.play
 		<td><<link "High Class Whore"  _back>><<run setup.player.AutoWearCategory('High Class Whore');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("High Class Whore", setup.player); >></span></td>
 		<td><<link "Slutty Lady"  _back>><<run setup.player.AutoWearCategory('Slutty Lady');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Slutty Lady", setup.player); >></span></td>
 		<td><<link "Sexy Dancer"  _back>><<run setup.player.AutoWearCategory('Sexy Dancer');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Sexy Dancer", setup.player); >></span></td>
-	</tr>	
+	</tr>
 </tbody>
 </table>
 
@@ -235,7 +235,7 @@ The style and fashion of your clothing is <<= window.App.PR.pClothing(setup.play
 	<td><<= setup.player.PrintEquipment("Hat") >></td>
 	<td><<WearingExa "Hat">></td>
 	<td><<WearingChange "Hat">></td>
-	<td><<WearingRemove "Hat">></td>	
+	<td><<WearingRemove "Hat">></td>
 </tr>
 <tr>
     <td><<wlink "Neck">></td>
@@ -249,7 +249,7 @@ The style and fashion of your clothing is <<= window.App.PR.pClothing(setup.play
 	<td><<= setup.player.PrintEquipment("Nipples") >></td>
 	<td><<WearingExa "Nipples">></td>
 	<td><<WearingChange "Nipples">></td>
-	<td><<WearingRemove "Nipples">></td>	
+	<td><<WearingRemove "Nipples">></td>
 </tr>
 <tr>
     <td><<wlink "Bra">></td>

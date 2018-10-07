@@ -457,7 +457,7 @@ App.PR = new function() {
                 if (Rewards[i]["REWARD_TYPE"] == "SLOT") Output.push( "@@color:cyan;A slot reel unlock!@@");
 				if (Rewards[i]["REWARD_TYPE"] == "ITEM" ) {
 					oItem = App.Item.Factory( Rewards[i]["TYPE"], Rewards[i]["NAME"]);
-					Output.push( oItem.Description() + " x " + Rewards[i]["AMOUNT"]);
+					Output.push( oItem.Description + " x " + Rewards[i]["AMOUNT"]);
 				}
 			}
 
