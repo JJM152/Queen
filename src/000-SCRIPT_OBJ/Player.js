@@ -557,10 +557,13 @@ App.Entity.ClothingManager = class ClothingManager {
                 for (var j = 0; j < itm.Restrict().length; ++j) {
                     if (this._equipedItems[itm.Restrict()[j]] != 0) slotsToUndress.push(itm.Restrict()[j]);
                 }
-                for (j = 0; i < slotsToUndress.length; ++j) {
+                for (j = 0; j < slotsToUndress.length; ++j) {
                     // move worn item into the wardrobe
-                    this._wardrobeItems.push(this._equipedItems[slotsToUndress[j]]);
-                    this._wardrobe.push(this._equipedItems[slotsToUndress[j]].Id());
+                    var sl = slotsToUndress[j];
+                    this._wardrobeItems.push(this._equipedItems[sl]);
+                    this._wardrobe.push(this._equipedItems[sl].Id());
+                    this._equipedItems[sl] = 0;
+                    this._equipment[sl] = 0;
                 }
                 this._equipedItems[slot] = itm;
                 this._wardrobeItems.splice(i, 1);
