@@ -475,7 +475,6 @@ App.Data.JobData["MATE03"] =  {
             "CHECKS" : [ ],
             "POST" : [
                 { "TYPE" : "FLAG", "NAME" : "KIPLER_NAV_REWARD", "VALUE" : 1, "OPT" : "SET" },
-                { "TYPE" : "QUEST_FLAG","NAME" : "SIMONE_REWARD", "VALUE" : 1, "OPT" : "SET" }
             ],
             "START" :   "NPC_NAME says, \"You showed some promise today PLAYER_NAME\". I could always use an assistant, why don't you polish your skills and join me some time at the helm? You can now work as a helmsman on the ship, if your skills are good enough.",
             "END" : "",
