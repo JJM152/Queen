@@ -166,7 +166,7 @@ App.Entity.PlayerState = function (){
 App.Entity.InventoryManager = class InventoryManager {
 
     /**
-     * @returns {any}
+     * @returns {*}
      */
     get _state() {
         return State.variables[this._stateObjName];
@@ -555,7 +555,7 @@ App.Entity.ClothingManager = class ClothingManager {
                 if (this._equipedItems[slot] != 0) slotsToUndress.push(slot);
                 // handle restriction by removing items from the restricted slots
                 for (var j = 0; j < itm.Restrict().length; ++j) {
-                    if (this._equipedItems[itm.Restrict()[j]] != 0) slotsToUndress.push(itm.Restrict()[j]);
+                    if ( (this._equipedItems[itm.Restrict()[j]] != 0) && ( !slotsToUndress.contains(itm.Restrict()[j]))) slotsToUndress.push(itm.Restrict()[j]);
                 }
                 for (j = 0; j < slotsToUndress.length; ++j) {
                     // move worn item into the wardrobe
