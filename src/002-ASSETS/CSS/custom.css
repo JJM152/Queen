@@ -6,7 +6,7 @@
 }
 
 #fixed-font {
-	font-family: monospace;
+	font-family: monospace, monospace;
 	font-size: 14px;
 	font-style: normal;
 	font-variant: normal;
@@ -15,7 +15,7 @@
 }
 
 #Energy, #Health, #Nutrition, #WillPower, #Perversion, #Femininity, #Toxicity, #Hormones {
-	font-family: monospace;
+	font-family: monospace, monospace;
 	font-size: 14px;
 	font-style: normal;
 	font-variant: normal;

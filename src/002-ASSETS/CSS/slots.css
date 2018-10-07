@@ -15,7 +15,7 @@ div.WhoreCustomerGUI {
     height: 130px;
     border-radius: 5px 25px;
     border: 1px solid saddlebrown;
-    font-family: monospace;
+    font-family: monospace, monospace;
     cursor: pointer;
 }
 
