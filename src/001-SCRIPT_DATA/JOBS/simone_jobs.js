@@ -13,7 +13,7 @@ App.Data.JobData["SIMONE_JOB1"] = {
     "REQUIREMENTS" : [
         { "TYPE" : "SKILL", "NAME" : "HandJobs", "VALUE" : 50, "CONDITION" : "gte" }
     ],
-    "INTRO" : 
+    "INTRO" :
         "NPC_NAME says, \"I have a special group of clients that might be interested in those dainty hands of yours.\"",
     "START" :
         "NPC_NAME says, \"This handy-dandy job is as simple as stone soup, PLAYER_NAME. Go in, wiggle your wares a trifle, and then make haste with some prime peeter-pumping. Warm hands and a tender touch is vital, mind you, but you best be a mighty quick cock-juggler, too. You only got two jimmy-jerkers and there's gonna be plenty of testy peckers aching for their turn.\"\n\n"+
@@ -39,7 +39,7 @@ App.Data.JobData["SIMONE_JOB1"] = {
                 "<<set _irr to random(1,3)>>"+
                 "<<if _irr eq 1>>"+
                   "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].o.Name == 'chastity cage' || setup.player.Equipment['Penis'].o.Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
+                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].Name() == 'chastity cage' || setup.player.Equipment['Penis'].Name() == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
                 "<<elseif _irr eq 2>>"+
                   "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
                   "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
@@ -48,7 +48,7 @@ App.Data.JobData["SIMONE_JOB1"] = {
                   "An older woman with a mature motherly beauty takes your head and leads you to the center of the room. She smiles pleasantly as she turns to face you and then rather unpleasantly shoves you to your knees. She lifts her ruffled skirt to reveal her bushy muff and swings one leg over your shoulder to bring your face to her crotch. The lusty aroma of her already glistening pussy tickles your nostril hairs. With a thrust of her hips, she shoves her drooling wet cunt onto your face."+
                 "<</if>>",
             "RESULTS" : [
-                {"A":  33, "TEXT": 
+                {"A":  33, "TEXT":
                   "<<if _irr eq 1>>"+
                     "Your obscene display of humiliated exasperation @@doesn't have much effect@@ on the men in the room. A couple of them evince an interest in the elfin blonde, who you have to honestly admit is working her petite little ass off to garner attention, but you seem to have come off more as a contrast than a comparison. Your partner throws you a disappointed pout, unhappy with your poor performance."+
                   "<<elseif _irr eq 2>>"+
@@ -57,7 +57,7 @@ App.Data.JobData["SIMONE_JOB1"] = {
                     "You do your best to lick at the woman's sloppy wet pussy but your mouth is far more experienced with cocks than cunts and your amateur attempt as pleasuring her @@doesn't have much effect@@ on the men in the room. When your ineptitude at cunnilingus becomes clear to her, the matronly woman proceeds to crassly grind her hips against your face while berating you for your incompetence."+
                   "<</if>>"
                 },
-                {"A":  66, "TEXT": 
+                {"A":  66, "TEXT":
                   "<<if _irr eq 1>>"+
                     "The two of you squishing and pinching and nearly mangling one another has @@attracted some interest@@ from several of the men. They're certainly paying attention to both of you now. Your partner is obviously satisfied with your efforts, too. She giggles and smooches you a sweet thanks on the lips for your adequate performance."+
                   "<<elseif _irr eq 2>>"+
@@ -66,7 +66,7 @@ App.Data.JobData["SIMONE_JOB1"] = {
                     "Although your mouth is far more experienced with cocks than cunts, you manage to stuff your face into her crotch and lash your tongue at her tart-tasting purple folds with decently convincing enthusiasm. The woman pants and moans and unlooses some rather vulgar compliments your way. The exhibition has soon @@attracted some interest@@ from several of the men. Your partner is satisfied enough with your efforts to allow you to stand back up."+
                   "<</if>>"
                 },
-                {"A": 500, "TEXT": 
+                {"A": 500, "TEXT":
                   "<<if _irr eq 1>>"+
                     "The majority of the men in the room @@take a keen interest@@ in the half-dance half-wrestling match in which the two of you are engaged. Your partner's spirited endeavor to torment you into a hysteric frenzy and your efforts to abuse her bantam body in a scurrilous sort of rapey revenge has paid off in spades. There's not a soft cock in the house and most of them are pointing in your direction. Your partner giggles and throws her arms around your neck to mash her balmy lips to your own in lustful gratitude for your impressive performance."+
                   "<<elseif _irr eq 2>>"+
@@ -239,7 +239,7 @@ App.Data.JobData["SIMONE_JOB2"] = {
                 "<<set _irr to random(1,3)>>"+
                 "<<if _irr eq 1>>"+
                   "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].o.Name == 'chastity cage' || setup.player.Equipment['Penis'].o.Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
+                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].Name() == 'chastity cage' || setup.player.Equipment['Penis'].Name() == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
                 "<<elseif _irr eq 2>>"+
                   "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
                   "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
@@ -248,7 +248,7 @@ App.Data.JobData["SIMONE_JOB2"] = {
                   "An older woman with a mature motherly beauty takes your head and leads you to the center of the room. She smiles pleasantly as she turns to face you and then rather unpleasantly shoves you to your knees. She lifts her ruffled skirt to reveal her bushy muff and swings one leg over your shoulder to bring your face to her crotch. The lusty aroma of her already glistening pussy tickles your nostril hairs. With a thrust of her hips, she shoves her drooling wet cunt onto your face."+
                 "<</if>>",
             "RESULTS" : [
-                {"A":  33, "TEXT": 
+                {"A":  33, "TEXT":
                   "<<if _irr eq 1>>"+
                     "Your obscene display of humiliated exasperation @@doesn't have much effect@@ on the men in the room. A couple of them evince an interest in the elfin blonde, who you have to honestly admit is working her petite little ass off to garner attention, but you seem to have come off more as a contrast than a comparison. Your partner throws you a disappointed pout, unhappy with your poor performance."+
                   "<<elseif _irr eq 2>>"+
@@ -257,7 +257,7 @@ App.Data.JobData["SIMONE_JOB2"] = {
                     "You do your best to lick at the woman's sloppy wet pussy but your mouth is far more experienced with cocks than cunts and your amateur attempt as pleasuring her @@doesn't have much effect@@ on the men in the room. When your ineptitude at cunnilingus becomes clear to her, the matronly woman proceeds to crassly grind her hips against your face while berating you for your incompetence."+
                   "<</if>>"
                 },
-                {"A":  66, "TEXT": 
+                {"A":  66, "TEXT":
                   "<<if _irr eq 1>>"+
                     "The two of you squishing and pinching and nearly mangling one another has @@attracted some interest@@ from several of the men. They're certainly paying attention to both of you now. Your partner is obviously satisfied with your efforts, too. She giggles and smooches you a sweet thanks on the lips for your adequate performance."+
                   "<<elseif _irr eq 2>>"+
@@ -266,7 +266,7 @@ App.Data.JobData["SIMONE_JOB2"] = {
                     "Although your mouth is far more experienced with cocks than cunts, you manage to stuff your face into her crotch and lash your tongue at her tart-tasting purple folds with decently convincing enthusiasm. The woman pants and moans and unlooses some rather vulgar compliments your way. The exhibition has soon @@attracted some interest@@ from several of the men. Your partner is satisfied enough with your efforts to allow you to stand back up."+
                   "<</if>>"
                 },
-                {"A": 500, "TEXT": 
+                {"A": 500, "TEXT":
                   "<<if _irr eq 1>>"+
                     "The majority of the men in the room @@take a keen interest@@ in the half-dance half-wrestling match in which the two of you are engaged. Your partner's spirited endeavor to torment you into a hysteric frenzy and your efforts to abuse her bantam body in a scurrilous sort of rapey revenge has paid off in spades. There's not a soft cock in the house and most of them are pointing in your direction. Your partner giggles and throws her arms around your neck to mash her balmy lips to your own in lustful gratitude for your impressive performance."+
                   "<<elseif _irr eq 2>>"+
@@ -444,7 +444,7 @@ App.Data.JobData["SIMONE_JOB3"] = {
                 "<<set _irr to random(1,3)>>"+
                 "<<if _irr eq 1>>"+
                   "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].o.Name == 'chastity cage' || setup.player.Equipment['Penis'].o.Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
+                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].Name() == 'chastity cage' || setup.player.Equipment['Penis'].Name() == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
                 "<<elseif _irr eq 2>>"+
                   "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
                   "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
@@ -453,7 +453,7 @@ App.Data.JobData["SIMONE_JOB3"] = {
                   "An older woman with a mature motherly beauty takes your head and leads you to the center of the room. She smiles pleasantly as she turns to face you and then rather unpleasantly shoves you to your knees. She lifts her ruffled skirt to reveal her bushy muff and swings one leg over your shoulder to bring your face to her crotch. The lusty aroma of her already glistening pussy tickles your nostril hairs. With a thrust of her hips, she shoves her drooling wet cunt onto your face."+
                 "<</if>>",
             "RESULTS" : [
-                {"A":  33, "TEXT": 
+                {"A":  33, "TEXT":
                   "<<if _irr eq 1>>"+
                     "Your obscene display of humiliated exasperation @@doesn't have much effect@@ on the men in the room. A couple of them evince an interest in the elfin blonde, who you have to honestly admit is working her petite little ass off to garner attention, but you seem to have come off more as a contrast than a comparison. Your partner throws you a disappointed pout, unhappy with your poor performance."+
                   "<<elseif _irr eq 2>>"+
@@ -462,7 +462,7 @@ App.Data.JobData["SIMONE_JOB3"] = {
                     "You do your best to lick at the woman's sloppy wet pussy but your mouth is far more experienced with cocks than cunts and your amateur attempt as pleasuring her @@doesn't have much effect@@ on the men in the room. When your ineptitude at cunnilingus becomes clear to her, the matronly woman proceeds to crassly grind her hips against your face while berating you for your incompetence."+
                   "<</if>>"
                 },
-                {"A":  66, "TEXT": 
+                {"A":  66, "TEXT":
                   "<<if _irr eq 1>>"+
                     "The two of you squishing and pinching and nearly mangling one another has @@attracted some interest@@ from several of the men. They're certainly paying attention to both of you now. Your partner is obviously satisfied with your efforts, too. She giggles and smooches you a sweet thanks on the lips for your adequate performance."+
                   "<<elseif _irr eq 2>>"+
@@ -471,7 +471,7 @@ App.Data.JobData["SIMONE_JOB3"] = {
                     "Although your mouth is far more experienced with cocks than cunts, you manage to stuff your face into her crotch and lash your tongue at her tart-tasting purple folds with decently convincing enthusiasm. The woman pants and moans and unlooses some rather vulgar compliments your way. The exhibition has soon @@attracted some interest@@ from several of the men. Your partner is satisfied enough with your efforts to allow you to stand back up."+
                   "<</if>>"
                 },
-                {"A": 500, "TEXT": 
+                {"A": 500, "TEXT":
                   "<<if _irr eq 1>>"+
                     "The majority of the men in the room @@take a keen interest@@ in the half-dance half-wrestling match in which the two of you are engaged. Your partner's spirited endeavor to torment you into a hysteric frenzy and your efforts to abuse her bantam body in a scurrilous sort of rapey revenge has paid off in spades. There's not a soft cock in the house and most of them are pointing in your direction. Your partner giggles and throws her arms around your neck to mash her balmy lips to your own in lustful gratitude for your impressive performance."+
                   "<<elseif _irr eq 2>>"+
@@ -650,7 +650,7 @@ App.Data.JobData["SIMONE_JOB4"] = {
                 "<<set _irr to random(1,3)>>"+
                 "<<if _irr eq 1>>"+
                   "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].o.Name == 'chastity cage' || setup.player.Equipment['Penis'].o.Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
+                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].Name() == 'chastity cage' || setup.player.Equipment['Penis'].Name() == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
                 "<<elseif _irr eq 2>>"+
                   "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
                   "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
@@ -659,7 +659,7 @@ App.Data.JobData["SIMONE_JOB4"] = {
                   "An older woman with a mature motherly beauty takes your head and leads you to the center of the room. She smiles pleasantly as she turns to face you and then rather unpleasantly shoves you to your knees. She lifts her ruffled skirt to reveal her bushy muff and swings one leg over your shoulder to bring your face to her crotch. The lusty aroma of her already glistening pussy tickles your nostril hairs. With a thrust of her hips, she shoves her drooling wet cunt onto your face."+
                 "<</if>>",
             "RESULTS" : [
-                {"A":  33, "TEXT": 
+                {"A":  33, "TEXT":
                   "<<if _irr eq 1>>"+
                     "Your obscene display of humiliated exasperation @@doesn't have much effect@@ on the men in the room. A couple of them evince an interest in the elfin blonde, who you have to honestly admit is working her petite little ass off to garner attention, but you seem to have come off more as a contrast than a comparison. Your partner throws you a disappointed pout, unhappy with your poor performance."+
                   "<<elseif _irr eq 2>>"+
@@ -668,7 +668,7 @@ App.Data.JobData["SIMONE_JOB4"] = {
                     "You do your best to lick at the woman's sloppy wet pussy but your mouth is far more experienced with cocks than cunts and your amateur attempt as pleasuring her @@doesn't have much effect@@ on the men in the room. When your ineptitude at cunnilingus becomes clear to her, the matronly woman proceeds to crassly grind her hips against your face while berating you for your incompetence."+
                   "<</if>>"
                 },
-                {"A":  66, "TEXT": 
+                {"A":  66, "TEXT":
                   "<<if _irr eq 1>>"+
                     "The two of you squishing and pinching and nearly mangling one another has @@attracted some interest@@ from several of the men. They're certainly paying attention to both of you now. Your partner is obviously satisfied with your efforts, too. She giggles and smooches you a sweet thanks on the lips for your adequate performance."+
                   "<<elseif _irr eq 2>>"+
@@ -677,7 +677,7 @@ App.Data.JobData["SIMONE_JOB4"] = {
                     "Although your mouth is far more experienced with cocks than cunts, you manage to stuff your face into her crotch and lash your tongue at her tart-tasting purple folds with decently convincing enthusiasm. The woman pants and moans and unlooses some rather vulgar compliments your way. The exhibition has soon @@attracted some interest@@ from several of the men. Your partner is satisfied enough with your efforts to allow you to stand back up."+
                   "<</if>>"
                 },
-                {"A": 500, "TEXT": 
+                {"A": 500, "TEXT":
                   "<<if _irr eq 1>>"+
                     "The majority of the men in the room @@take a keen interest@@ in the half-dance half-wrestling match in which the two of you are engaged. Your partner's spirited endeavor to torment you into a hysteric frenzy and your efforts to abuse her bantam body in a scurrilous sort of rapey revenge has paid off in spades. There's not a soft cock in the house and most of them are pointing in your direction. Your partner giggles and throws her arms around your neck to mash her balmy lips to your own in lustful gratitude for your impressive performance."+
                   "<<elseif _irr eq 2>>"+
