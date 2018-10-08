@@ -28,9 +28,9 @@ pack_output() {
 # $1: file to upload
 # $2: dir to upload into
 upload() {
-	megamkdir -u $MEGA_LOGIN -p $MEGA_PWD /Root/"${2}" || true
-	megarm -u $MEGA_LOGIN -p $MEGA_PWD "/Root/${2}/${1}" || true
-	megaput -u $MEGA_LOGIN -p $MEGA_PWD --path="/Root/${2}" "${1}"
+	megamkdir -u $MEGA_LOGIN -p $MEGA_PWD /Root/Queen/"${2}" || true
+	megarm -u $MEGA_LOGIN -p $MEGA_PWD "/Root/Queen/${2}/${1}" || true
+	megaput -u $MEGA_LOGIN -p $MEGA_PWD --path="/Root/Queen/${2}" "${1}"
 }
 
 
