@@ -1,20 +1,149 @@
-/**
-* Unit system class
-*/
+App.UnitSystems = {};
 
-App.UnitSystem = function () {
-	this.metricSystemDefinition = {
-		baseLengthFactor  : 1.0, // conversion from CGS
-		lengthSymbols     : ["cm", "m", "km"],
-		lengthUnits       : ["centimeter", "meter", "kilometer"],
-		lengthUnitsPlural : ["centimetres", "meters", "kilometers"],
-		lengthScaleFactors: [100, 1000],
-		lengthSymbolDelim : '&thinsp;',
-		braCups: { // difference in cm, taken from http://brasizecalculator.eu/ for underbust of  80 cm
-			 0 : "AA",
-			 5 : "AA",
-			 7 : "A",
-			 9 : "B",
+App.UnitSystems.Facet = class {
+	/**
+	 *
+	 * @param {number} baseFactor Conversion from CGS
+	 * @param {number[]} scaleFactors
+	 * @param {string[]} symbols
+	 * @param {string[]} units
+	 * @param {string[]} unitsPlural
+	 * @param {string} delim
+	 */
+	constructor(baseFactor, scaleFactors, symbols, units, unitsPlural, delim) {
+		this.baseFactor = baseFactor;
+		this.scaleFactors = scaleFactors;
+		this.symbols = symbols;
+		this.units = units;
+		this.unitsPlural = unitsPlural;
+		this.delim = delim;
+	}
+};
+
+App.UnitSystems.AbstractUnitSystem = class {
+
+	/**
+	 *
+	 * @param {string} facet
+	 * @param {number} x
+	 * @returns {number}
+	 */
+	_biggestUnit(facet, x) {
+		var v = this.value(facet, x);
+		var scaleFactors = this[facet].scaleFactors;
+		var i = 0;
+		for (i = 1; i < scaleFactors.length; ++i) {
+			var nextFactor = scaleFactors[i-1];
+			if (v < nextFactor) {
+				break;
+			}
+			var realUnits = v/nextFactor;
+			var roundedCount = Math.floor(realUnits);
+			v -= roundedCount * nextFactor;
+		}
+		return i - 1;
+	}
+	/**
+	 *
+	 * @param {string} facet
+	 * @param {number} x
+	 */
+	value(facet, x) {
+		return Math.round(this[facet].baseFactor * x);
+	}
+
+	/**
+	 *
+	 * @param {string} facet
+	 * @param {number} x
+	 * @param {boolean} [compact]
+	 * @param {number} [sample]
+	 */
+	valueString(facet, x, compact, sample) {
+		var v = this.value(facet, x);
+		var cmpts = [v];
+		/** @type {string[]} */
+		var units = this[facet].units;
+		/** @type {number[]} */
+		var scaleFactors = this[facet].scaleFactors;
+		var maxUnitIndex = 0;
+		if (compact === true) {
+			if (sample !== undefined) {
+				maxUnitIndex = this._biggestUnit(facet, sample);
+			} else {
+				maxUnitIndex =  units.length - 1;
+			}
+		}
+		for (var i = 1; i <= maxUnitIndex; ++i) {
+			var nextFactor = scaleFactors[i-1];
+			if (cmpts[i-1] < nextFactor) {
+				break;
+			}
+			var realUnits = cmpts[i-1]/nextFactor;
+			var roundedCount = Math.floor(realUnits);
+			cmpts[i-1] = cmpts[i-1] - roundedCount * nextFactor;
+			cmpts.push(roundedCount);
+		}
+		var res = "";
+		var symbols = this[facet].symbols;
+
+		for (var j = cmpts.length - 1; j >= 0; --j) {
+			if (cmpts[j] !== 0) {
+				if (res.length > 0) res += this[facet].delim;
+				res += cmpts[j] + this[facet].delim + symbols[j];
+			}
+		}
+		return res;
+	}
+
+	lengthValue(x) {
+		return this.value("length", x);
+	}
+
+	lengthString(x, compact, sample) {
+		return this.valueString("length", x, compact, sample);
+	}
+
+	massValue(x) {
+		return this.value("mass", x);
+	}
+
+	massString(x, compact, sample) {
+		return this.valueString("mass", x, compact, sample);
+	}
+
+	cupString(bustCM, underbustCM) {
+		var diff = this.lengthValue(bustCM - underbustCM);
+		/** @type Object.<number, string> */
+		var cups = this.braCups;
+		for (var cup in cups) {
+			if (!cups.hasOwnProperty(cup)) continue;
+
+			if (diff <= cup) return cups[cup];
+		}
+		return "OutOfRangeCup: " + diff;
+	}
+};
+
+App.UnitSystems.Metric = class extends App.UnitSystems.AbstractUnitSystem {
+	constructor() {
+		super();
+		this.length = new App.UnitSystems.Facet(
+			1.0, [100, 1000],
+			["cm", "m", "km"],
+			["centimeter", "meter", "kilometer"], ["centimetres", "meters", "kilometers"],
+			"&thinsp;");
+		this.mass = new App.UnitSystems.Facet(
+			1.0, [1000, 1000],
+			["g", "kg", "t"],
+			["gramm", "kilogramm", "tonne"], ["gramms", "kilogramms", "tonnes"],
+			"&thinsp;");
+
+		this.braCups = { // difference in cm, taken from http://brasizecalculator.eu/ for underbust of  80 cm
+			0 : "AA",
+			5 : "AA",
+			7 : "A",
+			9 : "B",
 			11 : "C",
 			13 : "D",
 			15 : "E",
@@ -39,27 +168,35 @@ App.UnitSystem = function () {
 			53 : "X",
 			55 : "Y",
 			57 : "Z"
-		}
-	};
+		};
+	}
+};
 
-	this.imperialSystemDefinition = {
-		baseLengthFactor  : 1.0/2.54, // conversion from CGS
-		lengthSymbols     : ['&prime;', "&Prime;", "m"],
-		lengthUnits       : ["inch", "foot", "mile"],
-		lengthUnitsPlural : ["inches", "feet", "miles"],
-		lengthScaleFactors: [12, 5280],
-		lengthSymbolDelim : '',
-		braCups: { // difference in inches, taken from http://brasizecalculator.eu/
-			 0 : "AA",
-			 1 : "AA",
-			 2 : "A",
-			 3 : "B",
-			 4 : "C",
-			 5 : "D",
-			 6 : "DD",
-			 7 : "E",
-			 8 : "F",
-			 9 : "FF",
+App.UnitSystems.Imperial = class extends App.UnitSystems.AbstractUnitSystem {
+	constructor() {
+		super();
+		this.length = new App.UnitSystems.Facet(
+			1.0/2.54, [12, 5280],
+			["&prime;", "&Prime;", "m"],
+			["inch", "foot", "mile"], ["inches", "feet", "miles"],
+			"");
+		this.mass = new App.UnitSystems.Facet(
+			1./28.349, [16, 14, 160],
+			["oz", "lb", "st", "t"],
+			["ounce", "pound", "stone", "ton"], ["ounces", "pounds", "stones", "tons"],
+			"&thinsp;");
+
+		this.braCups = { // difference in inches, taken from http://brasizecalculator.eu/
+			0 : "AA",
+			1 : "AA",
+			2 : "A",
+			3 : "B",
+			4 : "C",
+			5 : "D",
+			6 : "DD",
+			7 : "E",
+			8 : "F",
+			9 : "FF",
 			10 : "G",
 			11 : "GG",
 			12 : "H",
@@ -98,61 +235,46 @@ App.UnitSystem = function () {
 			45 : "YY",
 			46 : "Z",
 			47 : "ZZ"
-		}
-	};
-
-// 	this.system = {};
-
-	this.lengthValue = function(x) {
-		return Math.round(this.system.baseLengthFactor * x);
-	};
-
-	this.lengthString = function (x, compact) {
-		var l = this.lengthValue(x);
-		if (typeof compact == 'undefined' || compact == false) {
-			return l + this.system.lengthSymbolDelim + this.system.lengthSymbols[0];
-		}
-
-		var cmpts = [l];
-		var unitsCount = this.system.lengthUnits.length;
-		for (var i = 1; i < unitsCount; i++) {
-			var nextFactor = this.system.lengthScaleFactors[i-1];
-			if (cmpts[i-1] < nextFactor) {
-				break;
-			}
-			var realUnits = cmpts[i-1]/nextFactor;
-			var roundedCount = Math.floor(realUnits);
-			cmpts[i-1] = cmpts[i-1] - roundedCount * nextFactor;
-			cmpts.push(roundedCount);
-		}
-		var res = '';
-		for (var i = cmpts.length - 1; i > 0; i--) {
-			res += cmpts[i] + this.system.lengthSymbolDelim + this.system.lengthSymbols[i] + this.system.lengthSymbolDelim;
-		}
-		res += cmpts[0] + this.system.lengthSymbolDelim + this.system.lengthSymbols[0];
-		return res;
-	};
-
-
-	this.cupString = function(bustCM, underbustCM) {
-		var diff = this.lengthValue(bustCM - underbustCM);
-		var cups = this.system.braCups;
-		for (var cup in cups) {
-			if (!cups.hasOwnProperty(cup)) continue;
-
-			if (diff<= cup) return cups[cup];
-		}
-		return "OutOfRangeCup: " + diff;
-	};
+		};
+	}
 };
 
-var unitSettingChangedHandler = function() {
-	switch (SugarCube.settings.units) {
-	case "Imperial":
-		App.unitSystem.system = App.unitSystem.imperialSystemDefinition;
-		break;
-	case "Metric":
-		App.unitSystem.system = App.unitSystem.metricSystemDefinition;
-		break;
+/**
+* Unit system class
+*/
+App.UnitSystem = class UnitSystem {
+	constructor() {
+		this.system = new App.UnitSystems.Imperial();
+	}
+
+	lengthValue(x) {
+		return this.system.lengthValue(x);
+	}
+
+	lengthString(x, compact, sample) {
+		return this.system.lengthString(x, compact, sample);
+	}
+
+	massValue(x) {
+		return this.system.massValue(x);
+	}
+
+	massString(x, compact, sample) {
+		return this.system.massString(x, compact, sample);
+	}
+
+	cupString(bustCM, underbustCM) {
+		return this.system.cupString(bustCM, underbustCM);
+	}
+
+	static unitSettingChangedHandler() {
+		switch (SugarCube.settings.units) {
+		case "Imperial":
+			App.unitSystem.system = new App.UnitSystems.Imperial();
+			break;
+		case "Metric":
+			App.unitSystem.system = new App.UnitSystems.Metric();
+			break;
+		}
 	}
 };

@@ -36,7 +36,7 @@ Setting.addToggle("displayMeterNumber", {
     default  : false,
     onInit   : handleMetersNumberValueSettingChanged,
     onChange : handleMetersNumberValueSettingChanged
-    });
+});
 
 App.unitSystem = new App.UnitSystem();
 // Setting up a basic list control for the settings property 'units'
@@ -45,8 +45,8 @@ Setting.addList("units", {
     desc    : "Choose the unit system.",
     list    : ["Imperial", "Metric"],
     default : "Imperial",
-    onInit  : unitSettingChangedHandler,
-    onChange: unitSettingChangedHandler
+    onInit  : App.UnitSystem.unitSettingChangedHandler,
+    onChange: App.UnitSystem.unitSettingChangedHandler
 });
 
 Setting.addToggle("inlineItemDetails", {
