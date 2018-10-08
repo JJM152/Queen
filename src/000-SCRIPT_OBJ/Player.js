@@ -1661,6 +1661,19 @@ App.Entity.Player = class Player {
         }
     }
 
+    /**
+     * Tests is any of the named clothes worn in the given slot
+     * @param {string[]} Tags
+     * @param {string} Slot
+     * @returns {boolean} True is any of the items is worn, false otherwise
+     */
+    IsAnyClothingWorn(Tags, Slot) {
+        for (const t of Tags) {
+            if (this.Clothing.IsWorn(App.Item.MakeId("CLOTHES", t), Slot)) return true;
+        }
+        return false;
+    }
+
     Remove (item) {
         if (item == 0) return;
         this.Clothing.TakeOff(item.Id());
