@@ -4,7 +4,8 @@
 # $2: optional tag name
 
 if [ $# -eq 0 ]; then
-	echo "Usage: $0 GIT_BRANCH_NAME [GIT_TAG]"
+	echo "Usage: $0 GIT_BRANCH_NAME [GIT_TAG]";
+	exit 1;
 fi
 
 BRANCH_NAME="${1}"
@@ -28,11 +29,10 @@ pack_output() {
 # $1: file to upload
 # $2: dir to upload into
 upload() {
-	megamkdir -u $MEGA_LOGIN -p $MEGA_PWD /Root/Queen/"${2}" || true
-	megarm -u $MEGA_LOGIN -p $MEGA_PWD "/Root/Queen/${2}/${1}" || true
-	megaput -u $MEGA_LOGIN -p $MEGA_PWD --path="/Root/Queen/${2}" "${1}"
+	mega-login "$MEGA_LOGIN" "$MEGA_PWD"
+	mega-put -c "${1}" Queen/"${2}"
+	mega-logout
 }
-
 
 pack_output "$(archive_name)"
 upload "$(archive_name)" "$(target_dir)"

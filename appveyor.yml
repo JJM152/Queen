@@ -6,7 +6,11 @@ environment:
 
 install:
 - sh: >-
-    sudo apt-get install -yq megatools
+    wget https://mega.nz/linux/MEGAsync/xUbuntu_18.04/amd64/megacmd-xUbuntu_18.04_amd64.deb
+
+    sudo dpkg -i megacmd-xUbuntu_18.04_amd64.deb && rm megacmd-xUbuntu_18.04_amd64.deb
+
+    sudo apt-get install -fyq
 
     wget http://www.motoslave.net/tweego/download.php/tweego-${TWEEGO_VERSION}-linux-x64.zip
 
