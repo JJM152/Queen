@@ -8,12 +8,15 @@ if [ $# -eq 0 ]; then
 	exit 1;
 fi
 
+## what other variables could we pass from the events that trigger the webhook. Do regular commits pass a commit hash, etc?
 BRANCH_NAME="${1}"
 TAG="${2}"
+
 
 archive_name() {
 	local _res="Queen"
 	[ -z "$TAG" ] || _res="${_res}-${TAG}"
+	[ ! -z "$TAG" ] || _res="${_res}-latest"
 	echo "${_res}.zip"
 }
 
