@@ -465,8 +465,8 @@ App.Item = class Item {
 
     /**
      * Fetch the default charges from an items data record.
-     * @param {string} Type
-     * @param {string} Tag
+     * @param {string|undefined} Type
+     * @param {string|undefined} Tag
      * @param {object} [rec]
      * @returns {number}
      */

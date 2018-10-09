@@ -1,5 +1,6 @@
 :: vanityMenu [widget]
 <<widget "vanityMenu">>\
+<<set _back = passage();>>\
 <<set _Hair = window.App.Data.Lists["HairStyles"];>>\
 <<set _H1 = setup.player.GetItemCharges("hair tool");>>\
 <<set _H2 = setup.player.GetItemCharges("hair treatment");>>
@@ -156,7 +157,7 @@
 <<if setup.player.GetStat("STAT", "Energy") < 1>>
 @@color:grey;Do Makeup and Hair@@
 <<else>>
-<<click "Do Makeup and Hair" "Vanity">>
+<<click "Do Makeup and Hair" _back>>
 <<run setup.player.AdjustStat("Energy", -1);>>
 <<run setup.player.DoStyling($HairStyle, $MakeupStyle);>>
 <</click>>
@@ -165,21 +166,21 @@
 <<if setup.player.MakeupStyle == "plain faced">>
 @@color:grey;Remove Makeup@@
 <<else>>
-<<click "Remove Makeup" "Vanity">>
+<<click "Remove Makeup" _back>>
 <<set setup.player.MakeupStyle = "plain faced";>>
 <<set setup.player.MakeupBonus = 0>>
 <</click>>
 <</if>>
  |
 <<if _TRIM < 5>>
-<<click "Trim Hair" "Vanity">>
+<<click "Trim Hair" _back>>
 <<set setup.player.BodyStats["Hair"] = 5;>>
 <<if _Wig != 0>>
 <<run setup.player.Remove(setup.player.Equipment["Wig"]);>>.
 <</if>>
 <</click>> (<<print _US.lengthString(_PR.StatToCM(setup.player, "Hair"), false);>> ⇒ <<print _US.lengthString(_PR.StatToCM(setup.player, "Hair", (5 - setup.player.GetStat("BODY", "Hair"))), false);>>)
 <<else>>
-<<click "Trim Hair" "Vanity">>
+<<click "Trim Hair" _back>>
 <<run setup.player.AdjustBody("Hair", -5);>>
 <<if _Wig != 0>>
 <<run setup.player.Remove(setup.player.Equipment["Wig"]);>>.
