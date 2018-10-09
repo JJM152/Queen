@@ -1428,7 +1428,7 @@ App.SlotEngine = new function() {
             var jackpot = [ 'JACKPOT', 'JACKPOT', 'JACKPOT', 'DOUBLE JACKPOT', 'TRIPLE JACKPOT', 'QUADRUPLE JACKPOT', 'SUPER JACKPOT', 'MEGA JACKPOT', 'ULTRA JACKPOT' ];
             var colors = [ 'lime', 'lime', 'lime', 'gold', 'gold', 'orange', 'orange', 'cyan', 'purple'];
             this._RisingDialog(jackpot[payout.length-1], colors[payout.length-1]);
-            //$('#DesperationButton').removeClass("DesperationButtonActivated").addClass("DesperationButtonDeactivated");
+            $('#DesperationButton').removeClass("DesperationButtonActivated").addClass("DesperationButtonDeactivated");
         } else {
             // We missed.
             this._Misses++;
