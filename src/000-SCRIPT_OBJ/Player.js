@@ -1516,7 +1516,7 @@ App.Entity.Player = class Player {
     IsInPort (n) {
         n = n || 0;
         var Routes = window.App.Data.Lists["ShipRoute"];
-        var days = (this._state.SailDays >= Routes.length ? n : this._state.SailDays + n);
+        var days = (this._state.SailDays + n >= Routes.length ? 0 : this._state.SailDays + n);
         return (Routes[days]["P"] != "AtSea");
     };
 
