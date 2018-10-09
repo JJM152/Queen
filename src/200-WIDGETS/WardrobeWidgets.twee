@@ -155,6 +155,7 @@ You spy with your little eye...
 <</widget>>
 
 <<widget "StyleDisplay">><<nobr>>
+<<set _back = passage(); >>
 <<set _PR = window.App.PR;>>
 <table class=".MyTable">
 <tbody>
@@ -180,23 +181,23 @@ The style and fashion of your clothing is <<= window.App.PR.pClothing(setup.play
 <tr><td colspan="6" style="border-bottom: 1px solid">@@color:yellow;Current Fashion Breakdown@@ (click a name to automatically dress that way)</td></tr>
 	<tr>
 		<td>Ordinary:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Ordinary", setup.player); >></span></td>
-		<td><<link "Pirate Slut" "Wardrobe">><<run setup.player.AutoWearCategory('Pirate Slut');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Pirate Slut", setup.player); >></span></td>
-		<td><<link "Bimbo" "Wardrobe">><<run setup.player.AutoWearCategory('Bimbo');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Bimbo", setup.player); >></span></td>
+		<td><<link "Pirate Slut" _back>><<run setup.player.AutoWearCategory('Pirate Slut');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Pirate Slut", setup.player); >></span></td>
+		<td><<link "Bimbo"  _back>><<run setup.player.AutoWearCategory('Bimbo');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Bimbo", setup.player); >></span></td>
 	</tr>
 	<tr>
-		<td><<link "Sissy Lolita" "Wardrobe">><<run setup.player.AutoWearCategory('Sissy Lolita');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Sissy Lolita", setup.player); >></span></td>
-		<td><<link "Gothic Lolita" "Wardrobe">><<run setup.player.AutoWearCategory('Gothic Lolita');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Gothic Lolita", setup.player); >></span></td>
-		<td><<link "BDSM" "Wardrobe">><<run setup.player.AutoWearCategory('BDSM');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("BDSM", setup.player); >></span></td>
+		<td><<link "Sissy Lolita"  _back>><<run setup.player.AutoWearCategory('Sissy Lolita');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Sissy Lolita", setup.player); >></span></td>
+		<td><<link "Gothic Lolita"  _back>><<run setup.player.AutoWearCategory('Gothic Lolita');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Gothic Lolita", setup.player); >></span></td>
+		<td><<link "BDSM"  _back>><<run setup.player.AutoWearCategory('BDSM');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("BDSM", setup.player); >></span></td>
 	</tr>
 	<tr>
-		<td><<link "Daddy's Girl" "Wardrobe">><<run setup.player.AutoWearCategory("Daddy's Girl");>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Daddy's Girl", setup.player); >></span></td>
-		<td><<link "Naughty Nun" "Wardrobe">><<run setup.player.AutoWearCategory('Naughty Nun');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Naughty Nun", setup.player); >></span></td>
-		<td><<link "Pet Girl" "Wardrobe">><<run setup.player.AutoWearCategory('Pet Girl');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Pet Girl", setup.player); >></span></td>
+		<td><<link "Daddy's Girl"  _back>><<run setup.player.AutoWearCategory("Daddy's Girl");>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Daddy's Girl", setup.player); >></span></td>
+		<td><<link "Naughty Nun"  _back>><<run setup.player.AutoWearCategory('Naughty Nun');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Naughty Nun", setup.player); >></span></td>
+		<td><<link "Pet Girl"  _back>><<run setup.player.AutoWearCategory('Pet Girl');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Pet Girl", setup.player); >></span></td>
 	</tr>
 	<tr>
-		<td><<link "High Class Whore" "Wardrobe">><<run setup.player.AutoWearCategory('High Class Whore');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("High Class Whore", setup.player); >></span></td>
-		<td><<link "Slutty Lady" "Wardrobe">><<run setup.player.AutoWearCategory('Slutty Lady');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Slutty Lady", setup.player); >></span></td>
-		<td><<link "Sexy Dancer" "Wardrobe">><<run setup.player.AutoWearCategory('Sexy Dancer');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Sexy Dancer", setup.player); >></span></td>
+		<td><<link "High Class Whore"  _back>><<run setup.player.AutoWearCategory('High Class Whore');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("High Class Whore", setup.player); >></span></td>
+		<td><<link "Slutty Lady"  _back>><<run setup.player.AutoWearCategory('Slutty Lady');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Slutty Lady", setup.player); >></span></td>
+		<td><<link "Sexy Dancer"  _back>><<run setup.player.AutoWearCategory('Sexy Dancer');>><</link>>:</td><td><span id="fixed-font"><<= _PR.pStyleMeter("Sexy Dancer", setup.player); >></span></td>
 	</tr>	
 </tbody>
 </table>
