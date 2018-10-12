@@ -215,6 +215,33 @@ App.PR = new function() {
     };
 
     /**
+     * Helper function. Get total amount of XP points needed to raise from a to the b
+     * @param {string} Type
+     * @param {string} Stat
+     * @param {number} Value1
+     * @param {number} Value2
+     * @returns {number}
+     */
+	this.GetTotalXPPoints = function(Type, Stat, ValueA, ValueB)
+	{
+        var Ratings = this.GetStatConfig(Type)[Stat].LEVELING;
+
+        var lastLeveledTo = ValueA;
+        var res = 0;
+        var prop;
+		for (prop in Ratings) {
+            if (!Ratings.hasOwnProperty(prop)) continue;
+            if (prop <= ValueA) continue;
+            if (prop > ValueB) break;
+
+            res += (prop - lastLeveledTo) * Ratings[prop].COST;
+            lastLeveledTo = prop;
+		}
+        res += (ValueB - lastLeveledTo) * Ratings[prop].COST;
+		return res;
+	};
+
+    /**
      * Helper function. Checks relevant statistic config and returns an ADJECTIVE (colorized) for use if one exists.
      * @param {string} Type
      * @param {string} Stat
