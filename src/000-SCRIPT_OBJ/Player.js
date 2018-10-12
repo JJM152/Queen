@@ -716,7 +716,7 @@ App.Entity.Player = class Player {
 			"Isabella":         { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
 			"Fineas":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
         };
-	};
+	}
 
     /**
      * Previously we stored a dictionary of NPC objects. Now we just store some vital information and make new ones as needed.
@@ -729,7 +729,7 @@ App.Entity.Player = class Player {
             this._state.NPCS[npcTag] = { QuestFlags: { }, Mood: data["Mood"], Lust: data["Lust"] };
             return new App.Entity.NPC( data, this._state.NPCS[npcTag]);
         }
-        return new App.Entity.NPC(data, this._state.NPCS[npcTag])
+        return new App.Entity.NPC(data, this._state.NPCS[npcTag]);
     }
 
     /**
@@ -788,7 +788,7 @@ App.Entity.Player = class Player {
         if (Arg == 3) return "@@color:cornflowerblue;&#9789;@@";
         if (Arg == 4) return "@@color:DeepPink;&#9789;@@";
         return "@@color:DeepPink;&#9789;@@";
-    };
+    }
 
     /**
      * Performs a skill roll.
@@ -817,7 +817,7 @@ App.Entity.Player = class Player {
         if (Scaling == true) return XpMod;
         if (DiceRoll >= Target ) return 1;
         return 0;
-    };
+    }
 
     /**
      *
@@ -835,7 +835,7 @@ App.Entity.Player = class Player {
         bonus += this.GetWornSkillBonus(Name);
 
         return bonus;
-    };
+    }
 
     /**
      * Performs a skill roll with a value amount which is modified when returned. Only works on skills
@@ -852,7 +852,7 @@ App.Entity.Player = class Player {
         var ret = Math.ceil(Amount * Mod);
         if (this._state.debugMode) console.log("SkillRoll: Mod="+Mod+",Amount="+Amount+",Ret="+ret+"\n");
         return Math.ceil(Amount * Mod);
-    };
+    }
 
     /**
      * Like a skill roll, but doesn't grant xp. Can roll against other stats as well.
@@ -880,7 +880,7 @@ App.Entity.Player = class Player {
         if (DiceRoll >= Target) return 1;
         return 0;
 
-    };
+    }
     /**
      * Calculate the target of the 1-100 dice roll for a skill check. Always a 5% chance of success/failure.
      * @param {string} SkillName
@@ -929,7 +929,7 @@ App.Entity.Player = class Player {
         }
 
         this.AdjustStat("Energy", -1);
-    };
+    }
 
     /**
      * Simple routine to check if the player can reapply their style.
@@ -951,7 +951,7 @@ App.Entity.Player = class Player {
         var lh = this._state.LastUsedHair;
         var Hair = window.App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0];
         return ( (h1 >= Hair["RESOURCE1"]) && (h2 >= Hair["RESOURCE2"]));
-    };
+    }
 
     /** TODO: THIS ENTIRE AREA IS GARBAGE. REFACTOR IT AND REDO MAKEUP AND HAIRSTYLE STUFF **/
 
@@ -990,7 +990,7 @@ App.Entity.Player = class Player {
             this.UseItemCharges("basic makeup", Makeup["RESOURCE1"]);
             this.UseItemCharges("expensive makeup", Makeup["RESOURCE2"]);
         }
-    };
+    }
 
     /**
      * Calculates the Players "Beauty" based on other statistics.
@@ -999,7 +999,7 @@ App.Entity.Player = class Player {
     Beauty () {
         var cBeauty = Math.round((this.GetStat("BODY", "Face") * 0.4) + (this.Figure() * 0.3 ) + (this.GetStat("STAT", "Fitness") * 0.3));
         return Math.max(1, Math.min(cBeauty, 100));
-    };
+    }
 
     /**
      * Fetish rating is derived from the enlarged (or minimized) size of the Players body parts.
@@ -1025,7 +1025,7 @@ App.Entity.Player = class Player {
         if ((this.GetStatPercent("BODY", "Penis") >= 90) && (this.GetStatPercent("BODY", "Balls") >= 90)) score += 10; // big genitals
 
         return Math.max(0, Math.min(Math.round((( score / 75 ) * 100)), 100)); // clamp 1 - 100 rating
-    };
+    }
 
     /**
      * Derived statistic that reports "style" made up out of hair, makeup and clothing.
@@ -1034,7 +1034,7 @@ App.Entity.Player = class Player {
     Style () {
         var cStyle = Math.round(( this.HairRating() * 0.25 ) + ( this.MakeupRating() * 0.25 ) + (this.ClothesRating() * 0.5));
         return Math.max(0, Math.min(cStyle, 100));
-    };
+    }
 
     /**
      * shim function that returns the "hair rating" of the player, but checks first if they are wearing
@@ -1044,7 +1044,7 @@ App.Entity.Player = class Player {
     HairRating () {
         if (this.GetEquipmentInSlot("Wig") != 0) return Math.max(0, Math.min(this.GetEquipmentInSlot("Wig").HairBonus(), 100));
         return Math.max(0, Math.min(this._state.HairBonus, 100));
-    };
+    }
 
     /**
      * @returns {string}
@@ -1052,7 +1052,7 @@ App.Entity.Player = class Player {
     GetHairStyle () {
         if (this.GetEquipmentInSlot("Wig") != 0) return this.GetEquipmentInSlot("Wig").HairStyle();
         return this._state.HairStyle;
-    };
+    }
 
     /**
      * @returns {string}
@@ -1060,7 +1060,7 @@ App.Entity.Player = class Player {
     GetHairColor () {
         if (this.GetEquipmentInSlot("Wig") != 0) return this.GetEquipmentInSlot("Wig").HairColor();
         return this._state.HairColor;
-    };
+    }
 
     /**
      * The makeup rating of the player.
@@ -1068,7 +1068,7 @@ App.Entity.Player = class Player {
      */
     MakeupRating () {
         return Math.max(0, Math.min(this._state.MakeupBonus, 100));
-    };
+    }
 
     /**
      * Derived statistic (face + makeup). Bonus payout for hand jobs if you have a good face.
@@ -1076,7 +1076,7 @@ App.Entity.Player = class Player {
      */
     FaceRating () {
         return Math.ceil(Math.max(0, Math.min((( this.MakeupRating() + this.GetStat("BODY", "Face")) / 2), 100)));
-    };
+    }
 
     /**
      * Iterates through players worn items and sums .Style() property.
@@ -1091,7 +1091,7 @@ App.Entity.Player = class Player {
             cStyle += this.Clothing.Equipment[prop].Style();
         }
         return Math.max(1, Math.min(Math.round(((cStyle / 100 ) * 100)), 100)); // 1 - 100 rating
-    };
+    }
 
     /**
      *
@@ -1109,7 +1109,7 @@ App.Entity.Player = class Player {
             Rating += this.Clothing.Equipment[prop].CategoryBonus(Spec);
         }
         return Rating;
-    };
+    }
 
     /**
      * Derived statistic, lends itself to Beauty. WaistRating, BustRating, HipsRating and AssRating contribute.
@@ -1118,7 +1118,7 @@ App.Entity.Player = class Player {
     Figure () {
         var tFig = Math.round((this.WaistRating() + this.BustRating() + this.HipsRating() + this.AssRating()) / 4);
         return Math.max(1, Math.min(tFig, 100)); // Normalize between 1 - 100
-    };
+    }
 
     /**
      * Calculates "golden ratio" for waist @ Player's height and then returns a score relative their current waist.
@@ -1127,7 +1127,7 @@ App.Entity.Player = class Player {
     WaistRating () {
         var GoldenWaist = Math.round((window.App.PR.StatToCM(this, "Height") * 0.375)); // 54cm to 78cm
         return Math.round(((GoldenWaist / window.App.PR.WaistInCM(this)) / 1.8) * 100);
-    };
+    }
 
     /**
      * Calculates "golden ratio" for bust @ Player's height and then returns a score relative their current bust.
@@ -1136,7 +1136,7 @@ App.Entity.Player = class Player {
     BustRating () {
         var GoldenBust = (Math.round((window.App.PR.StatToCM(this, "Height") * 0.375)) * 1.5 );
         return Math.round(((window.App.PR.BustCCtoCM(this) / GoldenBust) / 1.6) * 100);
-    };
+    }
 
     /**
      * Calculates "golden ratio" for hips @ Player's height and then returns a score relative their current bust.
@@ -1145,7 +1145,7 @@ App.Entity.Player = class Player {
     HipsRating () {
         var GoldenHips = (Math.round((App.PR.StatToCM(this, "Height") * 0.375)) * 1.5 );
         return Math.round(((App.PR.HipsInCM(this) / GoldenHips) / 1.6) * 100);
-    };
+    }
 
     /**
      * Combination of Ass + Hips.
@@ -1153,7 +1153,7 @@ App.Entity.Player = class Player {
      */
     AssRating () {
         return Math.round((this.GetStatPercent("BODY", "Ass") + this.GetStatPercent("BODY", "Hips")) / 2);
-    };
+    }
 
     /**
      * For now just the percentage of the lips 1-100.
@@ -1161,7 +1161,7 @@ App.Entity.Player = class Player {
      */
     LipsRating () {
         return this.GetStatPercent("BODY", "Lips");
-    };
+    }
 
     /**
      * Returns the config settings for a statistic type.
@@ -1229,10 +1229,10 @@ App.Entity.Player = class Player {
 
     GetMaxStat (Type, StatName) {
         return this.GetStatConfig(Type)[StatName]["MAX"];
-    };
+    }
     GetMinStat (Type, StatName) {
         return this.GetStatConfig(Type)[StatName]["MIN"];
-    };
+    }
 
     /**
      * @param {string} Type
@@ -1241,7 +1241,7 @@ App.Entity.Player = class Player {
      */
     GetStatPercent (Type, StatName) {
         return Math.floor(((this.GetStat(Type, StatName) - this.GetMinStat(Type, StatName)) / ((this.GetMaxStat(Type, StatName) - this.GetMinStat(Type, StatName)))) * 100);
-    };
+    }
 
     GetLeveling (Type, StatName, TargetScore) {
         var Levels = this.GetStatConfig(Type)[StatName]["LEVELING"];
@@ -1261,7 +1261,7 @@ App.Entity.Player = class Player {
         }
 
         return Level;
-    };
+    }
 
     /**
      * @param {string} Type
@@ -1271,22 +1271,22 @@ App.Entity.Player = class Player {
      */
     GetCapStat (Type, StatName, Amount) {
         return Math.round((Math.max(this.GetMinStat(Type, StatName), Math.min(Amount, this.GetMaxStat(Type, StatName)))) * 100) / 100;
-    };
+    }
 
     AdjustStat (StatName, Amount) {
         if (this._state.debugMode) console.log("AdjustStat: Name="+StatName+", Amount="+Amount);
         this._state.CoreStats[StatName] = this.GetCapStat("STAT", StatName, ( this.GetStat("STAT", StatName) + Amount));
-    };
+    }
 
     AdjustBody (StatName, Amount) {
         if (this._state.debugMode) console.log("AdjustBody: Name="+StatName+", Amount="+Amount);
         this._state.BodyStats[StatName] = this.GetCapStat("BODY", StatName, ( this.GetStat('BODY', StatName) + Amount));
-    };
+    }
 
     AdjustSkill (StatName, Amount) {
         if (this._state.debugMode) console.log("AdjustSkill: Name="+StatName+", Amount="+Amount);
         this._state.Skills[StatName] = this.GetCapStat("SKILL", StatName, ( this.GetStat('SKILL', StatName) + Amount));
-    };
+    }
 
     AdjustXP (Type, StatName, Amount, Limiter) {
         Amount = Math.ceil(Amount); // No floats.
@@ -1306,17 +1306,17 @@ App.Entity.Player = class Player {
         if (Type == "BODY")  this._state.BodyXP[StatName] += Amount;
         if (this._state.debugMode)
             console.debug("AdjustXP: Adjusted by "+Amount);
-    };
+    }
 
     AdjustStatXP (StatName, Amount, Limiter) {
         return this.AdjustXP("STAT", StatName, Amount, Limiter);
-    };
+    }
     AdjustBodyXP (StatName, Amount, Limiter) {
         return this.AdjustXP("BODY", StatName, Amount, Limiter);
-    };
+    }
     AdjustSkillXP (StatName, Amount, Limiter) {
         return this.AdjustXP("SKILL", StatName, Amount, Limiter);
-    };
+    }
 
     LevelStat (Type, StatName) {
         var TargetScore = this.GetStatXP(Type, StatName) < 0 ? -1 : 1;
@@ -1360,8 +1360,7 @@ App.Entity.Player = class Player {
             }
         }
         this.AdjustXP(Type, StatName, Cost);
-
-    };
+    }
 
     LevelStatGroup (Type) {
         var Keys;
@@ -1370,15 +1369,15 @@ App.Entity.Player = class Player {
         if (Type == "BODY") Keys = Object.keys(this._state.BodyStats);
 
         for (var i = 0; i < Keys.length; i++) this.LevelStat(Type, Keys[i]);
-    };
+    }
 
     AdjustMoney (m) {
         this._state.Money = Math.max(0, (this._state.Money + Math.ceil(m)));
-    };
+    }
 
     RandomAdjustBodyXP (Amount) {
         this.AdjustBodyXP(Object.keys(this._state.BodyStats)[Math.floor(Math.random() * Object.keys(this._state.BodyStats).length)], Amount, 0);
-    };
+    }
 
     DoHealing (OvernightFlag) {
         var Heal = 5 + ( (this.GetStat("STAT", "Energy")*2) + (this.GetStat("STAT", "Fitness") / 10));
@@ -1397,7 +1396,7 @@ App.Entity.Player = class Player {
                     " is probably to blame.");
             }
         }
-	};
+	}
 
 	BodyEffects() {
         if(this._state.BodyEffects !== undefined) return App.Data.NaturalBodyEffects.concat(this._state.BodyEffects);
@@ -1458,7 +1457,7 @@ App.Entity.Player = class Player {
             this.LevelStat("STAT", "Nutrition");
             if (this._state.Phase == 4) break;
         }
-    };
+    }
 
     Rest () {
         this._state.SleepLog = [];
@@ -1466,7 +1465,7 @@ App.Entity.Player = class Player {
         this.DoHealing(0);
         this.AdjustStat("Energy", 1);
         this.LevelStatGroup("SKILL");
-    };
+    }
 
     NPCNextDay () {
         for (var prop in this.NPCS) { // NPC mood/desire/quest flags.
@@ -1476,7 +1475,7 @@ App.Entity.Player = class Player {
             npc.AdjustFeelings();
             npc.ResetFlags();
         }
-    };
+    }
 
     /**
      * @returns {*}
@@ -1496,7 +1495,7 @@ App.Entity.Player = class Player {
         }
 
         return dict;
-    };
+    }
 
     /**
      * @param {number=} n Number of days to look ahead.
@@ -1507,7 +1506,7 @@ App.Entity.Player = class Player {
         var Routes = window.App.Data.Lists["ShipRoute"];
         var days = (this._state.SailDays + n >= Routes.length ? 0 : this._state.SailDays + n);
         return (Routes[days]["P"] != "AtSea");
-    };
+    }
 
     /**
      *
@@ -1807,7 +1806,7 @@ App.Entity.Player = class Player {
             }
         }
         return bonus;
-    };
+    }
 
     /**
      * Find item and reduce charges. Delete from inventory if out of charges.
@@ -1818,7 +1817,7 @@ App.Entity.Player = class Player {
         var o = this.GetItemById(ItemId);
         o.RemoveCharges(1); // will remove the item from inventory if charges reaches 0
         return o;
-    };
+    }
 
     /**
      * Use an item. Apply effects. Delete from inventory if out of charges.
@@ -1830,7 +1829,7 @@ App.Entity.Player = class Player {
         o.ApplyEffects(this);
         var msg = o.Message(this);
         return msg;
-    };
+    }
 
     /**
      * Applies named effests on the player
@@ -1845,7 +1844,7 @@ App.Entity.Player = class Player {
 
     pBodyChange (BodyPart, Direction) {
         return window.App.Data.Lists["BodyChanges"][BodyPart][Direction];
-    };
+    }
 
     /**
      * @param {string} Type
@@ -1857,7 +1856,7 @@ App.Entity.Player = class Player {
         if ((typeof this._state.History[Type][Flag] === 'undefined')) return 0;
 
         return this._state.History[Type][Flag];
-    };
+    }
 
     AddHistory(Type, Flag, Amount) {
         if ((typeof this._state.History[Type] === 'undefined')) this._state.History[Type] = { };
@@ -1865,11 +1864,11 @@ App.Entity.Player = class Player {
 
         var t = this.GetHistory(Type, Flag);
         this._state.History[Type][Flag] = (t + Amount);
-    };
+    }
 
     RemoveHistory(Type, Flag) {
         if ((typeof this._state.History[Type][Flag] !== 'undefined')) delete this._state.History[Type][Flag];
-    };
+    }
 
 // Voodoo
     /**
@@ -1878,15 +1877,15 @@ App.Entity.Player = class Player {
      */
     HasHex(Hex) {
         return this._state.VoodooEffects.hasOwnProperty(Hex) != false;
-    };
+    }
 
     SetHex(Hex, Value) {
         this._state.VoodooEffects[Hex] = Value;
-    };
+    }
 
     RemoveHex(Hex) {
         delete this._state.VoodooEffects[Hex];
-    };
+    }
 
     EndHexDuration() {
 
@@ -1901,11 +1900,11 @@ App.Entity.Player = class Player {
                     if (this._state.VoodooEffects[prop] <= 0) {
                         delete this._state.VoodooEffects["PIRATES_PROWESS"];
                         delete this._state.VoodooEffects["PIRATES_PROWESS_DURATION"];
-                        this._state.SleepLog.push("You feel the effects of your pirates skill leave you...")
+                        this._state.SleepLog.push("You feel the effects of your pirates skill leave you...");
                     }
             }
         }
-    };
+    }
 
     // Acquire everything for debug purposes
     AcquireAllItems() {
@@ -1921,7 +1920,7 @@ App.Entity.Player = class Player {
             }
         }
         console.groupEnd();
-    };
+    }
 
     /**
      * Returns number that represents how high-class the PC looks. 0 is obvious commoner and 100 is a rich noble. Can be higher or lower.
@@ -1975,7 +1974,7 @@ App.Entity.Player = class Player {
         console.log("Total: " + result);
         console.groupEnd();
         return result;
-    };
+    }
 
     // TODO: include other factors and maybe calibrate.
     /**
@@ -2018,7 +2017,7 @@ App.Entity.Player = class Player {
         console.groupEnd();
 
         return result;
-    };
+    }
 
     // region SLOT wheel stuff
 
@@ -2030,7 +2029,7 @@ App.Entity.Player = class Player {
         if (this._state.CurrentSlots + 1 > this.MaxSlots) return false;
         this._state.CurrentSlots++;
         return true;
-    };
+    }
 
     /**
      * Fetch all reels in the players inventory.
@@ -2038,7 +2037,7 @@ App.Entity.Player = class Player {
      */
     GetReelsInInventory() {
         return this.Inventory.filter( function(o) { return (typeof o.Type === 'function') && (o.Type() == 'REEL'); });
-    };
+    }
 
     /**
      * Fetch a single reel by ID.
@@ -2049,7 +2048,7 @@ App.Entity.Player = class Player {
         var arr = this.GetReelsInInventory();
         arr = arr.filter( function(o) { return (typeof o.Id === 'function') && (o.Id() == filterID); });
         if (arr.length > 0) return arr[0]; // huh? At least grab the first one.
-    };
+    }
 
     /**
      * Attempt to pick a reel from inventory by Id() and then equip it to a slot. It will remove any reel
@@ -2134,7 +2133,7 @@ App.Entity.Player = class Player {
     // Game/Environment Variables
     get Day() { return this._state.Day; }
     get Phase() { return this._state.Phase; } // 0 morning, 1 afternoon, 2 evening, 3 night, 4 late night
-    set Phase(n) { this._state.Phase = n };
+    set Phase(n) { this._state.Phase = n; }
 
     // Player Statistic Variables
     get CoreStats() { return this._state.CoreStats; }

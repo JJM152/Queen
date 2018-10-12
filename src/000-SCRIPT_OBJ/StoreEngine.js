@@ -79,7 +79,7 @@ var Store = function(Player, NPC, StoreData) {
         });
 
         //return Inventory; // Show item, but no buy.
-        return Inventory.filter(function (Item) { return Player.OwnsWardrobeItem(Item) == false});
+        return Inventory.filter(function (Item) { return Player.OwnsWardrobeItem(Item) == false;});
     };
 
     this.GetCommonInventory = function() {
@@ -90,7 +90,7 @@ var Store = function(Player, NPC, StoreData) {
         var Mood = this._NPC.Mood();
         return $.grep(this._Player.StoreInventory[this._Data["ID"]]["RARE"],
             function(Item) {
-                return ((Item["LOCK"] != 1) && (Item["CATEGORY"] == "RARE") && (Mood >= Item["MOOD"]))
+                return ((Item["LOCK"] != 1) && (Item["CATEGORY"] == "RARE") && (Mood >= Item["MOOD"]));
             });
     };
 
