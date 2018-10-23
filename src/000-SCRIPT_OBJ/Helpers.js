@@ -477,7 +477,7 @@ App.PR = new function() {
      * @param {App.Entity.Player} Player
      * @param {string} NPC - String, ID of the NPC in Player.NPCS array.
      */
-        this.pQuestDialog = function(QuestID, Stage, Player, NPC) { return this.TokenizeString(Player, NPC, App.Data.Quests[QuestID][Stage]); };
+    this.pQuestDialog = function(QuestID, Stage, Player, NPC) { return this.TokenizeString(Player, NPC, App.Data.Quests[QuestID][Stage]); };
 
     /**
      * Prints out the requirements for completion of a quest.
@@ -511,7 +511,6 @@ App.PR = new function() {
                 switch (checks[i]["TYPE"]) {
                     case "FLAG":
                         continue;
-                        break;
                     case "NPC_MOOD":
                         bMeter = true;
                         Val = Player.GetNPC(Name).Mood();
@@ -574,6 +573,11 @@ App.PR = new function() {
                         var count = Player.GetHistory("CUSTOMERS", Name);
                         Val = (count - flag >= checks[i]["VALUE"]);
                         pString = "Satisfy Customers "+(count-flag)+"/"+checks[i]["VALUE"];
+                        break;
+                    case "TRACK_PROGRESS":
+                        bMeter = true;
+                        Val = App.QuestEngine.GetProgressValue(Player, Name);
+                        pString = "Progress";
                         break;
                 }
 
@@ -1003,6 +1007,28 @@ App.PR = new function() {
      */
     this.GetItemFavoriteIcon = function (IsFavorite) {
         return IsFavorite ? "@@color:yellow;&#9733;@@" : "@@color:white;&#9734;@@";
+    };
+
+
+    /**
+     * Get random item from inventory
+     * @param {App.Entity.Player} Player
+     * @returns {string}
+     */
+    this.GetRandomItemId = function(Player) {
+        var itemTypeCount = Player.InventoryItemsCount();
+        var randomIndex = Math.floor(Math.random() * itemTypeCount);
+        var id = "";
+        Player.InventoryManager.EveryItemRecord(undefined, undefined,
+            function(n, tag, itemClass) {
+                if (randomIndex <= 0) {
+                    id = App.Item.MakeId(itemClass, tag);
+                    return false;
+                }
+                randomIndex -= n;
+                return true;}
+        );
+        return id;
     };
 
     this.RefreshTwineMoney = function() {
