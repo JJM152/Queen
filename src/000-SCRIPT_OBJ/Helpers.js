@@ -1048,6 +1048,48 @@ App.PR = new function() {
         }
         return res;
     };
+
+    /**
+     * Highlight active button in a tabbar
+     *
+     * Finds the active element and appends " active" to its style, removing " active" from all
+     * other children of the tabbar.
+     * @param {string} tabbarId  Id of the tab bar element
+     * @param {string} activeButtonId Id of the button for the active tab
+     * @param {string} activeTabText Text to set for .activeTabCaption children of the tab bar
+     *
+     * @example <div id="tabbar">
+     *  <span class="activeTabCaption">placeholder text</span>
+     *  <span class="tablink" id="btn1"><button class="mybutton">Button1</button></span>
+     *  <span class="tablink" id="btn2"><button class="mybutton">Button2</button></span>
+     * </div>
+     *
+     * Then calling HighlightActiveTabButton("tabbar", "btn1", "Sample text")
+     *
+     * will replace "placeholder text" with "Sample text" and append " active" to btn1 class:
+     * <span class="tablink" id="btn1"><button class="mybutton active">Button1</button></span>
+     *
+     * The next call HighlightActiveTabButton("tabbar", "btn2", "Sample text2") will result in:
+     * <div id="tabbar">
+     *  <span class="activeTabCaption">Sample text2</span>
+     *  <span class="tablink" id="btn1"><button class="mybutton">Button1</button></span>
+     *  <span class="tablink" id="btn2"><button class="mybutton active">Button2</button></span>
+     * </div>
+     */
+    this.HighlightActiveTabButton = function(tabbarId, activeButtonId, activeTabText) {
+        var tabBar = document.getElementById(tabbarId);
+        if (!tabBar) return;
+        var tabs = tabBar.getElementsByClassName("tablink");
+        for (var e of tabs) {
+            e.firstChild.className = e.firstChild.className.replace(" active", "");
+        }
+        var linkElem = document.getElementById(activeButtonId);
+        if (linkElem) linkElem.firstChild.className += " active";
+        var activeTab = tabBar.getElementsByClassName("activeTabCaption");
+        for (e of activeTab) {
+            e.innerText = activeTabText;
+        }
+    };
 };
 
 /**

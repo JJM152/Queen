@@ -1,36 +1,15 @@
 :: Journal [custom-menu]
 @@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>
 
-@@color:DeepPink;Active Quests@@
-<<set _QE = window.App.QuestEngine;>>\
-<<set _QLA = _QE.GetQuests("active", setup.player);>>\
-<<set _QLC = _QE.GetQuests("completed", setup.player);>>\
-<<if _QLA.length == 0>>\
-No active quests.
-<<else>>\
-<<for _i = 0; _i < _QLA.length; _i++>>\
-<<if (_QLA[_i]["JOURNAL_ENTRY"] != "HIDDEN")>>\
-<<set _NPC = setup.player.GetNPC(_QLA[_i]["GIVER"]);>>\
-//<<print "[" +_NPC.pName() + " - " + _QLA[_i]["Title"] + "]";>>//
-<<print window.App.PR.pQuestDialog(_QLA[_i]["ID"], "JOURNAL_ENTRY", setup.player, _NPC);>>
-<<if _QLA[_i]["CHECKS"].length != 0>>\
-<<print window.App.PR.pQuestRequirements(_QLA[_i]["ID"], setup.player) + "\n";>>
-<</if>>\
-<</if>>\
-<</for>>\
-<</if>>\
+<span class="tabbar" id="JournalTabs">\
+	@@.activeTabCaption;<span>placeholder</span>@@\
+	@@.tablink;#completedQuests;<<button "@@color:yellow;Completed Quests@@">>\
+  		<<replace '#JournalUI'>><<JournalList 'completed' 'JournalTabs' 'completedQuests' 'Completed Quests'>><</replace>>
+	<</button>>@@\
+	@@.tablink;#activeQuests;<<button "@@color:DeepPink;Active Quests@@">>\
+  		<<replace '#JournalUI'>><<JournalList 'active' 'JournalTabs' 'activeQuests' 'Active Quests'>><</replace>>\
+	<</button>>@@ \
+</span>
 <hr>
-@@color:yellow;Completed Quests@@
-<<if _QLC.length == 0>>\
-No completed quests.
-
-<<else>>\
-<<for _i = 0; _i < _QLC.length; _i++>>\
-<<if (_QLC[_i]["JOURNAL_COMPLETE"] != "HIDDEN")>>\
-<<set _NPC = setup.player.GetNPC(_QLC[_i]["GIVER"]);>>\
-//<<print "[" +_NPC.pName() + " - "  + _QLC[_i]["Title"] + "]";>>//
-<<print window.App.PR.pQuestDialog(_QLC[_i]["ID"], "JOURNAL_COMPLETE", setup.player, _NPC);>>
-<</if>>
-
-<</for>>\
-<</if>>
+<span id="JournalUI"></span>
+<<run $(document).one(':passagedisplay', function(){document.getElementById("activeQuests").firstChild.click()});>>

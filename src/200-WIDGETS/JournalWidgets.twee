@@ -1,0 +1,26 @@
+:: JournalWidgets [widget]
+
+<<widget "JournalList">><<nobr>>
+<<run App.PR.HighlightActiveTabButton($args[1], $args[2], "Journal - " +  $args[3])>>
+<<set _QE = window.App.QuestEngine;>>
+<<if $args[0] == "active">>
+	<<set _entryType to "JOURNAL_ENTRY">>
+<<elseif $args[0] == "completed">>
+	<<set _entryType to "JOURNAL_COMPLETE">>
+<</if>>
+<<if $args[0] == "active" || $args[0] == "completed" >>
+	<<set _QL = _QE.GetQuests($args[0], setup.player);>>
+	<<for _i = 0; _i < _QL.length; _i++>>
+		<<if (_QL[_i]["JOURNAL_ENTRY"] == "HIDDEN")>> <<continue>><</if>>
+		<<set _NPC = setup.player.GetNPC(_QL[_i]["GIVER"]);>>
+		<<print "[" +_NPC.pName() + " - " + _QL[_i]["Title"] + "]<br>";>>
+		<<print window.App.PR.pQuestDialog(_QL[_i]["ID"], _entryType, setup.player, _NPC);>>
+		<<print "<br><br>">>
+		<<if $args[0] == "active" && _QL[_i]["CHECKS"].length != 0>>
+			<<print window.App.PR.pQuestRequirements(_QL[_i]["ID"], setup.player) + "\n";>>
+		<</if>>
+		<<print "<hr>">>
+	<</for>>
+<</if>>
+<</nobr>>
+<</widget>>
