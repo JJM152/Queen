@@ -223,9 +223,9 @@ App.PR = new function() {
      * @param {number} Value2
      * @returns {number}
      */
-	this.GetTotalXPPoints = function(Type, Stat, ValueA, ValueB)
-	{
-        var Ratings = this.GetStatConfig(Type)[Stat].LEVELING;
+	this.GetTotalXPPoints = function(Type, Stat, ValueA, ValueB) {
+        var statCfg = this.GetStatConfig(Type)[Stat];
+        var Ratings = statCfg.hasOwnProperty("LEVELING_COST") ? statCfg.LEVELING_COST : statCfg.LEVELING;
 
         var lastLeveledTo = ValueA;
         var res = 0;

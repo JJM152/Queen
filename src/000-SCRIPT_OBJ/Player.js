@@ -1371,7 +1371,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     }
 
     GetLeveling (Type, StatName, TargetScore) {
-        var Levels = this.GetStatConfig(Type)[StatName]["LEVELING"];
+        var statCfg = this.GetStatConfig(Type)[StatName];
+        var Levels = statCfg.hasOwnProperty("LEVELING_COST") ? statCfg["LEVELING_COST"] : statCfg["LEVELING"];
         //var Percent = Math.round(( (( TargetScore - this.GetMinStat(Type, StatName)) / ( this.GetMaxStat(Type, StatName) - this.GetMinStat(Type,StatName))) * 100));
         var Percent = this.GetStatPercent(Type, StatName, this.GetStat(Type, StatName) + TargetScore);
         var Level = {"COST": 100, "STEP": 1};
