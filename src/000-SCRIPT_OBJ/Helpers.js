@@ -225,20 +225,21 @@ App.PR = new function() {
      */
 	this.GetTotalXPPoints = function(Type, Stat, ValueA, ValueB) {
         var statCfg = this.GetStatConfig(Type)[Stat];
-        var Ratings = statCfg.hasOwnProperty("LEVELING_COST") ? statCfg.LEVELING_COST : statCfg.LEVELING;
+        var levelingCost = statCfg.hasOwnProperty("LEVELING_COST") ? statCfg.LEVELING_COST : statCfg.LEVELING;
 
+        if (levelingCost instanceof Function) return levelingCost(ValueB) - levelingCost(ValueA);
         var lastLeveledTo = ValueA;
         var res = 0;
         var prop;
-		for (prop in Ratings) {
-            if (!Ratings.hasOwnProperty(prop)) continue;
+		for (prop in levelingCost) {
+            if (!levelingCost.hasOwnProperty(prop)) continue;
             if (prop <= ValueA) continue;
             if (prop > ValueB) break;
 
-            res += (prop - lastLeveledTo) * Ratings[prop].COST;
+            res += (prop - lastLeveledTo) * levelingCost[prop].COST;
             lastLeveledTo = prop;
 		}
-        res += (ValueB - lastLeveledTo) * Ratings[prop].COST;
+        res += (ValueB - lastLeveledTo) * levelingCost[prop].COST;
 		return res;
 	};
 
