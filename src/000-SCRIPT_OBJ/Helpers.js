@@ -803,8 +803,10 @@ App.PR = new function() {
      * @returns {XML|string|void}
      */
     this.pCup = function (Player) {
-        var bPercent = Player.GetStatPercent("BODY", "Bust");
-        return this.GetRating("Cup", bPercent) + " cup";
+        var bustStatVal = Player.GetStat("BODY", "Bust");
+        var cc = (this.GetTotalXPPoints("BODY", "Bust", 0, bustStatVal) +
+            Player.GetStatXP("BODY", "Bust")) / 3.23;
+        return App.unitSystem.cupString(bustStatVal) + " cup (" + App.unitSystem.massString(cc, true, 1000) +" each)";
     };
 
     /**

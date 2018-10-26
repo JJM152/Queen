@@ -112,16 +112,21 @@ App.UnitSystems.AbstractUnitSystem = class {
 		return this.valueString("mass", x, compact, sample);
 	}
 
-	cupString(bustCM, underbustCM) {
-		var diff = this.lengthValue(bustCM - underbustCM);
+	cupString(bustStatVal) {
+		// stat val is the cup size in EU system multiplied by 3
+		var cupSizeEU = bustStatVal / 3.;
+		// cup size is bust - underbust difference in cm divided by 2
+		var diff = this.lengthValue(cupSizeEU * 2 + 4);
 		/** @type Object.<number, string> */
 		var cups = this.braCups;
+		var cupStr = "";
+		var lastSmallerCup;
 		for (var cup in cups) {
 			if (!cups.hasOwnProperty(cup)) continue;
-
-			if (diff <= cup) return cups[cup];
+			if (diff < cup) break;
+			lastSmallerCup = cup;
 		}
-		return "OutOfRangeCup: " + diff;
+		return cupStr + cups[lastSmallerCup];
 	}
 };
 
@@ -140,7 +145,7 @@ App.UnitSystems.Metric = class extends App.UnitSystems.AbstractUnitSystem {
 			"&thinsp;");
 
 		this.braCups = { // difference in cm, taken from http://brasizecalculator.eu/ for underbust of  80 cm
-			0 : "AA",
+			0 : "0",
 			5 : "AA",
 			7 : "A",
 			9 : "B",
@@ -167,7 +172,15 @@ App.UnitSystems.Metric = class extends App.UnitSystems.AbstractUnitSystem {
 			51 : "W",
 			53 : "X",
 			55 : "Y",
-			57 : "Z"
+			57 : "Z",
+			59 : "ZA",
+			61 : "ZB",
+			63 : "ZC",
+			65 : "ZD",
+			67 : "ZE",
+			69 : "ZF",
+			71 : "ZG",
+			73 : "ZH"
 		};
 	}
 };
@@ -187,7 +200,7 @@ App.UnitSystems.Imperial = class extends App.UnitSystems.AbstractUnitSystem {
 			"&thinsp;");
 
 		this.braCups = { // difference in inches, taken from http://brasizecalculator.eu/
-			0 : "AA",
+			0 : "0",
 			1 : "AA",
 			2 : "A",
 			3 : "B",
@@ -263,8 +276,8 @@ App.UnitSystem = class UnitSystem {
 		return this.system.massString(x, compact, sample);
 	}
 
-	cupString(bustCM, underbustCM) {
-		return this.system.cupString(bustCM, underbustCM);
+	cupString(bustStatValue) {
+		return this.system.cupString(bustStatValue);
 	}
 
 	static unitSettingChangedHandler() {

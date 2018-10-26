@@ -128,25 +128,25 @@ App.Data.Lists = {
                       100 : { "COST" : 1500, "STEP" : 1, "ADJECTIVE" : "dick sucking",      "COLOR" : 16}
                     }
                 },
-                "Bust": { "MIN" : 0, "MAX" : 100, "START" : 0, "CM_MIN" : 80, "CM_MAX": 130,
-                    "LEVELING_COST" : {
-                        0 : { "COST" : 150, "STEP" : 1},
-                       11 : { "COST" : 175, "STEP" : 1},
-                       19 : { "COST" : 200, "STEP" : 1},
-                       29 : { "COST" : 220, "STEP" : 1},
-                       34 : { "COST" : 300, "STEP" : 1},
-                       39 : { "COST" : 325, "STEP" : 1},
-                       44 : { "COST" : 350, "STEP" : 1},
-                       49 : { "COST" : 375, "STEP" : 1},
-                       54 : { "COST" : 400, "STEP" : 1},
-                       59 : { "COST" : 425, "STEP" : 1},
-                       64 : { "COST" : 450, "STEP" : 1},
-                       76 : { "COST" : 475, "STEP" : 1},
-                       82 : { "COST" : 500, "STEP" : 1},
-                       88 : { "COST" : 525, "STEP" : 1},
-                       94 : { "COST" : 550, "STEP" : 1},
-                      100 : { "COST" : 575, "STEP" : 1}
-                    },
+                "Bust": {
+                    "MIN": 0, "MAX": 100, "START": 0, "CM_MIN": 80, "CM_MAX": 130,
+                    /* We use a function here because we want the exact second order polynom here
+                     * Alternatively, it could be substituted by a leveling table, as used by other
+                     * stats. The table would look as follows:
+                     * "LEVELING_COST": {
+                     *    1: { "COST": 659, "STEP": 1},
+                     *    2: { "COST": 53, "STEP": 1},
+                     *    3: { "COST": 59, "STEP": 1},
+                     *   .... // and so on according to the formula below
+                     * }
+                     * Please note that the table lists XP costs between levels, while the function
+                     * always returns XP costs to go from level 0 to the given one.
+                     */
+                    "LEVELING_COST" : function(level) {
+                        if (level <= 0) return 0;
+                        var cup = level/3;
+                        return Math.floor((9.51*cup*cup + 39.7*cup + 190) * 3.23);
+                        },
                     "LEVELING" : {
                         0 : { "ADJECTIVE" : "flat",        "COLOR" :  1},
                         5 : { "ADJECTIVE" : "swollen",     "COLOR" :  3},
