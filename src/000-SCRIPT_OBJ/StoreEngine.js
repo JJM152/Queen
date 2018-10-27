@@ -1,6 +1,6 @@
 window.App = window.App || { Data: { }, Entity: { } };
 
-window.App.StoreEngine = new function() {
+App.StoreEngine = new function() {
 
     /**
      * Creates a store object and returns it to the Twine engine.

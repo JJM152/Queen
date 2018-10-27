@@ -117,8 +117,8 @@ App.QuestEngine = new function() {
             /** TODO: Refactor this to check also for wearing specific items. **/
             case "IS_WEARING":
             console.log('Name='+Key+",Value="+Value);
-                if(Value == "NOT" ) return (Player.GetEquipmentInSlot(Key) == 0);
-                if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Key) == 0) return false;
+                if(Value == "NOT" ) return (Player.GetEquipmentInSlot(Key) == null);
+                if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Key) == null) return false;
                 return Player.IsEquipped(Value);
                 break;
             case "TRACK_CUSTOMERS":
@@ -140,7 +140,7 @@ App.QuestEngine = new function() {
      * @returns {*}
      */
     this.GetQuestRewards = function (QuestID, RewardType) {
-        var r = window.App.Data.Quests[QuestID]["REWARD"];
+        var r = App.Data.Quests[QuestID]["REWARD"];
         if (typeof RewardType === 'undefined') return r;
         return r.filter(function (o) {
             return o["REWARD_TYPE"] == RewardType;
@@ -174,7 +174,7 @@ App.QuestEngine = new function() {
         for (i = 0; i < c.length; i++) {
             if (c[i]["TYPE"] == 'QUEST_ITEM') {
                 var o = Player.GetItemByName(c[i]["NAME"]);
-                if (o !== 'undefined' )  {
+                if (o !== undefined)  {
                     if (o._itemClass == 'QUEST') {
                         Player.DeleteItem(o);
                     } else {
@@ -330,7 +330,7 @@ App.QuestEngine = new function() {
      */
     this.QuestAvailable = function (Player, QuestID) {
         if ((this.QuestCompleted(Player, QuestID) == true) || (this.QuestActive(Player, QuestID) == true)) return false;
-        var PRE = window.App.Data.Quests[QuestID]["PRE"];
+        var PRE = App.Data.Quests[QuestID]["PRE"];
         var Type, Name, Value;
 
         for (var i = 0; i < PRE.length; i++) {
@@ -353,11 +353,11 @@ App.QuestEngine = new function() {
                 break;
                 case "IS_WEARING":
                 console.log("Name="+Name+",Value="+Value);
-                    if(Value == "NOT" ) return (Player.GetEquipmentInSlot(Name) == 0);
-                    if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Name) == 0) return false;
+                    if(Value == "NOT" ) return (Player.GetEquipmentInSlot(Name) == null);
+                    if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Name) == null) return false;
                     return Player.IsEquipped(Value);
-                    //if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Name) != 0){ return false } }
-                    //if(Value != "NOT"){ if(Player.GetEquipmentInSlot(Name) == 0){ return false } }
+                    //if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Name) != null){ return false } }
+                    //if(Value != "NOT"){ if(Player.GetEquipmentInSlot(Name) == null){ return false } }
                 break;
             }
         }

@@ -7,5 +7,5 @@ mysterious.
 <<NPC "Yvonne">>
 
 @@color:yellow;Interact@@: \
-<<if setup.player.GetEquipmentInSlot("Neck") == 0>>@@color:grey;Collar Swap@@<<else>><<click "Collar Swap" "CollarSwap">><<set $GameBookmark = passage(); >><</click>><</if>>
+<<if setup.player.GetEquipmentInSlot("Neck") == null>>@@color:grey;Collar Swap@@<<else>><<click "Collar Swap" "CollarSwap">><<set $GameBookmark = passage(); >><</click>><</if>>
 @@color:lime;Travel@@: [[High Hill District|HighHill]]
