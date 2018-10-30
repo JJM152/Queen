@@ -1237,16 +1237,19 @@ App.Entity.Player = class Player {
     /**
      * @param {string} Type
      * @param {string} StatName
+     * @param {number} [StatValue]
      * @returns {number}
      */
-    GetStatPercent (Type, StatName) {
-        return Math.floor(((this.GetStat(Type, StatName) - this.GetMinStat(Type, StatName)) / ((this.GetMaxStat(Type, StatName) - this.GetMinStat(Type, StatName)))) * 100);
+    GetStatPercent (Type, StatName, StatValue) {
+        var minStatValue = this.GetMinStat(Type, StatName);
+        var value = (StatValue === undefined ? this.GetStat(Type, StatName) : StatValue);
+        return Math.floor(((value - minStatValue) / (this.GetMaxStat(Type, StatName) - minStatValue)) * 100);
     }
 
     GetLeveling (Type, StatName, TargetScore) {
         var Levels = this.GetStatConfig(Type)[StatName]["LEVELING"];
         //var Percent = Math.round(( (( TargetScore - this.GetMinStat(Type, StatName)) / ( this.GetMaxStat(Type, StatName) - this.GetMinStat(Type,StatName))) * 100));
-        var Percent = this.GetStatPercent(Type, StatName) + TargetScore;
+        var Percent = this.GetStatPercent(Type, StatName, this.GetStat(Type, StatName) + TargetScore);
         var Level = {"COST": 100, "STEP": 1};
 
         for (var prop in Levels) {
