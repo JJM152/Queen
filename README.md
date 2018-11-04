@@ -1,9 +1,9 @@
 # Queen
 Queen of the Seas Game
 
-IGDB Entry: https://www.tfgamessite.com/index.php?module=viewgame&id=1680
+IGDB Entry: https://tfgames.site/index.php?module=viewgame&id=1680
 
-Discussion Forum: https://www.tfgamessite.com/phpbb3/viewtopic.php?f=6&t=11112
+Discussion Forum: https://tfgames.site/phpbb3/viewtopic.php?f=6&t=11112
 
 This game uses the Twine engine with the Sugarcube 2.x format. 
 
@@ -15,7 +15,7 @@ HOW TO BUILD THE GAME:
 
 3 - Set your TWEEGO_PATH to include the directory where you installed your story formats. 
 
-4 - Run the build.bat file from your downloaded copy of the repository. (Make sure tweego.exe is in your path)
+4 - Run the build.bat or build.sh file from your downloaded copy of the repository. (Make sure tweego executable is in your path)
 
 HOW TO MODIFY THE GAME
 
