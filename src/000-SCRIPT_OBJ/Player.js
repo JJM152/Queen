@@ -160,6 +160,16 @@ App.Entity.PlayerState = function (){
      * @type {string[]}
      */
     this.BodyEffects = [ ]; // lists effect names
+
+    this.GameStats = {
+        "MoneyEarned":      0,
+        Skills : {}
+    };
+
+    for (var skill in this.Skills) {
+        if (!this.Skills.hasOwnProperty(skill)) continue;
+        this.GameStats.Skills[skill] = {"Failure": 0, "Success": 0};
+    }
 };
 
 /**
@@ -815,6 +825,12 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
         if (this._state.debugMode) console.log("SkillRoll(" + SkillName + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " XPMod="+XpMod+"\n");
 
+        if (DiceRoll >= Target) {
+            this._state.GameStats.Skills[SkillName].Success += 1;
+        } else {
+            this._state.GameStats.Skills[SkillName].Failure += 1;
+        }
+
         if (Scaling == true) return XpMod;
         if (DiceRoll >= Target ) return 1;
         return 0;
@@ -1373,7 +1389,9 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     }
 
     AdjustMoney (m) {
-        this._state.Money = Math.max(0, (this._state.Money + Math.ceil(m)));
+        var mi = Math.ceil(m);
+        if (mi > 0) {this._state.GameStats.MoneyEarned += mi;}
+        this._state.Money = Math.max(0, (this._state.Money + mi));
     }
 
     RandomAdjustBodyXP (Amount) {
@@ -2172,4 +2190,5 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         delete this._clothing;
     }
 
+    get GameStats() { return this._state.GameStats; }
 };
