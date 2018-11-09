@@ -2,7 +2,7 @@ App = App || { Data: { }, Entity: { } };
 
 /**
  * NPC Entity
- * @type {NPC}
+ * @class {NPC}
  * @param {object} Data
  * @param {object} PlayerData
  * @constructor
@@ -74,5 +74,3 @@ App.Entity.NPC = function(Data, PlayerData) {
 				this.AdjustStat("Lust", this.Data["DailyLust"]);
 			};
 };
-
-

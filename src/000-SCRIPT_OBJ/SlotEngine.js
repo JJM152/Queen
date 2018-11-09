@@ -2,7 +2,7 @@ App = App || { Data: { }, Entity: { } };
 
 /**
  * Main engine for slot machine mini game.
- * @type {SlotEngine}
+ * @class {SlotEngine}
  */
 App.SlotEngine = new function() {
 
@@ -160,7 +160,7 @@ App.SlotEngine = new function() {
 
     /**
      * Called from the 'WhoreEnd' passage to give out loot/rewards and to tell the player about it.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @returns {string}
      */
     this.PrintResults = function(Player) {

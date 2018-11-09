@@ -4,7 +4,7 @@ window.App.StoreEngine = new function() {
 
     /**
      * Creates a store object and returns it to the Twine engine.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @param {App.Entity.NPC|NPC} NPC
      * @returns {Store}
      */
@@ -25,7 +25,7 @@ window.App.StoreEngine = new function() {
 
     /**
      * Is the NPCs store open.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @param {App.Entity.NPC} NPC
      * @returns {boolean}
      */
@@ -35,7 +35,7 @@ window.App.StoreEngine = new function() {
 
     /**
      * Lock/unlock a store item.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @param {string} StoreKey
      * @param {string} ItemTag
      * @param {number} Locked
@@ -56,7 +56,7 @@ window.App.StoreEngine = new function() {
 
 /**
  * Store Container Object
- * @param {Player} Player
+ * @param {App.Entity.Player} Player
  * @param {App.Entity.NPC|NPC} NPC
  * @param {object} StoreData
  * @constructor

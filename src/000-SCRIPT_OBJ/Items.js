@@ -251,9 +251,9 @@ App.Item = class Item {
      *
      * @param {string} Type
      * @param {string} Tag
-     * @param {InventoryManager|ClothingManager=} Inventory
+     * @param {App.Entity.InventoryManager|App.Entity.ClothingManager=} Inventory
      * @param {number=} [Count]
-     * @returns {Item|Consumable|Quest|Clothing|Reel|Store|NPC}
+     * @returns {App.Item|App.Items.Consumable|App.Items.QuestItem|App.Items.Clothing|App.Items.Reel|App.Items.Shop|App.Entity.NPC}
      */
     static Factory(Type, Tag, Inventory, Count) {
 
@@ -295,7 +295,7 @@ App.Item = class Item {
 
     /**
      * Open a loot box!
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @param {string} Type
      * @param {number} Minimum
      * @param {number} Bonus
@@ -374,7 +374,7 @@ App.Item = class Item {
      * @param {string} ItemClass
      * @param {string} Tag
      * * @param {object} d
-     * @param {InventoryManager} Inventory
+     * @param {App.Entity.InventoryManager|App.Entity.ClothingManager} Inventory
      * @constructor
      */
     constructor(ItemClass, Tag, d, Inventory) {
@@ -384,7 +384,7 @@ App.Item = class Item {
         /** @type {string}
          * @private */
         this._tag = Tag;
-        /** @type {InventoryManager}
+        /** @type {App.Entity.InventoryManager|App.Entity.ClothingManager}
          * @private */
         this._inventory = Inventory;
 
@@ -415,7 +415,7 @@ App.Item = class Item {
     }
 
     /**
-     * @returns {InventoryManager}
+     * @returns {App.Entity.InventoryManager|App.Entity.ClothingManager}
      */
     get Inventory() {
         return this._inventory;
@@ -475,10 +475,18 @@ App.Item = class Item {
         return rec.hasOwnProperty("Charges") ? rec["Charges"] : 1;
     }
 
+    /**
+     * @returns {number}
+     */
     Charges() {
         console.log("Error: calling Item.Charges() for class " + this.Id());
+        return 0;
     }
 
+    /**
+     *
+     * @param {number} n
+     */
     AddCharges(n) {
         console.log("Error: calling Item.AddCharges() for class " + this.Id());
     }
@@ -486,26 +494,18 @@ App.Item = class Item {
 
 App.Items = {};
 
-/**
- * @Class Shop
- * @extends {Item}
- */
-App.Items.Shop = class Shop extends App.Item {
+App.Items.Shop = /** @class Shop @extends {App.Item} */ class Shop extends App.Item {
     constructor(ShopName, InventoryObj) {
-        super('SHOP', ShopName, InventoryObj);
+        super('SHOP', ShopName, undefined, InventoryObj);
     }
 
 };
 
-/**
- * @Class Clothing
- * @extends {Item}
- */
-App.Items.Clothing = class Clothing extends App.Item {
+App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing extends App.Item {
     /**
      * @param {string} Tag
      * @param {object} d
-     * @param {InventoryManager} InventoryObj
+     * @param {App.Entity.InventoryManager} InventoryObj
      */
     constructor(Tag, d, InventoryObj) {
         super('CLOTHES', Tag, d, InventoryObj);
@@ -534,7 +534,7 @@ App.Items.Clothing = class Clothing extends App.Item {
 
     /**
      * Examine an item, relate detailed description and any knowledge.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @returns {string}
      */
     Examine(Player) {
@@ -557,7 +557,7 @@ App.Items.Clothing = class Clothing extends App.Item {
     /**
      * Apply (worn) affects overnight like skill gains / body mods.
      * Apply all effects of this clothing item, usually overnight.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      */
     ApplyEffects(Player) {
 
@@ -569,7 +569,7 @@ App.Items.Clothing = class Clothing extends App.Item {
 
     /**
      * Learn Knowledge sleeping...
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @returns {string}
      */
     LearnKnowledge(Player)
@@ -681,7 +681,7 @@ App.Items.Clothing = class Clothing extends App.Item {
         if (this.Data["Style"] == "RARE") return "@@color:gold;&#9733;&#9733;&#9733;@@";
         if (this.Data["Style"] == "LEGENDARY") return "@@color:gold;&#9733;&#9733;&#9733;&#9733;@@";
         return "@@color:gold;&#9733;@@";
-    };
+    }
 
     /** @returns {string} */
     HairColor() {
@@ -738,16 +738,12 @@ App.Items.Clothing = class Clothing extends App.Item {
     GetKnowledge() { return this._Knowlege.sort(); }
 };
 
-/**
- * @Class Consumable
- * @extends {Item}
- */
-App.Items.Consumable = class Consumable extends App.Item {
+App.Items.Consumable = /** @class Consumable @extends {App.Item} */ class Consumable extends App.Item {
     /**
      * @param {string} Category
      * @param {string} Tag
      * @param {object} d
-     * @param {InventoryManager} InventoryObj
+     * @param {App.Entity.InventoryManager} InventoryObj
      */
     constructor(Category, Tag, d, InventoryObj) {
         super(Category, Tag, d, InventoryObj);
@@ -771,7 +767,7 @@ App.Items.Consumable = class Consumable extends App.Item {
 
     /**
      * Shows long description of item and any knowledge known about it.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @returns {string}
      */
     Examine(Player) {
@@ -801,7 +797,7 @@ App.Items.Consumable = class Consumable extends App.Item {
 
     /**
      * Apply all effects of this consumable item.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      */
    ApplyEffects(Player) {
 
@@ -823,7 +819,7 @@ App.Items.Consumable = class Consumable extends App.Item {
 
     /**
      * This message is printed when a player uses an item
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @returns {string} */
     Message(Player) {
         var Output = this.Data["Message"];
@@ -899,19 +895,15 @@ App.Items.Consumable = class Consumable extends App.Item {
     /**
      * @returns {string[]}
      */
-    GetKnowledge() { return this._Knowlege.sort(); };
+    GetKnowledge() { return this._Knowlege.sort(); }
 };
 
-/**
- * @Class QuestItem
- * @extends {Item}
- */
-App.Items.QuestItem = class QuestItem extends App.Item {
+App.Items.QuestItem = /** @class QuestItem @extends {App.Item} */ class QuestItem extends App.Item {
     /**
      *
      * @param {string} Tag
      * @param {string} d
-     * @param {InventoryManager} InventoryObj
+     * @param {App.Entity.InventoryManager} InventoryObj
      * @constructor
      */
     constructor(Tag, d, InventoryObj) {
@@ -928,7 +920,7 @@ App.Items.QuestItem = class QuestItem extends App.Item {
 
     /**
      * Long description of item. No knowledge on quest items.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @returns {string}
      */
     Examine(Player) {
@@ -955,15 +947,11 @@ App.Items.QuestItem = class QuestItem extends App.Item {
 
 };
 
-/**
- * @Class Reel
- * @extends {Item}
- */
-App.Items.Reel = class Reel extends App.Item {
+App.Items.Reel = /** @class Reel @extends {App.Item} */ class Reel extends App.Item {
     /**
      * @param {string} id
      * @param {object} d
-     * @param {InventoryManager} InventoryObj
+     * @param {App.Entity.InventoryManager} InventoryObj
      */
     constructor(id, d, InventoryObj) {
         super("REEL", id, d, InventoryObj);
@@ -990,7 +978,7 @@ App.Items.Reel = class Reel extends App.Item {
     }
 
     /**
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @returns {string}
      */
     Examine(Player) {

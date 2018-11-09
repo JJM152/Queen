@@ -26,7 +26,7 @@ App.JobEngine = new function() {
      * Lists all jobs at person/location
      * @param {App.Entity.Player} Player
      * @param {string} Giver
-     * @returns {Array.<Job>}
+     * @returns {Array.<App.Job>}
      */
     this.GetJobs = function(Player, Giver) {
         this.LoadJobs();
@@ -36,7 +36,7 @@ App.JobEngine = new function() {
     /**
      * Return a Job by it's id property.
      * @param JobID
-     * @returns {Job}
+     * @returns {App.Job}
      */
     this.GetJob = function(JobID) {
         this.LoadJobs();
@@ -51,7 +51,7 @@ App.JobEngine = new function() {
      * Lists all AVAILABLE jobs at a person
      * @param {App.Entity.Player} Player
      * @param {string} Giver
-     * @returns {Array.<Job>}
+     * @returns {Array.<App.Job>}
      */
     this.GetAvailableJobs = function(Player, Giver) {
         return $.grep(this.GetJobs(Player, Giver), function(j) { return j.Available(Player, Player.GetNPC(Giver)) == true; });
@@ -72,7 +72,7 @@ App.JobEngine = new function() {
      * Lists all UNAVAILABLE jobs at person/location
      * @param {App.Entity.Player} Player
      * @param {string} Giver
-     * @returns {Array.<Job>}
+     * @returns {Array.<App.Job>}
      */
     this.GetUnavailableJobs = function(Player, Giver) {
         return $.grep(this.GetJobs(Player, Giver), function(j) {
@@ -144,7 +144,7 @@ App.Job = function(Data) {
      * @private */
     this._MissingRequirements = [ ];
     /** @private
-     *  @returns {number} */
+     *  @returns {Array.<object>} */
     this._Cost      = function() { return this._JobData["COST"]; };
     /** @private
      *  @returns {Array.<object>} */
@@ -237,7 +237,7 @@ App.Job = function(Data) {
     {
         return this._GetCost("TIME");
     };
-    
+
     /**
      * Print the title of a job.
      * @param {boolean} [Opt]
@@ -330,7 +330,7 @@ App.Job = function(Data) {
 
     /**
      * Check to see if the player meets the other requirements to take the job. Usually skill, stat, body related or quest flags.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @param NPC|String} NPC
      * @returns {boolean}
      */
@@ -517,7 +517,7 @@ App.Job = function(Data) {
 
     /**
      * Check to see if the time cost falls within the open/allowed phases of the activity
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @param {boolean} [Opt]
      * @returns {boolean|number}
      * @private
@@ -532,7 +532,7 @@ App.Job = function(Data) {
 
     /**
      * Set's the last completed flag for the quest.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @private
      */
     this._SetLastCompleted = function(Player) {
@@ -542,7 +542,7 @@ App.Job = function(Data) {
 
     /**
      * Check to see if this job is available to be used.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @param {App.Entity.NPC|NPC} NPC
      * @returns {boolean}
      */
@@ -568,7 +568,7 @@ App.Job = function(Data) {
 
     /**
      * Return if the job is on cool down.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @returns {boolean}
      */
     this.OnCoolDown = function(Player) {
@@ -769,7 +769,7 @@ App.Job = function(Data) {
 
 /**
  * Stores and plays a "scene" from a job.
- * @param {Player} Player
+ * @param {App.Entity.Player} Player
  * @param {NPC} NPC
  * @param {object} SceneData
  * @param {object} Checks
@@ -780,7 +780,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
     /** @type {boolean}
      *  @private */
     this._Debug     = true;
-    /** @type {Player}
+    /** @type {App.Entity.Player}
      *  @private */
     this._Player    = Player;
     /** @type {NPC}
