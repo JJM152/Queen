@@ -89,7 +89,7 @@ App.EventHandlers = new function() {
 
         if (save.version == undefined) save.version = 0.0;
         if (save.version < 0.08) {
-            console.log("Migrating inventory format...")
+            console.log("Migrating inventory format...");
             // migrating inventory and wardrobe
             var oldInv = save.state.history[0].variables.Player.Inventory; // array of items
             var newInv = {};

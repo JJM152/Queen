@@ -1,4 +1,4 @@
-window.App = window.App || { Data: { }, Entity: { } };
+App = App || { Data: { }, Entity: { } };
 /**
  * This class manages the tracking of quests and handing out of rewards.
  * @constructor
@@ -6,7 +6,7 @@ window.App = window.App || { Data: { }, Entity: { } };
 
 /** TODO: REWRITE THIS ENTIRE MESS AND FOLD IT INTO JOB ENGINE **/
 
-window.App.QuestEngine = new function() {
+App.QuestEngine = new function() {
 
     /**
      * Retrieve a quest related flag.

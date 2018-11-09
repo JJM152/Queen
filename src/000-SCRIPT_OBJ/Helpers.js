@@ -225,7 +225,7 @@ App.PR = new function() {
      * @param {string} StatName
      * @param {App.Entity.Player} Player
      * @param {number} [Invert] - reverse direction of stars relative to score so that high scores are less stars.
-     * @param {boolean} {HtmlSafe]
+     * @param {boolean} [HtmlSafe]
      * @returns {string}
      */
 		this.pStatMeter = function(StatName, Player, Invert, HtmlSafe) {
@@ -697,7 +697,7 @@ App.PR = new function() {
 
     /**
      * Print out a description of the Player's Hair.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @returns {string}
      */
     this.pHair = function (Player) {
@@ -742,7 +742,7 @@ App.PR = new function() {
 
     /**
      * Replace tokens in string with calculated/derived literals and return it.
-     * @param {Player} Player
+     * @param {App.Entity.Player} Player
      * @param {object} NPC
      * @param {string}String
      * @param {object} [Opt]

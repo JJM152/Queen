@@ -137,15 +137,19 @@ App.Entity.PlayerState = function (){
 
     /**
      * Clothing items the Player owns.
-     * @type {Array}
+     * @type {string[]}
      */
     this.Wardrobe = [ ];
+    /** @type {Object.<string, Object.<string, number>>} */
     this.Inventory = { };
+    /** @type {Set<string>} */
     this.InventoryFavorites = new Set();
+    /** @type {Object.<string, {ID:string, Locked:boolean}>} */
 	this.Equipment = { };
 	this.StoreInventory = { };
 	this.NPCS = { };
 
+    /** @type {Object.<number, string>} */
 	this.Slots = {
         0: null, 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null
     };
@@ -390,7 +394,7 @@ App.Entity.InventoryManager = class InventoryManager {
 
     /**
     * Turn the equipped reels into an array to iterate/read.
-    * @returns {Array.<App.Item.Reel>}
+    * @returns {Array.<App.Items.Reel>}
     */
     EquippedReelItems() {
        var arr = Object.values(this._reelInSlots).filter(function(o) { return (typeof o !== 'undefined') && (o != null); });
@@ -437,7 +441,7 @@ App.Entity.InventoryManager = class InventoryManager {
 App.Entity.ClothingManager = class ClothingManager {
 
     /**
-     * @returns {*}
+     * @returns {App.Entity.PlayerState}
      */
     get _state() {
         return State.variables[this._stateObjName];
@@ -451,7 +455,7 @@ App.Entity.ClothingManager = class ClothingManager {
     }
 
      /**
-     * @returns {*}
+     * @returns {Object.<string, {ID:string, Locked:boolean}|number>}
      */
     get _equipment() {
         return this._state.Equipment;
@@ -472,7 +476,7 @@ App.Entity.ClothingManager = class ClothingManager {
     constructor(stateObjName) {
         this._stateObjName = stateObjName;
 
-        /** @type {Clothing[]} */
+        /** @type {App.Items.Clothing[]} */
         this._wardrobeItems = [];
         for (var i = 0; i < this._wardrobe.length; ++i) {
             // wardrobe lists item ids
@@ -480,6 +484,7 @@ App.Entity.ClothingManager = class ClothingManager {
             this._ensureWrapObjectExists(t.Tag);
         }
 
+        /** @type {Object.<string, App.Items.Clothing|number>} */
         this._equipedItems = {};
         for (var prop in this._equipment) {
             if (!this._equipment.hasOwnProperty(prop)) continue;
@@ -492,7 +497,7 @@ App.Entity.ClothingManager = class ClothingManager {
     /**
      * @param {string} Tag
      * @param {string=} Id
-     * @returns {Clothing}
+     * @returns {App.Items.Clothing}
      * @private
      */
     _ensureWrapObjectExists(Tag, Id){
@@ -601,7 +606,7 @@ App.Entity.ClothingManager = class ClothingManager {
      *
      * @param {string} Name
      * @param {boolean} [Wear]
-     * @returns {Clothing}
+     * @returns {App.Items.Clothing}
      */
     AddItem(Name, Wear) {
         var item = App.Item.Factory("CLOTHES", Name, this);
@@ -614,14 +619,14 @@ App.Entity.ClothingManager = class ClothingManager {
     }
 
     /**
-     * @return {Clothing[]}
+     * @return {App.Items.Clothing[]}
      */
     get Wardrobe() {
         return this._wardrobeItems;
     }
 
     /**
-     * @return {Clothing[]}
+     * @return {Object.<string, App.Items.Clothing|number>}
      */
     get Equipment() {
         return this._equipedItems;
@@ -629,13 +634,9 @@ App.Entity.ClothingManager = class ClothingManager {
 };
 
 //TODO: Contemplating redoing this as an ECMA 5.1 compliant implementation.
-/**
- * Class Player
- * @type {Player}
- */
-App.Entity.Player = class Player {
+App.Entity.Player = /** @class Player @type {Player} */ class Player {
     /**
-     * @returns {PlayerState}
+     * @returns {App.Entity.PlayerState}
      */
     get _state() {
         return State.variables.PlayerState;
@@ -1526,7 +1527,7 @@ App.Entity.Player = class Player {
     /**
      * Does the character own the item in question
      * @param {*} ItemDictOrType The dictionary entry from the Store
-     * @param Name
+     * @param {string|String} [Name]
      * @returns {boolean}
      */
     OwnsWardrobeItem(ItemDictOrType, Name)
@@ -1775,7 +1776,7 @@ App.Entity.Player = class Player {
      * Create and add an item to the player.
      * @param {string} Category
      * @param {string} Name
-     * @param {number} Count
+     * @param {number} [Count]
      * @param {string} [Opt]
      */
     AddItem(Category, Name, Count, Opt) {
@@ -2033,7 +2034,7 @@ App.Entity.Player = class Player {
 
     /**
      * Fetch all reels in the players inventory.
-     * @returns {Array.<App.Item.Reel>}
+     * @returns {Array.<App.Items.Reel>}
      */
     GetReelsInInventory() {
         return this.Inventory.filter( function(o) { return (typeof o.Type === 'function') && (o.Type() == 'REEL'); });
@@ -2042,7 +2043,7 @@ App.Entity.Player = class Player {
     /**
      * Fetch a single reel by ID.
      * @param filterID
-     * @returns {App.Item.Reel}
+     * @returns {App.Items.Reel}
      */
     GetReelByID(filterID) {
         var arr = this.GetReelsInInventory();
@@ -2070,7 +2071,7 @@ App.Entity.Player = class Player {
 
     /**
      * Turn the equipped reels into an array to iterate/read.
-     * @returns {Array.<App.Item.Reel>}
+     * @returns {Array.<App.Items.Reel>}
      */
     GetReels() {
         return this.Inventory.EquippedReelItems();
