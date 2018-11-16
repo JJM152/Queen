@@ -53,7 +53,7 @@ App.QuestEngine = class QuestEngine {
      * @param {App.Entity.Player} Player - player being checked.
      * @param {String} Type - the type of check to perform.
      * @param {String} Key - key from check entry.
-     * @param {Number} Value - value to check against.
+     * @param {Number|boolean|string} Value - value to check against.
      * @param {Number} Reverse - checking less than instead of greater than.
      * @returns {boolean}
      */
@@ -86,7 +86,7 @@ App.QuestEngine = class QuestEngine {
                 if ((Player.GetStatPercent("STAT", Key) > Value) && (Reverse == 1)) return false;
                 break;
             case "HAS_ITEM":
-                if ((Player.GetItemByName(Key).length < 1)) return false;
+                if ((Player.GetItemByName(Key) === undefined)) return false;
                 if ((Player.GetItemByName(Key).Charges() < Value )) return false;
                 break;
             case "FLAG":
@@ -108,7 +108,7 @@ App.QuestEngine = class QuestEngine {
                 if (o.Charges() < Value ) return false;
                 break;
             case "DAYS_PASSED":
-                if(Key){Value = this.GetQuestFlag(Player, Key)}
+                if(Key){Value = this.GetQuestFlag(Player, Key);}
                 if(Player.Day < Value) return false;
                 break;
             /** TODO: Refactor this to check also for wearing specific items. **/
@@ -346,7 +346,7 @@ App.QuestEngine = class QuestEngine {
                     if(Player.Day < Value) return false;
                 break;
                 case "IS_WEARING":
-                console.log("Name="+Name+",Value="+Value);
+                    console.log("Name="+Name+",Value="+Value);
                     if(Value == "NOT" ) return (Player.GetEquipmentInSlot(Name) == null);
                     if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Name) == null) return false;
                     return Player.IsEquipped(Value);

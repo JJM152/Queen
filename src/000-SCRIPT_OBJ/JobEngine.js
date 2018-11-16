@@ -61,7 +61,7 @@ App.JobEngine = class {
 
     JobAvailable(Player, NPC, JobID) {
         this.LoadJobs();
-        return $.grep(this._Jobs, function(j) { return j.ID() == JobID && j.Available(Player) ; })[0];
+        return $.grep(this._Jobs, function(j) { return j.ID() == JobID && j.Available(Player, NPC) ; })[0];
     }
     /**
      * Lists all AVAILABLE jobs at a person

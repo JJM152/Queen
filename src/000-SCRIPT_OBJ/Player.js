@@ -1947,6 +1947,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         }
     }
 
+    /** @param {App.Item} item */
     DeleteItem(item) {
         this.Inventory.RemoveItem(item.Id);
     }
