@@ -5,18 +5,17 @@
 
 /** TODO: REWRITE THIS ENTIRE MESS AND FOLD IT INTO JOB ENGINE **/
 
-App.QuestEngine = new function() {
-
+App.QuestEngine = class QuestEngine {
     /**
      * Retrieve a quest related flag.
      * @param {App.Entity.Player} Player
      * @param {string} Flag
      * @returns {*}
      */
-    this.GetQuestFlag = function (Player, Flag) {
+    static GetQuestFlag(Player, Flag) {
         if ((typeof Player.QuestFlags[Flag] === 'undefined')) return false;
         return Player.QuestFlags[Flag];
-    };
+    }
 
     /**
      * Set a quest flag value.
@@ -24,9 +23,9 @@ App.QuestEngine = new function() {
      * @param {*} Flag
      * @param {String} Value
      */
-    this.SetQuestFlag = function (Player, Flag, Value) {
+    static SetQuestFlag(Player, Flag, Value) {
         Player.QuestFlags[Flag] = Value;
-    };
+    }
 
     /**
      * Helper function to read progress value
@@ -34,10 +33,10 @@ App.QuestEngine = new function() {
      * @param {String} Key - key from check entry.
      * @returns {number}
      */
-    this.GetProgressValue = function(Player, Key) {
-        var res = this.GetQuestFlag(Player, "progress_" + Key);
+    static GetProgressValue(Player, Key) {
+        var res = App.QuestEngine.GetQuestFlag(Player, "progress_" + Key);
         return res === undefined ? 0. : res;
-    };
+    }
 
     /**
      * Helper function to read progress value
@@ -45,9 +44,9 @@ App.QuestEngine = new function() {
      * @param {String} Key - key from check entry.
      * @param {number} Value
      */
-    this.SetProgressValue = function(Player, Key, Value) {
+    SetProgressValue(Player, Key, Value) {
         Player.QuestFlags["progress_" + Key] = Value;
-    };
+    }
 
     /**
      * Helper function for parsing evaluating quest checks.
@@ -58,8 +57,7 @@ App.QuestEngine = new function() {
      * @param {Number} Reverse - checking less than instead of greater than.
      * @returns {boolean}
      */
-    this.CheckCondition = function(Player, Type, Key, Value, Reverse)
-    {
+    static CheckCondition(Player, Type, Key, Value, Reverse) {
         var NPC;
 
         if (typeof Key !== 'undefined' && Key.charAt(0) == '-')
@@ -126,11 +124,11 @@ App.QuestEngine = new function() {
                 if (count - flag < Value) return false;
                 break;
             case "TRACK_PROGRESS":
-                if (this.GetProgressValue(Player, Key) < 1.) return false;
+                if (App.QuestEngine.GetProgressValue(Player, Key) < 1.) return false;
                 break;
         }
         return true;
-    };
+    }
 
     /**
      * Returns an array of objects that represent reward entries.
@@ -138,13 +136,13 @@ App.QuestEngine = new function() {
      * @param {string} RewardType
      * @returns {*}
      */
-    this.GetQuestRewards = function (QuestID, RewardType) {
+    static GetQuestRewards(QuestID, RewardType) {
         var r = App.Data.Quests[QuestID]["REWARD"];
         if (typeof RewardType === 'undefined') return r;
         return r.filter(function (o) {
             return o["REWARD_TYPE"] == RewardType;
         });
-    };
+    }
 
     /**
      * Completes the quest. Pass optional arg of ChoiceItem to add an item from a selection dialogue.
@@ -153,7 +151,7 @@ App.QuestEngine = new function() {
      * @param {string} QuestID
      * @param {string} ChoiceItem
      */
-    this.CompleteQuest = function (Player, QuestID, ChoiceItem) {
+    static CompleteQuest(Player, QuestID, ChoiceItem) {
         Player.QuestFlags[QuestID] = "COMPLETED";
         var r = App.Data.Quests[QuestID]["REWARD"];
         var p = App.Data.Quests[QuestID]["POST"];
@@ -162,7 +160,7 @@ App.QuestEngine = new function() {
 
         for (i = 0; i < r.length; i++) {
             if (r[i]["REWARD_TYPE"] != "ITEM_CHOICE") {
-                this.GiveQuestReward(Player, r[i]);
+                QuestEngine.GiveQuestReward(Player, r[i]);
             } else if ((typeof ChoiceItem !== 'undefined') && (r[i]["NAME"] == ChoiceItem)) {
                 Player.AddItem(r[i]["TYPE"], r[i]["NAME"], r[i]["AMOUNT"]);
             }
@@ -182,21 +180,21 @@ App.QuestEngine = new function() {
                 }
             }
         }
-    };
+    }
 
     /**
      * Accept the quest and process triggers.
      * @param {App.Entity.Player} Player
      * @param {string} QuestID
      */
-    this.AcceptQuest = function ( Player, QuestID) {
+    static AcceptQuest( Player, QuestID) {
         this.SetQuestFlag(Player, QuestID, "ACTIVE");
         if (App.Data.Quests[QuestID].hasOwnProperty("ON_ACCEPT")) {
             var a = App.Data.Quests[QuestID]["ON_ACCEPT"];
             for (var i = 0; i < a.length; i++) this._DoTriggers(a[i], Player);
         }
 
-    };
+    }
 
     /**
      * Do stuff
@@ -204,7 +202,7 @@ App.QuestEngine = new function() {
      * @param {App.Entity.Player} Player
      * @private
      */
-    this._DoTriggers = function( postCheck, Player ) {
+    static _DoTriggers( postCheck, Player ) {
         var Type, Name, Value, Opt;
         Type  = postCheck["TYPE"];
         Name  = postCheck["NAME"];
@@ -237,14 +235,13 @@ App.QuestEngine = new function() {
                 break;
 
         }
-
-    };
+    }
     /**
      * Gives a reward to a player.
      * @param {App.Entity.Player} Player
      * @param {Object} QuestReward
      */
-    this.GiveQuestReward = function (Player, QuestReward) {
+    static GiveQuestReward(Player, QuestReward) {
         var Reward    = QuestReward["REWARD_TYPE"];
         var Type      = QuestReward["TYPE"];
         var Name      = QuestReward["NAME"];
@@ -277,8 +274,7 @@ App.QuestEngine = new function() {
                 Player.UnlockSlot();
                 break;
         }
-
-    };
+    }
 
     /**
      * Returns a list of quest entries that fit the criteria on the "flag" option.
@@ -292,34 +288,33 @@ App.QuestEngine = new function() {
      * @param {string} [NPC] - The NPC ID of the quest giver. Optional.
      * @returns {Array}
      */
-    this.GetQuests = function (Flag, Player, NPC)
-    {
+    static GetQuests(Flag, Player, NPC) {
         var Quests = [];
         var List = Object.keys(App.Data.Quests);
 
         for (var i = 0; i < List.length; i++) {
             var o = App.Data.Quests[List[i]];
             if (typeof NPC === 'undefined') {
-                if ((Flag == 'cancomplete') && (this.CanCompleteQuest(Player, o["ID"]) == true)) Quests.push(o);
-                if ((Flag == 'available' ) && (this.QuestAvailable(Player, o["ID"]) == true)) Quests.push(o);
-                if ((Flag == 'completed' ) && (this.QuestCompleted(Player, o["ID"]) == true)) Quests.push(o);
-                if ((Flag == 'active') && (this.QuestActive(Player, o["ID"]) == true)) Quests.push(o);
+                if ((Flag == 'cancomplete') && (QuestEngine.CanCompleteQuest(Player, o["ID"]) == true)) Quests.push(o);
+                if ((Flag == 'available' ) && (QuestEngine.QuestAvailable(Player, o["ID"]) == true)) Quests.push(o);
+                if ((Flag == 'completed' ) && (QuestEngine.QuestCompleted(Player, o["ID"]) == true)) Quests.push(o);
+                if ((Flag == 'active') && (QuestEngine.QuestActive(Player, o["ID"]) == true)) Quests.push(o);
                 if ((Flag == 'any') &&
-                    ( (this.QuestActive(Player, o["ID"]) == true) || (this.QuestCompleted(Player, o["ID"]) == true) ||
-                    (this.QuestAvailable(Player, o["ID"]) == true) || (this.CanCompleteQuest(Player, o["ID"]) == true))) Quests.push(o);
+                    ( (QuestEngine.QuestActive(Player, o["ID"]) == true) || (QuestEngine.QuestCompleted(Player, o["ID"]) == true) ||
+                    (QuestEngine.QuestAvailable(Player, o["ID"]) == true) || (QuestEngine.CanCompleteQuest(Player, o["ID"]) == true))) Quests.push(o);
             } else {
-                if ((Flag == 'cancomplete') && (o["GIVER"] == NPC) && (this.CanCompleteQuest(Player, o["ID"]) == true)) Quests.push(o);
-                if ((Flag == 'available' ) && (o["GIVER"] == NPC) && (this.QuestAvailable(Player, o["ID"]) == true)) Quests.push(o);
-                if ((Flag == 'completed' ) && (o["GIVER"] == NPC) && (this.QuestCompleted(Player, o["ID"]) == true)) Quests.push(o);
-                if ((Flag == 'active') && (o["GIVER"] == NPC) && (this.QuestActive(Player, o["ID"]) == true)) Quests.push(o);
+                if ((Flag == 'cancomplete') && (o["GIVER"] == NPC) && (QuestEngine.CanCompleteQuest(Player, o["ID"]) == true)) Quests.push(o);
+                if ((Flag == 'available' ) && (o["GIVER"] == NPC) && (QuestEngine.QuestAvailable(Player, o["ID"]) == true)) Quests.push(o);
+                if ((Flag == 'completed' ) && (o["GIVER"] == NPC) && (QuestEngine.QuestCompleted(Player, o["ID"]) == true)) Quests.push(o);
+                if ((Flag == 'active') && (o["GIVER"] == NPC) && (QuestEngine.QuestActive(Player, o["ID"]) == true)) Quests.push(o);
                 if (((Flag == 'any') && (o["GIVER"] == NPC)) &&
-                    ( (this.QuestActive(Player, o["ID"]) == true) || (this.QuestCompleted(Player, o["ID"]) == true) ||
-                    (this.QuestAvailable(Player, o["ID"]) == true) || (this.CanCompleteQuest(Player, o["ID"]) == true))) Quests.push(o);
+                    ( (QuestEngine.QuestActive(Player, o["ID"]) == true) || (QuestEngine.QuestCompleted(Player, o["ID"]) == true) ||
+                    (QuestEngine.QuestAvailable(Player, o["ID"]) == true) || (QuestEngine.CanCompleteQuest(Player, o["ID"]) == true))) Quests.push(o);
             }
         }
 
         return Quests;
-    };
+    }
 
     /**
      * Returns if a quest is available to be accepted.
@@ -327,8 +322,8 @@ App.QuestEngine = new function() {
      * @param {string} QuestID
      * @returns {boolean}
      */
-    this.QuestAvailable = function (Player, QuestID) {
-        if ((this.QuestCompleted(Player, QuestID) == true) || (this.QuestActive(Player, QuestID) == true)) return false;
+    static QuestAvailable(Player, QuestID) {
+        if ((QuestEngine.QuestCompleted(Player, QuestID) == true) || (QuestEngine.QuestActive(Player, QuestID) == true)) return false;
         var PRE = App.Data.Quests[QuestID]["PRE"];
         var Type, Name, Value;
 
@@ -362,7 +357,7 @@ App.QuestEngine = new function() {
         }
 
         return true;
-    };
+    }
 
     /**
      * Returns if the quest has been completed.
@@ -370,9 +365,9 @@ App.QuestEngine = new function() {
      * @param {*} QuestID
      * @returns {boolean}
      */
-    this.QuestCompleted = function (Player, QuestID) {
+    static QuestCompleted(Player, QuestID) {
         return ((typeof Player.QuestFlags[QuestID] !== 'undefined') && (Player.QuestFlags[QuestID] == 'COMPLETED'));
-    };
+    }
 
     /**
      * Returns if the quest is currently active (in progress).
@@ -380,9 +375,9 @@ App.QuestEngine = new function() {
      * @param QuestID
      * @returns {boolean}
      */
-    this.QuestActive = function (Player, QuestID) {
+    static QuestActive(Player, QuestID) {
         return ((typeof Player.QuestFlags[QuestID] !== 'undefined') && (Player.QuestFlags[QuestID] == 'ACTIVE'));
-    };
+    }
 
     /**
      * Checks to see if player can complete a quest as defined by Flag.
@@ -390,7 +385,7 @@ App.QuestEngine = new function() {
      * @param {String} Flag
      * @returns {boolean}
      */
-    this.CanCompleteQuest = function (Player, Flag) {
+    static CanCompleteQuest(Player, Flag) {
         if ((typeof Player.QuestFlags[Flag] === 'undefined')) return false;
         if (Player.QuestFlags[Flag] == 'COMPLETED') return false; // Should never happen eh??
         var checks = App.Data.Quests[Flag]["CHECKS"];
@@ -410,31 +405,31 @@ App.QuestEngine = new function() {
 
         }
         return true;
-    };
+    }
 
     /**
      * Lists quests in active state
      * @param {App.Entity.Player} Player
      * @returns {string[]}
      */
-    this.ActiveQuestIDs = function(Player) {
+    static ActiveQuestIDs = function(Player) {
         var res = [];
         for (var prop in Player.QuestFlags) {
             if (!Player.QuestFlags.hasOwnProperty(prop)) continue;
             if (this.QuestActive(Player, prop)) res.push(prop);
         }
         return res;
-    };
+    }
 
     /**
      * Handles time-dependent changes for active quest
      * @param {App.Entity.Player} Player
      */
-    this.NextDay = function(Player) {
+    static NextDay(Player) {
         var activeQuests = this.ActiveQuestIDs(Player);
         for (let questId of activeQuests) {
             if (App.Data.Quests[questId] === undefined || !App.Data.Quests[questId].hasOwnProperty("ON_DAY_PASSED")) continue;
             App.Data.Quests[questId]["ON_DAY_PASSED"].call(App.Data.Quests[questId], Player);
         }
-    };
+    }
 };
