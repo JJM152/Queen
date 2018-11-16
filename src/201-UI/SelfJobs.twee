@@ -1,6 +1,6 @@
 :: SelfJobs [custom-menu]
 <<nobr>>
-<<set _JE = App.JobEngine;>>
+<<set _JE = setup.jobEngine;>>
 <<printJobResult $MenuAction>>
 <<set $MenuAction = 0;>><</nobr>>
 @@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>

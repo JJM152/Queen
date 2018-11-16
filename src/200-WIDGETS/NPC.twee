@@ -2,7 +2,7 @@
 <<widget NPC>>\
 <<set _QE = App.QuestEngine;>>\
 <<set _NPC = setup.player.GetNPC($args[0]);>>\
-<<set _JE = App.JobEngine;>>\
+<<set _JE = setup.jobEngine;>>\
 <<set _SE = App.StoreEngine;>>\
 <<= App.PR.TokenizeString(setup.player, _NPC, _NPC.ShortDesc())>>
 @@color:DeepPink;NPC Menu@@: <<customMenuLink "Examine" _NPC>>\

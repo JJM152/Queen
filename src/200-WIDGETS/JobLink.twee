@@ -8,7 +8,7 @@
 <</nobr>><</widget>>
 
 <<widget "jobLinks">><<nobr>>
-<<set _JE = App.JobEngine;>>
+<<set _JE = setup.jobEngine;>>
 <<set _JL = _JE.GetAvailableLocationJobs(setup.player, $args[0]);>>
 <<if $args[1] == 1 && _JL.length >= 1>>@@color:yellow;Action@@: <</if>>
 <<for _i = 0; _i < _JL.length; _i++>>

@@ -1,43 +1,42 @@
 /**
  * This class manages the "job" system. Basically short term repeatable quests.
  * They are not tracked by the journal and focus mostly on earning cheap rewards and flavor text.
- * @constructor
  */
-App.JobEngine = new function() {
-
-    /** @type {Array.<App.Job>}
-     * @private */
-    this._Jobs = [ ];
-    // Hack for dancing jobs.
-    this._DanceInfo = {
-        DANCE: "Sexy Dancer",
-        DAY: 1,
-        PHASE: 0
-    };
+App.JobEngine = class {
+    constructor() {
+        /** @type {Array.<App.Job>}
+         * @private */
+        this._Jobs = [];
+        // Hack for dancing jobs.
+        this._DanceInfo = {
+            DANCE: "Sexy Dancer",
+            DAY: 1,
+            PHASE: 0
+        };
+    }
 
     /**
      * Hack for reporting the current 'desired dance' for dancehalls.
      * @returns {string}
      */
-    this.GetDance = function () {
+    GetDance() {
         if (this._DanceInfo["DAY"] < setup.player.Day || this._DanceInfo["PHASE"] < setup.player.Phase ) {
             this._DanceInfo["DANCE"] = App.PR.GetRandomListItem(App.Data.Fashion["STYLES"]);
             this._DanceInfo["DAY"] = setup.player.Day;
             this._DanceInfo["PHASE"] = setup.player.Phase;
         }
         return this._DanceInfo["DANCE"];
-    };
+    }
 
     /**
      * Loads the job data into an array of Job objects. Can be called again if necessary.
      */
-    this.LoadJobs = function() {
-
+    LoadJobs() {
         if (this._Jobs.length < 1) {
         var oKeys = Object.keys(App.Data.JobData);
         for (var i = 0; i < oKeys.length; i++) this._Jobs.push( new App.Job( App.Data.JobData[oKeys[i]]) );
         }
-    };
+    }
 
     /**
      * Lists all jobs at person/location
@@ -45,34 +44,34 @@ App.JobEngine = new function() {
      * @param {string} Giver
      * @returns {Array.<App.Job>}
      */
-    this.GetJobs = function(Player, Giver) {
+    GetJobs(Player, Giver) {
         this.LoadJobs();
         return $.grep(this._Jobs, function(j) { return j.Giver() == Giver; }).sort();
-    };
+    }
 
     /**
      * Return a Job by it's id property.
      * @param JobID
      * @returns {App.Job}
      */
-    this.GetJob = function(JobID) {
+    GetJob(JobID) {
         this.LoadJobs();
         return $.grep(this._Jobs, function(j) { return j.ID() == JobID; })[0];
-    };
+    }
 
-    this.JobAvailable = function(Player, NPC, JobID) {
+    JobAvailable(Player, NPC, JobID) {
         this.LoadJobs();
         return $.grep(this._Jobs, function(j) { return j.ID() == JobID && j.Available(Player) ; })[0];
-    };
+    }
     /**
      * Lists all AVAILABLE jobs at a person
      * @param {App.Entity.Player} Player
      * @param {string} Giver
      * @returns {Array.<App.Job>}
      */
-    this.GetAvailableJobs = function(Player, Giver) {
+    GetAvailableJobs(Player, Giver) {
         return $.grep(this.GetJobs(Player, Giver), function(j) { return j.Available(Player, Player.GetNPC(Giver)) == true; });
-    };
+    }
 
     /**
      * Lists available jobs at a location
@@ -80,10 +79,9 @@ App.JobEngine = new function() {
      * @param {string} Giver
      * @returns {*}
      */
-    this.GetAvailableLocationJobs = function(Player, Giver)
-    {
+    GetAvailableLocationJobs(Player, Giver) {
         return $.grep(this.GetJobs(Player, Giver), function(j) { return j.Requirements(Player, Giver) == true; });
-    };
+    }
 
     /**
      * Lists all UNAVAILABLE jobs on person
@@ -91,11 +89,11 @@ App.JobEngine = new function() {
      * @param {string} Giver
      * @returns {Array.<App.Job>}
      */
-    this.GetUnavailableJobs = function(Player, Giver) {
+    GetUnavailableJobs(Player, Giver) {
         return $.grep(this.GetJobs(Player, Giver), function(j) {
             return j.Available(Player, Player.GetNPC(Giver)) == false && j.Hidden() != true;
         }).sort();
-    };
+    }
 
     /**
      * Lists unavailable jobs at a location
@@ -103,10 +101,10 @@ App.JobEngine = new function() {
      * @param {string} Giver
      * @returns {*}
      */
-    this.GetUnavailableLocationJobs = function(Player, Giver)
+    GetUnavailableLocationJobs(Player, Giver)
     {
         return $.grep(this.GetJobs(Player, Giver), function(j) { return j.Requirements(Player, Giver) == false; });
-    };
+    }
 
     /**
      * True if there are AVAILABLE jobs at this person/location
@@ -114,9 +112,9 @@ App.JobEngine = new function() {
      * @param {string} Giver
      * @returns {boolean}
      */
-    this.JobsAvailable = function(Player, Giver) {
+    JobsAvailable(Player, Giver) {
         return this.GetAvailableJobs(Player, Giver).length != 0;
-    };
+    }
 
     /**
      * True if there are ANY jobs at this person/location
@@ -124,9 +122,9 @@ App.JobEngine = new function() {
      * @param {string} Giver
      * @returns {boolean}
      */
-    this.HasJobs = function(Player, Giver ) {
+    HasJobs(Player, Giver ) {
         return (this.GetAvailableJobs(Player, Giver).length != 0) || (this.GetUnavailableJobs(Player,Giver).length != 0);
-    };
+    }
 
     /**
      * @param {App.Entity.Player} Player
@@ -134,101 +132,99 @@ App.JobEngine = new function() {
      * @returns {boolean}
      */
 
-    this.HasJobFlag = function(Player, Flag)
-    {
+    HasJobFlag(Player, Flag) {
         return Player.JobFlags.hasOwnProperty(Flag) != false;
-    };
+    }
 
     /**
      * @param {App.Entity.Player} Player
      * @param {string} Flag
      * @param {*} Value
      */
-    this.SetJobFlag = function(Player, Flag, Value)
-    {
+    SetJobFlag(Player, Flag, Value) {
       Player.JobFlags[Flag] = Value;
-    };
+    }
 
     //this.Init(App.Data.JobData);
-};
+}
 
 /**
  * Represents a job.
- * @param {Object} Data
- * @constructor
  */
-App.Job = function(Data) {
-
-    /** @type {boolean}
-     *  @private */
-    this._Debug     = false;
-    /** @type {object}
-     *  @private */
-    this._JobData   = Data;
-    /** @type {Array.<App.Scene>}
-     *  @private */
-    this._SceneBuffer = [ ];
-    /** @type {Array.<string>}
-     * @private */
-    this._MissingRequirements = [ ];
-    /** @private
-     *  @returns {Array.<object>} */
-    this._Cost      = function() { return this._JobData["COST"]; };
-    /** @private
-     *  @returns {Array.<object>} */
-    this._Req       = function() { return this._JobData["REQUIREMENTS"]; };
-    /** @private
-     *  @param {number} X
-     *  @param {number} Y
-     *  @returns {boolean} */
-    this._gte       = function(X, Y) { return (X >= Y); };
+App.Job = class Job {
+    /**
+     *
+     * @param {Object} Data
+     */
+    constructor(Data) {
+        /** @type {object}
+         *  @private */
+        this._JobData   = Data;
+        /** @type {Array.<App.Scene>}
+         *  @private */
+        this._SceneBuffer = [ ];
+        /** @type {Array.<string>}
+         * @private */
+        this._MissingRequirements = [ ];
+        /** @private
+         *  @returns {Array.<object>} */
+        this._Cost      = function() { return this._JobData["COST"]; };
+        /** @private
+         *  @returns {Array.<object>} */
+        this._Req       = function() { return this._JobData["REQUIREMENTS"]; };
+    }
     /** @private
      *  @param {number} X
      *  @param {number} Y
      *  @returns {boolean} */
-    this._lte       = function(X, Y) { return (X <= Y); };
+    static _gte(X, Y) { return (X >= Y); }
     /** @private
      *  @param {number} X
      *  @param {number} Y
      *  @returns {boolean} */
-    this._gt        = function(X, Y) { return (X > Y);  };
+    static _lte(X, Y) { return (X <= Y); }
     /** @private
      *  @param {number} X
      *  @param {number} Y
      *  @returns {boolean} */
-    this._lt        = function(X, Y) { return (X < Y);  };
+    static _gt(X, Y) { return (X > Y);  }
     /** @private
      *  @param {number} X
      *  @param {number} Y
      *  @returns {boolean} */
-    this._eq        = function(X, Y) { return (X == Y); };
+    static _lt(X, Y) { return (X < Y);  }
     /** @private
      *  @param {number} X
      *  @param {number} Y
      *  @returns {boolean} */
-    this._ne        = function(X, Y) { return (X != Y); };
+    static _eq(X, Y) { return (X == Y); }
+    /** @private
+     *  @param {number} X
+     *  @param {number} Y
+     *  @returns {boolean} */
+    static _ne(X, Y) { return (X != Y); }
 
     /** @returns {string} */
-    this.ID         = function() { return this._JobData["ID"]; };
+    ID() { return this._JobData["ID"]; }
     /** @returns {string} */
-    this.Giver      = function() { return this._JobData["GIVER"]; };
+    Giver() { return this._JobData["GIVER"]; }
     /** @returns {number} */
-    this.Pay        = function() { return this._JobData["PAY"]; };
+    Pay() { return this._JobData["PAY"]; }
     /** @returns {Array.<number>} */
-    this.Phases     = function() { return this._JobData["PHASES"]; };
+    Phases() { return this._JobData["PHASES"]; }
     /** @returns {boolean} */
-    this.Hidden     = function() { return this._JobData["HIDDEN"];};
+    Hidden() { return this._JobData["HIDDEN"]; }
     /**
      * Print the intro to a job.
      * @param {App.Entity.Player}Player
      * @param {App.Entity.NPC} Npc
      * @returns {string}
      */
-    this.Intro      = function(Player, Npc) {
+    Intro(Player, Npc) {
         if (this.Requirements(Player, Npc) == false)
             return App.PR.TokenizeString(Player, Npc, this._JobData["INTRO"]) + "@@color:red;(Requirements not met)@@";
         return  App.PR.TokenizeString(Player, Npc, this._JobData["INTRO"]);
-    };
+    }
 
     /**
      * Calculate cost of a job
@@ -237,7 +233,7 @@ App.Job = function(Data) {
      * @returns {number}
      * @private
      */
-    this._GetCost = function(Type, Name) {
+    _GetCost(Type, Name) {
         var Check = [];
         if (typeof Name !== 'undefined') {
             Check = $.grep(this._Cost(), function (c) {
@@ -250,29 +246,28 @@ App.Job = function(Data) {
         }
         if (typeof Check !== 'undefined' && Check.length > 0) return Check[0]["VALUE"];
         return 0;
-    };
+    }
 
     /**
      * @returns {number}
      */
-    this.GetEnergyCost = function() {
+    GetEnergyCost() {
         return this._GetCost("STAT", "Energy");
-    };
+    }
 
     /**
      * @returns {number}
      */
-    this.GetTimeCost = function()
-    {
+    GetTimeCost() {
         return this._GetCost("TIME");
-    };
+    }
 
     /**
      * Print the title of a job.
      * @param {boolean} [Opt]
      * @returns {string}
      */
-    this.Title = function(Opt) {
+    Title(Opt) {
         var Output = this._JobData["TITLE"];
         if (Opt) return Output;
 
@@ -290,7 +285,7 @@ App.Job = function(Data) {
 
         if (Strings.length != 0) Output = Output + " [" + Strings.join("&nbsp;") + "]";
         return Output;
-    };
+    }
 
     /**
      * Check to see if the player meets the "Cost" requirement for a job. Usually energy as this
@@ -298,8 +293,7 @@ App.Job = function(Data) {
      * @param {App.Entity.Player} Player
      * @returns {boolean}
      */
-    this.Cost = function(Player)
-    {
+    Cost(Player) {
         if (typeof this._Cost() === 'undefined') return true;
 
         for(var i = 0; i < this._Cost().length; i++) {
@@ -315,15 +309,14 @@ App.Job = function(Data) {
             }
         }
         return true;
-    };
+    }
 
     /**
      * Deduct the costs of the Job from the player (usually energy, but could be other stats)
      * @param {App.Entity.Player} Player
      * @private
      */
-    this._DeductCosts = function(Player)
-    {
+    _DeductCosts(Player) {
         if (typeof this._Cost() === 'undefined') return;
         var Type, Name, Value;
 
@@ -332,7 +325,7 @@ App.Job = function(Data) {
             Name = this._Cost()[i]["NAME"];
             Value = this._Cost()[i]["VALUE"];
 
-            this.Debug("_DeductCosts","Type="+ Type + ",Name="+Name+",VALUE="+Value);
+            Job.Debug("_DeductCosts","Type="+ Type + ",Name="+Name+",VALUE="+Value);
             switch(Type) {
                 case "STAT" :
                     Player.AdjustStat(Name, Math.floor(Value * -1.0));
@@ -355,7 +348,7 @@ App.Job = function(Data) {
                     break;
             }
         }
-    };
+    }
 
     /**
      * Check to see if the player meets the other requirements to take the job. Usually skill, stat, body related or quest flags.
@@ -363,8 +356,7 @@ App.Job = function(Data) {
      * @param NPC|String} NPC
      * @returns {boolean}
      */
-    this.Requirements = function(Player, NPC) {
-
+    Requirements(Player, NPC) {
         var Type, Name, Value, Condition, Option;
         var StatusFlag              = true;
         var ReqString               = "";
@@ -380,7 +372,7 @@ App.Job = function(Data) {
 
             switch(Type) {
                 case "STAT" :
-                    if (this._Cmp( Player.GetStat(Type, Name), Value, Condition) == false) {
+                    if (Job._Cmp( Player.GetStat(Type, Name), Value, Condition) == false) {
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
                             ReqString = App.PR.ColorizeString(Value, Name + " stat is too high");
@@ -390,7 +382,7 @@ App.Job = function(Data) {
                     }
                     break;
                 case "SKILL" :
-                    if (this._Cmp( Player.GetStat(Type, Name), Value, Condition) == false) {
+                    if (Job._Cmp( Player.GetStat(Type, Name), Value, Condition) == false) {
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
                             ReqString = App.PR.ColorizeString(Value, Name  + " skill is too high");
@@ -400,7 +392,7 @@ App.Job = function(Data) {
                     }
                     break;
                 case "BODY" :
-                    if (this._Cmp( Player.GetStat(Type, Name), Value, Condition) == false) {
+                    if (Job._Cmp( Player.GetStat(Type, Name), Value, Condition) == false) {
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
                             ReqString = App.PR.ColorizeString(Value, "Too much "+ Name);
@@ -423,15 +415,15 @@ App.Job = function(Data) {
                     }
                     break;
                 case "MONEY":
-                    if (this._Cmp( Player.Money, Value, Condition) == false) {
+                    if (Job._Cmp( Player.Money, Value, Condition) == false) {
                         StatusFlag = false;
-                        ReqString = "@@color:orange;Need Money ("+( Value - Player.Money())+")";
+                        ReqString = "@@color:orange;Need Money ("+(Value - Player.Money) + ")";
                     }
                     break;
                 case "NPC_STAT":
                     if (typeof NPC === 'undefined' && typeof Option !== 'undefined') NPC = Player.GetNPC(Option);
                     if (typeof NPC !== 'undefined') {
-                        if (this._Cmp( NPC.GetStat(Name), Value, Condition ) == false) {
+                        if (Job._Cmp( NPC.GetStat(Name), Value, Condition ) == false) {
                             StatusFlag = false;
                             if (Condition == "lt" || Condition == "lte" ) {
                                 ReqString = App.PR.ColorizeString(Value, NPC.Name() +"'s " + Name  + " is too high");
@@ -442,14 +434,14 @@ App.Job = function(Data) {
                     }
                     break;
                 case "QUEST":
-                    if (this._Cmp( Player.QuestFlags[Name], Value, Condition) == false) {
+                    if (Job._Cmp( Player.QuestFlags[Name], Value, Condition) == false) {
 
                         ReqString = "@@color:gold;Quest '"+ App.Data.Quests[Name]["Title"]+"' not complete@@";
                         StatusFlag = false;
                     }
                     break;
                 case "FLAG":
-                    if (this._Cmp( Player.JobFlags[Name], Value, Condition) == false ) {
+                    if (Job._Cmp( Player.JobFlags[Name], Value, Condition) == false ) {
                         StatusFlag = false;
                     }
                     break;
@@ -457,19 +449,19 @@ App.Job = function(Data) {
                     if (Player.GetItemByName(Name) === undefined) {
                         StatusFlag = false;
                         ReqString = "@@color:red;Missing item '" + Name + "' x" + Value + "@@";
-                    } else if ( this._Cmp( Player.GetItemByName(Name).Charges(), Value, Condition) == false) {
+                    } else if ( Job._Cmp( Player.GetItemByName(Name).Charges(), Value, Condition) == false) {
                         StatusFlag = false;
                         ReqString = "@@color:red;Missing item '" + Name + "' x" + Value + "@@";
                     }
                     break;
                 case "EQUIPPED":
-                    if (Player.IsEquipped(Name) == false) {
+                    if (!Player.IsEquipped(Name)) {
                         StatusFlag = false;
                         ReqString = "@@color:red;Must have '" + Name + "' equipped.@@";
                     }
                     break;
                 case "STYLE_CATEGORY":
-                    if (this._Cmp( Player.GetStyleSpecRating(Name), Value, Condition) == false ){
+                    if (Job._Cmp( Player.GetStyleSpecRating(Name), Value, Condition) == false ){
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
                             ReqString = App.PR.ColorizeString(Value, "Too much style '"+Name+"'");
@@ -479,7 +471,7 @@ App.Job = function(Data) {
                     }
                     break;
                 case "STYLE":
-                    if (this._Cmp( Player.Style(), Value, Condition) == false) {
+                    if (Job._Cmp( Player.Style(), Value, Condition) == false) {
                         StatusFlag = false;
                         if (Condition == "lt" || Condition == "lte" ) {
                             ReqString = App.PR.ColorizeString(Value, "Style and Grooming too high");
@@ -518,7 +510,7 @@ App.Job = function(Data) {
         }
 
         return StatusFlag;
-    };
+    }
 
     /**
      * Helper function - runs comparisons.
@@ -528,26 +520,24 @@ App.Job = function(Data) {
      * @returns {boolean}
      * @private
      */
-    this._Cmp = function(A, B, C)
-    {
+    static _Cmp(A, B, C) {
         switch(C) {
             case "gte":
-                return this._gte(A, B);
+                return Job._gte(A, B);
             case "lte":
-                return this._lte(A, B);
+                return Job._lte(A, B);
             case "gt" :
-                return this._gt(A, B);
+                return Job._gt(A, B);
             case "lt" :
-                return this._lt(A, B);
+                return Job._lt(A, B);
             case "eq" :
-                return this._eq(A, B);
+                return Job._eq(A, B);
             case "ne" :
-                return this._ne(A, B);
+                return Job._ne(A, B);
             default:
-                return this._lt(A, B);
+                return Job._lt(A, B);
         }
-
-    };
+    }
 
     /**
      * Check to see if the time cost falls within the open/allowed phases of the activity and that there
@@ -556,9 +546,9 @@ App.Job = function(Data) {
      * @returns {boolean}
      * @private
      */
-    this._CheckTime = function(Player) {
+    _CheckTime(Player) {
         return (($.inArray(Player.Phase, this.Phases()) != -1) && (this._GetCost("TIME") + Player.Phase <= 4));
-    };
+    }
 
     /**
      * Check to see if the time cost falls within the open/allowed phases of the activity
@@ -567,59 +557,58 @@ App.Job = function(Data) {
      * @returns {boolean|number}
      * @private
      */
-    this._CheckReady = function(Player, Opt) {
+    _CheckReady(Player, Opt) {
             Opt         = Opt || false;
         var Key         = this.ID()+"_LastCompleted";
         var FlagValue   = Player.JobFlags[Key] ? Player.JobFlags[Key] : 0;
         if (Opt) return (FlagValue + this._JobData["DAYS"] - Player.Day);
         return ((FlagValue == 0) || (FlagValue + this._JobData["DAYS"] <= Player.Day));
-    };
+    }
 
     /**
      * Set's the last completed flag for the quest.
      * @param {App.Entity.Player} Player
      * @private
      */
-    this._SetLastCompleted = function(Player) {
+    _SetLastCompleted(Player) {
         var Key = this.ID()+"_LastCompleted";
         Player.JobFlags[Key] = Player.Day;
-    };
+    }
 
     /**
      * Check to see if this job is available to be used.
      * @param {App.Entity.Player} Player
-     * @param {App.Entity.NPC|NPC} NPC
+     * @param {App.Entity.NPC} NPC
      * @returns {boolean}
      */
-    this.Available = function(Player, NPC) {
-
-        this.Debug("Job.Available:", this.ID());
-        this.Debug("Cost:", ""+this.Cost(Player));
-        this.Debug("Requirements:", ""+this.Requirements(Player, NPC));
-        this.Debug("_CheckTime:", ""+this._CheckTime(Player));
-        this.Debug("_CheckReady:", ""+this._CheckReady(Player));
+    Available(Player, NPC) {
+        Job.Debug("Job.Available:", this.ID());
+        Job.Debug("Cost:", ""+this.Cost(Player));
+        Job.Debug("Requirements:", ""+this.Requirements(Player, NPC));
+        Job.Debug("_CheckTime:", ""+this._CheckTime(Player));
+        Job.Debug("_CheckReady:", ""+this._CheckReady(Player));
 
         return ((this.Cost(Player) == true) && (this.Requirements(Player, NPC) == true) && (this._CheckTime(Player) == true) && (this._CheckReady(Player) == true));
-    };
+    }
 
     /**
      * Check to see if a job is ready (if it's known about).
      * @param {App.Entity.Player} Player
      * @returns {boolean}
      */
-    this.Ready = function(Player) {
+    Ready(Player) {
       return ((this.Cost(Player) == true)  && (this._CheckTime(Player) == true) && (this._CheckReady(Player) == true));
-    };
+    }
 
     /**
      * Return if the job is on cool down.
      * @param {App.Entity.Player} Player
      * @returns {boolean}
      */
-    this.OnCoolDown = function(Player) {
-        this.Debug("OnCoolDown", JSON.stringify(Player.JobFlags));
+    OnCoolDown(Player) {
+        Job.Debug("OnCoolDown", JSON.stringify(Player.JobFlags));
         return (this._CheckReady(Player) != true);
-    };
+    }
 
     /**
      * Print out the requirements (missing) string for a job.
@@ -627,7 +616,7 @@ App.Job = function(Data) {
      * @param {App.Entity.NPC} NPC
      * @returns {string}
      */
-    this.ReqString = function(Player, NPC) {
+    ReqString(Player, NPC) {
         var Output  = "";
 
         var CoolDown = this._CheckReady(Player, true);
@@ -644,7 +633,7 @@ App.Job = function(Data) {
             Output += "\n" + this._MissingRequirements.join(", ");
 
         return Output;
-    };
+    }
 
     /**
      * Play the selected job scenes.
@@ -652,11 +641,10 @@ App.Job = function(Data) {
      * @param {App.Entity.NPC} NPC
      * @returns {Array.<App.Scene>}
      */
-    this.PlayScenes = function(Player, NPC)
-    {
+    PlayScenes(Player, NPC) {
         var Results = { };
 
-        this.Debug("PlayScenes", "Started");
+        Job.Debug("PlayScenes", "Started");
         this._SceneBuffer = [ ];
         this._SetLastCompleted(Player);
 
@@ -670,9 +658,9 @@ App.Job = function(Data) {
             this._SceneBuffer.push(Scene);
         }
 
-        this.Debug("PlayScenes", "Ended");
+        Job.Debug("PlayScenes", "Ended");
         return $.grep(this._SceneBuffer, function(s) { return s.Triggered() == true; });
-    };
+    }
 
     /**
      * Match a result to a string and return the colorized version.
@@ -682,8 +670,7 @@ App.Job = function(Data) {
      * @returns {string}
      * @private
      */
-    this._MatchResult = function(Tag, Result, Value)
-    {
+    _MatchResult(Tag, Result, Value) {
         var Output = "";
         var Percent = Math.floor( ((Result / Value) * 100)/2);
 
@@ -698,14 +685,14 @@ App.Job = function(Data) {
                 return this._JobData["JOB_RESULTS"][i]["TEXT"].replace(/(@@.*@@)/g, Colorize );
 
         return Output;
-    };
+    }
 
     /**
      * Print the "job results" at the end of a job.
      * @returns {string}
      * @private
      */
-    this._PrintJobResults = function() {
+    _PrintJobResults() {
         var Checks = this._SceneBuffer[this._SceneBuffer.length-1].Results();
         var cKeys = Object.keys(Checks);
         var Results = [ ];
@@ -714,27 +701,25 @@ App.Job = function(Data) {
             Results.push(this._MatchResult(cKeys[i], Checks[cKeys[i]]["RESULT"], Checks[cKeys[i]]["VALUE"]));
         Results = Results.filter( function(r) { return r != ""; });
         return Results.length > 0 ? " " + Results.join(" ") : Results.join("");
-    };
+    }
 
     /**
      * Calculate the total pay from all scenes for the job.
      * @returns {string}
      * @private
      */
-    this._PrintPay = function() {
+    _PrintPay() {
         var Pay = this._JobData["PAY"];
         for (var i = 0; i < this._SceneBuffer.length; i++) Pay += this._SceneBuffer[i].Pay();
         return (Pay > 0) ? "@@color:yellow;"+Pay+"@@" : "";
-    };
-
+    }
 
     /**
      * Print all of the items earned in this job
      * @returns {string}
      * @private
      */
-    this._SummarizeJob = function()
-    {
+    _SummarizeJob() {
         var items = [ ];
         var i;
         var Pay = this._JobData["PAY"];
@@ -756,7 +741,7 @@ App.Job = function(Data) {
         }
         if (items.length > 0 ) return items.join("\n") + "\n";
         return "";
-    };
+    }
 
     /**
      * Tokenize a string and return result.
@@ -766,8 +751,7 @@ App.Job = function(Data) {
      * @returns {*}
      * @private
      */
-    this._Tokenize = function(Player, NPC, String)
-    {
+    _Tokenize(Player, NPC, String) {
         if (typeof String == 'undefined') return "";
         String = String.replace(/JOB_PAY/g, this._PrintPay());
 
@@ -776,7 +760,7 @@ App.Job = function(Data) {
         }
         String = App.PR.TokenizeString(Player, NPC, String);
         return String;
-    };
+    }
 
     /**
      * Print the "start" scene of a job.
@@ -784,9 +768,9 @@ App.Job = function(Data) {
      * @param {App.Entity.NPC} NPC
      * @returns {string}
      */
-    this.PrintStart = function(Player, NPC) {
+    PrintStart(Player, NPC) {
         return this._JobData["START"] == "" ? "" : this._Tokenize(Player, NPC, this._JobData["START"]) + "\n";
-    };
+    }
 
     /**
      * Print the "end" scene of a job.
@@ -794,135 +778,153 @@ App.Job = function(Data) {
      * @param {App.Entity.NPC} NPC
      * @returns {string}
      */
-    this.PrintEnd = function(Player, NPC) {
+    PrintEnd(Player, NPC) {
         var JobEnd = this._JobData["END"] == "" ? "" :  this._Tokenize(Player, NPC, this._JobData["END"])+ "\n";
         if (this._SummarizeJob() != "") JobEnd += this._SummarizeJob();
         return JobEnd;
-    };
+    }
+
+    static get _Debug() {
+        return Job._debug;
+    }
+
+    /**
+     * @param {boolean} v
+     */
+    static set _Debug(v) {
+        Job._debug = v;
+    }
 
     /**
      *
      * @param {string} Fun
      * @param {string} String
      */
-    this.Debug = function(Fun, String)
-    {
-        if (this._Debug == true)
+    static Debug(Fun, String) {
+        if (Job._Debug == true)
         console.log(Fun+":"+String+"\n");
-    };
+    }
 };
+
+/** @type {boolean}
+ *  @private */
+App.Job._debug = false;
 
 /**
  * Stores and plays a "scene" from a job.
- * @param {App.Entity.Player} Player
- * @param {NPC} NPC
- * @param {object} SceneData
- * @param {object} Checks
- * @constructor
- */
-App.Scene = function(Player, NPC, SceneData, Checks) {
+*/
+App.Scene = class Scene {
+    /**
+     * @param {App.Entity.Player} Player
+     * @param {App.Entity.NPC} NPC
+     * @param {object} SceneData
+     * @param {object} Checks
+     * @constructor
+     */
+    constructor(Player, NPC, SceneData, Checks) {
+        /** @type {boolean}
+         *  @private */
+        this._Debug     = true;
+        /** @type {App.Entity.Player}
+         *  @private */
+        this._Player    = Player;
+        /** @type {App.Entity.NPC}
+         *  @private */
+        this._NPC       = NPC;
+        /** @type {object}
+         *  @private */
+        this._SceneData = SceneData;
+        /** @type {object}
+         *  @private */
+        this._Flags     = Player.JobFlags;
+        /** @type {number}
+         *  @private */
+        this._Pay       = 0;
+        /** @type {boolean}
+         *  @private */
+        this._Triggered = false;
+        /** @type {string}
+         *  @private */
+        this._StrBuffer = "";
+        /** @type {object}
+         *  @private */
+        this._Checks    = Checks || { };
 
-    /** @type {boolean}
-     *  @private */
-    this._Debug     = true;
-    /** @type {App.Entity.Player}
-     *  @private */
-    this._Player    = Player;
-    /** @type {NPC}
-     *  @private */
-    this._NPC       = NPC;
-    /** @type {object}
-     *  @private */
-    this._SceneData = SceneData;
-    /** @type {object}
-     *  @private */
-    this._Flags     = Player.JobFlags;
-    /** @type {number}
-     *  @private */
-    this._Pay       = 0;
-    /** @type {boolean}
-     *  @private */
-    this._Triggered = false;
-    /** @type {string}
-     *  @private */
-    this._StrBuffer = "";
-    /** @type {object}
-     *  @private */
-    this._Checks    = Checks || { };
+        /** @type {Array.<string>}
+         *  @private */
+        this._RewardItems = [ ];
 
-    /** @type {Array.<string>}
-     *  @private */
-    this._RewardItems = [ ];
+        this._CalculateScene();
+    }
 
     /** @returns {string} */
-    this.Id          = function() { return this._SceneData["ID"]; };
+    Id() { return this._SceneData["ID"]; }
     /** @returns {boolean} */
-    this.Triggered   = function() { return (this._Triggered != false && this._StrBuffer != ""); };
+    Triggered() { return (this._Triggered != false && this._StrBuffer != ""); }
     /** @returns {string} */
-    this.Print       = function() { return (this._StrBuffer != "") ? this._StrBuffer + "\n" : ""; };
+    Print() { return (this._StrBuffer != "") ? this._StrBuffer + "\n" : ""; }
     /** @returns {number} */
-    this.Pay         = function() { return Math.floor(this._Pay); };
+    Pay() { return Math.floor(this._Pay); }
     /** @returns {object} */
-    this.Results     = function() { return this._Checks; };
+    Results() { return this._Checks; }
     /** @returns {Array.<string>} */
-    this.RewardItems = function() { return this._RewardItems; };
+    RewardItems() { return this._RewardItems; }
 
     /** @private
      *  @param {number} X
      *  @param {number} Y
      *  @returns {boolean} */
-    this._gte       = function(X, Y) { return (X >= Y); };
+    static _gte(X, Y) { return (X >= Y); }
     /** @private
      *  @param {number} X
      *  @param {number} Y
      *  @returns {boolean} */
-    this._lte       = function(X, Y) { return (X <= Y); };
+    static _lte(X, Y) { return (X <= Y); }
     /** @private
      *  @param {number} X
      *  @param {number} Y
      *  @returns {boolean} */
-    this._gt        = function(X, Y) { return (X > Y);  };
+    static _gt(X, Y) { return (X > Y); }
     /** @private
      *  @param {number} X
      *  @param {number} Y
      *  @returns {boolean} */
-    this._lt        = function(X, Y) { return (X < Y);  };
+    static _lt(X, Y) { return (X < Y); }
     /** @private
      *  @param {number} X
      *  @param {number} Y
      *  @returns {boolean} */
-    this._eq        = function(X, Y) { return (X == Y); };
+    static _eq(X, Y) { return (X == Y); }
     /** @private
      *  @param {number} X
      *  @param {number} Y
      *  @returns {boolean} */
-    this._ne        = function(X, Y) { return (X != Y); };
+    static _ne(X, Y) { return (X != Y); }
     /** @private
      *  @param {number} A
      *  @param {number} B
      *  @param {string} C
      *  @returns {boolean} */
-    this._Cmp = function(A, B, C)
-    {
-        this.Debug("_Cmp", "A="+A+",B="+B+",C="+C);
+    static _Cmp(A, B, C) {
+        Scene.Debug("_Cmp", "A="+A+",B="+B+",C="+C);
 
         switch(C) {
             case "gte":
-                return this._gte(A, B);
+                return Scene._gte(A, B);
             case "lte":
-                return this._lte(A, B);
+                return Scene._lte(A, B);
             case "gt" :
-                return this._gt(A, B);
+                return Scene._gt(A, B);
             case "lt" :
-                return this._lt(A, B);
+                return Scene._lt(A, B);
             case "ne" :
-                return this._ne(A, B);
+                return Scene._ne(A, B);
             case "eq" :
-                return this._eq(A, B);
+                return Scene._eq(A, B);
             default:
-                return this._lt(A, B);
+                return Scene._lt(A, B);
         }
-    };
+    }
 
     /**
      * Process a Trigger rule and return true/false state on if it fires.
@@ -934,33 +936,32 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
      * @returns {boolean}
      * @private
      */
-    this._ProcessTrigger = function(Type, Name, Value, Condition, Opt)
-    {
-        this.Debug("_ProcessTrigger", "Type="+Type+",Name="+Name+",Value="+Value+",Condition="+Condition+",Opt="+Opt);
+    _ProcessTrigger(Type, Name, Value, Condition, Opt) {
+        Scene.Debug("_ProcessTrigger", "Type="+Type+",Name="+Name+",Value="+Value+",Condition="+Condition+",Opt="+Opt);
 
         switch(Type)
         {
             case "NPC_STAT":
-                return this._Cmp(this._NPC.GetStat(Name), Value, Condition);
+                return Scene._Cmp(this._NPC.GetStat(Name), Value, Condition);
             case "RANDOM-100":
-                return this._Cmp(Math.ceil((100 * Math.random())+1), Value, Condition);
+                return Scene._Cmp(Math.ceil((100 * Math.random()) + 1), Value, Condition);
             case "COUNTER":
                 if ( this._Player.JobFlags.hasOwnProperty(Name) == false ) this._Player.JobFlags[Name] = 0;
                 if ( (typeof Opt !== 'undefined') && (Opt == "RANDOM"))
-                    return this._Cmp(this._Player.JobFlags[Name], Math.ceil(Value * Math.random()), Condition);
-                return this._Cmp(this._Player.JobFlags[Name], Value, Condition);
+                    return Scene._Cmp(this._Player.JobFlags[Name], Math.ceil(Value * Math.random()), Condition);
+                return Scene._Cmp(this._Player.JobFlags[Name], Value, Condition);
             case "STAT_CORE":
                 if ((typeof Opt !== 'undefined') && (Opt == "RANDOM"))
-                    return this._Cmp(this._Player.GetStatPercent("STAT", Name), Math.ceil((100 * Math.random())+1), Condition);
-                return this._Cmp(this._Player.GetStatPercent("STAT", Name), Value, Condition);
+                    return Scene._Cmp(this._Player.GetStatPercent("STAT", Name), Math.ceil((100 * Math.random()) + 1), Condition);
+                return Scene._Cmp(this._Player.GetStatPercent("STAT", Name), Value, Condition);
             case "STAT_BODY":
                 if ((typeof Opt !== 'undefined') && (Opt == "RANDOM"))
-                    return this._Cmp(this._Player.GetStatPercent("BODY", Name), Math.ceil((100 * Math.random())+1), Condition);
-                    return this._Cmp(this._Player.GetStatPercent("BODY", Name), Value, Condition);
+                    return Scene._Cmp(this._Player.GetStatPercent("BODY", Name), Math.ceil((100 * Math.random()) + 1), Condition);
+                    return Scene._Cmp(this._Player.GetStatPercent("BODY", Name), Value, Condition);
             case "STAT_SKILL":
                 if ((typeof Opt !== 'undefined') && (Opt == "RANDOM"))
-                    return this._Cmp(this._Player.GetStatPercent("SKILL", Name), Math.ceil((100 * Math.random())+1), Condition);
-                return this._Cmp(this._Player.GetStatPercent("SKILL", Name), Value, Condition);
+                    return Scene._Cmp(this._Player.GetStatPercent("SKILL", Name), Math.ceil((100 * Math.random()) + 1), Condition);
+                return Scene._Cmp(this._Player.GetStatPercent("SKILL", Name), Value, Condition);
             case "FLAG":
                 if ( (typeof Opt !== 'undefined') && (Opt == "NOT_SET")) {
                     return (this._Player.JobFlags.hasOwnProperty(Name) == false);
@@ -969,18 +970,18 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 if ( (typeof Opt !== 'undefined') && (Opt == "SET"))
                     return (this._Player.JobFlags.hasOwnProperty(Name) == true);
 
-                return this._Cmp(this._Player.JobFlags[Name], Value, Condition);
+                return Scene._Cmp(this._Player.JobFlags[Name], Value, Condition);
             case "TAG":
                 if (this._Checks.hasOwnProperty(Name) == false) return true;
                 var Percent = Math.ceil( (this._Checks[Name]["RESULT"] / this._Checks[Name]["VALUE"]) * 100);
-                return this._Cmp(Percent, Value, Condition);
+                return Scene._Cmp(Percent, Value, Condition);
             case 'HAS_ITEM':
                 // Format like CATEGORY/NAME
                 return (typeof this._Player.GetItemById(Name) !== 'undefined');
         }
 
         return true;
-    };
+    }
 
     /**
      * Check the status of each trigger in a group and return true/false on if the scene fires
@@ -988,14 +989,12 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
      * @returns {boolean}
      * @private
      */
-    this._ProcessTriggers = function(Triggers)
-    {
-
+    _ProcessTriggers(Triggers) {
         for (var i = 0; i < Triggers.length; i++)
             if (this._ProcessTrigger(Triggers[i]["TYPE"], Triggers[i]["NAME"], Triggers[i]["VALUE"], Triggers[i]["CONDITION"], Triggers[i]["OPT"]) == false) return false;
 
         return true;
-    };
+    }
 
     /**
      * Check the status of each trigger in a group and return true/false on if the scene fires
@@ -1003,14 +1002,12 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
      * @returns {boolean}
      * @private
      */
-    this._ProcessTriggersAny = function(Triggers)
-    {
-
+    _ProcessTriggersAny(Triggers) {
         for (var i = 0; i < Triggers.length; i++)
             if (this._ProcessTrigger(Triggers[i]["TYPE"], Triggers[i]["NAME"], Triggers[i]["VALUE"], Triggers[i]["CONDITION"], Triggers[i]["OPT"]) == true) return true;
 
         return false;
-    };
+    }
 
     /**
      * Process a reward rule from a scene.
@@ -1020,8 +1017,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
      * @param {string} Opt
      * @private
      */
-    this._ProcessReward = function(Type, Name, Value, Opt)
-    {
+    _ProcessReward(Type, Name, Value, Opt) {
         if (Opt == 'RANDOM' ) Value = Math.floor((Value * Math.random())+1);
 
         // Retrieve the result of another check and modify the value of this reward by that scaling percentage.
@@ -1029,14 +1025,14 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
             Value = Math.ceil( Value * (this._Checks[Opt.slice(Opt.indexOf("_")+1)]["MOD"]));
         }
 
-        this.Debug("_ProcessReward", "Type="+Type+",Name="+Name+",Value="+Value+",Opt="+Opt);
+        Scene.Debug("_ProcessReward", "Type="+Type+",Name="+Name+",Value="+Value+",Opt="+Opt);
 
         switch(Type)
         {
             case "MONEY":
 
                 this._Pay += Math.floor(Value);
-                this.Debug("this._Pay=",this._Pay.toString());
+                Scene.Debug("this._Pay=",this._Pay.toString());
                 this._Player.AdjustMoney(Math.floor(Value));
                 break;
             case "FOOD":
@@ -1121,23 +1117,15 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 this._Player.AdvanceSailDays(Value);
                 break;
         }
-    };
+    }
 
     /**
      * Process a check rule on a a scene, store results in this._Checks[Tag]
-     * @param {string} Tag
-     * @param {string} Type
-     * @param {string} Name
-     * @param {number} Difficulty
-     * @param {string} Reward
-     * @param {string} RewardName
-     * @param {number} Value
-     * @param {string} Opt
+     * @param {object} Check
      * @private
      */
-    this._ProcessCheck = function(Check)
+    _ProcessCheck(Check)
     {
-
         var Scaling     = (Check.OPT != "NO_SCALING");
         var Value       = Check.VALUE || 100;
         var Result      = 0;
@@ -1177,15 +1165,14 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
         };
         console.log(this._Checks);
         this._ProcessReward(Check.REWARD, Check.R_NAME, Result, Check.OPT);
-    };
+    }
 
     /**
      * Process all the checks in a scene.
      * @param {Array.<object>} Checks
      * @private
      */
-    this._ProcessChecks = function(Checks)
-    {
+    _ProcessChecks(Checks) {
         for (var i = 0; i < Checks.length; i++)
             this._ProcessCheck( Checks[i] );
     };
@@ -1195,14 +1182,12 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
      * @param Posts
      * @private
      */
-    this._ProcessPost = function(Posts)
-    {
-        this.Debug("_ProcessPost", JSON.stringify(this._Checks));
+    _ProcessPost(Posts) {
+        Scene.Debug("_ProcessPost", JSON.stringify(this._Checks));
 
         for (var i = 0; i < Posts.length; i++)
             this._ProcessReward(Posts[i]["TYPE"], Posts[i]["NAME"], Posts[i]["VALUE"], Posts[i]["OPT"]);
-
-    };
+    }
 
     /**
      * Pass a result value from a Check and find the appropriate flavor text and colorize it.
@@ -1212,8 +1197,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
      * @returns {string}
      * @private
      */
-    this._MatchResult = function(Tag, Result, Value)
-    {
+    _MatchResult(Tag, Result, Value) {
         var Output = "";
         var Percent = Math.floor(((Result / Value) * 100));
         /**
@@ -1229,15 +1213,14 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
             }
 
         return Output;
-    };
+    }
 
     /**
      * Iterate through all of the Check results for a scene and then find their appropriate flavor text.
      * @returns {string}
      * @private
      */
-    this._SceneResults = function()
-    {
+    _SceneResults() {
         var cKeys = Object.keys(this._Checks);
         var Results = [ ];
 
@@ -1246,7 +1229,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
 
         Results = Results.filter( function(r) { return r != ""; });
         return Results.length > 0 ? " " + Results.join(" ") : "";
-    };
+    }
 
     /**
      * Tokenize a string
@@ -1254,20 +1237,18 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
      * @returns {string}
      * @private
      */
-    this._Tokenize = function(String)
-    {
+    _Tokenize(String) {
         String = String.replace(/JOB_PAY/g, this.Pay());
         String = App.PR.TokenizeString(this._Player, this._NPC, String);
         return String;
-    };
+    }
 
     /**
      * Process all the rules in a scene and store the results in the object.
      * @private
      */
-    this._CalculateScene = function() {
-
-        this.Debug(this.Id() + ":_CalculateScene", "Started");
+    _CalculateScene() {
+        Scene.Debug(this.Id() + ":_CalculateScene", "Started");
 
         if ((this._SceneData["TRIGGERS"].length > 0) && (this._ProcessTriggers(this._SceneData["TRIGGERS"]) == false)) return;
         if ((this._SceneData["TRIGGERS_ANY"].length > 0) && (this._ProcessTriggersAny(this._SceneData["TRIGGERS_ANY"]) == false)) return;
@@ -1282,19 +1263,30 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
         this._StrBuffer +=  this._SceneResults();
         this._StrBuffer +=  this._SceneData["END"] != "" ? " " + this._Tokenize(this._SceneData["END"]) : "";
 
-        this.Debug(this.Id() + ":_CalculateScene", "Ended");
-    };
+        Scene.Debug(this.Id() + ":_CalculateScene", "Ended");
+    }
+
+    static get _Debug() {
+        return Scene._debug;
+    }
+
+    /**
+     * @param {boolean} v
+     */
+    static set _Debug(v) {
+        Scene._debug = v;
+    }
 
     /**
      * @param {string} Fun
      * @param {string} String
      */
-    this.Debug = function(Fun,String)
-    {
-        if (this._Debug == true)
+    static Debug(Fun,String) {
+        if (Scene._Debug == true)
             console.log(Fun +":"+String+"\n");
-    };
+    }
+}
 
-    this._CalculateScene();
-
-};
+/** @type {boolean}
+ *  @private */
+App.Scene._debug = false;
