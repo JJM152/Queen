@@ -19,9 +19,10 @@ App.Data.JobData["QUAR01"] =  {
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [
-                { "TAG" : "A", "TYPE" : "SKILL", "NAME" : "Cleaning", "DIFFICULTY" : 50, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 10, "OPT" : 0 }
+                { "TAG" : "A", "TYPE" : "SKILL", "NAME" : "Cleaning", "DIFFICULTY" : 50, "VALUE" : 10, "OPT" : 0 }
             ],
             "POST" : [
+                { "TYPE" : "MONEY",     "VALUE": "TAG_A",       "OPT" : 0 },
                 { "TYPE" : "STAT_XP",   "NAME" : "Fitness",     "VALUE" :  50,  "OPT" : 0 },
                 { "TYPE" : "NPC_STAT",  "NAME" : "Mood",        "VALUE" :  10,  "OPT" : 0 }
             ],

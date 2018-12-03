@@ -1,7 +1,7 @@
 App.Data.JobData["DANCE_AMATEUR"] = {
-    "ID": "DANCE_AMATEUR", 
-    "TITLE": "Amateur Hour", 
-    "GIVER": "DANCEHALL_JOBS", 
+    "ID": "DANCE_AMATEUR",
+    "TITLE": "Amateur Hour",
+    "GIVER": "DANCEHALL_JOBS",
     "PAY" : 25,
     "RATING" : 2,
     "PHASES" : [ 0, 1, 2, 3 ],
@@ -26,54 +26,54 @@ App.Data.JobData["DANCE_AMATEUR"] = {
             "ID" : "Intro Scene",
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
-            "CHECKS" : [ 
-                { 
+            "CHECKS" : [
+                {
                     "TAG": "BEAUTY_CHECK", "TYPE" : "META", "NAME" : "BEAUTY", "DIFFICULTY" : 120,
                     "REWARD" : "MONEY", "VALUE" : 10
                 },
-                { 
+                {
                     "TAG": "STYLE_CHECK", "TYPE" : "META", "NAME": "DANCE_STYLE", "DIFFICULTY" : 120,
                     "REWARD" : "MONEY", "VALUE" : 10
                 },
-                { 
-                    "TAG": "APPEARANCE_CHECK", "TYPE" : "FUNC", 
-                    "NAME": function(p, o) {
-                        return (o._Checks["BEAUTY_CHECK"]["RESULT"] + o._Checks["STYLE_CHECK"]["RESULT"])/2;
+                {
+                    "TAG": "APPEARANCE_CHECK", "TYPE" : "FUNC",
+                    "FUN": function(p, s, c) {
+                        return (c["BEAUTY_CHECK"]["RESULT"] + c["STYLE_CHECK"]["RESULT"])/2;
                     }
-                }                
+                }
             ],
             "POST" : [],
             "START" : "",
             "RESULTS" : [
-                { 
+                {
                     "APPEARANCE_CHECK" : 20,
                     "TEXT" : "\
                     The immediate reaction from the crowd to your appearance @@is tepid@@. Maybe you should \
                     work on your beauty or fashion?\
                     "
                 },
-                { 
+                {
                     "APPEARANCE_CHECK" : 40,
                     "TEXT" : "\
                     The crowd @@appears disinterested@@ in your upcoming performance. Maybe you should \
                     work on your beauty or fashion?\
                     "
                 },
-                { 
+                {
                     "APPEARANCE_CHECK" : 60,
                     "TEXT" : "\
                     The crowd @@appears mildly interested@@ in your upcoming performance. Maybe you should \
                     work on your beauty or fashion?\
                     "
                 },
-                { 
+                {
                     "APPEARANCE_CHECK" : 80,
                     "TEXT" : "\
                     Your arrival is greeted with the sound of several @@catcalls and cheers@@. It's a good reaction but \
                     you feel that you could do better.\
                     "
                 },
-                { 
+                {
                     "APPEARANCE_CHECK" : 500,
                     "TEXT" : "\
                     The @@crowd goes wild@@ as you appear. You're greated with a thunderous applause and wolf whistling.\
@@ -87,10 +87,10 @@ App.Data.JobData["DANCE_AMATEUR"] = {
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [
-                { 
+                {
                     "TAG": "DANCE_CHECK_1", "TYPE" : "SKILL", "NAME" : "Dancing", "DIFFICULTY" : 50,
                     "REWARD" : "MONEY", "VALUE" : 10
-                }                
+                }
             ],
             "POST" : [
                 {
@@ -140,11 +140,11 @@ App.Data.JobData["DANCE_AMATEUR"] = {
             "ID" : "Stripping Scene 1",
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
-            "CHECKS" : [  
-                { 
+            "CHECKS" : [
+                {
                     "TAG": "STRIPPING_CHECK_1", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 50,
-                    "REWARD" : "MONEY", "VALUE" : 10 
-                }                
+                    "REWARD" : "MONEY", "VALUE" : 10
+                }
             ],
             "POST" : [],
             "START" : "\
@@ -187,10 +187,10 @@ App.Data.JobData["DANCE_AMATEUR"] = {
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [
-                { 
+                {
                     "TAG": "DANCE_CHECK_2", "TYPE" : "SKILL", "NAME" : "Dancing", "DIFFICULTY" : 50,
                     "REWARD" : "MONEY", "VALUE" : 10
-                }                  
+                }
             ],
             "POST" : [
                 {
@@ -237,11 +237,11 @@ App.Data.JobData["DANCE_AMATEUR"] = {
             "ID" : "Stripping Scene 2",
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
-            "CHECKS" : [ 
-                { 
+            "CHECKS" : [
+                {
                     "TAG": "STRIPPING_CHECK_2", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 50,
-                    "REWARD" : "MONEY", "VALUE" : 10 
-                }                 
+                    "REWARD" : "MONEY", "VALUE" : 10
+                }
             ],
             "POST" : [],
             "START" : "\
@@ -304,25 +304,25 @@ App.Data.JobData["DANCE_AMATEUR"] = {
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [
-                { 
-                    "TAG": "PERFORMANCE_BONUS", "TYPE" : "FUNC", 
-                    "NAME": function(p, o) {
-                        return (o._Checks["DANCE_CHECK_1"]["MOD"] + 
-                               o._Checks["DANCE_CHECK_2"]["MOD"] +
-                               o._Checks["STRIPPING_CHECK_1"]["MOD"] + 
-                               o._Checks["STRIPPING_CHECK_2"]["MOD"])/4;
+                {
+                    "TAG": "PERFORMANCE_BONUS", "TYPE" : "FUNC",
+                    "FUN": function(p, s, c) {
+                        return (c["DANCE_CHECK_1"]["MOD"] +
+                               c["DANCE_CHECK_2"]["MOD"] +
+                               c["STRIPPING_CHECK_1"]["MOD"] +
+                               c["STRIPPING_CHECK_2"]["MOD"])/4;
                     },
                     "VALUE" : 1
-                } 
+                }
             ],
             "POST" : [
-                { 
-                    "TYPE" : "STAT_XP", "NAME" : "WillPower", "VALUE" : -20, "OPT" : 0 
+                {
+                    "TYPE" : "STAT_XP", "NAME" : "WillPower", "VALUE" : -20, "OPT" : 0
                 },
-                { 
+                {
                     "TYPE" : "STAT_XP", "NAME" : "Perversion", "VALUE" : 50, "OPT" : "TAG_PERFORMANCE_BONUS"
                 },
-                { 
+                {
                     "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 5, "OPT" : "TAG_PERFORMANCE_BONUS"
                 },
             ],
@@ -337,7 +337,7 @@ App.Data.JobData["DANCE_AMATEUR"] = {
     You scoop up the money that was thrown on the stage and exit behind the curtains, but not before \
     noticing that NPC_NAME was watching you dance... JOB_RESULTS\
     ",
-    "JOB_RESULTS" : [ 
+    "JOB_RESULTS" : [
         {
             "PERFORMANCE_BONUS" : 0.33,
             "TEXT" : "they @@didn't look very impressed@@."
@@ -359,9 +359,9 @@ App.Data.JobData["DANCE_AMATEUR"] = {
 };
 
 App.Data.JobData["DANCE_PROFESSIONAL"] = {
-    "ID": "DANCE_PROFESSIONAL", 
-    "TITLE": "Strutting Your Stuff", 
-    "GIVER": "DANCEHALL_JOBS", 
+    "ID": "DANCE_PROFESSIONAL",
+    "TITLE": "Strutting Your Stuff",
+    "GIVER": "DANCEHALL_JOBS",
     "PAY" : 50,
     "RATING" : 3,
     "PHASES" : [ 0, 1, 2, 3 ],
@@ -384,54 +384,54 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
              "ID" : "Intro Scene",
              "TRIGGERS" :[ ],
              "TRIGGERS_ANY" : [ ],
-             "CHECKS" : [ 
-                 { 
+             "CHECKS" : [
+                 {
                      "TAG": "BEAUTY_CHECK", "TYPE" : "META", "NAME" : "BEAUTY", "DIFFICULTY" : 120,
                      "REWARD" : "MONEY", "VALUE" : 10
                  },
-                 { 
+                 {
                      "TAG": "STYLE_CHECK", "TYPE" : "META", "NAME": "DANCE_STYLE", "DIFFICULTY" : 120,
                      "REWARD" : "MONEY", "VALUE" : 10
                  },
-                 { 
-                     "TAG": "APPEARANCE_CHECK", "TYPE" : "FUNC", 
-                     "NAME": function(p, o) {
-                         return (o._Checks["BEAUTY_CHECK"]["RESULT"] + o._Checks["STYLE_CHECK"]["RESULT"])/2;
+                 {
+                     "TAG": "APPEARANCE_CHECK", "TYPE" : "FUNC",
+                     "FUN": function(p, s, c) {
+                         return (c["BEAUTY_CHECK"]["RESULT"] + c["STYLE_CHECK"]["RESULT"])/2;
                      }
-                 }                
+                 }
              ],
              "POST" : [],
              "START" : "",
              "RESULTS" : [
-                 { 
+                 {
                      "APPEARANCE_CHECK" : 20,
                      "TEXT" : "\
                      The immediate reaction from the crowd to your appearance @@is tepid@@. Maybe you should \
                      work on your beauty or fashion?\
                      "
                  },
-                 { 
+                 {
                      "APPEARANCE_CHECK" : 40,
                      "TEXT" : "\
                      The crowd @@appears disinterested@@ in your upcoming performance. Maybe you should \
                      work on your beauty or fashion?\
                      "
                  },
-                 { 
+                 {
                      "APPEARANCE_CHECK" : 60,
                      "TEXT" : "\
                      The crowd @@appears mildly interested@@ in your upcoming performance. Maybe you should \
                      work on your beauty or fashion?\
                      "
                  },
-                 { 
+                 {
                      "APPEARANCE_CHECK" : 80,
                      "TEXT" : "\
                      Your arrival is greeted with the sound of several @@catcalls and cheers@@. It's a good reaction but \
                      you feel that you could do better.\
                      "
                  },
-                 { 
+                 {
                      "APPEARANCE_CHECK" : 500,
                      "TEXT" : "\
                      The @@crowd goes wild@@ as you appear. You're greated with a thunderous applause and wolf whistling.\
@@ -445,10 +445,10 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
              "TRIGGERS" :[ ],
              "TRIGGERS_ANY" : [ ],
              "CHECKS" : [
-                 { 
+                 {
                      "TAG": "DANCE_CHECK_1", "TYPE" : "SKILL", "NAME" : "Dancing", "DIFFICULTY" : 70,
                      "REWARD" : "MONEY", "VALUE" : 20
-                 }                
+                 }
              ],
              "POST" : [
                 {
@@ -487,7 +487,7 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
                      earns you a @@healthy round of applause and cheers@@ from the crowd.\
                      "
                  },
- 
+
              ],
              "END" : "\
              The tempo of the music picks up and you strut towards the front of the stage, dropping to your knees \
@@ -498,11 +498,11 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
              "ID" : "Stripping Scene 1",
              "TRIGGERS" :[ ],
              "TRIGGERS_ANY" : [ ],
-             "CHECKS" : [  
-                 { 
+             "CHECKS" : [
+                 {
                      "TAG": "STRIPPING_CHECK_1", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 70,
-                     "REWARD" : "MONEY", "VALUE" : 20 
-                 }                
+                     "REWARD" : "MONEY", "VALUE" : 20
+                 }
              ],
              "POST" : [],
              "START" : "\
@@ -535,20 +535,20 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
                      The @@crowd shouts out for more@@ and encourages you to go further!\
                      "
                  },
- 
+
              ],
              "END" : "",
- 
+
          },
          {
              "ID" : "Dance Scene 2",
              "TRIGGERS" :[ ],
              "TRIGGERS_ANY" : [ ],
              "CHECKS" : [
-                 { 
+                 {
                      "TAG": "DANCE_CHECK_2", "TYPE" : "SKILL", "NAME" : "Dancing", "DIFFICULTY" : 70,
                      "REWARD" : "MONEY", "VALUE" : 20
-                 }                  
+                 }
              ],
              "POST" : [
                 {
@@ -595,11 +595,11 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
              "ID" : "Stripping Scene 2",
              "TRIGGERS" :[ ],
              "TRIGGERS_ANY" : [ ],
-             "CHECKS" : [ 
-                 { 
+             "CHECKS" : [
+                 {
                      "TAG": "STRIPPING_CHECK_2", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 70,
-                     "REWARD" : "MONEY", "VALUE" : 20 
-                 }                 
+                     "REWARD" : "MONEY", "VALUE" : 20
+                 }
              ],
              "POST" : [],
              "START" : "\
@@ -663,18 +663,18 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
                      "TYPE" : "HAS_ITEM", "NAME" : "QUEST/14 inch purple dildo"
                  },
                  {
-                     "TYPE" : "STAT_CORE", "NAME" : "Perversion", "VALUE" : 50, "CONDITION" : "gte", "VALUE" : 50
+                     "TYPE" : "STAT_CORE", "NAME" : "Perversion", "VALUE" : 50, "CONDITION" : "gte"
                  }
              ],
              "TRIGGERS_ANY" : [ ],
              "CHECKS" : [
-                { 
+                {
                     "TAG": "BLOWJOB_CHECK", "TYPE" : "SKILL", "NAME" : "BlowJobs", "DIFFICULTY" : 100,
                     "REWARD" : "MONEY", "VALUE" : 50
-                }   
+                }
              ],
              "POST" : [
-                 { 
+                 {
                      "TYPE" : "STAT_XP", "NAME" : "Perversion", "VALUE" : 50
                  }
              ],
@@ -719,25 +719,25 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
              "TRIGGERS" :[ ],
              "TRIGGERS_ANY" : [ ],
              "CHECKS" : [
-                 { 
-                     "TAG": "PERFORMANCE_BONUS", "TYPE" : "FUNC", 
-                     "NAME": function(p, o) {
-                         return (o._Checks["DANCE_CHECK_1"]["MOD"] + 
-                                o._Checks["DANCE_CHECK_2"]["MOD"] +
-                                o._Checks["STRIPPING_CHECK_1"]["MOD"] + 
-                                o._Checks["STRIPPING_CHECK_2"]["MOD"])/4;
+                 {
+                     "TAG": "PERFORMANCE_BONUS", "TYPE" : "FUNC",
+                     "NAME": function(p, s, c) {
+                         return (c["DANCE_CHECK_1"]["MOD"] +
+                                c["DANCE_CHECK_2"]["MOD"] +
+                                c["STRIPPING_CHECK_1"]["MOD"] +
+                                c["STRIPPING_CHECK_2"]["MOD"])/4;
                      },
                      "VALUE" : 1
-                 } 
+                 }
              ],
              "POST" : [
-                 { 
-                     "TYPE" : "STAT_XP", "NAME" : "WillPower", "VALUE" : -20, "OPT" : 0 
+                 {
+                     "TYPE" : "STAT_XP", "NAME" : "WillPower", "VALUE" : -20, "OPT" : 0
                  },
-                 { 
+                 {
                      "TYPE" : "STAT_XP", "NAME" : "Perversion", "VALUE" : 50, "OPT" : "TAG_PERFORMANCE_BONUS"
                  },
-                 { 
+                 {
                      "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 5, "OPT" : "TAG_PERFORMANCE_BONUS"
                  },
              ],
@@ -745,14 +745,14 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
              "RESULTS" : [],
              "END" : ""
          }
- 
+
      ],
      "END" : "\
      With your performance over, you take one last bow, your nBUST dangling for the crowd and blow them a kiss. \
      You scoop up the money that was thrown on the stage and exit behind the curtains, but not before \
      noticing that NPC_NAME was watching you dance... JOB_RESULTS\
      ",
-     "JOB_RESULTS" : [ 
+     "JOB_RESULTS" : [
          {
              "PERFORMANCE_BONUS" : 0.33,
              "TEXT" : "they @@didn't look very impressed@@."
@@ -774,9 +774,9 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
 };
 
 App.Data.JobData["DANCE_EXPERT"] = {
-    "ID": "DANCE_EXPERT", 
-    "TITLE": "Bringing Down the House", 
-    "GIVER": "DANCEHALL_JOBS", 
+    "ID": "DANCE_EXPERT",
+    "TITLE": "Bringing Down the House",
+    "GIVER": "DANCEHALL_JOBS",
     "PAY" : 75,
     "RATING" : 5,
     "PHASES" : [ 0, 1, 2, 3 ],
@@ -799,54 +799,54 @@ App.Data.JobData["DANCE_EXPERT"] = {
              "ID" : "Intro Scene",
              "TRIGGERS" :[ ],
              "TRIGGERS_ANY" : [ ],
-             "CHECKS" : [ 
-                 { 
+             "CHECKS" : [
+                 {
                      "TAG": "BEAUTY_CHECK", "TYPE" : "META", "NAME" : "BEAUTY", "DIFFICULTY" : 120,
                      "REWARD" : "MONEY", "VALUE" : 10
                  },
-                 { 
+                 {
                      "TAG": "STYLE_CHECK", "TYPE" : "META", "NAME": "DANCE_STYLE", "DIFFICULTY" : 120,
                      "REWARD" : "MONEY", "VALUE" : 10
                  },
-                 { 
-                     "TAG": "APPEARANCE_CHECK", "TYPE" : "FUNC", 
-                     "NAME": function(p, o) {
-                         return (o._Checks["BEAUTY_CHECK"]["RESULT"] + o._Checks["STYLE_CHECK"]["RESULT"])/2;
+                 {
+                     "TAG": "APPEARANCE_CHECK", "TYPE" : "FUNC",
+                     "FUN": function(p, s, c) {
+                         return (c["BEAUTY_CHECK"]["RESULT"] + c["STYLE_CHECK"]["RESULT"])/2;
                      }
-                 }                
+                 }
              ],
              "POST" : [],
              "START" : "",
              "RESULTS" : [
-                 { 
+                 {
                      "APPEARANCE_CHECK" : 20,
                      "TEXT" : "\
                      The immediate reaction from the crowd to your appearance @@is tepid@@. Maybe you should \
                      work on your beauty or fashion?\
                      "
                  },
-                 { 
+                 {
                      "APPEARANCE_CHECK" : 40,
                      "TEXT" : "\
                      The crowd @@appears disinterested@@ in your upcoming performance. Maybe you should \
                      work on your beauty or fashion?\
                      "
                  },
-                 { 
+                 {
                      "APPEARANCE_CHECK" : 60,
                      "TEXT" : "\
                      The crowd @@appears mildly interested@@ in your upcoming performance. Maybe you should \
                      work on your beauty or fashion?\
                      "
                  },
-                 { 
+                 {
                      "APPEARANCE_CHECK" : 80,
                      "TEXT" : "\
                      Your arrival is greeted with the sound of several @@catcalls and cheers@@. It's a good reaction but \
                      you feel that you could do better.\
                      "
                  },
-                 { 
+                 {
                      "APPEARANCE_CHECK" : 500,
                      "TEXT" : "\
                      The @@crowd goes wild@@ as you appear. You're greated with a thunderous applause and wolf whistling.\
@@ -860,10 +860,10 @@ App.Data.JobData["DANCE_EXPERT"] = {
              "TRIGGERS" :[ ],
              "TRIGGERS_ANY" : [ ],
              "CHECKS" : [
-                 { 
+                 {
                      "TAG": "DANCE_CHECK_1", "TYPE" : "SKILL", "NAME" : "Dancing", "DIFFICULTY" : 100,
                      "REWARD" : "MONEY", "VALUE" : 30
-                 }                
+                 }
              ],
              "POST" : [
                 {
@@ -902,7 +902,7 @@ App.Data.JobData["DANCE_EXPERT"] = {
                      earns you a @@healthy round of applause and cheers@@ from the crowd.\
                      "
                  },
- 
+
              ],
              "END" : "\
              The tempo of the music picks up and you strut towards the front of the stage, dropping to your knees \
@@ -913,11 +913,11 @@ App.Data.JobData["DANCE_EXPERT"] = {
              "ID" : "Stripping Scene 1",
              "TRIGGERS" :[ ],
              "TRIGGERS_ANY" : [ ],
-             "CHECKS" : [  
-                 { 
+             "CHECKS" : [
+                 {
                      "TAG": "STRIPPING_CHECK_1", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 100,
-                     "REWARD" : "MONEY", "VALUE" : 30 
-                 }                
+                     "REWARD" : "MONEY", "VALUE" : 30
+                 }
              ],
              "POST" : [],
              "START" : "\
@@ -950,20 +950,20 @@ App.Data.JobData["DANCE_EXPERT"] = {
                      The @@crowd shouts out for more@@ and encourages you to go further!\
                      "
                  },
- 
+
              ],
              "END" : "",
- 
+
          },
          {
              "ID" : "Dance Scene 2",
              "TRIGGERS" :[ ],
              "TRIGGERS_ANY" : [ ],
              "CHECKS" : [
-                 { 
+                 {
                      "TAG": "DANCE_CHECK_2", "TYPE" : "SKILL", "NAME" : "Dancing", "DIFFICULTY" : 100,
                      "REWARD" : "MONEY", "VALUE" : 30
-                 }                  
+                 }
              ],
              "POST" : [
                 {
@@ -1010,11 +1010,11 @@ App.Data.JobData["DANCE_EXPERT"] = {
              "ID" : "Stripping Scene 2",
              "TRIGGERS" :[ ],
              "TRIGGERS_ANY" : [ ],
-             "CHECKS" : [ 
-                 { 
+             "CHECKS" : [
+                 {
                      "TAG": "STRIPPING_CHECK_2", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 100,
-                     "REWARD" : "MONEY", "VALUE" : 30 
-                 }                 
+                     "REWARD" : "MONEY", "VALUE" : 30
+                 }
              ],
              "POST" : [],
              "START" : "\
@@ -1078,18 +1078,18 @@ App.Data.JobData["DANCE_EXPERT"] = {
                     "TYPE" : "HAS_ITEM", "NAME" : "QUEST/14 inch purple dildo"
                 },
                 {
-                    "TYPE" : "STAT_CORE", "NAME" : "Perversion", "VALUE" : 60, "CONDITION" : "gte", "VALUE" : 70
+                    "TYPE" : "STAT_CORE", "NAME" : "Perversion", "CONDITION" : "gte", "VALUE" : 70
                 }
             ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [
-               { 
+               {
                    "TAG": "ASSFUCK_CHECK", "TYPE" : "SKILL", "NAME" : "AssFucking", "DIFFICULTY" : 100,
                    "REWARD" : "MONEY", "VALUE" : 100
-               }   
+               }
             ],
             "POST" : [
-                { 
+                {
                     "TYPE" : "STAT_XP", "NAME" : "Perversion", "VALUE" : 50
                 }
             ],
@@ -1145,25 +1145,25 @@ App.Data.JobData["DANCE_EXPERT"] = {
              "TRIGGERS" :[ ],
              "TRIGGERS_ANY" : [ ],
              "CHECKS" : [
-                 { 
-                     "TAG": "PERFORMANCE_BONUS", "TYPE" : "FUNC", 
-                     "NAME": function(p, o) {
-                         return (o._Checks["DANCE_CHECK_1"]["MOD"] + 
-                                o._Checks["DANCE_CHECK_2"]["MOD"] +
-                                o._Checks["STRIPPING_CHECK_1"]["MOD"] + 
-                                o._Checks["STRIPPING_CHECK_2"]["MOD"])/4;
+                 {
+                     "TAG": "PERFORMANCE_BONUS", "TYPE" : "FUNC",
+                     "NAME": function(p, s, c) {
+                         return (c["DANCE_CHECK_1"]["MOD"] +
+                                c["DANCE_CHECK_2"]["MOD"] +
+                                c["STRIPPING_CHECK_1"]["MOD"] +
+                                c["STRIPPING_CHECK_2"]["MOD"])/4;
                      },
                      "VALUE" : 1
-                 } 
+                 }
              ],
              "POST" : [
-                 { 
-                     "TYPE" : "STAT_XP", "NAME" : "WillPower", "VALUE" : -20, "OPT" : 0 
+                 {
+                     "TYPE" : "STAT_XP", "NAME" : "WillPower", "VALUE" : -20, "OPT" : 0
                  },
-                 { 
+                 {
                      "TYPE" : "STAT_XP", "NAME" : "Perversion", "VALUE" : 50, "OPT" : "TAG_PERFORMANCE_BONUS"
                  },
-                 { 
+                 {
                      "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 5, "OPT" : "TAG_PERFORMANCE_BONUS"
                  },
              ],
@@ -1171,14 +1171,14 @@ App.Data.JobData["DANCE_EXPERT"] = {
              "RESULTS" : [],
              "END" : ""
          }
- 
+
      ],
      "END" : "\
      With your performance over, you take one last bow, your nBUST dangling for the crowd and blow them a kiss. \
      You scoop up the money that was thrown on the stage and exit behind the curtains, but not before \
      noticing that NPC_NAME was watching you dance... JOB_RESULTS\
      ",
-     "JOB_RESULTS" : [ 
+     "JOB_RESULTS" : [
          {
              "PERFORMANCE_BONUS" : 0.33,
              "TEXT" : "they @@didn't look very impressed@@."

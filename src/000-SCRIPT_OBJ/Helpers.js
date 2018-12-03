@@ -483,182 +483,242 @@ App.PR = new function() {
      * @param {App.Entity.Player} Player
      * @returns {string}
      */
-        this.pQuestRequirements = function(QuestID, Player)
-		{
-			var checks = App.Data.Quests[QuestID]["CHECKS"];
-			var Out = [];
-			var Meter = "";
-            var Percent = 0;
-            var Val = 0;
-            var Name = "";
-			var pString  = "";
-            var Invert = 0;
-            var bMeter = false;
+    this.pQuestRequirements = function(QuestID, Player)
+    {
+        /** @type {App.Data.Tasks.Check[]} */
+        var checks = App.Data.Quests[QuestID]["CHECKS"];
+        var Out = [];
+        var Meter = "";
+        var Percent = 0;
+        var Val = 0;
+        var Name = "";
+        var pString  = "";
+        var Invert = 0;
+        var bMeter = false;
 
-			for (var i = 0; i < checks.length; i++) {
-                Name = checks[i]["NAME"];
-                Invert = 0;
-                bMeter = false;
-                pString = "";
+        for (var i = 0; i < checks.length; i++) {
+            Name = checks[i]["NAME"];
+            Invert = 0;
+            bMeter = false;
+            pString = "";
 
-                if (typeof Name !== 'undefined' && Name.charAt(0) == '-') {
-                    Name = Name.slice(1);
-                    Invert = 1;
-                }
-
-                switch (checks[i]["TYPE"]) {
-                    case "FLAG":
-                        continue;
-                    case "NPC_MOOD":
-                        bMeter = true;
-                        Val = Player.GetNPC(Name).Mood();
-                        pString = Player.GetNPC(Name).pName();
-                        break;
-                    case "MONEY":
-                        bMeter = true;
-                        Val = Player.Money;
-                        pString = "@@color:yellow;Coins@@";
-                        break;
-                    case "STAT_BODY":
-                        bMeter = true;
-                        Val = Player.GetStatPercent("BODY", Name);
-                        pString = Name;
-                        break;
-                    case "STAT_CORE":
-                        bMeter = true;
-                        Val = Player.GetStatPercent("STAT", Name);
-                        pString = Name;
-                        break;
-                    case "STAT_SKILL":
-                        bMeter = true;
-                        Val = Player.GetStatPercent("SKILL", Name);
-                        pString = Name;
-                        break;
-                    case "STYLE_CATEGORY":
-                        bMeter = true;
-                        Val = Math.max(0, Math.min(Player.GetStyleSpecRating(Name), 100));
-                        pString = Name;
-                        break;
-                    case "HAIR_STYLE":
-                        bMeter = false;
-                        Val = ((Player.GetHairStyle() == Name) == checks[i]["VALUE"]);
-                        pString = "Hair style - "+Name;
-                        break;
-                    case "HAIR_COLOR":
-                        bMeter = false;
-                        Val = ((Player.GetHairColor() == Name) == checks[i]["VALUE"]);
-                        pString = "Hair color - "+Name;
-                        break;
-                    case "QUEST_ITEM":
-                    // Clothing items cannot be consumed quest items at this time.
-                        bMeter = false;
-                        if (App.Data.QuestItems.hasOwnProperty(Name)) {
-                            pString = App.Data.QuestItems[Name]["ShortDesc"];
-                        } else if (App.Data.Food.hasOwnProperty(Name)) {
-                            pString = App.Data.Food[Name]["ShortDesc"];
-                        } else if (App.Data.Drugs.hasOwnProperty(Name)) {
-                            pString = App.Data.Drugs[Name]["ShortDesc"];
-                        } else if (App.Data.Misc.hasOwnProperty(Name)) {
-                            pString = App.Data.Misc[Name]["ShortDesc"];
-                        } else {
-                            pString = App.Data.Cosmetics[Name]["ShortDesc"];
-                        }
-                        var cv = checks[i]["VALUE"];
-                        if (typeof cv !== 'undefined' && cv > 1)
-                         {
-                             pString = pString +" x"+cv;
-                             Val = (typeof Player.GetItemByName(Name) !== 'undefined' && Player.GetItemByName(Name).Charges() >= cv);
-                         } else {
-                            Val = (typeof Player.GetItemByName(Name) !== 'undefined');
-                         }
-                        break;
-                    case "DAYS_PASSED":
-                        bMeter = false;
-                        pString = "wait " + (App.QuestEngine.GetQuestFlag(Player, Name) - Player.Day) + " days";
-                        Val = ((App.QuestEngine.GetQuestFlag(Player, Name) - Player.Day) < 1);
-                        break;
-                    case "IS_WEARING":
-                        bMeter = false;
-                        if(checks[i]["VALUE"] == "NOT")  {
-                            pString = "''NOT'' ";
-                            Val = (Player.GetEquipmentInSlot(Name) == null);
-                        } else if (checks[i]["VALUE"] == "" || typeof checks[i]["VALUE"] === 'undefined') {
-                            pString = "";
-                            Val = (Player.GetEquipmentInSlot(Name) != null);
-                        } else {
-                            pString = "";
-                            Val = Player.IsEquipped(checks[i]["VALUE"]);
-                        }
-                        pString = pString + "wearing " + Name.toLowerCase();
-                        break;
-                    case "TRACK_CUSTOMERS":
-                        bMeter = false;
-                        var flag = App.QuestEngine.GetQuestFlag(Player, "track_"+Name);
-                        var count = Player.GetHistory("CUSTOMERS", Name);
-                        Val = (count - flag >= checks[i]["VALUE"]);
-                        pString = "Satisfy Customers "+(count-flag)+"/"+checks[i]["VALUE"];
-                        break;
-                    case "TRACK_PROGRESS":
-                        bMeter = true;
-                        Val = App.QuestEngine.GetProgressValue(Player, Name);
-                        pString = "Progress";
-                        break;
-                }
-
-                if (bMeter == true) {
-                    Out.push(this.pQuestMeter(Player, pString, Val, checks[i]["VALUE"], Invert));
-                } else {
-                    Out.push(this.pQuestCheckbox(Player, pString, Val));
-                }
-
-			}
-
-			return Out.join("\n");
-		};
-
-        this.pQuestCheckbox = function(Player, pString, Val)
-        {
-            var Out = pString + " ";
-            Out = Out + (Val == true ? "@@color:lime; &#9745; @@" : "@@color:red; &#9746; @@");
-            return Out;
-        };
-
-        this.pQuestMeter = function(Player, Name, PlayerValue, GoalValue, Invert )
-        {
-            console.log("pQuestMeter("+Player+","+Name+","+PlayerValue+","+GoalValue+","+Invert+")");
-            var c, m, p;
-            if (typeof Invert !== 'undefined' && Invert == 1) {
-                m = (100 - GoalValue);
-                c = (100 - PlayerValue);
-            }  else {
-                c = PlayerValue;
-                m = GoalValue;
+            if (Name.charAt(0) == '-') {
+                Name = Name.slice(1);
+                Invert = 1;
             }
 
-            p = Math.floor( ((c/m)*100));
-            console.log("pMeter("+c+","+m+",0) called by pQuestMeter");
+            switch (checks[i]["TYPE"]) {
+                case "FLAG":
+                    continue;
+                    break;
+                case "NPC_MOOD":
+                    bMeter = true;
+                    Val = Player.GetNPC(Name).Mood();
+                    pString = Player.GetNPC(Name).pName();
+                    break;
+                case "MONEY":
+                    bMeter = true;
+                    Val = Player.Money;
+                    pString = "@@color:yellow;Coins@@";
+                    break;
+                case "STAT_BODY":
+                    bMeter = true;
+                    Val = Player.GetStatPercent("BODY", Name);
+                    pString = Name;
+                    break;
+                case "STAT_CORE":
+                    bMeter = true;
+                    Val = Player.GetStatPercent("STAT", Name);
+                    pString = Name;
+                    break;
+                case "STAT_SKILL":
+                    bMeter = true;
+                    Val = Player.GetStatPercent("SKILL", Name);
+                    pString = Name;
+                    break;
+                case "STYLE_CATEGORY":
+                    bMeter = true;
+                    Val = Math.max(0, Math.min(Player.GetStyleSpecRating(Name), 100));
+                    pString = Name;
+                    break;
+                case "HAIR_STYLE":
+                    bMeter = false;
+                    Val = ((Player.GetHairStyle() == Name) == checks[i]["VALUE"]);
+                    pString = "Hair style - "+Name;
+                    break;
+                case "HAIR_COLOR":
+                    bMeter = false;
+                    Val = ((Player.GetHairColor() == Name) == checks[i]["VALUE"]);
+                    pString = "Hair color - "+Name;
+                    break;
+                case "QUEST_ITEM":
+                    // Clothing items cannot be consumed quest items at this time.
+                    bMeter = false;
+                    if (App.Data.QuestItems.hasOwnProperty(Name)) {
+                        pString = App.Data.QuestItems[Name]["ShortDesc"];
+                    } else if (App.Data.Food.hasOwnProperty(Name)) {
+                        pString = App.Data.Food[Name]["ShortDesc"];
+                    } else if (App.Data.Drugs.hasOwnProperty(Name)) {
+                        pString = App.Data.Drugs[Name]["ShortDesc"];
+                    } else if (App.Data.Misc.hasOwnProperty(Name)) {
+                        pString = App.Data.Misc[Name]["ShortDesc"];
+                    } else {
+                        pString = App.Data.Cosmetics[Name]["ShortDesc"];
+                    }
+                    var cv = checks[i]["VALUE"];
+                    if (typeof cv !== 'undefined' && cv > 1) {
+                        pString = pString + " x" + cv;
+                        Val = (typeof Player.GetItemByName(Name) !== 'undefined' && Player.GetItemByName(Name).Charges() >= cv);
+                    } else {
+                        Val = (typeof Player.GetItemByName(Name) !== 'undefined');
+                    }
+                    break;
+                case "DAYS_PASSED":
+                    bMeter = false;
+                    pString = "wait " + (App.Quest.GetFlag(Player, Name) - Player.Day) + " days";
+                    Val = ((App.Quest.GetFlag(Player, Name) - Player.Day) < 1);
+                    break;
+                case "IS_WEARING":
+                    bMeter = false;
+                    if (checks[i]["VALUE"] == "NOT") {
+                        pString = "''NOT'' ";
+                        Val = (Player.GetEquipmentInSlot(Name) == null);
+                    } else if (checks[i]["VALUE"] == "" || typeof checks[i]["VALUE"] === 'undefined') {
+                        pString = "";
+                        Val = (Player.GetEquipmentInSlot(Name) != null);
+                    } else {
+                        pString = "";
+                        Val = Player.IsEquipped(checks[i]["VALUE"]);
+                    }
+                    pString = pString + "wearing " + Name.toLowerCase();
+                    break;
+                case "TRACK_CUSTOMERS":
+                    bMeter = false;
+                    var flag = App.Quest.GetFlag(Player, "track_"+Name);
+                    var count = Player.GetHistory("CUSTOMERS", Name);
+                    Val = (count - flag >= checks[i]["VALUE"]);
+                    pString = "Satisfy Customers "+(count-flag)+"/"+checks[i]["VALUE"];
+                    break;
+                case "TRACK_PROGRESS":
+                    bMeter = true;
+                    Val = App.Quest.GetProgressValue(Player, Name);
+                    pString = "Progress";
+                    break;
+            }
 
-            return "<span id=\"fixed-font\">" + this.pMeter(c, m, 0) +"</span>&nbsp;"+ p +"% "+Name;
-        };
+            if (bMeter == true) {
+                Out.push(this.pQuestMeter(Player, pString, Val, checks[i]["VALUE"], Invert));
+            } else {
+                Out.push(this.pQuestCheckbox(Player, pString, Val));
+            }
 
-        this.pQuestRewards = function(QuestID)
-		{
-			var Rewards = App.Data.Quests[QuestID]["REWARD"];
-			var Output = [ ];
-			var oItem;
+        }
 
-			for (var i = 0; i < Rewards.length; i++)
-			{
-				if (Rewards[i]["REWARD_TYPE"] == "MONEY") Output.push( "@@color:yellow;"+ Rewards[i]["AMOUNT"] + " coins@@.");
-                if (Rewards[i]["REWARD_TYPE"] == "SLOT") Output.push( "@@color:cyan;A slot reel unlock!@@");
-				if (Rewards[i]["REWARD_TYPE"] == "ITEM" ) {
-					oItem = App.Item.Factory( Rewards[i]["TYPE"], Rewards[i]["NAME"]);
-					Output.push( oItem.Description + " x " + Rewards[i]["AMOUNT"]);
-				}
-			}
+        return Out.join("\n");
+    };
 
-			return Output;
-		};
+    this.pQuestCheckbox = function(Player, pString, Val)
+    {
+        var Out = pString + " ";
+        Out = Out + (Val == true ? "@@color:lime; &#9745; @@" : "@@color:red; &#9746; @@");
+        return Out;
+    };
+
+    this.pQuestMeter = function(Player, Name, PlayerValue, GoalValue, Invert )
+    {
+        console.log("pQuestMeter("+Player+","+Name+","+PlayerValue+","+GoalValue+","+Invert+")");
+        var c, m, p;
+        if (typeof Invert !== 'undefined' && Invert == 1) {
+            m = (100 - GoalValue);
+            c = (100 - PlayerValue);
+        }  else {
+            c = PlayerValue;
+            m = GoalValue;
+        }
+
+        p = Math.floor( ((c/m)*100));
+        console.log("pMeter("+c+","+m+",0) called by pQuestMeter");
+
+        return "<span id=\"fixed-font\">" + this.pMeter(c, m, 0) +"</span>&nbsp;"+ p +"% "+Name;
+    };
+
+    /**
+     * Get ID for a reward choices radio group
+     * @param {App.Scene} Scene
+     * @returns {string}
+     * @private
+     */
+    this._choiceRadioGroupId = function(Scene) {
+        return "taskRewardChoices" + Scene.Id();
+    };
+
+    /**
+     * Print out task rewards
+     * @param {App.Task} Task
+     * @returns {string[]}
+     */
+    this.pTaskRewards = function(Task) {
+        var Output = [ ];
+
+        var Pay = Task.TaskData["PAY"];
+        if (Pay === undefined) Pay = 0;
+        var Items = [ ];
+        var SlotUnlockCount = 0;
+
+        for (const scene of Task.Scenes) {
+            var reward = scene.RewardItems();
+            if (reward.Pay > 0) { Pay += scene.RewardItems().Pay; }
+            for (const ri of reward.Items) {
+                var n = App.Item.SplitId(ri["Name"]);
+                var oItem = App.Item.Factory(n.Category, n.Tag);
+                Items.push(oItem.Description + " x " + ri["Value"]);
+            }
+            SlotUnlockCount += reward.SlotUnlockCount;
+        }
+
+        if (Pay > 0) {
+            Output.push("@@color:yellow;"+ Pay + " coins@@");
+        }
+        var i = 0;
+        for (i = 0; i < SlotUnlockCount; ++i) {
+            Output.push("@@color:cyan;A slot reel unlock!@@");
+        }
+        Output.push.apply(Output, Items);
+
+        // we print item choices at the end, thus let's loop scenes one more time
+        for (const scene of Task.Scenes) {
+            var Reward = scene.RewardItems();
+            if (Reward.ItemChoices.length === 0) continue;
+            var SceneId = scene.Id();
+            var radioName = this._choiceRadioGroupId(scene);
+            var choiceSelection = "<ul id=\"ItemChoice"+ SceneId + "\">\n";
+            for (i = 0; i < Reward.ItemChoices.length; ++i) {
+                var ci = Reward.ItemChoices[i];
+                n = App.Item.SplitId(ci["Name"]);
+                oItem = App.Item.Factory(n.Category, n.Tag);
+                choiceSelection += "<li><input type=\"radio\" id=\"" + radioName + i + "\" name=\"" + radioName + "\" value=\"" + i +"\"";
+                if (i === 0) {
+                    choiceSelection += " checked";
+                }
+                choiceSelection += "><label for=\"" + radioName + i + "\">" + oItem.Description + " x " + ci["Value"] + "</label></li>";
+            }
+            choiceSelection += "</ul>";
+            Output.push(choiceSelection);
+        }
+        return Output;
+    };
+
+    /**
+     * Set scene item choices basing on the user selection
+     * @param {App.Task} Task
+     */
+    this.SetTaskRewardChoices = function(Task) {
+        for (var scene of Task.Scenes) {
+            var reward = scene.RewardItems();
+            if (reward.ItemChoices.length === 0) continue;
+            reward.ChosenItem = parseInt(document.querySelector('input[name="' + this._choiceRadioGroupId(scene) + '"]:checked')["value"]);
+        }
+    };
 
     /**
      * Print the description of an item.

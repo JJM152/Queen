@@ -2,25 +2,27 @@
 
 <<widget "JournalList">><<nobr>>
 <<run App.PR.HighlightActiveTabButton($args[1], $args[2], "Journal - " +  $args[3])>>
-<<set _QE = App.QuestEngine;>>
 <<if $args[0] == "active">>
 	<<set _entryType to "JOURNAL_ENTRY">>
 <<elseif $args[0] == "completed">>
 	<<set _entryType to "JOURNAL_COMPLETE">>
 <</if>>
 <<if $args[0] == "active" || $args[0] == "completed" >>
-	<<set _QL = _QE.GetQuests($args[0], setup.player);>>
-	<<for _i = 0; _i < _QL.length; _i++>>
-		<<if (_QL[_i]["JOURNAL_ENTRY"] == "HIDDEN")>> <<continue>><</if>>
-		<<set _NPC = setup.player.GetNPC(_QL[_i]["GIVER"]);>>
-		<<print "[" +_NPC.pName() + " - " + _QL[_i]["Title"] + "]<br>";>>
-		<<print App.PR.pQuestDialog(_QL[_i]["ID"], _entryType, setup.player, _NPC);>>
-		<<print "<br><br>">>
-		<<if $args[0] == "active" && _QL[_i]["CHECKS"].length != 0>>
-			<<print App.PR.pQuestRequirements(_QL[_i]["ID"], setup.player) + "\n";>>
-		<</if>>
-		<<print "<hr>">>
-	<</for>>
+	<<set _QL = App.Quest.List($args[0], setup.player);>>
+	<<if _QL.length == 0>>
+		// No $args[0] quests.//
+	<<else>>
+		<<for _q range _QL>>
+			<<if (_q.JournalEntry === "HIDDEN")>> <<continue>> <</if>>
+			<<set _NPC = setup.player.GetNPC(_q.Giver());>>
+			//<<print "[" +_NPC.pName() + " - " + _q.Title() + "]\n";>>//
+			<<print window.App.PR.pQuestDialog(_q.ID(), _entryType, setup.player, _NPC);>>
+			<<if $args[0] == "active" && _q.Checks.length !== 0>>
+				<br><<print window.App.PR.pQuestRequirements(_q.ID(), setup.player) + "\n";>>
+			<</if>>
+			<hr>
+		<</for>>
+	<</if>>
 <</if>>
 <</nobr>>
 <</widget>>

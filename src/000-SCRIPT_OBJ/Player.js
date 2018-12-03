@@ -871,7 +871,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      * @param {number} SkillVal
      * @param {number} Difficulty
      * @param {number} Amount
-     * @param {number} Scaling
+     * @param {boolean} [Scaling=false]
      */
     GenericRoll (SkillVal, Difficulty, Amount, Scaling ) {
         Scaling         = Scaling || false;
@@ -1589,9 +1589,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         // Decrease voodoo effects
         this.EndHexDuration();
         this.NPCNextDay();
-        App.QuestEngine.NextDay(this);
+        App.Quest.NextDay(this);
         App.Avatar.DrawPortrait();
-
     } // NextDay
 
     /**
@@ -1991,12 +1990,14 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     /**
      * Find item and reduce charges. Delete from inventory if out of charges.
-     * @param ItemId {string}
+     * @param {string} ItemId
+     * @param {number} [Charges=1] Charges to consume
      * @returns The item object
      */
-    TakeItem (ItemId) {
+    TakeItem(ItemId, Charges) {
         var o = this.GetItemById(ItemId);
-        o.RemoveCharges(1); // will remove the item from inventory if charges reaches 0
+        if (Charges === undefined) Charges = 1;
+        o.RemoveCharges(Charges); // will remove the item from inventory if charges reaches 0
         return o;
     }
 

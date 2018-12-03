@@ -3,10 +3,10 @@
 <<set _Drugs = setup.player.GetItemByTypes(["potion"]);>>\
 <<set _Quests = setup.player.GetItemByTypes(["QUEST", "LOOT_BOX"]);>>
 \
-<<if !App.QuestEngine.QuestCompleted(setup.player, "BETTER_LOCKER") && (setup.player.InventoryItemsTypes() > 50 || setup.player.InventoryItemsCount() > 250)>>
-	<<run App.QuestEngine.SetQuestFlag(setup.player, "BETTER_LOCKER_REQUIRED", true)>>\
+<<if !App.Quest.IsCompleted(setup.player, "BETTER_LOCKER") && (setup.player.InventoryItemsTypes() > 50 || setup.player.InventoryItemsCount() > 250)>>
+	<<run App.Quest.SetFlag(setup.player, "BETTER_LOCKER_REQUIRED", true)>>\
 <</if>>\
-<<if App.QuestEngine.GetQuestFlag(setup.player, "BETTER_LOCKER_REQUIRED")>>\
+<<if App.Quest.GetFlag(setup.player, "BETTER_LOCKER_REQUIRED")>>\
 Your locker is so full of <<if setup.player.InventoryItemsTypes() > 50>>various <</if>> items, that it became hard to find anything in it.
 <<if setup.player.InventoryItemsCount() > 500>>\
 <<set _itemId to App.PR.GetRandomItemId(setup.player)>>\

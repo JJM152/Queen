@@ -7,9 +7,9 @@ pressed into service on a passing vessel.
 
 <<NPC "Justus">>
 
-<<if App.QuestEngine.GetQuestFlag(setup.player, "JUSTUS_WHORING") == "ACTIVE">>@@color:yellow;Action@@: <<if setup.player.GetStat("STAT","Energy") < 1 or setup.player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<whoreLink "GoldenIsleGuards">><</if>><br><</if>>\
+<<if App.Quest.GetFlag(setup.player, "JUSTUS_WHORING") === "ACTIVE">>@@color:yellow;Action@@: <<if setup.player.GetStat("STAT","Energy") < 1 or setup.player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<whoreLink "GoldenIsleGuards">><</if>><br><</if>>\
 @@color:lime;Travel@@: [[Portside District|Portside]] | [[Jail House|GI_Jail]] | \
-<<if App.QuestEngine.GetQuestFlag(setup.player, "JUSTUS_WHORING") != "COMPLETED">>\
+<<if App.Quest.GetFlag(setup.player, "JUSTUS_WHORING") !== "COMPLETED">>\
 <<click "High Hill District">>\
 <<replace "#Notification">>\
 You move forward toward's the entrance to the @@color:gold;Hill Hill District@@, but the Guard Captain steps \
