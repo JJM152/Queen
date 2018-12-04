@@ -19,7 +19,12 @@ App.Data.Clothes["pigtail wig"] = { // +9
 
 
 // NECK SLOT
-
+App.Data.Clothes["collar for daddy"] = { // +9
+    "Name": "collar for daddy", "ShortDesc": "a lacey {COLOR} collar with pink hearts",
+    "LongDesc": "This lacey white collar is fashioned with little pink hearts that combine to form the words '@@color:pink;Daddy's Girl@@!' as a whole.",
+    "Slot": "Neck", "Restrict": ["Neck"], "Color": "white", "Style": "UNCOMMON", "Type" : "ACCESSORY",
+    "Category" : [ "Daddy's Girl" ], "WearEffect": [ "FEMININE_CLOTHING", "KINKY_CLOTHING" ]
+};
 
 // NIPPLES SLOT
 
@@ -32,6 +37,12 @@ App.Data.Clothes["cute pink bra"] = { // +10
 };
 
 // CORSET SLOT
+App.Data.Clothes["belt with glitter"] = { // +9
+    "Name": "belt with glitter", "ShortDesc": "a {COLOR} belt with glittery letters",
+    "LongDesc": "This white belt features pink glitter spelling out the word '@@color:pink;PRECIOUS@@'.",
+    "Slot": "Corset", "Restrict": ["Corset"], "Color": "white", "Style": "RARE", "Type" : "ACCESSORY",
+    "WearEffect": [ "FEMININE_CLOTHING", "WAIST_CINCHING" ], "Category" : [ "Daddy's Girl", "Bimbo", "Pet Girl", ]
+};
 
 // PANTY SLOT
 App.Data.Clothes["cute pink panties"] = { // +15
