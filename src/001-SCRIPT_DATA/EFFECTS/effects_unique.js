@@ -3,7 +3,7 @@ App.Data.EffectLib = App.Data.EffectLib || {};
 
 App.Data.EffectLib["NEREID_PHILTRE"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
         function(o,p) {
         p.AdjustStat('Hormones', 5);
         p.AdjustStat('Femininity', 5);
@@ -27,7 +27,7 @@ App.Data.EffectLib["NEREID_PHILTRE"] = {
 
 App.Data.EffectLib["SUCCUBUS_PHILTRE"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
         function(o,p) {
         p.AdjustStat('Hormones', 5);
         p.AdjustStat('Femininity', 5);
@@ -50,7 +50,7 @@ App.Data.EffectLib["SUCCUBUS_PHILTRE"] = {
 
 App.Data.EffectLib["FEMALE_MANDRAKE"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
         function(o,p) {
         p.AdjustStat('Hormones', 10);
         p.AdjustStat('Femininity', 15);
@@ -74,7 +74,7 @@ App.Data.EffectLib["FEMALE_MANDRAKE"] = {
 
 App.Data.EffectLib["MALE_MANDRAKE"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
         function(o,p) {
         p.AdjustStat('Hormones', -10);
         p.AdjustStat('Femininity', -15);
@@ -101,7 +101,7 @@ App.Data.EffectLib["MALE_MANDRAKE"] = {
 
 App.Data.EffectLib["SIREN_ELIXIR"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
         function(o,p) {
         p.AdjustStatXP('WillPower', 200);
         p.AdjustStatXP('Hormones', 200);
@@ -121,7 +121,7 @@ App.Data.EffectLib["SIREN_ELIXIR"] = {
 
 App.Data.EffectLib["ELECTUARY_MARS"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) {
         p.AdjustStat('Hormones', -200);
         p.AdjustBody('Face', -1000);
@@ -141,7 +141,7 @@ App.Data.EffectLib["ELECTUARY_MARS"] = {
 /** POSSET VENUS */
 App.Data.EffectLib["POSSET_VENUS"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) {
         p.AdjustStat('Hormones', 200);
         p.AdjustBody('Face', 1000);
@@ -163,7 +163,7 @@ App.Data.EffectLib["POSSET_VENUS"] = {
 /** BALSAM PULCHRITUDE */
 App.Data.EffectLib["BALSAM_PULCHRITUDE"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) {
         p.AdjustStat('Hormones', 50);
         p.AdjustBody('Face', 20);
@@ -176,7 +176,7 @@ App.Data.EffectLib["BALSAM_PULCHRITUDE"] = {
 /** OIL ENDOWMENT */
 App.Data.EffectLib["OIL_ENDOWMENT"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) {
         p.AdjustStat('Hormones', -200);
         p.AdjustBody('Penis', 40);
@@ -188,7 +188,7 @@ App.Data.EffectLib["OIL_ENDOWMENT"] = {
 /** RESOLUTE_DROUGHT */
 App.Data.EffectLib["RESOLUTE_DROUGHT"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) {
         p.AdjustStat('WillPower', 10);
         p.AdjustStat('Energy', 100);
@@ -198,4 +198,3 @@ App.Data.EffectLib["RESOLUTE_DROUGHT"] = {
     "VALUE" : 2000,
         "KNOWLEDGE" : [ "WillPower Up++++", "Energy Up++++", "Health Up++++", "Toxicity Down----" ]
 };
-	

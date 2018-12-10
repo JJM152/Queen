@@ -90,42 +90,42 @@ App.Data.EffectLib["KINKY_CLOTHING"] = {
 };
 App.Data.EffectLib["SLAVE_COLLAR"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) { p.AdjustStatXP('WillPower',-20, 50);p.AdjustStatXP("Perversion", 20, 50); },
     "VALUE" : 0,
         "KNOWLEDGE" : [ "Slave Breaking--", "Kinky+" ]
 };
 App.Data.EffectLib["WAIST_CINCHING"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) { p.AdjustBodyXP('Waist',-20, 30); },
     "VALUE" : 100,
         "KNOWLEDGE" : [ "Waist Training+" ]
 };
 App.Data.EffectLib["WAIST_TRAINING"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) { p.AdjustBodyXP('Waist',-20, 20); },
     "VALUE" : 100,
         "KNOWLEDGE" : [ "Waist Training++" ]
 };
 App.Data.EffectLib["EXTREME_WAIST_TRAINING"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) { p.AdjustBodyXP('Waist',-40, 0); },
     "VALUE" : 250,
         "KNOWLEDGE" : [ "Waist Training++++" ]
 };
 App.Data.EffectLib["GAPE_TRAINING"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) { p.AdjustSkillXP('AssFucking', 20, 80); },
     "VALUE" : 200,
         "KNOWLEDGE" : [ "Gape Training++" ]
 };
 App.Data.EffectLib["CHASTITY_CAGE"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) {
         p.AdjustBodyXP('Penis',-20, 20);
         p.AdjustBodyXP('Balls',-20, 10);
@@ -138,77 +138,77 @@ App.Data.EffectLib["CHASTITY_CAGE"] = {
 //======================================
 App.Data.EffectLib["SUCCUBUS_ALLURE"] = {
     "FUN" : /** @param {string} s
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,s) { return ( s == "Seduction") ? 20 : 0; },
     "VALUE" : 200,
         "KNOWLEDGE" : [ "Allure of the Succubus++++" ]
 };
 App.Data.EffectLib["FLIRTY"] = {
     "FUN" : /** @param {string} s
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,s) { return ( s == "Seduction") ? 10 : 0; },
     "VALUE" : 100,
         "KNOWLEDGE" : [ "Flirty++" ]
 };
 App.Data.EffectLib["MINOR_PIRATES_GRACE"] = {
     "FUN" : /** @param {string} s
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,s) { return (s == 'Navigating' || s == 'Sailing') ? 10 : 0; },
     "VALUE" : 200,
         "KNOWLEDGE" : [ "Pirate's Grace++" ]
 };
 App.Data.EffectLib["MAJOR_PIRATES_GRACE"] = {
     "FUN" : /** @param {string} s
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,s) { return (s == 'Navigating' || s == 'Sailing' || s == 'Swashbuckling') ? 20 : 0; },
     "VALUE" : 500,
         "KNOWLEDGE" : [ "Pirate's Grace++++" ]
 };
 App.Data.EffectLib["CUT_THROAT"] = {
     "FUN" : /** @param {string} s
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,s) { return ( s == "Swashbuckling") ? 10 : 0; },
     "VALUE" : 200,
         "KNOWLEDGE" : [ "Cut Throat++" ]
 };
 App.Data.EffectLib["MINOR_STRIPPERS_ALLURE"] = {
     "FUN" : /** @param {string} s
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,s) { return (s == 'Fitness' || s == 'Dancing' || s == 'Seduction') ? 10 : 0; },
     "VALUE" : 300,
         "KNOWLEDGE" : [ "Stripper's Allure++" ]
 };
 App.Data.EffectLib["MAJOR_STRIPPERS_ALLURE"] = {
     "FUN" : /** @param {string} s
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,s) { return (s == 'Fitness' || s == 'Dancing' || s == 'Seduction') ? 15 : 0; },
     "VALUE" : 500,
         "KNOWLEDGE" : [ "Stripper's Allure+++" ]
 };
 App.Data.EffectLib["GREATER_STRIPPERS_ALLURE"] = {
     "FUN" : /** @param {string} s
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,s) { return (s == 'Fitness' || s == 'Dancing' || s == 'Seduction') ? 20 : 0; },
     "VALUE" : 800,
         "KNOWLEDGE" : [ "Stripper's Allure++++" ]
 };
 App.Data.EffectLib["FANCY_MOVES"] = {
     "FUN" : /** @param {string} s
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,s) { return ( s == "Dancing") ? 10 : 0; },
     "VALUE" : 200,
         "KNOWLEDGE" : [ "Fancy Moves++" ]
 };
 App.Data.EffectLib["REALLY_FANCY_MOVES"] = {
     "FUN" : /** @param {string} s
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,s) { return (s == 'Dancing' || s == 'Seduction') ? 15 : 0; },
     "VALUE" : 600,
         "KNOWLEDGE" : [ "Fancy Moves+++" ]
 };
 App.Data.EffectLib["MAIDS_PROWESS"] = {
     "FUN" : /** @param {string} s
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,s) { return (s == 'Cooking' || s == 'Cleaning' || s == 'Serving') ? 10 : 0; },
     "VALUE" : 300,
         "KNOWLEDGE" : [ "Maid's Prowess++" ]

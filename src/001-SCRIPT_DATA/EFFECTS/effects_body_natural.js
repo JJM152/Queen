@@ -5,7 +5,7 @@ App.Data.EffectLib = App.Data.EffectLib || {};
 /** HEALTH */
 App.Data.EffectLib.NATURAL_HEALING = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o, p) { p.DoHealing(1); },
     "VALUE" : 0, "KNOWLEDGE" : [ "Healing+" ]
 };
@@ -13,7 +13,7 @@ App.Data.EffectLib.NATURAL_HEALING = {
 /** NUTRITION*/
 App.Data.EffectLib.NATURAL_NUTRITION = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o, p) {
 		p.AdjustStat("Nutrition", -5);
 		var nutrition = p.GetStat("STAT", "Nutrition");
@@ -38,7 +38,7 @@ App.Data.EffectLib.NATURAL_NUTRITION = {
 /** TOXICITY */
 App.Data.EffectLib.NATURAL_DETOXIFICATION = {
     "FUN" : /** @param {App.Entity.Player} p
-    @param {App.Item.Consumable} o*/
+    @param {App.Items.Consumable} o*/
    function(o, p) { p.AdjustStat("Toxicity", -( (5 + (p.GetStat("STAT", "Fitness") / 10)))*2); },
    "VALUE" : 0, "KNOWLEDGE" : [ "Detoxification+" ]
 };
@@ -47,7 +47,7 @@ App.Data.EffectLib.NATURAL_DETOXIFICATION = {
 App.Data.EffectLib.NATURAL_HORMONE_SHIFT = {
 	"VALUE" : 0, "KNOWLEDGE" : [ "Hormonal processes+" ],
 	"FUN" : /** @param {App.Entity.Player} p
-	@param {App.Item.Consumable} o*/
+	@param {App.Items.Consumable} o*/
    function(o, p) {
         //Adjust physical characteristics based on hormone balance. Only shift body if there is XP related to the hormone
         //shift stored in the player object.
@@ -80,7 +80,7 @@ App.Data.EffectLib.NATURAL_HORMONE_SHIFT = {
 /** FITNESS */
 App.Data.EffectLib.NATURAL_FITNESS_DECREASE = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) { p.AdjustStatXP("Fitness", -5); },
     "VALUE" : 0, "KNOWLEDGE" : [ "Flabbiness+" ]
 };
@@ -88,7 +88,7 @@ App.Data.EffectLib.NATURAL_FITNESS_DECREASE = {
 /** HAIR */
 App.Data.EffectLib.NATURAL_HAIR_GROW = {
     "FUN" : /** @param {App.Entity.Player} p
-        @param {App.Item.Consumable} o*/
+        @param {App.Items.Consumable} o*/
     function(o,p) { p.AdjustBodyXP("Hair", 4, 0); /* Hair grows about 0.05 CM per day.*/ },
     "VALUE" : 0, "KNOWLEDGE" : [ "Hair grow+" ]
 };
@@ -98,7 +98,7 @@ App.Data.EffectLib.NATURAL_HAIR_GROW = {
 /** LACTATION */
 App.Data.EffectLib.NATURAL_LACTATION_DECREASE = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) { p.AdjustBody("Lactation", -1); },
     "VALUE" : 0
 };
