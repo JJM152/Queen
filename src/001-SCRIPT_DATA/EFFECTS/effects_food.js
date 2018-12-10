@@ -3,7 +3,7 @@ App.Data.EffectLib = App.Data.EffectLib || {};
 
 App.Data.EffectLib["SLAVE_GRUEL"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) {
         p.AdjustStat('Nutrition', 15);
         p.AdjustStatXP('Nutrition', 75);
@@ -17,14 +17,14 @@ App.Data.EffectLib["SLAVE_GRUEL"] = {
 };
 App.Data.EffectLib["SNACK"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) { p.AdjustStat('Nutrition', 5);p.AdjustStatXP('Nutrition', 10); },
     "VALUE" : 10,
         "KNOWLEDGE" : [ "Nutrition Up", "Satiation Up+" ]
 };
 App.Data.EffectLib["LIGHT_WHOLESOME_MEAL"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) {
         p.AdjustStat('Nutrition', 10);
         p.AdjustStatXP('Nutrition', 25);
@@ -35,7 +35,7 @@ App.Data.EffectLib["LIGHT_WHOLESOME_MEAL"] = {
 };
 App.Data.EffectLib["WHOLESOME_MEAL"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) {
         p.AdjustStat('Nutrition', 20);
         p.AdjustStatXP('Nutrition', 50);
@@ -46,7 +46,7 @@ App.Data.EffectLib["WHOLESOME_MEAL"] = {
 };
 App.Data.EffectLib["LIGHT_ALCOHOL"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) {
         p.AdjustStat('Nutrition', 5);
         p.AdjustStatXP('Nutrition', 15);
@@ -57,7 +57,7 @@ App.Data.EffectLib["LIGHT_ALCOHOL"] = {
 };
 App.Data.EffectLib["HARD_ALCOHOL"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Consumable} o*/
+     @param {App.Items.Consumable} o*/
     function(o,p) {
         p.AdjustStat('Nutrition', 5);
         p.AdjustStatXP('Nutrition', 10);
