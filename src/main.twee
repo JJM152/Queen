@@ -17,37 +17,45 @@ setup.player = new App.Entity.Player();
 
 // Override navigation on death.
 Config.navigation.override = function (passageName) {
-        if (App.EventHandlers.HasPlayerState() == false) return; //ignore these checks if there is no player state.
-        if (setup.player.GetStat("STAT", "Health") <= 0) {
-            State.temporary.followup = passageName;
-            return "DeathEnd";
-        }
+    if (App.EventHandlers.HasPlayerState() == false) return; //ignore these checks if there is no player state.
+    if (setup.player.GetStat("STAT", "Health") <= 0) {
+        State.temporary.followup = passageName;
+        return "DeathEnd";
+    }
 
-        if (setup.player.GetStat("STAT", "WillPower") < 20) {
-            State.temporary.followup = passageName;
-            return "WillPowerEnd";
-        }
-    };
+    if (setup.player.GetStat("STAT", "WillPower") < 20) {
+        State.temporary.followup = passageName;
+        return "WillPowerEnd";
+    }
+};
 
-    // Setting for showing numbers along with the meters
-    Setting.addToggle("displayMeterNumber", {
-        label    : "Display numbers in (pseudo-)graphical meters",
-        desc     : "Controls printing number values for each meter bar in addition to the graphical representation",
-        default  : false,
-        onInit   : handleMetersNumberValueSettingChanged,
-        onChange : handleMetersNumberValueSettingChanged
-      });
+Setting.addHeader("Display settings");
 
-    App.unitSystem = new App.UnitSystem();
-    // Setting up a basic list control for the settings property 'units'
-    Setting.addList("units", {
-        label   : "Unit system",
-        desc    : "Choose the unit system.",
-        list    : ["Imperial", "Metric"],
-        default : "Imperial",
-        onInit  : unitSettingChangedHandler,
-        onChange: unitSettingChangedHandler
+// Setting for showing numbers along with the meters
+Setting.addToggle("displayMeterNumber", {
+    label    : "Show numbers in (pseudo-)graphical meters",
+    desc     : "Controls printing number values for each meter bar in addition to the graphical representation",
+    default  : false,
+    onInit   : handleMetersNumberValueSettingChanged,
+    onChange : handleMetersNumberValueSettingChanged
     });
+
+App.unitSystem = new App.UnitSystem();
+// Setting up a basic list control for the settings property 'units'
+Setting.addList("units", {
+    label   : "Unit system",
+    desc    : "Choose the unit system.",
+    list    : ["Imperial", "Metric"],
+    default : "Imperial",
+    onInit  : unitSettingChangedHandler,
+    onChange: unitSettingChangedHandler
+});
+
+Setting.addToggle("inlineItemDetails", {
+    label    : "Inline detailed information in inventory and shops",
+    desc     : "Toggles displaying additional information in the inventory and shop interfaces.\nDetailed item information will be inlined if setting is enabled or shown in tooltips otherwise",
+    default  : false
+});
 
 App.EventHandlers.Init();
 
@@ -333,20 +341,20 @@ He sighs. "That's what makes a man, is it? I think not. What parts we have matte
 <<click "Of course not.">>
     <<run setup.player.AdjustStat("WillPower", -5);>>
     <<replace "#shame">>"Of course not," you say.
-    
+
     "Of course not," he agrees with a smile and nod. "Girls are beautiful creatures indeed and, the truth is, men only serve to nuture you. If anyone should be ashamed, it is me, not you. I've been remiss in my chivalrous duties!"<</replace>>
     <<replace "#nextPage">>[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]<</replace>>
 <</click>>
 <<click "No, but I'm not a lovely lass.">>
     <<run setup.player.AdjustStat("WillPower", -5);>>
     <<replace "#shame">>"No," you say, "but I'm not a lovely lass."
-    
+
     "Perhaps you don't see it... yet," he says, "but I see it very clearly. And with a little care, I'm quite certain you'll see it, too. I would be honored to help you see what a lovely lass you are indeed."<</replace>>
     <<replace "#nextPage">>[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]<</replace>>
 <</click>>
 <<click "Girls are fragile and silly!">>
     <<replace "#shame">>"Girls are fragile and silly!" you tell him.
-    
+
     "Fragile and silly?" He sighs. "I simply must beg to differ. Women are the entire reason men exist at all. You are our poetry. You are the sun and the moon. Fine lasses like yourself, @@color:deepPink;<<= setup.player.SlaveName>>@@, are our very hearts. Everything we do that is neither fragile nor silly we do in your honor. And I would very much like to show you how much I respect that."<</replace>>
     <<replace "#nextPage">>[[You watch him retrieve a bucket from near the cell door.|IntroSlow3]]<</replace>>
 <</click>>
