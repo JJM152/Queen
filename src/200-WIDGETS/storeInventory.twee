@@ -6,23 +6,23 @@
 <<set _CI = _ST.GetCommonInventory();>>\
 <<set _RI = _ST.GetRareInventory(); >>\
 <<if _ST.OwnerMood() >= 80>>\
-	<<set _DUR = _ST.DaysUntilRestocking() >>
-	<<if _DUR > 0>>
-		<<set _restockingText to "Restocking in " + _DUR + " days">>
-	<<else>>
-		<<set _restockingText to "Fresh supplies arrived this morning!">>
-	<</if>>
+	<<set _DUR = _ST.DaysUntilRestocking() >>\
+	<<if _DUR > 0>>\
+		<<set _restockingText to "Restocking in " + _DUR + " days">>\
+	<<else>>\
+		<<set _restockingText to "Fresh supplies arrived this morning!">>\
+	<</if>>\
 	<<if SugarCube.settings.inlineItemDetails>>\
-		<<set _restockHint to "">>
-		<<set _restockCell to "<td colspan=\"2\">" + _restockingText + "</td>">>
-	<<else>>
-		<<set _restockHint to "<span class=\"tooltip\">" + _restockingText + "</span>">>
-		<<set _restockCell to "">>
-	<</if>>
-<<else>>
-	<<set _restockHint to "">>
-	<<set _restockCell to "">>
-<</if>>
+		<<set _restockHint to "">>\
+		<<set _restockCell to "<td colspan=\"2\">" + _restockingText + "</td>">>\
+	<<else>>\
+		<<set _restockHint to "<span class=\"tooltip\">" + _restockingText + "</span>">>\
+		<<set _restockCell to "">>\
+	<</if>>\
+<<else>>\
+	<<set _restockHint to "">>\
+	<<set _restockCell to "">>\
+<</if>>\
 <<nobr>>
 <table class=".MyTable">
 <tbody>
