@@ -33,7 +33,7 @@
 <td style="width: 420px;">@@color:yellow;General Items@@</td>
 <td style="width: 80px;font-size:smaller;text-align:center;">Quantity</td>
 <td style="width: 60px;font-size:smaller;text-align:right;">Price</td>
-<td style="width: 80px;"> </td>
+<td style="width: 180px;"> </td>
 <td style="width: 80px;"> </td>
 </tr>
 <<if _CI.length == 0>>
@@ -46,7 +46,7 @@
 <td> <<print _ST.PrintItem(_CI[_i]);>></td>
 <td style="text-align:center;"><<print _CI[_i]["QTY"]>></td>
 <td style="text-align:right;"><<print _ST.GetPrice(_CI[_i]);>></td>
-<td style="text-align:center;"><<storeButton _CI[_i]>></td>
+<td style="text-align:left;"><<storeButton _CI[_i]>></td>
 <td style="text-align:center;"><<storeExamineButton _CI[_i]>></td>
 </tr>
 <</for>>
