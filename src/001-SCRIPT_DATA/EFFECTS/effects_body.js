@@ -243,11 +243,11 @@ App.Data.EffectLib["WAIST_XP_RARE"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
     function(o,p) { p.AdjustBodyXP('Waist', -200); },
-    "VALUE" : 200, "KNOWLEDGE" : [ "Waist Grow+++" ]
+    "VALUE" : 200, "KNOWLEDGE" : [ "Waist Narrower+++" ]
 };
 App.Data.EffectLib["WAIST_XP_LEGENDARY"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
     function(o,p) { p.AdjustBodyXP('Waist', -400); },
-    "VALUE" : 400, "KNOWLEDGE" : [ "Waist Grow++++" ]
+    "VALUE" : 400, "KNOWLEDGE" : [ "Waist Narrower++++" ]
 };
