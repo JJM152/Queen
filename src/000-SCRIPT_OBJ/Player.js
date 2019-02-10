@@ -2037,7 +2037,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      * @returns {Array.<App.Items.Reel>}
      */
     GetReelsInInventory() {
-        return this.Inventory.filter( function(o) { return (typeof o.Type === 'function') && (o.Type == 'REEL'); });
+        return this.Inventory.filter( function(o) { return  (o.Type == 'REEL'); });
     }
 
     /**
