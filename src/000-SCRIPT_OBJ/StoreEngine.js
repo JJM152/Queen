@@ -272,14 +272,14 @@ var Store = function(Player, NPC, StoreData) {
     this.PrintItem = function(Item)
     {
         var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"]);
-        var res = oItem.Description;
-      
+        var res = "<span class='inventoryItem'>" + oItem.Description;
+        console.log("store print item called");
         if (this._Player.Inventory.IsFavorite(oItem.Id)) {
             res += "&nbsp;" + App.PR.GetItemFavoriteIcon(true);
         }
 
         if (SugarCube.settings.inlineItemDetails) {
-            res += "</span><br><span class='inventoryItemDetails'>" + oItem.Examine(this._Player, true) + '</span>';
+            res += "</span><br><div class='inventoryItemDetails'>" + oItem.Examine(this._Player, false) + '</div>';
         } else {
             res += '<span class="tooltip">' + oItem.Examine(this._Player, false) + '</span></span>';
         }
