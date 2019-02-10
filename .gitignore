@@ -285,3 +285,4 @@ $RECYCLE.BIN/
 *.exe
 doc/
 .idea/
+queen.code-workspace

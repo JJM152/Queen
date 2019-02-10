@@ -251,18 +251,19 @@ App.PR = new function() {
         this.pEffectMeter = function(effect, item)
         {
             var output = "";
+            var effectStr = effect.replace(/ /g, '&nbsp;');
 
             // Build color and arrow
             if (effect.indexOf('-') != -1 ) {
-                output = "@@color:red;"+effect+"@@";
+                output = "@@color:red;"+effectStr+"@@";
                 output = output.replace(/-/g, '&dArr;');
             } else
             if (effect.indexOf('+') != -1) {
-                output = "@@color:lime;"+effect+"@@";
+                output = "@@color:lime;"+effectStr+"@@";
                 output = output.replace(/\+/g, '&uArr;');
             } else
             if (effect.indexOf('?') != -1) {
-                output = "@@color:lime;&uArr;"+effect+"@@";
+                output = "@@color:lime;&uArr;"+effectStr+"@@";
                 if (typeof item.o['Style'] !== 'undefined') {
                     switch(item.o['Style']) {
                         case 'COMMON': output = output.replace(/RANK/g, "&uArr;" ); break;
@@ -272,7 +273,7 @@ App.PR = new function() {
                     }
                 }
             } else {
-                output = "@@color:grey;"+effect+"@@";
+                output = "@@color:grey;"+effectStr+"@@";
                 output =  output.replace(/RANK/g, "&uArr;");
             }
 
@@ -828,6 +829,23 @@ App.PR = new function() {
         } catch (err) {
             //no-op
         }
+    };
+
+    /**
+     * Prints item description for the inventory list
+     * @param {(App.Items.Clothing|App.Items.Consumable|App.Items.QuestItem)} Item
+     * @param {App.Entity.Player} Player
+     * @return {html}
+     */
+    this.PrintItem = function(Item, Player)
+    {
+        var res = "<span class='inventoryItem'>" + Item.Description();
+        if (SugarCube.settings.inlineItemDetails) {
+            res += "</span><br><span class='inventoryItemDetails'>" + Item.Examine(Player, true) + '</span>';
+        } else {
+            res += '<span class="tooltip">' + Item.Examine(Player, false) + '</span></span>';
+        }
+        return res;
     };
 };
 

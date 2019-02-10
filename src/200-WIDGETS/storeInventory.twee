@@ -5,16 +5,35 @@
 <<set _ST = _SE.OpenStore(setup.player, _NPC);>>\
 <<set _CI = _ST.GetCommonInventory();>>\
 <<set _RI = _ST.GetRareInventory(); >>\
+<<if _ST.OwnerMood() >= 80>>\
+	<<set _DUR = _ST.DaysUntilRestocking() >>\
+	<<if _DUR > 0>>\
+		<<set _restockingText to "Restocking in " + _DUR + " days">>\
+	<<else>>\
+		<<set _restockingText to "Fresh supplies arrived this morning!">>\
+	<</if>>\
+	<<if SugarCube.settings.inlineItemDetails>>\
+		<<set _restockHint to "">>\
+		<<set _restockCell to "<td colspan=\"2\">" + _restockingText + "</td>">>\
+	<<else>>\
+		<<set _restockHint to "<span class=\"tooltip\">" + _restockingText + "</span>">>\
+		<<set _restockCell to "">>\
+	<</if>>\
+<<else>>\
+	<<set _restockHint to "">>\
+	<<set _restockCell to "">>\
+<</if>>\
 <<nobr>>
 <table class=".MyTable">
 <tbody>
-<tr><td colspan="5" style="font-size:larger;text-align:center;">@@color:cyan;<<print _ST.GetName();>>@@</td>
+<tr><td colspan="3" class="shopName"><span><<print _ST.GetName();>><<= _restockHint>></span></td>
+<<= _restockCell>>
 </tr>
 <tr style="border-bottom:solid 1px white;">
-<td style="width: 320px;">@@color:yellow;General Items@@</td>
+<td style="width: 420px;">@@color:yellow;General Items@@</td>
 <td style="width: 80px;font-size:smaller;text-align:center;">Quantity</td>
 <td style="width: 60px;font-size:smaller;text-align:right;">Price</td>
-<td style="width: 80px;"> </td>
+<td style="width: 180px;"> </td>
 <td style="width: 80px;"> </td>
 </tr>
 <<if _CI.length == 0>>
@@ -24,10 +43,10 @@
 <<else>>
 <<for _i = 0; _i lt _CI.length; _i++>>
 <tr>
-<td>  <<print _ST.PrintItem(_CI[_i]);>></td>
+<td> <<print _ST.PrintItem(_CI[_i]);>></td>
 <td style="text-align:center;"><<print _CI[_i]["QTY"]>></td>
 <td style="text-align:right;"><<print _ST.GetPrice(_CI[_i]);>></td>
-<td style="text-align:center;"><<storeButton _CI[_i]>></td>
+<td style="text-align:left;"><<storeButton _CI[_i]>></td>
 <td style="text-align:center;"><<storeExamineButton _CI[_i]>></td>
 </tr>
 <</for>>

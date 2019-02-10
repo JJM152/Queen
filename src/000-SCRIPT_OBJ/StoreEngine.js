@@ -121,11 +121,18 @@ var Store = function(Player, NPC, StoreData) {
 
     };
 
-    this.BuyItem = function(Item)
+    this.BuyItems = function(Item, Count)
     {
-        Item["QTY"] = Math.max(0, (Item["QTY"] - 1));
-        this._Player.AddItem(Item["TYPE"], Item["TAG"], 0);
-        this._Player.AdjustMoney((this.GetPrice(Item) * -1.0));
+        if (Count === undefined) Count = Item["QTY"];
+        var itemPrice = this.GetPrice(Item);
+        // looping because some items contain more than 1 charge
+        // and we cann't fetch that here
+        for (var i = 0; i < Count; ++i) {
+            if (this._Player.Money < itemPrice || Item["QTY"] === 0 || this._Player.MaxItemCapacity(Item)) break;
+            Item["QTY"] = Math.max(0, (Item["QTY"] - 1));
+            this._Player.AddItem(Item["TYPE"], Item["TAG"], 0);
+            this._Player.AdjustMoney(itemPrice * -1.0);
+        }
     };
 
     this.GenerateMarket = function() {
@@ -213,6 +220,27 @@ var Store = function(Player, NPC, StoreData) {
         }
     };
 
+    /**
+     * Returns days until the next restocking
+     * @returns {number}
+     */
+    this.DaysUntilRestocking = function()
+    {
+        // Don't stock stuff in markets
+        if (this._Data["RESTOCK"] == 0) return 0;
+        return this._Data["RESTOCK"] - (this._Player.Day
+             - this._Player.StoreInventory[this._Data["ID"]]["LAST_STOCKED"]);
+    };
+
+    /**
+     * Owner's mood
+     * @returns {number}
+     */
+    this.OwnerMood = function()
+    {
+        return this._NPC.Mood();
+    };
+
     /* FIXME: Let's make this trigger for the SHIP whenever you land at a port. But not otherwise. */
     this.StockInventory = function()
     {
@@ -245,8 +273,15 @@ var Store = function(Player, NPC, StoreData) {
     {
         var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"]);
         var res = oItem.Description;
+      
         if (this._Player.Inventory.IsFavorite(oItem.Id)) {
             res += "&nbsp;" + App.PR.GetItemFavoriteIcon(true);
+        }
+
+        if (SugarCube.settings.inlineItemDetails) {
+            res += "</span><br><span class='inventoryItemDetails'>" + oItem.Examine(this._Player, true) + '</span>';
+        } else {
+            res += '<span class="tooltip">' + oItem.Examine(this._Player, false) + '</span></span>';
         }
         return res;
     };
