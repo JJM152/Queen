@@ -337,7 +337,7 @@ App.Item = class Item {
                         } else {
                             var obj = Player.AddItem(Items[i]["TYPE"], Items[i]["TAG"], 0);
                             if (x == 0) {
-                                output += obj.Description();
+                                output += obj.Description;
                                 output += Items[i]["QTY"] > 1 ? "@@color:gold; x " + Items[i]["QTY"] + "@@\n" : "\n";
                             }
                         }
@@ -397,20 +397,20 @@ App.Item = class Item {
     /**
      * @returns {string}
      */
-    Id() {
+    get Id() {
         return Item.MakeId(this._itemClass, this._tag);
     }
 
     /**
      * @returns {string}
      */
-    Tag() {
+    get Tag() {
         return this._tag;
     }
     /**
      * @returns {string}
      */
-    ItemClass() {
+    get ItemClass() {
         return this._itemClass;
     }
 
@@ -432,15 +432,23 @@ App.Item = class Item {
      * Name of item.
      * @returns {string}
      */
-    Name() {
+    get Name() {
         return this._o["Name"];
+    }
+
+    /**
+     * Sub category of quest item. If applicable.
+     * @returns {string}
+     */
+    get Type() {
+        return this.Data.Type;
     }
 
     /**
      * @returns {boolean}
      */
     IsFavorite() {
-        return this._inventory.IsFavorite(this.Id());
+        return this._inventory.IsFavorite(this.Id);
     }
 
     /**
@@ -449,9 +457,9 @@ App.Item = class Item {
      */
     SetFavorite(Value) {
         if (Value == true) {
-            this._inventory.AddFavorite(this.Id());
+            this._inventory.AddFavorite(this.Id);
         } else {
-            this._inventory.DeleteFavorite(this.Id());
+            this._inventory.DeleteFavorite(this.Id);
         }
         return Value;
     }
@@ -479,7 +487,7 @@ App.Item = class Item {
      * @returns {number}
      */
     Charges() {
-        console.log("Error: calling Item.Charges() for class " + this.Id());
+        console.log("Error: calling Item.Charges() for class " + this.Id);
         return 0;
     }
 
@@ -488,7 +496,7 @@ App.Item = class Item {
      * @param {number} n
      */
     AddCharges(n) {
-        console.log("Error: calling Item.AddCharges() for class " + this.Id());
+        console.log("Error: calling Item.AddCharges(" + n + ") for class " + this.Id);
     }
 };
 
@@ -511,20 +519,20 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
         super('CLOTHES', Tag, d, InventoryObj);
         this._Knowlege = [ ];
 
-        for(var i = 0; i < this.WearEffect().length; i++)
-            this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[this.WearEffect()[i]]["KNOWLEDGE"]);
-        for(i = 0; i < this.ActiveEffect().length; i++)
-            this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[this.ActiveEffect()[i]]["KNOWLEDGE"]);
+        for(var i = 0; i < this.WearEffect.length; i++)
+            this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[this.WearEffect[i]]["KNOWLEDGE"]);
+        for(i = 0; i < this.ActiveEffect.length; i++)
+            this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[this.ActiveEffect[i]]["KNOWLEDGE"]);
     }
 
     /**
      * Short description of item
      * @returns {string}
      */
-    Description() {
+    get Description() {
         var result = this.Data.ShortDesc;
         if (result instanceof String) result = String(result);
-        if (typeof (result) !== "string" || result === "") return this.Name();
+        if (typeof (result) !== "string" || result === "") return this.Name;
         result = result.replace("{COLOR}", String(this.Data.Color));
 
         if (this.IsLocked()) result += " @@color:red;(Locked)@@";
@@ -538,16 +546,16 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
      * @param {boolean} [OmitDescription]
      * @returns {string}
      */
-    Examine(Player, OmitDescription) {
-        var Output = OmitDescription ? "" : this.Data["LongDesc"];
-        var Usages = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Tag());
+    Examine(Player) {
+        var Output = this.Data["LongDesc"];
+        var Usages = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Tag);
 
         Output += "\n";
 
         Output += "@@color:yellow;Style Categories  @@ ";
-        Output += this.Category().join(", ");
+        Output += this.Category.join(", ");
         Output += "\n";
-        Output += "@@color:yellow;Rank @@ " + this.Rank() + "\n";
+        Output += "@@color:yellow;Rank @@ " + this.Rank + "\n";
         var max = Math.min(Usages, this.GetKnowledge().length);
 
         for(var i = 0; i < max; i++)
@@ -562,9 +570,9 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
      */
     ApplyEffects(Player) {
 
-        for (var i = 0; i < this.WearEffect().length;i++) {
-            if (Player.debugMode == true) console.log("Applying effect: "+this.WearEffect()[i]);
-            App.Data.EffectLib[this.WearEffect()[i]]["FUN"](this, Player);
+        for (var i = 0; i < this.WearEffect.length;i++) {
+            if (Player.debugMode == true) console.log("Applying effect: "+this.WearEffect[i]);
+            App.Data.EffectLib[this.WearEffect[i]]["FUN"](this, Player);
         }
     }
 
@@ -575,12 +583,12 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
      */
     LearnKnowledge(Player)
     {
-        var flag = ( Player.GetHistory("CLOTHING_KNOWLEDGE", this.Tag()) > 0);
-        var know = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Tag());
+        var flag = ( Player.GetHistory("CLOTHING_KNOWLEDGE", this.Tag) > 0);
+        var know = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Tag);
         if (flag && know < this.GetKnowledge().length){
-            var output = "@@color:yellow;You learn something... your " + this.Name() +" has an effect!@@ " + App.PR.pEffectMeter(this.GetKnowledge()[know], this);
-            Player.AddHistory("CLOTHING_EFFECTS_KNOWN", this.Tag(), 1);
-            Player.RemoveHistory("CLOTHING_KNOWLEDGE", this.Tag());
+            var output = "@@color:yellow;You learn something... your " + this.Name +" has an effect!@@ " + App.PR.pEffectMeter(this.GetKnowledge()[know], this);
+            Player.AddHistory("CLOTHING_EFFECTS_KNOWN", this.Tag, 1);
+            Player.RemoveHistory("CLOTHING_KNOWLEDGE", this.Tag);
             return output;
         }
     }
@@ -589,7 +597,7 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
      * List all categories this piece of clothing belongs to.
      * @returns {string[]}
      */
-    Category()
+    get Category()
     {
         if (this.Data.hasOwnProperty("Category") == false) return [ "Ordinary" ];
         return this.Data["Category"];
@@ -602,55 +610,47 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
      */
     CategoryBonus(Cat)
     {
-        return ( $.inArray(Cat, this.Category()) != -1 ) ? this.Style() : 0;
+        return ( $.inArray(Cat, this.Category) != -1 ) ? this.Style : 0;
     }
 
     /**
      * What slot this is worn in.
      * @returns {string}
      */
-    Slot() {
-        return this.Data["Slot"];
+    get Slot() {
+        return this.Data.Slot;
     }
 
     /**
      * Slots to disable when this is worn.
      * @returns {string[]}
      */
-    Restrict() {
-        return this.Data["Restrict"];
+    get Restrict() {
+        return this.Data.Restrict;
     }
 
     /**
      * Effects that happen when the item is worn, overnight.
      * @returns {string[]}
      */
-    WearEffect() {
-        return (typeof this.Data["WearEffect"] !== 'undefined') ? this.Data["WearEffect"] : [ ];
+    get WearEffect() {
+        return (typeof this.Data["WearEffect"] !== 'undefined') ? this.Data.WearEffect : [ ];
     }
 
     /**
      * Effects that can be applied to active skill rolls.
      * @returns {string[]}
      */
-    ActiveEffect() {
-        return (typeof this.Data["ActiveEffect"] !== 'undefined') ? this.Data["ActiveEffect"] : [ ];
+    get ActiveEffect() {
+        return (typeof this.Data["ActiveEffect"] !== 'undefined') ? this.Data.ActiveEffect : [ ];
     }
 
     /**
      * Color of item.
      * @returns {string}
      */
-    Color() {
-        return this.Data["Color"];
-    }
-
-    /**
-     * Type of clothing piece.
-     * @returns {string}
-     */
-    Type() {
-        return this.Data["Type"];
+    get Color() {
+        return this.Data.Color;
     }
 
 // STYLE TABLE
@@ -661,7 +661,7 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
     /**
      * Style bonus related to quality of clothing item.
      * @returns {number} */
-    Style() {
+    get Style() {
         const bonus = {
             "ACCESSORY" : { "COMMON" : 3, "UNCOMMON" : 6, "RARE" : 9, "LEGENDARY" : 12 },
             "WEAPON"    : { "COMMON" : 3, "UNCOMMON" : 6, "RARE" : 9, "LEGENDARY" : 12 },
@@ -669,14 +669,14 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
             "ONE PIECE" : { "COMMON" : 10, "UNCOMMON" : 20, "RARE" : 30, "LEGENDARY" : 40 }
         };
 
-        if (this.Type() == "WEAPON") return 0;
-        return bonus[this.Type()][this.Data["Style"]];
+        if (this.Type == "WEAPON") return 0;
+        return bonus[this.Type][this.Data.Style];
     }
     /**
      * Show stars relating to rank on clothing.
      * @returns {string}
      */
-    Rank() {
+    get Rank() {
         if (this.Data["Style"] == "COMMON") return "@@color:gold;&#9733;@@";
         if (this.Data["Style"] == "UNCOMMON") return "@@color:gold;&#9733;&#9733;@@";
         if (this.Data["Style"] == "RARE") return "@@color:gold;&#9733;&#9733;&#9733;@@";
@@ -708,7 +708,7 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
      * Locked items cannot be removed unless unlocked.
      */
     IsLocked() {
-        if (this.Inventory !== undefined && this.Inventory.IsWorn(this.Id(), this.Slot())) return this.Inventory.IsLocked(this.Slot());
+        if (this.Inventory !== undefined && this.Inventory.IsWorn(this.Id, this.Slot)) return this.Inventory.IsLocked(this.Slot);
         var locked = this.Data.Locked;
         return typeof (locked) === "boolean" ? locked : false;
     }
@@ -720,7 +720,7 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
      */
     GetBonus(skillName) {
         var bonus = 0;
-        for (var i = 0; i < this.ActiveEffect().length;i++) bonus += App.Data.EffectLib[this.ActiveEffect()[i]]["FUN"](this,skillName);
+        for (var i = 0; i < this.ActiveEffect.length;i++) bonus += App.Data.EffectLib[this.ActiveEffect[i]]["FUN"](this,skillName);
         return bonus;
     }
 
@@ -753,8 +753,8 @@ App.Items.Consumable = /** @class Consumable @extends {App.Item} */ class Consum
 
         this._Knowlege = [ ];
 
-        for(var i = 0; i < this.UseEffect().length; i++){
-            this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[this.UseEffect()[i]]["KNOWLEDGE"]);
+        for(const e of this.UseEffect){
+            this._Knowlege = this._Knowlege.concat(App.Data.EffectLib[e].KNOWLEDGE);
         }
     }
 
@@ -762,7 +762,7 @@ App.Items.Consumable = /** @class Consumable @extends {App.Item} */ class Consum
      * Short description of item
      * @returns {string}
      */
-    Description() {
+    get Description() {
         return this.Data["ShortDesc"];
     }
 
@@ -774,7 +774,7 @@ App.Items.Consumable = /** @class Consumable @extends {App.Item} */ class Consum
      */
     Examine(Player, OmitDescription) {
         var Output = OmitDescription ? "" : this.Data["LongDesc"];
-        var Usages = Player.GetHistory("ITEMS", this.Tag());
+        var Usages = Player.GetHistory("ITEMS", this.Tag);
 
         if (Usages == 0) return Output;
 
@@ -787,13 +787,8 @@ App.Items.Consumable = /** @class Consumable @extends {App.Item} */ class Consum
         return Output;
     }
 
-    /** @returns {string} */
-    Type() {
-        return this.Data["Type"];
-    }
-
     /** @returns {*}*/
-    UseEffect() {
+    get UseEffect() {
         return (typeof this.Data["Effects"] !== 'undefined') ? this.Data["Effects"] : [ ];
     }
 
@@ -812,7 +807,7 @@ App.Items.Consumable = /** @class Consumable @extends {App.Item} */ class Consum
         }
 
         // Knowledge.
-        var Usages = Player.GetHistory("ITEMS", this.Tag());
+        var Usages = Player.GetHistory("ITEMS", this.Tag);
 
         if (Usages <= this.GetKnowledge().length)
             this._messageBuffer.push("\n\n@@color:yellow;You learn something... this item has an effect!@@ " + App.PR.pEffectMeter(this.GetKnowledge()[(Usages-1)], this));
@@ -833,8 +828,9 @@ App.Items.Consumable = /** @class Consumable @extends {App.Item} */ class Consum
     /**
      * Price of the item
      * @returns {number}
+     * @todo unused
      */
-    Price() {
+    get Price() {
         return this.Data["Price"];
     }
 
@@ -843,12 +839,12 @@ App.Items.Consumable = /** @class Consumable @extends {App.Item} */ class Consum
      * @returns {number}
      */
     Charges() {
-        return this._inventory.Charges(this._itemClass, this.Tag());
+        return this._inventory.Charges(this._itemClass, this.Tag);
     }
 
     /** @param {number} n */
     SetCharges(n) {
-        this._inventory.SetCharges(this._itemClass, this.Tag(), n);
+        this._inventory.SetCharges(this._itemClass, this.Tag, n);
     }
 
     /**
@@ -856,7 +852,7 @@ App.Items.Consumable = /** @class Consumable @extends {App.Item} */ class Consum
      * @returns {number}
      */
     AddCharges(n) {
-        return this._inventory.AddCharges(this._itemClass, this.Tag(), n);
+        return this._inventory.AddCharges(this._itemClass, this.Tag, n);
     }
 
      /**
@@ -864,7 +860,7 @@ App.Items.Consumable = /** @class Consumable @extends {App.Item} */ class Consum
      * @returns {number}
      */
     RemoveCharges(n) {
-        return this._inventory.AddCharges(this._itemClass, this.Tag(), -n);
+        return this._inventory.AddCharges(this._itemClass, this.Tag, -n);
     }
 
     /** @returns {boolean}*/
@@ -916,7 +912,7 @@ App.Items.QuestItem = /** @class QuestItem @extends {App.Item} */ class QuestIte
      * Short description
      * @returns {string}
      */
-    Description() {
+    get Description() {
         return this.Data["ShortDesc"];
     }
 
@@ -928,14 +924,6 @@ App.Items.QuestItem = /** @class QuestItem @extends {App.Item} */ class QuestIte
      */
     Examine(Player, OmitDescription) {
         return OmitDescription ? "" : this.Data["LongDesc"];
-    }
-
-    /**
-     * Sub category of quest item. If applicable.
-     * @returns {string}
-     */
-    Type() {
-        return this.Data["Type"];
     }
 
     /**
@@ -964,12 +952,12 @@ App.Items.Reel = /** @class Reel @extends {App.Item} */ class Reel extends App.I
      * The name of the reel.
      * @returns {string}
      */
-    Name() {
-        return this.Data["NAME"];
+    get Name() {
+        return this.Data.NAME;
     }
 
     /** @returns {string} */
-    Description() {
+    get Description() {
         var color;
         switch(this.Data["RANK"]) {
             case 'COMMON': color="grey"; break;
@@ -1004,15 +992,15 @@ App.Items.Reel = /** @class Reel @extends {App.Item} */ class Reel extends App.I
     }
 
     /** @returns {string} */
-    Rank() { return this.Data['RANK']; }
+    get Rank() { return this.Data.RANK; }
 
     /** @returns {string} */
-    Reels() {
+    get Reels() {
         return this.Data["DATA"];
     }
 
     /** @returns {string} */
-    Css() {
+    get Css() {
         return this.Data["CSS"];
     }
 
@@ -1026,13 +1014,13 @@ App.Items.Reel = /** @class Reel @extends {App.Item} */ class Reel extends App.I
     }
 
     /** @returns {string} */
-    Type() { return this.ItemClass(); }
+    get Type() { return this.ItemClass; }
 
     /**
      * No. of uses
      * @returns {number}
      */
     Charges() {
-        return this._inventory.Charges(this._itemClass, this.Tag());
+        return this._inventory.Charges(this._itemClass, this.Tag);
     }
 };

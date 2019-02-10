@@ -19,7 +19,7 @@ App.Rogue.Level = function(depth) {
     this._treasure = { };
 
     this._empty = new App.Rogue.Entity({ch:".", fg:"#888", bg:null});
-    
+
     this.getSize = function() {
         return this._size;
     };
@@ -30,7 +30,7 @@ App.Rogue.Level = function(depth) {
      * @param {number} w width (x axis)
      * @param {number} h height (y axis)
      */
-    
+
     this.generateMap = function(w, h) {
 
         this._map = new ROT.Map.Cellular(w, h, { connected: true });
@@ -38,10 +38,10 @@ App.Rogue.Level = function(depth) {
 
         /* make a few generations */
         for (var i=0; i<4; i++) this._map.create();
-        
+
         this._map.connect(this._createCB.bind(this), 1, this._connectCB.bind(this));
     };
-    
+
     this._createCB = function(x,y,v) {
         var xy = new App.Rogue.XY(x, y);
         if (v) {
@@ -56,7 +56,7 @@ App.Rogue.Level = function(depth) {
         //this._cells[from] = new App.Rogue.Entity( { ch:"X", fg:"#777", bg:null });
         //this._cells[to] = new App.Rogue.Entity( { ch:"O", fg:"#777", bg:null });
     };
-    
+
     this.getWalls = function() { return this._walls; };
     this.getFreeCells = function() { return this._freeCells; };
     this.getBorders = function() { return this._borders; };
@@ -207,7 +207,7 @@ App.Rogue.Level = function(depth) {
             setup.player.AddItem(loot.category, loot.tag, count);
             var name = setup.player.GetItemByName(loot.tag);
             if (typeof name !== 'undefined' && name != null ) {
-                App.Rogue.Engine._textBuffer.write("You find: "+name.Description()+"!");
+                App.Rogue.Engine._textBuffer.write("You find: "+name.Description+"!");
             } else {
                 App.Rogue.Engine._textBuffer.write("You find: "+ loot.tag +"(bug)!");
             }

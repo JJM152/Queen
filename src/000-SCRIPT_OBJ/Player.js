@@ -363,7 +363,7 @@ App.Entity.InventoryManager = class InventoryManager {
     }
 
     /**
-    * Attempt to pick a reel from inventory by Id() and then equip it to a slot. It will remove any reel
+    * Attempt to pick a reel from inventory by Id and then equip it to a slot. It will remove any reel
     * equipped in that slot and place it back in the inventory.
     * @param {string} toEquipID
     * @param {string} reelSlot
@@ -503,7 +503,7 @@ App.Entity.ClothingManager = class ClothingManager {
     _ensureWrapObjectExists(Tag, Id){
         if (Id == undefined) Id = App.Item.MakeId("CLOTHES", Tag);
         for (var i = 0; i < this._wardrobeItems.length; ++i) {
-            if (this._wardrobeItems[i].Id() == Id) return this._wardrobeItems[i];
+            if (this._wardrobeItems[i].Id == Id) return this._wardrobeItems[i];
         }
         this._wardrobeItems.push(App.Item.Factory("CLOTHES", Tag, this));
         return this._wardrobeItems[this._wardrobeItems.length - 1];
@@ -518,7 +518,7 @@ App.Entity.ClothingManager = class ClothingManager {
     _findWornSlot(Id) {
         for (var prop in this._equipedItems) {
             if (!this._equipedItems.hasOwnProperty(prop) || this._equipedItems[prop] == 0) continue;
-            if (this._equipedItems[prop].Id() == Id) return prop;
+            if (this._equipedItems[prop].Id == Id) return prop;
         }
         return null;
     }
@@ -557,27 +557,27 @@ App.Entity.ClothingManager = class ClothingManager {
         var slot = this._findWornSlot(Id);
         if (slot === null) { // currently the item is not worn
             for (var i = 0; i < this._wardrobeItems.length; ++i) {
-                if (this._wardrobeItems[i].Id() != Id) continue;
+                if (this._wardrobeItems[i].Id != Id) continue;
                 var itm = this._wardrobeItems[i];
-                slot = itm.Slot();
+                slot = itm.Slot;
 
                 var slotsToUndress = [];
                 if (this._equipedItems[slot] != 0) slotsToUndress.push(slot);
                 // handle restriction by removing items from the restricted slots
-                for (var j = 0; j < itm.Restrict().length; ++j) {
-                    if ( (this._equipedItems[itm.Restrict()[j]] != 0) && ( !slotsToUndress.contains(itm.Restrict()[j]))) slotsToUndress.push(itm.Restrict()[j]);
+                for (var j = 0; j < itm.Restrict.length; ++j) {
+                    if ( (this._equipedItems[itm.Restrict[j]] != 0) && ( !slotsToUndress.contains(itm.Restrict[j]))) slotsToUndress.push(itm.Restrict[j]);
                 }
                 for (j = 0; j < slotsToUndress.length; ++j) {
                     // move worn item into the wardrobe
                     var sl = slotsToUndress[j];
                     this._wardrobeItems.push(this._equipedItems[sl]);
-                    this._wardrobe.push(this._equipedItems[sl].Id());
+                    this._wardrobe.push(this._equipedItems[sl].Id);
                     this._equipedItems[sl] = 0;
                     this._equipment[sl] = 0;
                 }
                 this._equipedItems[slot] = itm;
                 this._wardrobeItems.splice(i, 1);
-                this._equipment[slot] = ClothingManager.EquipmentRecord(itm.Id(), itm.IsLocked());
+                this._equipment[slot] = ClothingManager.EquipmentRecord(itm.Id, itm.IsLocked());
                 this._wardrobe.splice(i, 1);
                 break;
             }
@@ -592,12 +592,12 @@ App.Entity.ClothingManager = class ClothingManager {
     TakeOff(Id) {
         for (var prop in this._equipedItems) {
             if (!this._equipedItems.hasOwnProperty(prop) || this._equipedItems[prop] == 0 ||
-                this._equipedItems[prop].Id() != Id) continue;
+                this._equipedItems[prop].Id != Id) continue;
             var itm = this._equipedItems[prop];
             this._equipedItems[prop] = 0;
             this._equipment[prop] = 0;
             this._wardrobeItems.push(itm);
-            this._wardrobe.push(itm.Id()); // push(Id) ?
+            this._wardrobe.push(itm.Id); // push(Id) ?
             break;
         }
     }
@@ -610,10 +610,10 @@ App.Entity.ClothingManager = class ClothingManager {
      */
     AddItem(Name, Wear) {
         var item = App.Item.Factory("CLOTHES", Name, this);
-        this._wardrobe.push(item.Id());
+        this._wardrobe.push(item.Id);
         this._wardrobeItems.push(item);
         if (Wear == true) {
-            this.Wear(item.Id());
+            this.Wear(item.Id);
         }
         return item;
     }
@@ -924,7 +924,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0]["NAME"];
 
         if (this.GetEquipmentInSlot("Wig") != 0) {
-            this.DoStyling(this.GetEquipmentInSlot("Wig").Id(), Makeup);
+            this.DoStyling(this.GetEquipmentInSlot("Wig").Id, Makeup);
         } else {
             this.DoStyling(Hair, Makeup);
         }
@@ -966,7 +966,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
         var obj = this.GetItemById(HairID);
         if (typeof obj !== 'undefined') { // We passed an Item Id and found an item.
-            if ((this.GetEquipmentInSlot("Wig") == 0) || (this.GetEquipmentInSlot("Wig").Id() != HairID))
+            if ((this.GetEquipmentInSlot("Wig") == 0) || (this.GetEquipmentInSlot("Wig").Id != HairID))
                 this.Wear( this.WardrobeItem(HairID));
         } else {
             if (this.GetEquipmentInSlot("Wig") != 0) this.Remove(this.GetEquipmentInSlot("Wig"));
@@ -1080,7 +1080,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     }
 
     /**
-     * Iterates through players worn items and sums .Style() property.
+     * Iterates through players worn items and sums .Style property.
      * @returns {number}
      */
     ClothesRating () {
@@ -1089,7 +1089,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         for (var prop in this.Clothing.Equipment) {
             if (!this.Clothing.Equipment.hasOwnProperty(prop)) continue;
             if (this.Clothing.Equipment[prop] == 0) continue;
-            cStyle += this.Clothing.Equipment[prop].Style();
+            cStyle += this.Clothing.Equipment[prop].Style;
         }
         return Math.max(1, Math.min(Math.round(((cStyle / 100 ) * 100)), 100)); // 1 - 100 rating
     }
@@ -1415,8 +1415,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
             if (this.Clothing.Equipment[prop] == 0) continue;
 
             if (Math.floor(Math.random() * 100) > 80)
-                this.AddHistory('CLOTHING_KNOWLEDGE', this.Clothing.Equipment[prop].Name(), 1); // tracking effect knowledge
-            this.AddHistory("DAYS_WORN", this.Clothing.Equipment[prop].Name(), 1); // tracking just days worn
+                this.AddHistory('CLOTHING_KNOWLEDGE', this.Clothing.Equipment[prop].Name, 1); // tracking effect knowledge
+            this.AddHistory("DAYS_WORN", this.Clothing.Equipment[prop].Name, 1); // tracking just days worn
             this.Clothing.Equipment[prop].ApplyEffects(this);
             var logMsg = this.Clothing.Equipment[prop].LearnKnowledge(this);
             if ((typeof logMsg != 'undefined') && logMsg != "") this._state.SleepLog.push(logMsg);
@@ -1544,11 +1544,11 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         }
 
         if (Type != "CLOTHES" && Type != "WEAPON") return false;
-        if (this.Clothing.Wardrobe.filter( function(o) { return o.Name() == Name; }).length > 0 ) return true;
+        if (this.Clothing.Wardrobe.filter( function(o) { return o.Name == Name; }).length > 0 ) return true;
         var Slot = window.App.Data.Clothes[Name].Slot;
         var EquipmentInSlot = this.Clothing.Equipment[Slot];
         if (EquipmentInSlot == null || EquipmentInSlot == 0) return false;
-        return EquipmentInSlot.Name() == Name;
+        return EquipmentInSlot.Name == Name;
     }
 
     /**
@@ -1567,13 +1567,13 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     WardrobeItem (id) {
         return this.Clothing.Wardrobe.filter(function (o) {
-            return o.Id() == id;
+            return o.Id == id;
         })[0];
     }
 
     WardrobeItemsBySlot(Slot) {
-        var res = this.Clothing.Wardrobe.filter(function(Item) { return Item.Slot() == Slot; });
-        res.sort(function(a, b) { return a.Name().localeCompare(b.Name()); });
+        var res = this.Clothing.Wardrobe.filter(function(Item) { return Item.Slot == Slot; });
+        res.sort(function(a, b) { return a.Name.localeCompare(b.Name); });
         return res;
     }
 
@@ -1585,12 +1585,12 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     {
         if (!this.Clothing.Equipment.hasOwnProperty(Slot)) return "@@color:grey;Nothing@@";
         if (this.Clothing.Equipment[Slot] == 0 ) return "@@color:grey;Nothing@@";
-        return this.Clothing.Equipment[Slot].Description();
+        return this.Clothing.Equipment[Slot].Description;
     }
 
     /**
      * @param {string} Slot
-     * @returns {*}
+     * @returns {(App.Items.Clothing|number)}
      */
     GetEquipmentInSlot(Slot) {
         if ( (!this.Clothing.Equipment.hasOwnProperty(Slot)) || (this.Clothing.Equipment[Slot] == 0 )) return 0;
@@ -1606,13 +1606,13 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         for (var prop in this.Clothing.Equipment) {
             if (!this.Clothing.Equipment.hasOwnProperty(prop)) continue;
             if (this.Clothing.Equipment[prop] == 0) continue;
-            if (this.Clothing.Equipment[prop].Name() == Name) return true;
+            if (this.Clothing.Equipment[prop].Name == Name) return true;
         }
         return false;
     }
 
     Wear (item, lock) {
-        this.Clothing.Wear(item.Id(), lock);
+        this.Clothing.Wear(item.Id, lock);
     }
 
     AutoWearCategory (Category) {
@@ -1624,17 +1624,17 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
             // Get all matching items by Category and Slot.
             var matchingItems = $.grep(this.Clothing.Wardrobe, function(clothing) {
-                return clothing.Slot() == slot && $.inArray(Category, clothing.Category()) >= 0;
+                return clothing.Slot == slot && $.inArray(Category, clothing.Category) >= 0;
             });
 
             if (matchingItems.length < 1) continue; // Nothing matching
 
             // Sorting by style descending
-            matchingItems.sort(function(a, b) { return b.Style() - a.Style(); });
+            matchingItems.sort(function(a, b) { return b.Style - a.Style; });
 
             var wear = currentlyWorn == 0 // Nothing being worn, so wear it.
-                || $.inArray(Category, currentlyWorn.Category()) < 0 // Item in slot is not of the right category, so swap them.
-                || currentlyWorn.Style() < matchingItems[0].Style(); // Item in slot has less style, so swap them.
+                || $.inArray(Category, currentlyWorn.Category) < 0 // Item in slot is not of the right category, so swap them.
+                || currentlyWorn.Style < matchingItems[0].Style; // Item in slot has less style, so swap them.
 
             if (wear) this.Wear(matchingItems[0]);
         }
@@ -1646,7 +1646,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
             if (this.Clothing.Equipment[prop] == 0) continue;
             if (this.Clothing.Equipment[prop].IsLocked()) continue;
 
-            this.Clothing.TakeOff(this.Clothing.Equipment[prop].Id());
+            this.Clothing.TakeOff(this.Clothing.Equipment[prop].Id);
         }
     }
 
@@ -1665,12 +1665,12 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     Remove (item) {
         if (item == 0) return;
-        this.Clothing.TakeOff(item.Id());
+        this.Clothing.TakeOff(item.Id);
     }
 
     GetItemByName (Name) {
         return this.Inventory.filter(function (o) {
-            return o.Tag() == Name;
+            return o.Tag == Name;
         })[0];
     }
 
@@ -1681,10 +1681,10 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     GetItemById (Id) {
         var result;
 
-        var ItemList = this.Inventory.filter(function (o) {return o.Id() == Id; }); // Look in items first.
+        var ItemList = this.Inventory.filter(function (o) {return o.Id == Id; }); // Look in items first.
 
         if (ItemList.length < 1) { // Now check wardrobe
-            ItemList = this.Clothing.Wardrobe.filter(function(o) { return o.Id() == Id; });
+            ItemList = this.Clothing.Wardrobe.filter(function(o) { return o.Id == Id; });
         }
 
         if (ItemList.length < 1 ) { // Check worn stuff.
@@ -1692,7 +1692,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
             {
                 if (!this.Clothing.Equipment.hasOwnProperty(k)) continue;
                 if (this.Clothing.Equipment[k] != 0) {
-                    if (this.Clothing.Equipment[k].Id() == Id) {
+                    if (this.Clothing.Equipment[k].Id == Id) {
                         result = this.Clothing.Equipment[k];
                         break;
                     }
@@ -1711,7 +1711,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      */
     GetItemByTypes (Types, Sort) {
         var res = this.Inventory.filter(function (o) {
-            return Types.indexOf(o.Type()) != -1;
+            return Types.indexOf(o.Type) != -1;
         });
 
         if (Sort != true) return res;
@@ -1719,7 +1719,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         res.sort(function(a, b) {
             var af = a.IsFavorite();
             if (af != b.IsFavorite()) {return af ? -1 : 1;}
-            return a.Name().localeCompare(b.Name());
+            return a.Name.localeCompare(b.Name);
         });
         return res;
     }
@@ -1730,7 +1730,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      * @returns {number}
      */
     GetItemCharges(Type) {
-        var Items = this.Inventory.filter(function (o) { return o.Type() == Type; });
+        var Items = this.Inventory.filter(function (o) { return o.Type == Type; });
         var Count = 0;
         for (var i = 0; i < Items.length; i++) Count += Items[i].Charges();
         return Count;
@@ -1754,7 +1754,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      */
     UseItemCharges(Type, Amount) {
         if (Amount <= 0) return ;
-        var Items = this.Inventory.filter(function (o) { return o.Type() == Type; });
+        var Items = this.Inventory.filter(function (o) { return o.Type == Type; });
         var Count = 0;
 
         while(Amount > 0 && Count < Items.length) {
@@ -1769,7 +1769,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     }
 
     DeleteItem(item) {
-        this.Inventory.RemoveItem(item.Id());
+        this.Inventory.RemoveItem(item.Id);
     }
 
     /**
@@ -1803,7 +1803,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
             var tBonus = this.Clothing.Equipment[prop].GetBonus(Skill);
             if (tBonus > 0 ) {
                 bonus += tBonus;
-                if (this._state.debugMode == true) console.log("Found skill bonus : "+Skill+" on" + this.Clothing.Equipment[prop].Name());
+                if (this._state.debugMode == true) console.log("Found skill bonus : "+Skill+" on" + this.Clothing.Equipment[prop].Name);
             }
         }
         return bonus;
@@ -1826,7 +1826,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      */
     UseItem (ItemId) {
         var o = this.TakeItem(ItemId);
-        this.AddHistory("ITEMS", o.Tag(), 1);
+        this.AddHistory("ITEMS", o.Tag, 1);
         o.ApplyEffects(this);
         var msg = o.Message(this);
         return msg;
@@ -1934,20 +1934,20 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
             // The proper attire
             var bonus = equipmentItem.CategoryBonus("Slutty Lady");
             if (bonus > 0) {
-                console.log("Slot: " + slot + ", equipment name: \"" + equipmentItem.Name() + "\", bonus: " + bonus);
+                console.log("Slot: " + slot + ", equipment name: \"" + equipmentItem.Name + "\", bonus: " + bonus);
                 return bonus;
             }
 
             // Not so proper, but closer than others
             bonus = equipmentItem.CategoryBonus("High Class Whore") / 2;
             if (bonus > 0) {
-                console.log("Slot: " + slot + ", equipment name: \"" + equipmentItem.Name() + "\", bonus: " + bonus);
+                console.log("Slot: " + slot + ", equipment name: \"" + equipmentItem.Name + "\", bonus: " + bonus);
                 return bonus;
             }
 
             // Oh well
-            bonus = equipmentItem.Style() / 4;
-            console.log("Slot: " + slot + ", equipment name: \"" + equipmentItem.Name() + "\", bonus: " + bonus);
+            bonus = equipmentItem.Style / 4;
+            console.log("Slot: " + slot + ", equipment name: \"" + equipmentItem.Name + "\", bonus: " + bonus);
             return bonus;
         };
 
@@ -2037,7 +2037,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      * @returns {Array.<App.Items.Reel>}
      */
     GetReelsInInventory() {
-        return this.Inventory.filter( function(o) { return (typeof o.Type === 'function') && (o.Type() == 'REEL'); });
+        return this.Inventory.filter( function(o) { return (typeof o.Type === 'function') && (o.Type == 'REEL'); });
     }
 
     /**
@@ -2047,12 +2047,12 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      */
     GetReelByID(filterID) {
         var arr = this.GetReelsInInventory();
-        arr = arr.filter( function(o) { return (typeof o.Id === 'function') && (o.Id() == filterID); });
+        arr = arr.filter( function(o) { return (typeof o.Id === 'function') && (o.Id == filterID); });
         if (arr.length > 0) return arr[0]; // huh? At least grab the first one.
     }
 
     /**
-     * Attempt to pick a reel from inventory by Id() and then equip it to a slot. It will remove any reel
+     * Attempt to pick a reel from inventory by Id and then equip it to a slot. It will remove any reel
      * equipped in that slot and place it back in the inventory.
      * @param {string} toEquipID
      * @param {string} reelSlot

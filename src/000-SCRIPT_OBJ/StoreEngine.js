@@ -272,8 +272,9 @@ var Store = function(Player, NPC, StoreData) {
     this.PrintItem = function(Item)
     {
         var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"]);
-        var res = "<span class='inventoryItem'>" + oItem.Description();
-        if (this._Player.Inventory.IsFavorite(oItem.Id())) {
+        var res = oItem.Description;
+      
+        if (this._Player.Inventory.IsFavorite(oItem.Id)) {
             res += "&nbsp;" + App.PR.GetItemFavoriteIcon(true);
         }
 
@@ -294,7 +295,7 @@ var Store = function(Player, NPC, StoreData) {
     {
         var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"]);
 		var Player = this._Player;
-        return "@@color:yellow;You take a look at the @@" + oItem.Description()+ ".\n"+oItem.Examine(Player);
+        return "@@color:yellow;You take a look at the @@" + oItem.Description+ ".\n"+oItem.Examine(Player);
     };
 
     this.StockInventory();
