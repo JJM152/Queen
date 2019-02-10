@@ -15,30 +15,204 @@ App.PR = new function() {
 	};
 
     /**
+     * Returns config object which describe naming of the given type
+     * @param {string} Type Config type ("BODY")
+     * @returns {any}
+     */
+    this.GetNamingConfig = function(Type) {
+        if (Type == "BODY") return App.Data.Naming.BodyConfig;
+    };
+
+    /**
+     * Fetch index names required to find leveld value for a leveling property
+     * @param {string} Stat Stat type (SKILL, BODY, STAT)
+     * @param {string} Property Property name ("Bust", "Lips", etc.)
+     * @param {string} Aspect "NOUN", "ADJECTIVE"
+     * @return {string[]}
+     */
+    this.GetNamingIndicies = function(Stat, Property, Aspect) {
+        var st = this.GetNamingConfig(Stat);
+        if (st == undefined || !st.hasOwnProperty(Property) || !st[Property].hasOwnProperty(Aspect)) return undefined;
+        return st[Property][Aspect].hasOwnProperty("INDEX") ? st[Property][Aspect]["INDEX"] : [Property];
+    };
+
+    /**
+     * @summary Fetch a leveled value from the given rating for given values.
+     *
+     * This function descends into the passed ratings object using supplied index
+     * value array. The rating object is indexed as using the first element of the
+     * index array. The result of this operation is passed to this function again with
+     * sliced index array. This continues until index array is exhausted or indexing
+     * returns a simple string or array of strings (a random element of wchih is returned then).
+     *
+     * @param {(object|string)} Ratings object with ratings or the final string
+     * @param {(number[]|number)} Value array of rating index values or a single value
+     * @returns {string}
+     */
+    this.GetMultiIndexLevelingProperty = function(Ratings, Value) {
+        if (typeof(Ratings) == "string") return Ratings; // value does not change
+
+        var v;
+        var nextValues = undefined;
+        if (Array.isArray(Value)) {
+            v = Value[0];
+            if (Value.length > 1) nextValues = Value.slice(1);
+        } else {
+            v = Value;
+        }
+        var lastSmallerRating;
+        for (var prop in Ratings) {
+            if (!Ratings.hasOwnProperty(prop)) continue;
+            if (prop > v) break;
+            lastSmallerRating = prop;
+        }
+        if (lastSmallerRating == undefined)  return "Untyped rating: " + Value;
+        var res = Ratings[lastSmallerRating];
+        if (nextValues == undefined) {
+            if (Array.isArray(res)) {
+                return res.random(); // SugarCube adds Array.random()
+            } else {
+                return res;
+            }
+        }
+        return this.GetMultiIndexLevelingProperty(res, nextValues);
+	};
+
+    /**
      * Fetch a rating for a statistic/value
      * @param Type
-     * @param Value
+     * @param {number|number[]} Value
      * @param [Colorize]
      * @returns {string}
      */
-	    this.GetRating = function (Type, Value, Colorize) {
-            Colorize    = Colorize || false;
-            var Ratings  = App.Data.Ratings[Type];
+	this.GetRating = function (Type, Value, Colorize) {
+        Colorize    = Colorize || false;
+        var Ratings  = App.Data.Ratings[Type];
 
-            var lastSmallerRating;
-            for (var prop in Ratings) {
-                if (!Ratings.hasOwnProperty(prop)) continue;
-                if (prop > Value) break;
-                lastSmallerRating = prop;
-            }
+        var lastSmallerRating;
+        for (var prop in Ratings) {
+            if (!Ratings.hasOwnProperty(prop)) continue;
+            if (prop > Value) break;
+            lastSmallerRating = prop;
+        }
 
-            if (lastSmallerRating == undefined)  return "Untyped rating: " + Type + "," + Value;
-            if (Colorize == true) {
-                return this.ColorizeString(Value, Ratings[lastSmallerRating]);
-            } else {
-                return Ratings[lastSmallerRating];
+        if (lastSmallerRating == undefined)  return "Untyped rating: " + Type + "," + Value;
+        if (Colorize == true) {
+            return this.ColorizeString(Value, Ratings[lastSmallerRating]);
+        } else {
+            return Ratings[lastSmallerRating];
+        }
+    };
+
+	/**
+     * Helper function. Checks relevant statistic config and returns the leveling record if one exists.
+     * @param {string} Type
+     * @param {string} Stat
+     * @param {number} Value
+     * @returns {*}
+     */
+	this.GetLevelingRecord = function(Type, Stat, Value) {
+        var Ratings = this.GetStatConfig(Type)[Stat].LEVELING;
+        var lastSmallerProp;
+        for (var prop in Ratings) {
+            if (!Ratings.hasOwnProperty(prop)) continue;
+            if (prop > Value) break;
+            lastSmallerProp = prop;
+        }
+        if (lastSmallerProp !== undefined) return Ratings[lastSmallerProp];
+        return undefined;
+    };
+
+    /**
+     * Helper function. Checks relevant statistic config and returns a colorized Property value for use if one exists.
+     * @param {string} Type
+     * @param {string} Stat
+     * @param {string} Property
+     * @param {number|number[]} Value
+     * @returns {string}
+     */
+    this.GetLevelingProperty = function(Type, Stat, Property, Value) {
+        var propValue = this.GetLevelingRecord(Type, Stat, Value);
+        if (propValue == undefined) return "";
+
+        var Arr = App.Data.Lists.ColorScale;
+        return "@@color:" + Arr[propValue.COLOR] + ";" + propValue[Property] +"@@";
+    };
+
+    /**
+     * Helper function. Checks relevant statistic config and returns a NOUN (colorized) for use if one exists.
+     * @param {string} Type
+     * @param {string} Stat
+     * @param {number|number[]} Value
+     * @param [Colorize]
+     * @returns {string}
+     */
+    this.GetNoun = function(Type, Stat, Value, Colorize) {
+        var nCfg = this.GetNamingConfig(Type);
+        if (nCfg == undefined || !nCfg.hasOwnProperty(Stat)) return "NO_NOUN_FOR_" + Type + ":" + Stat;
+        var str = this.GetMultiIndexLevelingProperty(nCfg[Stat].NOUN.LEVELING, Value);
+
+        if (Colorize == true) {
+            // use colour from the first index for now
+            // TODO blend colors from all indices
+            var color = this.GetLevelingRecord(Type, Stat, Array.isArray(Value) ? Value[0] : Value).COLOR;
+            return "@@color:" + App.Data.Lists.ColorScale[color] + ";" + str + "@@";
+        }
+        return str;
+    };
+
+	/**
+	 * Returns aray of applicable adjective values for a leveling noun
+	 * @param {string} Type
+	 * @param {string} Stat
+	 * @param {App.Entity.Player} Player
+	 * @returns {string[]}
+	 */
+	this.GetNoneAdjectives = function(Type, Stat, Player) {
+        var tCfg = this.GetNamingConfig(Type);
+        var sCfg = tCfg != undefined ? tCfg[Stat] : undefined;
+        if (sCfg == undefined) return [];
+        var adjCfg = sCfg["ADJECTIVE"];
+        if (adjCfg == undefined) return [];
+
+        var adjectiveRatings = adjCfg.RATING || [Type + '/' + Stat];
+        var adjectiveIndicies = adjCfg.INDEX || adjectiveRatings;
+        var adjectiveApplicableLevels = adjCfg.APPLICABLE_LEVEL || adjectiveRatings.map(x => { return { "MIN" : 0, "MAX" : 100 };});
+
+        var adjs = [];
+        for (var i = 0; i < adjectiveRatings.length; ++i) {
+            var s = adjectiveIndicies[i].split('/');
+            var statVal = Player.GetStatPercent(s[0], s[1]);
+            if (statVal >= adjectiveApplicableLevels[i].MIN && statVal <= adjectiveApplicableLevels[i].MAX) {
+                var r = adjectiveRatings[i].split('/');
+                adjs.push(this.GetAdjective(r[0], r[1], statVal));
             }
-        };
+        }
+
+        return adjs;
+    };
+
+	/**
+	 * Returns leveling noun, optionally with applicable adjectives prepended
+	 * @param {string} Type
+	 * @param {string} Stat
+	 * @param {App.Entity.Player} Player
+	 * @param {boolean} [Adjectives = false] Whether to prepend adjectives
+	 * @param {boolean} [Colorize = false] colorize output
+	 * @return {string}
+	 */
+	this.GetPlayerNoun = function(Type, Stat, Player, Adjectives, Colorize) {
+        var indexNames = this.GetNamingIndicies(Type, Stat, "NOUN");
+        if (indexNames == undefined) return "NO_NOUN_FOR_" + Type + ":" + Stat;
+        var indicies = indexNames.map(s => s.includes('/') ? s.split('/') : [Type, s]);
+        var indexValues = indicies.map(x => Player.GetStat(x[0], x[1]));
+        var str = this.GetNoun(Type, Stat, indexValues, Colorize);
+
+        if (Adjectives == true) {
+            str = this.GetNoneAdjectives(Type, Stat, Player).join(' ') + ' ' + str;
+        }
+        return str;
+    };
 
     /**
      * Helper function. Checks relevant statistic config and returns an ADJECTIVE (colorized) for use if one exists.
@@ -47,20 +221,9 @@ App.PR = new function() {
      * @param {number} Value
      * @returns {string}
      */
-        this.GetAdjective = function(Type, Stat, Value)
-        {
-            var Ratings = this.GetStatConfig(Type)[Stat]["LEVELING"];
-            var Arr = App.Data.Lists.ColorScale;
-            var lastSmallerProp;
-            for (var prop in Ratings) {
-                if (!Ratings.hasOwnProperty(prop)) continue;
-                if (prop > Value) break;
-                lastSmallerProp = prop;
-            }
-            if (lastSmallerProp !== undefined)
-                return "@@color:" + Arr[Ratings[lastSmallerProp]["COLOR"]] + ";" + Ratings[lastSmallerProp]["ADJECTIVE"] +"@@";
-            return "";
-        };
+	this.GetAdjective = function(Type, Stat, Value) {
+		return this.GetLevelingProperty(Type, Stat, "ADJECTIVE", Value);
+	};
 
     /**
      *
@@ -72,17 +235,19 @@ App.PR = new function() {
      */
     this.TokenizeRating = function(Player, Type, Stat, String)
     {
+        var _this = this;
+        function nounReplacer(match, delim) {
+            return _this.GetPlayerNoun(Type, Stat, Player, false, true) + delim;
+        }
+        function adjReplace(match, delim) {
+            return _this.GetAdjective(Type, Stat, Player.GetStat(Type, Stat)) + delim;
+        }
         String = String.replace(/PLAYER_NAME/g, Player.SlaveName);
-        String = String.replace(/pBUST/g, this.pBust(Player, 1));
-        String = String.replace(/pASS/g, this.pAss(Player, 1));
-        String = String.replace(/pCUP/g, this.pCup(Player));
-        String = String.replace(/pHIPS/g, this.pHips(Player, 1));
-        String = String.replace(/pHORMONES/g, this.pHormones(Player, 1));
-        String = String.replace(/ADJECTIVE/g, this.GetAdjective(Type, Stat, Player.GetStat(Type, Stat)));
         String = String.replace(/LENGTH_C/g, this.lengthString(this.StatToCM(Player,Stat), true).toString());
         String = String.replace(/LENGTH/g, this.lengthString(this.StatToCM(Player,Stat), false).toString());
-
-        return String;
+        String = String.replace(/NOUN([^A-Za-z_|$])/g, nounReplacer);
+        String = String.replace(/ADJECTIVE([^A-Za-z_|$])/g, adjReplace);
+        return this.TokenizeString(Player, undefined, String);
     };
 
     /**
@@ -486,27 +651,30 @@ App.PR = new function() {
      * @param {number} Arg
      * @returns {string}
      */
-        this.pAss = function (Player, Arg) {
-            var aPercent = Player.GetStatPercent("BODY", "Ass");
-            var hPercent = Player.GetStatPercent("BODY", "Hips");
+    this.pAss = function (Player, Arg) {
+        var aPercent = Player.GetStatPercent("BODY", "Ass");
+        var fPercent = Player.GetStatPercent("STAT", "Fitness");
 
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Ass", aPercent);
+        if (typeof Arg !== 'undefined') {
+            return this.GetAdjective("BODY", "Ass", aPercent) + ' ' + this.GetAdjective("BODY", "AssFirmness", fPercent);
+        }
 
-            var Output = this.TokenizeRating(Player, "BODY", "Ass", this.GetRating("Ass", aPercent));
+        var hPercent = Player.GetStatPercent("BODY", "Hips");
+        var Output = this.TokenizeRating(Player, "BODY", "Ass", this.GetRating("Ass", aPercent));
 
-            if ((aPercent > 30) || (hPercent > 30)) {
-                if ( aPercent  < ( hPercent - 15) ) {
-                    Output += " It is @@color:yellow;disproportionately small@@ for your ";
-                } else if ( aPercent > ( hPercent + 15)) {
-                    Output += " It is @@color:yellow;disproportionately big@@ for your ";
-                } else {
-                    Output += " It is @@color:lime;flattered@@ by your ";
-                }
-                Output += this.GetAdjective("BODY", "Hips", hPercent) + " hips.";
+        if ((aPercent > 30) || (hPercent > 30)) {
+            if ( aPercent  < ( hPercent - 15) ) {
+                Output += " It is @@color:yellow;disproportionately small@@ for your ";
+            } else if ( aPercent > ( hPercent + 15)) {
+                Output += " It is @@color:yellow;disproportionately big@@ for your ";
+            } else {
+                Output += " It is @@color:lime;flattered@@ by your ";
             }
+            Output += this.GetAdjective("BODY", "Hips", hPercent) + " hips.";
+        }
 
-            return Output;
-        };
+        return Output;
+    };
 
     /**
      * Print out a description of the players Penis statistic.
@@ -519,7 +687,7 @@ App.PR = new function() {
             var iLength = this.CMtoINCH(Player.GetStat("BODY", "Penis"));
             if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Penis", pPercent);
             return this.TokenizeRating(Player, "BODY", "Penis", this.GetRating("Penis", pPercent));
-        };
+		};
 
     /**
      * Prints out a description of the Player's height statistic.
@@ -571,10 +739,12 @@ App.PR = new function() {
      * @returns {XML|string|void}
      */
     this.pBust = function (Player, Arg) {
-            var bPercent = Player.GetStatPercent("BODY", "Bust");
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Bust", bPercent);
-            return this.TokenizeRating(Player, "BODY", "Bust", this.GetRating("Bust", bPercent));
-        };
+        var bPercent = Player.GetStatPercent("BODY", "Bust");
+        if (typeof Arg !== 'undefined') {
+            return this.GetAdjective("BODY", "Bust", bPercent);
+        }
+        return this.TokenizeRating(Player, "BODY", "Bust", this.GetRating("Bust", bPercent));
+    };
 
     /**
      * Print out a description of the Player's Bust (CUP) statistic.
@@ -749,28 +919,57 @@ App.PR = new function() {
      * @param {object} [Opt]
      * @returns {string}
      */
-    this.TokenizeString = function(Player, NPC, String, Opt)
-        {
-            if (typeof NPC !== 'undefined' ) {
-                String = String.replace(/NPC_NAME/g, NPC.pName());
-            }
+    this.TokenizeString = function(Player, NPC, String, Opt) {
+        if (typeof NPC !== 'undefined' ) {
+            String = String.replace(/NPC_NAME/g, NPC.pName());
+        }
 
-            String = String.replace(/PLAYER_NAME/g, "@@color:DeepPink;"+Player.SlaveName+"@@");
-            String = String.replace(/GF_NAME/g, "@@color:pink;"+Player.GirlfriendName+"@@");
-            String = String.replace(/pBUST/g, this.pBust(Player, 1));
-            String = String.replace(/pASS/g, this.pAss(Player, 1));
-            String = String.replace(/pCUP/g, this.pCup(Player));
-            String = String.replace(/pHIPS/g, this.pHips(Player, 1));
-            String = String.replace(/pLIPS/g, this.pLips(Player, 1));
-            String = String.replace(/pHORMONES/g, this.pHormones(Player, 1));
-            String = String.replace(/pBLOWJOBS/g, this.GetAdjective("SKILL", "BlowJobs", Player.GetStat("SKILL", "BlowJobs")));
-            String = String.replace(/pPHASE/g, Player.GetPhase(false));
-            String = String.replace(/pPENIS/g, this.pPenis(Player,1));
-            String = String.replace(/pWAIST/g, this.pWaist(Player, 1));
-            String = String.replace(/pFACE/g, this.pFace(Player, 1));
+        var _this = this;
+        function adjReplacer(match, stat) {
+            return _this.GetAdjective("BODY", stat, Player.GetStat("BODY", stat));
+        }
+        function nounReplacer(match, stat) {
+            return _this.GetPlayerNoun("BODY", stat, Player, false, true);
+        }
+        function pReplacer(match, prefix, stat, delim) {
+            // uppercase charachters following underscore (which is removed)
+            // STAT_NAME -> StatName
+            var statName = stat[0] + stat.slice(1).toLowerCase().replace(/_([a-z])/g, (m, c) => c.toUpperCase());
+            var statFuncName = 'p' + statName;
+            if (_this.hasOwnProperty(statFuncName))
+                return _this[statFuncName](Player, 1) + delim;
+            return prefix + stat + delim;
+        }
+        function nReplacer(match, prefix, stat, delim) {
+            // uppercase charachters following underscore (which is removed)
+            // STAT_NAME -> StatName
+            var statName = stat[0] + stat.slice(1).toLowerCase().replace(/_([a-z])/g, (m, c) => c.toUpperCase());
+            if (App.Data.Naming.BodyConfig.hasOwnProperty(statName))
+                return _this.GetPlayerNoun("BODY", statName, Player, true, true) + delim;
+            return prefix + stat + delim;
+        }
+        function vReplacer(match, prefix, stat, delim) {
+            // uppercase charachters following underscore (which is removed)
+            // STAT_NAME -> StatName
+            var statName = stat[0] + stat.slice(1).toLowerCase().replace(/_([a-z])/g, (m, c) => c.toUpperCase());
+            if (Player.GetStatObject("BODY").hasOwnProperty(statName))
+                return Player.GetStat("BODY", statName) + delim;
+            return prefix + stat + delim;
+        }
 
-            return String;
-        };
+        String = String.replace(/PLAYER_NAME/g, "@@color:DeepPink;"+Player.SlaveName+"@@");
+        String = String.replace(/GF_NAME/g, "@@color:pink;"+Player.GirlfriendName+"@@");
+        String = String.replace(/pCUP/g, this.pCup(Player)); // needs special handling because it has only a single parameter
+        String = String.replace(/NOUN_([A-Za-z_]+)/g, nounReplacer);
+        String = String.replace(/ADJECTIVE_([A-Za-z_]+)/g, adjReplacer);
+        String = String.replace(/pBLOWJOBS/g, this.GetAdjective("SKILL", "BlowJobs", Player.GetStat("SKILL", "BlowJobs")));
+        String = String.replace(/pPHASE/g, Player.GetPhase(false));
+        String = String.replace(/(p)([A-Z_]+)([^A-Za-z]|$)/g, pReplacer);
+        String = String.replace(/(n)([A-Z_]+)([^A-Za-z]|$)/g, nReplacer);
+        String = String.replace(/(v)([A-Z_]+)([^A-Za-z]|$)/g, vReplacer);
+
+        return String;
+    };
 
     this.pSkillName = function (Skill) {
         return App.Data.Lists["SkillDictionary"][Skill];

@@ -133,6 +133,7 @@ App.Data.Lists = {
                 },
                 "Bust": { "MIN" : 0, "MAX" : 100, "START" : 0, "CM_MIN" : 80, "CM_MAX": 130,
                     "LEVELING" : {
+                        0 : { "COST" : 150, "STEP" : 1, "ADJECTIVE" : "flat",        "COLOR" :  1},
                         5 : { "COST" : 150, "STEP" : 1, "ADJECTIVE" : "swollen",     "COLOR" :  3},
                         8 : { "COST" : 150, "STEP" : 1, "ADJECTIVE" : "perky",       "COLOR" :  4},
                        11 : { "COST" : 175, "STEP" : 1, "ADJECTIVE" : "shapely",     "COLOR" :  5},
@@ -200,6 +201,25 @@ App.Data.Lists = {
                        88 : { "COST" : 525, "STEP" : 1, "ADJECTIVE" : "massive",     "COLOR" : 16},
                        94 : { "COST" : 550, "STEP" : 1, "ADJECTIVE" : "immense",     "COLOR" : 16},
                       100 : { "COST" : 575, "STEP" : 1, "ADJECTIVE" : "enormous",    "COLOR" : 16}
+                    }
+                },
+                "AssFirmness": {  "MIN" : 0, "MAX" : 100,
+                    "LEVELING" : {
+                        5 :   { "ADJECTIVE" : "flabby", "COLOR" :  1},
+                        10 :  { "ADJECTIVE" : "flabby", "COLOR" :  2},
+                        15 :  { "ADJECTIVE" : "flabby", "COLOR" :  3},
+                        20 :  { "ADJECTIVE" : "flabby", "COLOR" :  4},
+                        26 :  { "ADJECTIVE" : "flabby", "COLOR" :  5},
+                        32 :  { "ADJECTIVE" : "toned", "COLOR" :  6},
+                        38 :  { "ADJECTIVE" : "toned", "COLOR" :  7},
+                        46 :  { "ADJECTIVE" : "toned", "COLOR" :  8},
+                        54 :  { "ADJECTIVE" : "toned", "COLOR" :  9},
+                        62 :  { "ADJECTIVE" : "toned", "COLOR" : 10},
+                        71 :  { "ADJECTIVE" : "smooth and round", "COLOR" : 12},
+                        80 :  { "ADJECTIVE" : "smooth and round", "COLOR" : 13},
+                        89 :  { "ADJECTIVE" : "smooth and round", "COLOR" : 14},
+                        98 :  { "ADJECTIVE" : "smooth and round", "COLOR" : 15},
+                        100 : { "ADJECTIVE" : "smooth and round", "COLOR" : 16}
                     }
                 },
                 "Waist": { "MIN" : 0, "MAX" : 100, "START" : 46, "CM_MIN" : 40, "CM_MAX": 130,
@@ -1161,40 +1181,40 @@ App.Data.Ratings = {
                 44 : "You have ADJECTIVE LENGTH hips, perfect for grabbing a hold of when being fucked.",
                 49 : "You have ADJECTIVE LENGTH hips, perfect for grabbing a hold of when being fucked.",
                 54 : "You have ADJECTIVE LENGTH hips, perfect for grabbing a hold of when being fucked.",
-                59 : "You have ADJECTIVE LENGTH hips. They roll and undulate when you walk, shaking your ass.",
-                64 : "You have ADJECTIVE LENGTH hips. They roll and undulate when you walk, shaking your ass.",
-                70 : "You have ADJECTIVE LENGTH hips. They roll and undulate when you walk, shaking your ass.",
-                76 : "You have ADJECTIVE LENGTH hips. They sway back and forth, advertising your pASS ass for a good fuck.",
-                82 : "You have ADJECTIVE LENGTH hips. They sway back and forth, advertising your pASS ass for a good fuck.",
-                88 : "You have ADJECTIVE LENGTH hips. They sway back and forth, advertising your pASS ass for a good fuck.",
-                94 : "You have ADJECTIVE LENGTH hips. They sway back and forth constantly drawing attention to your pASS ass and practically begging for a good butt fuck.",
-               100 : "You have ADJECTIVE LENGTH hips. They sway back and forth constantly drawing attention to your pASS ass and practically begging for a good butt fuck."
+                59 : "You have ADJECTIVE LENGTH hips. They roll and undulate when you walk, shaking your NOUN_Ass.",
+                64 : "You have ADJECTIVE LENGTH hips. They roll and undulate when you walk, shaking your NOUN_Ass.",
+                70 : "You have ADJECTIVE LENGTH hips. They roll and undulate when you walk, shaking your NOUN_Ass.",
+                76 : "You have ADJECTIVE LENGTH hips. They sway back and forth, advertising your pASS NOUN_Ass for a good fuck.",
+                82 : "You have ADJECTIVE LENGTH hips. They sway back and forth, advertising your pASS NOUN_Ass for a good fuck.",
+                88 : "You have ADJECTIVE LENGTH hips. They sway back and forth, advertising your pASS NOUN_Ass for a good fuck.",
+                94 : "You have ADJECTIVE LENGTH hips. They sway back and forth constantly drawing attention to your pASS NOUN_Ass and practically begging for a good butt fuck.",
+               100 : "You have ADJECTIVE LENGTH hips. They sway back and forth constantly drawing attention to your pASS NOUN_Ass and practically begging for a good butt fuck."
             },
             "Ass": {
-                 0 : "Your ADJECTIVE ass looks emaciated and unhealthy.",
-                 1 : "You have a ADJECTIVE ass, it looks painful to sit on.",
-                 2 : "You have a ADJECTIVE ass, it looks painful to sit on.",
-                 3 : "Your ADJECTIVE butt looks almost hollow and unattractive.",
-                 5 : "Your ADJECTIVE butt looks almost hollow and unattractive.",
-                 8 : "You have a ADJECTIVE sized ass, neither too big or too small.",
-                11 : "You have a ADJECTIVE ass, it has a slight swell but nothing special.",
-                15 : "You have a pert ADJECTIVE ass that doesn't move in the slightest.",
-                19 : "You have an ADJECTIVE ass that does a good job of filling out a pair of panties.",
-                24 : "You have a ADJECTIVE ass that stretches sexily against your clothes.",
-                29 : "You have a ADJECTIVE ass that stretches sexily against your clothes.",
-                34 : "You have a ADJECTIVE ass, it's attractive enough to draw stares from men.",
-                39 : "You have a ADJECTIVE ass, it's attractive enough to draw stares from men.",
-                44 : "You have a ADJECTIVE ass that strains your bottoms and shakes when men slap it.",
-                49 : "You have a ADJECTIVE ass that strains your bottoms and shakes when men slap it.",
-                54 : "You have a ADJECTIVE ass that shakes and draws attention when you walk.",
-                59 : "You have a ADJECTIVE ass that shakes and draws attention when you walk.",
-                64 : "You have an ADJECTIVE ass that sways and jiggles sexily when you walk.",
-                70 : "You have a ADJECTIVE ass that gyrates back and forth when you strut your stuff.",
-                76 : "Your ADJECTIVE ass sensuously wobbles and jiggles at every minor movement, entrancing watchers.",
-                82 : "Your ADJECTIVE ass sensuously wobbles and jiggles at every minor movement, entrancing watchers.",
-                88 : "Your ADJECTIVE ass shakes and wobbles at the most minor movement of your pHIPS hips. Clothing can barely contain it and men lust after it.",
-                94 : "Your ADJECTIVE ass shakes and wobbles at the most minor movement of your pHIPS hips. Clothing can barely contain it and men lust after it.",
-               100 : "Your ADJECTIVE ass jiggles almost uncontrollably at the most minor prompting. A small slap sends off an 'butt quake' of jiggly ass flesh and men dream of fucking it."
+                 0 : "Your ADJECTIVE NOUN looks emaciated and unhealthy.",
+                 1 : "You have a ADJECTIVE NOUN, it looks painful to sit on.",
+                 2 : "You have a ADJECTIVE NOUN, it looks painful to sit on.",
+                 3 : "Your ADJECTIVE NOUN looks almost hollow and unattractive.",
+                 5 : "Your ADJECTIVE NOUN looks almost hollow and unattractive.",
+                 8 : "You have a ADJECTIVE sized NOUN, neither too big or too small.",
+                11 : "You have a ADJECTIVE NOUN, it has a slight swell but nothing special.",
+                15 : "You have a pert ADJECTIVE NOUN that doesn't move in the slightest.",
+                19 : "You have an ADJECTIVE NOUN that does a good job of filling out a pair of panties.",
+                24 : "You have a ADJECTIVE NOUN that stretches sexily against your clothes.",
+                29 : "You have a ADJECTIVE NOUN that stretches sexily against your clothes.",
+                34 : "You have a ADJECTIVE NOUN, it's attractive enough to draw stares from men.",
+                39 : "You have a ADJECTIVE NOUN, it's attractive enough to draw stares from men.",
+                44 : "You have a ADJECTIVE NOUN that strains your bottoms and shakes when men slap it.",
+                49 : "You have a ADJECTIVE NOUN that strains your bottoms and shakes when men slap it.",
+                54 : "You have a ADJECTIVE NOUN that shakes and draws attention when you walk.",
+                59 : "You have a ADJECTIVE NOUN that shakes and draws attention when you walk.",
+                64 : "You have an ADJECTIVE NOUN that sways and jiggles sexily when you walk.",
+                70 : "You have a ADJECTIVE NOUN that gyrates back and forth when you strut your stuff.",
+                76 : "Your ADJECTIVE NOUN sensuously wobbles and jiggles at every minor movement, entrancing watchers.",
+                82 : "Your ADJECTIVE NOUN sensuously wobbles and jiggles at every minor movement, entrancing watchers.",
+                88 : "Your ADJECTIVE NOUN shakes and wobbles at the most minor movement of your pHIPS hips. Clothing can barely contain it and men lust after it.",
+                94 : "Your ADJECTIVE NOUN shakes and wobbles at the most minor movement of your pHIPS hips. Clothing can barely contain it and men lust after it.",
+               100 : "Your ADJECTIVE NOUN jiggles almost uncontrollably at the most minor prompting. A small slap sends off an 'butt quake' of jiggly NOUN flesh and men dream of fucking it."
             },
             "Cup": {
                 0 : "Flat",
@@ -1223,48 +1243,48 @@ App.Data.Ratings = {
                 100 : "QQQ"
             },
             "Bust": {
-                0 : "Your chest is ADJECTIVE and unappealing.",
-                1 : "Your chest is ADJECTIVE and unappealing, it would barely fit an pCUP bra.",
-                2 : "You have ADJECTIVE tits that would fill out a pCUP bra.",
-                3 : "You have ADJECTIVE tits that would fill out a pCUP bra.",
-                5 : "You have ADJECTIVE tits that would fill out a pCUP bra, they sit high and firm.",
-                8 : "You have ADJECTIVE tits that would nicely fill out a pCUP bra.",
-                11 : "You have ADJECTIVE pCUP sized hooters, they slightly wobble and jiggle when you walk.",
-                15 : "You have ADJECTIVE pCUP sized jugs, they are fleshy, softy, jiggly and eye catching.",
-                19 : "You have ADJECTIVE pCUP sized funbags, they enticingly fill out your tops and jiggle sexily when you walk.",
-                24 : "You have ADJECTIVE pCUP sized tits, they enticingly fill out your tops and shimmy and quake when you walk.",
-                29 : "You have ADJECTIVE pCUP sized jugs, your overwhelming cleavage attracts lustful stares from men and they shake and wobble when you strut your stuff.",
-                34 : "You have ADJECTIVE pCUP sized boobies, your overwhelming cleavage attracts lustful stares from men and they jiggle and bounce when you strut your stuff.",
-                39 : "You have ADJECTIVE pCUP sized knockers, they wobble when you walk and your expansive cleavage attracts lustful stares from men.",
-                44 : "You have ADJECTIVE pCUP sized jugs, they wobble when you walk and your expansive cleavage attracts lustful stares from men.",
-                49 : "You have ADJECTIVE pCUP sized hooters, they wobble when you walk and your expansive cleavage attracts lustful stares from men.",
-                54 : "You have ADJECTIVE pCUP sized tits, they jiggle and shake constantly trying to escape your top.",
-                59 : "You have ADJECTIVE pCUP sized tits, they jiggle and shake constantly trying to escape your top.",
-                64 : "You have ADJECTIVE pCUP sized hooters, they spill out of your clothes and entice men to grope and grab them.",
-                70 : "You have ADJECTIVE pCUP sized funbags, they spill out of your clothes and entice men to grope and grab them.",
-                76 : "You have ADJECTIVE pCUP sized tits on your chest, they make every outfit you wear look obscene and men salivate at the thought of putting their cocks in between them.",
-                82 : "You have ADJECTIVE pCUP sized jugs on your chest, they make every outfit you wear look obscene and men salivate at the thought of putting their cocks in between them.",
-                88 : "You have ADJECTIVE pCUP sized fuck bags on your chest, you mostly have given up trying to cover them because they'll wobble and shake free of anything at the slightest provocation.",
-                94 : "Your ADJECTIVE pCUP sized tits make it known to everyone that you're a total fuck slut ready for sex. They shake and jiggle at the slightest motion and spill out of your top every couple of minutes.",
-               100 : "Your ADJECTIVE pCUP sized tits make it known to everyone that you're a total fuck slut ready for sex. They shake and jiggle at the slightest motion and spill out of your top every couple of minutes. When you eat, you place them on the table to avoid back strain and you have to sleep on your side or you'll suffocate."
-            },
+                0 : "Your NOUN is ADJECTIVE and unappealing.",
+                1 : "Your NOUN is ADJECTIVE and unappealing, it would barely fit an pCUP bra.",
+                2 : "You have ADJECTIVE NOUN that would fill out a pCUP bra.",
+                3 : "You have ADJECTIVE NOUN that would fill out a pCUP bra.",
+                5 : "You have ADJECTIVE NOUN that would fill out a pCUP bra, they sit high and firm.",
+                8 : "You have ADJECTIVE NOUN that would nicely fill out a pCUP bra.",
+                11 : "You have ADJECTIVE pCUP sized NOUN, they slightly wobble and jiggle when you walk.",
+                15 : "You have ADJECTIVE pCUP sized NOUN, they are fleshy, softy, jiggly and eye catching.",
+                19 : "You have ADJECTIVE pCUP sized NOUN, they enticingly fill out your tops and jiggle sexily when you walk.",
+                24 : "You have ADJECTIVE pCUP sized NOUN, they enticingly fill out your tops and shimmy and quake when you walk.",
+                29 : "You have ADJECTIVE pCUP sized NOUN, your overwhelming cleavage attracts lustful stares from men and they shake and wobble when you strut your stuff.",
+                34 : "You have ADJECTIVE pCUP sized NOUN, your overwhelming cleavage attracts lustful stares from men and they jiggle and bounce when you strut your stuff.",
+                39 : "You have ADJECTIVE pCUP sized NOUN, they wobble when you walk and your expansive cleavage attracts lustful stares from men.",
+                44 : "You have ADJECTIVE pCUP sized NOUN, they wobble when you walk and your expansive cleavage attracts lustful stares from men.",
+                49 : "You have ADJECTIVE pCUP sized NOUN, they wobble when you walk and your expansive cleavage attracts lustful stares from men.",
+                54 : "You have ADJECTIVE pCUP sized NOUN, they jiggle and shake constantly trying to escape your top.",
+                59 : "You have ADJECTIVE pCUP sized NOUN, they jiggle and shake constantly trying to escape your top.",
+                64 : "You have ADJECTIVE pCUP sized NOUN, they spill out of your clothes and entice men to grope and grab them.",
+                70 : "You have ADJECTIVE pCUP sized NOUN, they spill out of your clothes and entice men to grope and grab them.",
+                76 : "You have ADJECTIVE pCUP sized NOUN on your chest, they make every outfit you wear look obscene and men salivate at the thought of putting their cocks in between them.",
+                82 : "You have ADJECTIVE pCUP sized NOUN on your chest, they make every outfit you wear look obscene and men salivate at the thought of putting their cocks in between them.",
+                88 : "You have ADJECTIVE pCUP sized NOUN on your chest, you mostly have given up trying to cover them because they'll wobble and shake free of anything at the slightest provocation.",
+                94 : "Your ADJECTIVE pCUP sized NOUN make it known to everyone that you're a total fuck slut ready for sex. They shake and jiggle at the slightest motion and spill out of your top every couple of minutes.",
+               100 : "Your ADJECTIVE pCUP sized NOUN make it known to everyone that you're a total fuck slut ready for sex. They shake and jiggle at the slightest motion and spill out of your top every couple of minutes. When you eat, you place them on the table to avoid back strain and you have to sleep on your side or you'll suffocate."
+           },
             "Lips": {
-                  0: "ADJECTIVE lips like an old person or a zombie.",
-                  5: "ADJECTIVE lips like an old person or a zombie.",
-                 10: "ADJECTIVE lips that look unappealing and harsh.",
-                 15: "ADJECTIVE lips that look dry and parched.",
-                 20: "ADJECTIVE, masculine lips that are rather unappealing.",
-                 26: "ADJECTIVE, slightly masculine lips that are slightly chapped.",
-                 32: "ADJECTIVE and moist, slightly feminine lips.",
-                 38: "ADJECTIVE, almost girlish lips.",
-                 46: "ADJECTIVE, girly lips with a cute pout.",
-                 54: "ADJECTIVE, womanly lips with an enticing smile.",
-                 62: "ADJECTIVE, kissable lips in a classic bow shape.",
-                 71: "ADJECTIVE lips like those on an air-headed bimbo.",
-                 80: "ADJECTIVE lips, almost comical in appearance. They look good wrapped around a cock.",
-                 89: "ADJECTIVE lips that are so fat your mouth is in a perpetual 'o' shape, just waiting for a dick.",
-                 98: "ADJECTIVE lips, they are always partway open and wet with your saliva. They make your face look like a sissy fuckhole.",
-                100: "ADJECTIVE lips, so enormous that they look like a pair of pillows made for sucking cock. They cause you to speak with a pronounced lisp and they're always so wet with your saliva that you often find yourself constantly wiping your own drool from your pBUST tits."
+                  0: "ADJECTIVE NOUN like an old person or a zombie.",
+                  5: "ADJECTIVE NOUN like an old person or a zombie.",
+                 10: "ADJECTIVE NOUN that look unappealing and harsh.",
+                 15: "ADJECTIVE NOUN that look dry and parched.",
+                 20: "ADJECTIVE, masculine NOUN that are rather unappealing.",
+                 26: "ADJECTIVE, slightly masculine NOUN that are slightly chapped.",
+                 32: "ADJECTIVE and moist, slightly feminine NOUN.",
+                 38: "ADJECTIVE, almost girlish NOUN.",
+                 46: "ADJECTIVE, girly NOUN with a cute pout.",
+                 54: "ADJECTIVE, womanly NOUN with an enticing smile.",
+                 62: "ADJECTIVE, kissable NOUN in a classic bow shape.",
+                 71: "ADJECTIVE NOUN like those on an air-headed bimbo.",
+                 80: "ADJECTIVE NOUN, almost comical in appearance. They look good wrapped around a cock.",
+                 89: "ADJECTIVE NOUN that are so fat your mouth is in a perpetual 'o' shape, just waiting for a dick.",
+                 98: "ADJECTIVE NOUN, they are always partway open and wet with your saliva. They make your face look like a sissy fuckhole.",
+                100: "ADJECTIVE NOUN, so enormous that they look like a pair of pillows made for sucking cock. They cause you to speak with a pronounced lisp and they're always so wet with your saliva that you often find yourself constantly wiping your own drool from your pBUST tits."
             },
             "Style": {
                  0: "repulsive, like a homeless person",
@@ -1339,6 +1359,77 @@ App.Data.Ratings = {
                 100: "ADJECTIVE, with an iron constitution and powerful pHORMONES muscles, the apex of physical perfection."
             }
         };
+
+App.Data.Naming = {
+    "BodyConfig": {
+        "Face": { "NOUN": "face" },
+        "Hair": { "NOUN": "hair" },
+        "Lips": {
+            "NOUN" : {
+                "LEVELING" : {
+                    0   : "lips",
+                    100 : "cock pillows"
+                }
+            }
+        },
+        "Bust": {
+            "ADJECTIVE": {
+                "APPLICABLE_LEVEL" : [{ "MIN" : 0, "MAX" : 100 }],
+                "RATING": [ "BODY/Bust" ],
+            },
+            "NOUN" : {
+                "INDEX": [ "BODY/Bust" ],
+                "LEVELING" : {
+                    0   : "chest",
+                    3   : "tits",
+                    11  : "hooters",
+                    15  : "jugs",
+                    19  : "funbags",
+                    24  : "tits",
+                    29  : "jugs",
+                    34  : "boobies",
+                    39  : "knockers",
+                    44  : "jugs",
+                    49  : "hooters",
+                    54  : "tits",
+                    64  : "hooters",
+                    70  : "funbags",
+                    76  : "tits",
+                    88  : "fuck bags",
+                    94  : "tits",
+                    100 : "melons"
+                }
+            }
+        },
+        "Ass" : {
+            "ADJECTIVE": {
+                "RATING": [ "BODY/Ass", "BODY/AssFirmness" ],
+                "INDEX" : [ "BODY/Ass", "STAT/Fitness" ],
+                "APPLICABLE_LEVEL" : [{ "MIN" : 0, "MAX" : 100 }, { "MIN" : 10, "MAX" : 100 }],
+            },
+            "NOUN": {
+                "INDEX": ["BODY/Ass", "STAT/Fitness"],
+                "LEVELING": {
+                    0   : "ass",
+                    100 : "ass"
+                }
+            }
+        },
+        "Hips" : { "NOUN" : "hips"},
+        "Waist" : { "NOUN" : "waist"},
+        "Penis" : {
+            "NOUN" : {
+                "LEVELING": {
+                    0   : "sissy clit",
+                    10  : "over sized sissy clit",
+                    25  : "dick",
+                    66  : "cock",
+                    100 : "tool"
+                }
+            },
+        }
+    }
+};
 
 App.Data.Enemies = {
   "PIRATE_A" : {
