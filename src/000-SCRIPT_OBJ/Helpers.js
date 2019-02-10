@@ -92,6 +92,8 @@ App.PR = new function() {
         var lastSmallerRating;
         for (var prop in Ratings) {
             if (!Ratings.hasOwnProperty(prop)) continue;
+            // Needed since many ratings start at 0.
+            if (lastSmallerRating == undefined) lastSmallerRating = prop;
             if (prop > Value) break;
             lastSmallerRating = prop;
         }
