@@ -1040,7 +1040,6 @@ App.PR = new function() {
      */
     this.PrintItem = function(Item, Player)
     {
-        console.log("PrintItemCalled");
         var res = "<span class='inventoryItem'>" + Item.Description();
         if (SugarCube.settings.inlineItemDetails) {
             res += "</span><br><span class='inventoryItemDetails'>" + Item.Examine(Player, true) + '</span>';

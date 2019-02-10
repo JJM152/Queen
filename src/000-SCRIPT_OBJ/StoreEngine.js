@@ -273,7 +273,6 @@ var Store = function(Player, NPC, StoreData) {
     {
         var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"]);
         var res = "<span class='inventoryItem'>" + oItem.Description;
-        console.log("store print item called");
         if (this._Player.Inventory.IsFavorite(oItem.Id)) {
             res += "&nbsp;" + App.PR.GetItemFavoriteIcon(true);
         }
