@@ -896,15 +896,18 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         // Kludge because some "skills" are callsed from here due to not granting XP, such as slot machine skills.
 
         if (Scaling == true) {
-            this._state.GameStats.Skills[SkillName].Success += 1;
+            if (this._state.GameStats.Skills.hasOwnProperty(Name))
+            this._state.GameStats.Skills[Name].Success += 1;
             return (Amount * Mod);
         }
 
         if (DiceRoll >= Target) {
-            this._state.GameStats.Skills[SkillName].Success += 1;
+            if (this._state.GameStats.Skills.hasOwnProperty(Name))
+            this._state.GameStats.Skills[Name].Success += 1;
             return 1;
         } else {
-            this._state.GameStats.Skills[SkillName].Failure += 1;
+            if (this._state.GameStats.Skills.hasOwnProperty(Name))
+            this._state.GameStats.Skills[Name].Failure += 1;
             return 0;
         }
 

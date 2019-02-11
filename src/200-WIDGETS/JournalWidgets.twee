@@ -38,7 +38,7 @@
 	<<if _SK.AssFucking.Success > 0>>
 		<<print "and " + _SK.AssFucking.Success + " times among them it gave a pleasure!">>
 	<<else>>
-		<<print "but no one enjoied that.">>
+		<<print "but no one enjoyed that.">>
 	<</if>>
 	<<print "<br>" >>
 	<<set _SexSkillsPrinted = true>>
@@ -58,7 +58,7 @@
 	<<if _SK.HandJobs.Success > 0>>
 		<<print "and " + _SK.HandJobs.Success + " times it worked quite well!">>
 	<<else>>
-		<<print "yet nobody enjoied that.">>
+		<<print "yet nobody enjoyed that.">>
 	<</if>>
 	<<print "<br>" >>
 	<<set _SexSkillsPrinted = true>>
@@ -66,7 +66,7 @@
 <<if _SK.TitFucking.Failure + _SK.TitFucking.Success > 0>>
 	<<print "Your tits were fucked " + (_SK.TitFucking.Failure + _SK.TitFucking.Success) + " times ">>
 	<<if _SK.TitFucking.Success > 0>>
-		<<print "and " + _SK.TitFucking.Success + " dicks enjoied that!">>
+		<<print "and " + _SK.TitFucking.Success + " dicks enjoyed that!">>
 	<<else>>
 		<<print "and it was nothing but waste of time.">>
 	<</if>>
