@@ -196,7 +196,7 @@
 <td><<= "<<FavoriteItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
 <td><<= _Items[_i].Charges() >></td>
 <td style="text-align:left"><<= "<<ThrowItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
-<td><<= _Items[_i].Description >></td>
+<td><<= App.PR.PrintItem(_Items[_i], setup.player) >></td>
 <td style="text-align:right">&nbsp;</td>
 <td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
 </tr>
@@ -222,7 +222,8 @@
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
     <td style="width:80px;"><<if _i eq 0>>''@@color:gold;<<= _Slots[_x] >>@@''<</if>></td>
-    <td style="width:680px;"><<if  setup.player.Equipment[_Slots[_x]] eq _Items[_i]>>(@@color:lime;worn@@) <</if>><<= _Items[_i].Description >></td>
+    <td style="width:680px;"><<if  setup.player.Equipment[_Slots[_x]] eq _Items[_i]>>(@@color:lime;worn@@) <</if>>
+	<<= App.PR.PrintItem(_Items[_i], setup.player) >></td>
     <td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
 </tr>
 <</for>>
@@ -243,7 +244,7 @@
 <td><<= "<<FavoriteItemButton \""+ _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
 <td><<= _Items[_i].Charges() >></td>
 <td style="text-align:left"><<= "<<ThrowItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
-<td><<= _Items[_i].Description >></td>
+<td><<= App.PR.PrintItem(_Items[_i], setup.player) >></td>
 <td style="text-align:right"><<= "<<UseItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
 <td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
 </tr>
@@ -263,7 +264,7 @@
 <td><<= "<<FavoriteItemButton \""+ _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
 <td><<= _Items[_i].Charges() >></td>
 <td style="text-align:left"><<if _Items[_i].Type == "LOOT_BOX">><<= "<<ThrowItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >><</if>></td>
-<td><<= _Items[_i].Description >></td>
+<td><<= App.PR.PrintItem(_Items[_i], setup.player) >></td>
 <td style="text-align:right"><<if _Items[_i].Type == "LOOT_BOX">><<= "<<UseItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >><</if>></td>
 <td style="text-align:right"><<= "<<ExamineItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
 </tr>
