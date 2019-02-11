@@ -105,23 +105,24 @@ App.PR = new function() {
     };
 
 	/**
-     * Helper function. Checks relevant statistic config and returns the leveling record if one exists.
-     * @param {string} Type
-     * @param {string} Stat
-     * @param {number} Value
-     * @returns {*}
-     */
-	this.GetLevelingRecord = function(Type, Stat, Value) {
-        var Ratings = this.GetStatConfig(Type)[Stat].LEVELING;
-        var lastSmallerProp;
-        for (var prop in Ratings) {
-            if (!Ratings.hasOwnProperty(prop)) continue;
-            if (prop > Value) break;
-            lastSmallerProp = prop;
-        }
-        if (lastSmallerProp !== undefined) return Ratings[lastSmallerProp];
-        return undefined;
-    };
+	 * Helper function. Checks relevant statistic config and returns the leveling record if one exists.
+	 * @param {string} Type
+	 * @param {string} Stat
+	 * @param {number} Value
+	 * @returns {*}
+	 */
+	this.GetLevelingRecord = function (Type, Stat, Value) {
+	    var Ratings = this.GetStatConfig(Type)[Stat]["LEVELING"];
+	    if (Ratings instanceof Function) return Ratings(Value);
+	    var lastSmallerProp;
+	    for (var prop in Ratings) {
+	        if (!Ratings.hasOwnProperty(prop)) continue;
+	        if (prop > Value) break;
+	        lastSmallerProp = prop;
+	    }
+	    if (lastSmallerProp !== undefined) return Ratings[lastSmallerProp];
+	    return undefined;
+	};
 
     /**
      * Helper function. Checks relevant statistic config and returns a colorized Property value for use if one exists.
