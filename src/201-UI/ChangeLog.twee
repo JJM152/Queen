@@ -1,10 +1,11 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.9 - 10/02/2019
+!!!0.9 - 12/02/2019
 !!!!General
 * Leveled nouns now added for some body part descriptions.
 * There is a 'Buy all' button in the shop interface now.
-* You can now see item descriptions in shops by hovering over them. There is a settings option to display them inline instead.
+* There is a settings option to display tool tip and inline information about items in your inventory and shops.
+* Your journal screen now has tabs and can track some "interesting" information.
 
 !!!0.8 - 10/06/2018
 !!!!General
