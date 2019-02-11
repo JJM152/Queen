@@ -203,6 +203,10 @@ App.Data.Lists = {
                       100 : { "COST" : 575, "STEP" : 1, "ADJECTIVE" : "enormous",    "COLOR" : 16}
                     }
                 },
+                /** 
+                 * This can't be here to be used as just a descriptor as the system will try to level 
+                 * it overnight because it requires 0 XP. It's also lacking a growth/shrink chat and some other
+                 * things to make it a proper stat.
                 "AssFirmness": {  "MIN" : 0, "MAX" : 100,
                     "LEVELING" : {
                         5 :   { "ADJECTIVE" : "flabby", "COLOR" :  1},
@@ -222,6 +226,7 @@ App.Data.Lists = {
                         100 : { "ADJECTIVE" : "smooth and round", "COLOR" : 16}
                     }
                 },
+                */
                 "Waist": { "MIN" : 0, "MAX" : 100, "START" : 46, "CM_MIN" : 40, "CM_MAX": 130,
                     "LEVELING" : {
                         0 : { "COST" : 3000, "STEP" : 1, "ADJECTIVE" : "wasp",           "COLOR" :  1},
