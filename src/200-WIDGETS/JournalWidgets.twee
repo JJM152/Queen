@@ -1,0 +1,80 @@
+:: JournalWidgets [widget]
+
+<<widget "JournalList">><<nobr>>
+<<run App.PR.HighlightActiveTabButton($args[1], $args[2], "Journal - " +  $args[3])>>
+<<set _QE = window.App.QuestEngine;>>
+<<if $args[0] == "active">>
+	<<set _entryType to "JOURNAL_ENTRY">>
+<<elseif $args[0] == "completed">>
+	<<set _entryType to "JOURNAL_COMPLETE">>
+<</if>>
+<<if $args[0] == "active" || $args[0] == "completed" >>
+	<<set _QL = _QE.GetQuests($args[0], setup.player);>>
+	<<for _i = 0; _i < _QL.length; _i++>>
+		<<if (_QL[_i]["JOURNAL_ENTRY"] == "HIDDEN")>> <<continue>><</if>>
+		<<set _NPC = setup.player.GetNPC(_QL[_i]["GIVER"]);>>
+		<<print "[" +_NPC.pName() + " - " + _QL[_i]["Title"] + "]<br>";>>
+		<<print window.App.PR.pQuestDialog(_QL[_i]["ID"], _entryType, setup.player, _NPC);>>
+		<<print "<br><br>">>
+		<<if $args[0] == "active" && _QL[_i]["CHECKS"].length != 0>>
+			<<print window.App.PR.pQuestRequirements(_QL[_i]["ID"], setup.player) + "\n";>>
+		<</if>>
+		<<print "<hr>">>
+	<</for>>
+<</if>>
+<</nobr>>
+<</widget>>
+
+<<widget "GameStats">><<nobr>>
+<<run App.PR.HighlightActiveTabButton($args[0], $args[1], "Journal - " +  $args[2])>>
+<<set _GS = setup.player.GameStats>>
+<<if _GS.MoneyEarned > 0>>
+	<<print "You managed to earn " +  _GS.MoneyEarned + " coins.<br><hr>">>
+<</if>>
+<<set _SK = _GS.Skills>>
+<<set _SexSkillsPrinted = false>>
+<<if _SK.AssFucking.Failure + _SK.AssFucking.Success > 0>>
+	<<print "Your ass was used " + (_SK.AssFucking.Failure + _SK.AssFucking.Success) + " times, ">>
+	<<if _SK.AssFucking.Success > 0>>
+		<<print "and " + _SK.AssFucking.Success + " times among them it gave a pleasure!">>
+	<<else>>
+		<<print "but no one enjoied that.">>
+	<</if>>
+	<<print "<br>" >>
+	<<set _SexSkillsPrinted = true>>
+<</if>>
+<<if _SK.BlowJobs.Failure + _SK.BlowJobs.Success > 0>>
+	<<print "You've sucked " + (_SK.BlowJobs.Failure + _SK.BlowJobs.Success) + " dicks, ">>
+	<<if _SK.BlowJobs.Success > 0>>
+		<<print "and satisfied" + _SK.BlowJobs.Success + " of them!">>
+	<<else>>
+		<<print "but each time time you've failed to give a pleasure.">>
+	<</if>>
+	<<print "<br>" >>
+	<<set _SexSkillsPrinted = true>>
+<</if>>
+<<if _SK.HandJobs.Failure + _SK.HandJobs.Success > 0>>
+	<<print _SK.HandJobs.Failure + (_SK.HandJobs.Success + _SK.HandJobs.Failure) + " times you've used your hands to make men happy, ">>
+	<<if _SK.HandJobs.Success > 0>>
+		<<print "and " + _SK.HandJobs.Success + " times it worked quite well!">>
+	<<else>>
+		<<print "yet nobody enjoied that.">>
+	<</if>>
+	<<print "<br>" >>
+	<<set _SexSkillsPrinted = true>>
+<</if>>
+<<if _SK.TitFucking.Failure + _SK.TitFucking.Success > 0>>
+	<<print "Your tits were fucked " + (_SK.TitFucking.Failure + _SK.TitFucking.Success) + " times ">>
+	<<if _SK.TitFucking.Success > 0>>
+		<<print "and " + _SK.TitFucking.Success + " dicks enjoied that!">>
+	<<else>>
+		<<print "and it was nothing but waste of time.">>
+	<</if>>
+	<<print "<br>" >>
+	<<set _SexSkillsPrinted = true>>
+<</if>>
+<<if _SexSkillsPrinted>>
+	<<print "<hr>">>
+<</if>>
+<</nobr>>
+<</widget>>

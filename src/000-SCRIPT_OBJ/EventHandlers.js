@@ -211,6 +211,17 @@ App.EventHandlers = new function() {
             delete save.state.history[0].variables.Player; // Clear old player object after copy.
         }
 
+        if (save.version < 0.09) {
+            console.log("Adding empty game stat records...");
+            save.state.history[0].variables.PlayerState.GameStats = {
+                "MoneyEarned":      0,
+                Skills : { }
+            };
+            for (var skill in save.state.history[0].variables.PlayerState.Skills) {
+                if (!save.state.history[0].variables.PlayerState.Skills.hasOwnProperty(skill)) continue;
+                save.state.history[0].variables.PlayerState.GameStats.Skills[skill] = {"Failure": 0, "Success": 0};
+            }
+        }
 
         if (save.version > App.Data.Game.Version) {
             /* Invalidates saves outside of legal scope */

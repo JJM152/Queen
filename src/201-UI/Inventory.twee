@@ -3,4 +3,23 @@
 <<set _Drugs = setup.player.GetItemByTypes(["potion"]);>>\
 <<set _Quests = setup.player.GetItemByTypes(["QUEST", "LOOT_BOX"]);>>
 
-<span id="InventoryUI"><<InventoryTable "food">></span>
+<span class="tabbar" id="InventoryTabs">\
+	@@.activeTabCaption;<span>placeholder</span>@@\
+	@@.tablink;#misc;<<button "Misc">>\
+  		<<replace '#InventoryUI'>><<InventoryTable 'misc' 'InventoryTabs' 'Miscellaneous Items'>><</replace>>\
+	<</button>>@@ \
+  	@@.tablink;#gear;<<button "Gear">>\
+  		<<replace '#InventoryUI'>><<InventoryTable 'gear' 'InventoryTabs' 'Clothing and Weapons'>><</replace>>
+	<</button>>@@\
+	@@.tablink;#quest;<<button "Loot">>\
+  		<<replace '#InventoryUI'>><<InventoryTable 'quest' 'InventoryTabs' 'Loot Items'>><</replace>>
+	<</button>>@@\
+	@@.tablink;#potion;<<button "Potions">>\
+  		<<replace '#InventoryUI'>><<InventoryTable 'potion' 'InventoryTabs' 'Potions and Drugs'>><</replace>>
+	<</button>>@@\
+	@@.tablink;#food;<<button "Food">>\
+  		<<replace '#InventoryUI'>><<InventoryTable 'food' 'InventoryTabs' 'Food and Drink'>><</replace>>
+	<</button>>@@\
+</span>
+<span id="InventoryUI"></span>
+<<run $(document).one(':passagedisplay', function(){document.getElementById("food").firstChild.click();});>>

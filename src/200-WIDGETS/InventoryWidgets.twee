@@ -98,90 +98,22 @@
 <</nobr>><</widget>>
 
 <<widget "InventoryTable">><<nobr>>
-<table class=".MyTable" style="width:830px;">
-<tbody>
-<tr>
-<<if $args[0] == "food">>
-<<set _Items = setup.player.GetItemByTypes(["food"], true);>>
-	<td colspan=3 style="width:450px;">@@color:yellow;Inventory - Food and Drink@@</td>
-	<td colspan=1 style="width:300px;text-align:right">@@color:grey;Food@@ |
-	<<click "Potions">>
-		<<replace "#InventoryUI">><<InventoryTable "potion">><</replace>>
-	<</click>> | <<click "Loot">>
-		<<replace "#InventoryUI">><<InventoryTable "quest">><</replace>>
-	<</click>> | <<click "Gear">>
-        <<replace "#InventoryUI">><<InventoryTable "gear">><</replace>>
-    <</click>>  | <<click "Misc">>
-         <<replace "#InventoryUI">><<InventoryTable "misc">><</replace>>
-    <</click>>
-    </td>
-<<else>>
-<<if $args[0] == "potion">>
-<<set _Items = setup.player.GetItemByTypes(["potion"], true);>>
-	<td colspan=3 style="width:450px;">@@color:yellow;Inventory - Potions and Drugs@@</td>
-	<td colspan=1 style="width:300px;text-align:right"><<click "Food">>
-		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
-	<</click>> | @@color:grey;Potions@@ | <<click "Loot">>
-		<<replace "#InventoryUI">><<InventoryTable "quest">><</replace>>
-	<</click>> | <<click "Gear">>
-        <<replace "#InventoryUI">><<InventoryTable "gear">><</replace>>
-    <</click>>  | <<click "Misc">>
-        <<replace "#InventoryUI">><<InventoryTable "misc">><</replace>>
-    <</click>>
-    </td>
-<<else>>
-<<if $args[0] == "quest">>
-<<set _Items = setup.player.GetItemByTypes(["QUEST", "LOOT_BOX"], true);>>
-	<td colspan=3 style="width:450px;">@@color:yellow;Inventory - Loot Items@@</td>
-	<td colspan=1 style="width:300px;text-align:right"><<click "Food">>
-		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
-	<</click>> | <<click "Potions">>
-		<<replace "#InventoryUI">><<InventoryTable "potion">><</replace>>
-	<</click>> | @@color:grey;Loot@@ | <<click "Gear">>
-        <<replace "#InventoryUI">><<InventoryTable "gear">><</replace>>
-    <</click>>  | <<click "Misc">>
-        <<replace "#InventoryUI">><<InventoryTable "misc">><</replace>>
-    <</click>>
-    </td>
-<<else>>
-<<if $args[0] == 'gear'>>
-<<set _Items = setup.player.Wardrobe>>
-	<td colspan=3 style="width:450px;">@@color:yellow;Inventory - Clothing and Weapons@@</td>
-	<td colspan=1 style="width:300px;text-align:right"><<click "Food">>
-		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
-	<</click>> | <<click "Potions">>
-		<<replace "#InventoryUI">><<InventoryTable "potion">><</replace>>
-	<</click>>  | <<click "Loot">>
-        <<replace "#InventoryUI">><<InventoryTable "quest">><</replace>>
-    <</click>> | @@color:grey;Gear@@ | <<click "Misc">>
-        <<replace "#InventoryUI">><<InventoryTable "misc">><</replace>>
-    <</click>>
-    </td>
-<<else>>
-<<if $args[0] == 'misc'>>
-<<set _Items = setup.player.GetItemByTypes(["misc", "hair tool", "hair treatment", "basic makeup", "expensive makeup" ], true); >>
-	<td colspan=3 style="width:500px;">@@color:yellow;Inventory - Miscellaneous Items@@</td>
-	<td colspan=1 style="width:250px;text-align:right"><<click "Food">>
-		<<replace "#InventoryUI">><<InventoryTable "food">><</replace>>
-	<</click>> | <<click "Potions">>
-		<<replace "#InventoryUI">><<InventoryTable "potion">><</replace>>
-	<</click>>  | <<click "Loot">>
-        <<replace "#InventoryUI">><<InventoryTable "quest">><</replace>>
-    <</click>> | <<click "Gear">>
-        <<replace "#InventoryUI">><<InventoryTable "gear">><</replace>>
-    <</click>> | @@color:grey;Misc@@
-    </td>
-<</if>>
-<</if>>
-<</if>>
-<</if>>
-<</if>>
-</tr>
-</tbody>
-</table>
-<table class=".MyTable" style="width:830px;">
-<tbody>
+<<run App.PR.HighlightActiveTabButton($args[1], $args[0], "Inventory - " +  $args[2])>>
+<<switch $args[0]>>
+<<case "food">>
+	<<set _Items = setup.player.GetItemByTypes(["food"], true);>>
+<<case "potion">>
+	<<set _Items = setup.player.GetItemByTypes(["potion"], true);>>
+<<case "quest">>
+	<<set _Items = setup.player.GetItemByTypes(["QUEST", "LOOT_BOX"], true);>>
+<<case 'gear'>>
+	<<set _Items = setup.player.Wardrobe>>
+<<case 'misc'>>
+	<<set _Items = setup.player.GetItemByTypes(["misc", "hair tool", "hair treatment", "basic makeup", "expensive makeup" ], true); >>
+<</switch>>
 
+<table class=".MyTable" style="width:830px;">
+<tbody>
 <<if $args[0] == "misc">>
 <tr style="border-bottom:1px solid white;">
 		<td style="width:1em;">&nbsp;</td>
