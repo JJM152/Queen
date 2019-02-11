@@ -643,8 +643,8 @@ App.PR = new function() {
         this.pItemDesc = function(ItemType, ItemTag, ItemAmount, Opt)
 		{
 			var oItem = App.Item.Factory( ItemType, ItemTag);
-            if ((typeof Opt !== 'undefined') && ItemAmount > 1) return oItem.Description() + " x "+ItemAmount;
-			return oItem.Description();
+            if ((typeof Opt !== 'undefined') && ItemAmount > 1) return oItem.Description + " x "+ItemAmount;
+			return oItem.Description;
 		};
 
     /**
