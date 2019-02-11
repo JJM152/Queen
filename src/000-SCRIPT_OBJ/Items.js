@@ -546,7 +546,19 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
      * @param {boolean} [OmitDescription]
      * @returns {string}
      */
-    Examine(Player) {
+    Examine(Player, OmitDescription) {
+
+        if (OmitDescription == true) {
+
+            Output = this.Category.join(", ") + " " + this.Rank +"\n";
+            var Usages = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Tag);
+            var max = Math.min(Usages, this.GetKnowledge().length);
+
+            for(var i = 0; i < max; i++)
+                Output += App.PR.pEffectMeter(this.GetKnowledge()[i], this) + " ";
+            return Output;      
+        }
+
         var Output = this.Data["LongDesc"];
         var Usages = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Tag);
 
@@ -559,7 +571,7 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
         var max = Math.min(Usages, this.GetKnowledge().length);
 
         for(var i = 0; i < max; i++)
-            Output += App.PR.pEffectMeter(this.GetKnowledge()[i], this) + "&nbsp;&nbsp;";
+            Output += App.PR.pEffectMeter(this.GetKnowledge()[i], this) + " ";
         return Output;
     }
 

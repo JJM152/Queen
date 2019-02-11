@@ -278,9 +278,10 @@ var Store = function(Player, NPC, StoreData) {
         }
 
         if (SugarCube.settings.inlineItemDetails) {
-            res += "</span><br><div class='inventoryItemDetails'>" + oItem.Examine(this._Player, false) + '</div>';
-        } else {
             res += '<span class="tooltip">' + oItem.Examine(this._Player, false) + '</span></span>';
+            res += "<br><div class='inventoryItemDetails'>" + oItem.Examine(this._Player, true) + '</div>';
+        } else {
+            '</span>';
         }
         return res;
     };

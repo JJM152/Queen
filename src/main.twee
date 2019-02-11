@@ -53,7 +53,7 @@ Setting.addList("units", {
 
 Setting.addToggle("inlineItemDetails", {
     label    : "Inline detailed information in inventory and shops",
-    desc     : "Toggles displaying additional information in the inventory and shop interfaces.\nDetailed item information will be inlined if setting is enabled or shown in tooltips otherwise",
+    desc     : "Toggles displaying additional information in the inventory and shop interfaces.",
     default  : false
 });
 

@@ -1042,9 +1042,10 @@ App.PR = new function() {
     {
         var res = "<span class='inventoryItem'>" + Item.Description;
         if (SugarCube.settings.inlineItemDetails) {
-            res += "</span><br><span class='inventoryItemDetails'>" + Item.Examine(Player, true) + '</span>';
-        } else {
             res += '<span class="tooltip">' + Item.Examine(Player, false) + '</span></span>';
+            res += "<br><div class='inventoryItemDetails'>" + Item.Examine(Player, true) + '</div>';
+        } else {
+            res += '</span>';
         }
         return res;
     };
