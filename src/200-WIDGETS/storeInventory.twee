@@ -55,7 +55,7 @@
 <td style="width: 310px;">@@color:lime;Rare Items@@</td>
 <td style="width: 80px;"> </td>
 <td style="width: 60px;"> </td>
-<td style="width: 80px;"> </td>
+<td style="width: 180px;"> </td>
 <td style="width: 80px;"> </td>
 </tr>
 <<if _RI.length == 0>>
@@ -68,7 +68,7 @@
 <td>  <<print _ST.PrintItem(_RI[_i]);>></td>
 <td style="text-align:center;"><<print _RI[_i]["QTY"]>></td>
 <td style="text-align:right;"><<print _ST.GetPrice( _RI[_i]);>></td>
-<td style="text-align:center;"><<storeButton _RI[_i]>></td>
+<td style="text-align:left;"><<storeButton _RI[_i]>></td>
 <td style="text-align:center;"><<storeExamineButton _RI[_i]>></td>
 </tr>
 <</for>>

@@ -4,7 +4,7 @@
 <<else>>\
 <<if ($args[0]["QTY"] < 1) or
 (_ST.PlayerCanAfford($args[0]) != 1)>>\
-@@.disabledStoreButton;<<button "BUY">><</button>>@@\
+@@.disabledStoreButton;<<button "BUY">><</button>>@@&nbsp;\
 @@.disabledStoreButton;<<button "BUY ALL">><</button>>@@\
 <<else>>\
 <<if setup.player.MaxItemCapacity($args[0])>>@@.disabledStoreButton;<<button "FULL">><</button>>@@\
