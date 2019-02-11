@@ -213,13 +213,11 @@ input[type="text"] {
 
 /* Style the tabbars */
 .tabbar {
-	overflow: auto;
-	padding: 0px;
-	margin: 0px;
+	overflow: hidden;
 }
 
 .tabbar button {
-	background-color: inherit;
+	background-color: #252525;
 	color: #68d;
 	float: right;
 	border: none;
@@ -227,10 +225,6 @@ input[type="text"] {
 	cursor: pointer;
 	transition: 0.3s;
 	vertical-align: super;
-	padding: 0.25ex;
-	border-right: thin solid gray;
-	padding-left: 4px;
-	padding-right: 4px;
 }
 
 .tabbar button:hover {
@@ -238,7 +232,7 @@ input[type="text"] {
 }
 
 .tabbar button.active {
-	border-bottom: thin solid gray;
+	background-color: #050505;
 }
 
 .tabbar .activeTabCaption {
