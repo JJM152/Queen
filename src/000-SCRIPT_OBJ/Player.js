@@ -893,9 +893,20 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
         if(this._state.debugMode) console.log("StatRoll(" + Name + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " Mod="+Mod+"\n");
 
-        if (Scaling == true) return (Amount * Mod);
-        if (DiceRoll >= Target) return 1;
-        return 0;
+        // Kludge because some "skills" are callsed from here due to not granting XP, such as slot machine skills.
+
+        if (Scaling == true) {
+            this._state.GameStats.Skills[SkillName].Success += 1;
+            return (Amount * Mod);
+        }
+
+        if (DiceRoll >= Target) {
+            this._state.GameStats.Skills[SkillName].Success += 1;
+            return 1;
+        } else {
+            this._state.GameStats.Skills[SkillName].Failure += 1;
+            return 0;
+        }
 
     }
     /**
