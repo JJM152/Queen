@@ -1499,5 +1499,5 @@ App.Data.Encounters = {
 };
 
 App.Data.Game = {
-    Version : 0.08
+    Version : 0.09
 };
