@@ -205,7 +205,7 @@ App.Entity.InventoryManager = class InventoryManager {
 
         // create item objects for each record
         this._items = {};
-        this._ForEachItemRecord(undefined, undefined, function(charges, tag, itemClass) {
+        this.ForEachItemRecord(undefined, undefined, function(charges, tag, itemClass) {
             this._ensureWrapObjectExists(itemClass, tag, charges);
         }, this);
 
@@ -253,9 +253,8 @@ App.Entity.InventoryManager = class InventoryManager {
      * @param {string|undefined} ItemClass
      * @param {forEachCallback} func
      * @param {*} [thisObj]
-     * @private
      */
-    _ForEachItemRecord(Tag, ItemClass, func, thisObj) {
+    ForEachItemRecord(Tag, ItemClass, func, thisObj) {
         var types = ItemClass == undefined ? Object.keys(this._state.Inventory) : [ItemClass];
         types.forEach(function(type) {
             if (!this._state.Inventory.hasOwnProperty(type)) return;
@@ -268,6 +267,38 @@ App.Entity.InventoryManager = class InventoryManager {
                     if (!this._state.Inventory[type].hasOwnProperty(n)) continue;
                     func.call(thisObj, this._state.Inventory[type][n], n, type);
                 }
+            }
+        }, this);
+    }
+
+    /**
+     * @callback everyCallback
+     * @param {number} charges
+     * @param {string} name
+     * @param {string} itemClass
+     * @returns {boolean}
+     */
+
+    /**
+     * @param {string|undefined} Tag
+     * @param {string|undefined} ItemClass
+     * @param {everyCallback} func
+     * @param {*} [thisObj]
+     */
+    EveryItemRecord(Tag, ItemClass, func, thisObj) {
+        var types = ItemClass == undefined ? Object.keys(this._state.Inventory) : [ItemClass];
+        types.every(function(type) {
+            if (!this._state.Inventory.hasOwnProperty(type)) return;
+            if (Tag != undefined) {
+                if (this._state.Inventory[type].hasOwnProperty(Tag)) {
+                    return func.call(thisObj, this._state.Inventory[type][Tag], Tag, type);
+                }
+            } else {
+                for (var n in this._state.Inventory[type]) {
+                    if (!this._state.Inventory[type].hasOwnProperty(n)) continue;
+                    if (!func.call(thisObj, this._state.Inventory[type][n], n, type)) return false;
+                }
+                return true;
             }
         }, this);
     }
@@ -292,7 +323,7 @@ App.Entity.InventoryManager = class InventoryManager {
      */
     filter(func, thisObj) {
         var res = [];
-        this._ForEachItemRecord(undefined, undefined, function(ch, nm, cl){
+        this.ForEachItemRecord(undefined, undefined, function(ch, nm, cl){
             var itemId = App.Item.MakeId(cl, nm);
             var itemWrapObj = this._ensureWrapObjectExists(cl, nm, ch, itemId);
             if (func.call(thisObj, itemWrapObj) == true) res.push(itemWrapObj);
@@ -307,7 +338,7 @@ App.Entity.InventoryManager = class InventoryManager {
      */
     Charges(ItemClass, Tag) {
         var res = 0;
-        this._ForEachItemRecord(Tag, ItemClass, function(n) { res += n;});
+        this.ForEachItemRecord(Tag, ItemClass, function(n) { res += n;});
         return res;
     }
 
@@ -1476,6 +1507,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         // Decrease voodoo effects
         this.EndHexDuration();
         this.NPCNextDay();
+        App.QuestEngine.NextDay(this);
 
     } // NextDay
 
@@ -2134,6 +2166,25 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         return this._clothing;
     }
 
+    /**
+     * Returns totyal number of item charges in inventory
+     * @returns {number}
+     */
+    InventoryItemsCount() {
+        var res = 0;
+        this.InventoryManager.ForEachItemRecord(undefined, undefined, function(n /*, tag, itemClass*/){ res += n;});
+        return res;
+    }
+
+    /**
+     * Returns totyal number of different item types in inventory
+     * @returns {number}
+     */
+    InventoryItemsTypes() {
+        var res = 0;
+        this.InventoryManager.ForEachItemRecord(undefined, undefined, function(/*n, tag, itemClass*/){ res += 1;});
+        return res;
+    }
     // redirections for the state properties
 
     get OriginalName() { return this._state.OriginalName; }

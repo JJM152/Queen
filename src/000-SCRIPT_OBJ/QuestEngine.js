@@ -22,11 +22,32 @@ App.QuestEngine = new function() {
     /**
      * Set a quest flag value.
      * @param {App.Entity.Player} Player
-     * @param {String} Flag
+     * @param {*} Flag
      * @param {String} Value
      */
     this.SetQuestFlag = function (Player, Flag, Value) {
         Player.QuestFlags[Flag] = Value;
+    };
+
+    /**
+     * Helper function to read progress value
+     * @param {App.Entity.Player} Player - player being checked.
+     * @param {String} Key - key from check entry.
+     * @returns {number}
+     */
+    this.GetProgressValue = function(Player, Key) {
+        var res = this.GetQuestFlag(Player, "progress_" + Key);
+        return res === undefined ? 0. : res;
+    };
+
+    /**
+     * Helper function to read progress value
+     * @param {App.Entity.Player} Player - player being checked.
+     * @param {String} Key - key from check entry.
+     * @param {number} Value
+     */
+    this.SetProgressValue = function(Player, Key, Value) {
+        Player.QuestFlags["progress_" + Key] = Value;
     };
 
     /**
@@ -102,6 +123,9 @@ App.QuestEngine = new function() {
                 var flag = this.GetQuestFlag(Player, "track_"+Key);
                 var count = Player.GetHistory("CUSTOMERS", Key);
                 if (count - flag < Value) return false;
+                break;
+            case "TRACK_PROGRESS":
+                if (this.GetProgressValue(Player, Key) < 1.) return false;
                 break;
         }
         return true;
@@ -182,7 +206,11 @@ App.QuestEngine = new function() {
 
         switch(Type) {
             case 'QUEST_FLAG':
-                Player.QuestFlags[Name] = Value;
+                if (Opt === "DELETE") {
+                    delete Player.QuestFlags[Name];
+                } else {
+                    Player.QuestFlags[Name] = Value;
+                }
                 break;
             case 'JOB_FLAG':
                 Player.JobFlags[Name] = Value;
@@ -193,6 +221,9 @@ App.QuestEngine = new function() {
             case 'TRACK_CUSTOMERS':
                 // Let's set a tag in the player to start tracking their history
                 Player.QuestFlags["track_"+Name] = Player.GetHistory("CUSTOMERS", Name);
+                break;
+            case 'TRACK_PROGRESS':
+                this.SetProgressValue(Player, Name, 0.0);
                 break;
 
         }
@@ -361,5 +392,31 @@ App.QuestEngine = new function() {
 
         }
         return true;
+    };
+
+    /**
+     * Lists quests in active state
+     * @param {App.Entity.Player} Player
+     * @returns {string[]}
+     */
+    this.ActiveQuestIDs = function(Player) {
+        var res = [];
+        for (var prop in Player.QuestFlags) {
+            if (!Player.QuestFlags.hasOwnProperty(prop)) continue;
+            if (this.QuestActive(Player, prop)) res.push(prop);
+        }
+        return res;
+    };
+
+    /**
+     * Handles time-dependent changes for active quest
+     * @param {App.Entity.Player} Player
+     */
+    this.NextDay = function(Player) {
+        var activeQuests = this.ActiveQuestIDs(Player);
+        for (let questId of activeQuests) {
+            if (App.Data.Quests[questId] === undefined || !App.Data.Quests[questId].hasOwnProperty("ON_DAY_PASSED")) continue;
+            App.Data.Quests[questId]["ON_DAY_PASSED"].call(App.Data.Quests[questId], Player);
+        }
     };
 };

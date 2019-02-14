@@ -67,7 +67,7 @@
 	</tr>
 	<tr>
 		<td style="width:670px;">
-			You moved <<= _Item.Description;>> to the <<if _Item.ToggleFavorite()>>top<<else>>bottom<</if>> of your locker.</td>
+			You placed <<= _Item.Description();>> <<if _Item.ToggleFavorite()>>in a special box<<else>>back to the comon locker space<</if>>.</td>
 	</tr>
 </tbody>
 </table><<replace "#PlayerScore">><<score>><</replace>><</widget>>
@@ -98,6 +98,7 @@
 <</nobr>><</widget>>
 
 <<widget "InventoryTable">><<nobr>>
+<<set _favoritesEnabled = App.QuestEngine.QuestCompleted(setup.player, "BETTER_LOCKER");>>
 <<run App.PR.HighlightActiveTabButton($args[1], $args[0], "Inventory - " +  $args[2])>>
 <<switch $args[0]>>
 <<case "food">>
@@ -125,7 +126,7 @@
 </tr>
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
-<td><<= "<<FavoriteItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
+<td><<if _favoritesEnabled>><<= "<<FavoriteItemButton \""+ _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >> <</if>></td>
 <td><<= _Items[_i].Charges() >></td>
 <td style="text-align:left"><<= "<<ThrowItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
 <td><<= App.PR.PrintItem(_Items[_i], setup.player) >></td>
@@ -173,7 +174,7 @@
 </tr>
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
-<td><<= "<<FavoriteItemButton \""+ _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
+<td><<if _favoritesEnabled>><<= "<<FavoriteItemButton \""+ _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >> <</if>></td>
 <td><<= _Items[_i].Charges() >></td>
 <td style="text-align:left"><<= "<<ThrowItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
 <td><<= App.PR.PrintItem(_Items[_i], setup.player) >></td>
@@ -193,7 +194,7 @@
 </tr>
 <<for _i = 0; _i lt _Items.length; _i++>>
 <tr>
-<td><<= "<<FavoriteItemButton \""+ _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >></td>
+<td><<if _favoritesEnabled>><<= "<<FavoriteItemButton \""+ _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >> <</if>></td>
 <td><<= _Items[_i].Charges() >></td>
 <td style="text-align:left"><<if _Items[_i].Type == "LOOT_BOX">><<= "<<ThrowItemButton \"" + _Items[_i].Id + "\" \"" + $args[0] + "\" >>" >><</if>></td>
 <td><<= App.PR.PrintItem(_Items[_i], setup.player) >></td>
