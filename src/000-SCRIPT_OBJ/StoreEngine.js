@@ -281,7 +281,7 @@ var Store = function(Player, NPC, StoreData) {
             res += '<span class="tooltip">' + oItem.Examine(this._Player, false) + '</span></span>';
             res += "<br><div class='inventoryItemDetails'>" + oItem.Examine(this._Player, true) + '</div>';
         } else {
-            '</span>';
+            res += '</span>';
         }
         return res;
     };
