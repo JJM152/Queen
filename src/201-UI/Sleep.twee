@@ -90,4 +90,4 @@
 <<if setup.player.SleepLog.length != 0>><<for _i to 0; _i lt setup.player.SleepLog.length; _i++>>\
 <<print setup.player.SleepLog[_i]>><br/><</for>><</if>>\
 
-<<wakeUpHandler>>
+@@color:cyan;Interact@@: [[Wake up|Cabin]]

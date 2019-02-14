@@ -15,18 +15,15 @@ Config.saves.version = App.Data.Game.Version;
 
 setup.player = new App.Entity.Player();
 
+// Random Events and Conditional Navigation Override
 // Override navigation on death.
+
+App.eventEngine = new App.EventEngine();
+
 Config.navigation.override = function (passageName) {
     if (App.EventHandlers.HasPlayerState() == false) return; //ignore these checks if there is no player state.
-    if (setup.player.GetStat("STAT", "Health") <= 0) {
-        State.temporary.followup = passageName;
-        return "DeathEnd";
-    }
-
-    if (setup.player.GetStat("STAT", "WillPower") < 20) {
-        State.temporary.followup = passageName;
-        return "WillPowerEnd";
-    }
+    console.log("override called");
+    return App.eventEngine.CheckEvents(setup.player, State.passage, passageName);
 };
 
 Setting.addHeader("Display settings");
