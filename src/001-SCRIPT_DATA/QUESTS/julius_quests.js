@@ -136,13 +136,13 @@ App.Data.Quests["BETTER_LOCKER"] = {
     "REWARD": [
     ],
     "INTRO":
-        "NPC_NAME is the person who can help you with your locker, you guess. \"Probably, NPC_NAME could make boxes or shelves for my locker so I could store my items in organized way\", you think\n\
-        You approach him and in kindness words you can ask him to solve your locker problem. To your surprise, NPC_NAME agrees.\
-        \"Wanna be special, huh?\" says NPC_NAME. \"Yes, I can help you. Boxes, you say? Well, I could make the boxes. If I will be in a mood, you know...\"\n\
-        That sounds promising, and you ask him does he mean any particular mood.\n\
-        \"Just a good enough mood.\" NPC_NAME replies \"You keep me happy and I make the boxes for you in my free time. Deal?",
+        "Given that he is the ship's Quartermaster, NPC_NAME is likely the person to help you with your storage problem.\n\
+        You approach him and gently ask if he can help you solve the issue. To your surprise, NPC_NAME agrees.\
+        \"Looking for a special favor, huh?\" says NPC_NAME. \"Yes, I can help ya. Better lockers, you say? Well, I could make some for you... if you help me out.\"\n\
+        That sounds promising, and you ask him if he means anything in particular?\n\
+        \"Just help in general.\" NPC_NAME replies \"You help me out with jobs, keep me happy, and I make the boxes for you in my free time. Deal?",
     "MIDDLE":
-        "\"Don't try to push me, PLAYER_NAME.\" says NPC_NAME. \"It will be ready when it comes. You'd better take care of your part of the deal, PLAYER_NAME\"",
+        "\"Don't try to push me, PLAYER_NAME.\" says NPC_NAME. \"It'll be done when it's done. You'd better take care of your part of the deal, PLAYER_NAME\"",
     "ON_DAY_PASSED": function(Player) {
         var npcMood = Player.GetNPC(this.GIVER).Mood();
         // at highest mood this should take 7 days, but if mood is lower than 60 (Satisfied), Julius re-uses already done items for other means
@@ -150,10 +150,10 @@ App.Data.Quests["BETTER_LOCKER"] = {
             Math.clamp(App.QuestEngine.GetProgressValue(SugarCube.setup.player, "JuliusHandwork") + (npcMood - 60)/7/40., 0., 1.));
     },
     "FINISH":
-        "\"Okay, PLAYER_NAME, here is your stuff.\" NPC_NAME handles you a set of not that ugly looking wooden boxes, crates and caskets. \"I've made them of various sizes so you can keep your junk well sorted, ha-ha!\"\n\
-        You are happy to find that they suit your needs and that finally brings in the order your locker was  crying for recently so badly.",
+        "\"Okay, PLAYER_NAME, here is your stuff.\" NPC_NAME handles you a set of servicable, if heavy, wooden boxes, crates and caskets. \"I've made them of various sizes so you can keep your junk well sorted, ha-ha!\"\n\
+        You are happy to find that they suit your needs and that finally brings in the order your locker so desperately needed.",
     "JOURNAL_ENTRY" :
-        "NPC_NAME has promised to make a number of boxes for your locker. Hopefully that will help you to organize your belongins.",
+        "NPC_NAME has promised to make you a number of custom boxes for your locker. Hopefully that will help you to organize your belongings. All he wants in return is for you to keep him satisifed while he works.",
     "JOURNAL_COMPLETE" :
-        "Once again, NPC_NAME actually followed through with his promise and somehow constructed nice boxes of different sizes that perfectly fit in your locker and into each other. The boxes will certainly help you to keep your stuff organized and easily accessible."
+        "Once again, NPC_NAME actually followed through with his promise and somehow constructed nice boxes of different sizes that perfectly fit in your locker and into each other. The boxes will certainly help you to keep your stuff organized and easily accessible. (Favorites are now unlocked)."
 };

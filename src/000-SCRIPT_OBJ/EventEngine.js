@@ -15,11 +15,6 @@ App.EventEngine = class EventEngine {
      */
     CheckEvents(Player, FromPassage, ToPassage) {
 
-        console.log("CheckEvents called");
-        console.log(Player);
-        console.log(FromPassage);
-        console.log(ToPassage);
-
         this._fromPassage = FromPassage;
         this._toPassage = ToPassage;
 
@@ -35,21 +30,28 @@ App.EventEngine = class EventEngine {
         }
 
         // For now, let's throttle events to 1 per day.
-        if (Player.QuestFlags.hasOwnProperty('LAST_EVENT_DAY') && Player.QuestFlags['LAST_EVENT_DAY'] == Player.Day) return;
+        if (Player.QuestFlags.hasOwnProperty("LAST_EVENT_DAY") && Player.QuestFlags["LAST_EVENT_DAY"] == Player.Day) return;
 
         // Location specific events get checked first.
         var validEvents = this._FilterEvents(Player, FromPassage, ToPassage);
-
+        
+        //todo: have to add quest flags to character when event fires off. 
         if (validEvents.length > 0) {
             var event = validEvents[Math.floor(Math.random() * validEvents.length)];
-            if (event["CHECK"](Player) == true) return event["PASSAGE"];
+            if (event["CHECK"](Player) == true) {
+                this._setFlags(Player, event["ID"]);
+                return event["PASSAGE"];
+            }
         }
 
         validEvents = this._FilterEvents(Player, FromPassage, "Any");
 
         if (validEvents.length > 0) {
             var event = validEvents[Math.floor(Math.random() * validEvents.length)];
-            if (event["CHECK"](Player) == true) return event["PASSAGE"];
+            if (event["CHECK"](Player) == true) {
+                this._setFlags(Player, event["ID"]);
+                return event["PASSAGE"];
+            }
         }
 
     }
@@ -72,9 +74,25 @@ App.EventEngine = class EventEngine {
                 && ( o["MAX_DAY"] == 0 ? true : o["MAX_DAY"] <= Player.Day) 
                 && ( o["MAX_REPEAT"] == 0 ? true :
                     (Player.QuestFlags.hasOwnProperty("EE_"+o["ID"]+"_COUNT") ? Player.QuestFlags["EE_"+o["ID"]+"_COUNT"] < o["MAX_REPEAT"] : true))
-                &&  (Player.QuestFlags.hasOwnProperty("EE_"+o["ID"]+"_LAST") ? Player.QuestFlags["EE_"+o["ID"]+"_LAST"] + o["COOL"] >= Player.Day : true)
+                &&  (Player.QuestFlags.hasOwnProperty("EE_"+o["ID"]+"_LAST") ? Player.QuestFlags["EE_"+o["ID"]+"_LAST"] + o["COOL"] < Player.Day : true)
             );
         });
+    }
+
+    /**
+     * Helper Method to set quest flags in player state for event tracking.
+     * @param {App.Entity.Player} Player 
+     * @param {string} Key 
+     */
+    _setFlags(Player, Key) {
+        var countKey = "EE_"+Key+"_COUNT";
+        var lastKey = "EE_"+Key+"_LAST";
+
+        Player.QuestFlags["LAST_EVENT_DAY"] = Player.Day;
+        Player.QuestFlags[lastKey] = Player.Day;
+
+        Player.QuestFlags[countKey] = Player.QuestFlags.hasOwnProperty(countKey) ? 
+            Player.QuestFlags[countKey] = Player.QuestFlags[countKey] + 1 : 1;
     }
 
     // This isn't working exactly how I want to right now. If a player reloads his page (naughty naughty)

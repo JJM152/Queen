@@ -22,7 +22,6 @@ App.eventEngine = new App.EventEngine();
 
 Config.navigation.override = function (passageName) {
     if (App.EventHandlers.HasPlayerState() == false) return; //ignore these checks if there is no player state.
-    console.log("override called");
     return App.eventEngine.CheckEvents(setup.player, State.passage, passageName);
 };
 

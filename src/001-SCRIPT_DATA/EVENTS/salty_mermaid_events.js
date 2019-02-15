@@ -13,8 +13,7 @@ App.Data.Events["Cabin"] = [
         PHASE: [ 0 ], // Time phases the event is valid for
         PASSAGE: 'CrewRapeEvent', // Override passage that the player is routed to. 
         CHECK: function(p) { // Condition function that is called to check if the event fires.
-            return true;
-           // return ((p.GetNPC("Crew").Mood() < 40) && (Math.floor(Math.random() * 4) == 0));
+            return ((p.GetNPC("Crew").Mood() < 40) && (Math.floor(Math.random() * 4) == 0));
         }
     }
 ];
