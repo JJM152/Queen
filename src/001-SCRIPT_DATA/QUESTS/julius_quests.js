@@ -157,3 +157,54 @@ App.Data.Quests["BETTER_LOCKER"] = {
     "JOURNAL_COMPLETE" :
         "Once again, NPC_NAME actually followed through with his promise and somehow constructed nice boxes of different sizes that perfectly fit in your locker and into each other. The boxes will certainly help you to keep your stuff organized and easily accessible. (Favorites are now unlocked)."
 };
+
+App.Data.Quests["FINDING_YOUR_BALLS_1"] = {
+    "ID": "FINDING_YOUR_BALLS_1", "Title": "Finding Your Balls - Part 1",
+    "GIVER": "Quartermaster",
+    "PRE": [
+        { "TYPE" : "QUEST_FLAG", "NAME" : "EE_PenisShrink_COUNT", "VALUE" : 1 }
+    ],
+    "CHECKS": [
+        {"TYPE": "QUEST_ITEM", "NAME": "strange chemicals", "VALUE": 1 }
+    ],
+    "POST": [
+        {"TYPE" : "SET_CLOTHING_LOCK", "NAME" : "Penis", "VALUE" : false }
+    ],
+    "REWARD": [
+    ],
+    "INTRO":
+        "\"Ah, so our little sissy wants out of her cage, is it?\" mocks NPC_NAME.\n\n\
+        \"Well, I can help you, but of course I'll need you to do something for me as well\", he pauses for a moment and \
+        looks over his shoulder before continuining to speak.\n\n\
+        \"Look, I do a lot of 'experimenting' here on the ship. The Captain don't rightly like it, always complaining about \
+        storing explosive chemicals and what not, but he just doesn't understand science like I do. Tell you what, if you \
+        can find me a new supply of chemicals, ones fit for a proper alchemical genius like myself, then I'll not only help you \
+        get that cock cage off, I'll give you some information you might be interested in...\"\n\n\
+        It's a compelling offer. You're not sure exactly where you'll find these chemicals, or what information he has for \
+        you that would be so precious, but you don't appear to have many options if you want to remove your chastity cage.",
+    "MIDDLE":
+        "\"Do you have those chemicals for me PLAYER_NAME?\" asks NPC_NAME. \"Don't worry, if you take care of your part of the \
+        deal then I'll uphold my end of it!\"",
+    "FINISH":
+    "\
+    You approach NPC_NAME with the crate of chemicals that you retrieved, at no small cost, from the apothecary on \
+    @@color:gold;Golden Isle@@. It looks like mostly (dangerous) junk to you, but it's clearly evident that there must \
+    be some good stuff in here by the way NPC_NAME's eyes light up as he inspects the various bottles.\n\n\
+    \"Great work, PLAYER_NAME!\" exclaims NPC_NAME. \"Here, let me remove that cage like I promised and I'll tell you \
+    something good as well.\"\n\n\
+    NPC_NAME fetches some small tools from his apron and starts to gently cut apart the cage on your cock. It's a bit \
+    of a struggle, but you manage to somehow not become errect as he carelessly fondles your balls.\n\n\
+    \"There, that should do it\" he says as he manages to finally free your pBALLS balls. You breath a sigh of relief.\n\n\
+    \"Look, there aren't many things that can undo this damage, but there is a fellow that might know something that \
+    could help. Next time you get shore leave, look up a bloke by the name of @@color:cyan;Jameson@@ at a place called \
+    @@color:gold;David Jone's Locker in Port Royale@@. He's a dealer in rare goods and might have something that can help.\"\n\n\
+    You stand there, open mouthed for a second. NPC_NAME was uncharacteristcally helpful for a change and it takes a \
+    moment to process what he just said. It seems your next course of action is all but decided." 
+,
+    "JOURNAL_ENTRY" :
+        "NPC_NAME has promised to remove your chastity cage if you can find him a source of rare alchemical ingredients.",
+    "JOURNAL_COMPLETE" :
+        "NPC_NAME followed through on his part of the deal and removed your chastity cage. He also mentioned that there was \
+        a man named @@color:cyan;Jameson@@ living on @@color:gold;Port Royale@@ that might be able to help out your current \
+        predicament."
+};

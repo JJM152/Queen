@@ -225,6 +225,9 @@ App.QuestEngine = new function() {
             case 'TRACK_PROGRESS':
                 this.SetProgressValue(Player, Name, 0.0);
                 break;
+            case 'SET_CLOTHING_LOCK':
+                Player.SetLock(Name, Value);
+                break;
 
         }
 

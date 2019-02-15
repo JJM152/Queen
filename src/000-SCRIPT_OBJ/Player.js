@@ -508,7 +508,7 @@ App.Entity.ClothingManager = class ClothingManager {
      * @param {boolean} [isLocked]
      */
     static EquipmentRecord(Id, isLocked) {
-        return {ID: Id, Locked: isLocked == undefined ? false : isLocked};
+        return {ID: Id, Locked: isLocked === undefined ? false : isLocked};
     }
     /**
      *
@@ -585,8 +585,19 @@ App.Entity.ClothingManager = class ClothingManager {
      */
     IsLocked(Slot) {
         return this._equipment.hasOwnProperty(Slot) &&
-            this._equipment[Slot] !== 0 &&
+            this._equipment[Slot] != 0 &&
             this._equipment[Slot].Locked;
+    }
+
+    /**
+     * Useful helper method.
+     * @param {string} Slot 
+     * @param {boolean} Lock 
+     */
+    SetLock(Slot, Lock)
+    {
+        if (this._equipment.hasOwnProperty(Slot) && this._equipment[Slot] != 0)
+        this._equipment[Slot].Locked = Lock;
     }
 
     /**
@@ -623,7 +634,7 @@ App.Entity.ClothingManager = class ClothingManager {
                 break;
             }
         }
-        if (Lock != undefined) this._equipment[slot].Locked = Lock;
+        if (Lock !== undefined) this._equipment[slot].Locked = Lock;
     }
 
     /**
@@ -1680,6 +1691,10 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     Wear (item, lock) {
         this.Clothing.Wear(item.Id, lock);
+    }
+
+    SetLock(Slot, Lock) {
+        this.Clothing.SetLock(Slot, Lock);
     }
 
     AutoWearCategory (Category) {

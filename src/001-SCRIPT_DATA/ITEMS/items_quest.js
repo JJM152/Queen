@@ -36,5 +36,11 @@ App.Data.QuestItems = {
             "ShortDesc": "@@color:purple;a dirty novel entitled \"Daddy's Little Pet\"@@",
             "LongDesc": "Evidently this book is contraband in seven countries and it's easy to see why. Along with the provocative incest story-line, it also has several drawings depicting several illegal acts with a minor. What kind of monster would get off on this stuff?",
             "Type": "QUEST"
+        },
+        "strange chemicals" : {
+            "Name" : "strange chemicals",
+            "ShortDesc" : "@@color:purple;a crate of strange chemicals@@",
+            "LongDesc" : "This ratty wooden crate is filled to the brim with toxic powderes and chemicals. You shudder to think what would happen if you dropped it or gave it a good bump.",
+            "Type" : "QUEST"
         }
 };
