@@ -6,7 +6,9 @@
 * There is a 'Buy all' button in the shop interface now.
 * There is a settings option to display tool tip and inline information about items in your inventory and shops.
 * Your journal screen now has tabs and can track some "interesting" information.
-
+* The game now has an Event engine that can spawn random events. 
+!!!!Salty Mermaid
+* You now need to complete a minor quest to unlock the ability to 'favorite' items.
 !!!0.8 - 10/06/2018
 !!!!General
 * Player object recoded to reduce size of save file.
