@@ -42,5 +42,14 @@ App.Data.QuestItems = {
             "ShortDesc" : "@@color:purple;a crate of strange chemicals@@",
             "LongDesc" : "This ratty wooden crate is filled to the brim with toxic powderes and chemicals. You shudder to think what would happen if you dropped it or gave it a good bump.",
             "Type" : "QUEST"
-        }
+        },
+        "rare ore": {
+            "Name": "rare ore",
+            "ShortDesc": "@@color:purple;a cluster of rare magical ore@@",
+            "LongDesc": "\
+            This sample of rare ore came from the depths of the caves on @@color:gold;Abamond@@. It feels warm to the touch \
+            and causes a slight tingly sensation to crawl up your arm while you hold it. It's obviously magical to some degree.\
+            ",
+            "Type": "QUEST"
+        },
 };

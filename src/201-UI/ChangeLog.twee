@@ -9,6 +9,7 @@
 * The game now has an Event engine that can spawn random events. 
 !!!!Salty Mermaid
 * You now need to complete a minor quest to unlock the ability to 'favorite' items.
+* Added new quest chain 'Finding Your Balls'. It's hidden behind a random event.
 !!!0.8 - 10/06/2018
 !!!!General
 * Player object recoded to reduce size of save file.

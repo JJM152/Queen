@@ -1364,6 +1364,15 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         this._state.Skills[StatName] = this.GetCapStat("SKILL", StatName, ( this.GetStat('SKILL', StatName) + Amount));
     }
 
+    //Used to directly set XP to a specific amount.
+    SetXP( Type, StatName, Amount ) {
+        if (Type == "STAT")  this._state.CoreStatsXP[StatName] = Amount;
+        if (Type == "SKILL") this._state.SkillsXP[StatName] = Amount;
+        if (Type == "BODY")  this._state.BodyXP[StatName] = Amount;
+        if (this._state.debugMode)
+            console.debug("SetXP: set to "+Amount);
+    }
+
     AdjustXP (Type, StatName, Amount, Limiter) {
         Amount = Math.ceil(Amount); // No floats.
         if (typeof Limiter === 'undefined') Limiter = 0;

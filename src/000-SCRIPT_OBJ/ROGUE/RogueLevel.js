@@ -185,6 +185,17 @@ App.Rogue.Level = function(depth) {
             App.Rogue.Engine._textBuffer.write("You find nothing!");
             return;
         }
+
+        //Hack for Quest(s) {
+            if (setup.player.QuestFlags.hasOwnProperty("FINDING_YOUR_BALLS_2") 
+                && setup.player.QuestFlags["FINDING_YOUR_BALLS_2"] == "ACTIVE"
+                && (typeof setup.player.GetItemByName("rare ore") === 'undefined')
+                && (Math.random() * 100 < this._depth)) {
+                    setup.player.AddItem("rare ore", 1);
+                    App.Rogue.Engine._textBuffer.write("You find: a rare ore!");
+                    return;
+                }
+
         var coins = Math.ceil(1 + ( Math.random() * (this._depth * 5)));
         if ( Math.random() * 100 > 40 ) {
             // Money

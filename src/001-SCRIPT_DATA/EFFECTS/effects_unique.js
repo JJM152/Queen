@@ -198,3 +198,14 @@ App.Data.EffectLib["RESOLUTE_DROUGHT"] = {
     "VALUE" : 2000,
         "KNOWLEDGE" : [ "WillPower Up++++", "Energy Up++++", "Health Up++++", "Toxicity Down----" ]
 };
+
+App.Data.EffectLib["MAGIC_COCK_RING"] = {
+    "FUN" : /** @param {App.Entity.Player} p
+     @param {App.Items.Consumable} o*/
+    function(o,p) {
+        p.SetXP('BODY','Penis', 0);
+        p.SetXP('BODY','Balls', 0);
+    },
+    "VALUE" : 0,
+        "KNOWLEDGE" : [ "Gential Protection++++" ]
+};

@@ -46,7 +46,7 @@
 <<if _SK.BlowJobs.Failure + _SK.BlowJobs.Success > 0>>
 	<<print "You've sucked " + (_SK.BlowJobs.Failure + _SK.BlowJobs.Success) + " dicks, ">>
 	<<if _SK.BlowJobs.Success > 0>>
-		<<print "and satisfied" + _SK.BlowJobs.Success + " of them!">>
+		<<print "and satisfied " + _SK.BlowJobs.Success + " of them!">>
 	<<else>>
 		<<print "but each time time you've failed to give a pleasure.">>
 	<</if>>
@@ -58,7 +58,7 @@
 	<<if _SK.HandJobs.Success > 0>>
 		<<print "and " + _SK.HandJobs.Success + " times it worked quite well!">>
 	<<else>>
-		<<print "yet nobody enjoyed that.">>
+		<<print " yet nobody enjoyed that.">>
 	<</if>>
 	<<print "<br>" >>
 	<<set _SexSkillsPrinted = true>>

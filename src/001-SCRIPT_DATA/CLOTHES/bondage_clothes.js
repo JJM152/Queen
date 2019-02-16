@@ -87,5 +87,14 @@ App.Data.Clothes["chastity cage"] = { // +3
     "WearEffect": [ "CHASTITY_CAGE" ], Category : [ "BDSM" ]
 };
 
+App.Data.Clothes["magic cock ring"] = { // +3
+    "Name": "magic cock ring", "ShortDesc": "@@color:purple;a shiny metal cock ring@@",
+    "LongDesc": "\
+    This shiny silver ring was made custom order from a rare magical ore. It supposedly has the ability to \
+    protect your genitals from curses and other magical effects.",
+    "Slot": "Penis", "Restrict": ["Penis"], "Color": "silver", "Style": "LEGENDARY", "Type" : "ACCESSORY", "Locked": false,
+    "WearEffect": [ "MAGIC_COCK_RING" ], Category : [ "BDSM" ], "InMarket" : false,
+};
+
 // WEAPON SLOT (huh?)
 
