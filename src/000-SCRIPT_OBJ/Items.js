@@ -54,6 +54,7 @@ App.Item = class Item {
 		return itemData;
     }
 
+
     /**
      * Automatically calculate the price of an item based on it's attributes.
      * @param {string} Category the dictionary name
@@ -78,16 +79,7 @@ App.Item = class Item {
             case 'DRUGS':
             case 'FOOD':
                 // Drugs and food have a price which is the sum of their effect values
-                if (typeof d["Effects"] !== 'undefined') {
-                    if ( d["Effects"].length > 1 ) {
-                        price = d["Effects"].reduce(function (accumulator, effect) {
-                            return (isNaN(accumulator)) ? App.Data.EffectLib[accumulator]["VALUE"] + App.Data.EffectLib[effect]["VALUE"] :
-                            accumulator + App.Data.EffectLib[effect]["VALUE"];
-                        });
-                    } else {
-                        price = App.Data.EffectLib[d["Effects"][0]]["VALUE"];
-                    }
-                }
+                price += typeof d["Effects"] !== 'undefined' ? App.Item.CalculateEffectPrice( d["Effects"]) : 0;
                 break;
             case 'COSMETICS':
             case 'MISC_CONSUMABLE':
@@ -95,7 +87,7 @@ App.Item = class Item {
                 break;
             case 'CLOTHES':
             case 'WEAPON':
-                // Base price set on style.
+                // Base price set on style rank.
                 if (typeof d["Style"] !== 'undefined') {
 
                     switch(d["Style"]) {
@@ -128,6 +120,12 @@ App.Item = class Item {
                 if (typeof d["Category"] !== 'undefined')
                     price = (d["Category"].length > 1) ? price + ((price * 0.1) * (d["Category"].length - 1)) : price;
 
+                // Add values from worn effects
+                price += typeof d["WearEffect"] !== 'undefined' ? App.Item.CalculateEffectPrice( d["WearEffect"]) : 0;
+
+                // Add values from active effects
+                price += typeof d["ActiveEffect"] !== 'undefined' ? App.Item.CalculateEffectPrice( d["ActiveEffect"]) : 0;
+
                 // Round up
                 price = Math.ceil(price);
 
@@ -142,6 +140,19 @@ App.Item = class Item {
         return (price == 0 ) ? 100 : price;
     }
 
+    static CalculateEffectPrice(Effects) {
+        var price = 0;
+        if ( Effects.length > 1 ) {
+            price += Effects.reduce(function (accumulator, effect) {
+                return (isNaN(accumulator)) ? App.Data.EffectLib[accumulator]["VALUE"] + App.Data.EffectLib[effect]["VALUE"] :
+                accumulator + App.Data.EffectLib[effect]["VALUE"];
+            });
+        } else {
+            price += App.Data.EffectLib[Effects[0]]["VALUE"];
+        }
+
+        return price;
+    }
     /**
      * Search and find clothing items by a variety of categories.
      * @param {string} Category
