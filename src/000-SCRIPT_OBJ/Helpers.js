@@ -297,7 +297,7 @@ App.PR = new function() {
             var Max = Opt || 100;
             var Arr = App.Data.Lists.ColorScale;
             if (Value > Opt ) Value = Opt;
-            return Arr[Math.floor( Math.max(0, Math.min((Arr.length * (Value/Max)-1),(Arr.length-1))))];
+            return Arr[Math.ceil( (Arr.length * (Value/Max))-1)];
         };
 
     /**
@@ -899,26 +899,44 @@ App.PR = new function() {
      * @returns {string}
      */
     this.pFigure = function (Player) {
-            var pBust = Player.GetStatPercent("BODY", "Bust");
-            var pWaist = Player.GetStatPercent("BODY", "Waist");
-            var pHips = Player.GetStatPercent("BODY", "Hips");
-            var statsStr = this.lengthValue(this.StatToCM(Player, "Bust"), false).toString() + '-' +
-                           this.lengthValue(this.StatToCM(Player, "Waist"), false).toString() + '-' +
-                           this.lengthValue(this.StatToCM(Player, "Hips"), false).toString() + " figure";
-            var sCurve = "a @@color:yellow;waifish@@ " + statsStr;
 
-            if (pWaist >= 20) sCurve = "a @@color:yellow;small@@ " + statsStr;
-            if (pWaist >= 30) sCurve = "a @@color:yellow;thin@@ " + statsStr;
-            if (pWaist >= 40) sCurve = "an @@color:yellow;average@@ " + statsStr;
-            if (pWaist >= 60) sCurve = "a @@color:yellow;chubby@@ " + statsStr;
-            if (pWaist >= 80) sCurve = "an @@color:red;obese@@ " + statsStr;
+            var pBust = this.StatToCM(Player, "Bust");
+            var pWaist = this.StatToCM(Player, "Waist");
+            var pHips = this.StatToCM(Player, "Hips");
 
-            if ( (pWaist + 10 < pBust) && (pWaist + 10 < pHips )) sCurve = "a @@color:lime;slightly curvy@@ " + statsStr;
-            if ( (pWaist + 20 < pBust) && (pWaist + 20 < pHips )) sCurve = "a @@color:cyan;sexy and curvy@@ " + statsStr;
-            if ( (pWaist + 30 < pBust) && (pWaist + 30 < pHips )) sCurve = "a @@color:magenta;hourglass@@ " + statsStr;
-            if ( (pWaist + 40 < pBust) && (pWaist + 40 < pHips )) sCurve = "an @@color:DeepPink;extreme hourglass@@ " + statsStr;
+            var statsStr = this.lengthValue(pBust, false).toString() + '-' +
+                           this.lengthValue(pWaist, false).toString() + '-' +
+                           this.lengthValue(pHips, false).toString() + " figure";
 
-            return sCurve;
+            var rBustHips = pBust/pHips;
+
+            // Cases for being fat (too much waist). Go on a diet.
+            if (pWaist >= 120) return "a @@color:red;morbidly obese@@ "+statsStr;
+            if (pWaist >= 100) return "an @@color:red;obese@@ "+statsStr;
+            if (pWaist >= 90) return "a @@color:red;fat@@ "+statsStr;
+
+            //Boobs and hips are in proportion
+            if (rBustHips <= 1.1 && rBustHips >= 0.9) {
+                if (pBust >= 95 && pWaist <= 75) return "an @@color:DeepPink;extreme hourglass@@ "+statsStr;
+                if (pBust >= 95) return "an @@color:magenta;hourglass@@ " +statsStr;
+                if (pBust >= 90) return "a @@color:cyan;curvy@@ "+statsStr;
+                if (pBust >= 85) return "a @@color:lime;slightly curvy@@ "+statsStr;
+                if (pWaist <= 55) return "a @@color:lime;petite@@ "+statsStr;
+                if (pWaist <= 70) return "a @@color:lime;slender@@ "+statsStr;
+                if (pWaist < 80) return "a @@color:lime;thin@@ "+statsStr;
+                return "an @@color:yellow;average@@ "+statsStr;
+            }
+
+            // Boobs are bigger than hips
+            if (rBustHips >= 1.25 && pBust >= 90)  return "a @@color:lime;top heavy@@ "+statsStr;
+
+            if (rBustHips <= 0.75 && pHips >= 90) return "a @@color:lime;bottom heavy@@ "+statsStr;
+            
+            if (pWaist <= 55) return "a @@color:lime;petite@@ "+statsStr;
+            if (pWaist <= 70) return "a @@color:lime;slender@@ "+statsStr;
+            if (pWaist < 80) return "a @@color:lime;thin@@ "+statsStr;
+
+            return "an @@color:yellow;average@@ "+statsStr;
         };
 
 

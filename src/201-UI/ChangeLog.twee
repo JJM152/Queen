@@ -7,9 +7,11 @@
 * There is a settings option to display tool tip and inline information about items in your inventory and shops.
 * Your journal screen now has tabs and can track some "interesting" information.
 * The game now has an Event engine that can spawn random events. 
+* Customer payouts in whoring mini game are now color coded from grey, yellow, green, pink and blue being the most valuable.
 !!!!Salty Mermaid
 * You now need to complete a minor quest to unlock the ability to 'favorite' items.
 * Added new quest chain 'Finding Your Balls'. It's hidden behind a random event.
+* Adjusted the calculations for figure shape and fetish appeal when using the mirror in the cabin (and other places as well)
 !!!0.8 - 10/06/2018
 !!!!General
 * Player object recoded to reduce size of save file.

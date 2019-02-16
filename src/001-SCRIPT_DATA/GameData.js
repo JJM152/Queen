@@ -1073,7 +1073,7 @@ App.Data.Lists = {
 					{ "P" : "AtSea", "left" : 395, "top" : 285 }, { "P" : "AtSea", "left" : 383, "top" : 255 }, { "P" : "AtSea", "left" : 376, "top" : 225 }, { "P" : "AtSea", "left" : 368, "top" : 190 },
 					{ "P" : "AtSea", "left" : 365, "top" : 130 }, { "P" : "AtSea", "left" : 345, "top" : 90 } ]
 			,
-            "ColorScale" : [ "#FF0000", "#FF0000", "#FF4000", "#FF8000", "#FFBF00", "#FFFF00", "#BFFF00",
+            "ColorScale" : [ "#FF0000", "#FF5050", "#FF4000", "#FF8000", "#FFBF00", "#FFFF00", "#BFFF00",
                              "#80FF00", "#40FF00", "#01DFD7", "#0174DF", "#0101DF", "#3A01DF", "#7401DF",
                              "#A901DB", "#DF01D7", "#DF01A5"]
 		};
@@ -1089,17 +1089,17 @@ App.Data.Ratings = {
             },
             "Fetish": {
                  0: "completely non-existent",
-                10: "completely non-existent",
-                20: "barely there",
-                30: "of minor notice",
-                40: "worthy of attention",
-                50: "eye catching and interesting",
-                60: "erotic and appealing",
-                70: "sexually stimulating and erotic",
-                80: "highly sexualized and objectified",
-                90: "sexually outrageous",
-                99: "oozing perversion and sex",
-                100: "utterly depraved and perverse"
+                10: "of minor notice",
+                20: "definitely noticible",
+                30: "worthy of attention",
+                40: "eye catching and interesting",
+                50: "erotic and appealing",
+                60: "highly sexualized",
+                70: "sexually outrageous",
+                80: "perverse and fetishized",
+                90: "oozing sex and perversion",
+                99: "bordering on depraved",
+                100: "utterly depraved and perverse, the ultimate fuck toy"
             },
             "Beauty": {
                  0: "masculine and ugly",

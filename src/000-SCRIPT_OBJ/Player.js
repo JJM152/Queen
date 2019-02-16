@@ -1083,8 +1083,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     Fetish() {
         var score = 0;
         // 5 - 15 for boobs and ass each   (30 pts)
-        if (this.GetStatPercent("BODY", "Bust") >= 60)  score += Math.round ((5 + (this.GetStatPercent("BODY", "Bust")/10)));
-        if (this.GetStatPercent("BODY", "Ass") >= 60)   score += Math.round ((5 + (this.GetStatPercent("BODY", "Ass")/10)));
+        if (this.GetStatPercent("BODY", "Bust") >= 30)  score += Math.round ((5 + (this.GetStatPercent("BODY", "Bust")/10)));
+        if (this.GetStatPercent("BODY", "Ass") >= 30)   score += Math.round ((5 + (this.GetStatPercent("BODY", "Ass")/10)));
 
         // up to 10 each for lips and waist and hips (35 pts)
         if (this.GetStatPercent("BODY", "Lips") >= 80)  score += Math.round((this.GetStatPercent("BODY", "Lips")/10));
