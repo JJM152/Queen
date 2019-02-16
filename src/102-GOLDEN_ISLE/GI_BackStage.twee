@@ -1,0 +1,24 @@
+:: GI_BackStage
+<<set $GameBookmark = passage(); >>\
+This backstage area is put aside for the dancing girls to touch up their makeup and change their outfits \
+to better suit the customers whims. Articles of loose clothing litter the floor and every now and then one \
+of the dancers comes through in a hurry for a costume change. The air smells heavily of cheep perfume and desperation.
+
+@@color:cyan;Interact:@@ [[Exit|GI_DanceHall]] | [[Vanity|GI_Vanity]] | [[Mirror|GI_Mirror]]
+<span id="WardrobeUI"><<WearingTable>></span>
+
+:: GI_Vanity
+A large vanity adorned with a brightly lit mirror and covered with strange stains and marks from countless \
+applications of makeup. Everything you need for a touch-up is here.
+
+@@color:cyan;Interact@@: [[Exit|GI_DanceHall]] | [[Wardrobe|GI_BackStage]] | [[Mirror|GI_Mirror]]
+
+<span id="VanityUI"><<printStyleDescription>></span><<vanityMenu>>
+
+
+:: GI_Mirror
+This large, full length mirror sits in the far corner of the room. You take a moment to inspect yourself...
+
+@@color:cyan;Interact:@@ [[Exit|GI_DanceHall]] | [[Vanity|GI_Vanity]] | [[Wardrobe|GI_BackStage]]
+
+<<printPlayerDescription>>

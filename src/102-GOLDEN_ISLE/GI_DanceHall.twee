@@ -1,11 +1,30 @@
 :: GI_DanceHall
-Rebuilt from a large stable, this broad, seedy hall is now used for dancing - and other, less reputable activities. Though \
-strong oak beams support the high ceiling, the shabby paint, stained floors and crumbling plasterwork have seen better \
-days. The whole place smells of cheap perfume, tobacco smoke, spilled ale and sweaty patrons.
+Rebuilt from a large stable, this broad, seedy hall is now used for dancing - and other, less reputable activities. \
+Though strong oak beams support the high ceiling, the shabby paint, stained floors and crumbling plasterwork have \
+seen better days. The whole place smells of cheap perfume, tobacco smoke, spilled ale and sweaty patrons.
 
-The hall's neglected state bothers no one, thanks to the inn-like atmosphere, filled with the merriment of lively shanties \
-and drunken laughter. The hall's lovely strumpets delight guests with playful dancing, ready companionship and plenty of exposed skin.
+The hall's neglected state bothers no one, thanks to the inn-like atmosphere, filled with the merriment of lively \
+shanties and drunken laughter. The hall's lovely strumpets delight guests with playful dancing, ready companionship \
+and plenty of exposed skin.
 
 <<NPC "Shilling">>
 
-@@color:lime;Travel@@: [[High Hill District|HighHill]]
+@@color:cyan;Interact:@@ [[Study Crowd|GI_StudyCrowd]] | [[Step on Stage | GI_Stage][$GameBookmark = "GI_DanceHall"]]
+@@color:lime;Travel@@: [[High Hill District|HighHill]] | [[Backstage|GI_BackStage]]
+:: GI_StudyCrowd
+You take your time and casually stroll through the crowd, observing the dancers that are working the floor \
+and performing, both on stage as well as in semi-secluded 'private' dances. 
+
+After some time, you come to the decision that currently the crowd favors \
+@@color:cyan;<<= App.JobEngine.GetDance() >> style@@ of fashion. If you have anything that suits, you could always \
+go backstage and change before performing.
+
+@@color:cyan;Interact:@@ [[Back|GI_DanceHall]]
+@@color:lime;Travel@@: [[Backstage|GI_BackStage]]
+:: GI_Stage [custom-menu]
+You step up to the stage manager and make it known that you'd like to perform. If you have the right level of skill \
+and the guts to take the plunge, you can perform a routine and even get paid for it.
+
+<<JobsWidget "DANCEHALL_JOBS" "Shilling">>
+
+@@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>

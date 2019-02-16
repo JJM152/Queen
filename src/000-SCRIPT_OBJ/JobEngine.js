@@ -10,6 +10,21 @@ App.JobEngine = new function() {
     /** @type {Array.<App.Job>}
      * @private */
     this._Jobs = [ ];
+    // Hack for dancing jobs.
+    this._DanceInfo = {
+        DANCE: "Sexy Dancer",
+        DAY: 1,
+        PHASE: 0
+    };
+
+    this.GetDance = function () {
+        if (this._DanceInfo["DAY"] < setup.player.Day || this._DanceInfo["PHASE"] < setup.player.Phase ) {
+            this._DanceInfo["DANCE"] = App.PR.GetRandomListItem(App.Data.Fashion["STYLES"]);
+            this._DanceInfo["DAY"] = setup.player.Day;
+            this._DanceInfo["PHASE"] = setup.player.Phase;
+        }
+        return this._DanceInfo["DANCE"];
+    };
 
     /**
      * Loads the job data into an array of Job objects. Can be called again if necessary.
@@ -69,7 +84,7 @@ App.JobEngine = new function() {
     };
 
     /**
-     * Lists all UNAVAILABLE jobs at person/location
+     * Lists all UNAVAILABLE jobs on person
      * @param {App.Entity.Player} Player
      * @param {string} Giver
      * @returns {Array.<App.Job>}
@@ -78,6 +93,17 @@ App.JobEngine = new function() {
         return $.grep(this.GetJobs(Player, Giver), function(j) {
             return j.Available(Player, Player.GetNPC(Giver)) == false && j.Hidden() != true;
         }).sort();
+    };
+
+    /**
+     * Lists unavailable jobs at a location
+     * @param {App.Entity.Player} Player
+     * @param {string} Giver
+     * @returns {*}
+     */
+    this.GetUnavailableLocationJobs = function(Player, Giver)
+    {
+        return $.grep(this.GetJobs(Player, Giver), function(j) { return j.Requirements(Player, Giver) == false; });
     };
 
     /**

@@ -17,3 +17,22 @@
   <<if _JU[_i].Available(setup.player, _NPC)>>@@.cmdButton;<<jobButton _JU[_i]>>@@<<else>>@@.cmdDisabledButton;<<jobButton _JU[_i]>>@@<</if>><br/>
 <</for>></span><</nobr>>
 @@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>
+::JobsWidget [widget]
+<<widget "JobsWidget">>
+<<nobr>>
+<<set _NPC = setup.player.GetNPC($args[1]);>>
+<<set _JE = window.App.JobEngine;>>
+<<set _JA = _JE.GetAvailableLocationJobs(setup.player, $args[0]);>>
+<<set _JU = _JE.GetUnavailableLocationJobs(setup.player, $args[0]);>>
+<span id="JobUI"><<for _i = 0; _i < _JA.length; _i++>>
+<<if _i > 0;>><br/><br/><</if>>
+<<print _JA[_i].Title(); >><br/>
+<<print _JA[_i].Intro(setup.player, _NPC); >><br/>
+  <<if _JA[_i].Available(setup.player, _NPC)>>@@.cmdButton;<<jobButton _JA[_i]>>@@<<else>>@@.cmdDisabledButton;<<jobButton _JA[_i]>>@@<</if>><br/>
+<</for>>
+<<for _i = 0; _i < _JU.length; _i++>>
+<<if (_JA.length > 0 && _i == 0) || _i > 0>><br/><br/><</if>>
+<<print _JU[_i].Title(); >><br/>
+<<print _JU[_i].Intro(setup.player, _NPC); >><br/>
+  <<if _JU[_i].Available(setup.player, _NPC)>>@@.cmdButton;<<jobButton _JU[_i]>>@@<<else>>@@.cmdDisabledButton;<<jobButton _JU[_i]>>@@<</if>><br/>
+<</for>></span><</nobr>><</widget>>

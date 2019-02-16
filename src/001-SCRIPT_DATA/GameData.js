@@ -1498,6 +1498,13 @@ App.Data.Encounters = {
         ]
 };
 
+App.Data.Fashion = {
+    "STYLES" : [ 
+        "Ordinary", "Pirate Slut", "Bimbo", "Sissy Lolita", "Gothic Lolita", "BDSM", "Daddy's Girl", 
+        "Naught Nun", "Pet Girl", "High Class Whore", "Slutty Lady", "Sexy Dancer"
+     ]
+};
+
 App.Data.Game = {
     Version : 0.09
 };

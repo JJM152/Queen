@@ -1,9 +1,28 @@
 :: PR_DanceHall
-This ballroom is a sordid mirror to the fine ballrooms of the continent. Though its tall, gilded walls and elaborate hardwood \
-floors are the equal of their high society counterparts, the atmosphere is decidedly more corrupt. Beneath the grandiose \
-arcade windows, crystal chandeliers and marbled columns are sculptured figures in explicitly sexual poses and vivid oil \
-paintings of indecent acts. Plainly, this hall is meant to inspire much more than dancing.
+This ballroom is a sordid mirror to the fine ballrooms of the continent. Though its tall, gilded walls and \
+elaborate hardwood floors are the equal of their high society counterparts, the atmosphere is decidedly more \
+corrupt. Beneath the grandiose arcade windows, crystal chandeliers and marbled columns are sculptured figures \
+in explicitly sexual poses and vivid oil paintings of indecent acts. Plainly, this hall is meant to inspire \
+much more than dancing.
 
 <<NPC "Jezebelle">>
 
-@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]
+@@color:cyan;Interact:@@ [[Study Crowd|PR_StudyCrowd]] | [[Step on Stage | PR_Stage][$GameBookmark = "PR_DanceHall"]]
+@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]] | [[Backstage|GI_BackStage]]
+:: PR_StudyCrowd
+You take your time and casually stroll through the crowd, observing the dancers that are working the floor \
+and performing, both on stage as well as in semi-secluded 'private' dances. 
+
+After some time, you come to the decision that currently the crowd favors \
+@@color:cyan;<<= App.JobEngine.GetDance() >> style@@ of fashion. If you have anything that suits, you could always \
+go backstage and change before performing.
+
+@@color:cyan;Interact:@@ [[Back|PR_DanceHall]]
+@@color:lime;Travel@@: [[Backstage|PR_BackStage]]
+:: PR_Stage [custom-menu]
+You step up to the stage manager and make it known that you'd like to perform. If you have the right level of skill \
+and the guts to take the plunge, you can perform a routine and even get paid for it.
+
+<<jobLinks "DANCEHALL_JOBS" 1>>
+
+@@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>
