@@ -1,3 +1,6 @@
+App = App || { Data: { }, Entity: { } };
+App.Data.Quests = App.Data.Quests || { };
+
 App.Data.Quests["BETTER_BED"] = {
     "ID": "BETTER_BED", "Title": "A Better Bed",
     "GIVER": "Quartermaster",
