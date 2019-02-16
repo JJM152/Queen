@@ -28,11 +28,37 @@ span.WhoreLabel {
 }
 
 span.WhoreRank {
-    color: gold;
+    color: grey;
     font-size: smaller;
     position: absolute;
     top: -1px;
-    left: 130px;
+    left: 155px;
+}
+
+span.WhoreRank {
+    font-size: smaller;
+    position: absolute;
+    top: -1px;
+    left: 155px;
+}
+
+span.Pay1 {
+    color:grey;
+}
+
+span.Pay2 {
+    color: yellow;
+}
+
+span.Pay3 {
+    color: green;
+}
+span.Pay4 {
+    color: hotpink;
+}
+
+span.Pay5 {
+    color: cyan;
 }
 
 div.WhoreStatus {

@@ -318,9 +318,7 @@ App.SlotEngine = new function() {
         var name = $('<span>').addClass('WhoreLabel').text(ob.Name);
         root.append( name );
 
-        var payText = "";
-        for (var i = 0; i < ob.Payout;i++) payText += "$";
-        var rank = $('<span>').addClass('WhoreRank').text(payText);
+        var rank = $('<span>').addClass('WhoreRank').addClass('Pay'+ob.Payout).text('$');
         root.append( rank );
 
         // Mood, Lust and Satisfaction labels and bars.
@@ -345,7 +343,7 @@ App.SlotEngine = new function() {
         root.append( wantLabel );
 
         var want, want_class;
-        for (i = 0; i < ob.Wants.length; i++) {
+        for (var i = 0; i < ob.Wants.length; i++) {
             want_class = "WhoreWant" + (i+1) + " WhoreWantColor"+(i+1);
             want   = $('<span>').addClass(want_class).text(ob.Wants[i]);
             root.append( want );
