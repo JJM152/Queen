@@ -23,6 +23,6 @@ go backstage and change before performing.
 You step up to the stage manager and make it known that you'd like to perform. If you have the right level of skill \
 and the guts to take the plunge, you can perform a routine and even get paid for it.
 
-<<jobLinks "DANCEHALL_JOBS" 1>>
+<<JobsWidget "DANCEHALL_JOBS" "Jezebelle">>
 
 @@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>
