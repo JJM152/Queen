@@ -8,9 +8,9 @@ lichen you don't see any signs of life.
 A brief look around the area has led to the discovery of multiple passages that lead deeper. It's early enough in the day that you \
 could explore them if you wanted to.<</if>>
 
-@@color:lime;Travel@@: [[Far Beach|FarBeach]] | <<if setup.player.Phase > 0>>@@color:grey;Explore the Caverns below Abamond@@<<else>><<click "Explore the Caverns below Abamond" "CaveRogueLikeGUI">>\
+@@color:lime;Travel@@: [[Far Beach|FarBeach]] | <<if setup.player.Phase <= 1>>@@color:grey;Explore the Caverns below Abamond@@<<else>><<click "Explore the Caverns below Abamond" "CaveRogueLikeGUI">>\
 <<run App.Rogue.Engine.LoadScene("#passage-caveroguelikegui", "OceanCave", 1);>>\
 <</click>><</if>>\
-<<if setup.player.JobFlags.hasOwnProperty("ABAMOND_CAVE_LEVEL") && setup.player.Phase < 1>>\
+<<if setup.player.JobFlags.hasOwnProperty("ABAMOND_CAVE_LEVEL") && setup.player.Phase <= 1>>\
 | <<click "Continue Exploring" "CaveRogueLikeGUI">><<run App.Rogue.Engine.LoadScene("#passage-caveroguelikegui", "OceanCave", setup.player.JobFlags["ABAMOND_CAVE_LEVEL"])>><</click>>\
  (Level: <<= setup.player.JobFlags["ABAMOND_CAVE_LEVEL"]; >>)<</if>>
