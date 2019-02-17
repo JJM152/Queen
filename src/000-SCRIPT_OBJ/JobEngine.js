@@ -927,31 +927,25 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
         {
             case "NPC_STAT":
                 return this._Cmp(this._NPC.GetStat(Name), Value, Condition);
-                break;
             case "RANDOM-100":
                 return this._Cmp(Math.ceil((100 * Math.random())+1), Value, Condition);
-                break;
             case "COUNTER":
                 if ( this._Player.JobFlags.hasOwnProperty(Name) == false ) this._Player.JobFlags[Name] = 0;
                 if ( (typeof Opt !== 'undefined') && (Opt == "RANDOM"))
                     return this._Cmp(this._Player.JobFlags[Name], Math.ceil(Value * Math.random()), Condition);
                 return this._Cmp(this._Player.JobFlags[Name], Value, Condition);
-                break;
             case "STAT_CORE":
                 if ((typeof Opt !== 'undefined') && (Opt == "RANDOM"))
                     return this._Cmp(this._Player.GetStatPercent("STAT", Name), Math.ceil((100 * Math.random())+1), Condition);
                 return this._Cmp(this._Player.GetStatPercent("STAT", Name), Value, Condition);
-                break;
             case "STAT_BODY":
                 if ((typeof Opt !== 'undefined') && (Opt == "RANDOM"))
                     return this._Cmp(this._Player.GetStatPercent("BODY", Name), Math.ceil((100 * Math.random())+1), Condition);
                     return this._Cmp(this._Player.GetStatPercent("BODY", Name), Value, Condition);
-                break;
             case "STAT_SKILL":
                 if ((typeof Opt !== 'undefined') && (Opt == "RANDOM"))
                     return this._Cmp(this._Player.GetStatPercent("SKILL", Name), Math.ceil((100 * Math.random())+1), Condition);
                 return this._Cmp(this._Player.GetStatPercent("SKILL", Name), Value, Condition);
-                break;
             case "FLAG":
                 if ( (typeof Opt !== 'undefined') && (Opt == "NOT_SET")) {
                     return (this._Player.JobFlags.hasOwnProperty(Name) == false);
@@ -961,12 +955,13 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                     return (this._Player.JobFlags.hasOwnProperty(Name) == true);
 
                 return this._Cmp(this._Player.JobFlags[Name], Value, Condition);
-                break;
             case "TAG":
                 if (this._Checks.hasOwnProperty(Name) == false) return true;
                 var Percent = Math.ceil( (this._Checks[Name]["RESULT"] / this._Checks[Name]["VALUE"]) * 100);
                 return this._Cmp(Percent, Value, Condition);
-                break;
+            case 'HAS_ITEM':
+                // Format like CATEGORY/NAME
+                return (typeof this._Player.GetItemById(Name) !== 'undefined');
         }
 
         return true;
@@ -1160,7 +1155,11 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 break;
         }
 
-        this._Checks[Check.TAG] = { "RESULT" : Result, "VALUE" : Value };
+        this._Checks[Check.TAG] = { 
+            "RESULT" : Result, 
+            "VALUE" : Value,
+            "MOD" : Result / Value 
+        };
         console.log(this._Checks);
         this._ProcessReward(Check.REWARD, Check.R_NAME, Result, Check.OPT);
     };
