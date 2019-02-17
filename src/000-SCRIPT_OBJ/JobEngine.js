@@ -410,6 +410,19 @@ App.Job = function(Data) {
                         }
                     }
                     break;
+                case "META" :
+                    var pStat = 0;
+                    if (Name == 'BEAUTY') pStat = Player.Beauty();
+
+                    if (this._Cmp( pStat, Value, Condition) == false) {
+                        StatusFlag = false;
+                        if (Condition == "lt" || Condition == "lte" ) {
+                            ReqString = App.PR.ColorizeString(Value, "Too much "+ Name.toLowerCase());
+                        } else {
+                            ReqString = App.PR.ColorizeString(Value, "Not enough " + Name.toLowerCase());
+                        }
+                    }
+                    break;
                 case "MONEY":
                     if (this._Cmp( Player.Money, Value, Condition) == false) {
                         StatusFlag = false;
