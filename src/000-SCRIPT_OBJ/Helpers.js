@@ -986,6 +986,19 @@ App.PR = new function() {
             return prefix + stat + delim;
         }
 
+        // Usage: p(Slot1|Slot2|...|$optional default string)
+        // Use with Player.IsEquipped(string|array,bool) for most cases.
+        function equipReplacer(match, part ) {
+            var slots = part.split("|");
+            var equip = null;
+            for(var i = 0; i < slots.length;i++) {
+                if (slots[i][0] == '$') return slots[i].slice(1); // default string
+                equip = Player.GetEquipmentInSlot(slots[i]);
+                if (typeof equip !== null && equip != 0) return equip.Description;
+            }
+            return "@@color:red;bug!@@";
+        }
+
         String = String.replace(/PLAYER_NAME/g, "@@color:DeepPink;"+Player.SlaveName+"@@");
         String = String.replace(/GF_NAME/g, "@@color:pink;"+Player.GirlfriendName+"@@");
         String = String.replace(/pCUP/g, this.pCup(Player)); // needs special handling because it has only a single parameter
@@ -993,6 +1006,7 @@ App.PR = new function() {
         String = String.replace(/ADJECTIVE_([A-Za-z_]+)/g, adjReplacer);
         String = String.replace(/pBLOWJOBS/g, this.GetAdjective("SKILL", "BlowJobs", Player.GetStat("SKILL", "BlowJobs")));
         String = String.replace(/pPHASE/g, Player.GetPhase(false));
+        String = String.replace(/pEQUIP\(([^\)]*)\)/g, equipReplacer);
         String = String.replace(/(p)([A-Z_]+)([^A-Za-z]|$)/g, pReplacer);
         String = String.replace(/(n)([A-Z_]+)([^A-Za-z]|$)/g, nReplacer);
         String = String.replace(/(v)([A-Z_]+)([^A-Za-z]|$)/g, vReplacer);

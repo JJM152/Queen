@@ -1727,16 +1727,35 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     /**
      * Search equipped items
-     * @param {string} Name
+     * @param {string|Array.<string>} Name
+     * @param {boolean} SlotFlag Search by slot instead of item name.
      * @returns {boolean}
      */
-    IsEquipped(Name) {
-        for (var prop in this.Clothing.Equipment) {
-            if (!this.Clothing.Equipment.hasOwnProperty(prop)) continue;
-            if (this.Clothing.Equipment[prop] == 0) continue;
-            if (this.Clothing.Equipment[prop].Name == Name) return true;
+    IsEquipped(Name, SlotFlag) {
+        SlotFlag = SlotFlag | false;
+
+        function _IsEquipped(Name, Flag, _this) {
+            if (Flag == true) {
+                return (_this.Clothing.Equipment[Name] != 0 && _this.Clothing.Equipment[Name] != null);
+            }
+
+            for (var prop in _this.Clothing.Equipment) {
+                if (!_this.Clothing.Equipment.hasOwnProperty(prop)) continue;
+                if (_this.Clothing.Equipment[prop] == 0) continue;
+                if (_this.Clothing.Equipment[prop].Name == Name) return true;
+            }
+            return false;
         }
-        return false;
+
+        if (Array.isArray(Name)) {
+            for (var i = 0; i < Name.length; i++) {
+                if (_IsEquipped(Name[i], SlotFlag, this)) return true;
+            }
+            return false;
+        } 
+
+        return _IsEquipped(Name, SlotFlag, this);
+
     }
 
     Wear (item, lock) {

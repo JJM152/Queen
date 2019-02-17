@@ -23,7 +23,7 @@ App.Data.JobData["DANCE_AMATEUR"] = {
     ",
     "SCENES" : [
        {
-            "ID" : "SCENE01",
+            "ID" : "Intro Scene",
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [ 
@@ -37,7 +37,6 @@ App.Data.JobData["DANCE_AMATEUR"] = {
             ],
             "POST" : [],
             "START" : "",
-            "END" : "",
             "RESULTS" : [
                 { 
                     "APPEARANCE_CHECK" : 20,
@@ -73,12 +72,118 @@ App.Data.JobData["DANCE_AMATEUR"] = {
                     The @@crowd goes wild@@ as you appear. You're greated with a thunderous applause and wolf whistling.\
                     "
                 }
+            ],
+            "END" : ""
+        },
+        {
+            "ID" : "Dance Scene 1",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [
+                { 
+                    "TAG": "DANCE_CHECK_1", "TYPE" : "SKILL", "NAME" : "Dancing", "DIFFICULTY" : 50,
+                    "REWARD" : "MONEY", "VALUE" : 10, "OPT" : "DANCE_CHECK_1" 
+                }                
+            ],
+            "POST" : [],
+            "START" : "\
+            In the middle of the stage is a large revolving pole that is used to perform acrobatic stunts. You \
+            saunter towards it, doing your best to exaggerate the gait of your pHIPS hips and accentuate your \
+            pASS ass. Once there, you lean over and place your hands on the pole, smile at the crowd and attempt \
+            a simple move.\
+            ",
+            "RESULTS" : [
+                {
+                    "DANCE_CHECK_1" : 33,
+                    "TEXT" : "\
+                    With a twist of your hips, you lay one leg across the pole and attempt to dive into a simple \
+                    spin. At first it goes well enough, but on the second revolution you lose your grip and \
+                    @@tumble uncerimonially to the floor@@.\
+                    "
+                },
+                {
+                    "DANCE_CHECK_1" : 66,
+                    "TEXT" : "\
+                    With a twist of your hips, you lay one leg across the pole and attempt to dive into a simple \
+                    spin. You do your best to arch your back and display your nBUST to the crowd, hoping to \
+                    gain some favor. Your efforts are rewarded with a @@smattering of applause@@.\
+                    "
+                },
+                {
+                    "DANCE_CHECK_1" : 500,
+                    "TEXT" : "\
+                    With a twist of your hips, you lay one leg across the pole and attempt to dive into a simple \
+                    spin. You climb as far as you can up on the pole, wrapping your legs around it and then \
+                    leaning backwards, your nBUST on display as you rotate in front of the crowd. Your skill \
+                    earns you a @@healthy round of applause and cheers@@ from the crowd.\
+                    "
+                },
+
+            ],
+            "END" : "\
+            The tempo of the music picks up and you strut towards the front of the stage, dropping to your knees \
+            infront of the crowd and running your hands up your body to your hair.\
+            "
+        },
+        {
+            "ID" : "Stripping Scene 1",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [  
+                { 
+                    "TAG": "STRIPPING_CHECK_1", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 50,
+                    "REWARD" : "MONEY", "VALUE" : 10, "OPT" : "STRIPPING_CHECK_1" 
+                }                
+            ],
+            "POST" : [],
+            "START" : "\
+            You start the sway side to side, grinding yourself against the stage on your knees while your hands \
+            roam up and down your body. \
+            <<if setup.player.IsEquipped(['Costume', 'Dress', 'Shirt'], true)>>\
+            With deft moves, you undo the top of your pEQUIP(Costume|Dress|Shirt) \
+            and expose your pEQUIP(Bra|$naked flesh). <</if>>\
+            <<if setup.player.IsEquipped('Bra', true)>>\
+            You grope your pBUST chest through your pEQUIP(Bra)<<else>>\
+            You grope your pBUST chest<</if>>, roughly shaking and fondling it for \
+            the audience.\
+            ",
+            "RESULTS" : [
+
+            ],
+            "END" : "",
+
+        },
+        {
+            "ID" : "Dance Scene 2",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [                
+            ],
+            "POST" : [],
+            "START" : "",
+            "END" : "",
+            "RESULTS" : [
+
             ]
-        } 
+        },
+        {
+            "ID" : "Stripping Scene 2",
+            "TRIGGERS" :[ ],
+            "TRIGGERS_ANY" : [ ],
+            "CHECKS" : [                
+            ],
+            "POST" : [],
+            "START" : "",
+            "END" : "",
+            "RESULTS" : [
+
+            ]
+        },
+
 
     ],
     "END" : "\
-    You take one last bow, your pBUST tits dangling for the crowd and blow them a kiss. You scoop up the money \
+    You take one last bow, your nBUST dangling for the crowd and blow them a kiss. You scoop up the money \
     that was thrown on the stage and exit behind the curtains.\
     ",
     "JOB_RESULTS" : [ ]
@@ -163,7 +268,7 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
 
     ],
     "END" : "\
-    You take one last bow, your pBUST tits dangling for the crowd and blow them a kiss. You scoop up the money \
+    You take one last bow, your nBUST dangling for the crowd and blow them a kiss. You scoop up the money \
     that was thrown on the stage and exit behind the curtains.\
     ",
     "JOB_RESULTS" : [ ]
@@ -248,7 +353,7 @@ App.Data.JobData["DANCE_EXPERT"] = {
 
     ],
     "END" : "\
-    You take one last bow, your pBUST tits dangling for the crowd and blow them a kiss. You scoop up the money \
+    You take one last bow, your nBUST dangling for the crowd and blow them a kiss. You scoop up the money \
     that was thrown on the stage and exit behind the curtains.\
     ",
     "JOB_RESULTS" : [ ]
