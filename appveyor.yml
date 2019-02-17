@@ -2,7 +2,7 @@ version: 1.0.{build}
 image: Ubuntu1804
 environment:
   TWEEGO_VERSION: 1.3.0
-  STORY_FORMATS_VERSION: 20180826
+  STORY_FORMATS_VERSION: 20190129
 
 install:
 - sh: >-
