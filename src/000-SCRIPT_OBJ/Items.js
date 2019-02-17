@@ -318,8 +318,6 @@ App.Item = class Item {
         var Table       = App.Data.LootTables[Type];
         var output      = "";
 
-        if (Player.debugMode == true)
-
         DiceRoll = ( DiceRoll + Bonus) < Minimum ? Minimum : (DiceRoll + Bonus);
 
         if (Player.HasHex("TREASURE_FINDER")) {
