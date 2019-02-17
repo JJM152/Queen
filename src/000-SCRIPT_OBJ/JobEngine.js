@@ -17,6 +17,10 @@ App.JobEngine = new function() {
         PHASE: 0
     };
 
+    /**
+     * Hack for reporting the current 'desired dance' for dancehalls.
+     * @returns {string}
+     */
     this.GetDance = function () {
         if (this._DanceInfo["DAY"] < setup.player.Day || this._DanceInfo["PHASE"] < setup.player.Phase ) {
             this._DanceInfo["DANCE"] = App.PR.GetRandomListItem(App.Data.Fashion["STYLES"]);
@@ -1121,25 +1125,44 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
      * @param {string} Opt
      * @private
      */
-    this._ProcessCheck = function(Tag, Type, Name, Difficulty, Reward, RewardName, Value, Opt)
+    this._ProcessCheck = function(Check)
     {
-        var Scaling     = (Opt != "NO_SCALING");
-            Value       = Value || 100;
+
+        var Scaling     = (Check.OPT != "NO_SCALING");
+        var Value       = Check.VALUE || 100;
         var Result      = 0;
 
-        switch(Type)
+        switch(Check.TYPE)
         {
             case "STAT":
             case "BODY":
-                Result = this._Player.StatRoll(Type, Name, Difficulty, Value, Scaling);
+                Result = this._Player.StatRoll(Check.TYPE, Check.NAME, Check.DIFFICULTY, Value, Scaling);
                 break;
             case "SKILL":
-                Result = this._Player.SkillRoll(Name, Difficulty, Value, Scaling);
+                Result = this._Player.SkillRoll(Check.NAME, Check.DIFFICULTY, Value, Scaling);
+                break;
+            case "META":
+                switch(Check.NAME) {
+                    case "BEAUTY":
+                        Result = this._Player.GenericRoll( this._Player.Beauty(), Check.DIFFICULTY, Value, Scaling);
+                        break;
+                    case "DANCE_STYLE":
+                        var defaultStyleResult = this._Player.GenericRoll( 
+                            this._Player.GetStyleSpecRating("Sexy Dancer"), Check.DIFFICULTY, Value, Scaling);
+                        var specStyleResult = this._Player.GenericRoll( 
+                            this._Player.GetStyleSpecRating(App.JobEngine.GetDance()), Check.DIFFICULTY, Value, Scaling);
+                        Result = (defaultStyleResult + specStyleResult) / 2;
+                        break;
+                }
+                break;
+            case "FUNC":
+                Result = Check.NAME(this._Player, this);
                 break;
         }
 
-        this._Checks[Tag] = { "RESULT" : Result, "VALUE" : Value };
-        this._ProcessReward(Reward, RewardName, Result, Opt);
+        this._Checks[Check.TAG] = { "RESULT" : Result, "VALUE" : Value };
+        console.log(this._Checks);
+        this._ProcessReward(Check.REWARD, Check.R_NAME, Result, Check.OPT);
     };
 
     /**
@@ -1150,8 +1173,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
     this._ProcessChecks = function(Checks)
     {
         for (var i = 0; i < Checks.length; i++)
-            this._ProcessCheck( Checks[i]["TAG"], Checks[i]["TYPE"], Checks[i]["NAME"], Checks[i]["DIFFICULTY"],
-                                Checks[i]["REWARD"], Checks[i]["R_NAME"], Checks[i]["VALUE"], Checks[i]["OPT"] );
+            this._ProcessCheck( Checks[i] );
     };
 
     /**

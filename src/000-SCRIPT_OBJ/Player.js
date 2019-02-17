@@ -844,12 +844,53 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     }
 
     /**
+     * Moved this here to use it in a couple of different place.
+     * @param {number} Roll 
+     * @param {number} Target
+     * @returns {number} 
+     */
+    _ModFormula (Roll, Target) {
+        return Math.max(0.1, Math.min((Roll/Target), 2.0));
+    }
+
+    /**
+     * Moved this here to use it in a couple of different places.
+     * @param {number} Val 
+     * @param {number} Difficulty 
+     */
+    _TargetFormula(Val, Difficulty) {
+        return (100 - Math.max(5, Math.min((50 + (Val - Difficulty)), 95)));
+    }
+
+    /**
+     * Sort of a generic skill roll that just uses the base formulas and doesn't inherently
+     * grant xp. Used for arbitrary checks that are derived from meta statistics, etc.
+     * @param {number} SkillVal 
+     * @param {number} Difficulty 
+     * @param {number} Amount 
+     * @param {number} Scaling 
+     */
+    GenericRoll (SkillVal, Difficulty, Amount, Scaling ) {
+        Scaling         = Scaling || false;
+        var Target      = this._TargetFormula(SkillVal, Difficulty);
+        var DiceRoll    = Math.floor(Math.random() * 100);
+        var Mod         = this._ModFormula(DiceRoll, Target);
+        if (this._state.debugMode) 
+        console.log("GenericRoll(" + SkillVal + "," + Difficulty + ","+Amount+","+Scaling+ "):  Target=" + 
+            Target + ", DiceRoll=" + DiceRoll + ", Mod="+Mod+"\n");
+
+        if (Scaling == true ) return (Amount * Mod);
+        return (DiceRoll >= Target);
+    }
+    /**
      * Performs a skill roll.
      * @param {string} SkillName - Skill to check.
      * @param {number} Difficulty - Test difficulty.
      * @param {boolean} [Scaling] - Return value is always the XpMod and never 0.
      * @returns {number} - result of check.
      */
+
+     //TODO: Is this called from anywhere other than SkillRoll? Should I just simplify and move to that method?
     _SkillRoll (SkillName, Difficulty, Scaling) {
         Scaling = Scaling || false;
         var Target      = this.CalculateSkillTarget(SkillName, Difficulty);
@@ -860,7 +901,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         DiceRoll += this._RollBonus("SKILL", SkillName);
 
         var BaseXp      = Math.max(10, Math.min((Difficulty - this.GetStat("SKILL", SkillName)), 50));
-        var XpMod       = Math.max(0.25, Math.min((DiceRoll  / Target), 2.0)); // 0.25 - 2.0
+        var XpMod       = this._ModFormula(DiceRoll, Target);
         var XpEarned    = Math.ceil(BaseXp * XpMod);
 
         this.AdjustSkillXP(SkillName, XpEarned);
@@ -931,7 +972,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         if (Type == "SKILL") DiceRoll += Math.max(0, Math.min(this.GetSynergyBonus(Name), 100)); // Cap 100
         DiceRoll        += this._RollBonus(Type, Name);
 
-        var Mod         = Math.max(0.10, Math.min((DiceRoll  / Target), 2.0)); // 0.1 - 2.0
+        var Mod         = this._ModFormula(DiceRoll, Target);
 
         if(this._state.debugMode) console.log("StatRoll(" + Name + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " Mod="+Mod+"\n");
 
@@ -965,7 +1006,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         Alternate = Alternate || "SKILL";
 
         var SkillVal = this.GetStat(Alternate, SkillName);
-        return (100 - Math.max(5, Math.min((50 + (SkillVal - Difficulty)), 95)));
+        return this._TargetFormula(SkillVal, Difficulty);
     }
 
     /**
