@@ -565,7 +565,7 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
 
             for(var i = 0; i < max; i++)
                 Output += App.PR.pEffectMeter(this.GetKnowledge()[i], this) + " ";
-            return Output;      
+            return Output;
         }
 
         var Output = this.Data["LongDesc"];
@@ -730,8 +730,7 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
      */
     IsLocked() {
         if (this.Inventory !== undefined && this.Inventory.IsWorn(this.Id, this.Slot)) return this.Inventory.IsLocked(this.Slot);
-        var locked = this.Data.Locked;
-        return typeof (locked) === "boolean" ? locked : false;
+        return false;
     }
 
     /**
