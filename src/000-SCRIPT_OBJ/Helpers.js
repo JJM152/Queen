@@ -950,6 +950,7 @@ App.PR = new function() {
      */
     this.TokenizeString = function(Player, NPC, String, Opt) {
         if (typeof NPC !== 'undefined' ) {
+            String = String.replace(/NPC_NAME's/g, "<span style='color:cyan'>"+NPC.Name()+"'s</span>");
             String = String.replace(/NPC_NAME/g, NPC.pName());
         }
 
@@ -999,6 +1000,15 @@ App.PR = new function() {
             return "@@color:red;bug!@@";
         }
 
+        // Like pReplacer, but pass an argument instead of using the characters statistic.
+        function pReplacer2(match, prefix, stat, num, delim) {
+            var statName = stat[0] + stat.slice(1).toLowerCase().replace(/_([a-z])/g, (m, c) => c.toUpperCase());
+            var statType = Player.CoreStats.hasOwnProperty(statName) ? "STAT" : 
+                Player.Skills.hasOwnProperty(statName) ? "SKILL" : "BODY";
+            
+            return _this.GetAdjective(statType, statName, Number(num)) + delim;
+        }
+
         String = String.replace(/PLAYER_NAME/g, "@@color:DeepPink;"+Player.SlaveName+"@@");
         String = String.replace(/GF_NAME/g, "@@color:pink;"+Player.GirlfriendName+"@@");
         String = String.replace(/pCUP/g, this.pCup(Player)); // needs special handling because it has only a single parameter
@@ -1007,13 +1017,15 @@ App.PR = new function() {
         String = String.replace(/pBLOWJOBS/g, this.GetAdjective("SKILL", "BlowJobs", Player.GetStat("SKILL", "BlowJobs")));
         String = String.replace(/pPHASE/g, Player.GetPhase(false));
         String = String.replace(/pEQUIP\(([^\)]*)\)/g, equipReplacer);
+        String = String.replace(/(p)([A-Z]+)_([0-9]+)([^0-9]|$)/g, pReplacer2);
+        String = String.replace(/(q)([A-Z_]+)([^A-Za-z]|$)/g, pReplacer);
         String = String.replace(/(p)([A-Z_]+)([^A-Za-z]|$)/g, pReplacer);
         String = String.replace(/(n)([A-Z_]+)([^A-Za-z]|$)/g, nReplacer);
         String = String.replace(/(v)([A-Z_]+)([^A-Za-z]|$)/g, vReplacer);
         // Hack for highlighting NPC speech
-        String = String.replace(/ s\(([^\"]+)\)/g, function(m,p) { return "@@color:antiquewhite;\""+p+"\"@@"; });
+        String = String.replace(/ s\(([^\)]+)\)/g, function(m,p) { return "<span class='npcText'>\""+p+"\"</span>"; });
         // Important! highlight NPC speech
-        String = String.replace(/ s\!\(([^\"]+)\)/g, function(m,p) { return "@@color:hotpink;\""+p+"\"@@"; });
+        String = String.replace(/ s\!\(([^\)]+)\)/g, function(m,p) { return "<span class='impText'>\""+p+"\"</span>"; });
 
         return String;
     };

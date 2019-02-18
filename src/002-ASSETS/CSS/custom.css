@@ -240,3 +240,13 @@ button:hover {
 	color: yellow;
 	vertical-align: sub;
 }
+
+span.npcText  {
+	color:antiquewhite;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+span.impText  {
+	color:hotpink;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
