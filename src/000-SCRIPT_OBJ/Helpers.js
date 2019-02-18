@@ -1010,6 +1010,10 @@ App.PR = new function() {
         String = String.replace(/(p)([A-Z_]+)([^A-Za-z]|$)/g, pReplacer);
         String = String.replace(/(n)([A-Z_]+)([^A-Za-z]|$)/g, nReplacer);
         String = String.replace(/(v)([A-Z_]+)([^A-Za-z]|$)/g, vReplacer);
+        // Hack for highlighting NPC speech
+        String = String.replace(/ s\(([^\"]+)\)/g, function(m,p) { return "@@color:antiquewhite;\""+p+"\"@@"; });
+        // Important! highlight NPC speech
+        String = String.replace(/ s\!\(([^\"]+)\)/g, function(m,p) { return "@@color:hotpink;\""+p+"\"@@"; });
 
         return String;
     };

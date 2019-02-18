@@ -1024,7 +1024,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
 
         // Retrieve the result of another check and modify the value of this reward by that scaling percentage.
         if ((typeof Opt === 'string') && (Opt.indexOf( "TAG_" ) > -1) ) {
-            Value = Math.ceil( Value * (this._Checks[Opt.slice(Opt.indexOf("_")+1)]["RESULT"] / this._Checks[Opt.slice(Opt.indexOf("_")+1)]["VALUE"]));
+            Value = Math.ceil( Value * (this._Checks[Opt.slice(Opt.indexOf("_")+1)]["MOD"]));
         }
 
         this.Debug("_ProcessReward", "Type="+Type+",Name="+Name+",Value="+Value+",Opt="+Opt);
