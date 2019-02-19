@@ -376,6 +376,10 @@ App.Entity.InventoryManager = class InventoryManager {
     AddCharges(ItemClass, Tag, Amount){
         var cl = (ItemClass == undefined) ? this._FindItemClass(Tag) : ItemClass;
         if (cl == undefined) throw Error("No item tagged '" + Tag + "'");
+        // slight hack to not allow items that don't exist to be added to the inventory.
+        var data = App.Item._TryGetItemsDictionary(cl);
+        if (data == null) throw Error("No item class '" + cl + "' exists.");
+        if (!data.hasOwnProperty(Tag)) throw Error("No item tagged '" + Tag + "' exists in class '" + cl + "'");
         if (!this._state.Inventory.hasOwnProperty(cl)) this._state.Inventory[cl] = {};
         if (!this._state.Inventory[cl].hasOwnProperty(Tag)) {
             this._state.Inventory[cl][Tag] = 0;
