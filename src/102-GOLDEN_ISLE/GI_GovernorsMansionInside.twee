@@ -1,0 +1,12 @@
+:: GI_GovernorsMansionInside
+Not many people get to see the inner sanctum of the defacto rule of @@color:gold;Golden Isle@@ and even less \
+would be inside her personal bed chambers. The room itself is huge, more accurately it's an apartment within \
+the official residence and appointed in a fashion that is popular with the Western continent. Rich baroque \
+tapesteries adorn the deep walnut walls and lush carpets cover what is clearly imported marble tiles. There are \
+many pieces of obviously expensive furniture and objects of art, but most prominently featured is a massive \
+bed covered with assorted pillows and a deep purple cover. A large picture window is set into the eastern \
+wall, providing an ample supply of sunlight during the day and an impressive view of the town below.
+
+<<NPC "Bertie">>
+
+@@color:lime;Travel@@: [[Leave|GI_GovernorsMansion]]

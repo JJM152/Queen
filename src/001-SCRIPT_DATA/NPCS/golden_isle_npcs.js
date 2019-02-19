@@ -4,13 +4,16 @@ App.Data.NPCS = App.Data.NPCS || { };
 
 App.Data.NPCS["Petey"] = {
     "Name": "Petey",
-        "Mood": 40,
-        "DailyMood": 0,
-        "Lust": 40,
-        "DailyLust": 10,
-        "Title": "NPC_NAME O'Bannon, 'Re-purposed Goods Specialist'",
-        "LongDesc": "NPC_NAME is a friendly looking middle aged man with a shock of red hair and a heavy smattering of freckles across his face. He's always game to make a deal or a trade, or just serve up a cold ale.",
-        "Store": "SMUGGLERS"
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME O'Bannon, 'Re-purposed Goods Specialist'",
+    "LongDesc": "\
+    NPC_NAME is a friendly looking middle aged man with a shock of red hair and a heavy smattering of \
+    freckles across his face. He's always game to make a deal or a trade, or just serve up a cold ale.\
+    ",
+    "Store": "SMUGGLERS"
 };
 
 App.Data.NPCS["Steve"] = {
@@ -121,6 +124,44 @@ App.Data.NPCS["Fineas Quincy"] = {
     "Lust": 40,
     "DailyLust": 10,
     "Title": "NPC_NAME, Apothecary",
-    "LongDesc": "An experienced practitioner of physick, he plies his trade with a studied confidence. He is dressed in a first-rate white periwig, a long, black robe, and a broad, white falling band covering his throat and shoulders. Their combined effect creates a dignified, learned appearance.",
+    "LongDesc": "\
+    An experienced practitioner of physick, he plies his trade with a studied confidence. He is dressed in a \
+    first-rate white periwig, a long, black robe, and a broad, white falling band covering his throat and \
+    shoulders. Their combined effect creates a dignified, learned appearance.\
+    ",
     "Store" : "Fineas"
+};
+
+App.Data.NPCS["Uticus"] = {
+    "Name": "Uticus",
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME Barbarus, Bertie's right hand man",
+    "LongDesc": "\
+    NPC_NAME is rather infamous on the island, not just for his enormous stature, or his dark skin, or \
+    for being one of the most vicious and deadly pirates to ever sail the Lost Sea, but for the (rumoured) \
+    monsterous trouser snake he supposedly has betwix his legs. Even from this distance, you think you can \
+    make out it's shape nestled against his thigh and you feel a bit uneasy. NPC_NAME catches you looking and \
+    flashes a quick grin, his brilliant white teeth in contrast with his ebony black face.\
+    "
+};
+
+App.Data.NPCS["Bertie"] = {
+    "Name": "Black Bertie",
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME, Pirate Queen",
+    "LongDesc": "\
+    In person, NPC_NAME, looks nothing like you imagined. Rather than a vengeful banshee that smashed a \
+    Savillian armada, or cut down Rodrick Twofists with his own cutlass, she looks more like an extremely \
+    beautiful and expensive whore. Her long flowing red hair is tied up in cute little black bows and drapes \
+    down her shoulders, spilling over her pBUST_80 chest which is just barely contained by the diaphanous pink \
+    gown she wears. As she greets you, she reclines backwards on a divan, precariously balanced upon her \
+    pASS_80 bottom, her thin and toned legs tucked neatly under her. It's a mystery, but how did such a beautiful \
+    and effeminite woman become the ruler of this hive of villains?\
+    "
 };
