@@ -227,7 +227,8 @@ App.Job = function(Data) {
      * @returns {string}
      */
     this.Intro      = function(Player, Npc) {
-        if (this.Requirements(Player, Npc) == false) return "@@color:red;Requirements not met.@@";
+        if (this.Requirements(Player, Npc) == false)
+            return App.PR.TokenizeString(Player, Npc, this._JobData["INTRO"]) + "@@color:red;(Requirements not met)@@";
         return  App.PR.TokenizeString(Player, Npc, this._JobData["INTRO"]);
     };
 

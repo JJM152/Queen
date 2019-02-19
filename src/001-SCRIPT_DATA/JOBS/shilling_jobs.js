@@ -93,7 +93,7 @@ App.Data.JobData["SHILLING_CUSTOMER_1"] = {
                     in front of him you quickly turn around, still shaking your bottom in time and rubbing it \
                     on his legs and lap. With practiced ease, you reverse your position and straddle him on \
                     the bench, your nBUST \
-                    <<if setup.player.IsEquipped(['Costume', 'Dress', 'Shirt'])>>\
+                    <<if setup.player.IsEquipped(['Costume', 'Dress', 'Shirt'], true)>>\
                     practically spilling out of your pEQUIP(Costume|Dress|Shirt) and onto his face. \
                     <<else>>\
                     shaking and rubbing against his face. <</if>>\

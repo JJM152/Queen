@@ -8,7 +8,7 @@ much more than dancing.
 <<NPC "Jezebelle">>
 
 @@color:cyan;Interact:@@ [[Study Crowd|PR_StudyCrowd]] | [[Step on Stage | PR_Stage][$GameBookmark = "PR_DanceHall"]]
-@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]] | [[Backstage|GI_BackStage]]
+@@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]] | [[Backstage|PR_BackStage]]
 :: PR_StudyCrowd
 You take your time and casually stroll through the crowd, observing the dancers that are working the floor \
 and performing, both on stage as well as in semi-secluded 'private' dances. 
