@@ -1,6 +1,79 @@
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
+App.Data.Quests["ROYAL_ENTRANCE_2"] = {
+    "ID" : "ROYAL_ENTRANCE_2",
+    "Title" : "Spread those cheeks!",
+    "GIVER" : "Jameson",
+    "PRE" : [
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "ROYAL_ENTRANCE", "VALUE" : "ACTIVE"
+        }
+    ],
+    "CHECKS" : [
+        {
+            "TYPE" : "QUEST_ITEM", "NAME" : "bucket of refined bobola sap", "VALUE" : 1,
+            "TYPE" : "FOOD", "NAME" : "butter gourd", "VALUE" : 5,
+            "TYPE" : "MONEY", "VALUE" : 2000
+        }
+    ],
+    "POST" : [ ],
+    "REWARD" : [
+        { 
+            "REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "voodoo anal plug", "AMOUNT": 1
+        },
+        {
+            "REWARD_TYPE": "MONEY", "AMOUNT": -2000
+        }      
+    ],
+    "INTRO": "\
+        It's embarassing, but you approach NPC_NAME and explain to him that you're looking for some potion or \
+        device that could help open yourself up 'back there'. You're certain it's not a request that he hears \
+        every day, but remarkably he takes it in stride and pulls out an old dusty tome from below the counter.\n\n\
+        He flips to a specific page and jabs his finger at a drawing. s(Here, this is what you need.) he states \
+        authoritatively. s(This plug is made from the rubberized sap of the Bobola tree and infused with the \
+        distilled essence of several butter gourd fruits.)\n\n\
+        He stops and ponders for a moment.\n\n\
+        s(Also... there may be a bit of a voodoo curse involved.) Voodoo curse? What's this? It sounds like \
+        just more trouble to get yourself into and you're about to walk away when you consider for a moment \
+        that this may be the only way for you to get past @@color:cyan;Uticus@@ and gain entrance to \
+        @@color:cyan;Black Bertie's@@ manor. NPC_NAME ignores the look of aprehension on your face and simply \
+        continues speaking.\n\n\
+        s(The problem is, I don't have the materials required to craft it and I have no idea where I would \
+        get them, well other than the gourds which you should be able to find in shops here and there..).\n\n\
+        It seems that you'll have to go searching for this mysterious Bobola tree, or at least it's sap. \
+        Maybe talking to someone who specializes in chemicals, like an alchemist would help?\
+        ",
+    "MIDDLE": "\
+        \"Have you returned with the ingredients?\" asks NPC_NAME. \"It's fine to take your time if you need it.\"\
+        ",
+    "FINISH": "\
+        You approach NPC_NAME with the @@color:purple;bucket of refined Bobola sap@@ and a sack full of butter gourds. \
+        It wasn't easy to gather these materials and you're certain that somewhere deep inside you there are \
+        scars from your encounter with the animated Bobola tree, but nevertheless your moment of triumph has \
+        come. You hand the materials over to NPC_NAME and he motions for you to take a seat while he begins \
+        his work. In a matter of hours he returns, @@color:purple;an enormous rubbery anal plug@@ in his hands. \
+        He places it on the counter and beckons you to retrieve it. \n\n\
+        s(I'm not quite sure how this is supposed to work) he says, s(Well, other than the obvious application \
+        of the device.) You wince at that. At least NPC_NAME is too much of a gentleman to outright state that \
+        you'll be shoving this giant plug up your sissy arse.\n\n\
+        s(However,) he continues, s(Regular usage should enhance your... capabilities 'back there')\
+        ",
+    "JOURNAL_ENTRY" :
+        "\
+        NPC_NAME has said he can make you a magical anal plug that should, if worn regularly, enhance your \
+        anus so that it can accomodate truly massive cocks. All that is required is @@color:gold;2000 coins@@, \
+        5 butter gourds, and the refined sap of a Bobola tree. He suggested that you speak to an alchemist \
+        about how to procure the latter.\
+        ",
+"JOURNAL_COMPLETE" :
+    "\
+    NPC_NAME created a magical anal plug that show enhance all of your anal abilities if worn regularly. You think \
+    that with propper application you will be able to gape you sissyhole large enough to be able to accomodate \
+    the largest of cocks, even the monster that @@color:cyan;Uticus@@ possesses.\
+    "
+};
+
 App.Data.Quests["FINDING_YOUR_BALLS_2"] = {
     "ID": "FINDING_YOUR_BALLS_2", "Title": "Finding Your Balls - Part 2",
     "GIVER": "Jameson",
