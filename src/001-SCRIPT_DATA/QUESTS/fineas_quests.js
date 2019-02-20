@@ -19,7 +19,7 @@ App.Data.Quests["BOBOLA_SAP_1"] = {
             "TYPE": "MONEY", "NAME": "MONEY", "VALUE": 500
         },
         {
-            "TYPE" : "QUEST_ITEM", "NAME" : "bucket of bobola sap", 1
+            "TYPE" : "QUEST_ITEM", "NAME" : "bucket of bobola sap", "VALUE" : 1
         }
     ],
     "ON_ACCEPT" : [],
@@ -56,28 +56,50 @@ App.Data.Quests["BOBOLA_SAP_1"] = {
         s(Here, as promised - your refined sap. It's been a pleasure PLAYER_NAME, \
         but before you go, could I interest you in some rare bust enhancing creams)\n\
         You politely decline his offer.\
-        "
+        ",
+    "JOURNAL_ENTRY" : "\
+        NPC_NAME has offered to process any Bobola sap that you find for the price of <span style='color:gold'>500 coins</span>. \
+        He's suggested that you could find the sap on the island of @@color:gold;Abamond@@ and that you should inquire with the \
+        natives there on how to procure it.\
+    ",
+    "JOURNAL_COMPLETE" : "\
+        NPC_NAME proessed the raw sap that you found on @@color:gold;Abamond@@ into a refined goop that can be used by \
+        @@color:cyan;Jameson@@ to create the magical anal plug. You should return to him with the raw materials. \
+    "
 };
 
 App.Data.Quests["CHEMICAL_PICKUP"] = {
     "ID": "CHEMICAL_PICKUP", "Title": "Alchemical Supplies",
     "GIVER": "Fineas Quincy",
+    // Don't display in journal.
+    "JOURNAL_ENTRY": "HIDDEN",
+    "JOURNAL_COMPLETE": "HIDDEN",
     "PRE": [
         // Flags that are required to trigger quest.
-        { "TYPE" : "QUEST_FLAG", "NAME" : "FINDING_YOUR_BALLS_1", "VALUE" : "ACTIVE" }
+        { 
+            "TYPE" : "QUEST_FLAG", "NAME" : "FINDING_YOUR_BALLS_1", "VALUE" : "ACTIVE" 
+        }
     ],
     "POST": [
         // Flags that are set when quest is completed.
     ],
     "CHECKS": [
-        {"TYPE": "FLAG", "NAME": "FINDING_YOUR_BALLS_1", "VALUE": "ACTIVE" },
-        {"TYPE": "MONEY", "NAME": "MONEY", "VALUE": 1000}
+        {
+            "TYPE": "FLAG", "NAME": "FINDING_YOUR_BALLS_1", "VALUE": "ACTIVE"
+        },
+        {
+            "TYPE": "MONEY", "NAME": "MONEY", "VALUE": 1000
+        }
     ],
     "ON_ACCEPT" : [
     ],
     "REWARD": [
-        {"REWARD_TYPE": "ITEM", "TYPE": "QUEST", "NAME": "strange chemicals", "AMOUNT": 1},
-        {"REWARD_TYPE": "MONEY", "AMOUNT": -1000}
+        {
+            "REWARD_TYPE": "ITEM", "TYPE": "QUEST", "NAME": "strange chemicals", "AMOUNT": 1
+        },
+        {
+            "REWARD_TYPE": "MONEY", "AMOUNT": -1000
+        }
     ],
     "INTRO": "\
         NPC_NAME greets you as you enter his shop. s(Ho there traveller! What can I get for you today? Perhaps a rare tonic \
@@ -100,8 +122,5 @@ App.Data.Quests["CHEMICAL_PICKUP"] = {
         s(Here, as promised - a wide assortment of chemicals sure to delight any journeyman alchemist. It's been a pleasure, \
         but before you go, could I interest you in some rare bust enhancing creams?)\n\
         You politely decline his offer. It's time to return this stuff before it explodes. \
-     ",
-    // Don't display in journal.
-    "JOURNAL_ENTRY": "HIDDEN",
-    "JOURNAL_COMPLETE": "HIDDEN"
+     "
 };
