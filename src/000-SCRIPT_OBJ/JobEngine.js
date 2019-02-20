@@ -1214,7 +1214,7 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
     this._MatchResult = function(Tag, Result, Value)
     {
         var Output = "";
-        var Percent = Math.floor(((Result / Value) * 100)/2);
+        var Percent = Math.floor(((Result / Value) * 100));
         /**
          * @param {string} a
          * @returns {string}
@@ -1222,8 +1222,10 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
         var Colorize = function(a) { return  (typeof a !== 'undefined') ? App.PR.ColorizeString(Percent, a.slice(2,-2), 100) : ""; };
 
         for ( var i = 0; i < this._SceneData["RESULTS"].length; i++)
-            if ( Percent <= this._SceneData["RESULTS"][i][Tag] )
+            if ( Percent <= this._SceneData["RESULTS"][i][Tag] ) {
+                console.log("Percent "+Percent+ "<="+ this._SceneData["RESULTS"][i][Tag] );
                 return this._SceneData["RESULTS"][i]["TEXT"].replace(/(@@.*@@)/g, Colorize );
+            }
 
         return Output;
     };

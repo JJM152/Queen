@@ -70,18 +70,18 @@ App.Data.Names = {
 
 App.Data.Lists = {
             "SkillSynergy" : {
-                "HandJobs"      : [ { "TYPE" : "BODY", "NAME" : "Face" ,        "BONUS" : 0.50},
-                                    { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.25}],
-                "BlowJobs"      : [ { "TYPE" : "BODY", "NAME" : "Lips" ,        "BONUS" : 0.50},
-                                    { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.25}],
-                "TitFucking"    : [ { "TYPE" : "BODY", "NAME" : "Bust" ,        "BONUS" : 0.50},
-                                    { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.25}],
-                "AssFucking"    : [ { "TYPE" : "BODY", "NAME" : "Ass" ,         "BONUS" : 0.50},
-                                    { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.25}],
-                "Seduction"     : [ { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.50}],
-                "Dancing"       : [ { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.25},
-                                    { "TYPE" : "STAT", "NAME" : "Fitness" ,     "BONUS" : 0.25}],
-                "Swashbuckling" : [ { "TYPE" : "STAT", "NAME" : "Fitness" ,     "BONUS" : 0.50}]
+                "HandJobs"      : [ { "TYPE" : "BODY", "NAME" : "Face" ,        "BONUS" : 0.20},
+                                    { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.10}],
+                "BlowJobs"      : [ { "TYPE" : "BODY", "NAME" : "Lips" ,        "BONUS" : 0.20},
+                                    { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.10}],
+                "TitFucking"    : [ { "TYPE" : "BODY", "NAME" : "Bust" ,        "BONUS" : 0.20},
+                                    { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.10}],
+                "AssFucking"    : [ { "TYPE" : "BODY", "NAME" : "Ass" ,         "BONUS" : 0.20},
+                                    { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.10}],
+                "Seduction"     : [ { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.20}],
+                "Dancing"       : [ { "TYPE" : "STAT", "NAME" : "Femininity" ,  "BONUS" : 0.10},
+                                    { "TYPE" : "STAT", "NAME" : "Fitness" ,     "BONUS" : 0.10}],
+                "Swashbuckling" : [ { "TYPE" : "STAT", "NAME" : "Fitness" ,     "BONUS" : 0.20}]
             },
             "BodyConfig" : {
                 "Face": { "MIN" : 0, "MAX" : 100, "START" : 20, "CM_MIN" : 0, "CM_MAX": 0,

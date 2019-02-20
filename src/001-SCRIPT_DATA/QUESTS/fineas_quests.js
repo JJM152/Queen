@@ -49,12 +49,12 @@ App.Data.Quests["BOBOLA_SAP_1"] = {
         ",
     "FINISH":
         "\
-        NPC_NAME says, \"Ah I see you've managed to scrape together the coin and sap? Just wait here it shant be a moment!\"\n\
+        NPC_NAME says, s(Ah I see you've managed to scrape together the coin and sap? Just wait here it shant be a moment!)\n\n\
         He excuses himself and ducks into a backroom. You can hear the muffled soundds of boxes crashing and glassware \
         clinking, accompanied occasionally with the sound of cursing. It takes about 2 hours, but eventually he reappears \
-        holding a bucket of a strange smelling purple liquid.\n\
+        holding a bucket of a strange smelling purple liquid.\n\n\
         s(Here, as promised - your refined sap. It's been a pleasure PLAYER_NAME, \
-        but before you go, could I interest you in some rare bust enhancing creams)\n\
+        but before you go, could I interest you in some rare bust enhancing creams)\n\n\
         You politely decline his offer.\
         ",
     "JOURNAL_ENTRY" : "\
@@ -111,12 +111,12 @@ App.Data.Quests["CHEMICAL_PICKUP"] = {
         ",
     "FINISH":
         "\
-        NPC_NAME says, s(Ah I see you've managed to scrape together the coin? Just wait here it shant be a moment!)\n\
+        NPC_NAME says, s(Ah I see you've managed to scrape together the coin? Just wait here it shant be a moment!)\n\n\
         He excuses himself and ducks into a backroom. You can hear the muffled soundds of boxes crashing and glassware \
         clinking, accompanied occasionally with the sound of cursing. It takes about 10 minutes, but eventually he reappears \
-        holding a rather rickety looking crate practically spilling over with strange bottles.\n\
+        holding a rather rickety looking crate practically spilling over with strange bottles.\n\n\
         s(Here, as promised - a wide assortment of chemicals sure to delight any journeyman alchemist. It's been a pleasure, \
-        but before you go, could I interest you in some rare bust enhancing creams?)\n\
+        but before you go, could I interest you in some rare bust enhancing creams?)\n\n\
         You politely decline his offer. It's time to return this stuff before it explodes. \
      "
 };
