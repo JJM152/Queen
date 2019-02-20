@@ -5,12 +5,11 @@ App.Data.Quests["BOBOLA_SAP_1"] = {
     "ID": "BOBOLA_SAP_1", "Title": "Processing Bobola Sap",
     "GIVER": "Fineas Quincy",
     "PRE": [
-        // Flags that are required to trigger quest.
-        { "TYPE" : "QUEST_FLAG", "NAME" : "ROYAL_ENTRANCE_2", "VALUE" : "ACTIVE" }
+        { 
+            "TYPE" : "QUEST_FLAG", "NAME" : "ROYAL_ENTRANCE_2", "VALUE" : "ACTIVE" 
+        }
     ],
-    "POST": [
-        // Flags that are set when quest is completed.
-    ],
+    "POST": [],
     "CHECKS": [
         {
             "TYPE": "FLAG", "NAME": "ROYAL_ENTRANCE_2", "VALUE": "ACTIVE" 
@@ -28,7 +27,8 @@ App.Data.Quests["BOBOLA_SAP_1"] = {
             "REWARD_TYPE": "ITEM", "TYPE": "QUEST", "NAME": "bucket of refined bobola sap", "AMOUNT": 1
         },
         {
-            "REWARD_TYPE": "MONEY", "AMOUNT": -500}
+            "REWARD_TYPE": "MONEY", "AMOUNT": -500
+        }
     ],
     "INTRO": "\
         NPC_NAME greets you as you enter his shop. s(Ho there traveller! What can I get for you today? Perhaps a rare tonic \
@@ -75,14 +75,11 @@ App.Data.Quests["CHEMICAL_PICKUP"] = {
     "JOURNAL_ENTRY": "HIDDEN",
     "JOURNAL_COMPLETE": "HIDDEN",
     "PRE": [
-        // Flags that are required to trigger quest.
         { 
             "TYPE" : "QUEST_FLAG", "NAME" : "FINDING_YOUR_BALLS_1", "VALUE" : "ACTIVE" 
         }
     ],
-    "POST": [
-        // Flags that are set when quest is completed.
-    ],
+    "POST": [],
     "CHECKS": [
         {
             "TYPE": "FLAG", "NAME": "FINDING_YOUR_BALLS_1", "VALUE": "ACTIVE"
@@ -91,8 +88,7 @@ App.Data.Quests["CHEMICAL_PICKUP"] = {
             "TYPE": "MONEY", "NAME": "MONEY", "VALUE": 1000
         }
     ],
-    "ON_ACCEPT" : [
-    ],
+    "ON_ACCEPT" : [],
     "REWARD": [
         {
             "REWARD_TYPE": "ITEM", "TYPE": "QUEST", "NAME": "strange chemicals", "AMOUNT": 1

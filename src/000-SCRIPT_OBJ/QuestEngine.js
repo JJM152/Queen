@@ -173,7 +173,13 @@ App.QuestEngine = new function() {
         for (i = 0; i < c.length; i++) {
             if (c[i]["TYPE"] == 'QUEST_ITEM') {
                 var o = Player.GetItemByName(c[i]["NAME"]);
-                if (o !== 'undefined' ) Player.DeleteItem(o);
+                if (o !== 'undefined' )  {
+                    if (o._itemClass == 'QUEST') {
+                        Player.DeleteItem(o);
+                    } else {
+                        Player.UseItemCharges( c[i]["NAME"], c[i]["VALUE"]); // consumable quest items.
+                    }
+                }
             }
         }
     };

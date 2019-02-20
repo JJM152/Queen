@@ -3,7 +3,7 @@ App.Data.Quests = App.Data.Quests || { };
 
 App.Data.Quests["ROYAL_ENTRANCE_2"] = {
     "ID" : "ROYAL_ENTRANCE_2",
-    "Title" : "Spread those cheeks!",
+    "Title" : "Anal Assistance",
     "GIVER" : "Jameson",
     "PRE" : [
         {
@@ -13,7 +13,11 @@ App.Data.Quests["ROYAL_ENTRANCE_2"] = {
     "CHECKS" : [
         {
             "TYPE" : "QUEST_ITEM", "NAME" : "bucket of refined bobola sap", "VALUE" : 1,
-            "TYPE" : "FOOD", "NAME" : "butter gourd", "VALUE" : 5,
+        },
+        {
+            "TYPE" : "QUEST_ITEM", "NAME" : "butter gourd", "VALUE" : 5,
+        },
+        {
             "TYPE" : "MONEY", "VALUE" : 2000
         }
     ],
@@ -21,9 +25,6 @@ App.Data.Quests["ROYAL_ENTRANCE_2"] = {
     "REWARD" : [
         { 
             "REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "voodoo anal plug", "AMOUNT": 1
-        },
-        { 
-            "REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "butter gourd", "AMOUNT": -5
         },
         {
             "REWARD_TYPE": "MONEY", "AMOUNT": -2000

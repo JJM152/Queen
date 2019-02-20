@@ -552,9 +552,27 @@ App.PR = new function() {
                         pString = "Hair color - "+Name;
                         break;
                     case "QUEST_ITEM":
+                    // Clothing items cannot be consumed quest items at this time.
                         bMeter = false;
-                        pString = App.Data.QuestItems[Name]["ShortDesc"];
-                        Val = (typeof Player.GetItemByName(Name) !== 'undefined');
+                        if (App.Data.QuestItems.hasOwnProperty(Name)) {
+                            pString = App.Data.QuestItems[Name]["ShortDesc"];
+                        } else if (App.Data.Food.hasOwnProperty(Name)) {
+                            pString = App.Data.Food[Name]["ShortDesc"];
+                        } else if (App.Data.Drugs.hasOwnProperty(Name)) {
+                            pString = App.Data.Drugs[Name]["ShortDesc"];
+                        } else if (App.Data.Misc.hasOwnProperty(Name)) {
+                            pString = App.Data.Misc[Name]["ShortDesc"];
+                        } else {
+                            pString = App.Data.Cosmetics[Name]["ShortDesc"];
+                        }
+                        var cv = checks[i]["VALUE"];
+                        if (typeof cv !== 'undefined' && cv > 1) 
+                         {
+                             pString = pString +" x"+cv;
+                             Val = (typeof Player.GetItemByName(Name) && Player.GetItemByName(Name).Charges() >= cv);
+                         } else {
+                            Val = (typeof Player.GetItemByName(Name) !== 'undefined');
+                         }
                         break;
                     case "DAYS_PASSED":
                         bMeter = false;

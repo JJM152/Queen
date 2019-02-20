@@ -4,4 +4,7 @@ perpetual fog. The murky stream drifts slowly into the primordial wilds, passing
 and claw-like ferns. From every direction, the sounds of unseen fauna fill the gloom with their discordant song. The swamp \
 spawns a powerful sense of being watched by invisible, lurking entities somewhere in the wood.
 
-@@color:lime;Travel@@: [[Black Swamp|AB_BlackSwamp]] | [[Mysterious Landing|AB_MysteriousLanding]]
+@@color:lime;Travel@@: [[Black Swamp|AB_BlackSwamp]] | [[Mysterious Landing|AB_MysteriousLanding]] \
+<<if setup.player.QuestFlags["BOBOLA_SAP_2"] == 'COMPLETED' && 
+(typeof setup.player.GetItemByName('bucket of bobola sap') === 'undefined') && setup.player.QuestFlags["BOBOLA_SAP_1"] != 'COMPLETED'>>\
+| [[Bobola Clearing|AB_SwampClearing]]<</if>>\

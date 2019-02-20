@@ -1,0 +1,9 @@
+:: AB_SwampClearing
+Following the directions that @@color:cyan;Papa Baba@@ gave you, you eventually happen upon a small copse of trees towards \
+the southern end of the swamp. The air here feels... odd. There is an unnatural pressure surrounding you that makes even \
+breathing seem laborious. The normal sounds of the swamp are gone and the only thing you can hear is a deep 'thrumming' sound \
+that comes from one particular tree.
+
+<<NPC "Bobola Tree">>
+
+@@color:lime;Travel@@: [[Swamp River|AB_SwampRiver]] 
