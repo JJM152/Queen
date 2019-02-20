@@ -9,6 +9,7 @@
 * The game now has an Event engine that can spawn random events. 
 * Customer payouts in whoring mini game are now color coded from grey, yellow, green, pink and blue being the most valuable.
 * Fixed a bug in the loot boxes that was causing the more rare loot boxes to not give out their best loot.
+* Heaps of miscellenous fixes and improvements under the hood.
 !!!!Salty Mermaid
 * You now need to complete a minor quest to unlock the ability to 'favorite' items.
 * Added new quest chain 'Finding Your Balls'. It's hidden behind a random event.
@@ -18,6 +19,9 @@
 wear can affect how much you get paid. 'Sexy Dancer' is always a good choice, but if you pay attention to the \
 crowd you can determine what they're interested in.
 * You can give a private lapdance at Minxy's as well. You'll need to meet the requirements first however.
+* Added Uticus Barbarus as NPC. He guards the entrance to the Governors Mansion.
+* Added quest to Uticus to gain access to the Governors Mansion.
+* Added Black Bertie as NPC. She's a (former??) Pirate Queen and ruler of Golden Isle.
 !!!!Port Royale
 * You can now dance on stage at Jezebelle's.
 !!!0.8 - 10/06/2018
