@@ -1,32 +1,20 @@
 App = App || { Data: { }, Entity: { } };
 App.Data.Quests = App.Data.Quests || { };
 
-App.Data.Quests["FINDING_YOUR_BALLS_2"] = {
-    "ID": "FINDING_YOUR_BALLS_2", "Title": "Finding Your Balls - Part 2",
-    "GIVER": "Jameson",
-    "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "FINDING_YOUR_BALLS_1", "VALUE" : "COMPLETED" 
-        }
-    ],
+App.Data.Quests["ROYAL_ENTRANCE"] = {
+    "ID": "ROYAL_ENTRANCE", "Title": "A Royal Entrance",
+    "GIVER": "Uticus",
+    "PRE": [],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "rare ore", "VALUE": 1 
+            "TYPE": "QUEST_ITEM", "NAME": "voodoo anal plug", "VALUE": 1 
         },
         {
             "TYPE": "MONEY", "NAME": "MONEY", "VALUE": 2000
         }
     ],
-    "POST": [
-    ],
-    "REWARD": [
-        { 
-            "REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "magic cock ring", "AMOUNT": 1
-        },
-        {
-            "REWARD_TYPE": "MONEY", "AMOUNT": -2000
-        }
-    ],
+    "POST": [],
+    "REWARD": [ ],
     "INTRO":
         "\
         \"Welcome to the Locker miss\" says NPC_NAME. \"Is there anything I could help you with?\"\n\n\
@@ -65,8 +53,7 @@ App.Data.Quests["FINDING_YOUR_BALLS_2"] = {
     enough to grant you the protection.\"\n\n\
     He bows to you deeply and takes his leave to tend his shop. It occurs to you that clever use of this item \
     may allow you to encourage the development of your genitals in certain directions... if you so desired.\
-    " 
-,
+    ",
     "JOURNAL_ENTRY" :
         "\
         NPC_NAME has said he can make you a magical cock ring that can protect your genitals from the influence \
@@ -79,5 +66,4 @@ App.Data.Quests["FINDING_YOUR_BALLS_2"] = {
         disease and magic. You have no idea how complete this protection is, but you consider that with \
         clever use, you may finally have a way to reclaim a portion of your stolen manhood.\
         "
-
 };

@@ -209,3 +209,24 @@ App.Data.EffectLib["MAGIC_COCK_RING"] = {
     "VALUE" : 0,
         "KNOWLEDGE" : [ "Gential Protection++++" ]
 };
+
+App.Data.EffectLib["VOODOO_ANAL_PLUG"] = {
+    "FUN" : /** @param {App.Entity.Player} p
+     @param {App.Items.Consumable} o*/
+    function(o,p) {
+        p.AdjustBodyXP('Ass', 50, 70);
+        p.AdjustBodyXP('Hips', 50, 70);
+        p.AdjustStatXP('Perversion', 50, 70);
+        p.AdjustSkillXP('AssFucking', 50, 70);
+    },
+    "VALUE" : 0,
+        "KNOWLEDGE" : [ "Ass Growth++++", "Hips Growth++++", "Kinky+++", "Gape Training+++" ]
+};
+
+App.Data.EffectLib["VOODOO_ANAL_PLUG2"] = {
+    "FUN" : /** @param {App.Entity.Player} p
+     @param {App.Items.Consumable} o*/
+     function(o,s) { return ( s == "AssFucking") ? 20 : 0; },
+    "VALUE" : 0,
+        "KNOWLEDGE" : [ "Butt Slut++++" ]
+};

@@ -76,7 +76,19 @@ App.Data.Clothes["large plug"] = { // +9
     "Name": "large plug", "ShortDesc": "a thick {COLOR} anal plug",
     "LongDesc": "The perfect accessory for the horny masochist, or just good for keeping your arse ready to be used.",
     "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",
-    "WearEffect": [ "PERVERTED_CLOTHING", "GAPE_TRAINING" ], Category : [ "BDSM" ]
+    "WearEffect": [ "PERVERTED_CLOTHING", "GAPE_TRAINING" ], "Category" : [ "BDSM" ]
+};
+
+App.Data.Clothes["voodoo anal plug"] = { // +9
+    "Name": "voodoo anal plug", "ShortDesc": "an enormous rubbery anal plug",
+    "LongDesc": "\
+    This giant plug was hand crafted just for your sissy-hole. It has a special feature that causes it to \
+    gradually expand while worn. It also secrets a concentrated essence of various chemical and herbal \
+    extracts to promote a truly fuckable arse.\
+    ",
+    "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",
+    "Category" : [ "BDSM" ], "InMarket" : false,
+    "WearEffect": [ "VOODOO_ANAL_PLUG"] , "ActiveEffect" : [ "VOODOO_ANAL_PLUG2"]
 };
 
 // PENIS SLOT
@@ -84,7 +96,7 @@ App.Data.Clothes["chastity cage"] = { // +3
     "Name": "chastity cage", "ShortDesc": "a metal and leather chastity device",
     "LongDesc": "This cruel device constricts and crushes your genitals. Wearing it is not only painful but probably bad for your health.",
     "Slot": "Penis", "Restrict": ["Penis"], "Color": "black", "Style": "COMMON", "Type" : "ACCESSORY", "Locked": true,
-    "WearEffect": [ "CHASTITY_CAGE" ], Category : [ "BDSM" ]
+    "WearEffect": [ "CHASTITY_CAGE" ], "Category" : [ "BDSM" ]
 };
 
 App.Data.Clothes["magic cock ring"] = { // +3
@@ -93,7 +105,7 @@ App.Data.Clothes["magic cock ring"] = { // +3
     This shiny silver ring was made custom order from a rare magical ore. It supposedly has the ability to \
     protect your genitals from curses and other magical effects.",
     "Slot": "Penis", "Restrict": ["Penis"], "Color": "silver", "Style": "LEGENDARY", "Type" : "ACCESSORY", "Locked": false,
-    "WearEffect": [ "MAGIC_COCK_RING" ], Category : [ "BDSM" ], "InMarket" : false,
+    "WearEffect": [ "MAGIC_COCK_RING" ], "Category" : [ "BDSM" ], "InMarket" : false,
 };
 
 // WEAPON SLOT (huh?)
