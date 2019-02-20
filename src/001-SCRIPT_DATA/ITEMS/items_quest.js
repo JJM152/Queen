@@ -53,7 +53,7 @@ App.Data.QuestItems = {
             "Type": "QUEST"
         },
         "bucket of bobola sap": {
-            "Name": "bucket of bobola sape",
+            "Name": "bucket of bobola sap",
             "ShortDesc": "@@color:purple;bucket of bobola sap@@",
             "LongDesc": "\
             This bucket is overflowing with the viscous purple sap of the bobola tree. It gives off a pungent smell that \

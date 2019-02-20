@@ -22,6 +22,9 @@ App.Data.Quests["ROYAL_ENTRANCE_2"] = {
         { 
             "REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "voodoo anal plug", "AMOUNT": 1
         },
+        { 
+            "REWARD_TYPE": "ITEM", "TYPE": "FOOD", "NAME": "butter gourd", "AMOUNT": -5
+        },
         {
             "REWARD_TYPE": "MONEY", "AMOUNT": -2000
         }      
