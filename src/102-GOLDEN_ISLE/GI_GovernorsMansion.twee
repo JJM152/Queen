@@ -13,4 +13,44 @@ flights of stairs, reminding callers of their place.
 
 <<NPC 'Uticus'>>
 
-@@color:lime;Travel@@: [[High Hill District|HighHill]] | [[Enter the Mansion|GI_GovernorsMansionInside]]
+@@color:lime;Travel@@: [[High Hill District|HighHill]] | <<click "Enter the Mansion">>\
+<<set _Quest = window.App.QuestEngine; >>\
+<<set _Npc = setup.player.GetNPC('Uticus');>>\
+<<if _Quest.GetQuestFlag(setup.player, "ROYAL_ENTRANCE") != "COMPLETED">>\
+<<replace "#TravelLink">>\
+
+As you approach the entrance to the @@color:gold;Governor's Mansion@@ a huge giant of a man stop you.
+
+@@color:cyan;Uticus@@ says, <span class="npcText">"Oi yee can't be entering there without my say so!"</span>
+
+You take one look at his giant frame and equally impressive cutlass and decide that proceeding would be a \
+very unwise idea.\
+<</replace>>\
+<<elseif _Npc.Mood() < 70 && setup.player.JobFlags["UTICUS_ANAL_LastCompleted"] < setup.player.Day>>\
+<<replace "#TravelLink">>\
+
+As you approach the entrance to the @@color:gold;Governor's Mansion@@, @@color:cyan;Uticus@@ stops you.
+
+<span class="npcText">"Hey @@color:deepPink;<<= setup.player.SlaveName >>@@, if you want to be entering \
+don't you think you have to take care of sumthin first?"</span>
+
+He makes a motion to his trousers and his barely contained monsterous cock.
+<</replace>>\
+<<elseif _Npc.Mood() < 70>>\
+<<replace "#TravelLink">>\
+
+As you approach the entrance to the @@color:gold;Governor's Mansion@@, @@color:cyan;Uticus@@ stops you.
+
+<span class="npcText">"Hey @@color:deepPink;<<= setup.player.SlaveName >>@@, why don't you come back \
+later and we'll have another round o' it? Maybe then I'll be satisified enough with your whore ass to \
+let ya see the Boss."</span>
+
+It seems that @@color:cyan;Uticus@@ won't be satisified with just a fuck or two, you'll have to keep letting \
+him molest you with his monsterous black cock until he says he's had enough.
+<</replace>>\
+<<else>>\
+<<goto "GI_GovernorsMansionInside">>\
+<</if>>\
+<</click>>\
+
+<span id="TravelLink"></span>\
