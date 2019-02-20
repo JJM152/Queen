@@ -52,4 +52,24 @@ App.Data.QuestItems = {
             ",
             "Type": "QUEST"
         },
+        "bucket of bobola sap": {
+            "Name": "bucket of bobola sape",
+            "ShortDesc": "@@color:purple;bucket of bobola sap@@",
+            "LongDesc": "\
+            This bucket is overflowing with the viscous purple sap of the bobola tree. It gives off a pungent smell that \
+            reminds you of semen. In this state it's mostly useless, but a skilled alchemist could transform it into \
+            someting else. \
+            ",
+            "Type": "QUEST"
+        },
+        "bucket of refined bobola sap": {
+            "Name": "bucket of refined bobola sap",
+            "ShortDesc": "@@color:purple;bucket of refined bobola sape@@",
+            "LongDesc": "\
+            This bucket is overflowing with the viscous purple sap of the bobola tree. It gives off a pungent smell that \
+            reminds you of semen. It has been chemically refined and treated so that it can be processed into goods by \
+            a skilled craftsman. \
+            ",
+            "Type": "QUEST"
+        },
 };
