@@ -7,63 +7,102 @@ App.Data.Quests["ROYAL_ENTRANCE"] = {
     "PRE": [],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "voodoo anal plug", "VALUE": 1 
+            "TYPE": "IS_WEARING", "NAME" : "voodoo anal plug", "VALUE": "voodoo anal plug" 
         },
         {
-            "TYPE": "MONEY", "NAME": "MONEY", "VALUE": 2000
+            "TYPE": "STAT_SKILL", "NAME": "AssFucking", "VALUE": 65
         }
     ],
     "POST": [],
     "REWARD": [ ],
     "INTRO":
         "\
-        \"Welcome to the Locker miss\" says NPC_NAME. \"Is there anything I could help you with?\"\n\n\
-        It's an awkward conversation, but you managed to ask NPC_NAME if he has anything that could help with \
-        your rapidly diminishing manhood. At this point, it's pretty clear that he realizes you are a sissy, but \
-        he doesn't make any sort of issue of it. You get enough abuse aboard the Mermaid, so you're thankful for \
-        these small things.\n\n\
-        NPC_NAME ponders for a moment and then reaches under the counter to produce a large dusty tome. He gently \
-        opens and flips to a specific page.\n\n\
-        \"This might do the trick\" he mutters in a low voice. You glance at the page and it seems to be a diagram \
-        for some sort of cock torture device? How could this possibly help you??\n\n\
-        NPC_NAME notices your discontent and continues to speak, \"Now, don't be alarmed. This device, when affixed to... \
-        ahem... your 'apendage' will prevent it from being affected by all sorts of diseases and magical curses. I'm \
-        not one hundred percent certain that this will reverse any damage already done, but it should at least protect \
-        you going forward.\"\n\n\
-        He stops and ponders for a moment.\n\n\
-        \"The only issue is, I don't have one in stock and I don't have the materials available to reproduce it from \
-        this diagram. Tell you what PLAYER_NAME, if you can find me some @@color:purple;rare ore@@ and bring me \
-        the sum of @@color:gold;2000 coins@@ then I'll be able to help you. Sound like a deal?\"\n\n\
-        It's a lot of money and you have no idea where youll find this 'rare ore' at, but do you really \
-        have a choice in the matter?\
+        NPC_NAME says s(So yee wanna see ol'Bertie isszat? Well get lost, she aint be seein no one today!)\n\n\
+        For a moment you hesitate, the black giant is a fearsome man with a suffocating presence and even this \
+        mild rebuke chills you. However, just as you are about to give up and turn away, a giant hand reaches \
+        out and grabes your shoulder.\n\n\
+        s(Wait a mo'), NPC_NAME says. s(Youse a sissy, aint cha?)\n\n\
+        You shiver in terror for a brief second. What does this monster want from you? You sheepishly nod your \
+        head in affirmation and shake silently.\n\n\
+        s(Ah has! I knew eet! Always could tell... ho, hmm...) he seems to think for a moment, some sort of \
+        devlish idea working it's way through his mind. Eventually he leans down to your eye level and grins. \n\n\
+        s(Tell ya what, it's been a while since I fucked a nice sissy ass, so why don't you follow me slut and \
+        maybe we can work out a deal?)\n\n\
+        NPC_NAME doesn't even give you a chance to respond before one of his giant meathooks is pulling you along \
+        with him to the side of the building. He leads you to a semi-secluded area shaded by a few willow trees \
+        and hidden from view by a large hedge. Once there he pushes you forcefully to your knees with one hand \
+        and fishes his pPENIS_100 cock from his trousers. Even flaccid it's larger than any you've ever seen \
+        before. At this point it's obvious what he wants and you think it'd be foolish to not comply, so you \
+        begin to try and work the massive tool into your mouth, slobbering and drooling all over it until saliva \
+        runs down your pEQUIP(Costume|Dress|Shirt|Bra|$bare chest).\n\n\
+        NPC_NAME's breathing picks up and he starts to grunt under your administrations. Eventually he grabs you \
+        by your hair, forcing you to your feet, and then thrusts you against the side of the building face first. \
+        You just barely manage to catch yourself with your hands before you feel him moving your \
+        pEQUIP(Costume|Dress|Pants|Panty|$naked ass) to the side. Immediately afterwards you feel the biggest \
+        cockhead you've ever felt pushing against your sissy-hole. It's too big. It's way too big. You start \
+        to scramble to get away, but NPC_NAME pushes on, his giant meat mallet ripping your asshole open and \
+        causing you to wildly scream. He tries to silence you with one of his giant hands as he continues to \
+        rape you, but your bellowing is so loud and persistant that he eventually gives up with a curse and \
+        slaps you to the ground.\n\n\
+        s(You worthless slut!) he exclaims. s(If you want to see the Boss that bad, then you better be able \
+        to take my little son up yer sissy arse!)\n\n\
+        With that pronouncement, he stomps away angerly, leaving you prone on the ground, your arse exposed to \
+        the air. If you understand him correctly, you'll need to let him ravage your pASS arse with that giant \
+        dick of his, but how are you going to manage to get that monster up there? There has to be some way, \
+        to train your arsehole to accomodate him, right?\
         ",
     "MIDDLE":
         "\
-        \"Have you returned with the rare ore?\" asks NPC_NAME. \"It's fine to take your time if you need it.\"\
+        s(Oi, ya back PLAYER_NAME?) says NPC_NAME. s(You ready to fuck this big black snake o' mine?)\n\n\
+        He grins luridly at you. You still haven't found a way to train your poor abused arse to take \
+        such a giant cock, so you stutter your apologies and go on your way. \
         ",
     "FINISH":
-    "\
-    You approach NPC_NAME with the rare ore that you retrieved from the depths of the caves of \
-    @@color:gold;Abamond@@. Placing it gently down on the counter with a hefty purse of gold, you allow yourself \
-    a small smile as you imagine your slightly brighter future. NPC_NAME retrieves both items and motions for \
-    you to take a seat on a nearby divan while he begins his work.\n\n\
-    Eventually he returns and hands over the item to you, a large ring made of shiny silver metal emblazoned with \
-    strange runes and pictograms. You study it intently while he speaks.\n\n\
-    \"It should adjust to your 'size', but once affixed will not change until removed again. Just wearing it is \
-    enough to grant you the protection.\"\n\n\
-    He bows to you deeply and takes his leave to tend his shop. It occurs to you that clever use of this item \
-    may allow you to encourage the development of your genitals in certain directions... if you so desired.\
+        "\
+        You approach NPC_NAME, the @@color:purple;enormous rubbery anal plug@@ nestled firmly up your backside. \
+        It's special properties having enlarged your sissyhole enough that you now feel confident in the face \
+        of the black giants enormous member.\n\n\
+        NPC_NAME leans down to your eye level and grins. \n\n\
+        s(Oi slut, yer back izzat? Ready to getcha sissyhole pounded but good?)\n\n\
+        NPC_NAME doesn't even give you a chance to respond before one of his giant meathooks is pulling you along \
+        with him to the side of the building. He leads you to a semi-secluded area shaded by a few willow trees \
+        and hidden from view by a large hedge. Once there he pushes you forcefully to your knees with one hand \
+        and fishes his pPENIS_100 cock from his trousers. Even flaccid it's larger than any you've ever seen \
+        before. At this point it's obvious what he wants and you think it'd be foolish to not comply, so you \
+        begin to try and work the massive tool into your mouth, slobbering and drooling all over it until saliva \
+        runs down your pEQUIP(Costume|Dress|Shirt|Bra|$bare chest).\n\n\
+        NPC_NAME's breathing picks up and he starts to grunt under your administrations. Eventually he grabs you \
+        by your hair, forcing you to your feet, and then thrusts you against the side of the building face first. \
+        You just barely manage to catch yourself with your hands before you feel him moving your \
+        pEQUIP(Costume|Dress|Pants|Panty|$naked ass) to the side and removing your anal plug. \
+        Immediately afterwards you feel the biggest cockhead you've ever felt pushing against your sissy-hole.\n\n\
+        It's struggle at first, but thanks to the special properties of your @@color:purple;enormous rubbery anal plug@@ \
+        your asshole has gaped large enough to accomodate NPC_NAME's giant dong. You shudder as he slowly works \
+        his saliva covered tool, inch by inch, up your tender asshole, eventually bottoming out somewhere so \
+        deep inside your bowels that you swear you can taste his cockhead. He starts to work his dick in and out \
+        of your bottom, slowly at first, but then faster as he builds up steam. Your body shakes and starts to tingle \
+        as he approaches the height of frenzy. Perhaps it's the extreme penetration or your hours of training just \
+        for this activity, but you spurt your sissy-cum all over the wall in a massive orgasm. Strength leaves your \
+        limbs but NPC_NAME keeps fucking you hard for minutes more. Eventually he comes as well, your limp body no \
+        more than a fucktoy, a hole attached to a sack of meat used for masturbation. It takes some effort for \
+        him to remove his cock from you and when he finally does you are overcome with a feeling of emptyness \
+        that is difficult to describe.\n\n\
+        s(Good job slut) he says, s(Come visit me a few more times and I'll let you see the Boss... eventually.)\n\n\
+        NPC_NAME walks away leaving your cum splattered arse exposed to the air. You try to take in his last words...\
+        evidently he wants to fuck your arse some more and only then, when he's satisified, will he let you see Bertie.\n\n\
+        It's not quite the deal you imagined, but it's not like you have any choice but to go along with his game, is there? \
     ",
     "JOURNAL_ENTRY" :
         "\
-        NPC_NAME has said he can make you a magical cock ring that can protect your genitals from the influence \
-        of disease and magic. All that is required is to return to him some special 'rare ore' and 2000 gold \
-        coins. You'll have to explore to find the ore, but the coins should be easy enough to gather.\
+        NPC_NAME can let you see Black Bertie, but he's demanding that you let him fuck your arsehole. \
+        It wouldn't be the first time some creep has asked for this, but the problem is that his dick is \
+        so massive, it just wont fit. You need to find some way, perhaps training or some kind of aid \
+        that will allow you to fit that beast up your backside.\
         ",
     "JOURNAL_COMPLETE" :
         "\
-        NPC_NAME created a magical cock ring for you that can protect your genitals from the influence of \
-        disease and magic. You have no idea how complete this protection is, but you consider that with \
-        clever use, you may finally have a way to reclaim a portion of your stolen manhood.\
+        With the help of the @@color:purple;enormous rubbery anal plug@@ that you had made you were able \
+        to get NPC_NAME's massive dick up your ass. However, he's demanded more. You'll need to let him \
+        rape your sissyhole until he's satisified and only then wil he allow you to see his Boss.\
         "
 };

@@ -63,7 +63,7 @@ App.QuestEngine = new function() {
     {
         var NPC;
 
-        if (Key.charAt(0) == '-')
+        if (typeof Key !== 'undefined' && Key.charAt(0) == '-')
             Key = Key.slice(1);
 
         switch (Type) {
@@ -118,6 +118,7 @@ App.QuestEngine = new function() {
             case "IS_WEARING":
                 if(Value == "NOT" && Player.GetEquipmentInSlot(Key) != 0) return false;
                 if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Key) == 0) return false;
+                return Player.IsEquipped(Value);
                 break;
             case "TRACK_CUSTOMERS":
                 var flag = this.GetQuestFlag(Player, "track_"+Key);
@@ -386,7 +387,7 @@ App.QuestEngine = new function() {
             Name = checks[i]["NAME"];
             Reverse = 0;
 
-            if (Name.charAt(0) == '-') {
+            if (typeof Name !== 'undefined' && Name.charAt(0) == '-') {
                 Name = Name.slice(1);
                 Reverse = 1;
             }
