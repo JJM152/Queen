@@ -12,37 +12,50 @@ App.Rogue.Player = function() {
     this._lightDuration = 0;
 
     this._keys = {};
-    this._keys[ROT.VK_K] = 0;
-    this._keys[ROT.VK_UP] = 0;
-    this._keys[ROT.VK_NUMPAD8] = 0;
-    this._keys[ROT.VK_U] = 1;
-    this._keys[ROT.VK_NUMPAD9] = 1;
-    this._keys[ROT.VK_L] = 2;
-    this._keys[ROT.VK_RIGHT] = 2;
-    this._keys[ROT.VK_NUMPAD6] = 2;
-    this._keys[ROT.VK_N] = 3;
-    this._keys[ROT.VK_NUMPAD3] = 3;
-    this._keys[ROT.VK_J] = 4;
-    this._keys[ROT.VK_DOWN] = 4;
-    this._keys[ROT.VK_NUMPAD2] = 4;
-    this._keys[ROT.VK_B] = 5;
-    this._keys[ROT.VK_NUMPAD1] = 5;
-    this._keys[ROT.VK_H] = 6;
-    this._keys[ROT.VK_LEFT] = 6;
-    this._keys[ROT.VK_NUMPAD4] = 6;
-    this._keys[ROT.VK_Y] = 7;
-    this._keys[ROT.VK_NUMPAD7] = 7;
+    this._akeys = {};
+    //Directions
 
+    //North
+    this._keys[ROT.VK_NUMPAD8] = 0;
+    this._keys[ROT.VK_UP] = 0; // Arrow Key
+    this._akeys[ROT.VK_W] = 0;
+    //North East
+    this._keys[ROT.VK_NUMPAD9] = 1;
+    this._akeys[ROT.VK_E] = 1;
+    // East
+    this._keys[ROT.VK_NUMPAD6] = 2;
+    this._keys[ROT.VK_RIGHT] = 2; // Arrow Key
+    this._akeys[ROT.VK_D] = 2;
+    // South East
+    this._keys[ROT.VK_NUMPAD3] = 3;
+    this._akeys[ROT.VK_X] = 3;
+    // South
+    this._keys[ROT.VK_NUMPAD2] = 4;
+    this._keys[ROT.VK_DOWN] = 4; // Arrow Key
+    this._akeys[ROT.VK_S] = 4;
+    // South West
+    this._keys[ROT.VK_NUMPAD1] = 5;
+    this._akeys[ROT.VK_Z] = 5;
+    // West
+    this._keys[ROT.VK_NUMPAD4] = 6;
+    this._keys[ROT.VK_LEFT] = 6; // Arrow Key
+    this._akeys[ROT.VK_A] = 6;
+    // North West
+    this._keys[ROT.VK_NUMPAD7] = 7;
+    this._akeys[ROT.VK_Q] = 7;
+
+    // Reserved
     this._keys[ROT.VK_PERIOD] = -1;
     this._keys[ROT.VK_CLEAR] = -1;
 
-    // Ascend / Descend
+    // Ascend / Descend / Dig
     this._keys[ROT.VK_NUMPAD5] = -1;
+    this._akeys[ROT.VK_R] = -1;
+
+    // Use Torch
     this._keys[ROT.VK_DIVIDE] = -1;
-    // Use torch
     this._keys[ROT.VK_SLASH] = -1;
-    // Dig here.
-    this._keys[ROT.VK_ASTERISK] = -1;
+    this._akeys[ROT.VK_T] = -1;
 
     this.act = function() {
         console.log("Player:act() called");
@@ -58,23 +71,23 @@ App.Rogue.Player = function() {
         var entity = this._level._freeCells[this.getXY()];
         if (typeof entity === 'undefined') return;
 
-        console.log("EntityType:" + entity.GetType());
+        var keyCmd = SugarCube.settings.alternateControlForRogue == true ? "'r'" : 'NUMPAD5';
 
         switch(entity.GetType()) {
             case null:
                 break;
             case 'stairs_up':
                 if (this._level._depth > 1) {
-                    App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to ascend a level.");
+                    App.Rogue.Engine._textBuffer.write("Press "+keyCmd+" to ascend a level.");
                 } else {
-                    App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to exit.");
+                    App.Rogue.Engine._textBuffer.write("Press "+keyCmd+" to exit.");
                 }
                 break;
             case 'stairs_down':
-                App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to descend a level.");
+                App.Rogue.Engine._textBuffer.write("Press "+keyCmd+" to descend a level.");
                 break;
             case 'dig_spot':
-                App.Rogue.Engine._textBuffer.write("Press NUMPAD5 to dig here");
+                App.Rogue.Engine._textBuffer.write("Press "+keyCmd+" to dig here");
                 break;
         }
     };
@@ -85,7 +98,6 @@ App.Rogue.Player = function() {
     };
 
     this.handleEvent = function(e) {
-        var code = e.keyCode;
 
         var keyHandled = this._handleKey(e.keyCode);
 
@@ -99,11 +111,13 @@ App.Rogue.Player = function() {
 
         console.log("code="+code);
 
-        if (code in this._keys) {
+        var keys = SugarCube.settings.alternateControlForRogue == true ? this._akeys : this._keys;
+
+        if (code in keys) {
             App.Rogue.Engine._textBuffer.clear();
 
             // Traverse staircase
-            if (code == ROT.VK_NUMPAD5) {
+            if ((code == ROT.VK_NUMPAD5) || (code == ROT.VK_R)) {
 
                 // Handle Up / Down
                 if (this.getXY().toString() == this._level.getEntrance().toString()) {
@@ -154,7 +168,7 @@ App.Rogue.Player = function() {
             }
 
             // Use a light
-            if (code == ROT.VK_SLASH || code == ROT.VK_DIVIDE) {
+            if (code == ROT.VK_SLASH || code == ROT.VK_DIVIDE || code == ROT.VK_T) {
                 if (this.getTorches() > 0 ) {
                     var torch = setup.player.GetItemByName("torch");
                     setup.player.UseItem(torch.Id); // draw down a charge
@@ -169,7 +183,7 @@ App.Rogue.Player = function() {
                 }
             }
 
-            var direction = this._keys[code];
+            var direction = keys[code];
             if (direction == -1) { /* noop */
                 /* FIXME show something? */
                 return true;
@@ -186,7 +200,11 @@ App.Rogue.Player = function() {
             if (this._lightDuration == 1) App.Rogue.Engine._textBuffer.write("Your torch goes out!");
             if (this._lightDuration > 0) this._lightDuration--;
             if (this._lightDuration < 1) {
-                App.Rogue.Engine._textBuffer.write("It is dark. Press '/' to light a torch.");
+                if (SugarCube.settings.alternateControlForRogue == true) {
+                    App.Rogue.Engine._textBuffer.write("It is dark. Press 't' to light a torch.");
+                } else {
+                    App.Rogue.Engine._textBuffer.write("It is dark. Press '/' to light a torch.");
+                }
                 this._lightLevel = 1;
             }
 

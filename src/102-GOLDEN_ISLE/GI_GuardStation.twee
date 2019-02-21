@@ -12,9 +12,11 @@ pressed into service on a passing vessel.
 <<if App.QuestEngine.GetQuestFlag(setup.player, "JUSTUS_WHORING") != "COMPLETED">>\
 <<click "High Hill District">>\
 <<replace "#Notification">>\
-You move forward toward's the entrance to the @@color:gold;Hill Hill District@@, but the Guard Captain steps forward and blocks your way.
+You move forward toward's the entrance to the @@color:gold;Hill Hill District@@, but the Guard Captain steps \
+forward and blocks your way.
 
-@@color:cyan;Justus@@ says, "There's no way I'll let a vagrant such as yourself pass through these gates. Be gone slut, ply your trade somewhere else!"
+@@color:cyan;Justus@@ says, <span class="npcText">"There's no way I'll let a vagrant such as yourself pass \
+through these gates. Be gone slut, ply your trade somewhere else!"</span>
 
 //Surely there can be some way to convince him to let you pass?//
 <</replace>>\

@@ -67,7 +67,7 @@
 	</tr>
 	<tr>
 		<td style="width:670px;">
-			You placed <<= _Item.Description();>> <<if _Item.ToggleFavorite()>>in a special box<<else>>back to the comon locker space<</if>>.</td>
+			You placed <<= _Item.Description;>> <<if _Item.ToggleFavorite()>>in a special box<<else>>back to the comon locker space<</if>>.</td>
 	</tr>
 </tbody>
 </table><<replace "#PlayerScore">><<score>><</replace>><</widget>>

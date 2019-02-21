@@ -569,7 +569,7 @@ App.PR = new function() {
                         if (typeof cv !== 'undefined' && cv > 1) 
                          {
                              pString = pString +" x"+cv;
-                             Val = (typeof Player.GetItemByName(Name) && Player.GetItemByName(Name).Charges() >= cv);
+                             Val = (typeof Player.GetItemByName(Name) !== 'undefined' && Player.GetItemByName(Name).Charges() >= cv);
                          } else {
                             Val = (typeof Player.GetItemByName(Name) !== 'undefined');
                          }
@@ -937,8 +937,9 @@ App.PR = new function() {
             if (rBustHips <= 1.1 && rBustHips >= 0.9) {
                 if (pBust >= 95 && pWaist <= 75) return "an @@color:DeepPink;extreme hourglass@@ "+statsStr;
                 if (pBust >= 95) return "an @@color:magenta;hourglass@@ " +statsStr;
-                if (pBust >= 90) return "a @@color:cyan;curvy@@ "+statsStr;
-                if (pBust >= 85) return "a @@color:lime;slightly curvy@@ "+statsStr;
+                if (pBust >= 90) return "a @@color:cyan;very curvy@@ "+statsStr;
+                if (pBust >= 85) return "a @@color:lime;curvy@@ "+statsStr;
+                if (pBust >= 82) return "a @@color:yellow;slightly curvy@@ "+statsStr;
                 if (pWaist <= 55) return "a @@color:lime;petite@@ "+statsStr;
                 if (pWaist <= 70) return "a @@color:lime;slender@@ "+statsStr;
                 if (pWaist < 80) return "a @@color:lime;thin@@ "+statsStr;

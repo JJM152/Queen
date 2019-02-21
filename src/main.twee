@@ -53,6 +53,12 @@ Setting.addToggle("inlineItemDetails", {
     default  : false
 });
 
+Setting.addToggle("alternateControlForRogue", {
+    label : "Alternate Control Scheme for Rogue-like elements",
+    desc : "Use this if your device does not have a numpad. You may have to exit/enter Rogue-like again for it to take effect.",
+    default: false
+});
+
 App.EventHandlers.Init();
 
 Config.saves.onLoad = App.EventHandlers.onLoad;

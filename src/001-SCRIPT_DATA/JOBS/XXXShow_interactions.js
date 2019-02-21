@@ -16,9 +16,7 @@ App.Data.JobData["XXX_SHOW01"] = {
         { "TYPE" : "MONEY", "VALUE" : 200 }
     ],
     "REQUIREMENTS" : [],
-    "INTRO" :
-    // This is run from a room, so no NPC teaser text.
-        "",
+    "INTRO" : "The Tale of Iphis",
     "START" :
         "",
     "SCENES" : [
@@ -70,9 +68,7 @@ App.Data.JobData["XXX_SHOW02"] = {
         { "TYPE" : "MONEY", "VALUE" : 200 }
     ],
     "REQUIREMENTS" : [],
-    "INTRO" :
-    // This is run from a room, so no NPC teaser text.
-        "",
+    "INTRO" : "The Vain Suitor",
     "START" :
         "",
     "SCENES" : [
@@ -132,9 +128,7 @@ App.Data.JobData["XXX_SHOW03"] = {
         { "TYPE" : "MONEY", "VALUE" : 200 }
     ],
     "REQUIREMENTS" : [],
-    "INTRO" :
-    // This is run from a room, so no NPC teaser text.
-        "",
+    "INTRO" : "Venus and Adonis",
     "START" :
         "",
     "SCENES" : [

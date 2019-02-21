@@ -65,10 +65,19 @@ App.Rogue.Sidebar = function() {
         var size = o.size;
 
         d.drawText(pos.x, pos.y+6, "COMMANDS", size.x);
-        d.drawText(pos.x, pos.y+7, "Move = NUMPAD", size.x);
-        d.drawText(pos.x, pos.y+8, "Torch = /", size.x);
-        d.drawText(pos.x, pos.y+9, "Dig = NUMPAD5", size.x);
-        d.drawText(pos.x, pos.y+10, "Up/Down = NUMPAD5", size.x);
+
+        if (SugarCube.settings.alternateControlForRogue == true ) {
+            d.drawText(pos.x, pos.y+7, "Move: WASD", size.x);
+            d.drawText(pos.x, pos.y+8, "(diagonal): QEZX", size.x);
+            d.drawText(pos.x, pos.y+9, "Torch = T", size.x);
+            d.drawText(pos.x, pos.y+10, "Dig = R", size.x);
+            d.drawText(pos.x, pos.y+11, "Up/Down = R", size.x);
+        } else {
+            d.drawText(pos.x, pos.y+7, "Move = NUMPAD", size.x);
+            d.drawText(pos.x, pos.y+8, "Torch = /", size.x);
+            d.drawText(pos.x, pos.y+9, "Dig = NUMPAD5", size.x);
+            d.drawText(pos.x, pos.y+10, "Up/Down = NUMPAD5", size.x);
+        }
     };
 
     this.flush = function() {

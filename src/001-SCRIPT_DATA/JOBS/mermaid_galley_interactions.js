@@ -120,7 +120,7 @@ App.Data.JobData["STRP01"] = {
 App.Data.JobData["STRP02"] = {
     "ID": "STRP02", "TITLE": "Perform Strip Show", "GIVER": "GALLEY", "PAY" : 30,
     "RATING" : 2, // of 5
-    "PHASES" : [ 2 ],
+    "PHASES" : [ 2, 3],
     "DAYS"   : 1,
     "HIDDEN" : true,
     "COST" : [

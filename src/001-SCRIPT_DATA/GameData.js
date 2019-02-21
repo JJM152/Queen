@@ -1103,15 +1103,15 @@ App.Data.Ratings = {
             },
             "Beauty": {
                  0: "masculine and ugly",
-                10: "masculine and ugly",
-                20: "mannish and unappealing",
-                30: "a perpetual wallflower",
-                40: "plain and unattractive",
-                50: "marginally attractive",
-                60: "cute and appealing",
-                70: "pretty and interesting",
-                80: "sexy and attractive",
-                90: "classically beautiful",
+                10: "mannish and unappealing",
+                20: "a perpetual wallflower",
+                30: "slightly cute",
+                40: "fairly attractive",
+                50: "very cute and appealing",
+                60: "pretty and sexy",
+                70: "very sexy",
+                80: "beautiful",
+                90: "very beautiful",
                 99: "exotic and alluring",
                 100: "utterly bewitching"
             },
@@ -1501,7 +1501,7 @@ App.Data.Encounters = {
 App.Data.Fashion = {
     "STYLES" : [ 
         "Ordinary", "Pirate Slut", "Bimbo", "Sissy Lolita", "Gothic Lolita", "BDSM", "Daddy's Girl", 
-        "Naught Nun", "Pet Girl", "High Class Whore", "Slutty Lady", "Sexy Dancer"
+        "Naughty Nun", "Pet Girl", "High Class Whore", "Slutty Lady", "Sexy Dancer"
      ]
 };
 

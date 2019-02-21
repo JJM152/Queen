@@ -122,92 +122,133 @@ App.Data.Quests["CABIN_RUG"] = {
 };
 
 App.Data.Quests["BETTER_LOCKER"] = {
-    "ID": "BETTER_LOCKER", "Title": "Clean up the locker",
+    "ID": "BETTER_LOCKER", 
+    "Title": "Clean up the locker",
     "GIVER": "Quartermaster",
     "PRE": [
-        { "TYPE" : "QUEST_FLAG", "NAME" : "BETTER_LOCKER_REQUIRED", "VALUE" : true }
+        { 
+            "TYPE" : "QUEST_FLAG", "NAME" : "BETTER_LOCKER_REQUIRED", "VALUE" : true 
+        }
     ],
     "ON_ACCEPT" : [
-        { "TYPE" : "TRACK_PROGRESS", "NAME" : "JuliusHandwork" }
+        { 
+            "TYPE" : "TRACK_PROGRESS", "NAME" : "JuliusHandwork" 
+        }
     ],
     "CHECKS": [
-        { "TYPE": "TRACK_PROGRESS",  "NAME": "JuliusHandwork", "VALUE" : 1.0}
+        { 
+            "TYPE": "TRACK_PROGRESS",  "NAME": "JuliusHandwork", "VALUE" : 1.0
+        }
     ],
     "POST": [
-        { "TYPE" : "QUEST_FLAG", "NAME" : "BETTER_LOCKER_REQUIRED", "OPT" : "DELETE" },
+        { 
+            "TYPE" : "QUEST_FLAG", "NAME" : "BETTER_LOCKER_REQUIRED", "OPT" : "DELETE" 
+        },
     ],
-    "REWARD": [
-    ],
-    "INTRO":
-        "Given that he is the ship's Quartermaster, NPC_NAME is likely the person to help you with your storage problem.\n\
+    "REWARD": [],
+    "INTRO":"\
+        Given that he is the ship's Quartermaster, NPC_NAME is likely the person to help you with your storage \
+        problem.\n\n\
         You approach him and gently ask if he can help you solve the issue. To your surprise, NPC_NAME agrees.\
-        \"Looking for a special favor, huh?\" says NPC_NAME. \"Yes, I can help ya. Better lockers, you say? Well, I could make some for you... if you help me out.\"\n\
-        That sounds promising, and you ask him if he means anything in particular?\n\
-        \"Just help in general.\" NPC_NAME replies \"You help me out with jobs, keep me happy, and I make the boxes for you in my free time. Deal?",
+        s(Looking for a special favor, huh?) says NPC_NAME. s(Yes, I can help ya. Better lockers, you say? Well, \
+        I could make some for you... if you help me out.)\n\n\
+        That sounds promising, and you ask him if he means anything in particular?\n\n\
+        s(Just help in general...) NPC_NAME replies s(You help me out with jobs, keep me happy, and I'll \
+        make the boxes for you in my free time. Deal?)\
+        ",
     "MIDDLE":
-        "\"Don't try to push me, PLAYER_NAME.\" says NPC_NAME. \"It'll be done when it's done. You'd better take care of your part of the deal, PLAYER_NAME\"",
+        "s(Don't try to push me, PLAYER_NAME.) says NPC_NAME. s(It'll be done when it's done. You'd \
+        better take care of your part of the deal and let me work!)\
+        ",
     "ON_DAY_PASSED": function(Player) {
         var npcMood = Player.GetNPC(this.GIVER).Mood();
         // at highest mood this should take 7 days, but if mood is lower than 60 (Satisfied), Julius re-uses already done items for other means
         App.QuestEngine.SetProgressValue(SugarCube.setup.player, "JuliusHandwork",
             Math.clamp(App.QuestEngine.GetProgressValue(SugarCube.setup.player, "JuliusHandwork") + (npcMood - 60)/7/40., 0., 1.));
     },
-    "FINISH":
-        "\"Okay, PLAYER_NAME, here is your stuff.\" NPC_NAME handles you a set of servicable, if heavy, wooden boxes, crates and caskets. \"I've made them of various sizes so you can keep your junk well sorted, ha-ha!\"\n\
-        You are happy to find that they suit your needs and that finally brings in the order your locker so desperately needed.",
+    "FINISH":"\
+        s(Okay, PLAYER_NAME, here is your stuff.) NPC_NAME handles you a set of servicable, if heavy, wooden boxes, \
+        crates and caskets. s(I've made them of various sizes so you can keep your junk well sorted, ha-ha!)\n\n\
+        Was that some sort of pun? In any case, you're happy to find that these storage compartments suit your \
+        needs and that they'll finally bring some order that locker so desperately needs.\
+        ",
     "JOURNAL_ENTRY" :
-        "NPC_NAME has promised to make you a number of custom boxes for your locker. Hopefully that will help you to organize your belongings. All he wants in return is for you to keep him satisifed while he works.",
+        "\
+        NPC_NAME has promised to make you a number of custom boxes for your locker. Hopefully this will help \
+        you to organize your belongings. All he wants in return is for you to keep him satisifed while he works.\
+        ",
     "JOURNAL_COMPLETE" :
-        "Once again, NPC_NAME actually followed through with his promise and somehow constructed nice boxes of different sizes that perfectly fit in your locker and into each other. The boxes will certainly help you to keep your stuff organized and easily accessible. (Favorites are now unlocked)."
+        "\
+        Once again, NPC_NAME actually followed through with his promise and somehow constructed nice \
+        boxes of different sizes that perfectly fit in your locker and into each other. The boxes will \
+        certainly help you to keep your stuff organized and easily accessible. (Favorites are now unlocked)."
 };
 
 App.Data.Quests["FINDING_YOUR_BALLS_1"] = {
-    "ID": "FINDING_YOUR_BALLS_1", "Title": "Finding Your Balls - Part 1",
+    "ID": "FINDING_YOUR_BALLS_1", 
+    "Title": "Finding Your Balls - Part 1",
     "GIVER": "Quartermaster",
     "PRE": [
-        { "TYPE" : "QUEST_FLAG", "NAME" : "EE_PenisShrink_COUNT", "VALUE" : 1 }
+        { 
+            "TYPE" : "QUEST_FLAG", "NAME" : "EE_PenisShrink_COUNT", "VALUE" : 1 
+        }
     ],
     "CHECKS": [
-        {"TYPE": "QUEST_ITEM", "NAME": "strange chemicals", "VALUE": 1 }
+        {
+            "TYPE": "QUEST_ITEM", "NAME": "strange chemicals", "VALUE": 1 
+        }
     ],
     "POST": [
-        {"TYPE" : "SET_CLOTHING_LOCK", "NAME" : "Penis", "VALUE" : false }
+        {
+            "TYPE" : "SET_CLOTHING_LOCK", "NAME" : "Penis", "VALUE" : false 
+        }
     ],
-    "REWARD": [
-    ],
-    "INTRO":
-        "\"Ah, so our little sissy wants out of her cage, is it?\" mocks NPC_NAME.\n\n\
-        \"Well, I can help you, but of course I'll need you to do something for me as well\", he pauses for a moment and \
-        looks over his shoulder before continuining to speak.\n\n\
-        \"Look, I do a lot of 'experimenting' here on the ship. The Captain don't rightly like it, always complaining about \
-        storing explosive chemicals and what not, but he just doesn't understand science like I do. Tell you what, if you \
-        can find me a new supply of chemicals, ones fit for a proper alchemical genius like myself, then I'll not only help you \
-        get that cock cage off, I'll give you some information you might be interested in...\"\n\n\
-        It's a compelling offer. You're not sure exactly where you'll find these chemicals, or what information he has for \
-        you that would be so precious, but you don't appear to have many options if you want to remove your chastity cage.",
-    "MIDDLE":
-        "\"Do you have those chemicals for me PLAYER_NAME?\" asks NPC_NAME. \"Don't worry, if you take care of your part of the \
-        deal then I'll uphold my end of it!\"",
-    "FINISH":
-    "\
-    You approach NPC_NAME with the crate of chemicals that you retrieved, at no small cost, from the apothecary on \
-    @@color:gold;Golden Isle@@. It looks like mostly (dangerous) junk to you, but it's clearly evident that there must \
-    be some good stuff in here by the way NPC_NAME's eyes light up as he inspects the various bottles.\n\n\
-    \"Great work, PLAYER_NAME!\" exclaims NPC_NAME. \"Here, let me remove that cage like I promised and I'll tell you \
-    something good as well.\"\n\n\
-    NPC_NAME fetches some small tools from his apron and starts to gently cut apart the cage on your cock. It's a bit \
-    of a struggle, but you manage to somehow not become errect as he carelessly fondles your balls.\n\n\
-    \"There, that should do it\" he says as he manages to finally free your pBALLS balls. You breath a sigh of relief.\n\n\
-    \"Look, there aren't many things that can undo this damage, but there is a fellow that might know something that \
-    could help. Next time you get shore leave, look up a bloke by the name of @@color:cyan;Jameson@@ at a place called \
-    @@color:gold;David Jone's Locker in Port Royale@@. He's a dealer in rare goods and might have something that can help.\"\n\n\
-    You stand there, open mouthed for a second. NPC_NAME was uncharacteristcally helpful for a change and it takes a \
-    moment to process what he just said. It seems your next course of action is all but decided." 
-,
-    "JOURNAL_ENTRY" :
-        "NPC_NAME has promised to remove your chastity cage if you can find him a source of rare alchemical ingredients.",
-    "JOURNAL_COMPLETE" :
-        "NPC_NAME followed through on his part of the deal and removed your chastity cage. He also mentioned that there was \
-        a man named @@color:cyan;Jameson@@ living on @@color:gold;Port Royale@@ that might be able to help out your current \
-        predicament."
+    "REWARD": [],
+    "INTRO": "\
+        s(Ah, so our little sissy wants out of her cage, is it?) mocks NPC_NAME.\n\n\
+        s(Well, I can help you, but of course I'll need you to do something for me as well), he pauses \
+        for a moment and looks over his shoulder before continuining to speak.\n\n\
+        s(Look, I do a lot of 'experimenting' here on the ship. The Captain don't rightly like it, \
+        always complaining about storing explosive chemicals and what not, but he just doesn't understand \
+        science like I do. Tell you what, if you can find me a new supply of chemicals, ones fit for a \
+        proper alchemical genius like myself, then I'll not only help you \
+        get that cock cage off, I'll give you some information you might be interested in...)\n\n\
+        It's a compelling offer. You're not sure exactly where you'll find these chemicals, or what information \
+        he has for you that would be so precious, but you don't appear to have many options \
+        if you want to remove your chastity cage.\
+        ",
+    "MIDDLE":"\
+        s(Do you have those chemicals for me PLAYER_NAME?) asks NPC_NAME. s(Don't worry, if you take care of \
+        your part of the deal then I'll uphold my end too!)\
+        ",
+    "FINISH":"\
+        You approach NPC_NAME with the crate of chemicals that you retrieved, at no small cost, from the \
+        apothecary on <span style='color:gold'>Golden Isle</span>. It looks like mostly (dangerous) junk to you, \
+        but it's clearly evident that there must be some good stuff in here by the way NPC_NAME's eyes light up \
+        as he inspects the various bottles.\n\n\
+        s(Great work, PLAYER_NAME!) exclaims NPC_NAME. s(Here, let me remove that cage like I promised and I'll \
+        tell you something good as well.)\n\n\
+        NPC_NAME fetches some small tools from his apron and starts to gently cut apart the cage on your cock. \
+        It's a bit of a struggle, but you manage to somehow not become errect as he carelessly fondles your balls.\n\n\
+        s(There, that should do it) he says as he manages to finally free your pBALLS balls. You breath a \
+        sigh of relief.\n\n\
+        s(Look, there aren't many things that can undo this damage, but there is a fellow that might \
+        know something that could help. Next time you get shore leave, look up a bloke by the name of \
+        <span style='color:cyan'>Jameson</span> at a place called \
+        <span style='color:gold'>David Jones' Locker in Port Royale</span>. He's a dealer in rare goods and \
+        might have something that can help you with your... hahah...'little problem'... hahaha!)\n\n\
+        You stand there, open mouthed for a second. Despite the obvious joke at your expense, NPC_NAME was \
+        uncharacteristcally helpful for a change and it takes a moment to process what he just said. \
+        It seems your next course of action is all but decided, at least if you want to keep your dick from \
+        becoming a clit.\
+        ",
+    "JOURNAL_ENTRY" :"\
+        NPC_NAME has promised to remove your chastity cage if you can find him a source of rare alchemical ingredients.\
+        ",
+    "JOURNAL_COMPLETE" :"\
+        NPC_NAME followed through on his part of the deal and removed your chastity cage. He also mentioned \
+        that there was a man named <span style='color:cyan'>Jameson</span>living on \
+        <span style='color:gold'>Port Royale</span> that might be able to help with your ever shrinking \
+        manhood.\
+        "
 };
