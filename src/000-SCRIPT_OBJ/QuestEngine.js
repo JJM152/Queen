@@ -116,7 +116,8 @@ App.QuestEngine = new function() {
                 break;
             /** TODO: Refactor this to check also for wearing specific items. **/
             case "IS_WEARING":
-                if(Value == "NOT" && Player.GetEquipmentInSlot(Key) != 0) return false;
+            console.log('Name='+Key+",Value="+Value);
+                if(Value == "NOT" ) return (Player.GetEquipmentInSlot(Key) == 0);
                 if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Key) == 0) return false;
                 return Player.IsEquipped(Value);
                 break;
@@ -346,9 +347,12 @@ App.QuestEngine = new function() {
                     if(Player.Day < Value) return false;
                 break;
                 case "IS_WEARING":
-                    console.log("Test "+Player.GetEquipmentInSlot(Name));
-                    if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Name) != 0){ return false } }
-                    if(Value != "NOT"){ if(Player.GetEquipmentInSlot(Name) == 0){ return false } }
+                console.log("Name="+Name+",Value="+Value);
+                    if(Value == "NOT" ) return (Player.GetEquipmentInSlot(Name) == 0);
+                    if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Name) == 0) return false;
+                    return Player.IsEquipped(Value);
+                    //if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Name) != 0){ return false } }
+                    //if(Value != "NOT"){ if(Player.GetEquipmentInSlot(Name) == 0){ return false } }
                 break;
             }
         }

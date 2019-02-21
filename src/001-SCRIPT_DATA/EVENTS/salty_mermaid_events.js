@@ -7,7 +7,7 @@ App.Data.Events["Cabin"] = [
         ID: 'CrewRape', // A unique ID for the event.
         FROM: 'Sleep', // The passage you are traversing from
         MAX_REPEAT: 0, // Number of times the event can repeat, 0 means forever.
-        MIN_DAY: 1, // Minimum day the event shows up on
+        MIN_DAY: 5, // Minimum day the event shows up on
         MAX_DAY: 0, // Maximum day the event shows up on, 0 means forever
         COOL: 3, // Interval between repeats on this event.
         PHASE: [ 0 ], // Time phases the event is valid for
