@@ -247,6 +247,11 @@ span.npcText  {
 }
 
 span.impText  {
-	color:hotpink;
+	color:orange;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+span.pcText  {
+	color:lightpink;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }

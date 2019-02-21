@@ -12,7 +12,8 @@ The Governor himself isn't much for such opulance, but as @@color:HotPink;<<-set
 <<replace "#Notification">>\
 As you attempt to gain entry into @@color:HotPink;<<print _GFL >>@@ the steward steps forward and blocks your way.
 
-@@color:cyan;Jarvis@@ says, "Excuse me, but I can't allow you to enter any further than this. The young miss isn't about but I dare say she wouldn't like you rifling through her things."
+@@color:cyan;Jarvis@@ says, <span class="npcText">Excuse me, but I can't allow you to enter any further than this. \
+The young miss isn't about but I dare say she wouldn't like you rifling through her things."</span>
 
 //Perhaps if there was some way to distract him...//
 <</replace>>\
@@ -23,7 +24,8 @@ As you attempt to gain entry into @@color:HotPink;<<print _GFL >>@@ the steward 
 <<replace "#Notification">>\
 You move forward toward's the @@color:gold;Governor's Study@@, but the steward steps forward and blocks your way.
 
-@@color:cyan;Jarvis@@ says, "Sorry miss, but the Governor isn't taking any visitors now. He's quite distraught over the disappearance of his daughter."
+@@color:cyan;Jarvis@@ says, <span class="npcText">"Sorry miss, but the Governor isn't taking any visitors now. \
+He's quite distraught over the disappearance of his daughter. Please come back some other time... or don't."</span>
 
 //How can you convince him to let you through without exposing your embarassing identity?//
 <</replace>>\

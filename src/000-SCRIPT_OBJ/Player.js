@@ -1516,7 +1516,11 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         Heal = Heal * (( 100 - Math.max(0, Math.min(this.GetStat("STAT", "Toxicity"), 100))) / 100); // Toxicity up to 100 reduces natural healing.
 
         if (OvernightFlag == 0) Heal = Heal / 2;
-        if (OvernightFlag == 1) this.AdjustStat("Energy", ( Math.floor((this.GetStat("STAT", "Nutrition") / 20) + (this.GetStat("STAT", "Fitness") / 20))));
+        
+        if (OvernightFlag == 1) {
+            this.AdjustStat("Energy", 
+                ( Math.floor((this.GetStat("STAT", "Nutrition") / 20) + (this.GetStat("STAT", "Fitness") / 20))));
+        }
 
         this.AdjustStat("Health",   Math.ceil(Heal));
 

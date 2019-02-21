@@ -133,7 +133,7 @@ App.Data.Quests["BOARDINGPASS"] = {
         ",
     "FINISH": "\
         NPC_NAME says, s(You've done a hell of a job PLAYER_NAME. A hell of a job. I'm actually surprised you \
-        can still walk after all the cocks you've taken up your ass these last weeks.\"\n\n\
+        can still walk after all the cocks you've taken up your ass these last weeks.)\n\n\
         NPC_NAME chuckles to himself and continues.\n\n\
         NPC_NAME says, s(Anyway, your leave is granted. Remember - if you get more than a couple of miles \
         away from me however that collar around your neck will rip your stupid bimbo head right off. Boy, \
@@ -145,10 +145,10 @@ App.Data.Quests["BOARDINGPASS"] = {
         the ship is @@color:DeepPink;cheered@@ by your sexual services.\
         ",
     "JOURNAL_COMPLETE" : "\
-    After what seemed like countless days filled with crazed fucking, you managed to completely sexually satisfy \
-    every man on board the ship. Doing so, NPC_NAME deigned to grant you a special pass that will allow you to \
-    leave the ship. However if you get too far away from the Captain, the magical geas on your collar will surely \
-    end your life. Be careful.\
+        After what seemed like countless days filled with crazed fucking, you managed to completely sexually satisfy \
+        every man on board the ship. Doing so, NPC_NAME deigned to grant you a special pass that will allow you to \
+        leave the ship. However if you get too far away from the Captain, the magical geas on your collar will surely \
+        end your life. Be careful.\
     "
 };
 

@@ -1044,6 +1044,8 @@ App.PR = new function() {
         String = String.replace(/ s\(([^\)]+)\)/g, function(m,p) { return "<span class='npcText'>\""+p+"\"</span>"; });
         // Important! highlight NPC speech
         String = String.replace(/ s\!\(([^\)]+)\)/g, function(m,p) { return "<span class='impText'>\""+p+"\"</span>"; });
+        // Hilighting PC speech
+        String = String.replace(/ sp\(([^\)]+)\)/g, function(m,p) { return "<span class='pcText'>\""+p+"\"</span>"; });
 
         return String;
     };

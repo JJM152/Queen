@@ -3,11 +3,22 @@ App.Data.EffectLib = App.Data.EffectLib || {};
 
 // This file lists effects that happens with body on their own with time
 /** HEALTH */
+/** ENERGY */
 App.Data.EffectLib.NATURAL_HEALING = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
     function(o, p) { p.DoHealing(1); },
     "VALUE" : 0, "KNOWLEDGE" : [ "Healing+" ]
+};
+
+App.Data.EffectLib.NATURAL_QUEST_HOOKS = {
+    "FUN" : /** @param {App.Entity.Player} p */
+    function(o, p) {
+        if (p.QuestFlags["BETTER_BED"] == "COMPLETED") p.AdjustStat("Energy", 1);
+        if (p.QuestFlags["CABIN_DECORATION"] == "COMPLETED") p.AdjustStatXP("WillPower", 5);
+        if (p.QuestFlags["CABIN_RUG"] == "COMPLETED") p.AdjustStatXP("WillPower", 5);
+    },
+    "VALUE" : 0, "KNOWLEDGE" : [ "Cabin Accessories++"]
 };
 
 /** NUTRITION*/
@@ -116,5 +127,6 @@ App.Data.NaturalBodyEffects = [
     "NATURAL_HORMONE_SHIFT",
     "NATURAL_FITNESS_DECREASE",
     "NATURAL_HAIR_GROW",
-    "NATURAL_LACTATION_DECREASE"
+    "NATURAL_LACTATION_DECREASE",
+    "NATURAL_QUEST_HOOKS" // Overnight quest hooks.
 ];
