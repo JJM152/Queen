@@ -1,6 +1,6 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.9 - 21/02/2019
+!!!0.9 - 23/02/2019
 !!!!General
 * Leveled nouns now added for some body part descriptions.
 * There is a 'Buy all' button in the shop interface now.
