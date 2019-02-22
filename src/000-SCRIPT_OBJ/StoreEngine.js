@@ -66,6 +66,12 @@ var Store = function(Player, NPC, StoreData) {
     this._Player = Player;
     this._NPC = NPC;
     this._Data = StoreData;
+    this._Id = this._Data['ID'];
+
+    //Hack to add store to player state if the store doesn't exist already.
+    if (Player.StoreInventory.hasOwnProperty(this._Id) == false) {
+        Player.StoreInventory[this._Id] = { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]};
+    }
 
     this.GetName = function() { return this._Data["NAME"]; };
 
@@ -74,7 +80,7 @@ var Store = function(Player, NPC, StoreData) {
         var Mood =  this._NPC.Mood();
         var Player = this._Player;
 
-        var Inventory = $.grep( this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"], function(Item) {
+        var Inventory = $.grep( this._Player.StoreInventory[this._Id]["INVENTORY"], function(Item) {
            return ((Item["LOCK"] != 1) && (Item["CATEGORY"] == Category) && (Mood >= Item["MOOD"]));
         });
 
@@ -126,7 +132,7 @@ var Store = function(Player, NPC, StoreData) {
         if (Count === undefined) Count = Item["QTY"];
         var itemPrice = this.GetPrice(Item);
         // looping because some items contain more than 1 charge
-        // and we cann't fetch that here
+        // and we can't fetch that here
         for (var i = 0; i < Count; ++i) {
             if (this._Player.Money < itemPrice || Item["QTY"] === 0 || this._Player.MaxItemCapacity(Item)) break;
             Item["QTY"] = Math.max(0, (Item["QTY"] - 1));
@@ -138,8 +144,8 @@ var Store = function(Player, NPC, StoreData) {
     this.GenerateMarket = function() {
         if (this._Data["RESTOCK"] == 0) {
             // Clear all the data...
-            this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"] = [ ];
-            this._Player.StoreInventory[this._Data["ID"]]["RARE"] = [ ];
+            this._Player.StoreInventory[this._Id]["INVENTORY"] = [ ];
+            this._Player.StoreInventory[this._Id]["RARE"] = [ ];
 
             var items = 3 + (Math.floor(Math.random() * 4)); // 3 - 6 items.
 
@@ -152,7 +158,7 @@ var Store = function(Player, NPC, StoreData) {
                 if (roll < 20 ) {  // cosmetics
                     keys = $.grep(Object.keys(App.Data.Cosmetics), function(c) {  return ( 'InMarket' in App.Data.Cosmetics[c] ? App.Data.Cosmetics[c]["InMarket"] : true ); });
                     entry = App.PR.GetRandomListItem(keys);
-                    this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                    this._Player.StoreInventory[this._Id]["INVENTORY"].push(
                         {"CATEGORY":   "COMMON", "TYPE": "COSMETICS", "QTY":   12, "MAX":   12, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
                 }
 
@@ -160,7 +166,7 @@ var Store = function(Player, NPC, StoreData) {
                     keys = $.grep(Object.keys(App.Data.Food), function(c) {  return ( 'InMarket' in App.Data.Food[c] ? App.Data.Food[c]["InMarket"] : true ); });
                     entry = App.PR.GetRandomListItem(keys);
                     qty = (1 + (Math.floor(Math.random() * 4)));
-                    this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                    this._Player.StoreInventory[this._Id]["INVENTORY"].push(
                         {"CATEGORY":   "COMMON", "TYPE": "FOOD", "QTY":   qty, "MAX":   qty, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
                 }
 
@@ -168,7 +174,7 @@ var Store = function(Player, NPC, StoreData) {
                     keys = $.grep(Object.keys(App.Data.Drugs), function(c) {  return ( 'InMarket' in App.Data.Drugs[c] ? App.Data.Drugs[c]["InMarket"] : true ); });
                     entry = App.PR.GetRandomListItem(keys);
                     qty = (1 + (Math.floor(Math.random() * 4)));
-                    this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                    this._Player.StoreInventory[this._Id]["INVENTORY"].push(
                         {"CATEGORY":   "COMMON", "TYPE": "DRUGS", "QTY":   qty, "MAX":   qty, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
                 }
 
@@ -184,7 +190,7 @@ var Store = function(Player, NPC, StoreData) {
                     if (keys && keys.length > 0 ) {
                          entry = keys[(Math.floor(Math.random() * keys.length))];
                         if (App.Data.Clothes[entry]["Style"] == "LEGENDARY") {
-                            this._Player.StoreInventory[this._Data["ID"]]["RARE"].push(
+                            this._Player.StoreInventory[this._Id]["RARE"].push(
                                 {
                                     "CATEGORY": "RARE",
                                     "TYPE": "CLOTHES",
@@ -196,7 +202,7 @@ var Store = function(Player, NPC, StoreData) {
                                     "TAG": entry
                                 });
                         } else {
-                            this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                            this._Player.StoreInventory[this._Id]["INVENTORY"].push(
                                 {
                                     "CATEGORY": "COMMON",
                                     "TYPE": "CLOTHES",
@@ -213,7 +219,7 @@ var Store = function(Player, NPC, StoreData) {
 
                 if (roll > 95) { // slot reels.
                     entry = Object.keys(App.Data.Slots)[(Math.floor(Math.random() * Object.keys(App.Data.Slots).length))];
-                    this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].push(
+                    this._Player.StoreInventory[this._Id]["INVENTORY"].push(
                         {"CATEGORY":   "COMMON", "TYPE": "REEL", "QTY":   1, "MAX":   1, "PRICE":  1.3, "MOOD":  0,   "LOCK": 0,  "TAG" : entry });
                 }
             }
@@ -229,7 +235,7 @@ var Store = function(Player, NPC, StoreData) {
         // Don't stock stuff in markets
         if (this._Data["RESTOCK"] == 0) return 0;
         return this._Data["RESTOCK"] - (this._Player.Day
-             - this._Player.StoreInventory[this._Data["ID"]]["LAST_STOCKED"]);
+             - this._Player.StoreInventory[this._Id]["LAST_STOCKED"]);
     };
 
     /**
@@ -242,30 +248,51 @@ var Store = function(Player, NPC, StoreData) {
     };
 
     /* FIXME: Let's make this trigger for the SHIP whenever you land at a port. But not otherwise. */
+    /* FIXME: This entire system is a load of complicated garbage. Rewrite and simplify it in the future */
     this.StockInventory = function()
     {
         // Don't stock stuff in markets
         if (this._Data["RESTOCK"] == 0) return;
 
-        if ( ( this._Player.StoreInventory[this._Data["ID"]]["LAST_STOCKED"] == 0)
-            || (this._Player.StoreInventory[this._Data["ID"]]["LAST_STOCKED"] + this._Data["RESTOCK"] <= this._Player.Day) ) {
+        if ( ( this._Player.StoreInventory[this._Id]["LAST_STOCKED"] == 0)
+            || (this._Player.StoreInventory[this._Id]["LAST_STOCKED"] + this._Data["RESTOCK"] <= this._Player.Day) ) {
 
-            if (this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].length == 0)
-                this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"] = this._Data["INVENTORY"];
+            if (this._Player.StoreInventory[this._Id]["INVENTORY"].length == 0)
+                this._Player.StoreInventory[this._Id]["INVENTORY"] = this._Data["INVENTORY"];
 
-            for (var i = 0; i < this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"].length; i++)
-                this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"][i]["QTY"] = this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"][i]["MAX"];
+            for (var i = 0; i < this._Player.StoreInventory[this._Id]["INVENTORY"].length; i++)
+                this._Player.StoreInventory[this._Id]["INVENTORY"][i]["QTY"] = this._Player.StoreInventory[this._Id]["INVENTORY"][i]["MAX"];
 
-            this._Player.StoreInventory[this._Data["ID"]]["RARE"] = [ ];
+            this._Player.StoreInventory[this._Id]["RARE"] = [ ]; //Clear array.
 
             var Mood = this._NPC.Mood();
-            var Rares = $.grep(this._Player.StoreInventory[this._Data["ID"]]["INVENTORY"], function(Item) {
+            var MaxRares = this._Data.hasOwnProperty("MAX_RARES") ? this._Data["MAX_RARES"] : 1;
+            // List of all possible rares from inventory listing.
+            var Rares = $.grep(this._Player.StoreInventory[this._Id]["INVENTORY"], function(Item) {
                 return ((Item["CATEGORY"] == "RARE") && (Mood >= Item["MOOD"]) && (Item["LOCKED"] != 1));
             });
 
-            if (Rares.length > 0) this._Player.StoreInventory[this._Data["ID"]]["RARE"].push($.extend({},Rares[Math.floor(Math.random() * Rares.length)]));
+            // Add multiple rare items to the store inventory. 
+            if (Rares.length > 0) {
 
-            this._Player.StoreInventory[this._Data["ID"]]["LAST_STOCKED"] = this._Player.Day;
+            for (i = 0; i < MaxRares; i++) { 
+                // Filter out Rares that already exist in the rares entry.
+                Rares = Rares.filter(function(o) {
+                    var current = this._Player.StoreInventory[this._Id]["RARE"];
+                    for(var i = 0; i < current.length; i++)
+                     if (current[i]["TYPE"] == o["TYPE"] && current[i]["TAG"] == o["TAG"]) return false;
+                    return true;
+                }.bind(this));
+
+                // Copy data record object into new variable or we get some bad reference juju.
+                var RareEntry = $.extend({}, Rares[Math.floor(Math.random() * Rares.length)]);
+                this._Player.StoreInventory[this._Id]["RARE"].push( RareEntry );
+                console.log("Adding rare item");
+                console.log(RareEntry);
+            }
+        }
+
+            this._Player.StoreInventory[this._Id]["LAST_STOCKED"] = this._Player.Day;
         }
     };
 

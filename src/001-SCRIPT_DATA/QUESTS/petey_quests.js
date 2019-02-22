@@ -45,7 +45,7 @@ App.Data.Quests["LORD_ROWE_PORNO_DELIVERY"] = {
     ],
     "ON_ACCEPT" : [
         { "TYPE" : "QUEST_FLAG", "NAME" : "LORD_ROWE_DELIVERY", "VALUE" : "ACTIVE" },
-        { "TYPE" : "QUEST_ITEM", "NAME" : "lolita book", "VALUE" : 0 }
+        { "TYPE" : "QUEST_ITEM", "NAME" : "lolita book", "VALUE" : 1 }
     ],
     "REWARD": [
         { "REWARD_TYPE": "MONEY", "AMOUNT": 500 },
@@ -73,3 +73,59 @@ App.Data.Quests["LORD_ROWE_PORNO_DELIVERY"] = {
     "JOURNAL_COMPLETE": "You delivered the contraband book to @@color:cyan;Lord Rowe@@ and while your purse is a fair bit richer, you shudder to think of the things you learned about the man and "+
         "his decided unwholesome interest in his own daughter."
 };
+
+App.Data.Quests["FORGED_LETTER"] = {
+    "ID": "FORGED_LETTER", "Title": "Forgery is a Crime - Letter of Introduction",
+    "GIVER": "Petey",
+    // Don't display in journal.
+    "JOURNAL_ENTRY": "HIDDEN",
+    "JOURNAL_COMPLETE": "HIDDEN",
+    "PRE": [
+        { 
+            "TYPE" : "QUEST_FLAG", "NAME" : "BELLA_INTRODUCTION", "VALUE" : "ACTIVE" 
+        }
+    ],
+    "POST": [],
+    "CHECKS": [
+        {
+            "TYPE": "FLAG", "NAME": "BELLA_INTRODUCTION", "VALUE": "ACTIVE"
+        },
+        {
+            "TYPE": "MONEY", "NAME": "MONEY", "VALUE": 500
+        }
+    ],
+    "ON_ACCEPT" : [],
+    "REWARD": [
+        {
+            "REWARD_TYPE": "ITEM", "TYPE": "QUEST", "NAME": "letter of introduction", "AMOUNT": 1
+        },
+        {
+            "REWARD_TYPE": "MONEY", "AMOUNT": -500
+        }
+    ],
+    "INTRO": "\
+        NPC_NAME greets you as you enter his shop. s(Ho there traveller! What can I get for you today? Perhaps one o' \
+        our famous ales?)\n\n\
+        You approach the bar top - you've heard rumors about what kind of man NPC_NAME is and if they're right, he \
+        might be just the man to help you. You briefly explain the situation to him and he strokes his chin, \
+        in an apparent act of deep thought.\n\n\
+        s(It shouldn't be too hard to fool that dimwit, her tits are bigger than her brain for sure. Tell you \
+        what PLAYER_NAME, pay me <span style='color:gold'>500 coins</span> and I'll set you up with a propper \
+        letter of introduction, well at least propper enough to fool that biddy.)\n\n\
+        It's a little pricey, especially just to get access to a place where you can spend even MORE money, but \
+        your curiosity is eating away at you... what to do?\
+        ",
+    "MIDDLE" : "\
+        NPC_NAME says, s(Come back when you have the <span style='color:gold'>500 coins</span> coins lass and I'll \
+        get you that letter.)\
+        ",
+    "FINISH":
+        "\
+        NPC_NAME says, s(Ah I see you've managed to scrape together the coin? Just wait here it shant be a moment!)\n\n\
+        He excuses himself and ducks into a backroom. It takes about 10 minutes, but eventually he reappears \
+        holding a thin piece of vellium parchment.\n\n\
+        s(Here, as promised - a proper letter of introduction, seal and everything. Not my best work, but \
+        definitely good enough to fool dimwit Darling)\n\n\
+        You politely accept the letter from him and go on your way. \
+     "
+}

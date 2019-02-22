@@ -74,17 +74,44 @@ App.Data.Clothes["cow stockings"] = { // +15
 };
 
 // SHIRT SLOT
+
+// PANTS SLOT
 App.Data.Clothes["cow skirt"] = { // +20
     "Name": "cow skirt", "ShortDesc": "a fine wool holstein patterned full skirt",
     "LongDesc": "Hangs from the hips and just barely covers your ass when you bend forward. It doesn't if you hug your knees. Sways enticingly and flares out on spins.",
     "Slot": "Pants", "Restrict": ["Pants", "Dress", "Costume"], "Color": "pink", "Style": "LEGENDARY", "Type" : "CLOTHING",
     "WearEffect": [ "FEMININE_CLOTHING", "FLIRTY" ], "Category" :  [ "Pet Girl", "Bimbo" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
-// PANTS SLOT
 
 // DRESS SLOT
+App.Data.Clothes["fuzzy black bikini"] = { // +40
+    Name: "fuzzy black bikini", ShortDesc: "fuzzy {COLOR} bikini",
+    LongDesc: "\
+    This two piece ensemble consists of a strapless bikini top and high cut briefs that are covered with a soft \
+    fur like material that is soft to the touch and has a brilliant sheen. \
+    ",
+    Slot: "Dress", Restrict : [ "Shirt", "Pants", "Dress", "Costume" ],
+    Color: "black", Style : "LEGENDARY", Type : "ONE PIECE",
+    WearEffect: [ "SEXY_CLOTHING" ],
+    ActiveEffect : [ "FLIRTY" ],
+    Category : [ "Pet Girl" ],
+    InMarket : false
+};
 
 // COSTUME SLOT
+App.Data.Clothes["sexy kitten costume"] = { // +40
+    Name: "sexy kitten costume", ShortDesc: "{COLOR} sexy kitten costume",
+    LongDesc: "\
+    A furry one piece costume that comes with some accessories such as a pair of kitten ears and a tail. It's \
+    obviously designed for either a costume ball or private 'play'.\
+    ",
+    Slot: "Costume", Restrict : [ "Shirt", "Pants", "Dress", "Costume" ],
+    Color: "white", Style : "LEGENDARY", Type : "ONE PIECE",
+    WearEffect: [ "KINKY_CLOTHING" ],
+    ActiveEffect : [ "MAJOR_STRIPPERS_ALLURE"],
+    Category : [ "Pet Girl", "Sexy Dancer"],
+    InMarket : false
+};
 
 // SHOES SLOT
 App.Data.Clothes["cow boots"] = { // +20
@@ -94,6 +121,20 @@ App.Data.Clothes["cow boots"] = { // +20
     "WearEffect": [ "FEMININE_CLOTHING", "FANCY_MOVES" ], "Category" : [ "Pet Girl", "Sexy Dancer" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
 
+App.Data.Clothes["fuzzy paws"] = { // +20
+    Name: "fuzzy paws", ShortDesc: "pair of {COLOR} fuzzy paws",
+    LongDesc: "\
+    These shoes are designed to look like animal paws, right down to having an exaggerated footpad imprint. They are \
+    made of some sort of high quality material and covered with a layer of luxuriously soft fur.\
+    ",
+    Slot: "Shoes", Restrict: ["Shoes"], 
+    Color: "black", Style: "LEGENDARY", Type : "CLOTHING",
+    WearEffect: [ "SEXY_CLOTHING" ],
+    ActiveEffect: [ "FANCY_MOVES" ], 
+    Category : [ "Pet Girl", "Sexy Dancer" ],
+    InMarket: false
+};
+
 // BUTT SLOT
 App.Data.Clothes["cow tail"] = { // +9
     "Name": "cow tail", "ShortDesc": "a butt plug with a {COLOR} cow tail attached ",
@@ -101,6 +142,21 @@ App.Data.Clothes["cow tail"] = { // +9
     "Slot": "Butt", "Restrict": ["Butt"], "Color": "white", "Style": "RARE", "Type" : "ACCESSORY",
     "WearEffect": [ "PERVERTED_CLOTHING", "GAPE_TRAINING" ], Category : [ "Pet Girl", "BDSM" ], "Meta" : [ 'cow outfit', 'job reward' ]
 };
+
+App.Data.Clothes["fuzzy anal tail"] = { // +12
+	Name: "fuzzy anal tail",
+	ShortDesc: "{COLOR} fuzzy tail ending in a thick butt plug",
+	LongDesc: "\
+    The perfect accessory for any kitten on the prowl. The tail has been enchanted so that as long as the plug part \
+    is nestled within your sphincter you can move it freely with but a mere thought!\
+	",
+	Slot: "Butt", Restrict: ["Butt"],
+	Color: "black", Style: "LEGENDARY", Type: "ACCESSORY",
+	WearEffect: [ "PERVERTED_CLOTHING", "GAPE_TRAINING" ],
+	Category : [ "Pet Girl" ],
+	InMarket: false
+};
+
 // PENIS SLOT
 
 // WEAPON SLOT (huh?)

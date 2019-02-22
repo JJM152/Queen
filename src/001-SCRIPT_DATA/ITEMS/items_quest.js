@@ -72,4 +72,13 @@ App.Data.QuestItems = {
             ",
             "Type": "QUEST"
         },
+        "letter of introduction": {
+            "Name": "letter of introduction",
+            "ShortDesc": "@@color:purple;letter of introduction@@",
+            "LongDesc": "\
+            This letter is an absolute fraud, but it cost you a fair amount of coins to procure so it should hopefully \
+            work. \
+            ",
+            "Type": "QUEST"
+        },
 };

@@ -130,7 +130,7 @@ App.Data.LootTables["DANCER_BIMBO"] =  {
         ] },
     105 :  {
         "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "bimbo heels", "QTY" : 1},
+            { "TYPE" : "CLOTHES", "TAG" : "platform heels", "QTY" : 1},
             { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
             { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 2},
             { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2}

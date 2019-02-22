@@ -10,6 +10,19 @@ App.Data.Clothes = App.Data.Clothes || { };
 // WIG SLOT
 
 // HAT SLOT
+App.Data.Clothes["gimp mask"] = { // +12
+    Name: "gimp mask", ShortDesc: "{COLOR} leather and metal strapped gimp mask",
+    LongDesc: "\
+    This full head mask is designed to be zipped up and locked over it's wearer. There is a flap for both the mouth \
+    and eyes, but they can be closed, or in the case of the mouth have various accessories locked into it.\
+    ",
+    Slot: "Hat", Restrict: ["Hat"], 
+    Color: "black", Style: "LEGENDARY", Type : "ACCESSORY",
+    WearEffect: [ "PERVERTED_CLOTHING" ],
+    ActiveEffect: [], 
+    Category : [ "BDSM" ],
+    InMarket: false
+};
 
 // NECK SLOT
 App.Data.Clothes["collar"] = { // +3
@@ -60,8 +73,37 @@ App.Data.Clothes["bondage corset"] = { // +15
 // PANTS SLOT
 
 // DRESS SLOT
+App.Data.Clothes["bondage dress"] = { // +40
+    Name: "bondage dress", ShortDesc: "leather {COLOR} bondage dress",
+    LongDesc: "\
+    This shiny leather dress has a low cutout in the back that displays a generous portion of ass cleavage \
+    and a neckline that could barely contain even the most modest of busts. It is adorned with a variety of \
+    straps that look like belts until you realize that they can be used to make the person wearing the \
+    dress completely immobile.\
+    ",
+    Slot: "Dress", Restrict : [ "Shirt", "Pants", "Dress", "Costume" ],
+    Color: "black", Style : "LEGENDARY", Type : "ONE PIECE",
+    WearEffect: [ "SEXY_CLOTHING" ],
+    ActiveEffect : [ "FLIRTY"],
+    Category : [ "BDSM" ],
+    InMarket : false
+};
 
 // COSTUME SLOT
+App.Data.Clothes["rubber nurse outfit"] = { // +40
+    Name: "rubber nurse outfit", ShortDesc: "{COLOR} rubber nurse's outfit",
+    LongDesc: "\
+    This costume is designed to mimic a stanard nurse's uniform, except it's made entirely out of a thin type \
+    of black rubber that stretches and confines the body. The outfit has red piping along the hems and two red \
+    crosses, on each breast.\
+    ",
+    Slot: "Costume", Restrict : [ "Shirt", "Pants", "Dress", "Costume" ],
+    Color: "black", Style : "LEGENDARY", Type : "ONE PIECE",
+    WearEffect: [ "PERVERTED_CLOTHING" ],
+    ActiveEffect : [ "MAJOR_STRIPPERS_ALLURE"],
+    Category : [ "BDSM", "Sexy Dancer"],
+    InMarket : false
+};
 
 // SHOES SLOT
 App.Data.Clothes["shiny knee boots"] = { // +10
@@ -69,6 +111,22 @@ App.Data.Clothes["shiny knee boots"] = { // +10
     "LongDesc": "These fashionable leather boots are polished to a shine. Very tall and slightly intimidating.",
     "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
     "WearEffect": [ "FEMININE_CLOTHING" ], "Category" :  [ "Pirate Slut", "BDSM" ]
+};
+
+App.Data.Clothes["spiked boots"] = { // +20
+    Name: "spiked boots", ShortDesc: "{COLOR} leather spiked platform boots",
+    LongDesc: "\
+    These high heeled platform boots don't look like they are designed to walk in. The impractically high platform \
+    weighs enough to make taking a step precarious and the height means that if you fall, you'll take some serious \
+    damage. To make matters worse, the boots themselves are adorned with various studs and spikes meaning that it's \
+    quite possible to carelessly injure yourself. Perfect for a budding masochist.\
+    ",
+    Slot: "Shoes", Restrict: ["Shoes"], 
+    Color: "black", Style: "LEGENDARY", Type : "CLOTHING",
+    WearEffect: [ "KINKY_CLOTHING" ],
+    ActiveEffect: [], 
+    Category : [ "BDSM", "Sexy Dancer" ],
+    InMarket: false
 };
 
 // BUTT SLOT
@@ -88,7 +146,7 @@ App.Data.Clothes["voodoo anal plug"] = { // +9
     ",
     "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",
     "Category" : [ "BDSM" ], "InMarket" : false,
-    "WearEffect": [ "VOODOO_ANAL_PLUG"] , "ActiveEffect" : [ "VOODOO_ANAL_PLUG2"]
+    "WearEffect": [ "VOODOO_ANAL_PLUG" ] , "ActiveEffect" : [ "VOODOO_ANAL_PLUG2"]
 };
 
 // PENIS SLOT

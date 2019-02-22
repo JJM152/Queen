@@ -771,7 +771,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 			"BarnabyLong":      { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
 			"MeghanLong":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
 			"Isabella":         { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-			"Fineas":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
+            "Fineas":           { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "Bella":            { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
         };
 	}
 

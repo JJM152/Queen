@@ -141,6 +141,7 @@ App.Item = class Item {
     }
 
     static CalculateEffectPrice(Effects) {
+        if (Effects.length == 0) return 0;
         var price = 0;
         if ( Effects.length > 1 ) {
             price += Effects.reduce(function (accumulator, effect) {

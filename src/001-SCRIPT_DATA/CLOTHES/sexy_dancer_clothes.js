@@ -71,7 +71,7 @@ App.Data.Clothes["burlesque costume"] = { // +30
 };
 
 App.Data.Clothes["slutty schoolgirl"] = { // +40
-    "Name": "slutty schoolgirl", "ShortDesc": "an entirely too skimpy school uniform",
+    "Name": "slutty schoolgirl", "ShortDesc": "skimpy school uniform",
     "LongDesc": "This costume consists of a tiny shirt tied over your breasts, exposing your midriff, a high-waisted school jacket and a tartan skirt so small it's barely there.",
     "Slot": "Dress", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "blue", "Style": "LEGENDARY", "Type" : "ONE PIECE",
     "WearEffect": [ "SEXY_CLOTHING", "KINKY_CLOTHING" ], "ActiveEffect" : [ "GREATER_STRIPPERS_ALLURE" ], Category : [ "Sexy Dancer" ]
@@ -86,10 +86,20 @@ App.Data.Clothes["go-go boots"] = { // +10
 };
 
 App.Data.Clothes["stripper heels"] = { // +20
-    "Name": "stripper heels", "ShortDesc": "a pair of outrageously tall {COLOR} platform heels",
-    "LongDesc": "The heels on these platform shoes are so tall that you prance and waddle, shaking your ass, everywhere you walk.",
-    "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "LEGENDARY", "Type" : "CLOTHING",
-    "WearEffect": [ "FEMININE_CLOTHING" ],"ActiveEffect" : [ "REALLY_FANCY_MOVES" ], Category : [ "Sexy Dancer", "Bimbo" ]
+    Name: "stripper heels", ShortDesc: "a pair of outrageously tall {COLOR} platform heels",
+    LongDesc: "\
+    These type of shoes are commonly worn by exotic dancers or women who want to make themselves the center \
+    of attention. The thick platform on the bottom is outrageously tall, giving you several inches on your \
+    normal height. They're also so heavy that it takes practice care to walk with them, more so than regular \
+    heels. The effect is that you prance and waddle while you step, forcing your ass to jiggle and shake \
+    everywhere you walk.\
+    ",
+    Slot: "Shoes", Restrict: ["Shoes"], 
+    Color: "black", Style: "LEGENDARY", Type : "CLOTHING",
+    WearEffect: [ "FEMININE_CLOTHING" ],
+    ActiveEffect : [ "REALLY_FANCY_MOVES" ], 
+    Category : [ "Sexy Dancer", "Bimbo" ],
+    InMarket: false
 };
 
 App.Data.Clothes["barefoot sandals"] = {

@@ -260,6 +260,11 @@ App.QuestEngine = new function() {
                 }
                 App.StoreEngine.ToggleStoreItem(Player, Name, Value, 0);
                 break;
+            case "RESET_SHOP":
+                if (Player.StoreInventory.hasOwnProperty(Name) ) {
+                    delete Player.StoreInventory[Name];
+                }
+                break;
             case "MONEY":
                 Player.AdjustMoney(Value);
                 break;

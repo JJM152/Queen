@@ -21,6 +21,19 @@ App.Data.Clothes["pirate hat"] = { // +12
 
 
 // NIPPLES SLOT
+App.Data.Clothes["skull piercings"] = { // +12
+    Name: "skull piercings", ShortDesc: "skull and anchor nipple piercings",
+    LongDesc: "\
+    These dangling piercings are made out of silver and consists of tiny anchors festooned with skulls that \
+    hang from a delicate silver chain. They can be either clipped through the nipples or pierced through.\
+    ",
+    Slot: "Nipples", Restrict : [ "Nipples" ],
+    Color: "silver", Style : "LEGENDARY", Type : "ACCESSORY",
+    WearEffect: [ "KINKY_CLOTHING"],
+    ActiveEffect : [ ],
+    Category : [ "Pirate Slut", "Sexy Dancer" ],
+    InMarket : false
+};
 
 // BRA SLOT
 App.Data.Clothes["pirate bra"] = { // +15
@@ -75,7 +88,36 @@ App.Data.Clothes["pirate waistcoat"] = { // +40
     "WearEffect": [ "FEMININE_CLOTHING" ], "ActiveEffect" : [ "MAJOR_PIRATES_GRACE", "FLIRTY" ], "Category" :  [ "Pirate Slut" ]
 };
 
+App.Data.Clothes["pirate queen regalia"] = { // +40
+    Name: "pirate queen regalia", ShortDesc: "pirate queen regalia",
+    LongDesc: "\
+    This outfit consists of a low cut black top, tiny black micro skirt and a short waisted coat with \
+    large golden epaulets. The buttons on the coat are polished white ivory and the embroidery is made of \
+    expensive gold thread. \
+    ",
+    Slot: "Dress", Restrict : [ "Shirt", "Pants", "Dress", "Costume" ],
+    Color: "black", Style : "LEGENDARY", Type : "ONE PIECE",
+    WearEffect: [ "FEMININE_CLOTHING", "KINKY_CLOTHING"],
+    ActiveEffect : [ "MAJOR_PIRATES_GRACE" ],
+    Category : [ "Pirate Slut" ],
+    InMarket : false
+};
+
 // COSTUME SLOT
+App.Data.Clothes["pirate stripper costume"] = { // +40
+    Name: "pirate stripper costume", ShortDesc: "flimsy sequinned pirate costume",
+    LongDesc: "\
+    This tiny costume constists of a tiny pleated black skirt and white top with a black vest embroidered \
+    with sequins. The skirt has tiny Jolly Rodgers (skull and bones) stitched to it and is designed to \
+    be flipped and spun about. It's obviously designed more for play than for actual daily use. \
+    ",
+    Slot: "Costume", Restrict : [ "Shirt", "Pants", "Dress", "Costume" ],
+    Color: "black", Style : "LEGENDARY", Type : "ONE PIECE",
+    WearEffect: [ "FEMININE_CLOTHING", "KINKY_CLOTHING"],
+    ActiveEffect : [ "MAJOR_STRIPPERS_ALLURE"],
+    Category : [ "Pirate Slut", "Sexy Dancer"],
+    InMarket : false
+};
 
 // SHOES SLOT
 App.Data.Clothes["pirate boots"] = { // +10
@@ -83,6 +125,20 @@ App.Data.Clothes["pirate boots"] = { // +10
     "LongDesc": "The heels on these boots are outrageously high and pointed. The supple and shiny leather comes up to your mid thigh and folds over on itself.",
     "Slot": "Shoes", "Restrict": ["Shoes"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
     "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [ "Pirate Slut", "Sexy Dancer", "BDSM" ]
+};
+
+App.Data.Clothes["pirate ankle boots"] = { // +20
+    Name: "pirate ankle boots", ShortDesc: "{COLOR} ankle boots with giant silver buckles",
+    LongDesc: "\
+    These stylish high heeled boots come up well past your ankle with the tops folded down. Each one \
+    sports a large silver buckle. They are surpisingly light and durable.\
+    ",
+    Slot: "Shoes", Restrict : [ "Shoes" ],
+    Color: "black", Style : "LEGENDARY", Type : "CLOTHING",
+    WearEffect: [ "FEMININE_CLOTHING" ],
+    ActiveEffect : [ "FANCY_MOVES" ],
+    Category : [ "Pirate Slut" ],
+    InMarket : false
 };
 
 // BUTT SLOT

@@ -192,14 +192,7 @@ App.Data.Clothes["medium heels"] = {
     "WearEffect": [ "FEMININE_CLOTHING" ]
 };
 
-
 // BUTT SLOT
-App.Data.Clothes["cat tail"] = {
-    "Name": "cat tail", "ShortDesc": "a long furry {COLOR} cat tail anal plug",
-    "LongDesc": "This large anal plug has a long furry cat tail attached to it. Wearing it will loosen your asshole and probably attract animal lovers.",
-    "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Style": "COMMON", "Type" : "ACCESSORY",
-    "WearEffect": [ "PERVERTED_CLOTHING", "GAPE_TRAINING" ]
-};
 
 // PENIS SLOT
 App.Data.Clothes["cock ribbon"] = {

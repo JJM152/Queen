@@ -106,7 +106,7 @@ App.Data.Quests["CHEMICAL_PICKUP"] = {
         way to parting with. How does a price of 1,000 coins sound?)\n\n\
         That's a lot of money, but if you want relief from this ball crushing agony, then you'll have to pay it, right?",
     "MIDDLE" : "\
-        NPC_NAME says, s(Come back when you have the <span style='color:gold'>100 coins</span> coins lass and we'll \
+        NPC_NAME says, s(Come back when you have the <span style='color:gold'>1000 coins</span> coins lass and we'll \
         make a fair trade.)\
         ",
     "FINISH":

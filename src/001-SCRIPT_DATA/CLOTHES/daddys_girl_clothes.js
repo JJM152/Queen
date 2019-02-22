@@ -92,12 +92,67 @@ App.Data.Clothes["pink gingham dress"] = { // +40
         "InMarket" : false
 };
 
+App.Data.Clothes["babydoll dress"] = { // +40
+    Name: "babydoll dress", ShortDesc: "{COLOR} babydoll dress",
+    LongDesc: "\
+    This humiliatingly short dress is made out of a light breezy material that is almost see-through. It has a plunging\
+    neckline that leaves little to the imagination and delicate embroidery across the collar and hem depicting \
+    an assortment of wildflowers.\
+    ",
+    Slot: "Dress", Restrict : [ "Shirt", "Pants", "Dress", "Costume" ],
+    Color: "white", Style : "LEGENDARY", Type : "ONE PIECE",
+    WearEffect: [ "FEMININE_CLOTHING" ],
+    ActiveEffect : [ "FLIRTY"],
+    Category : [ "Daddy's Girl" ],
+    InMarket : false
+};
+
 // COSTUME SLOT
+App.Data.Clothes["naughty schoolgirl outfit"] = { // +40
+    Name: "naughty schoolgirl outfit", ShortDesc: "naughty schoolgirl uniform",
+    LongDesc: "\
+    This costume is designed to copy a typical schoolgirl uniform - white shirt with blazer and a tartan skirt, \
+    however the skirt is far too short to be decent, the shirt is more of a low cut tank top and the jacket is \
+    so tiny that it's more of an accessory than anything else. It'd be ridiculous for a grown woman to wear this, \
+    which is kind of the point.\
+    ",
+    Slot: "Costume", Restrict : [ "Shirt", "Pants", "Dress", "Costume" ],
+    Color: "tartan", Style : "LEGENDARY", Type : "ONE PIECE",
+    WearEffect: [ "KINKY_CLOTHING" ],
+    ActiveEffect : [ "MAJOR_STRIPPERS_ALLURE"],
+    Category : [ "Daddy's Girl", "Sexy Dancer"],
+    InMarket : false
+};
 
 // SHOES SLOT
-
+App.Data.Clothes["low heel maryjanes"] = { // +20
+    Name: "low heel maryjanes", ShortDesc: "pair of {COLOR} low heeled maryjanes",
+    LongDesc: "\
+    This style of shoe is popular with young girls for their fashionable look and ease of wearing. The heel \
+    is higher than typical for this style, but not so much as to impair ones walking. The craftsmanship and \
+    quality of the shoe is apparent in how sturdy and lightweight it is. \
+    ",
+    Slot: "Shoes", Restrict: ["Shoes"], 
+    Color: "black", Style: "LEGENDARY", Type : "CLOTHING",
+    WearEffect: [ "FEMININE_CLOTHING" ],
+    ActiveEffect: [ "FANCY_MOVES" ], 
+    Category : [ "Daddy's Girl", "Sexy Dancer" ],
+    InMarket: false
+};
 // BUTT SLOT
 
 // PENIS SLOT
-
+App.Data.Clothes["pink cock ribbon"] = { // +12
+    Name: "pink cock ribbon", ShortDesc: "delicate {COLOR} cock ribbon",
+    LongDesc: "\
+    A tiny ribbon meant to be worn around the cock and tied into a bow. The ribbon itself has the phrase \
+    'I @@color:pink;&#9825;@@ Daddy!' embroidered on it.\
+    ",
+    Slot: "Penis", Restrict : [ "Penis" ],
+    Color: "pink", Style : "LEGENDARY", Type : "ACCESSORY",
+    WearEffect: [ "KINKY_CLOTHING" ],
+    ActiveEffect : [],
+    Category : [ "Daddy's Girl" ],
+    InMarket : false
+};
 // WEAPON SLOT (huh?)

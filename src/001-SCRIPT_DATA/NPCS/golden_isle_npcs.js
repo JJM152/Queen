@@ -103,7 +103,15 @@ App.Data.NPCS["Bella"] = {
     "Lust": 40,
     "DailyLust": 10,
     "Title": "NPC_NAME, Proprietor and Seamstress",
-    "LongDesc": "Wearing her casual undress gown as well as other ladies do more formal clothing, her fashion-forward style and confident sensibility make her an admired shop mistress. Her dress' wide vertical stripes cover her bodice and skirts, dyed in cheerful candy colors, and project that she is always ready for happy diversions. However, her attentive, intelligent gaze instead promise that shopping will feel more fun. She looks over each customer with a practiced and insightful eye, often suggesting how to find a desired purchase without needing to be asked for it."
+    "LongDesc": "\
+        Wearing her casual undress gown as well as other ladies do more formal clothing, her fashion-forward \
+        style and confident sensibility make her an admired shop mistress. Her dress' wide vertical \
+        stripes cover her bodice and skirts, dyed in cheerful candy colors, and project that she is \
+        always ready for happy diversions. However, her attentive, intelligent gaze instead promise \
+        that shopping will feel more fun. She looks over each customer with a practiced and insightful \
+        eye, often suggesting how to find a desired purchase without needing to be asked for it.\
+        ",
+    Store: "Bella"
 };
 
 //THOMAS SHILLING, The Dancing Master - Note: Mood/Lust values not adjusted//
