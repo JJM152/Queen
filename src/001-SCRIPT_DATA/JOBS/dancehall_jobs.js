@@ -92,7 +92,11 @@ App.Data.JobData["DANCE_AMATEUR"] = {
                     "REWARD" : "MONEY", "VALUE" : 10
                 }                
             ],
-            "POST" : [],
+            "POST" : [
+                {
+                    "TYPE" : "STAT_XP", "NAME" : "Fitness", "VALUE" : 10, "OPT" : "TAG_DANCE_CHECK_1"
+                }
+            ],
             "START" : "\
             In the middle of the stage is a large revolving pole that is used to perform acrobatic stunts. You \
             saunter towards it, doing your best to exaggerate the gait of your pHIPS hips and accentuate your \
@@ -188,7 +192,11 @@ App.Data.JobData["DANCE_AMATEUR"] = {
                     "REWARD" : "MONEY", "VALUE" : 10
                 }                  
             ],
-            "POST" : [],
+            "POST" : [
+                {
+                    "TYPE" : "STAT_XP", "NAME" : "Fitness", "VALUE" : 10, "OPT" : "TAG_DANCE_CHECK_2"
+                }
+            ],
             "START" : "\
             You stand up and pivot, facing your rear to the crowd and swaying your pASS butt at them. \
             <<if setup.player.IsEquipped(['Costume', 'Dress', 'Shirt'])>>\
@@ -442,7 +450,11 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
                      "REWARD" : "MONEY", "VALUE" : 20
                  }                
              ],
-             "POST" : [],
+             "POST" : [
+                {
+                    "TYPE" : "STAT_XP", "NAME" : "Fitness", "VALUE" : 10, "OPT" : "TAG_DANCE_CHECK_1"
+                }
+             ],
              "START" : "\
              In the middle of the stage is a large revolving pole that is used to perform acrobatic stunts. You \
              saunter towards it, doing your best to exaggerate the gait of your pHIPS hips and accentuate your \
@@ -538,7 +550,11 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
                      "REWARD" : "MONEY", "VALUE" : 20
                  }                  
              ],
-             "POST" : [],
+             "POST" : [
+                {
+                    "TYPE" : "STAT_XP", "NAME" : "Fitness", "VALUE" : 10, "OPT" : "TAG_DANCE_CHECK_2"
+                }
+             ],
              "START" : "\
              You stand up and pivot, facing your rear to the crowd and swaying your pASS butt at them. \
              <<if setup.player.IsEquipped(['Costume', 'Dress', 'Shirt'])>>\
@@ -849,7 +865,11 @@ App.Data.JobData["DANCE_EXPERT"] = {
                      "REWARD" : "MONEY", "VALUE" : 30
                  }                
              ],
-             "POST" : [],
+             "POST" : [
+                {
+                    "TYPE" : "STAT_XP", "NAME" : "Fitness", "VALUE" : 10, "OPT" : "TAG_DANCE_CHECK_1"
+                }
+             ],
              "START" : "\
              In the middle of the stage is a large revolving pole that is used to perform acrobatic stunts. You \
              saunter towards it, doing your best to exaggerate the gait of your pHIPS hips and accentuate your \
@@ -945,7 +965,11 @@ App.Data.JobData["DANCE_EXPERT"] = {
                      "REWARD" : "MONEY", "VALUE" : 30
                  }                  
              ],
-             "POST" : [],
+             "POST" : [
+                {
+                    "TYPE" : "STAT_XP", "NAME" : "Fitness", "VALUE" : 10, "OPT" : "TAG_DANCE_CHECK_2"
+                }
+             ],
              "START" : "\
              You stand up and pivot, facing your rear to the crowd and swaying your pASS butt at them. \
              <<if setup.player.IsEquipped(['Costume', 'Dress', 'Shirt'])>>\
