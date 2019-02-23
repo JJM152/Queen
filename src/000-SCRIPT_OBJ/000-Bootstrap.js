@@ -1,0 +1,1 @@
+window.App = window.App || { Data: { }, Entity: { } };

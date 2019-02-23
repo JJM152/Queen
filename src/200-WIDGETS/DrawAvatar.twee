@@ -1,0 +1,5 @@
+:: DrawAvatar [widget]
+<<widget "DrawAvatar">>\
+<div id='avatarUI' style='width:400;height:600;'></div>
+<<run App.Avatar.DrawCanvas('avatarUI');>>\
+<</widget>>

@@ -1197,6 +1197,9 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         return Math.ceil(Math.max(0, Math.min((( this.MakeupRating() + this.GetStat("BODY", "Face")) / 2), 100)));
     }
 
+    ClothesRating2() {
+        return wibble.property();
+    }
     /**
      * Iterates through players worn items and sums .Style property.
      * @returns {number}

@@ -15,6 +15,9 @@ Config.saves.version = App.Data.Game.Version;
 
 setup.player = new App.Entity.Player();
 
+// Initalize Avatar Engine
+App.Avatar = new App.Entity.AvatarEngine();
+
 // Random Events and Conditional Navigation Override
 // Override navigation on death.
 

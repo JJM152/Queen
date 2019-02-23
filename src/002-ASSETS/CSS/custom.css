@@ -255,3 +255,22 @@ span.pcText  {
 	color:lightpink;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
+
+#mirrorContainer {
+	width: 900px;
+	height: 600px;
+}
+
+#avatarUI {
+	width: 400px;
+	height: 600px;
+	float: left;
+	margin-right: 20px;
+}
+
+#mirrorText {
+	width: 480px;
+	height: 600px;
+	float: left;
+	padding-top: 0px;
+}

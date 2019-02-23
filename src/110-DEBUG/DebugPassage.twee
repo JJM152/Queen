@@ -4,7 +4,7 @@
 
 @@color:lime;Travel Menu@@
 [[Cabin]] | [[IslaHarbor]] | [[GoldenIsle]] | [[HighHill]] | [[Abamond]] | [[PortRoyale]] | [[PassageTest]]
-[[HiddenCove]] | [[Ruins]] | [[TreasureRoom]]
+[[HiddenCove]] | [[Ruins]] | [[TreasureRoom]] | [[BodyTest]]
 
 @@color:silver;Items Menu@@
 [[Acquire everything|DebugPassage][setup.player.AcquireAllItems();]]
