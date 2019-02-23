@@ -595,8 +595,8 @@ App.Entity.ClothingManager = class ClothingManager {
 
     /**
      * Useful helper method.
-     * @param {string} Slot 
-     * @param {boolean} Lock 
+     * @param {string} Slot
+     * @param {boolean} Lock
      */
     SetLock(Slot, Lock)
     {
@@ -801,7 +801,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         ConfigOb = this.GetStatConfig(Type);
 
         for (Prop in ConfigOb) {
-            if(!ConfigOb.hasOwnProperty(Prop)) continue;
+            if(!ConfigOb.hasOwnProperty(Prop) || !ConfigOb[Prop].hasOwnProperty("START")) continue;
             if (Type == "BODY") this.AdjustBody(Prop, ConfigOb[Prop]["START"]);
             if (Type == "SKILL") this.AdjustSkill(Prop, ConfigOb[Prop]["START"]);
             if (Type == "STAT") this.AdjustStat(Prop, ConfigOb[Prop]["START"]);
@@ -850,9 +850,9 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     /**
      * Moved this here to use it in a couple of different place.
-     * @param {number} Roll 
+     * @param {number} Roll
      * @param {number} Target
-     * @returns {number} 
+     * @returns {number}
      */
     _ModFormula (Roll, Target) {
         return Math.max(0.1, Math.min((Roll/Target), 2.0));
@@ -860,8 +860,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     /**
      * Moved this here to use it in a couple of different places.
-     * @param {number} Val 
-     * @param {number} Difficulty 
+     * @param {number} Val
+     * @param {number} Difficulty
      */
     _TargetFormula(Val, Difficulty) {
         return (100 - Math.max(5, Math.min((50 + (Val - Difficulty)), 95)));
@@ -870,18 +870,18 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     /**
      * Sort of a generic skill roll that just uses the base formulas and doesn't inherently
      * grant xp. Used for arbitrary checks that are derived from meta statistics, etc.
-     * @param {number} SkillVal 
-     * @param {number} Difficulty 
-     * @param {number} Amount 
-     * @param {number} Scaling 
+     * @param {number} SkillVal
+     * @param {number} Difficulty
+     * @param {number} Amount
+     * @param {number} Scaling
      */
     GenericRoll (SkillVal, Difficulty, Amount, Scaling ) {
         Scaling         = Scaling || false;
         var Target      = this._TargetFormula(SkillVal, Difficulty);
         var DiceRoll    = Math.floor(Math.random() * 100);
         var Mod         = this._ModFormula(DiceRoll, Target);
-        if (this._state.debugMode) 
-        console.log("GenericRoll(" + SkillVal + "," + Difficulty + ","+Amount+","+Scaling+ "):  Target=" + 
+        if (this._state.debugMode)
+        console.log("GenericRoll(" + SkillVal + "," + Difficulty + ","+Amount+","+Scaling+ "):  Target=" +
             Target + ", DiceRoll=" + DiceRoll + ", Mod="+Mod+"\n");
 
         if (Scaling == true ) return (Amount * Mod);
@@ -1517,9 +1517,9 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         Heal = Heal * (( 100 - Math.max(0, Math.min(this.GetStat("STAT", "Toxicity"), 100))) / 100); // Toxicity up to 100 reduces natural healing.
 
         if (OvernightFlag == 0) Heal = Heal / 2;
-        
+
         if (OvernightFlag == 1) {
-            this.AdjustStat("Energy", 
+            this.AdjustStat("Energy",
                 ( Math.floor((this.GetStat("STAT", "Nutrition") / 20) + (this.GetStat("STAT", "Fitness") / 20))));
         }
 
@@ -1761,7 +1761,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
                 if (_IsEquipped(Name[i], SlotFlag, this)) return true;
             }
             return false;
-        } 
+        }
 
         return _IsEquipped(Name, SlotFlag, this);
 
