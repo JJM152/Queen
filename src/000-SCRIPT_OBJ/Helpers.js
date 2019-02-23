@@ -680,12 +680,7 @@ App.PR = new function() {
         var fPercent = Player.GetStatPercent("STAT", "Fitness");
 
         if (typeof Arg !== 'undefined') {
-           /**
-            * Removed because "AssFirmness" nouns are relying on a body stat entry that is incomplete. It's breaking the
-            * overnight stat leveling. 
             return this.GetAdjective("BODY", "Ass", aPercent) + ' ' + this.GetAdjective("BODY", "AssFirmness", fPercent);
-            */
-           return this.GetAdjective("BODY", "Ass", aPercent);
         }
 
         var hPercent = Player.GetStatPercent("BODY", "Hips");
