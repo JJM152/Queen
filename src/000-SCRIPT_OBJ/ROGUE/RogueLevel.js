@@ -191,7 +191,7 @@ App.Rogue.Level = function(depth) {
                 && setup.player.QuestFlags["FINDING_YOUR_BALLS_2"] == "ACTIVE"
                 && (typeof setup.player.GetItemByName("rare ore") === 'undefined')
                 && (Math.random() * 100 < this._depth)) {
-                    setup.player.AddItem("rare ore", 1);
+                    setup.player.AddItem("QUEST", "rare ore", 1);
                     App.Rogue.Engine._textBuffer.write("You find: a rare ore!");
                     return;
                 }
