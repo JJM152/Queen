@@ -1,5 +1,8 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.9 Bugfix a - 23/02/2019
+!!!!Abamond
+* Digging for rare ore should work correctly now.
 !!!0.9 - 23/02/2019
 !!!!General
 * Leveled nouns now added for some body part descriptions.
