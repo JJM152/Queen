@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-
 /**
  * NPC Entity
  * @class {NPC}

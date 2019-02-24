@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Clothes = App.Data.Clothes || { };
-
 // STYLE TABLE
 // TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
 // ACCESSORY    3       6           9       12
@@ -132,4 +129,3 @@ App.Data.Clothes["luxurious chastity cage"] = { // +12
 
 
 // WEAPON SLOT (huh?)
-

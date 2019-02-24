@@ -1,28 +1,25 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.JobData = App.Data.JobData || { };
-
 App.Data.JobData["ISLA_MASCOT"] = {
-    "ID": "ISLA_MASCOT", 
-    "TITLE": "Store Mascot", 
-    "GIVER": "IslaShopKeeper", 
+    "ID": "ISLA_MASCOT",
+    "TITLE": "Store Mascot",
+    "GIVER": "IslaShopKeeper",
     "PAY" : 40,
     "RATING" : 3, // of 5
     "PHASES" : [ 0, 1, 2, 3 ],
     "DAYS"   : 1,
     "HIDDEN" : false,
-    "COST" : [  
-        { 
-            "TYPE" : "TIME", "VALUE" : 1 
+    "COST" : [
+        {
+            "TYPE" : "TIME", "VALUE" : 1
         },
-        { 
-            "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 1 
-        } 
+        {
+            "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 1
+        }
     ],
     "REQUIREMENTS" : [
-        { 
-            "TYPE" : "STYLE", "NAME" : "STYLE", "VALUE" : 50, "CONDITION" : "gte" 
+        {
+            "TYPE" : "STYLE", "NAME" : "STYLE", "VALUE" : 50, "CONDITION" : "gte"
         },
-        { 
+        {
             "TYPE" : "STAT", "NAME" : "Femininity", "VALUE" : 10, "CONDITION" : "gte"
         }
     ],
@@ -50,20 +47,20 @@ App.Data.JobData["ISLA_MASCOT"] = {
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [
-                { 
-                    "TAG" : "A", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 50, 
-                    "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 
-                } 
+                {
+                    "TAG" : "A", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 50,
+                    "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0
+                }
             ],
             "POST" : [
-                { 
-                    "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 5, "OPT" : "TAG_A" 
+                {
+                    "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 5, "OPT" : "TAG_A"
                 },
-                { 
-                    "TYPE" : "MONEY", "VALUE" : 20, "OPT" : "TAG_A" 
+                {
+                    "TYPE" : "MONEY", "VALUE" : 20, "OPT" : "TAG_A"
                 },
-                { 
-                    "TYPE" : "STAT_XP", "NAME" : "Femininity", "VALUE" : 50, "OPT" : "TAG_A" 
+                {
+                    "TYPE" : "STAT_XP", "NAME" : "Femininity", "VALUE" : 50, "OPT" : "TAG_A"
                 }
             ],
             "START" :"\
@@ -73,21 +70,21 @@ App.Data.JobData["ISLA_MASCOT"] = {
             ",
             "RESULTS" : [
                 {
-                    "A":  33, 
+                    "A":  33,
                     "TEXT": "\
                         Despite your efforts and outgoing antics @@not very many@@ customers enter the store. \
                         Hopefully it'll be enough."
                     },
                 {
-                    "A":  66, 
+                    "A":  66,
                     "TEXT": "You seem to have a @@modest success@@ at cajoling people to check out the store. \
                     It's surprisingly more tiring than you thought to be so outgoing."
                 },
                 {
-                    "A": 500, 
+                    "A": 500,
                     "TEXT": "You put on your best face and try to exert your 'girlish charm'. It seems to \
                     @@have the desired effect@@ and you draw a respectable amount of customers to the shop."
-                } 
+                }
             ],
             "END" :
             "Eventually your shift ends and you saunter back inside."
@@ -95,23 +92,23 @@ App.Data.JobData["ISLA_MASCOT"] = {
         {   // If pass check 'A' and If counter is at MAX (5), reward player and set counter to 0.
             "ID" : "SCENE04a",
             "TRIGGERS" :[
-                { 
-                    "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" 
+                {
+                    "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte"
                 },
-                { 
-                    "TYPE" : "COUNTER", "NAME" : "HEDDY_LOOT", "VALUE" : 5, "CONDITION" : "gte" 
+                {
+                    "TYPE" : "COUNTER", "NAME" : "HEDDY_LOOT", "VALUE" : 5, "CONDITION" : "gte"
                 }
             ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [ ],
             "POST" : [
-                { 
-                    "TYPE" : "FLAG", "NAME" : "HEDDY_LOOT", "VALUE" : 0, "OPT" : "SET" 
+                {
+                    "TYPE" : "FLAG", "NAME" : "HEDDY_LOOT", "VALUE" : 0, "OPT" : "SET"
                 },
-                { 
-                    "TYPE" : "FLAG", "NAME" : "HEDDY_REWARD", "VALUE" : 1, "OPT" : "SET" 
+                {
+                    "TYPE" : "FLAG", "NAME" : "HEDDY_REWARD", "VALUE" : 1, "OPT" : "SET"
                 },
-                { 
+                {
                     "TYPE" : "LOOT_BOX", "NAME" : "common sissy loot box",   "VALUE" :   1
                 }
             ],
@@ -125,24 +122,24 @@ App.Data.JobData["ISLA_MASCOT"] = {
         {   // If passed both cooking checks then increment counter. Doesn't trigger if the counter is already at MAX (5) or the reward has been given this time.
             "ID" : "SCENE04b",
             "TRIGGERS" :[
-                { 
-                    "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" 
+                {
+                    "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte"
                 },
-                { 
-                    "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" 
+                {
+                    "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte"
                 },
-                { 
-                    "TYPE" : "COUNTER", "NAME" : "HEDDY_LOOT", "VALUE" : 4, "CONDITION" : "lte" 
+                {
+                    "TYPE" : "COUNTER", "NAME" : "HEDDY_LOOT", "VALUE" : 4, "CONDITION" : "lte"
                 },
-                { 
-                    "TYPE" : "FLAG", "NAME" : "HEDDY_REWARD",  "OPT" : "NOT_SET" 
+                {
+                    "TYPE" : "FLAG", "NAME" : "HEDDY_REWARD",  "OPT" : "NOT_SET"
                 }
             ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [ ],
             "POST" : [
-                { 
-                    "TYPE" : "COUNTER", "NAME" : "HEDDY_LOOT", "VALUE" :   1,  "OPT" : 1 
+                {
+                    "TYPE" : "COUNTER", "NAME" : "HEDDY_LOOT", "VALUE" :   1,  "OPT" : 1
                 }
             ],
             "START" : "\
@@ -155,15 +152,15 @@ App.Data.JobData["ISLA_MASCOT"] = {
         {   // Just unset the flag that shows we received loot and make sure we clear the counter.
             "ID" : "SCENE04c",
             "TRIGGERS" :[
-                { 
-                    "TYPE" : "FLAG", "NAME" : "HEDDY_REWARD", "OPT" : "SET" 
+                {
+                    "TYPE" : "FLAG", "NAME" : "HEDDY_REWARD", "OPT" : "SET"
                 }
             ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [ ],
             "POST" : [
-                { 
-                    "TYPE" : "FLAG",   "NAME" : "HEDDY_REWARD",  "OPT" : "DELETE" 
+                {
+                    "TYPE" : "FLAG",   "NAME" : "HEDDY_REWARD",  "OPT" : "DELETE"
                 }
             ],
             "START" : "",
@@ -175,16 +172,16 @@ App.Data.JobData["ISLA_MASCOT"] = {
         NPC_NAME comes up to you and hands you your pay for the shift. JOB_RESULTS",
     "JOB_RESULTS" : [
         {
-            "A":  33, 
+            "A":  33,
             "TEXT": "It seems that she was a @@little disappointed@@ in the turn out, but hey at least you still\
              got paid."
             },
         {
-            "A":  66, 
+            "A":  66,
             "TEXT": "It appears you did @@reasonably well@@ and the pay reflects that."
         },
         {
-            "A": 500, 
+            "A": 500,
             "TEXT": "You definitely did a @@good job@@ and the pay reflects that."
         }
     ]

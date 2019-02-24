@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Clothes = App.Data.Clothes || { };
-
 // STYLE TABLE
 // TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
 // ACCESSORY    3       6           9       12
@@ -86,10 +83,10 @@ App.Data.Clothes["whore sandals"] = { // +20
     These sandals have a medium height heel on them and conists of a series of delicate straps \
     that winde upwards and around your leg to be tied in a bow.\
     ",
-    Slot: "Shoes", Restrict: ["Shoes"], 
+    Slot: "Shoes", Restrict: ["Shoes"],
     Color: "red", Style: "LEGENDARY", Type : "CLOTHING",
     WearEffect: [ "SEXY_CLOTHING" ],
-    ActiveEffect: [ "FANCY_MOVES" ], 
+    ActiveEffect: [ "FANCY_MOVES" ],
     Category : [ "High Class Whore", "Sexy Dancer" ],
     InMarket: false
 };

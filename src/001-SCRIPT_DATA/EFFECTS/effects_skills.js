@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.EffectLib = App.Data.EffectLib || {};
-
 /** SAILING */
 App.Data.EffectLib["SAILING_XP_COMMON"] = {
     "FUN" : /** @param {App.Entity.Player} p

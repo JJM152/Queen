@@ -1,13 +1,10 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Quests = App.Data.Quests || { };
-
 App.Data.Quests["ROYAL_ENTRANCE"] = {
     "ID": "ROYAL_ENTRANCE", "Title": "A Royal Entrance",
     "GIVER": "Uticus",
     "PRE": [],
     "CHECKS": [
         {
-            "TYPE": "IS_WEARING", "NAME" : "voodoo anal plug", "VALUE": "voodoo anal plug" 
+            "TYPE": "IS_WEARING", "NAME" : "voodoo anal plug", "VALUE": "voodoo anal plug"
         },
         {
             "TYPE": "STAT_SKILL", "NAME": "AssFucking", "VALUE": 65

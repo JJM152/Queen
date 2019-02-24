@@ -1,7 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-
-App.Data.NPCS = App.Data.NPCS || { };
-
 App.Data.NPCS["Paola"] = {
     "Name": "Paola",
     "Mood": 40,

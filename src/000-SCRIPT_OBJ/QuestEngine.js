@@ -1,4 +1,3 @@
-App = App || { Data: { }, Entity: { } };
 /**
  * This class manages the tracking of quests and handing out of rewards.
  * @constructor

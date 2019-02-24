@@ -1,7 +1,4 @@
-window.App = window.App || { Data: { }, Entity: { } };
-
-
-window.App.CombatEngine = new function()
+App.CombatEngine = new function()
 {
     /** Array of current enemies.
      * @type {Array}
@@ -84,5 +81,3 @@ window.App.CombatEngine = new function()
 
     };
 };
-
-

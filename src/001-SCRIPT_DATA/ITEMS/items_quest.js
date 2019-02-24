@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-
 App.Data.QuestItems = {
         "isla harbor mansion key": {
             "Name": "isla harbor mansion key",

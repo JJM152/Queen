@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Clothes = App.Data.Clothes || { };
-
 // STYLE TABLE
 // TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
 // ACCESSORY    3       6           9       12
@@ -87,10 +84,10 @@ App.Data.Clothes["sexy nun boots"] = { // +20
     6 inch stilleto. The tips of the shoes are pointed and running up the front of each shoe to the top of the \
     boots is a white leather stripe that forms the iconography of a popular religious symbol.\
     ",
-    Slot: "Shoes", Restrict: ["Shoes"], 
+    Slot: "Shoes", Restrict: ["Shoes"],
     Color: "black", Style: "LEGENDARY", Type : "CLOTHING",
     WearEffect: [ "FEMININE_CLOTHING" ],
-    ActiveEffect: [ "FANCY_MOVES" ], 
+    ActiveEffect: [ "FANCY_MOVES" ],
     Category : [ "Naughty Nun", "Sexy Dancer" ],
     InMarket: false
 };

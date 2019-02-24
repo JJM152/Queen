@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Quests = App.Data.Quests || { };
-
 App.Data.Quests["SMUGGLER_PICKUP"] = {
     "ID": "SMUGGLER_PICKUP", "Title": "Smuggler's Run: The Pickup",
     "GIVER": "Petey",
@@ -81,8 +78,8 @@ App.Data.Quests["FORGED_LETTER"] = {
     "JOURNAL_ENTRY": "HIDDEN",
     "JOURNAL_COMPLETE": "HIDDEN",
     "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "BELLA_INTRODUCTION", "VALUE" : "ACTIVE" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "BELLA_INTRODUCTION", "VALUE" : "ACTIVE"
         }
     ],
     "POST": [],

@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Clothes = App.Data.Clothes || { };
-
 // STYLE TABLE
 // TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
 // ACCESSORY    3       6           9       12
@@ -141,10 +138,10 @@ App.Data.Clothes["sweet cherry shoes"] = { // +20
     platform is tall and the shoe is heavy causing you to walk in an exagerated prancing gait. They are extremely \
     well made and durable and despite everything incredibly comfortable to walk in.\
     ",
-    Slot: "Shoes", Restrict: ["Shoes"], 
+    Slot: "Shoes", Restrict: ["Shoes"],
     Color: "pink", Style: "LEGENDARY", Type : "CLOTHING",
     WearEffect: [ "FEMININE_CLOTHING" ],
-    ActiveEffect: [], 
+    ActiveEffect: [],
     Category : [ "Sissy Lolita", "Sexy Dancer" ],
     InMarket: false
 };

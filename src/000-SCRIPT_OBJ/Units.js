@@ -1,5 +1,3 @@
-// App = App || { Data: { }, Entity: { } };
-
 /**
 * Unit system class
 */
@@ -151,10 +149,10 @@ App.UnitSystem = function () {
 var unitSettingChangedHandler = function() {
 	switch (SugarCube.settings.units) {
 	case "Imperial":
-		window.App.unitSystem.system = window.App.unitSystem.imperialSystemDefinition;
+		App.unitSystem.system = App.unitSystem.imperialSystemDefinition;
 		break;
 	case "Metric":
-		window.App.unitSystem.system = window.App.unitSystem.metricSystemDefinition;
+		App.unitSystem.system = App.unitSystem.metricSystemDefinition;
 		break;
 	}
 };

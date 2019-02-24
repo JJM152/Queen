@@ -1,18 +1,15 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Quests = App.Data.Quests || { };
-
 App.Data.Quests["BOBOLA_SAP_2"] = {
     "ID": "BOBOLA_SAP_2", "Title": "Just What the Doctor Ordered",
     "GIVER": "Papa Baba",
     "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "BOBOLA_SAP_1", "VALUE" : "ACTIVE" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "BOBOLA_SAP_1", "VALUE" : "ACTIVE"
         }
     ],
     "POST": [],
     "CHECKS": [
         {
-            "TYPE": "FLAG", "NAME": "BOBOLA_SAP_1", "VALUE": "ACTIVE" 
+            "TYPE": "FLAG", "NAME": "BOBOLA_SAP_1", "VALUE": "ACTIVE"
         },
         {
             "TYPE" : "QUEST_ITEM", "NAME" : "smugglers ale", "VALUE" : 6,
@@ -21,7 +18,7 @@ App.Data.Quests["BOBOLA_SAP_2"] = {
     "ON_ACCEPT" : [],
     "REWARD": [
         {
-            "REWARD_TYPE": "MOOD", "NAME" : "Papa Baba", "AMOUNT": 10 
+            "REWARD_TYPE": "MOOD", "NAME" : "Papa Baba", "AMOUNT": 10
         }
     ],
     "INTRO": "\

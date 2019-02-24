@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.JobData = App.Data.JobData || { };
-
 App.Data.JobData["PEACOCK_WAITRESS"] = {
     "ID": "PEACOCK_WAITRESS", "TITLE": "Wench For Hire", "GIVER": "Georgina", "PAY" : 40,
     "RATING" : 3, // of 5
@@ -129,4 +126,3 @@ App.Data.JobData["PEACOCK_WAITRESS"] = {
     "END" : "Finally, your shift in the tavern is over. NPC_NAME comes up to you and hands you your pay for the night.",
     "JOB_RESULTS" : [ ]
 };
-

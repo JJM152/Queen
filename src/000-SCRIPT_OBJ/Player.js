@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-
 /**
  * The basic player state object.
  * This will be serialized by the SugarCube and thus may not contain any functions

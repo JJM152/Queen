@@ -1,6 +1,4 @@
-window.App = window.App || { Data: { }, Entity: { } };
-
-window.App.StoreEngine = new function() {
+App.StoreEngine = new function() {
 
     /**
      * Creates a store object and returns it to the Twine engine.
@@ -272,10 +270,10 @@ var Store = function(Player, NPC, StoreData) {
                 return ((Item["CATEGORY"] == "RARE") && (Mood >= Item["MOOD"]) && (Item["LOCKED"] != 1));
             });
 
-            // Add multiple rare items to the store inventory. 
+            // Add multiple rare items to the store inventory.
             if (Rares.length > 0) {
 
-            for (i = 0; i < MaxRares; i++) { 
+            for (i = 0; i < MaxRares; i++) {
                 // Filter out Rares that already exist in the rares entry.
                 Rares = Rares.filter(function(o) {
                     var current = this._Player.StoreInventory[this._Id]["RARE"];

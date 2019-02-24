@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Clothes = App.Data.Clothes || { };
-
 // STYLE TABLE
 // TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
 // ACCESSORY    3       6           9       12
@@ -16,10 +13,10 @@ App.Data.Clothes["gimp mask"] = { // +12
     This full head mask is designed to be zipped up and locked over it's wearer. There is a flap for both the mouth \
     and eyes, but they can be closed, or in the case of the mouth have various accessories locked into it.\
     ",
-    Slot: "Hat", Restrict: ["Hat"], 
+    Slot: "Hat", Restrict: ["Hat"],
     Color: "black", Style: "LEGENDARY", Type : "ACCESSORY",
     WearEffect: [ "PERVERTED_CLOTHING" ],
-    ActiveEffect: [], 
+    ActiveEffect: [],
     Category : [ "BDSM" ],
     InMarket: false
 };
@@ -121,10 +118,10 @@ App.Data.Clothes["spiked boots"] = { // +20
     damage. To make matters worse, the boots themselves are adorned with various studs and spikes meaning that it's \
     quite possible to carelessly injure yourself. Perfect for a budding masochist.\
     ",
-    Slot: "Shoes", Restrict: ["Shoes"], 
+    Slot: "Shoes", Restrict: ["Shoes"],
     Color: "black", Style: "LEGENDARY", Type : "CLOTHING",
     WearEffect: [ "KINKY_CLOTHING" ],
-    ActiveEffect: [], 
+    ActiveEffect: [],
     Category : [ "BDSM", "Sexy Dancer" ],
     InMarket: false
 };
@@ -167,4 +164,3 @@ App.Data.Clothes["magic cock ring"] = { // +3
 };
 
 // WEAPON SLOT (huh?)
-

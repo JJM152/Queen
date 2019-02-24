@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Whoring = App.Data.Whoring || { };
-
 App.Data.Whoring["SaucySlattern"] = {
     // Shows in the UI as location.
     "DESC"      : "The Saucy Slattern",

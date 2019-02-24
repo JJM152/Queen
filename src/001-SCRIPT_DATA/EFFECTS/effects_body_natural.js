@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.EffectLib = App.Data.EffectLib || {};
-
 // This file lists effects that happens with body on their own with time
 /** HEALTH */
 /** ENERGY */

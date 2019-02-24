@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Stores = App.Data.Stores || { };
-
 App.Data.Stores["BarnabyLong"] = {
     "ID" : "BarnabyLong",    "NAME" : "Long's Public House",  "OPEN" : [0, 1, 2, 3], "RESTOCK" : 7,
     "INVENTORY" : [
