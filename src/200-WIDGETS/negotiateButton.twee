@@ -62,7 +62,7 @@ You approach @@color:cyan;$Customer.Name@@ and try to proposition that you perfo
 
 <<if $Customer.HasRefused("HandJobs") and $Customer.HasRefused("TitFucking") and $Customer.HasRefused("BlowJobs") and $Customer.HasRefused("AssFucking")>>
 <<append "#WhoreDialog">>
-You wince as $Customer.Name refuses your offer. You may be a prostitute by circumstance, but you just can't bring yourself to be <<print window.App.PR.ColorizeString(setup.player.CoreStats["Perversion"], "perverted"); >> enough to agree to his demands, so you'll have to turn him away.<br/><br/>
+You wince as $Customer.Name refuses your offer. You may be a prostitute by circumstance, but you just can't bring yourself to be <<print App.PR.ColorizeString(setup.player.CoreStats["Perversion"], "perverted"); >> enough to agree to his demands, so you'll have to turn him away.<br/><br/>
 <<if ($CL.length > 0)>> At least there are still some more customers waiting in line, if you choose to see them.
 <</if>>
 <</append>>

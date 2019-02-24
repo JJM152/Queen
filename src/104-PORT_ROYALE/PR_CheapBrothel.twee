@@ -5,7 +5,7 @@ of a small bar and waiting area for clients, while the upstairs hosts a variety 
 
 <<NPC "Simone">>
 
-<<if window.App.QuestEngine.GetQuestFlag(setup.player, "SIMONE_MISSING_FRIEND") == "COMPLETED">>@@color:yellow;Action@@: <<if setup.player.GetStat("STAT","Energy") < 1 or setup.player.Phase == 4>>@@color:grey;[Whore]@@
+<<if App.QuestEngine.GetQuestFlag(setup.player, "SIMONE_MISSING_FRIEND") == "COMPLETED">>@@color:yellow;Action@@: <<if setup.player.GetStat("STAT","Energy") < 1 or setup.player.Phase == 4>>@@color:grey;[Whore]@@
 <<else>><<whoreLink "LustyLass">>
 <</if>><</if>>\
 @@color:lime;Travel@@: [[Great Market|GreatMarket]]

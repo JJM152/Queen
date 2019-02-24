@@ -20,7 +20,7 @@
 <<widget "enemyStatus2">><<print JSON.stringify($args[0]);>><</widget>>
 
 <<widget "combatPanel">><<nobr>>
-<<set _CE = window.App.CombatEngine; >>
+<<set _CE = App.CombatEngine; >>
 <<run _CE.LoadEncounter($args[0]);>>
 <<set _EN = _CE.GetEnemies(); >>
 <table>

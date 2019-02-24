@@ -697,12 +697,12 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     }
 
     Init() {
-        this._state.OriginalName = window.App.Data.Names["Male"][Math.floor(Math.random() * window.App.Data.Names["Male"].length)];
-        this._state.SlaveName = window.App.Data.Names["Sissy"][Math.floor(Math.random() * window.App.Data.Names["Sissy"].length)];
-        var GfName = window.App.Data.Names["Female"][Math.floor(Math.random() * window.App.Data.Names["Female"].length)];
+        this._state.OriginalName = App.Data.Names["Male"][Math.floor(Math.random() * App.Data.Names["Male"].length)];
+        this._state.SlaveName = App.Data.Names["Sissy"][Math.floor(Math.random() * App.Data.Names["Sissy"].length)];
+        var GfName = App.Data.Names["Female"][Math.floor(Math.random() * App.Data.Names["Female"].length)];
 
         while (GfName == this._state.SlaveName) {
-            GfName = window.App.Data.Names["Female"][Math.floor(Math.random() * window.App.Data.Names["Female"].length)];
+            GfName = App.Data.Names["Female"][Math.floor(Math.random() * App.Data.Names["Female"].length)];
         }
 
 		this._state.GirlfriendName = GfName;
@@ -1061,12 +1061,12 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         var h1 = this.Inventory.Charges('COSMETICS', 'hair accessories');
         var h2 = this.Inventory.Charges('COSMETICS', 'hair products');
         var lm = this._state.LastUsedMakeup;
-        var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0];
+        var Makeup = App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["SHORT"] == lm; })[0];
         if ( (m1 < Makeup["RESOURCE1"]) || (m2 < Makeup["RESOURCE2"])) return false;
 
         if (this.GetEquipmentInSlot("Wig") !== 0) return true;
         var lh = this._state.LastUsedHair;
-        var Hair = window.App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0];
+        var Hair = App.Data.Lists["HairStyles"].filter(function(Item) { return Item["SHORT"] == lh; })[0];
         return ( (h1 >= Hair["RESOURCE1"]) && (h2 >= Hair["RESOURCE2"]));
     }
 
@@ -1098,7 +1098,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
             }
         }
 
-        var Makeup = window.App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["NAME"] == MakeupID; })[0];
+        var Makeup = App.Data.Lists["MakeupStyles"].filter(function(Item) { return Item["NAME"] == MakeupID; })[0];
 
         if ( this.GetItemCharges("basic makeup") >= Makeup["RESOURCE1"] && this.GetItemCharges("expensive makeup") >= Makeup["RESOURCE2"]) {
             this._state.MakeupStyle = Makeup["SHORT"];
@@ -1245,8 +1245,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      * @returns {number}
      */
     WaistRating () {
-        var GoldenWaist = Math.round((window.App.PR.StatToCM(this, "Height") * 0.375)); // 54cm to 78cm
-        return Math.round(((GoldenWaist / window.App.PR.WaistInCM(this)) / 1.8) * 100);
+        var GoldenWaist = Math.round((App.PR.StatToCM(this, "Height") * 0.375)); // 54cm to 78cm
+        return Math.round(((GoldenWaist / App.PR.WaistInCM(this)) / 1.8) * 100);
     }
 
     /**
@@ -1254,8 +1254,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      * @returns {number}
      */
     BustRating () {
-        var GoldenBust = (Math.round((window.App.PR.StatToCM(this, "Height") * 0.375)) * 1.5 );
-        return Math.round(((window.App.PR.BustCCtoCM(this) / GoldenBust) / 1.6) * 100);
+        var GoldenBust = (Math.round((App.PR.StatToCM(this, "Height") * 0.375)) * 1.5 );
+        return Math.round(((App.PR.BustCCtoCM(this) / GoldenBust) / 1.6) * 100);
     }
 
     /**
@@ -1530,7 +1530,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
             var PoisonDamage = Math.ceil((this.GetStat("STAT", "Health") * ((Math.max(0, Math.min((this.GetStat("STAT", "Toxicity") - 100), 200)) / 10) * 0.1))); // 0 - .2
             if (PoisonDamage > 0) {
                 this.AdjustStat("Health", (PoisonDamage * -0.5));
-                this._state.SleepLog.push("@@color:red;&dArr;You feel slightly sick@@... your current " + window.App.PR.ColorizeString(this.GetStatPercent("STAT", "Toxicity"), "Toxicity") +
+                this._state.SleepLog.push("@@color:red;&dArr;You feel slightly sick@@... your current " + App.PR.ColorizeString(this.GetStatPercent("STAT", "Toxicity"), "Toxicity") +
                     " is probably to blame.");
             }
         }
@@ -1620,7 +1620,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      * @returns {*}
      */
     GetShipLocation () {
-        var Routes = window.App.Data.Lists["ShipRoute"];
+        var Routes = App.Data.Lists["ShipRoute"];
         if (this._state.SailDays >= Routes.length) this._state.SailDays = 0; // Shouldn't happen, but fix it if it does.
 
         var dict = { "X" : Routes[this._state.SailDays]["X"], "Y" : Routes[this._state.SailDays] };
@@ -1642,7 +1642,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      */
     IsInPort (n) {
         n = n || 0;
-        var Routes = window.App.Data.Lists["ShipRoute"];
+        var Routes = App.Data.Lists["ShipRoute"];
         var days = (this._state.SailDays + n >= Routes.length ? 0 : this._state.SailDays + n);
         return (Routes[days]["P"] != "AtSea");
     }
@@ -1655,7 +1655,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     AdvanceSailDays (n) {
         n = n || 1;
         if ( this.IsInPort(0) == true || this.IsInPort(n) == true ) return false;
-        var Routes = window.App.Data.Lists["ShipRoute"];
+        var Routes = App.Data.Lists["ShipRoute"];
         this._state.SailDays = (this._state.SailDays >= Routes.length ? n : this._state.SailDays + n);
         return true;
     }
@@ -1683,7 +1683,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
         if (Type != "CLOTHES" && Type != "WEAPON") return false;
         if (this.Clothing.Wardrobe.filter( function(o) { return o.Name == Name; }).length > 0 ) return true;
-        var Slot = window.App.Data.Clothes[Name].Slot;
+        var Slot = App.Data.Clothes[Name].Slot;
         var EquipmentInSlot = this.Clothing.Equipment[Slot];
         if (EquipmentInSlot == null || EquipmentInSlot == 0) return false;
         return EquipmentInSlot.Name == Name;
@@ -2005,7 +2005,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     }
 
     pBodyChange (BodyPart, Direction) {
-        return window.App.Data.Lists["BodyChanges"][BodyPart][Direction];
+        return App.Data.Lists["BodyChanges"][BodyPart][Direction];
     }
 
     /**
@@ -2071,8 +2071,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     // Acquire everything for debug purposes
     AcquireAllItems() {
         console.group("AcquireAllItems");
-        for (var prop in window.App.Data.Clothes) {
-            if (window.App.Data.Clothes.hasOwnProperty(prop)) {
+        for (var prop in App.Data.Clothes) {
+            if (App.Data.Clothes.hasOwnProperty(prop)) {
                 if (!this.OwnsWardrobeItem("CLOTHES", prop)) {
                     console.log("Adding \"" + prop + "\" (clothes)");
                     this.AddItem("CLOTHES", prop);

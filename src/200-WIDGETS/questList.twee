@@ -1,6 +1,6 @@
 :: questList [widget]
 <<widget "questList">>\
-<<set _QE = window.App.QuestEngine;>>\
+<<set _QE = App.QuestEngine;>>\
 <<set _QL = _QE.GetQuests("any", setup.player, $MenuAction);>>\
 <<set _NPC = setup.player.GetNPC($MenuAction);>>\
 <<set $n = _NPC.pName(); >>\

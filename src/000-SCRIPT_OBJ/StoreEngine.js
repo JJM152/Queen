@@ -9,7 +9,7 @@ App.StoreEngine = new function() {
     this.OpenStore = function(Player, NPC)
     {
 
-        return new Store(Player, NPC, window.App.Data.Stores[NPC.StoreName()]);
+        return new Store(Player, NPC, App.Data.Stores[NPC.StoreName()]);
     };
 
     /**
@@ -18,7 +18,7 @@ App.StoreEngine = new function() {
      * @returns {boolean}
      */
     this.HasStore = function(NPC) {
-        return (window.App.Data.Stores.hasOwnProperty(NPC.StoreName()));
+        return (App.Data.Stores.hasOwnProperty(NPC.StoreName()));
     };
 
     /**
@@ -28,7 +28,7 @@ App.StoreEngine = new function() {
      * @returns {boolean}
      */
     this.IsOpen = function(Player, NPC) {
-        return ($.inArray(Player.Phase, window.App.Data.Stores[NPC.StoreName()]["OPEN"]) != -1);
+        return ($.inArray(Player.Phase, App.Data.Stores[NPC.StoreName()]["OPEN"]) != -1);
     };
 
     /**
@@ -296,7 +296,7 @@ var Store = function(Player, NPC, StoreData) {
 
     this.PrintItem = function(Item)
     {
-        var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"]);
+        var oItem = App.Item.Factory( Item["TYPE"], Item["TAG"]);
         var res = "<span class='inventoryItem'>" + oItem.Description;
         if (this._Player.Inventory.IsFavorite(oItem.Id)) {
             res += "&nbsp;" + App.PR.GetItemFavoriteIcon(true);
@@ -318,7 +318,7 @@ var Store = function(Player, NPC, StoreData) {
      */
     this.PrintItemLong = function(Item)
     {
-        var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"]);
+        var oItem = App.Item.Factory( Item["TYPE"], Item["TAG"]);
 		var Player = this._Player;
         return "@@color:yellow;You take a look at the @@" + oItem.Description+ ".\n"+oItem.Examine(Player);
     };

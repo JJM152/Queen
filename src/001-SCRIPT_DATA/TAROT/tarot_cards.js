@@ -1,13 +1,13 @@
 App.Data.Tarot["VALIDATE"] = function(){
     console.log("Validating Tarot Card Effects");
-    for (var prop in window.App.Data.Tarot) {
-        if (prop != "VALIDATE" && window.App.Data.Tarot.hasOwnProperty(prop)) {
-            console.group(prop + " " + window.App.Data.Tarot[prop].Name);
-            for (var i = 0; i < window.App.Data.Tarot[prop].Effects.length; i++) {
-                if (window.App.Data.EffectLib.hasOwnProperty(window.App.Data.Tarot[prop].Effects[i])) {
-                  console.log("Effect " + window.App.Data.Tarot[prop].Effects[i] + " found");
+    for (var prop in App.Data.Tarot) {
+        if (prop != "VALIDATE" && App.Data.Tarot.hasOwnProperty(prop)) {
+            console.group(prop + " " + App.Data.Tarot[prop].Name);
+            for (var i = 0; i < App.Data.Tarot[prop].Effects.length; i++) {
+                if (App.Data.EffectLib.hasOwnProperty(App.Data.Tarot[prop].Effects[i])) {
+                  console.log("Effect " + App.Data.Tarot[prop].Effects[i] + " found");
                 } else {
-                    console.log("***Effect " + window.App.Data.Tarot[prop].Effects[i] + " not found");
+                    console.log("***Effect " + App.Data.Tarot[prop].Effects[i] + " not found");
                 }
             }
             console.groupEnd();

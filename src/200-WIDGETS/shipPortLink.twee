@@ -1,7 +1,7 @@
 :: shipPortLink [widget]
 <<widget shipPortLink>>\
 <<set _Port = setup.player.GetShipLocation(); >>\
-<<set _Quest = window.App.QuestEngine; >>\
+<<set _Quest = App.QuestEngine; >>\
 <<if _Port["Passage"] != "">>\
 <<set _Passage = _Port["Passage"] >>\
 <<if _Quest.GetQuestFlag(setup.player, "BOARDINGPASS") == "ACTIVE">>\

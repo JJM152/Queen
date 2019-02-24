@@ -13,7 +13,7 @@
 @@.cmdButton;<<button "Continue Whoring">>
 <<set $WhoreTurn = 0>>
 <<set $Customer = $CL.shift()>>
-<<if  ( $Customer.SexAct == "TitFucking" ) &&              
+<<if  ( $Customer.SexAct == "TitFucking" ) &&
 	  ( setup.player.GetStatPercent("BODY", "Bust") < 6 ) >>
 <<set $Customer.SexAct = "HandJobs">>
 <</if>>
@@ -33,7 +33,7 @@ Deciding that there's still coin to be earned, you do your best to clean yoursel
 <<widget "sexEndDialog">>\
 <<nobr>>
 
-<<set _Cmd = window.App.Data.Lists.SexCommands[$Customer.SexAct][4]>>
+<<set _Cmd = App.Data.Lists.SexCommands[$Customer.SexAct][4]>>
 <<print $Customer.Fuck(setup.player, _Cmd); >><br/><br/>
 <<set _Pay = $Customer.PayOut(setup.player); >>
 <<run setup.player.AdjustMoney(_Pay); >>

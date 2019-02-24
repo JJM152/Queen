@@ -1,6 +1,6 @@
 :: sexButton [widget]
 <<widget "sexButton">><<nobr>>
-<<set _Cmd = window.App.Data.Lists.SexCommands[$Customer.SexAct][$args[0]]>>
+<<set _Cmd = App.Data.Lists.SexCommands[$Customer.SexAct][$args[0]]>>
 <<if $WhoreTurn >= 5>>
 <<if (setup.player.Skills[$Customer.SexAct] < _Cmd["Basic"])>>
 @@.cmdDisabledButton;<<button `"LOCKED"`>><</button>>@@
@@ -13,7 +13,7 @@
 <<else>>
 @@.cmdButton;<<button `_Cmd["Name"]`>>
 
-<<set _Cmd = window.App.Data.Lists.SexCommands[$Customer.SexAct][$args[0]]>>
+<<set _Cmd = App.Data.Lists.SexCommands[$Customer.SexAct][$args[0]]>>
 <<set $WhoreTurn += 1;>>
 <<set _Response = $Customer.Fuck(setup.player, _Cmd); >>
 

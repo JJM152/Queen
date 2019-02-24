@@ -1,6 +1,6 @@
 :: questEntry [widget]
 <<widget "questEntry">>\
-<<set _QE = window.App.QuestEngine; >>\
+<<set _QE = App.QuestEngine; >>\
 <<print '<<click "'+$args[0]["Title"]+'">><<replace "#QuestUI">><<questDialog $args[0]>><</replace>><</click>>';>>\
 <<if _QE.GetQuestFlag(setup.player, $args[0]["ID"]) == "ACTIVE">>\
 <<print "  @@color:lime;(IN PROGRESS)@@"; >><</if>>\

@@ -7,7 +7,7 @@ pressed into service on a passing vessel.
 
 <<NPC "Justus">>
 
-<<if window.App.QuestEngine.GetQuestFlag(setup.player, "JUSTUS_WHORING") == "ACTIVE">>@@color:yellow;Action@@: <<if setup.player.GetStat("STAT","Energy") < 1 or setup.player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<whoreLink "GoldenIsleGuards">><</if>><br><</if>>\
+<<if App.QuestEngine.GetQuestFlag(setup.player, "JUSTUS_WHORING") == "ACTIVE">>@@color:yellow;Action@@: <<if setup.player.GetStat("STAT","Energy") < 1 or setup.player.Phase == 4>>@@color:grey;[Whore]@@<<else>><<whoreLink "GoldenIsleGuards">><</if>><br><</if>>\
 @@color:lime;Travel@@: [[Portside District|Portside]] | [[Jail House|GI_Jail]] | \
 <<if App.QuestEngine.GetQuestFlag(setup.player, "JUSTUS_WHORING") != "COMPLETED">>\
 <<click "High Hill District">>\
@@ -25,5 +25,3 @@ through these gates. Be gone slut, ply your trade somewhere else!"</span>
 [[High Hill District|HighHill]]<</if>>
 
 <span id="Notification"></span>
-
-

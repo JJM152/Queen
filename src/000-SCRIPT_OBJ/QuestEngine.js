@@ -139,7 +139,7 @@ App.QuestEngine = new function() {
      * @returns {*}
      */
     this.GetQuestRewards = function (QuestID, RewardType) {
-        var r = window.App.Data.Quests[QuestID]["REWARD"];
+        var r = App.Data.Quests[QuestID]["REWARD"];
         if (typeof RewardType === 'undefined') return r;
         return r.filter(function (o) {
             return o["REWARD_TYPE"] == RewardType;
@@ -295,10 +295,10 @@ App.QuestEngine = new function() {
     this.GetQuests = function (Flag, Player, NPC)
     {
         var Quests = [];
-        var List = Object.keys(window.App.Data.Quests);
+        var List = Object.keys(App.Data.Quests);
 
         for (var i = 0; i < List.length; i++) {
-            var o = window.App.Data.Quests[List[i]];
+            var o = App.Data.Quests[List[i]];
             if (typeof NPC === 'undefined') {
                 if ((Flag == 'cancomplete') && (this.CanCompleteQuest(Player, o["ID"]) == true)) Quests.push(o);
                 if ((Flag == 'available' ) && (this.QuestAvailable(Player, o["ID"]) == true)) Quests.push(o);
@@ -329,7 +329,7 @@ App.QuestEngine = new function() {
      */
     this.QuestAvailable = function (Player, QuestID) {
         if ((this.QuestCompleted(Player, QuestID) == true) || (this.QuestActive(Player, QuestID) == true)) return false;
-        var PRE = window.App.Data.Quests[QuestID]["PRE"];
+        var PRE = App.Data.Quests[QuestID]["PRE"];
         var Type, Name, Value;
 
         for (var i = 0; i < PRE.length; i++) {
@@ -393,7 +393,7 @@ App.QuestEngine = new function() {
     this.CanCompleteQuest = function (Player, Flag) {
         if ((typeof Player.QuestFlags[Flag] === 'undefined')) return false;
         if (Player.QuestFlags[Flag] == 'COMPLETED') return false; // Should never happen eh??
-        var checks = window.App.Data.Quests[Flag]["CHECKS"];
+        var checks = App.Data.Quests[Flag]["CHECKS"];
         var Name;
         var Reverse;
 

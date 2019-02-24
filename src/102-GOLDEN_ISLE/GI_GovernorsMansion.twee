@@ -14,7 +14,7 @@ flights of stairs, reminding callers of their place.
 <<NPC 'Uticus'>>
 
 @@color:lime;Travel@@: [[High Hill District|HighHill]] | <<click "Enter the Mansion">>\
-<<set _Quest = window.App.QuestEngine; >>\
+<<set _Quest = App.QuestEngine; >>\
 <<set _Npc = setup.player.GetNPC('Uticus');>>\
 <<if _Quest.GetQuestFlag(setup.player, "ROYAL_ENTRANCE") != "COMPLETED">>\
 <<replace "#TravelLink">>\
