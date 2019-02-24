@@ -2,8 +2,74 @@ App.Entity.AvatarEngine = class Avatar {
 
     constructor() {
         da.load().then(function() {
-            // all drawing related functions in here
+            // Genitals - need to avoid the fem attribute shrinking them.
+            da.extendDimensionCalc("human.penisSize", function (base) {
+                var penis = 80 * ( App.PR.StatToCM(setup.player, 'Penis') / 16);
+                console.log("DA:Penis Set to:"+penis);
+                return penis;
+            });
+
+            da.extendDimensionCalc("human.testicleSize", function (base) {
+                var balls = App.PR.StatToCM(setup.player, 'Balls') * 10; // scale in mm
+                console.log("DA:Balls Set to:"+balls);
+                return balls;
+            });
+
         });
+
+        this._PCData = {
+            name : "HAL 9000",
+            occupation : "Pod Bay Opener",
+            // provide specific values here to override the default ones set
+            age : 26,
+            fem : 11,
+            sub : 2,
+        
+            // base physical dimensions
+            basedim        : {
+                areolaSize    : 14.923766816143496,
+                armThickness  : 58.468958260259555,
+                armLength     : 45,
+                breastSize    : 9.974887892376682,
+                buttFullness  : 13.019992984917572,
+                chinWidth     : 63.335671694142405,
+                eyelashLength : 3.0305156085584004,
+                eyeSize       : 13.019992984917572,
+                //faceFem       : 40,
+                faceLength    : 215,
+                faceWidth     : 75,
+                //hairLength    : 37.03963521571379,
+                //hairStyle     : 4,
+                //hairHue       : 0,
+                //hairSaturation: 19.081024202034374,
+                //hairLightness : 11.224131883549632,
+                handSize      : 118.9757979656261,
+                //height        : 163.65022421524662,
+                hipWidth      : 110.85584005612066,
+                legFem        : 39.95790950543669,
+                legFullness   : 4.489652753419852,
+                legLength     : 98.79340582251841,
+                lipSize       : 18.85654156436338,
+                lowerMuscle   : 22.448263767099263,
+                neckLength    : 72.73237460540162,
+                neckWidth     : 39.489652753419854,
+                //penisSize     : 50,
+                shoulderWidth : 64.28699551569507,
+                skin          : -1.9291476674850934,
+                //testicleSize  : 60,
+                upperMuscle   : 0,
+               // vaginaSize    : 40,
+                waistWidth    : 102.32549982462294,
+            },
+            decorativeParts: [
+                //da.Part.create(da.BeautyMark, {side: null}),
+            ],
+            // overriding clothing (default to simple red underwear)
+            clothes: [
+                //da.Clothes.create(da.Bra, da.sheerFabric),
+               // da.Clothes.create(da.Panties, da.sheerFabric)
+            ],
+        };
 
     }
 
@@ -14,82 +80,84 @@ App.Entity.AvatarEngine = class Avatar {
 
     _DrawCanvas() {
         var canvasGroup;
-        console.log("element = "+ this._element);
         if (typeof canvasGroup === 'undefined' || canvasGroup == null) {
             canvasGroup = da.getCanvasGroup(this._element, 
                 {
                     border: "1px solid black",
                     width: 400,
-                    height: 600,
+                    height: 600
                 });
-                console.log("new group");
-                console.log(canvasGroup);
         } 
 
-        //var PC = da.deserialize('["(revive:eval)",["(new da.Player($ReviveData$))",{"age":30,"fem":11,"sub":2,"skeleton":"human","parts":[["(revive:eval)",["(new da.HeadHuman($ReviveData$))",{"loc":"head","parentPart":"neck","layer":8,"reflect":true,"coverConceal":[],"uncoverable":false,"aboveParts":[],"belowParts":[],"forcedSide":null,"side":0}]],["(revive:eval)",["(new da.NeckHuman($ReviveData$))",{"loc":"neck","parentPart":null,"layer":2,"reflect":true,"coverConceal":[],"uncoverable":false,"aboveParts":[],"belowParts":[],"forcedSide":null,"side":0}]],["(revive:eval)",["(new da.ArmHuman($ReviveData$))",{"loc":"left arm","parentPart":null,"layer":4,"reflect":false,"coverConceal":[],"uncoverable":false,"aboveParts":["leg","torso"],"belowParts":[],"childParts":["hand"],"side":1}]],["(revive:eval)",["(new da.ArmHuman($ReviveData$))",{"loc":"right arm","parentPart":null,"layer":4,"reflect":false,"coverConceal":[],"uncoverable":false,"aboveParts":["leg","torso"],"belowParts":[],"childParts":["hand"],"side":0}]],["(revive:eval)",["(new da.HandHuman($ReviveData$))",{"loc":"left hand","parentPart":null,"layer":4,"reflect":false,"coverConceal":[],"uncoverable":false,"aboveParts":[],"belowParts":[],"side":1}]],["(revive:eval)",["(new da.HandHuman($ReviveData$))",{"loc":"right hand","parentPart":null,"layer":4,"reflect":false,"coverConceal":[],"uncoverable":false,"aboveParts":[],"belowParts":[],"side":0}]],["(revive:eval)",["(new da.TorsoHuman($ReviveData$))",{"loc":"torso","parentPart":null,"layer":2,"reflect":true,"coverConceal":[],"uncoverable":false,"aboveParts":[],"belowParts":[],"forcedSide":null,"side":0}]],["(revive:eval)",["(new da.LegHuman($ReviveData$))",{"loc":"left leg","parentPart":null,"layer":2,"reflect":false,"coverConceal":[],"uncoverable":false,"aboveParts":[],"belowParts":[],"childParts":["feet"],"side":1}]],["(revive:eval)",["(new da.LegHuman($ReviveData$))",{"loc":"right leg","parentPart":null,"layer":2,"reflect":false,"coverConceal":[],"uncoverable":false,"aboveParts":[],"belowParts":[],"childParts":["feet"],"side":0}]],["(revive:eval)",["(new da.FeetHuman($ReviveData$))",{"loc":"left feet","parentPart":null,"layer":2,"reflect":false,"coverConceal":[],"uncoverable":false,"aboveParts":[],"belowParts":[],"side":1}]],["(revive:eval)",["(new da.FeetHuman($ReviveData$))",{"loc":"right feet","parentPart":null,"layer":2,"reflect":false,"coverConceal":[],"uncoverable":false,"aboveParts":[],"belowParts":[],"side":0}]],["(revive:eval)",["(new da.GroinHuman($ReviveData$))",{"loc":"groin","parentPart":null,"layer":2,"reflect":true,"coverConceal":[],"uncoverable":false,"aboveParts":[],"belowParts":["parts torso"],"forcedSide":null,"side":0}]],["(revive:eval)",["(new da.ButtHuman($ReviveData$))",{"loc":"butt","parentPart":null,"layer":1,"reflect":true,"coverConceal":[],"uncoverable":false,"aboveParts":[],"belowParts":[],"side":0}]],["(revive:eval)",["(new da.ChestHuman($ReviveData$))",{"loc":"chest","parentPart":null,"layer":6,"reflect":true,"coverConceal":[],"uncoverable":false,"aboveParts":["parts torso","decorativeParts torso","arm"],"belowParts":[],"side":0}]],["(revive:eval)",["(new da.VaginaHuman($ReviveData$))",{"loc":"vagina","parentPart":null,"layer":2,"reflect":true,"coverConceal":[],"uncoverable":false,"aboveParts":["parts groin"],"belowParts":["leg","clothingParts groin"],"forcedSide":null,"side":0}]]],"faceParts":[["(revive:eval)",["(new da.EarsHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"left ears","belowParts":["parts head"],"side":1}]],["(revive:eval)",["(new da.EarsHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"right ears","belowParts":["parts head"],"side":0}]],["(revive:eval)",["(new da.NoseHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"nose","side":0}]],["(revive:eval)",["(new da.LipsHuman($ReviveData$))",{"layer":8,"reflect":true,"coverConceal":[],"uncoverable":false,"loc":"lips","aboveParts":["mouth"],"side":0}]],["(revive:eval)",["(new da.MouthHuman($ReviveData$))",{"layer":8,"reflect":true,"coverConceal":[],"uncoverable":false,"loc":"mouth","aboveParts":["parts head"],"side":0}]],["(revive:eval)",["(new da.EyesHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"left eyes","aboveParts":["parts head"],"side":1}]],["(revive:eval)",["(new da.EyesHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"right eyes","aboveParts":["parts head"],"side":0}]],["(revive:eval)",["(new da.IrisHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"left iris","aboveParts":["eyes"],"side":1}]],["(revive:eval)",["(new da.IrisHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"right iris","aboveParts":["eyes"],"side":0}]],["(revive:eval)",["(new da.PupilHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"left pupil","aboveParts":["iris"],"side":1}]],["(revive:eval)",["(new da.PupilHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"right pupil","aboveParts":["iris"],"side":0}]],["(revive:eval)",["(new da.EyelidHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"left eyelid","aboveParts":["eyes","iris","pupil"],"side":1}]],["(revive:eval)",["(new da.EyelidHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"right eyelid","aboveParts":["eyes","iris","pupil"],"side":0}]],["(revive:eval)",["(new da.EyelashHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"left eyelash","aboveParts":["eyelid"],"parentPart":"left eyelid","side":1}]],["(revive:eval)",["(new da.EyelashHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"right eyelash","aboveParts":["eyelid"],"parentPart":"right eyelid","side":0}]],["(revive:eval)",["(new da.BrowHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"left brow","aboveParts":["parts head","faceParts eyelid"],"side":1}]],["(revive:eval)",["(new da.BrowHuman($ReviveData$))",{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"right brow","aboveParts":["parts head","faceParts eyelid"],"side":0}]]],"decorativeParts":[["(revive:eval)",["(new da.NipplesHuman($ReviveData$))",{"loc":"chest","parentPart":null,"layer":6,"reflect":true,"coverConceal":[],"uncoverable":false,"aboveParts":["parts chest","decorativeParts chest"],"belowParts":[],"fill":"rgba(0,0,0,0)","side":0}]],["(revive:eval)",["(new da.BellyButtonOutline($ReviveData$))",{"loc":"+torso","layer":2,"reflect":false,"coverConceal":[],"uncoverable":false,"aboveParts":["parts torso"],"belowParts":["clothingParts leg"],"side":0}]],["(revive:eval)",["(new da.DeltoidsOutline($ReviveData$))",{"loc":"+left arm","layer":2,"reflect":false,"coverConceal":[],"uncoverable":false,"aboveParts":["parts arm"],"muscleGroup":"upperMuscle","side":1}]],["(revive:eval)",["(new da.DeltoidsOutline($ReviveData$))",{"loc":"+right arm","layer":2,"reflect":false,"coverConceal":[],"uncoverable":false,"aboveParts":["parts arm"],"muscleGroup":"upperMuscle","side":0}]],["(revive:eval)",["(new da.CollarboneOutline($ReviveData$))",{"loc":"+torso","layer":2,"reflect":true,"coverConceal":[],"uncoverable":false,"muscleGroup":"upperMuscle","side":0}]],["(revive:eval)",["(new da.PectoralOutline($ReviveData$))",{"loc":"+torso","layer":2,"reflect":true,"coverConceal":[],"uncoverable":false,"aboveParts":["parts torso"],"belowParts":["parts chest","decorativeParts chest"],"muscleGroup":"upperMuscle","side":0}]],["(revive:eval)",["(new da.AbdominalOutline($ReviveData$))",{"loc":"+torso","layer":2,"reflect":true,"coverConceal":[],"uncoverable":false,"aboveParts":["parts torso"],"muscleGroup":"upperMuscle","side":0}]],["(revive:eval)",["(new da.QuadricepsOutline($ReviveData$))",{"loc":"+left leg","layer":2,"reflect":false,"coverConceal":[],"uncoverable":false,"aboveParts":["parts leg"],"belowParts":["clothingParts leg","clothingParts feet"],"muscleGroup":"lowerMuscle","side":1}]],["(revive:eval)",["(new da.QuadricepsOutline($ReviveData$))",{"loc":"+right leg","layer":2,"reflect":false,"coverConceal":[],"uncoverable":false,"aboveParts":["parts leg"],"belowParts":["clothingParts leg","clothingParts feet"],"muscleGroup":"lowerMuscle","side":0}]],["(revive:eval)",["(new da.BeautyMark($ReviveData$))",{"loc":"head","layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"offsetX":-10,"offsetY":10,"radius":0.3,"aboveParts":["parts head"],"side":0}]]],"hairParts":[{"layer":10,"reflect":true,"coverConceal":[],"uncoverable":false,"loc":"front hair","side":0},{"layer":8,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"ears hair","aboveParts":["ears"],"side":0},{"layer":1,"reflect":true,"coverConceal":[],"uncoverable":false,"loc":"back hair","belowParts":["parts groin"],"side":0},{"layer":10,"reflect":false,"coverConceal":[],"uncoverable":false,"loc":"+ears hair","aboveParts":["hairParts hair"],"side":0}],"clothingParts":[["(revive:eval)",["(new da.PantiesPart($ReviveData$))",{"layer":2,"loc":"groin","forcedNoSideString":false,"reflect":true,"aboveParts":["parts groin","parts torso"],"belowParts":["parts leg"],"side":0}]],["(revive:eval)",["(new da.BraBotStrapPart($ReviveData$))",{"layer":2,"loc":"+chest","forcedNoSideString":false,"reflect":true,"aboveParts":["parts torso"],"belowParts":["parts chest"],"side":0}]],["(revive:eval)",["(new da.BraPart($ReviveData$))",{"layer":6,"loc":"chest","forcedNoSideString":false,"reflect":true,"aboveParts":["parts chest","decorativeParts chest"],"side":0}]],["(revive:eval)",["(new da.HeelBasePart($ReviveData$))",{"layer":2,"loc":"left feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg"],"belowParts":["shadingParts feet"],"side":1}]],["(revive:eval)",["(new da.HeelBasePart($ReviveData$))",{"layer":2,"loc":"right feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg"],"belowParts":["shadingParts feet"],"side":0}]],["(revive:eval)",["(new da.HeelStrapPart($ReviveData$))",{"layer":2,"loc":"left feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg"],"belowParts":["shadingParts feet"],"side":1}]],["(revive:eval)",["(new da.HeelStrapPart($ReviveData$))",{"layer":2,"loc":"right feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg"],"belowParts":["shadingParts feet"],"side":0}]],["(revive:eval)",["(new da.HeelBaseShine($ReviveData$))",{"layer":4,"loc":"left feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg"],"belowParts":["shadingParts feet"],"side":1}]],["(revive:eval)",["(new da.HeelSideBaseClosedPart($ReviveData$))",{"layer":1,"loc":"right feet","forcedNoSideString":false,"side":0}]],["(revive:eval)",["(new da.HeelSideSimpleStrapPart($ReviveData$))",{"layer":1,"loc":"right feet","forcedNoSideString":false,"side":0}]],["(revive:eval)",["(new da.RingBotPart($ReviveData$))",{"layer":8,"loc":"right ears","forcedNoSideString":false,"reflect":false,"belowParts":["faceParts ears"],"radius":2,"side":0}]],["(revive:eval)",["(new da.RingTopPart($ReviveData$))",{"layer":8,"loc":"right ears","forcedNoSideString":false,"reflect":false,"aboveParts":["faceParts ears"],"side":0}]],["(revive:eval)",["(new da.LacingPart($ReviveData$))",{"layer":6,"loc":"chest","forcedNoSideString":false,"reflect":false,"aboveParts":["parts chest","decorativeParts chest"],"lacing":false,"crosses":0,"side":0}]],["(revive:eval)",["(new da.DressBasePart($ReviveData$))",{"layer":2,"loc":"torso","forcedNoSideString":false,"reflect":true,"aboveParts":["parts neck","parts torso","decorativeParts torso","parts leg","decorativeParts leg"],"aboveSameLayerParts":["groin","leg"],"cleavageOpeness":0.3,"cleavageCoverage":0.3,"sideLoose":0,"legCoverage":0.4,"legLoose":0,"curveCleavageX":0,"curveCleavageY":0,"bustle":false,"side":0}]],["(revive:eval)",["(new da.DressBreastPart($ReviveData$))",{"layer":6,"loc":"chest","forcedNoSideString":false,"reflect":true,"aboveParts":["parts chest","decorativeParts chest"],"side":0}]],["(revive:eval)",["(new da.SuperSleevePart($ReviveData$))",{"layer":4,"loc":"left arm","forcedNoSideString":false,"aboveParts":["parts arm","decorativeParts arm","parts hand"],"armCoverage":0.5,"armLoose":0,"side":1}]],["(revive:eval)",["(new da.SuperSleevePart($ReviveData$))",{"layer":4,"loc":"right arm","forcedNoSideString":false,"aboveParts":["parts arm","decorativeParts arm","parts hand"],"armCoverage":0.5,"armLoose":0,"side":0}]],["(revive:eval)",["(new da.ChokerPart($ReviveData$))",{"layer":6,"loc":"+neck","forcedNoSideString":false,"reflect":true,"aboveParts":["parts neck","parts torso","decorativeParts torso"],"belowSameLayerParts":["torso"],"side":0}]],["(revive:eval)",["(new da.SuperSockBandPart($ReviveData$))",{"layer":2,"loc":"left feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg","clothingParts groin"],"aboveSameLayerParts":["feet"],"side":1}]],["(revive:eval)",["(new da.SuperSockBandPart($ReviveData$))",{"layer":2,"loc":"right feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg","clothingParts groin"],"aboveSameLayerParts":["feet"],"side":0}]],["(revive:eval)",["(new da.SuperSockPart($ReviveData$))",{"layer":2,"loc":"left feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg","clothingParts groin"],"aboveSameLayerParts":["feet"],"side":1}]],["(revive:eval)",["(new da.SuperSockPart($ReviveData$))",{"layer":2,"loc":"right feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg","clothingParts groin"],"aboveSameLayerParts":["feet"],"side":0}]]],"inv":[],"Mods":{"armRotation":0.4089686098654681,"arousal":0,"breastPerkiness":3.805682216766048,"browBotCurl":-1.6771300448430502,"browTopCurl":6.358744394618835,"browCloseness":0.7910313901345294,"browHeight":1.2502242152466359,"browLength":-5.408071748878924,"browSharpness":-1.0457399103139018,"browThickness":-1.9641255605381165,"browOutBias":0.5614349775784753,"browTilt":2.041255605381167,"cheekFullness":0.20343739038933606,"earlobeLength":-0.45106980007015096,"eyeBias":2.6,"eyeCloseness":17.094170403587455,"eyeBotBias":-3.3417040358744394,"eyeBotSize":0.20448430493273406,"eyeHeight":-6.9641255605381165,"eyeTilt":6.977578475336323,"eyeTopSize":-0.4947085201793726,"eyeWidth":0.10224215246636703,"eyelashBias":5.826025955804981,"eyelashAngle":0.3019992984917572,"eyelidBias":-0.7962118554893021,"eyelidHeight":-1.555243774114346,"feetBias":0,"feetLength":12,"feetWidth":-13,"hairAccessoryHue":202.03437390389334,"hairAccessorySaturation":59,"hairAccessoryLightness":43,"handRotation":0,"irisHeight":0.10224215246636703,"irisHue":70.25650224215246,"irisSaturation":27.55156950672646,"irisLightness":67.73094170403587,"irisSize":15.497757847533633,"jawJut":-0.1227639424763236,"limbalRingSize":25.255605381165918,"lipBias":28.062780269058294,"lipCupidsBow":-7.47264573991032,"lipCurl":-4.387443946188341,"lipHeight":0.3318385650224229,"lipTopCurve":-17.856502242152466,"lipTopSize":-8.060986547085204,"lipBotSize":25.38475336322871,"lipParting":0,"lipWidth":-153.5695067264574,"neckCurve":-6.531041739740441,"noseHeight":-4.030493273542602,"noseLength":41.78654708520179,"noseRidgeHeight":0.3318385650224229,"noseRoundness":4.83695067264574,"noseWidth":18.724663677130046,"nostrilSize":10.165919282511211,"pupilSize":13.468958260259559,"labiaFullness":0,"penisThickness":0,"shoeHeight":3,"skinHue":-0.2547085201793706,"skinSaturation":-4.846636771300448,"skinLightness":4.337219730941705,"age":-0.02511210762331828,"fem":0,"sub":0,"areolaSize":0,"armThickness":0,"armLength":0,"breastSize":0,"buttFullness":0,"chinWidth":0,"eyelashLength":0,"eyeSize":0,"faceFem":0,"faceLength":0,"faceWidth":0,"hairLength":0,"hairStyle":0,"hairHue":0,"hairSaturation":0,"hairLightness":0,"handSize":0,"height":0,"hipWidth":0,"legFem":0,"legFullness":0,"legLength":0,"lipSize":0,"lowerMuscle":0,"neckLength":0,"neckWidth":0,"penisSize":0,"shoulderWidth":0,"skin":0,"testicleSize":0,"upperMuscle":0,"vaginaSize":0,"waistWidth":0},"vitals":{},"traits":[],"_expression":{"Mods":{}},"name":"Luna","clothes":[["(revive:eval)",["(new da.Panties($ReviveData$))",{"clothingLayer":0,"thickness":1.2,"parts":[["(revive:eval)",["(new da.PantiesPart($ReviveData$))",{"layer":2,"loc":"groin","forcedNoSideString":false,"reflect":true,"aboveParts":["parts groin","parts torso"],"belowParts":["parts leg"],"side":0}]]],"layer":2,"loc":"groin","forcedNoSideString":false,"reflect":true,"aboveParts":["parts groin","parts torso"],"belowParts":["parts leg"],"side":0}]],["(revive:eval)",["(new da.Bra($ReviveData$))",{"clothingLayer":0,"thickness":1.2,"parts":[["(revive:eval)",["(new da.BraBotStrapPart($ReviveData$))",{"layer":2,"loc":"+chest","forcedNoSideString":false,"reflect":true,"aboveParts":["parts torso"],"belowParts":["parts chest"],"side":0}]],["(revive:eval)",["(new da.BraPart($ReviveData$))",{"layer":6,"loc":"chest","forcedNoSideString":false,"reflect":true,"aboveParts":["parts chest","decorativeParts chest"],"side":0}]]],"layer":6,"loc":"chest","forcedNoSideString":false,"reflect":true,"aboveParts":["parts chest","decorativeParts chest"],"belowParts":["parts chest"],"fill":"black","side":0}]],["(revive:eval)",["(new da.ClosedToeStrappedPumps($ReviveData$))",{"clothingLayer":2,"thickness":1,"parts":[["(revive:eval)",["(new da.HeelBasePart($ReviveData$))",{"layer":2,"loc":"left feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg"],"belowParts":["shadingParts feet"],"side":1}]],["(revive:eval)",["(new da.HeelBasePart($ReviveData$))",{"layer":2,"loc":"right feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg"],"belowParts":["shadingParts feet"],"side":0}]],["(revive:eval)",["(new da.HeelStrapPart($ReviveData$))",{"layer":2,"loc":"left feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg"],"belowParts":["shadingParts feet"],"side":1}]],["(revive:eval)",["(new da.HeelStrapPart($ReviveData$))",{"layer":2,"loc":"right feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg"],"belowParts":["shadingParts feet"],"side":0}]],["(revive:eval)",["(new da.HeelBaseShine($ReviveData$))",{"layer":4,"loc":"left feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg"],"belowParts":["shadingParts feet"],"side":1}]],["(revive:eval)",["(new da.HeelSideBaseClosedPart($ReviveData$))",{"layer":1,"loc":"right feet","forcedNoSideString":false,"side":0}]],["(revive:eval)",["(new da.HeelSideSimpleStrapPart($ReviveData$))",{"layer":1,"loc":"right feet","forcedNoSideString":false,"side":0}]]],"layer":1,"loc":"feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg"],"belowParts":["shadingParts feet"],"shoeHeight":3,"platformHeight":0,"heelTipWidth":5,"basePointiness":5,"toeCoverage":0.5,"shoeTightness":10,"strapWidth":1.5,"side":0,"Mods":{"feetWidth":-13,"feetLength":12},"heelPointiness":3.5}]],["(revive:eval)",["(new da.RingPiercing($ReviveData$))",{"clothingLayer":1,"thickness":1,"parts":[["(revive:eval)",["(new da.RingBotPart($ReviveData$))",{"layer":8,"loc":"right ears","forcedNoSideString":false,"reflect":false,"belowParts":["faceParts ears"],"radius":2,"side":0}]],["(revive:eval)",["(new da.RingTopPart($ReviveData$))",{"layer":8,"loc":"right ears","forcedNoSideString":false,"reflect":false,"aboveParts":["faceParts ears"],"side":0}]]],"layer":8,"loc":"ears","forcedNoSideString":false,"reflect":false,"belowParts":["faceParts ears"],"radius":1.2,"aboveParts":["faceParts ears"],"rotation":30,"stroke":"rgb(255,223,0)","fill":"rgb(255,223,0)","relativeLocation":{"drawpoint":"ear.mid","dy":-0.5,"dx":-0.5},"requiredParts":"faceParts","side":0}]],["(revive:eval)",["(new da.SuperDress($ReviveData$))",{"clothingLayer":2,"thickness":0.1,"parts":[["(revive:eval)",["(new da.LacingPart($ReviveData$))",{"layer":6,"loc":"chest","forcedNoSideString":false,"reflect":false,"aboveParts":["parts chest","decorativeParts chest"],"lacing":false,"crosses":0,"side":0}]],["(revive:eval)",["(new da.DressBasePart($ReviveData$))",{"layer":2,"loc":"torso","forcedNoSideString":false,"reflect":true,"aboveParts":["parts neck","parts torso","decorativeParts torso","parts leg","decorativeParts leg"],"aboveSameLayerParts":["groin","leg"],"cleavageOpeness":0.3,"cleavageCoverage":0.3,"sideLoose":0,"legCoverage":0.4,"legLoose":0,"curveCleavageX":0,"curveCleavageY":0,"bustle":false,"side":0}]],["(revive:eval)",["(new da.DressBreastPart($ReviveData$))",{"layer":6,"loc":"chest","forcedNoSideString":false,"reflect":true,"aboveParts":["parts chest","decorativeParts chest"],"side":0}]],["(revive:eval)",["(new da.SuperSleevePart($ReviveData$))",{"layer":4,"loc":"left arm","forcedNoSideString":false,"aboveParts":["parts arm","decorativeParts arm","parts hand"],"armCoverage":0.5,"armLoose":0,"side":1}]],["(revive:eval)",["(new da.SuperSleevePart($ReviveData$))",{"layer":4,"loc":"right arm","forcedNoSideString":false,"aboveParts":["parts arm","decorativeParts arm","parts hand"],"armCoverage":0.5,"armLoose":0,"side":0}]]],"layer":4,"loc":"arm","forcedNoSideString":false,"reflect":true,"aboveParts":["parts arm","decorativeParts arm","parts hand"],"lacing":false,"crosses":0,"aboveSameLayerParts":["groin","leg"],"cleavageOpeness":0.6,"cleavageCoverage":0.35,"sideLoose":0,"legCoverage":0.3,"legLoose":0,"curveCleavageX":6,"curveCleavageY":-8,"bustle":false,"armCoverage":1,"armLoose":0,"fill":"#722445","side":0}]],["(revive:eval)",["(new da.Choker($ReviveData$))",{"clothingLayer":2,"thickness":0.5,"parts":[["(revive:eval)",["(new da.ChokerPart($ReviveData$))",{"layer":6,"loc":"+neck","forcedNoSideString":false,"reflect":true,"aboveParts":["parts neck","parts torso","decorativeParts torso"],"belowSameLayerParts":["torso"],"side":0}]]],"layer":6,"loc":"+neck","forcedNoSideString":false,"reflect":true,"aboveParts":["parts neck","parts torso","decorativeParts torso"],"belowSameLayerParts":["torso"],"neckCoverage":0.2,"neckBotCoverage":0,"center":true,"fill":"hsla(0.0,4.5%,30.8%,1.00)","stroke":"hsla(0.0,9.4%,25.1%,1.00)","side":0}]],["(revive:eval)",["(new da.Stockings($ReviveData$))",{"clothingLayer":0,"thickness":0.3,"parts":[["(revive:eval)",["(new da.SuperSockBandPart($ReviveData$))",{"layer":2,"loc":"left feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg","clothingParts groin"],"aboveSameLayerParts":["feet"],"side":1}]],["(revive:eval)",["(new da.SuperSockBandPart($ReviveData$))",{"layer":2,"loc":"right feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg","clothingParts groin"],"aboveSameLayerParts":["feet"],"side":0}]],["(revive:eval)",["(new da.SuperSockPart($ReviveData$))",{"layer":2,"loc":"left feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg","clothingParts groin"],"aboveSameLayerParts":["feet"],"side":1}]],["(revive:eval)",["(new da.SuperSockPart($ReviveData$))",{"layer":2,"loc":"right feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg","clothingParts groin"],"aboveSameLayerParts":["feet"],"side":0}]]],"layer":2,"loc":"feet","forcedNoSideString":false,"aboveParts":["parts feet","parts leg","clothingParts groin"],"aboveSameLayerParts":["feet"],"length":0.5,"stroke":"#b1a693","legCoverage":0.3497071215702394,"bandWidth":8.256088788408178,"highlight":"hsla(0, 0%, 11%, 1)","lockGroin":true,"side":0}]]],"items":[],"tattoos":[],"basedim":{"areolaSize":14.923766816143496,"armThickness":58.468958260259555,"armLength":45,"breastSize":9.974887892376682,"buttFullness":13.019992984917572,"chinWidth":63.335671694142405,"eyelashLength":3.0305156085584004,"eyeSize":13.019992984917572,"faceFem":40,"faceLength":212.32549982462294,"faceWidth":82.74465099964925,"hairLength":37.03963521571379,"hairStyle":4,"hairHue":0,"hairSaturation":19.081024202034374,"hairLightness":11.224131883549632,"handSize":118.9757979656261,"height":163.65022421524662,"hipWidth":110.85584005612066,"legFem":39.95790950543669,"legFullness":4.489652753419852,"legLength":98.79340582251841,"lipSize":18.85654156436338,"lowerMuscle":22.448263767099263,"neckLength":72.73237460540162,"neckWidth":39.489652753419854,"penisSize":50,"shoulderWidth":64.28699551569507,"skin":-1.9291476674850934,"testicleSize":60,"upperMuscle":0,"vaginaSize":40,"waistWidth":102.32549982462294},"_clampedMods":{"armRotation":0.4089686098654681,"arousal":0,"breastPerkiness":3.805682216766048,"browBotCurl":-1.6771300448430502,"browTopCurl":6.358744394618835,"browCloseness":0.7910313901345294,"browHeight":1.2502242152466359,"browLength":-5.408071748878924,"browSharpness":-1.0457399103139018,"browThickness":-1.9641255605381165,"browOutBias":0.5614349775784753,"browTilt":2.041255605381167,"cheekFullness":0.20343739038933606,"earlobeLength":-0.45106980007015096,"eyeBias":2.6,"eyeCloseness":17.094170403587455,"eyeBotBias":-3.3417040358744394,"eyeBotSize":0.20448430493273406,"eyeHeight":-6.9641255605381165,"eyeTilt":6.977578475336323,"eyeTopSize":-0.4947085201793726,"eyeWidth":0.10224215246636703,"eyelashBias":5.826025955804981,"eyelashAngle":0.3019992984917572,"eyelidBias":-0.7962118554893021,"eyelidHeight":-1.555243774114346,"feetBias":0,"feetLength":12,"feetWidth":-13,"hairAccessoryHue":202.03437390389334,"hairAccessorySaturation":59,"hairAccessoryLightness":43,"handRotation":0,"irisHeight":0.10224215246636703,"irisHue":70.25650224215246,"irisSaturation":27.55156950672646,"irisLightness":67.73094170403587,"irisSize":15.497757847533633,"jawJut":-0.1227639424763236,"limbalRingSize":25.255605381165918,"lipBias":28.062780269058294,"lipCupidsBow":-7.47264573991032,"lipCurl":-4.387443946188341,"lipHeight":0.3318385650224229,"lipTopCurve":-17.856502242152466,"lipTopSize":-8.060986547085204,"lipBotSize":25.38475336322871,"lipParting":0,"lipWidth":-153.5695067264574,"neckCurve":-6.531041739740441,"noseHeight":-4.030493273542602,"noseLength":41.78654708520179,"noseRidgeHeight":0.3318385650224229,"noseRoundness":4.83695067264574,"noseWidth":18.724663677130046,"nostrilSize":10.165919282511211,"pupilSize":13.468958260259559,"labiaFullness":0,"penisThickness":0,"shoeHeight":3,"skinHue":-0.2547085201793706,"skinSaturation":-4.846636771300448,"skinLightness":4.337219730941705,"age":-0.02511210762331828,"fem":0,"sub":0,"areolaSize":0,"armThickness":0,"armLength":0,"breastSize":0,"buttFullness":0,"chinWidth":0,"eyelashLength":0,"eyeSize":0,"faceFem":0,"faceLength":0,"faceWidth":0,"hairLength":0,"hairStyle":0,"hairHue":0,"hairSaturation":0,"hairLightness":0,"handSize":0,"height":0,"hipWidth":0,"legFem":0,"legFullness":0,"legLength":0,"lipSize":0,"lowerMuscle":0,"neckLength":0,"neckWidth":0,"penisSize":0,"shoulderWidth":0,"skin":0,"testicleSize":0,"upperMuscle":0,"vaginaSize":0,"waistWidth":0},"dim":{"areolaSize":14.923766816143496,"armThickness":52.57326295613649,"armLength":43.319176998153516,"breastSize":11.074887892376681,"buttFullness":15.219992984917571,"chinWidth":63.335671694142405,"eyelashLength":3.0305156085584004,"eyeSize":13.019992984917572,"faceFem":40,"faceLength":212.32549982462294,"faceWidth":77.24465099964925,"hairLength":48.03963521571379,"hairStyle":4,"hairHue":0,"hairSaturation":19.081024202034374,"hairLightness":11.224131883549632,"handSize":113.94752648138103,"height":163.65022421524662,"hipWidth":132.85584005612066,"legFem":40,"legFullness":9.989652753419852,"legLength":95.10331184613523,"lipSize":19.40654156436338,"lowerMuscle":11.448263767099263,"neckLength":72.73237460540162,"neckWidth":39.489652753419854,"penisSize":44.5,"shoulderWidth":60.07581022790583,"skin":-1.9291476674850934,"testicleSize":49,"upperMuscle":0,"vaginaSize":40,"waistWidth":91.32549982462294,"torsoLength":43.99937873682441}}]]');
-
-        var PC = new da.Player({
-            name : "HAL 9000",
-            occupation : "Pod Bay Opener",
-            // provide specific values here to override the default ones set
-            age : 26,
-            // base physical dimensions
-            basedim: {
-                armThickness: 60,
-                height: 165,
-                breastSize: 10,
-                hairLength: 60,
-                skin: -1,
-                upperMuscle: 5,
-                waistWidth: 105,
-                lipSize: 23,
-                faceFem: 40,
-                // can have arbitrary expressions in here
-                hairLightness: 30 - 12,
-                hairSaturation: 50 - 12,
-                legFem: 22,
-                lowerMuscle: 10,
-                hipWidth: 130,
-                //penisSize: 50,
-                legLength: 100,
-                shoulderWidth: 70,
-            },
+        var PC = new da.Player( this.GetPCData() );
+        PC = this._AttachParts(PC);
         
-            // overriding body parts
-            parts: [
-                da.Part.create(da.VaginaHuman),
-                //            da.Part.create(da.TesticlesHuman),
-                //            da.Part.create(da.PenisHuman),
-            ],
-            faceParts: [],
-            decorativeParts: [
-                //            da.Part.create(da.PenisHeadHuman),
-                da.Part.create(da.BeautyMark),
-            ],
-            Mods: {
-                browBotCurl: 6,
-                eyeTilt: 5,
-                eyeTopSize: 0,
-                lipTopCurve: 30,
-                lipTopSize: 10,
-                lipBotSize: 0,
-                lipWidth: -100,
-                lipCupidsBow: -10,
-                breastPerkiness: 4,
-                eyeBotSize: 4,
-                arousal: 0,
-            },
-        
-            // overriding clothing (default to simple red underwear)
-            clothes: [
-               // da.Clothes.create(da.Bra, da.sheerFabric),
-               // da.Clothes.create(da.Panties, da.sheerFabric)
-            ],
-        
-        });
+        da.draw(canvasGroup, PC, { printHeight: false, printAdditionalInfo: false, printShoe: false});
 
         console.log(PC);
-        da.draw(canvasGroup, PC);
-
     }
+
+    GetPCData() {
+        var Data = this._PCData;
+        Data = this._MapHeight(Data);
+        Data = this._MapHormones(Data);
+        Data = this._MapHair(Data);
+        Data = this._MapGenitals(Data);
+
+        return Data;
+    }
+
+    _AttachParts(PC) {
+        var penis = da.Part.create(da.PenisHuman, { side: "right"});
+        PC.attachPart(penis);
+        var balls = da.Part.create(da.TesticlesHuman, { side: "right" });
+        PC.attachPart(balls);
+        return PC;
+    }
+
+    _MapHeight(Data) { 
+        Data.basedim.height = this._b('Height');
+        return Data;
+    }
+
+    //TODO: Make new penis body part as the existing one doesn't scale large enough for the game.
+    _MapGenitals(Data) {
+        var penis = 80 * ( this._b('Penis') / 16);
+        Data.basedim.penisSize = penis;
+        Data.basedim.testicleSize = this._b('Balls') * 2;
+        return Data;
+    }
+
+    _MapHormones(Data) {
+
+        var femMod = (this._c('Hormones')/200);
+        var face = setup.player.GetStat('BODY', 'Face') / 100;
+        Data.fem = 11 * femMod;
+        Data.basedim.faceFem = (20 * face) + (20 * femMod);
+
+        return Data;
+    }
+
+    /**
+     * Map the players hair attributes
+     * @param {*} Data 
+     * @returns {*} 
+     */
+    _MapHair(Data) {
+
+        var wig = setup.player.GetEquipmentInSlot("Wig");
+        Data.basedim.hairLength =  wig != 0 ? wig.HairLength() : this._b('Hair');
+        var color = wig != 0 ? App.Data.Lists.HairColors[wig.HairColor()] : App.Data.Lists.HairColors[setup.player.HairColor]
+        Data.basedim.hairHue = color.h;
+        Data.basedim.hairSaturation = color.s;
+        Data.basedim.hairLightness = color.l;
+
+        //TODO: Make new hair parts. Ensure that the scaling goes up to the maximum length allowed in the game (180cm)
+        Data.basedim.hairStyle = 4;
+        return Data;
+    }
+
+    _b(s) { return App.PR.StatToCM(setup.player, s); }
+
+    _c(s) { return setup.player.GetStat('STAT', s); }
 }

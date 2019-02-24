@@ -288,7 +288,7 @@ App.Data.Lists = {
                       100 : { "COST" : 3000, "STEP" : 1, "ADJECTIVE" : "enormous",   "COLOR" : 16}
                     }
                 },
-                "Hair": { "MIN" : 0, "MAX" : 100, "START" : 10, "CM_MIN" : 5, "CM_MAX" : 180,
+                "Hair": { "MIN" : 0, "MAX" : 100, "START" : 5, "CM_MIN" : 1, "CM_MAX" : 180,
                     "LEVELING" : {
                          5 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
                         10 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
@@ -756,6 +756,13 @@ App.Data.Lists = {
                     {"NAME"  : "braided",       "DIFFICULTY" : 80,  "RESOURCE1" : 0,    "RESOURCE2" : 0 ,   "MIN" : 40, "MAX" : 100,  "STYLE" : 35, "SHORT" : "extravagantly long braids"},
                     {"NAME"  : "twin tails",    "DIFFICULTY" : 90,  "RESOURCE1" : 1,    "RESOURCE2" : 1 ,   "MIN" : 50, "MAX" :  80,  "STYLE" : 75, "SHORT" : "extremely long twin tails"}
             ],
+            "HairColors" : 
+            {
+                "black" : { h: 0, s: 0, l: 0},
+                "blond" : { h: 60, s: 100, l: 80 },
+                "brown" : { h: 40, s: 0, l: 40 },
+                "red" : { h: 0, s: 100, l: 30 }
+            },
             "SexActFrequency": ["HandJobs", "BlowJobs", "BlowJobs", "TitFucking", "AssFucking", "AssFucking"],
             "SkillDictionary": { "HandJobs" : "Hand Job", "BlowJobs" : "Blow Job", "TitFucking" : "Titty Fuck", "AssFucking" : "Ass Fuck" },
             "SexCommands" : {
@@ -1503,3 +1510,4 @@ App.Data.Fashion = {
 App.Data.Game = {
     Version : 0.09
 };
+
