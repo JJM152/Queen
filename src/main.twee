@@ -62,6 +62,12 @@ Setting.addToggle("alternateControlForRogue", {
     default: false
 });
 
+Setting.addToggle("displayAvatar", { 
+    label: "Display the PC Avatar in mirrors",
+    desc: "Turns on the Avatar drawn by the Dynamic Avatar Drawer library.",
+    default: false
+});
+
 App.EventHandlers.Init();
 
 Config.saves.onLoad = App.EventHandlers.onLoad;

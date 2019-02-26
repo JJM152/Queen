@@ -257,16 +257,16 @@ span.pcText  {
 }
 
 #mirrorContainer {
-	width: 900px;
-	height: 600px;
+	width: 1000px;
+	height: 800px;
 }
 
 #avatarUI {
-	width: 400px;
-	height: 600px;
+	width: 360px;
+	height: 800px;
 	float: left;
 	margin-right: 20px;
-	background-color: white;
+	background-color: gray;
 }
 
 #mirrorText {

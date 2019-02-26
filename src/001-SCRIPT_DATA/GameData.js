@@ -288,7 +288,7 @@ App.Data.Lists = {
                       100 : { "COST" : 3000, "STEP" : 1, "ADJECTIVE" : "enormous",   "COLOR" : 16}
                     }
                 },
-                "Hair": { "MIN" : 0, "MAX" : 100, "START" : 5, "CM_MIN" : 1, "CM_MAX" : 180,
+                "Hair": { "MIN" : 0, "MAX" : 100, "START" : 5, "CM_MIN" : 1, "CM_MAX" : 130,
                     "LEVELING" : {
                          5 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
                         10 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
@@ -307,7 +307,7 @@ App.Data.Lists = {
                        100 : { "COST" : 1500, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 }
                     }
                 },
-                "Height": { "MIN" : 0, "MAX" : 100, "START" : 50, "CM_MIN" : 145, "CM_MAX" : 220,
+                "Height": { "MIN" : 0, "MAX" : 100, "START" : 60, "CM_MIN" : 145, "CM_MAX" : 200,
                     "LEVELING" : {
                          0 : { "COST" : 3000, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
                          5 : { "COST" :  720, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
