@@ -2,7 +2,7 @@
 ifid:2281acf9-aff5-4833-bd11-9d4317bce5ae
 
 :: StoryTitle
-Queen of the Seas (v 0.9)
+Queen of the Seas (v 0.9b)
 
 :: Story Stylesheet [stylesheet]
 
@@ -68,6 +68,11 @@ Setting.addToggle("displayAvatar", {
     default: false
 });
 
+Setting.addToggle("fastAnimations", { 
+    label: "Fast Animations",
+    desc: "Speeds up or turns off certain animations.",
+    default: false
+});
 App.EventHandlers.Init();
 
 Config.saves.onLoad = App.EventHandlers.onLoad;
