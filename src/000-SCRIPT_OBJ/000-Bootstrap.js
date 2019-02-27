@@ -1,10 +1,12 @@
 var App = {
 	Data: {
+		AvatarMaps: {},
 		Clothes: {},
 		EffectLib: {},
 		Events: {},
 		Drugs: {},
 		Food: {},
+		HSLMAP: {},
 		JobData: {},
 		Loot: {},
 		LootBoxes: {},

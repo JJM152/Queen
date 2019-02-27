@@ -15,15 +15,20 @@ App.Entity.AvatarEngine = class Avatar {
             // Functions needed here to overwrite some default behavior of
             // the DA library.
             da.extendDimensionCalc("human.penisSize", function (base) {
-                var penis = 80 * ( App.PR.StatToCM(setup.player, 'Penis') / 16);
-                return penis;
+                return this.getDim('penisSize');
             });
 
             da.extendDimensionCalc("human.testicleSize", function (base) {
-                var balls = 40 * ( App.PR.StatToCM(setup.player, 'Balls')/ 9);
-                return balls;
+                return this.getDim('testicleSize');
             });
 
+            da.extendDimensionCalc('human.waistWidth', function(base) {
+                return this.getDim('waistWidth')
+            });
+
+            da.extendDimensionCalc('human.breastSize', function(base) {
+                return this.getDim('breastSize')
+            });
         });
 
         this._PCData = {
@@ -69,7 +74,7 @@ App.Entity.AvatarEngine = class Avatar {
                 //waistWidth    : 102.32549982462294,
             },
             Mods : {
-                breastPerkiness: -4,
+                breastPerkiness: 4,
                 lipBias: 30,
                 lipCupidsBow: 1,
                 lipCurl: -4.4,
@@ -110,6 +115,7 @@ App.Entity.AvatarEngine = class Avatar {
         var PC = new da.Player( this.GetPCData() );
         PC = this._AttachParts(PC);
         da.draw(canvasGroup, PC, { printHeight: false, printAdditionalInfo: false, printShoe: false});
+        console.log(PC);
     }
 
     GetPCData() {
@@ -133,7 +139,8 @@ App.Entity.AvatarEngine = class Avatar {
         PC.attachPart(bust);
         var nips = da.Part.create(da.BimboNipples, { side: null});
         PC.attachPart(nips, PC.decorativeParts);
-        return PC;
+
+        return this._ClothesHandler(PC);
     }
 
     
@@ -159,7 +166,7 @@ App.Entity.AvatarEngine = class Avatar {
 
     _MapUpperBody(Data) {
         var hormoneMod = (this._c('Hormones')/200);
-        var breast = setup.player.GetStat('BODY', 'Bust') == 0 ? -5 : (setup.player.GetStat('BODY', 'Bust')/2);
+        var breast = setup.player.GetStat('BODY', 'Bust') == 0 ? 0 : (setup.player.GetStat('BODY', 'Bust')/2);
         var areola = (50 * hormoneMod);
         var upperMuscle = (40 * (this._c('Fitness')/100)) - (40 * hormoneMod);
         Data.basedim.breastSize = breast;
@@ -276,6 +283,29 @@ App.Entity.AvatarEngine = class Avatar {
         Data.basedim.hairLightness = color.l;
 
         return Data;
+    }
+
+    _ClothesHandler(PC) {
+
+        for (var slot in setup.player.Equipment) {
+            var o = setup.player.Equipment[slot];
+            if (o == null || o.Slot == 'Wig') continue; //no op
+            var id = App.Data.AvatarMaps.hasOwnProperty(o.Tag) ? o.Tag : o.Slot;
+            if (App.Data.AvatarMaps.hasOwnProperty(id)) {
+                var items = App.Data.AvatarMaps[id];
+                for(var i = 0; i < items.length; i++) {
+                    var str = "da.Clothes.create("+items[i].c+","+JSON.stringify(items[i].a)+")";
+                    console.log(str);
+                    // This nonsense here is just to be safe due to script 'compiling' order of Tweego.
+                    if(items[i].a != null && items[i].a.hasOwnProperty('pattern') && typeof items[i].a.pattern === 'string') 
+                        items[i].a.fill = eval(items[i].a.pattern);
+                    var part = items[i].a == null ? da.Clothes.create(eval(items[i].c)) : da.Clothes.create(eval(items[i].c), items[i].a);
+                    PC.wearClothing(part);
+                }
+            }
+        }
+
+        return PC;
     }
 
     _b(s) { return App.PR.StatToCM(setup.player, s); }

@@ -219,7 +219,7 @@ export class BimboChest extends Chest {
         }
 
         //const breastFullThreshold = 10;
-		const breastFullThreshold = 0;
+		const breastFullThreshold = 2;
         if (calculate) {
 
             const breast = ex.breast = {};
@@ -229,7 +229,7 @@ export class BimboChest extends Chest {
 
             breast.top = {
                 //x: ex.armpit.x - 2.2 + this.breastSize * 0.02,
-				x: ex.armpit.x - 2.2 + this.breastSize * 0.04,
+				x: ex.armpit.x - 2.2 + this.breastSize * 0.03,
                 //y: ex.armpit.y + 0.5 + this.height * 0.023 - this.breastSize * 0.05,
 				y: ex.armpit.y + 0.5 + this.height * 0.023 + this.breastSize * 0.05
             };
@@ -245,9 +245,9 @@ export class BimboChest extends Chest {
 
             breast.center = {
                // x: ex.armpit.x - 3 + breastFullness * 0.02 + breastDroopiness * 0.02,
-			   x: ex.armpit.x - 3 + breastFullness * 0.08 + breastDroopiness * 0.02,
+			   x: ex.armpit.x - 3 + breastFullness * 0.06 + breastDroopiness * 0.02,
                //y: breast.top.y - 6 - breastFullness * 0.03 - breastDroopiness + mods.breastPerkiness * 0.02
-			   y: breast.top.y - 6 - breastFullness * 0.12 - breastDroopiness + mods.breastPerkiness * 0.02
+			   y: breast.top.y - 6 - breastFullness * 0.09 - breastDroopiness + mods.breastPerkiness * 0.02
             };
 
 
@@ -258,12 +258,12 @@ export class BimboChest extends Chest {
 
             breast.tip = {
                // x  : breast.center.x + 3.3 + breastFullness * 0.07 + mods.breastPerkiness * 0.04,
-			    x  : breast.center.x + 3.3 + breastFullness * 0.35 + mods.breastPerkiness * 0.04,
+			    x  : breast.center.x + 3.3 + breastFullness * 0.28 + mods.breastPerkiness * 0.04,
                 y  : breast.center.y +
                      mods.breastPerkiness * 0.07,
                 cp1: {
                     //x: breast.top.x + 2 + breastFullness * 0.07 - breastDroopiness * 0.5,
-					x: breast.top.x + 2 + breastFullness * 0.28 - breastDroopiness * 0.5,
+					x: breast.top.x + 2 + breastFullness * 0.21 - breastDroopiness * 0.5,
                     y: breast.top.y - 3 +
                        clamp(mods.breastPerkiness * 0.15, -4, 4) -
                        breastDroopiness * 0.7
@@ -273,20 +273,20 @@ export class BimboChest extends Chest {
             breast.tip.cp2 = {
                 x: breast.tip.x - breastDroopiness * 0.1,
                 //y: breast.tip.y + 2 + breastFullness * 0.07
-				y: breast.tip.y + 2 + breastFullness * 0.3
+				y: breast.tip.y + 2 + breastFullness * 0.21
             };
 
             breast.bot = {
                 //x: breast.center.x - 1.5 + breastFullness * 0.01,
-				x: breast.center.x - 1.5 + breastFullness * 0.04,
+				x: breast.center.x - 1.5 + breastFullness * 0.03,
                 //y: breast.center.y - 3.8 - breastFullness * 0.08 - breastDroopiness * 0.05 + mods.breastPerkiness * 0.08,
-				y: breast.center.y - 3.8 - breastFullness * 0.32 - breastDroopiness * 0.05 + mods.breastPerkiness * 0.08,
+				y: breast.center.y - 3.8 - breastFullness * 0.24 - breastDroopiness * 0.05 + mods.breastPerkiness * 0.08,
             };
             breast.bot.cp1 = continueCurve(breast.top, breast.tip,
                 clamp(0.6 + breastDroopiness * 0.05, 0, 1));
             breast.bot.cp2 = {
                // x: breast.bot.x + 3.5 + breastFullness * 0.05,
-			   x: breast.bot.x + 3.5 + breastFullness * 0.2,
+			   x: breast.bot.x + 3.5 + breastFullness * 0.15,
                 y: breast.bot.y
             };
 
@@ -301,7 +301,7 @@ export class BimboChest extends Chest {
             breast.cleavage.cp2 = {
                 x: breast.cleavage.x,
                 //y: breast.cleavage.y - 2.5 - breastFullness * 0.05
-				y: breast.cleavage.y - 2.5 - breastFullness * 0.2
+				y: breast.cleavage.y - 2.5 - breastFullness * 0.15
             };
 
             let sp = splitCurve(clamp((breastFullness + 5) / 30, 0, 1),
@@ -312,7 +312,7 @@ export class BimboChest extends Chest {
         }
 
 
-        const sp = splitCurve(clamp(1 - (this.breastSize * 4) / breastFullThreshold, 0, 1), ex.breast.top,
+        const sp = splitCurve(clamp(1 - (this.breastSize * 3) / breastFullThreshold, 0, 1), ex.breast.top,
             ex.breast.tip);
         const top = sp.right.p1;
         ex.breast.tip = sp.right.p2;
