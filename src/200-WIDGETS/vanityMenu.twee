@@ -26,7 +26,7 @@
                 <td style="font-size:smaller;">Acc.</td>
 				<td style="font-size:smaller;">Prod.</td>
             </tr>
-<<if _Wig != 0>>
+<<if _Wig != null>>
 <tr>
     <td style="text-align:center;width:30px;">
 	<<print '<<radiobutton "$HairStyle" "'+_Wig.Id+'" checked>>'>></td>
@@ -73,7 +73,7 @@
 		</td>
 <<else>>
 	<td style="text-align:center;">
-	<<if setup.player.LastUsedHair == _Hair[_i]["SHORT"] && _Wig == 0>>
+	<<if setup.player.LastUsedHair == _Hair[_i]["SHORT"] && _Wig == null>>
 <<print '<<radiobutton "$HairStyle" "'+_Hair[_i]["NAME"] +'" checked>>'>><<else>><<print '<<radiobutton "$HairStyle" "'+_Hair[_i]["NAME"] +'">>'>><</if>>
 	</td>
 	<td><<print _PR.ColorizeString(_Hair[_i]["STYLE"], "⇑Style") + " "+ _Hair[_i]["SHORT"];>></td>
@@ -132,7 +132,7 @@
 </tr>
 <</for>>
 <<set _HairRows = _Hair.length + _Wigs.length>>
-<<if _Wig != 0>><<set _HairRows = _HairRows + 1>><</if>>
+<<if _Wig != null>><<set _HairRows = _HairRows + 1>><</if>>
 <<if _HairRows > _Makeup.length >>
 <<set _Rows = (_HairRows - _Makeup.length)>>
 <<for _i = 0; _i < _Rows; _i++>>
@@ -175,14 +175,14 @@
 <<if _TRIM < 5>>
 <<click "Trim Hair" _back>>
 <<set setup.player.BodyStats["Hair"] = 5;>>
-<<if _Wig != 0>>
+<<if _Wig != null>>
 <<run setup.player.Remove(setup.player.Equipment["Wig"]);>>.
 <</if>>
 <</click>> (<<print _US.lengthString(_PR.StatToCM(setup.player, "Hair"), false);>> ⇒ <<print _US.lengthString(_PR.StatToCM(setup.player, "Hair", (5 - setup.player.GetStat("BODY", "Hair"))), false);>>)
 <<else>>
 <<click "Trim Hair" _back>>
 <<run setup.player.AdjustBody("Hair", -5);>>
-<<if _Wig != 0>>
+<<if _Wig != null>>
 <<run setup.player.Remove(setup.player.Equipment["Wig"]);>>.
 <</if>>
 <</click>> (<<print _US.lengthString(_PR.StatToCM(setup.player, "Hair"), false);>> -> <<print _US.lengthString((_PR.StatToCM(setup.player, "Hair",-5)), false);>>)<</if>></td>

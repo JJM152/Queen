@@ -144,7 +144,7 @@
 </tr>
 <<set _Slots = Object.keys(setup.player.Equipment); >>
 <<for _x = 0; _x < _Slots.length; _x++>>
-<<if setup.player.Equipment[_Slots[_x]] != 0>>
+<<if setup.player.Equipment[_Slots[_x]] != null>>
     <<set _Items = [ setup.player.Equipment[_Slots[_x]] ];>>
     <<set _WardrobeItems = setup.player.WardrobeItemsBySlot(_Slots[_x]); >>
     <<if _WardrobeItems.length > 0>><<set _Items = _Items.concat(_WardrobeItems);>><</if>>
@@ -230,7 +230,7 @@
 		<td style="width:80px;">&nbsp;</td>
 </tr>
 <<set _Items = setup.player.WardrobeItemsBySlot("Neck")>>
-<<if setup.player.GetEquipmentInSlot("Neck") != 0;>>
+<<if setup.player.GetEquipmentInSlot("Neck") != null;>>
 <tr>
     <td style="width:80px;">@@color:orange;Worn@@</td>
     <td style="width:590px;"><<= setup.player.GetEquipmentInSlot("Neck").Description; >></td>

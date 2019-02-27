@@ -200,7 +200,7 @@ App.Item = class Item {
             case 'WEAPON':
             case 'CLOTHES': d = App.Data.Clothes; break;
             case 'REEL': d = App.Data.Slots; break;
-            default: throw "App.Item.ListAllPrices: Unhandled category: "+Category; break;
+            default: throw "App.Item.ListAllPrices: Unhandled category: "+Category;
         }
 
         for( var k in d ) {
@@ -505,6 +505,14 @@ App.Item = class Item {
      */
     AddCharges(n) {
         console.log("Error: calling Item.AddCharges(" + n + ") for class " + this.Id);
+    }
+
+    /**
+     * @param {number} n
+     * @returns {number}
+     */
+    RemoveCharges(n) {
+        return this._inventory.AddCharges(this._itemClass, this._tag, -n);
     }
 };
 
@@ -874,7 +882,7 @@ App.Items.Consumable = /** @class Consumable @extends {App.Item} */ class Consum
         return this._inventory.AddCharges(this._itemClass, this.Tag, n);
     }
 
-     /**
+    /**
      * @param {number} n
      * @returns {number}
      */

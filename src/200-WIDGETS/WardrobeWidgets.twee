@@ -26,7 +26,7 @@ You spy with your little eye...
 
 <<widget "WearingExa">><<nobr>>
 <<set _Item = setup.player.GetEquipmentInSlot($args[0]); >>
-<<if _Item == 0>>@@.disabledWardrobeButton;<<button "Examine">><</button>>@@
+<<if _Item == null>>@@.disabledWardrobeButton;<<button "Examine">><</button>>@@
 <<else>>
 @@.wardrobeButton;<<button "Examine">>
 <<replace "#WardrobeUI">><<InspectClothing $args[0]>><</replace>>
@@ -69,7 +69,7 @@ You spy with your little eye...
 
 <<widget "WardrobeWear">><<nobr>>
 <<set _Worn = setup.player.GetEquipmentInSlot($args[1])>>
-<<if _Worn != 0>>
+<<if _Worn != null>>
 	<<if _Worn.IsLocked()>>
 		@@.disabledWardrobeButton;<<button "LOCKED">><</button>>@@
 	<<else>>
@@ -116,7 +116,7 @@ You spy with your little eye...
 
 <<widget "WearingChange">><<nobr>>
 <<set _Item = setup.player.GetEquipmentInSlot($args[0]); >>
-<<if _Item != 0>>
+<<if _Item != null>>
 	<<if _Item.IsLocked()>>
 		@@.disabledWardrobeButton;<<button "LOCKED">><</button>>@@
 	<<else>>
@@ -136,7 +136,7 @@ You spy with your little eye...
 <</nobr>><</widget>>
 
 <<widget "WearingRemove">><<nobr>>
-<<if setup.player.GetEquipmentInSlot($args[0]) != 0>>
+<<if setup.player.GetEquipmentInSlot($args[0]) != null>>
 	<<if setup.player.GetEquipmentInSlot($args[0]).IsLocked()>>
 		@@.disabledWardrobeButton;<<button "LOCKED">><</button>>@@
 	<<else>>

@@ -212,14 +212,25 @@ App.EventHandlers = new function() {
         }
 
         if (save.version < 0.09) {
+            let ps = save.state.history[0].variables.PlayerState;
             console.log("Adding empty game stat records...");
-            save.state.history[0].variables.PlayerState.GameStats = {
-                "MoneyEarned":      0,
-                Skills : { }
+            ps.GameStats = {
+                "MoneyEarned": 0,
+                Skills: {}
             };
-            for (var skill in save.state.history[0].variables.PlayerState.Skills) {
-                if (!save.state.history[0].variables.PlayerState.Skills.hasOwnProperty(skill)) continue;
-                save.state.history[0].variables.PlayerState.GameStats.Skills[skill] = {"Failure": 0, "Success": 0};
+            for (var skill in ps.Skills) {
+                if (!ps.Skills.hasOwnProperty(skill)) continue;
+                ps.GameStats.Skills[skill] = { "Failure": 0, "Success": 0 };
+            }
+        }
+
+        if (save.version < 0.10) {
+            console.log("Replacing '0' with 'null' in empty slots...");
+            let eq = save.state.history[0].variables.PlayerState.Equipment;
+            // replace '0' with 'null' for empty slots
+            for (let slot in eq) {
+                if (!eq.hasOwnProperty(slot)) continue;
+                if (eq[slot] === 0) eq[slot] = null;
             }
         }
 

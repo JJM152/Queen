@@ -116,8 +116,8 @@ App.QuestEngine = new function() {
             /** TODO: Refactor this to check also for wearing specific items. **/
             case "IS_WEARING":
             console.log('Name='+Key+",Value="+Value);
-                if(Value == "NOT" ) return (Player.GetEquipmentInSlot(Key) == 0);
-                if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Key) == 0) return false;
+                if(Value == "NOT" ) return (Player.GetEquipmentInSlot(Key) == null);
+                if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Key) == null) return false;
                 return Player.IsEquipped(Value);
                 break;
             case "TRACK_CUSTOMERS":
@@ -173,7 +173,7 @@ App.QuestEngine = new function() {
         for (i = 0; i < c.length; i++) {
             if (c[i]["TYPE"] == 'QUEST_ITEM') {
                 var o = Player.GetItemByName(c[i]["NAME"]);
-                if (o !== 'undefined' )  {
+                if (o !== undefined)  {
                     if (o._itemClass == 'QUEST') {
                         Player.DeleteItem(o);
                     } else {
@@ -352,11 +352,11 @@ App.QuestEngine = new function() {
                 break;
                 case "IS_WEARING":
                 console.log("Name="+Name+",Value="+Value);
-                    if(Value == "NOT" ) return (Player.GetEquipmentInSlot(Name) == 0);
-                    if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Name) == 0) return false;
+                    if(Value == "NOT" ) return (Player.GetEquipmentInSlot(Name) == null);
+                    if( (typeof Value === 'undefined' || Value == "") && Player.GetEquipmentInSlot(Name) == null) return false;
                     return Player.IsEquipped(Value);
-                    //if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Name) != 0){ return false } }
-                    //if(Value != "NOT"){ if(Player.GetEquipmentInSlot(Name) == 0){ return false } }
+                    //if(Value == "NOT"){ if(Player.GetEquipmentInSlot(Name) != null){ return false } }
+                    //if(Value != "NOT"){ if(Player.GetEquipmentInSlot(Name) == null){ return false } }
                 break;
             }
         }

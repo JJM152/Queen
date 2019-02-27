@@ -580,7 +580,7 @@ App.PR = new function() {
                     case "IS_WEARING":
                         bMeter = false;
                         if(checks[i]["VALUE"] == "NOT") pString = "''NOT'' ";
-                        Val = (checks[i]["VALUE"] == "NOT" ? (Player.GetEquipmentInSlot(Name) == 0) : (Player.GetEquipmentInSlot(Name) != 0));
+                        Val = (checks[i]["VALUE"] == "NOT" ? (Player.GetEquipmentInSlot(Name) == null) : (Player.GetEquipmentInSlot(Name) != null));
                         pString = pString + "wearing " + Name.toLowerCase();
                         break;
                     case "TRACK_CUSTOMERS":
@@ -895,7 +895,7 @@ App.PR = new function() {
      */
     this.pHair = function (Player) {
             var Wig = Player.GetEquipmentInSlot("Wig");
-            if (Wig!= 0)
+            if (Wig!= null)
                 return "You are wearing a wig to hide your natural hair. It is " +Wig.HairColor()+ " and " +
                     this.lengthString(Wig.HairLength()) + " long, styled in " +
                     this.ColorizeString(Wig.HairBonus(), Wig.HairStyle()) + ".";
@@ -1007,7 +1007,7 @@ App.PR = new function() {
             for(var i = 0; i < slots.length;i++) {
                 if (slots[i][0] == '$') return slots[i].slice(1); // default string
                 equip = Player.GetEquipmentInSlot(slots[i]);
-                if (typeof equip !== null && equip != 0) return equip.Description;
+                if (equip != null) return equip.Description;
             }
             return "@@color:red;bug!@@";
         }
