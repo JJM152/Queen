@@ -1,5 +1,3 @@
-window.App = window.App || { Data: { }, Entity: { } };
-
 App.StoreEngine = new function() {
 
     /**
@@ -11,7 +9,7 @@ App.StoreEngine = new function() {
     this.OpenStore = function(Player, NPC)
     {
 
-        return new Store(Player, NPC, window.App.Data.Stores[NPC.StoreName()]);
+        return new Store(Player, NPC, App.Data.Stores[NPC.StoreName()]);
     };
 
     /**
@@ -20,7 +18,7 @@ App.StoreEngine = new function() {
      * @returns {boolean}
      */
     this.HasStore = function(NPC) {
-        return (window.App.Data.Stores.hasOwnProperty(NPC.StoreName()));
+        return (App.Data.Stores.hasOwnProperty(NPC.StoreName()));
     };
 
     /**
@@ -30,7 +28,7 @@ App.StoreEngine = new function() {
      * @returns {boolean}
      */
     this.IsOpen = function(Player, NPC) {
-        return ($.inArray(Player.Phase, window.App.Data.Stores[NPC.StoreName()]["OPEN"]) != -1);
+        return ($.inArray(Player.Phase, App.Data.Stores[NPC.StoreName()]["OPEN"]) != -1);
     };
 
     /**
@@ -272,10 +270,10 @@ var Store = function(Player, NPC, StoreData) {
                 return ((Item["CATEGORY"] == "RARE") && (Mood >= Item["MOOD"]) && (Item["LOCKED"] != 1));
             });
 
-            // Add multiple rare items to the store inventory. 
+            // Add multiple rare items to the store inventory.
             if (Rares.length > 0) {
 
-            for (i = 0; i < MaxRares; i++) { 
+            for (i = 0; i < MaxRares; i++) {
                 // Filter out Rares that already exist in the rares entry.
                 Rares = Rares.filter(function(o) {
                     var current = this._Player.StoreInventory[this._Id]["RARE"];
@@ -298,7 +296,7 @@ var Store = function(Player, NPC, StoreData) {
 
     this.PrintItem = function(Item)
     {
-        var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"]);
+        var oItem = App.Item.Factory( Item["TYPE"], Item["TAG"]);
         var res = "<span class='inventoryItem'>" + oItem.Description;
         if (this._Player.Inventory.IsFavorite(oItem.Id)) {
             res += "&nbsp;" + App.PR.GetItemFavoriteIcon(true);
@@ -320,7 +318,7 @@ var Store = function(Player, NPC, StoreData) {
      */
     this.PrintItemLong = function(Item)
     {
-        var oItem = window.App.Item.Factory( Item["TYPE"], Item["TAG"]);
+        var oItem = App.Item.Factory( Item["TYPE"], Item["TAG"]);
 		var Player = this._Player;
         return "@@color:yellow;You take a look at the @@" + oItem.Description+ ".\n"+oItem.Examine(Player);
     };

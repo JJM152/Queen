@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.NPCS = App.Data.NPCS || { };
-
 App.Data.Names = {
             "Male": ["Ailen", "Aldritch", "Allan", "Arnold", "Austyn", "Ayden",
                 "Bobby", "Brennan", "Brewster", "Brod", "Barthon",
@@ -288,7 +285,7 @@ App.Data.Lists = {
                       100 : { "COST" : 3000, "STEP" : 1, "ADJECTIVE" : "enormous",   "COLOR" : 16}
                     }
                 },
-                "Hair": { "MIN" : 0, "MAX" : 100, "START" : 10, "CM_MIN" : 5, "CM_MAX" : 180,
+                "Hair": { "MIN" : 0, "MAX" : 100, "START" : 5, "CM_MIN" : 1, "CM_MAX" : 130,
                     "LEVELING" : {
                          5 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
                         10 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
@@ -307,7 +304,7 @@ App.Data.Lists = {
                        100 : { "COST" : 1500, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 }
                     }
                 },
-                "Height": { "MIN" : 0, "MAX" : 100, "START" : 50, "CM_MIN" : 145, "CM_MAX" : 220,
+                "Height": { "MIN" : 0, "MAX" : 100, "START" : 60, "CM_MIN" : 145, "CM_MAX" : 200,
                     "LEVELING" : {
                          0 : { "COST" : 3000, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
                          5 : { "COST" :  720, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 0 },
@@ -756,6 +753,13 @@ App.Data.Lists = {
                     {"NAME"  : "braided",       "DIFFICULTY" : 80,  "RESOURCE1" : 0,    "RESOURCE2" : 0 ,   "MIN" : 40, "MAX" : 100,  "STYLE" : 35, "SHORT" : "extravagantly long braids"},
                     {"NAME"  : "twin tails",    "DIFFICULTY" : 90,  "RESOURCE1" : 1,    "RESOURCE2" : 1 ,   "MIN" : 50, "MAX" :  80,  "STYLE" : 75, "SHORT" : "extremely long twin tails"}
             ],
+            "HairColors" : 
+            {
+                "black" : { h: 0, s: 0, l: 0},
+                "blond" : { h: 60, s: 100, l: 80 },
+                "brown" : { h: 40, s: 0, l: 40 },
+                "red" : { h: 0, s: 100, l: 30 }
+            },
             "SexActFrequency": ["HandJobs", "BlowJobs", "BlowJobs", "TitFucking", "AssFucking", "AssFucking"],
             "SkillDictionary": { "HandJobs" : "Hand Job", "BlowJobs" : "Blow Job", "TitFucking" : "Titty Fuck", "AssFucking" : "Ass Fuck" },
             "SexCommands" : {
@@ -1494,8 +1498,8 @@ App.Data.Encounters = {
 };
 
 App.Data.Fashion = {
-    "STYLES" : [ 
-        "Ordinary", "Pirate Slut", "Bimbo", "Sissy Lolita", "Gothic Lolita", "BDSM", "Daddy's Girl", 
+    "STYLES" : [
+        "Ordinary", "Pirate Slut", "Bimbo", "Sissy Lolita", "Gothic Lolita", "BDSM", "Daddy's Girl",
         "Naughty Nun", "Pet Girl", "High Class Whore", "Slutty Lady", "Sexy Dancer"
      ]
 };
@@ -1503,3 +1507,4 @@ App.Data.Fashion = {
 App.Data.Game = {
     Version : 0.09
 };
+

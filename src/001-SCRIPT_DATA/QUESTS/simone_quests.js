@@ -1,21 +1,18 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Quests = App.Data.Quests || { };
-
 App.Data.Quests["SIMONE_MISSING_FRIEND"] = {
-    "ID": "SIMONE_MISSING_FRIEND", 
+    "ID": "SIMONE_MISSING_FRIEND",
     "Title": "Simone's Missing Friend",
     "GIVER": "Simone",
     "PRE": [ ],
     "POST": [ ],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "14 inch purple dildo", "VALUE": 1 
+            "TYPE": "QUEST_ITEM", "NAME": "14 inch purple dildo", "VALUE": 1
         }
     ],
     "ON_ACCEPT" : [],
     "REWARD": [
         {
-            "REWARD_TYPE": "MONEY", "AMOUNT": 200 
+            "REWARD_TYPE": "MONEY", "AMOUNT": 200
         },
         {
             "REWARD_TYPE" : "MOOD", "NAME" : "Simone", "AMOUNT" : 15
@@ -75,46 +72,46 @@ App.Data.Quests["SIMONE_MISSING_FRIEND"] = {
 };
 
 App.Data.Quests["SIMONE_CUSTOMER_SERVICE"] = {
-    "ID": "SIMONE_CUSTOMER_SERVICE", 
+    "ID": "SIMONE_CUSTOMER_SERVICE",
     "Title": "Customer Service - The Lusty Lass",
     "GIVER": "Simone",
     "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_1", "VALUE" : "COMPLETED" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_1", "VALUE" : "COMPLETED"
         },
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_2", "VALUE" : "COMPLETED" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_2", "VALUE" : "COMPLETED"
         },
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_3", "VALUE" : "COMPLETED" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_3", "VALUE" : "COMPLETED"
         },
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_4", "VALUE" : "COMPLETED" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_JOB_4", "VALUE" : "COMPLETED"
         },
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_MISSING_FRIEND", "VALUE" : "COMPLETED" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "SIMONE_MISSING_FRIEND", "VALUE" : "COMPLETED"
         }
     ],
     "POST": [ ],
     "CHECKS": [
-        { 
-            "TYPE": "TRACK_CUSTOMERS",  "NAME": "LustyLass", "VALUE": 20 
+        {
+            "TYPE": "TRACK_CUSTOMERS",  "NAME": "LustyLass", "VALUE": 20
         }
     ],
     "ON_ACCEPT" : [
-        { 
-            "TYPE" : "TRACK_CUSTOMERS", "NAME" : "LustyLass"  
+        {
+            "TYPE" : "TRACK_CUSTOMERS", "NAME" : "LustyLass"
         }
     ],
     "REWARD": [
         {
-            "REWARD_TYPE": "MONEY", "AMOUNT": 1000 
+            "REWARD_TYPE": "MONEY", "AMOUNT": 1000
         },
         {
             "REWARD_TYPE" : "MOOD", "NAME" : "Simone", "AMOUNT" : 15
         },
         {
-            "REWARD_TYPE" : "SLOT" 
+            "REWARD_TYPE" : "SLOT"
         },
         {
             "REWARD_TYPE": "ITEM", "TYPE": "QUEST", "NAME": "14 inch purple dildo", "AMOUNT": 1

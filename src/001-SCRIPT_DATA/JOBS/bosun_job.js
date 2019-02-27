@@ -1,26 +1,23 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.JobData = App.Data.JobData || { };
-
 App.Data.JobData["ISLA_WAITRESS"] = {
-    "ID": "ISLA_WAITRESS", 
-    "TITLE": "Wench For Hire", 
-    "GIVER": "IslaTavernKeeper", 
+    "ID": "ISLA_WAITRESS",
+    "TITLE": "Wench For Hire",
+    "GIVER": "IslaTavernKeeper",
     "PAY" : 40,
-    "RATING" : 3, 
+    "RATING" : 3,
     "PHASES" : [ 1 ],
     "DAYS"   : 1,
     "HIDDEN" : false,
-    "COST" : [  
-            { 
-                "TYPE" : "TIME", "VALUE" : 3 
+    "COST" : [
+            {
+                "TYPE" : "TIME", "VALUE" : 3
             },
-            { 
-                "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 2 
-            } 
+            {
+                "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 2
+            }
         ],
     "REQUIREMENTS" : [
-            { 
-                "TYPE" : "STYLE", "NAME" : "STYLE", "VALUE" : 50, "CONDITION" : "gte" 
+            {
+                "TYPE" : "STYLE", "NAME" : "STYLE", "VALUE" : 50, "CONDITION" : "gte"
             }
     ],
     "START" : "\
@@ -42,16 +39,16 @@ App.Data.JobData["ISLA_WAITRESS"] = {
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [
-                { 
-                    "TAG" : "A", "TYPE" : "SKILL", "NAME" : "Serving", "DIFFICULTY" : 30, 
-                    "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 
+                {
+                    "TAG" : "A", "TYPE" : "SKILL", "NAME" : "Serving", "DIFFICULTY" : 30,
+                    "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0
                 } ],
             "POST" : [
-                { 
-                    "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 5, "OPT" : "TAG_A" 
+                {
+                    "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 5, "OPT" : "TAG_A"
                 },
-                { 
-                    "TYPE" : "MONEY", "VALUE" : 20, "OPT" : "TAG_A" 
+                {
+                    "TYPE" : "MONEY", "VALUE" : 20, "OPT" : "TAG_A"
                 }
             ],
             "START" : "\
@@ -60,19 +57,19 @@ App.Data.JobData["ISLA_WAITRESS"] = {
             ,
             "RESULTS" : [
                 {
-                    "A":  33, 
+                    "A":  33,
                     "TEXT": "However, despite this, you find it @@difficult@@ to manage all of your orders and \
                     keep them happy."
                 },
                 {
-                    "A":  66, 
+                    "A":  66,
                     "TEXT": "You start off slowly and make a few miss-steps, but eventually @@you get the hang of it@@ \
                     and fall into a natural rhythm of slinging ale and grub."
                 },
                 {
-                    "A": 500, 
+                    "A": 500,
                     "TEXT": "All in all, it's @@not very difficult@@ to keep everyone happy - plied with drinks and food."
-                } 
+                }
             ],
             "END" : "\
                 Eventually the rush ends and you get a few moments to catch your breath and prepare for the \
@@ -84,17 +81,17 @@ App.Data.JobData["ISLA_WAITRESS"] = {
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [
-                { 
-                    "TAG" : "B", "TYPE" : "SKILL", "NAME" : "Serving", "DIFFICULTY" : 30, 
-                    "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 
-                } 
+                {
+                    "TAG" : "B", "TYPE" : "SKILL", "NAME" : "Serving", "DIFFICULTY" : 30,
+                    "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0
+                }
             ],
             "POST" : [
-                { 
-                    "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 5, "OPT" : "TAG_B" 
+                {
+                    "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 5, "OPT" : "TAG_B"
                 },
-                { 
-                    "TYPE" : "MONEY", "NAME" : "", "VALUE" : 20, "OPT" : "TAG_B" 
+                {
+                    "TYPE" : "MONEY", "NAME" : "", "VALUE" : 20, "OPT" : "TAG_B"
                 }
             ],
             "START" :
@@ -103,19 +100,19 @@ App.Data.JobData["ISLA_WAITRESS"] = {
             ,
             "RESULTS" : [
                 {
-                    "B":  33, 
+                    "B":  33,
                     "TEXT": "However, despite this, you find it @@difficult@@ to manage all of your orders and \
                     keep them happy."
                 },
                 {
-                    "B":  66, 
+                    "B":  66,
                     "TEXT": "You start off slowly and make a few miss-steps, but eventually @@you get the hang of it@@ \
                     and fall into a natural rhythm of slinging ale and grub."
                 },
                 {
-                    "B": 500, 
+                    "B": 500,
                     "TEXT": "All in all, it's @@not very difficult@@ to keep everyone happy - plied with drinks and food."
-                } 
+                }
             ],
                 "END" :
                 "",
@@ -123,16 +120,16 @@ App.Data.JobData["ISLA_WAITRESS"] = {
         {
             "ID" : "SCENE02a",
             "TRIGGERS" :[
-                { 
-                    "TYPE" : "STAT_BODY", "NAME" : "Ass", "VALUE" : 40, "CONDITION" : "gte", "OPT" : 0 
+                {
+                    "TYPE" : "STAT_BODY", "NAME" : "Ass", "VALUE" : 40, "CONDITION" : "gte", "OPT" : 0
                 }
             ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [
-                { 
-                    "TAG" : "B1", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 100, 
-                    "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 50, "OPT" : 0 
-                } 
+                {
+                    "TAG" : "B1", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 100,
+                    "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 50, "OPT" : 0
+                }
             ],
             "POST" : [ ],
             "START" :"\
@@ -141,20 +138,20 @@ App.Data.JobData["ISLA_WAITRESS"] = {
                 ",
             "RESULTS" : [
                 {
-                    "B1":  33, 
+                    "B1":  33,
                     "TEXT": "You do your best to ignore the constant molestation and smile through it, \
                     but @@your tips suffer for it@@."
                 },
                 {
-                    "B1":  66, 
+                    "B1":  66,
                     "TEXT": "You do your best at flirting and smiling while being molested and @@mostly it \
                     seems to work@@, getting you some extra coin in tips."
                 },
                 {
-                    "B1": 500, 
+                    "B1": 500,
                     "TEXT": "You use the opportunity to flirt and grin at the obviously sex starved customers, \
                     who are more than happy to @@tip you generously@@ for a feel of your pASS cheeks."
-                } 
+                }
             ],
             "END" : ""
         },
@@ -163,17 +160,17 @@ App.Data.JobData["ISLA_WAITRESS"] = {
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [
-                { 
+                {
                     "TAG" : "C", "TYPE" : "SKILL", "NAME" : "Serving", "DIFFICULTY" : 100,
-                    "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0 
-                } 
+                    "REWARD" : "NONE", "R_NAME" : "NONE", "VALUE" : 100, "OPT" : 0
+                }
             ],
             "POST" : [
-                { 
+                {
                     "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 5, "OPT" : "TAG_C"
                 },
-                { 
-                    "TYPE" : "MONEY", "VALUE" : 20, "OPT" : "TAG_C" 
+                {
+                    "TYPE" : "MONEY", "VALUE" : 20, "OPT" : "TAG_C"
                 }
             ],
             "START" : "\
@@ -183,34 +180,34 @@ App.Data.JobData["ISLA_WAITRESS"] = {
             ",
             "RESULTS" : [
                 {
-                    "C":  33, 
+                    "C":  33,
                     "TEXT": "However, despite this, you find it @@difficult@@ to manage all of your orders and keep \
                     them happy."
                 },
                 {
-                    "C":  66, 
+                    "C":  66,
                     "TEXT": "You start off slowly and make a few miss-steps, but eventually \
                     @@you get the hang of it@@ and fall into a natural rhythm of slinging ale and grub."
                 },
                 {
-                    "C": 500, 
+                    "C": 500,
                     "TEXT": "All in all, it's @@not very difficult@@ to keep everyone happy - plied with \
                     drinks and food."
-                } 
+                }
             ],
             "END" : ""
         },
         {
             "ID" : "SCENE03a",
             "TRIGGERS" :[
-                { 
+                {
                     "TYPE" : "STAT_SKILL", "NAME" : "Dancing", "VALUE" : 30, "CONDITION" : "gte"
                 }
             ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [
-                { 
-                    "TAG" : "C1", "TYPE" : "SKILL", "NAME" : "Dancing", "DIFFICULTY" : 60, 
+                {
+                    "TAG" : "C1", "TYPE" : "SKILL", "NAME" : "Dancing", "DIFFICULTY" : 60,
                     "REWARD" : "MONEY", "VALUE" : 60
                 }
             ],
@@ -225,23 +222,23 @@ App.Data.JobData["ISLA_WAITRESS"] = {
                 ",
             "RESULTS" : [
                 {
-                    "C1":  33, 
+                    "C1":  33,
                     "TEXT": "Your dancing is @@competent, if not inspired@@ and while the crowd seems to enjoy \
                     it, they don't really loosen their purse strings for you either."
                 },
                 {
-                    "C1":  66, 
+                    "C1":  66,
                     "TEXT": "You mix in a few sexy moves with your dancing, exposing your pBUST tits in brief \
                     flashes and winking saucily at the crowd and you are @@rewarded with a good amount of tips@@ \
                     for your effort."
                 },
                 {
-                    "C1": 500, 
+                    "C1": 500,
                     "TEXT": "Using everything you know, you prance and strut your stuff across the bar. You \
                     tease and flirt with the crowd, exposing brief glimpses of your pBUST tits and pASS ass to \
                     them and riling them up into a sexual frenzy. By the end of your routine they are \
                     @@practically showering you with coins@@."
-                } 
+                }
             ],
             "END" : ""
         }

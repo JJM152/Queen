@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Stores = App.Data.Stores || { };
-
 App.Data.Stores["LUSTY_LASS"] = {
     "ID" : "LUSTY_LASS",    "NAME" : "The Lusty Lass",  "OPEN" : [0, 1, 2, 3, 4], "RESTOCK" : 7,
     // Simone's mood starts at 40.

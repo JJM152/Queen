@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Quests = App.Data.Quests || { };
-
 App.Data.Quests["BELLA_INTRODUCTION"] = {
     "ID": "BELLA_INTRODUCTION", "Title": "A Matter of Introductions",
     "GIVER": "Bella",
@@ -14,7 +11,7 @@ App.Data.Quests["BELLA_INTRODUCTION"] = {
     "ON_ACCEPT" : [],
     "REWARD": [
         {
-            "REWARD_TYPE": "MOOD", "NAME" : "Bella", "AMOUNT": 40 
+            "REWARD_TYPE": "MOOD", "NAME" : "Bella", "AMOUNT": 40
         },
         {
             "REWARD_TYPE": "RESET_SHOP", "NAME" : "Bella"

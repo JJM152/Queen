@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Clothes = App.Data.Clothes || { };
-
 // STYLE TABLE
 // TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
 // ACCESSORY    3       6           9       12
@@ -94,10 +91,10 @@ App.Data.Clothes["stripper heels"] = { // +20
     heels. The effect is that you prance and waddle while you step, forcing your ass to jiggle and shake \
     everywhere you walk.\
     ",
-    Slot: "Shoes", Restrict: ["Shoes"], 
+    Slot: "Shoes", Restrict: ["Shoes"],
     Color: "black", Style: "LEGENDARY", Type : "CLOTHING",
     WearEffect: [ "FEMININE_CLOTHING" ],
-    ActiveEffect : [ "REALLY_FANCY_MOVES" ], 
+    ActiveEffect : [ "REALLY_FANCY_MOVES" ],
     Category : [ "Sexy Dancer", "Bimbo" ],
     InMarket: false
 };
@@ -114,4 +111,3 @@ App.Data.Clothes["barefoot sandals"] = {
 // PENIS SLOT
 
 // WEAPON SLOT (huh?)
-

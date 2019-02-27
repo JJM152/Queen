@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-
 /**
  * This class manages the "job" system. Basically short term repeatable quests.
  * They are not tracked by the journal and focus mostly on earning cheap rewards and flavor text.
@@ -1156,9 +1154,9 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                         Result = this._Player.GenericRoll( this._Player.Beauty(), Check.DIFFICULTY, Value, Scaling);
                         break;
                     case "DANCE_STYLE":
-                        var defaultStyleResult = this._Player.GenericRoll( 
+                        var defaultStyleResult = this._Player.GenericRoll(
                             this._Player.GetStyleSpecRating("Sexy Dancer"), Check.DIFFICULTY, Value, Scaling);
-                        var specStyleResult = this._Player.GenericRoll( 
+                        var specStyleResult = this._Player.GenericRoll(
                             this._Player.GetStyleSpecRating(App.JobEngine.GetDance()), Check.DIFFICULTY, Value, Scaling);
                         Result = (defaultStyleResult + specStyleResult) / 2;
                         break;
@@ -1169,10 +1167,10 @@ App.Scene = function(Player, NPC, SceneData, Checks) {
                 break;
         }
 
-        this._Checks[Check.TAG] = { 
-            "RESULT" : Result, 
+        this._Checks[Check.TAG] = {
+            "RESULT" : Result,
             "VALUE" : Value,
-            "MOD" : Result / Value 
+            "MOD" : Result / Value
         };
         console.log(this._Checks);
         this._ProcessReward(Check.REWARD, Check.R_NAME, Result, Check.OPT);

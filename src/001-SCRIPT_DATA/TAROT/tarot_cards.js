@@ -1,17 +1,13 @@
-App = App || { Data: { }, Entity: { } };
-
-App.Data.Tarot = App.Data.Tarot || { };
-
 App.Data.Tarot["VALIDATE"] = function(){
     console.log("Validating Tarot Card Effects");
-    for (var prop in window.App.Data.Tarot) {
-        if (prop != "VALIDATE" && window.App.Data.Tarot.hasOwnProperty(prop)) {
-            console.group(prop + " " + window.App.Data.Tarot[prop].Name);
-            for (var i = 0; i < window.App.Data.Tarot[prop].Effects.length; i++) {
-                if (window.App.Data.EffectLib.hasOwnProperty(window.App.Data.Tarot[prop].Effects[i])) {
-                  console.log("Effect " + window.App.Data.Tarot[prop].Effects[i] + " found");
+    for (var prop in App.Data.Tarot) {
+        if (prop != "VALIDATE" && App.Data.Tarot.hasOwnProperty(prop)) {
+            console.group(prop + " " + App.Data.Tarot[prop].Name);
+            for (var i = 0; i < App.Data.Tarot[prop].Effects.length; i++) {
+                if (App.Data.EffectLib.hasOwnProperty(App.Data.Tarot[prop].Effects[i])) {
+                  console.log("Effect " + App.Data.Tarot[prop].Effects[i] + " found");
                 } else {
-                    console.log("***Effect " + window.App.Data.Tarot[prop].Effects[i] + " not found");
+                    console.log("***Effect " + App.Data.Tarot[prop].Effects[i] + " not found");
                 }
             }
             console.groupEnd();
@@ -235,4 +231,3 @@ App.Data.Tarot["022"] = {
     Msg: "The image of The Fool returns to your thoughts as you lie in your bunk getting ready to go to sleep. As your eyes flutter closed, you begin to think about the bizarre journey you've begun. Though many parts of it have been unspeakably horrible to be sure, you wonder if you might also extract some good from it? It's crazy... but it just might work.",
     Effects : [ "HEAL_LEGENDARY", "ENERGY_LEGENDARY"]
 };
-

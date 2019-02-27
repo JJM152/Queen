@@ -1,5 +1,10 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.9b - 26/02/2019
+!!!!General
+* Implemented the <a href="">Dynamic Avatar Drawer</a> library with some light customization. More to come.
+* Added new settings to control avatar display in mirror and to turn off animations (slot machine).
+* Added new meta-attribute 'ass firmness' related to your physical fitness.
 !!!0.9 Bugfix a - 23/02/2019
 !!!!Abamond
 * Digging for rare ore should work correctly now.

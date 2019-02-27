@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Slots = App.Data.Slots || { };
-
 // region generic whoring reels
 App.Data.Slots["COMMON_CONCUBINE"] =
 {

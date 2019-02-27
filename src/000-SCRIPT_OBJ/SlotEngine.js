@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-
 /**
  * Main engine for slot machine mini game.
  * @class {SlotEngine}
@@ -1285,9 +1283,14 @@ App.SlotEngine = new function() {
             var heightBefore = parseInt(jqoSlider.css("height"), 10);
             var chosen = that.addSymbolsToStrip(jqoSlider,whichReel,shouldWin);
             var marginTop = -(heightBefore + ((that.endingLocation) * that.height));
+            if (SugarCube.settings.fastAnimations == true) {
+            jqoSlider.css('margin-top', marginTop+"px");
+            console.log(jqoSlider);
+            } else {
             jqoSlider.stop(true,true).animate(
                 {"margin-top":marginTop+"px"},
                 {'duration' : that.time + Math.round(Math.random()*1000), 'easing' : "easeOutElastic"});
+            }
             return chosen;
         };
 
@@ -1298,9 +1301,11 @@ App.SlotEngine = new function() {
             }
 
             if(that.callback) {
-                setTimeout(function(){
+                if (SugarCube.settings.fastAnimations == true ) {
                     that.callback(results);
-                }, that.time);
+                } else {
+                    setTimeout(function(){ that.callback(results);}, that.time);
+                }
             }
 
             return results;

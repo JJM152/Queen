@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Quests = App.Data.Quests || { };
-
 App.Data.Quests["Q002"] = {
     "ID": "Q002", "Title": "Tools of the Trade - Part 1",
     "GIVER": "FirstMate",

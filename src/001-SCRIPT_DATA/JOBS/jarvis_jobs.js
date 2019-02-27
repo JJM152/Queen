@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.JobData = App.Data.JobData || { };
-
 App.Data.JobData["JARV01"] =  {
     "ID": "JARV01", "TITLE": "A slutty seduction", "GIVER": "Jarvis", "PAY" : 0,
     "RATING" : 5, // of 5

@@ -1,8 +1,5 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Quests = App.Data.Quests || { };
-
 App.Data.Quests["ISLA_TAVERN01"] = {
-    "ID": "ISLA_TAVERN01", 
+    "ID": "ISLA_TAVERN01",
     "Title": "Customer Relations",
     "GIVER": "IslaTavernKeeper",
     "PRE": [],
@@ -57,23 +54,23 @@ App.Data.Quests["ISLA_TAVERN01"] = {
 };
 
 App.Data.Quests["ISLA_TAVERN02"] = {
-    "ID": "ISLA_TAVERN02", 
+    "ID": "ISLA_TAVERN02",
     "Title": "Smuggler's Run",
     "GIVER": "IslaTavernKeeper",
     "PRE": [
-        { 
+        {
             "TYPE" : "QUEST_FLAG", "NAME" : "ISLA_TAVERN01", "VALUE" : "COMPLETED"
         }
     ],
     "POST": [],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "smugglers rum cask", "VALUE": 1 
+            "TYPE": "QUEST_ITEM", "NAME": "smugglers rum cask", "VALUE": 1
         }
     ],
     "ON_ACCEPT" : [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "SMUGGLER_PICKUP", "VALUE" : "ACTIVE" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "SMUGGLER_PICKUP", "VALUE" : "ACTIVE"
         }
     ],
     "REWARD": [
@@ -114,4 +111,3 @@ App.Data.Quests["ISLA_TAVERN02"] = {
         <span style='color:purple'>worn machete</span>. It's a useful tool for any pirate or explorer.\
         "
 };
-

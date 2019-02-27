@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-
 App.PR = new function() {
 
 	/** Shortcut

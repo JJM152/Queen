@@ -1,20 +1,17 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Quests = App.Data.Quests || { };
-
 App.Data.Quests["JUSTUS_WHORING"] = {
-    "ID": "JUSTUS_WHORING", 
+    "ID": "JUSTUS_WHORING",
     "Title": "Getting Friendly With the Guards - Golden Isle",
     "GIVER": "Justus",
     "PRE": [],
     "POST": [],
     "CHECKS": [
-        { 
-            "TYPE": "TRACK_CUSTOMERS",  "NAME": "GoldenIsleGuards", "VALUE": 20 
+        {
+            "TYPE": "TRACK_CUSTOMERS",  "NAME": "GoldenIsleGuards", "VALUE": 20
         }
     ],
     "ON_ACCEPT" : [
-        { 
-            "TYPE" : "TRACK_CUSTOMERS", "NAME" : "GoldenIsleGuards"  
+        {
+            "TYPE" : "TRACK_CUSTOMERS", "NAME" : "GoldenIsleGuards"
         }
     ],
     "REWARD": [],

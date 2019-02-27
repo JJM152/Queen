@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Misc = App.Data.Misc || { };
 // Non usable items, not quest items, can have multiple's of.
 
 App.Data.Misc["torch"] = {

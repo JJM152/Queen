@@ -19,7 +19,7 @@ The young miss isn't about but I dare say she wouldn't like you rifling through 
 <</replace>>\
 <</click>>\
  | \
-<<if window.App.QuestEngine.GetQuestFlag(setup.player, "DADDYSGIRL") != "COMPLETED">>\
+<<if App.QuestEngine.GetQuestFlag(setup.player, "DADDYSGIRL") != "COMPLETED">>\
 <<click "Study">>\
 <<replace "#Notification">>\
 You move forward toward's the @@color:gold;Governor's Study@@, but the steward steps forward and blocks your way.

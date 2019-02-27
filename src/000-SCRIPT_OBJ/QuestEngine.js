@@ -1,4 +1,3 @@
-App = App || { Data: { }, Entity: { } };
 /**
  * This class manages the tracking of quests and handing out of rewards.
  * @constructor
@@ -296,10 +295,10 @@ App.QuestEngine = new function() {
     this.GetQuests = function (Flag, Player, NPC)
     {
         var Quests = [];
-        var List = Object.keys(window.App.Data.Quests);
+        var List = Object.keys(App.Data.Quests);
 
         for (var i = 0; i < List.length; i++) {
-            var o = window.App.Data.Quests[List[i]];
+            var o = App.Data.Quests[List[i]];
             if (typeof NPC === 'undefined') {
                 if ((Flag == 'cancomplete') && (this.CanCompleteQuest(Player, o["ID"]) == true)) Quests.push(o);
                 if ((Flag == 'available' ) && (this.QuestAvailable(Player, o["ID"]) == true)) Quests.push(o);
@@ -394,7 +393,7 @@ App.QuestEngine = new function() {
     this.CanCompleteQuest = function (Player, Flag) {
         if ((typeof Player.QuestFlags[Flag] === 'undefined')) return false;
         if (Player.QuestFlags[Flag] == 'COMPLETED') return false; // Should never happen eh??
-        var checks = window.App.Data.Quests[Flag]["CHECKS"];
+        var checks = App.Data.Quests[Flag]["CHECKS"];
         var Name;
         var Reverse;
 

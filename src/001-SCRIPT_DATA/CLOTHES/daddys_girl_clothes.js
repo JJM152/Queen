@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Clothes = App.Data.Clothes || { };
-
 // STYLE TABLE
 // TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
 // ACCESSORY    3       6           9       12
@@ -132,10 +129,10 @@ App.Data.Clothes["low heel maryjanes"] = { // +20
     is higher than typical for this style, but not so much as to impair ones walking. The craftsmanship and \
     quality of the shoe is apparent in how sturdy and lightweight it is. \
     ",
-    Slot: "Shoes", Restrict: ["Shoes"], 
+    Slot: "Shoes", Restrict: ["Shoes"],
     Color: "black", Style: "LEGENDARY", Type : "CLOTHING",
     WearEffect: [ "FEMININE_CLOTHING" ],
-    ActiveEffect: [ "FANCY_MOVES" ], 
+    ActiveEffect: [ "FANCY_MOVES" ],
     Category : [ "Daddy's Girl", "Sexy Dancer" ],
     InMarket: false
 };

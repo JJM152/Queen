@@ -1,13 +1,10 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Quests = App.Data.Quests || { };
-
 App.Data.Quests["STRIPPING"] = {
-    "ID": "STRIPPING", 
+    "ID": "STRIPPING",
     "Title": "The Casting Couch",
     "GIVER": "Cook",
     "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "Q005", "VALUE" : "COMPLETED" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "Q005", "VALUE" : "COMPLETED"
         }
     ],
     "POST": [],
@@ -98,4 +95,3 @@ App.Data.Quests["STRIPPING"] = {
         the evenings for extra coin and to raise the lust of the crew.\
         "
 };
-

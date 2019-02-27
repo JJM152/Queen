@@ -1,7 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.LootBoxes = App.Data.LootBoxes || { };
-App.Data.LootTables = App.Data.LootTables || { };
-
 // BOX TYPE     MINIMUM     BONUS ROLL  COLOR
 // COMMON       0           0           grey
 // UNCOMMON     20          10          lime
@@ -60,5 +56,5 @@ App.Data.LootTables["PATHETIC_LOSER"] =  {
             { "TYPE" : "CLOTHES", "TAG" : "choker", "QTY" : 1},
             { "TYPE" : "CLOTHES", "TAG" : "fishnet tights", "QTY" : 1},
             { "TYPE" : "CLOTHES", "TAG" : "pathetic loser costume", "QTY" : 1}
-        ] }        
+        ] }
 };

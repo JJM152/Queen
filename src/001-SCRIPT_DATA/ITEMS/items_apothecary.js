@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Drugs = App.Data.Drugs || { };
-
 App.Data.Drugs["AP_elderberry"] = {
     "Name": "elderberry cordial",
     "ShortDesc": "Elderberry Cordial",

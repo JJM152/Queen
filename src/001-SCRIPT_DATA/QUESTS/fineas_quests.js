@@ -1,18 +1,15 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Quests = App.Data.Quests || { };
-
 App.Data.Quests["BOBOLA_SAP_1"] = {
     "ID": "BOBOLA_SAP_1", "Title": "Processing Bobola Sap",
     "GIVER": "Fineas Quincy",
     "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "ROYAL_ENTRANCE_2", "VALUE" : "ACTIVE" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "ROYAL_ENTRANCE_2", "VALUE" : "ACTIVE"
         }
     ],
     "POST": [],
     "CHECKS": [
         {
-            "TYPE": "FLAG", "NAME": "ROYAL_ENTRANCE_2", "VALUE": "ACTIVE" 
+            "TYPE": "FLAG", "NAME": "ROYAL_ENTRANCE_2", "VALUE": "ACTIVE"
         },
         {
             "TYPE": "MONEY", "NAME": "MONEY", "VALUE": 500
@@ -75,8 +72,8 @@ App.Data.Quests["CHEMICAL_PICKUP"] = {
     "JOURNAL_ENTRY": "HIDDEN",
     "JOURNAL_COMPLETE": "HIDDEN",
     "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "FINDING_YOUR_BALLS_1", "VALUE" : "ACTIVE" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "FINDING_YOUR_BALLS_1", "VALUE" : "ACTIVE"
         }
     ],
     "POST": [],

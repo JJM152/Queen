@@ -1,8 +1,22 @@
 :: printPlayerDescription [widget]
 <<widget "printPlayerDescription">>\
+<<if settings.displayAvatar == true>>\
 <div id='mirrorContainer'>\
 <<DrawAvatar>>\
 <div id='mirrorText'>\
+You are <<print App.PR.pHeight(setup.player);>> and <<print App.PR.pFitness(setup.player);>> \
+You have a <<print App.PR.pFace(setup.player);>> <<print App.PR.pHair(setup.player);>> \
+<<print App.PR.pEyes(setup.player);>> You have <<print App.PR.pLips(setup.player);>> \
+<<print App.PR.pBust(setup.player);>> <<print App.PR.pAss(setup.player);>> \
+<<print App.PR.pHips(setup.player);>> <<print App.PR.pWaist(setup.player);>> and \
+<<print App.PR.pFigure(setup.player);>>. You have <<print App.PR.pPenis(setup.player);>> and \
+<<print App.PR.pBalls(setup.player);>> between your legs.
+
+You consider your natural beauty to be <<print App.PR.pBeauty(setup.player);>>.
+The fetish appeal of your body is <<print App.PR.pFetish(setup.player);>>.\
+</div>
+</div>
+<<else>>\
 You are <<print window.App.PR.pHeight(setup.player);>> and <<print window.App.PR.pFitness(setup.player);>> \
 You have a <<print window.App.PR.pFace(setup.player);>> <<print window.App.PR.pHair(setup.player);>> \
 <<print window.App.PR.pEyes(setup.player);>> You have <<print window.App.PR.pLips(setup.player);>> \
@@ -13,6 +27,5 @@ You have a <<print window.App.PR.pFace(setup.player);>> <<print window.App.PR.pH
 
 You consider your natural beauty to be <<print window.App.PR.pBeauty(setup.player);>>.
 The fetish appeal of your body is <<print window.App.PR.pFetish(setup.player);>>.\
-</div>
-</div>
+<</if>>\
 <</widget>>

@@ -1,12 +1,9 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Quests = App.Data.Quests || { };
-
 App.Data.Quests["Q001"] = {
     "ID": "Q001", "Title": "Price of Freedom - Part 1",
     "GIVER": "Captain",
     "PRE": [ ],
     "POST": [
-        { 
+        {
             "TYPE" : "QUEST_FLAG", "NAME": "Q001b", "VALUE": "ACTIVE"
         }
     ],
@@ -45,12 +42,12 @@ App.Data.Quests["Q001b"] = {
     "ID": "Q001b", "Title": "Price of Freedom - Part 2",
     "GIVER": "Captain",
     "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "Q001", "VALUE" : "COMPLETED" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "Q001", "VALUE" : "COMPLETED"
         }
     ],
     "POST": [
-        { 
+        {
             "TYPE" : "QUEST_FLAG", "NAME": "GAME_WON", "VALUE": 1
         }
     ],
@@ -94,8 +91,8 @@ App.Data.Quests["BOARDINGPASS"] = {
     "ID": "BOARDINGPASS", "Title": "Boarding Pass",
     "GIVER": "Captain",
     "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "PRE_BOARDINGPASS", "VALUE" : "COMPLETED" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "PRE_BOARDINGPASS", "VALUE" : "COMPLETED"
         }
     ],
     "POST": [],
@@ -224,8 +221,8 @@ App.Data.Quests["Q006"] = {
     "ID": "Q006", "Title": "Build a Better Bimbo - Part 2",
     "GIVER": "Captain",
     "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "Q005", "VALUE" : "COMPLETED" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "Q005", "VALUE" : "COMPLETED"
         }
     ],
     "POST": [],
@@ -292,8 +289,8 @@ App.Data.Quests["Q007"] =  {
     "ID": "Q007", "Title": "Build a Better Bimbo - Part 3",
     "GIVER": "Captain",
     "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "Q006", "VALUE" : "COMPLETED" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "Q006", "VALUE" : "COMPLETED"
         }
     ],
     "POST": [],

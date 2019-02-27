@@ -1,4 +1,4 @@
 :: printStyleDescription [widget]
 <<widget "printStyleDescription">>\
 <<nobr>>
-<span id="StyleDesc"><<print window.App.PR.pHair(setup.player);>> <<print window.App.PR.pMakeup(setup.player);>>. <<print "The style and fashion of your clothing is " +  window.App.PR.pClothing(setup.player)>>. <<print "Your hygiene and styling is " + window.App.PR.pStyle(setup.player); >>.</span><</nobr>><</widget>>
+<span id="StyleDesc"><<print App.PR.pHair(setup.player);>> <<print App.PR.pMakeup(setup.player);>>. <<print "The style and fashion of your clothing is " +  App.PR.pClothing(setup.player)>>. <<print "Your hygiene and styling is " + App.PR.pStyle(setup.player); >>.</span><</nobr>><</widget>>

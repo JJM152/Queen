@@ -1,7 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-
-App.Data.NPCS = App.Data.NPCS || { };
-
 App.Data.NPCS["Crew"] = {
         "Name" : "Crew", // This is a place holder and not meant to be used as an actual NPC.
         "Mood" : 0,
