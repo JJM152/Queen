@@ -67,7 +67,7 @@ App.Entity.AvatarEngine = class Avatar {
                 neckWidth     :  35,
                 //penisSize     : 50,
                 //shoulderWidth : 64.28699551569507,
-                skin          : -2,
+                skin          : 3,
                 //testicleSize  : 60,
                 //upperMuscle   : 0,
                 //vaginaSize    : 40,

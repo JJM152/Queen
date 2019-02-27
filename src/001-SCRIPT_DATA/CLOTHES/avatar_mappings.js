@@ -1,12 +1,3 @@
-// Annoying. Turn this into a function maybe to convert html names into hsl?
-App.Data.HSLMAP = {
-     white              : 'hsla(0.0,0.0%,100.0%,1.00)',
-     black              : 'hsla(0,0%,0%,1.00)',
-     red                : 'hsla(0,100%,50%,1.00)',
-     skybue             : 'hsla(197,71%,73%,1.00)',
-     lightsteelblue     : 'hsla(214,41%,78%,1.00)'
-};
-
 App.Data.AvatarMaps = {
     Neck: [ { c: "da.Collar", a: null } ],
     Nipples: [ 
@@ -16,7 +7,7 @@ App.Data.AvatarMaps = {
                             dx: 0,
                             dy: 0,
                         },
-                        fill: App.Data.HSLMAP.lightsteelblue
+                        fill: "lightsteelblue"
                     }
                 },
                 {   c: "da.RingPiercing", 
@@ -25,21 +16,21 @@ App.Data.AvatarMaps = {
                             dx: 0,
                             dy: 0,
                         },
-                        fill: App.Data.HSLMAP.lightsteelblue
+                        fill: "lightsteelblue"
                     }
                 },
                 ],
-    Bra:        [ { c: "da.Bra", a: { fill: App.Data.HSLMAP.white } }],
-    Corset:     [ { c: "da.Corset", a: { botCoverage: 0, lacing: 0, fill: App.Data.HSLMAP.black } }],
-    Panty:      [ { c: "da.Panties", a: { fill: App.Data.HSLMAP.white } }],
-    Stockings:  [ { c: "da.Stockings", a: { bandWidth: 1, legCoverage: 0.3, fill: App.Data.HSLMAP.white}}],
+    Bra:        [ { c: "da.Bra", a: { fill: "white" } }],
+    Corset:     [ { c: "da.Corset", a: { botCoverage: 0, lacing: 0, fill: "black" } }],
+    Panty:      [ { c: "da.Panties", a: { fill: "white" } }],
+    Stockings:  [ { c: "da.Stockings", a: { bandWidth: 1, legCoverage: 0.3, fill: "white"}}],
     Shirt:      [ { c: "da.HalterTop", 
                     a:{ 
                         cleavageCoverage: 0.3, 
                         innerNeckCoverage: 0.3, 
                         outerNeckCoverage: 1, 
                         waistCoverage: 0.7,
-                        fill: App.Data.HSLMAP.white
+                        fill: "white"
                     } 
                 }],
     Pants:      [ { c: "da.MediumTightPants", a: null}],
@@ -50,8 +41,8 @@ App.Data.AvatarMaps = {
                         cleavageCoverage: 0.3,
                         legCoverage: 0.4,
                         legLoose: 0.3,
-                        fill: App.Data.HSLMAP.skybue,
-                        stroke: App.Data.HSLMAP.black
+                        fill: "skybue",
+                        stroke: "black"
                       }    
                 }],
     Costume:    [
@@ -59,18 +50,112 @@ App.Data.AvatarMaps = {
                     {   c: "da.SuperPants", 
                         a: {  
                             legCoverage: 0.12,
-                            fill: App.Data.HSLMAP.red
+                            fill: "red"
                       }
                     },
                     {   c: "da.FingerlessGloves",
                         a: {
                             armCoverage: 0.28,
-                            fill: App.Data.HSLMAP.red
+                            fill: "red"
                         }
                     }
                 ],
     Shoes:      [ { c: "da.FlatShoes", a: null } ]
 };
+
+// Bimbo Clothes
+App.Data.AvatarMaps['bimbo collar'] = [
+    {
+        c: "da.Choker",
+        a: {
+            neckBotCoverage: -0.051518301363407515,
+            neckCoverage: 0.3036231423018787,
+            fill: "hotpink",
+            stroke: "white"
+          }
+    }
+];
+
+App.Data.AvatarMaps['bimbo bra'] = [
+    {
+        c: "da.Bra",
+        a: {
+            fill: "hotpink",
+            stroke: "black"
+          }
+    }
+];
+
+App.Data.AvatarMaps['cupless corset'] = [
+    {
+        c: "da.HalfCorset",
+        a:{
+            pattern: "da.getPattern('lace', 100)",
+          }
+    }
+];
+
+App.Data.AvatarMaps['bimbo thong'] = [
+    {
+        c: "da.Panties",
+        a: {
+            genCoverage: 1,
+            waistCoverage: -0.01205814095615343,
+            fill: "hotpink"
+          }
+    }
+];
+
+App.Data.AvatarMaps['sexy micro dress'] = [
+    {
+        c: "da.TubeTop",
+        a: {
+            chestCoverage: 0.7574149869853,
+            waistCoverage: -0.722341028286726,
+            fill: "hotpink",
+            stroke: "black"
+          }
+    }
+];
+
+App.Data.AvatarMaps['bimbo cocktail dress'] = [
+    {
+        c: "da.SuperDress",
+        a: {
+            fill: "hotpink",
+            stroke: "black",
+            armCoverage: 0.007671939247473558,
+            cleavageCoverage: 0.8166052275961815,
+            legCoverage: 0.3036231423018787,
+            legLoose: 2,
+            curveCleavageX: 11
+        }
+    }
+];
+
+App.Data.AvatarMaps['bimbo cheerleader costume'] = [
+    {
+        c: "da.HalterTop",
+        a: {
+            cleavageCoverage: 0.42200362352364085,
+            innerNeckCoverage: 0.6982247463744191,
+            waistCoverage: 0.9349857088179432,
+            fill: "lightpink",
+            stroke: "hotpink"
+        }
+    },
+    {
+        c: "da.SuperPants",
+        a: {
+            innerLoose: 0.724394840041321,
+            legCoverage: 0.18524266108011678,
+            outerLoose: 2,
+            waistCoverage: 0.04713209965472753,
+            fill: "lightpink",
+            stroke: "lightpink"
+        }
+    }
+];
 
 App.Data.AvatarMaps['fishnet tights'] = [
     {
@@ -80,4 +165,4 @@ App.Data.AvatarMaps['fishnet tights'] = [
             pattern: "da.getPattern('fishnet', 100)",
           }
     }
-]
+];
