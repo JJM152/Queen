@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-
 /**
  * Main engine for slot machine mini game.
  * @class {SlotEngine}

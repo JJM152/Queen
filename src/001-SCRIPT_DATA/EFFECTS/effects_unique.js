@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.EffectLib = App.Data.EffectLib || {};
-
 App.Data.EffectLib["NEREID_PHILTRE"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/

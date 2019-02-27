@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Stores = App.Data.Stores || { };
-
 App.Data.Stores["ISLASTORE"] = {
     "ID" : "ISLASTORE",    "NAME" : "Isla Harbor General Store",  "OPEN" : [0, 1, 2, 3], "RESTOCK" : 7,
     "INVENTORY" : [
@@ -21,6 +18,6 @@ App.Data.Stores["ISLASTORE"] = {
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink platform mary janes" },
         { "CATEGORY":   "RARE",     "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "pink head bow"            },
 		{ "CATEGORY":   "RARE",     "TYPE": "DRUGS",    	"QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "red hair dye"   		   }
-		
+
     ]
 };

@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-
 App.Data.Cosmetics = {
     "hair accessories": {
         "Name": "hair accessories",

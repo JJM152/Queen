@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.EffectLib = App.Data.EffectLib || {};
-
 /** FOOD BOX */
 App.Data.EffectLib["FOOD_LOOT_BOX_COMMON"] = {
     "FUN" : /** @param {App.Entity.Player} p

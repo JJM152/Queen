@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Clothes = App.Data.Clothes || { };
 // Gothic Lolita Style, contributed by 'littleslavegirl' @ wwww.tfgamessite.com Forums
 
 // STYLE TABLE
@@ -25,10 +23,10 @@ App.Data.Clothes["dark dreams bonnet"] = { // +12
     simple black string. The bonnet itself is flat and wide, made of burgundy velvet with black piping and adorned \
     with an array of black roses.\
     ",
-    Slot: "Hat", Restrict: ["Hat"], 
+    Slot: "Hat", Restrict: ["Hat"],
     Color: "black", Style: "LEGENDARY", Type : "ACCESSORY",
     WearEffect: [ "FEMININE_CLOTHING" ],
-    ActiveEffect: [], 
+    ActiveEffect: [],
     Category : [ "Gothic Lolita" ],
     InMarket: false
 };
@@ -143,10 +141,10 @@ App.Data.Clothes["dark dreams shoes"] = { // +20
     platform is tall and the shoe is heavy causing you to walk in an exagerated prancing gait. They are extremely \
     well made and durable and despite everything incredibly comfortable to walk in.\
     ",
-    Slot: "Shoes", Restrict: ["Shoes"], 
+    Slot: "Shoes", Restrict: ["Shoes"],
     Color: "black", Style: "LEGENDARY", Type : "CLOTHING",
     WearEffect: [ "FEMININE_CLOTHING" ],
-    ActiveEffect: [], 
+    ActiveEffect: [],
     Category : [ "Gothic Lolita", "Sexy Dancer" ],
     InMarket: false
 };
@@ -155,4 +153,3 @@ App.Data.Clothes["dark dreams shoes"] = { // +20
 // PENIS SLOT
 
 // WEAPON SLOT (huh?)
-

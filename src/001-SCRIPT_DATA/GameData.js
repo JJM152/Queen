@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.NPCS = App.Data.NPCS || { };
-
 App.Data.Names = {
             "Male": ["Ailen", "Aldritch", "Allan", "Arnold", "Austyn", "Ayden",
                 "Bobby", "Brennan", "Brewster", "Brod", "Barthon",
@@ -1501,8 +1498,8 @@ App.Data.Encounters = {
 };
 
 App.Data.Fashion = {
-    "STYLES" : [ 
-        "Ordinary", "Pirate Slut", "Bimbo", "Sissy Lolita", "Gothic Lolita", "BDSM", "Daddy's Girl", 
+    "STYLES" : [
+        "Ordinary", "Pirate Slut", "Bimbo", "Sissy Lolita", "Gothic Lolita", "BDSM", "Daddy's Girl",
         "Naughty Nun", "Pet Girl", "High Class Whore", "Slutty Lady", "Sexy Dancer"
      ]
 };

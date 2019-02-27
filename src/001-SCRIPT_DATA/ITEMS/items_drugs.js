@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Drugs = App.Data.Drugs || { };
-
 App.Data.Drugs["nereid philtre"] = {
     "Name": "nereid philtre",
     "ShortDesc": "Philter of Nereid Tears",
@@ -170,9 +167,3 @@ App.Data.Drugs["blond hair dye"] = {
     "Charges": 1,
     "Effects": ["BLOND_HAIR_DYE"]
 };
-
-
-
-
-
-

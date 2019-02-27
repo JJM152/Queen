@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Clothes = App.Data.Clothes || { };
-
 // STYLE TABLE
 // TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
 // ACCESSORY    3       6           9       12
@@ -106,10 +103,10 @@ App.Data.Clothes["tall heels"] = { // +10
     LongDesc: "\
     These tall high heels make your arse stick out and your hips wiggle when you walk.\
     ",
-    Slot: "Shoes", Restrict: ["Shoes"], 
+    Slot: "Shoes", Restrict: ["Shoes"],
     Color: "black", Style: "UNCOMMON", Type : "CLOTHING",
     WearEffect: [ "FEMININE_CLOTHING" ],
-    ActiveEffect: [], 
+    ActiveEffect: [],
     Category : [ "Bimbo", "Sexy Dancer", "High Class Whore" ],
     InMarket: true
 };
@@ -121,10 +118,10 @@ App.Data.Clothes["platform heels"] = { // +15
     a slight mincing or prancing motion. The effect is most noticible in how attention is drawn to your arse \
     and how it wiggles and shakes as you walk. \
     ",
-    Slot: "Shoes", Restrict: ["Shoes"], 
+    Slot: "Shoes", Restrict: ["Shoes"],
     Color: "black", Style: "RARE", Type : "CLOTHING",
     WearEffect: [ "FEMININE_CLOTHING" ],
-    ActiveEffect: [], 
+    ActiveEffect: [],
     Category : [ "Bimbo", "Sexy Dancer", "High Class Whore" ],
     InMarket: true
 };
@@ -137,10 +134,10 @@ App.Data.Clothes["bimbo heels"] = { // +20
     and how it wiggles and shakes as you walk. The shiny rhinestones encrusted around the front and back \
     of the heel make it just that much more 'extra'.\
     ",
-    Slot: "Shoes", Restrict: ["Shoes"], 
+    Slot: "Shoes", Restrict: ["Shoes"],
     Color: "pink", Style: "LEGENDARY", Type : "CLOTHING",
     WearEffect: [ "FEMININE_CLOTHING" ],
-    ActiveEffect: [], 
+    ActiveEffect: [],
     Category : [ "Bimbo", "Sexy Dancer" ],
     InMarket: false
 };
@@ -157,4 +154,3 @@ App.Data.Clothes["small plug"] = { // +9
 // PENIS SLOT
 
 // WEAPON SLOT (huh?)
-

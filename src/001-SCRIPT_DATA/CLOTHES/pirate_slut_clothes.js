@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Clothes = App.Data.Clothes || { };
-
 // STYLE TABLE
 // TYPE         COMMON  UNCOMMON    RARE    LEGENDARY
 // ACCESSORY    3       6           9       12
@@ -152,4 +149,3 @@ App.Data.Clothes["steel cutlass"] = {
     "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Style": "RARE", "Type": "WEAPON",
     "WearEffect": [], "ActiveEffect" : [ "CUT_THROAT" ], "Category" : [ "Pirate Slut"], "InMarket": false
 };
-

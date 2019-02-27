@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-
 App.EventEngine = class EventEngine {
 
     /**
@@ -7,10 +5,10 @@ App.EventEngine = class EventEngine {
      * On a succesful evaluation return a string of a twine passage to the initiating handler
      * that overrides the characters navigation to that passage. Also, save both the calling
      * passage and the original destination passage for later use by the passage we are
-     * redirecting to. 
+     * redirecting to.
      * @param {App.Entity.Player} Player
-     * @param {string} FromPassage 
-     * @param {string} ToPassage 
+     * @param {string} FromPassage
+     * @param {string} ToPassage
      * @returns {string|null} OverridePassage
      */
     CheckEvents(Player, FromPassage, ToPassage) {
@@ -23,7 +21,7 @@ App.EventEngine = class EventEngine {
             State.temporary.followup = passageName;
             return "DeathEnd";
         }
-    
+
         if (setup.player.GetStat("STAT", "WillPower") < 20) {
             State.temporary.followup = passageName;
             return "WillPowerEnd";
@@ -34,8 +32,8 @@ App.EventEngine = class EventEngine {
 
         // Location specific events get checked first.
         var validEvents = this._FilterEvents(Player, FromPassage, ToPassage);
-        
-        //todo: have to add quest flags to character when event fires off. 
+
+        //todo: have to add quest flags to character when event fires off.
         if (validEvents.length > 0) {
             var event = validEvents[Math.floor(Math.random() * validEvents.length)];
             if (event["CHECK"](Player) == true) {
@@ -58,9 +56,9 @@ App.EventEngine = class EventEngine {
 
     /**
      * Filter events down to only potentially valid ones.
-     * @param {App.Entity.Player} Player 
-     * @param {string} FromPassage 
-     * @param {string} ToPassage 
+     * @param {App.Entity.Player} Player
+     * @param {string} FromPassage
+     * @param {string} ToPassage
      * @returns {*[]}
      */
     _FilterEvents(Player, FromPassage, ToPassage)
@@ -70,8 +68,8 @@ App.EventEngine = class EventEngine {
 
         return App.Data.Events[ToPassage].filter(function(o) {
             return ( (o["FROM"] == FromPassage) && ( Player.Day >= o["MIN_DAY"])
-                && ( o["PHASE"].includes(Player.Phase) ) 
-                && ( o["MAX_DAY"] == 0 ? true : o["MAX_DAY"] <= Player.Day) 
+                && ( o["PHASE"].includes(Player.Phase) )
+                && ( o["MAX_DAY"] == 0 ? true : o["MAX_DAY"] <= Player.Day)
                 && ( o["MAX_REPEAT"] == 0 ? true :
                     (Player.QuestFlags.hasOwnProperty("EE_"+o["ID"]+"_COUNT") ? Player.QuestFlags["EE_"+o["ID"]+"_COUNT"] < o["MAX_REPEAT"] : true))
                 &&  (Player.QuestFlags.hasOwnProperty("EE_"+o["ID"]+"_LAST") ? Player.QuestFlags["EE_"+o["ID"]+"_LAST"] + o["COOL"] < Player.Day : true)
@@ -81,8 +79,8 @@ App.EventEngine = class EventEngine {
 
     /**
      * Helper Method to set quest flags in player state for event tracking.
-     * @param {App.Entity.Player} Player 
-     * @param {string} Key 
+     * @param {App.Entity.Player} Player
+     * @param {string} Key
      */
     _setFlags(Player, Key) {
         var countKey = "EE_"+Key+"_COUNT";
@@ -91,7 +89,7 @@ App.EventEngine = class EventEngine {
         Player.QuestFlags["LAST_EVENT_DAY"] = Player.Day;
         Player.QuestFlags[lastKey] = Player.Day;
 
-        Player.QuestFlags[countKey] = Player.QuestFlags.hasOwnProperty(countKey) ? 
+        Player.QuestFlags[countKey] = Player.QuestFlags.hasOwnProperty(countKey) ?
             Player.QuestFlags[countKey] = Player.QuestFlags[countKey] + 1 : 1;
     }
 

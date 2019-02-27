@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Quests = App.Data.Quests || { };
-
 App.Data.Quests["ROYAL_ENTRANCE_2"] = {
     "ID" : "ROYAL_ENTRANCE_2",
     "Title" : "Anal Assistance",
@@ -23,12 +20,12 @@ App.Data.Quests["ROYAL_ENTRANCE_2"] = {
     ],
     "POST" : [ ],
     "REWARD" : [
-        { 
+        {
             "REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "voodoo anal plug", "AMOUNT": 1
         },
         {
             "REWARD_TYPE": "MONEY", "AMOUNT": -2000
-        }      
+        }
     ],
     "INTRO": "\
         It's embarassing, but you approach NPC_NAME and explain to him that you're looking for some potion or \
@@ -82,13 +79,13 @@ App.Data.Quests["FINDING_YOUR_BALLS_2"] = {
     "ID": "FINDING_YOUR_BALLS_2", "Title": "Finding Your Balls - Part 2",
     "GIVER": "Jameson",
     "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "FINDING_YOUR_BALLS_1", "VALUE" : "COMPLETED" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "FINDING_YOUR_BALLS_1", "VALUE" : "COMPLETED"
         }
     ],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "rare ore", "VALUE": 1 
+            "TYPE": "QUEST_ITEM", "NAME": "rare ore", "VALUE": 1
         },
         {
             "TYPE": "MONEY", "NAME": "MONEY", "VALUE": 2000
@@ -97,7 +94,7 @@ App.Data.Quests["FINDING_YOUR_BALLS_2"] = {
     "POST": [
     ],
     "REWARD": [
-        { 
+        {
             "REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "magic cock ring", "AMOUNT": 1
         },
         {
@@ -142,7 +139,7 @@ App.Data.Quests["FINDING_YOUR_BALLS_2"] = {
     enough to grant you the protection.\"\n\n\
     He bows to you deeply and takes his leave to tend his shop. It occurs to you that clever use of this item \
     may allow you to encourage the development of your genitals in certain directions... if you so desired.\
-    " 
+    "
 ,
     "JOURNAL_ENTRY" :
         "\

@@ -1,6 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Quests = App.Data.Quests || { };
-
 App.Data.Quests["BETTER_BED"] = {
     "ID": "BETTER_BED", "Title": "A Better Bed",
     "GIVER": "Quartermaster",
@@ -122,27 +119,27 @@ App.Data.Quests["CABIN_RUG"] = {
 };
 
 App.Data.Quests["BETTER_LOCKER"] = {
-    "ID": "BETTER_LOCKER", 
+    "ID": "BETTER_LOCKER",
     "Title": "Clean up the locker",
     "GIVER": "Quartermaster",
     "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "BETTER_LOCKER_REQUIRED", "VALUE" : true 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "BETTER_LOCKER_REQUIRED", "VALUE" : true
         }
     ],
     "ON_ACCEPT" : [
-        { 
-            "TYPE" : "TRACK_PROGRESS", "NAME" : "JuliusHandwork" 
+        {
+            "TYPE" : "TRACK_PROGRESS", "NAME" : "JuliusHandwork"
         }
     ],
     "CHECKS": [
-        { 
+        {
             "TYPE": "TRACK_PROGRESS",  "NAME": "JuliusHandwork", "VALUE" : 1.0
         }
     ],
     "POST": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "BETTER_LOCKER_REQUIRED", "OPT" : "DELETE" 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "BETTER_LOCKER_REQUIRED", "OPT" : "DELETE"
         },
     ],
     "REWARD": [],
@@ -185,22 +182,22 @@ App.Data.Quests["BETTER_LOCKER"] = {
 };
 
 App.Data.Quests["FINDING_YOUR_BALLS_1"] = {
-    "ID": "FINDING_YOUR_BALLS_1", 
+    "ID": "FINDING_YOUR_BALLS_1",
     "Title": "Finding Your Balls - Part 1",
     "GIVER": "Quartermaster",
     "PRE": [
-        { 
-            "TYPE" : "QUEST_FLAG", "NAME" : "EE_PenisShrink_COUNT", "VALUE" : 1 
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "EE_PenisShrink_COUNT", "VALUE" : 1
         }
     ],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "strange chemicals", "VALUE": 1 
+            "TYPE": "QUEST_ITEM", "NAME": "strange chemicals", "VALUE": 1
         }
     ],
     "POST": [
         {
-            "TYPE" : "SET_CLOTHING_LOCK", "NAME" : "Penis", "VALUE" : false 
+            "TYPE" : "SET_CLOTHING_LOCK", "NAME" : "Penis", "VALUE" : false
         }
     ],
     "REWARD": [],

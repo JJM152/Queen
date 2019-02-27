@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-
 App.PR = new function() {
 
 	/** Shortcut
@@ -566,7 +564,7 @@ App.PR = new function() {
                             pString = App.Data.Cosmetics[Name]["ShortDesc"];
                         }
                         var cv = checks[i]["VALUE"];
-                        if (typeof cv !== 'undefined' && cv > 1) 
+                        if (typeof cv !== 'undefined' && cv > 1)
                          {
                              pString = pString +" x"+cv;
                              Val = (typeof Player.GetItemByName(Name) !== 'undefined' && Player.GetItemByName(Name).Charges() >= cv);
@@ -945,7 +943,7 @@ App.PR = new function() {
             if (rBustHips >= 1.25 && pBust >= 90)  return "a @@color:lime;top heavy@@ "+statsStr;
 
             if (rBustHips <= 0.75 && pHips >= 90) return "a @@color:lime;bottom heavy@@ "+statsStr;
-            
+
             if (pWaist <= 55) return "a @@color:lime;petite@@ "+statsStr;
             if (pWaist <= 70) return "a @@color:lime;slender@@ "+statsStr;
             if (pWaist < 80) return "a @@color:lime;thin@@ "+statsStr;
@@ -1017,9 +1015,9 @@ App.PR = new function() {
         // Like pReplacer, but pass an argument instead of using the characters statistic.
         function pReplacer2(match, prefix, stat, num, delim) {
             var statName = stat[0] + stat.slice(1).toLowerCase().replace(/_([a-z])/g, (m, c) => c.toUpperCase());
-            var statType = Player.CoreStats.hasOwnProperty(statName) ? "STAT" : 
+            var statType = Player.CoreStats.hasOwnProperty(statName) ? "STAT" :
                 Player.Skills.hasOwnProperty(statName) ? "SKILL" : "BODY";
-            
+
             return _this.GetAdjective(statType, statName, Number(num)) + delim;
         }
 

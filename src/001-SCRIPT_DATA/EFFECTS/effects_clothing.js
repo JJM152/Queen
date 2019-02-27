@@ -1,11 +1,8 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.EffectLib = App.Data.EffectLib || {};
-
 /** CLOTHING PASSIVE WORN EFFECTS **/
 //======================================
 App.Data.EffectLib["FEMININE_CLOTHING"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Clothing} o */
+     @param {App.Items.Clothing} o */
     function(o,p) {
         var gain = 0;
         var limit = 0;
@@ -26,7 +23,7 @@ App.Data.EffectLib["FEMININE_CLOTHING"] = {
 };
 App.Data.EffectLib["SEXY_CLOTHING"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Clothing} o */
+     @param {App.Items.Clothing} o */
     function(o,p) {
         var gain = 0;
         var limit = 0;
@@ -48,7 +45,7 @@ App.Data.EffectLib["SEXY_CLOTHING"] = {
 };
 App.Data.EffectLib["PERVERTED_CLOTHING"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Clothing} o */
+     @param {App.Items.Clothing} o */
     function(o,p) {
         var gain = 0;
         var limit = 0;
@@ -69,7 +66,7 @@ App.Data.EffectLib["PERVERTED_CLOTHING"] = {
 };
 App.Data.EffectLib["KINKY_CLOTHING"] = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Item.Clothing} o */
+     @param {App.Items.Clothing} o */
     function(o,p) {
         var gain = 0;
         var limit = 0;

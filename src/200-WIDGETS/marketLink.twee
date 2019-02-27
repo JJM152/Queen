@@ -1,6 +1,6 @@
 :: marketLink [widget]
 <<widget "marketLink">><<nobr>>
-<<set _SE = window.App.StoreEngine;>>
+<<set _SE = App.StoreEngine;>>
 <<set _NPC = setup.player.GetNPC($args[0]);>>
 <<if _SE.HasStore(_NPC) &&  _SE.IsOpen(setup.player, _NPC) == true && setup.player.Phase < 4;>>
     <<if setup.player.CoreStats["Energy"] < 1>>

@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-
 /**
  * @Class Item
  */
@@ -276,7 +274,7 @@ App.Item = class Item {
         if (Type == "CLOTHES") o = new App.Items.Clothing(Tag, d, Inventory);
         if (Type == "WEAPON") o = new App.Items.Clothing(Tag, d, Inventory);
 
-        if (Type == "NPC") o = new window.App.Entity.NPC(d);
+        if (Type == "NPC") o = new App.Entity.NPC(d);
 
         if (Type == "STORE")
         {

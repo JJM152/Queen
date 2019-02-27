@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Slots = App.Data.Slots || { };
 // apologies to dexter sinister - Mal.
 
 // region generic whoring reels

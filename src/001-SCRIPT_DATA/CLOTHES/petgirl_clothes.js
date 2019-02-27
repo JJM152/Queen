@@ -1,5 +1,3 @@
-App = App || { Data: { }, Entity: { } };
-App.Data.Clothes = App.Data.Clothes || { };
 // Cow girl clothing descriptions provided by sirwolffe @ the tfgamessite.com forums.
 
 // STYLE TABLE
@@ -127,10 +125,10 @@ App.Data.Clothes["fuzzy paws"] = { // +20
     These shoes are designed to look like animal paws, right down to having an exaggerated footpad imprint. They are \
     made of some sort of high quality material and covered with a layer of luxuriously soft fur.\
     ",
-    Slot: "Shoes", Restrict: ["Shoes"], 
+    Slot: "Shoes", Restrict: ["Shoes"],
     Color: "black", Style: "LEGENDARY", Type : "CLOTHING",
     WearEffect: [ "SEXY_CLOTHING" ],
-    ActiveEffect: [ "FANCY_MOVES" ], 
+    ActiveEffect: [ "FANCY_MOVES" ],
     Category : [ "Pet Girl", "Sexy Dancer" ],
     InMarket: false
 };
@@ -160,4 +158,3 @@ App.Data.Clothes["fuzzy anal tail"] = { // +12
 // PENIS SLOT
 
 // WEAPON SLOT (huh?)
-

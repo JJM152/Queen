@@ -11,34 +11,34 @@ Coins: <span id="Money"><<print setup.player.Money>></span>
 	</td>
 </tr>
 <tr>
-	<td>Health:</td><td><span id="Health"><<print window.App.PR.pStatMeter("Health", setup.player); >></span></td>
+	<td>Health:</td><td><span id="Health"><<print App.PR.pStatMeter("Health", setup.player); >></span></td>
 </tr>
 <tr>
-<td>Energy:</td><td><span id="Energy"><<print window.App.PR.pStatMeter("Energy", setup.player); >></span></td>
+<td>Energy:</td><td><span id="Energy"><<print App.PR.pStatMeter("Energy", setup.player); >></span></td>
 </tr>
 <tr>
 	<td>Willpower:</td>
-	<td><span id="WillPower"><<print window.App.PR.pStatMeter("WillPower", setup.player); >></span></td>
+	<td><span id="WillPower"><<print App.PR.pStatMeter("WillPower", setup.player); >></span></td>
 </tr>
 <tr>
 	<td>Perversion:</td>
-	<td><span id="Perversion"><<print window.App.PR.pStatMeter("Perversion", setup.player); >></span></td>
+	<td><span id="Perversion"><<print App.PR.pStatMeter("Perversion", setup.player); >></span></td>
 </tr>
 <tr>
 	<td>Nutrition:</td>
-	<td><span id="Nutrition"><<print window.App.PR.pStatMeter("Nutrition", setup.player); >></span></td>
+	<td><span id="Nutrition"><<print App.PR.pStatMeter("Nutrition", setup.player); >></span></td>
 </tr>
 <tr>
 	<td>Femininity:</td>
-	<td><span id="Femininity"><<print window.App.PR.pStatMeter("Femininity", setup.player); >></span></td>
+	<td><span id="Femininity"><<print App.PR.pStatMeter("Femininity", setup.player); >></span></td>
 </tr>
 <tr>
 	<td>Toxicity:</td>
-	<td><span id="Toxicity"><<print window.App.PR.pStatMeter("Toxicity", setup.player, 1); >></span></td>
+	<td><span id="Toxicity"><<print App.PR.pStatMeter("Toxicity", setup.player, 1); >></span></td>
 </tr>
 <tr>
 	<td>Hormones:</td>
-	<td><span id="Hormones"><<print window.App.PR.pStatMeter("Hormones",setup.player);>></span><<if setup.player.GetStat("STAT","Hormones") < 78>>@@color:cyan;♂@@<<else>><<if setup.player.GetStat("STAT","Hormones") >= 144>>@@color:DeepPink;♀@@<<else>>@@color:orange;⚥<</if>><</if>></td>
+	<td><span id="Hormones"><<print App.PR.pStatMeter("Hormones",setup.player);>></span><<if setup.player.GetStat("STAT","Hormones") < 78>>@@color:cyan;♂@@<<else>><<if setup.player.GetStat("STAT","Hormones") >= 144>>@@color:DeepPink;♀@@<<else>>@@color:orange;⚥<</if>><</if>></td>
 </tr>
 </tbody>
 </table>

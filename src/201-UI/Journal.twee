@@ -2,7 +2,7 @@
 @@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>
 <<set _Reginald = setup.player.GetNPC("Captain");>>
 You open your diary, which you use for tracking events happened since that terrible day when you met \
-<<= window.App.PR.TokenizeString(setup.player, _Reginald, _Reginald.Title())>>, at the tavern. There are a few \
+<<= App.PR.TokenizeString(setup.player, _Reginald, _Reginald.Title())>>, at the tavern. There are a few \
 bookmarks in the notebook to quickly access recent records:
 
 <span class="tabbar" id="JournalTabs">\

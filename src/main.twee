@@ -100,7 +100,7 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
 [[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | <a href="https://www.tfgamessite.com/index.php?module=viewgame&id=1680">IGDB Entry</a> | <a href="https://github.com/JJM152/Queen">GitHub Repository</a>
 
 :: Difficulty
-<<set $PlayerState = new window.App.Entity.PlayerState();>>\
+<<set $PlayerState = new App.Entity.PlayerState();>>\
 <<set setup.player.Init();>>\
 <<set $InIntro = 1;>>\
 <span id="difficulty">\
