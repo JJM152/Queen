@@ -110,8 +110,6 @@ App.Entity.AvatarEngine = class Avatar {
         var PC = new da.Player( this.GetPCData() );
         PC = this._AttachParts(PC);
         da.draw(canvasGroup, PC, { printHeight: false, printAdditionalInfo: false, printShoe: false});
-        //if (SugarCube.settings.displayAvatar == true) da.hideCanvasGroup(canvasGroup);
-        //console.log(PC);
     }
 
     GetPCData() {
@@ -213,11 +211,11 @@ App.Entity.AvatarEngine = class Avatar {
     _MapHair(Data) {
 
         var wig = setup.player.GetEquipmentInSlot("Wig");
-        var length =  wig != 0 ? wig.HairLength() : this._b('Hair');
-        var color = wig != 0 ? App.Data.Lists.HairColors[wig.HairColor()] : App.Data.Lists.HairColors[setup.player.HairColor];
-        var style = wig != 0 ? wig.HairStyle() : setup.player.HairStyle;
+        var length =  wig != null ? wig.HairLength() : this._b('Hair');
+        var color = wig != null ? App.Data.Lists.HairColors[wig.HairColor()] : App.Data.Lists.HairColors[setup.player.HairColor];
+        var style = wig != null ? wig.HairStyle() : setup.player.HairStyle;
 
-        // We are missing some hair styles, so either we create them later or get creative.
+        //TODO: We are missing some hair styles, so either we create them later or get creative.
 
         switch(style) {
             case 'a spunky boy cut"':
