@@ -9,7 +9,6 @@ App.Data = {
 	Events: {},
 	Drugs: {},
 	Food: {},
-	HSLMAP: {},
 	JobData: {},
 	Loot: {},
 	LootBoxes: {},
