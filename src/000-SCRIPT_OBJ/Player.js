@@ -1107,6 +1107,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
             this.UseItemCharges("basic makeup", Makeup["RESOURCE1"]);
             this.UseItemCharges("expensive makeup", Makeup["RESOURCE2"]);
         }
+
+        App.Avatar._DrawPortrait();
     }
 
     /**
@@ -1432,9 +1434,15 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         if ((Amount < 0) && (this.GetStat(Type, StatName) <= Limiter) && (Limiter != 0)) return;
         if ((Amount > 0) && (this.GetStat(Type, StatName) >= this.GetMaxStat(Type, StatName))) return;
         if ((Amount < 0) && (this.GetStat(Type, StatName) <= this.GetMinStat(Type, StatName))) return;
-        if (Math.abs(this.GetStatXP(Type, StatName)) >= 250) Amount = Math.ceil(Amount / 2);
-        if (Math.abs(this.GetStatXP(Type, StatName)) >= 500) Amount = Math.ceil(Amount / 4);
-        if (Math.abs(this.GetStatXP(Type, StatName)) >= 1000) Amount = Math.ceil(Amount / 10);
+
+        if (Math.abs(this.GetStat(Type, StatName)) >= 1000) {
+            Amount =  400 + Math.ceil(Amount / 8);
+        } else if (Math.abs(this.GetStatXP(Type, StatName)) >= 500) {
+            Amount = 200 + Math.ceil(Amount / 4);
+        } else if (Math.abs(this.GetStatXP(Type, StatName)) >= 250) {
+            Amount = 100 + Math.ceil(Amount / 2);
+        }
+
         if (Type == "STAT")  this._state.CoreStatsXP[StatName] += Amount;
         if (Type == "SKILL") this._state.SkillsXP[StatName] += Amount;
         if (Type == "BODY")  this._state.BodyXP[StatName] += Amount;
@@ -1582,6 +1590,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         this.EndHexDuration();
         this.NPCNextDay();
         App.QuestEngine.NextDay(this);
+        App.Avatar.DrawPortrait();
 
     } // NextDay
 

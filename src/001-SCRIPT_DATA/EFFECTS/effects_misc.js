@@ -1,28 +1,28 @@
 App.Data.EffectLib["BLACK_HAIR_DYE"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
-    function(o,p) { p.HairColor = 'black'; },
+    function(o,p) { p.HairColor = 'black'; App.Avatar._DrawPortrait(); },
     "VALUE" : 100,
         "KNOWLEDGE" : [ "Dye Hair Black" ]
 };
 App.Data.EffectLib["BROWN_HAIR_DYE"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
-    function(o,p) { p.HairColor = 'brown'; },
+    function(o,p) { p.HairColor = 'brown'; App.Avatar._DrawPortrait(); },
     "VALUE" : 100,
         "KNOWLEDGE" : [ "Dye Hair Brown" ]
 };
 App.Data.EffectLib["RED_HAIR_DYE"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
-    function(o,p) { p.HairColor = 'red'; },
+    function(o,p) { p.HairColor = 'red'; App.Avatar._DrawPortrait(); },
     "VALUE" : 100,
         "KNOWLEDGE" : [ "Dye Hair Red" ]
 };
 App.Data.EffectLib["BLOND_HAIR_DYE"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
-    function(o,p) { p.HairColor = 'blond'; },
+    function(o,p) { p.HairColor = 'blond'; App.Avatar._DrawPortrait(); },
     "VALUE" : 100,
         "KNOWLEDGE" : [ "Dye Hair Blond" ]
 };

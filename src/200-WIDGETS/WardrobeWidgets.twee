@@ -69,17 +69,20 @@ You spy with your little eye...
 
 <<widget "WardrobeWear">><<nobr>>
 <<set _Worn = setup.player.GetEquipmentInSlot($args[1])>>
+<<set _Wear = setup.player.WardrobeItem($args[0])>>
 <<if _Worn != null>>
 	<<if _Worn.IsLocked()>>
 		@@.disabledWardrobeButton;<<button "LOCKED">><</button>>@@
 	<<else>>
 		@@.wardrobeButton;<<button "Wear">>
 		<<run setup.player.Wear(setup.player.WardrobeItem($args[0])) >><<replace "#WardrobeUI">><<WearingTable>><</replace>>
+		<<if _Wear.Slot == 'Wig' || _Wear.Slot == 'Dress' || _Wear.Slot == 'Shirt'>><<run App.Avatar._DrawPortrait();>><</if>>
 		<</button>>@@
 	<</if>>
 <<else>>
 		@@.wardrobeButton;<<button "Wear">>
 		<<run setup.player.Wear(setup.player.WardrobeItem($args[0])) >><<replace "#WardrobeUI">><<WearingTable>><</replace>>
+		<<if _Wear.Slot == 'Wig' || _Wear.Slot == 'Dress' || _Wear.Slot == 'Shirt'>><<run App.Avatar._DrawPortrait();>><</if>>
 		<</button>>@@
 <</if>>
 <</nobr>><</widget>>
@@ -141,7 +144,9 @@ You spy with your little eye...
 		@@.disabledWardrobeButton;<<button "LOCKED">><</button>>@@
 	<<else>>
 		@@.wardrobeButton;<<button "Remove">>
+		<<set _Worn = setup.player.GetEquipmentInSlot($args[0]);>>
 		<<run setup.player.Remove(setup.player.GetEquipmentInSlot($args[0]))>>
+		<<if _Worn.Slot == 'Wig' || _Worn.Slot == 'Dress' || _Worn.Slot == 'Shirt'>><<run App.Avatar._DrawPortrait();>><</if>>
 		<<replace "#WardrobeUI">><<WearingTable>><</replace>><</button>>@@
 	<</if>>
 <<else>>

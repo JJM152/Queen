@@ -13,6 +13,8 @@ Config.history.controls = false;
 Config.history.maxStates = 1;
 Config.saves.version = App.Data.Game.Version;
 
+var lockId = LoadScreen.lock();
+
 setup.player = new App.Entity.Player();
 
 // Initalize Avatar Engine
@@ -80,6 +82,14 @@ Config.saves.isAllowed = function() {
     return !tags().includes("no-saving");
 };
 
+LoadScreen.unlock(lockId);
+
+// Setup some divs that will not get refreshed on passage navigation.
+    if ( $('#hiddenCanvas').length == 0 && $('#avatarFace').length == 0 ) {
+        $("<div id='hiddenCanvas'></div>").appendTo(document.body);
+        $("<div id='avatarFace'></div").appendTo($('#ui-bar'));
+    }
+ 
 :: Start
 <<set $GameBookmark = passage(); >>
 @@color:deepPink;Queen of the Seas@@ is designed to be an RPG like transformation game with @@color:red;heavy non-consentual themes@@. \
@@ -169,7 +179,7 @@ outside of your social class that such a relationship, if it should be known, wo
 Despite this challenge, and despite @@color:Pink;<<= setup.player.GirlfriendName>>'s@@ rather sheltered upbringing, the two of you have agreed to elope. You meet tonight \
 to discuss the plan.
 
-<span id="nextPage">@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin]]</span>
+<span id="nextPage">@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin][App.Avatar.DrawPortrait();]]</span>
 
 
 :: Intro2
@@ -311,7 +321,7 @@ Before you go, he has some final words for you.
 Your mouth almost hangs open at these words. To say this is surprising would be an understatement and for the first time you feel the faint embers of hope stirring in your breast. You're let free \
 from the Captain's quarters, not that there's anywhere for you to really go given your situation, anxiously thinking about what the future has in store for you.
 
-[[Be shown to your Cabin...|Cabin]]
+[[Be shown to your Cabin...|Cabin][App.Avatar.DrawPortrait();]]
 
 :: IntroSlow1
 After what seems like ages @@color:cyan;Captain Reginald@@ and a another man, a fit gentleman with well-styled hair and a close-trimmed moustache and goatee, come to visit. The Captain approaches and you shrink back, huddling against the wall and curling your legs up to your chest.
@@ -644,4 +654,4 @@ Before you go, he has some final words for you.
 
 Your mouth almost hangs open at these words. To say this is surprising would be an understatement and for the first time you feel the faint embers of hope stirring in your breast. You're let free from the Captain's quarters, not that there's anywhere for you to really go given your situation, anxiously thinking about what the future has in store for you.
 
-[[Be shown to your Cabin...|Cabin]]
+[[Be shown to your Cabin...|Cabin][App.Avatar.DrawPortrait();]]

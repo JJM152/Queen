@@ -11,6 +11,8 @@
 App.Entity.AvatarEngine = class Avatar {
 
     constructor() {
+        console.log("Loading DA system...");
+        var t0 = performance.now();
         da.load().then(function() {
             // Functions needed here to overwrite some default behavior of
             // the DA library.
@@ -29,6 +31,8 @@ App.Entity.AvatarEngine = class Avatar {
             da.extendDimensionCalc('human.breastSize', function(base) {
                 return this.getDim('breastSize')
             });
+            var t2 = performance.now();
+            console.log("Loaded DA in "+(t2-t0)+"ms.");
         });
 
         this._PCData = {
@@ -116,6 +120,58 @@ App.Entity.AvatarEngine = class Avatar {
         PC = this._AttachParts(PC);
         da.draw(canvasGroup, PC, { printHeight: false, printAdditionalInfo: false, renderShoeSideView: false});
         console.log(PC);
+        //this._DrawPortrait();
+    }
+
+    DrawPortrait()
+    {
+        if( settings.displayAvatar == true)
+        $(document).one(":passageend", this._DrawPortrait.bind(this));
+    }
+
+    _DrawPortrait()
+    {
+        var canvasGroup = da.getCanvasGroup("hiddenCanvas", {
+               border: "none",
+               width: 1000,
+               height: 3000
+            });
+
+        var PC = new da.Player( this.GetPCData() );
+        PC = this._AttachParts(PC);
+
+        da.draw(canvasGroup, PC, { 
+            printHeight: false, printAdditionalInfo: false, renderShoeSideView: false
+            }).then(function (exports) {
+            // draw just the head in a separate canvas
+            // first retrieve/create the canvas if it's the first time we're getting it
+            var portraitCanvas = da.getCanvas("portrait",
+                {
+
+                    width : 180,
+                    height: 240,
+                    // can add any CSS style here like border
+                    border: "none",
+                    // you can also position it absolutely
+                    // position: "absolute",
+                    // top     : "10px",
+                    // left    : "10px",
+                    // or relative to a parent
+                    parent: document.getElementById("avatarFace"),
+                });
+        
+            console.log(portraitCanvas);
+            // you can call this multiple times to draw different parts (with different canvases)
+            da.drawFocusedWindow(portraitCanvas,
+                exports,
+                {
+                    center: exports[da.Part.RIGHT].neck.nape,
+                    width: 50,
+                    height: 70
+                });
+        });
+
+        //da.hideCanvasGroup("hiddenCanvas");
     }
 
     GetPCData() {
@@ -138,7 +194,7 @@ App.Entity.AvatarEngine = class Avatar {
         var bust = da.Part.create(da.BimboChest, { side: null });
         PC.attachPart(bust);
         var nips = da.Part.create(da.BimboNipples, { side: null});
-        PC.attachPart(nips, PC.decorativeParts);
+        //PC.attachPart(nips, PC.decorativeParts);
 
         return this._ClothesHandler(PC);
     }
@@ -281,6 +337,7 @@ App.Entity.AvatarEngine = class Avatar {
         Data.basedim.hairHue = color.h;
         Data.basedim.hairSaturation = color.s;
         Data.basedim.hairLightness = color.l;
+        Data.browFill = 'black';
 
         return Data;
     }

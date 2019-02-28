@@ -258,7 +258,6 @@ span.pcText  {
 
 #mirrorContainer {
 	width: 1000px;
-	height: 800px;
 }
 
 #avatarUI {
@@ -274,4 +273,17 @@ span.pcText  {
 	height: 600px;
 	float: left;
 	padding-top: 0px;
+}
+
+#hiddenCanvas {
+	display: none;
+}
+
+#avatarFace {
+	width: 180px;
+	height: 240px;
+	position: absolute;
+	top: 390px;
+	left: -45px;
+	z-index: 1000;
 }

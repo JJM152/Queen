@@ -41,7 +41,7 @@ App.Data.AvatarMaps = {
                         cleavageCoverage: 0.3,
                         legCoverage: 0.4,
                         legLoose: 0.3,
-                        fill: "skybue",
+                        fill: "skyblue",
                         stroke: "black"
                       }    
                 }],
@@ -62,6 +62,9 @@ App.Data.AvatarMaps = {
                 ],
     Shoes:      [ { c: "da.FlatShoes", a: null } ]
 };
+
+// Adding these items here instead of on the item records themselves just so that I can 
+// keep this module incase I need to rip it out later.
 
 // Bimbo Clothes
 App.Data.AvatarMaps['bimbo collar'] = [
@@ -187,6 +190,159 @@ App.Data.AvatarMaps['bimbo heels'] = [
         }
     }
 ];
+
+// Bondage clothes
+App.Data.AvatarMaps['training corset'] = [
+    {
+        c: "da.HalfCorset",
+        a: {
+            botCoverage: 0.48,
+            topCoverage: 0.38,
+            lacing: false,
+            pattern: "da.getPattern('black leather', 100)"
+        }
+    }
+];
+
+App.Data.AvatarMaps['bondage corset'] = [
+    {
+        c: "da.HalfCorset",
+        a: {
+            botCoverage: 0.98,
+            topCoverage: 0.66,
+            pattern: "da.getPattern('black leather', 100)"
+        }
+    }
+];
+
+App.Data.AvatarMaps['bondage dress'] = [
+    {
+        c: "da.SuperDress",
+        a: {
+            bustle: true,
+            cleavageCoverage: 0.8,
+            cleavegeOpeness: 30,
+            lacing: true,
+            armCoverage: 1.3,
+            legCoverage: 0.56,
+            pattern: "da.getPattern('black leather', 100)"
+        }
+    }
+];
+
+// Custom Pattern on super dress at least for this.
+// App.Data.AvatarMaps['rubber nurse outfit'] = [ { } ];
+
+// Custom boots part need for both of these.
+//App.Data.AvatarMaps['shiny knee boots'] = [ { } ];
+//App.Data.AvatarMaps['spiked boots'] = [ { } ];
+
+// Daddy's Girl
+
+App.Data.AvatarMaps['collar for daddy'] = [
+    {
+        c: "da.SuperSocks",
+        a: {
+            legCoverage: 0.007671939247473558,
+            pattern: "da.getPattern('fishnet', 100)",
+          }
+    }
+];
+
+App.Data.AvatarMaps['cute pink bra'] = [
+    {
+        c: "da.SuperSocks",
+        a: {
+            legCoverage: 0.007671939247473558,
+            pattern: "da.getPattern('fishnet', 100)",
+          }
+    }
+];
+
+App.Data.AvatarMaps['belt with glitter'] = [
+    {
+        c: "da.SuperSocks",
+        a: {
+            legCoverage: 0.007671939247473558,
+            pattern: "da.getPattern('fishnet', 100)",
+          }
+    }
+];
+
+App.Data.AvatarMaps['cute pink panties'] = [
+    {
+        c: "da.SuperSocks",
+        a: {
+            legCoverage: 0.007671939247473558,
+            pattern: "da.getPattern('fishnet', 100)",
+          }
+    }
+];
+
+App.Data.AvatarMaps['pink knee socks'] = [
+    {
+        c: "da.SuperSocks",
+        a: {
+            legCoverage: 0.007671939247473558,
+            pattern: "da.getPattern('fishnet', 100)",
+          }
+    }
+];
+
+App.Data.AvatarMaps['white knee socks'] = [
+    {
+        c: "da.SuperSocks",
+        a: {
+            legCoverage: 0.007671939247473558,
+            pattern: "da.getPattern('fishnet', 100)",
+          }
+    }
+];
+
+App.Data.AvatarMaps['pink t-shirt'] = [
+    {
+        c: "da.SuperSocks",
+        a: {
+            legCoverage: 0.007671939247473558,
+            pattern: "da.getPattern('fishnet', 100)",
+          }
+    }
+];
+
+App.Data.AvatarMaps['pink tartan'] = [
+    {
+        c: "da.SuperSocks",
+        a: {
+            legCoverage: 0.007671939247473558,
+            pattern: "da.getPattern('fishnet', 100)",
+          }
+    }
+];
+
+App.Data.AvatarMaps['pink gingham dress'] = [
+    {
+
+    }
+];
+
+App.Data.AvatarMaps['babydoll dress'] = [
+    {
+
+    }
+];
+
+App.Data.AvatarMaps['naughty schoolgirl outfit'] = [
+    {
+
+    }
+];
+
+App.Data.AvatarMaps['low heel maryjanes"'] = [
+    {
+
+    }
+];
+
 
 App.Data.AvatarMaps['fishnet tights'] = [
     {
