@@ -114,7 +114,7 @@ App.Entity.AvatarEngine = class Avatar {
 
         var PC = new da.Player( this.GetPCData() );
         PC = this._AttachParts(PC);
-        da.draw(canvasGroup, PC, { printHeight: false, printAdditionalInfo: false, printShoe: false});
+        da.draw(canvasGroup, PC, { printHeight: false, printAdditionalInfo: false, renderShoeSideView: false});
         console.log(PC);
     }
 

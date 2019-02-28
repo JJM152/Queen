@@ -157,6 +157,37 @@ App.Data.AvatarMaps['bimbo cheerleader costume'] = [
     }
 ];
 
+App.Data.AvatarMaps['tall heels'] = [
+    {
+        c: "da.ClosedToePumps",
+        a: {
+            platformHeight: -3.0,
+            toeCoverage: 2
+        }
+    }
+];
+
+App.Data.AvatarMaps['platform heels'] = [
+    {
+        c: "da.ClosedToeStrappedPumps",
+        a: {
+            platformHeight: -5.0,
+            toeCoverage: 2
+        }
+    }
+];
+
+App.Data.AvatarMaps['bimbo heels'] = [
+    {
+        c: "da.ClosedToeStrappedPumps",
+        a: {
+            platformHeight: -5.0,
+            toeCoverage: 2,
+            fill: "lightpink",
+        }
+    }
+];
+
 App.Data.AvatarMaps['fishnet tights'] = [
     {
         c: "da.SuperSocks",
