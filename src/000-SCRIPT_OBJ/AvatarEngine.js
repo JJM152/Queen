@@ -44,6 +44,8 @@ App.Entity.AvatarEngine = class Avatar {
             da.addPattern("pink tartan", Story.passages["txt_pink_tartan"].text)
             da.addPattern("pink gingham", Story.passages["txt_pink_gingham"].text);
             da.addPattern("red tartan", Story.passages["txt_red_tartan"].text);
+            da.addPattern("black lace", Story.passages["txt_black_lace"].text);
+            da.addPattern("black purple stripe", Story.passages["txt_black_purple_stripe"].text);
             da.addPattern("pink athletic socks", App.Avatar._pinkAthleticSocks);
 
 

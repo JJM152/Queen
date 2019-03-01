@@ -5,7 +5,9 @@ App.Data.AvatarPatterns = [
     "pink checks",
     "pink tartan",
     "red tartan",
-    "pink gingham"
+    "pink gingham",
+    "black lace",
+    "black purple stripe"
 ]
 
 App.Data.AvatarMaps = {
@@ -426,27 +428,140 @@ App.Data.AvatarMaps['low heel maryjanes'] = [
 //App.Data.AvatarMaps["red and black flower hair pin"] = [ ];
 //App.Data.AvatarMaps["dark dreams bonnet"] = [ ];
 
-App.Data.AvatarMaps["black gothic collar"] = [ ];
+App.Data.AvatarMaps["black gothic collar"] = [ 
+    {
+        c: "da.Choker",
+        a: {
+            "fill": "black",
+            "stroke" : "darkred"
+        }
+    }
+];
 
-App.Data.AvatarMaps["gothic black bra"] = [ ];
+App.Data.AvatarMaps["gothic black bra"] = [ 
+    {
+        c: "da.SuperBra",
+        a: {
+            fill: "black",
+            highlight: "black",
+            stroke: "darkred",
+            pattern: "da.getPattern('black lace', 100)",
+            showStrap: true
+          }
+    }
+];
 
-App.Data.AvatarMaps["black panties"] = [];
+App.Data.AvatarMaps["black panties"] = [
+    {
+        c: "da.Panties",
+        a: {
+            fill: "black",
+            //pattern: "da.getPattern('black lace', 100)",
+            stroke: "darkred"
+          }
+    }
+];
 
-App.Data.AvatarMaps["gothic frilly bloomers"] = [ ];
+App.Data.AvatarMaps["gothic frilly bloomers"] = [
+    {
+        c: "da.Panties",
+        a: {
+            fill: "black",
+            pattern: "da.getPattern('black lace', 100)",
+            stroke: "darkred"
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["gothic striped stockings"] = [ ];
+App.Data.AvatarMaps["gothic striped stockings"] = [
+   {
+        c: "da.Stockings", 
+        a: { 
+            bandWidth: 1, 
+            legCoverage: 0.3, 
+            fill: "black",
+            stroke: "purple",
+            pattern: "da.getPattern('black purple stripe',10)"
+        }
+    }
+ ];
 
-App.Data.AvatarMaps["gothic frilly dress"] = [ ];
+App.Data.AvatarMaps["gothic frilly dress"] = [ 
+    {
+        c: "da.SuperDress",
+        a: {
+            armLoose: 1.0,
+            bustle: true,
+            cleavageCoverage: 0.65,
+            lacing: true,
+            legCoverage: 0.35,
+            legLoose: 2,
+            stroke: "purple",
+            fill: "black",
+            pattern: "da.getPattern('black lace', 25)"
+            
+          }
+    }
+];
 
-App.Data.AvatarMaps["dark dreams dress"] = [ ];
+App.Data.AvatarMaps["dark dreams dress"] = [
+    {
+        c: "da.SuperDress",
+        a: {
+            armCoverage: 1.0662247110102107,
+            armLoose: 1.0223601571998486,
+            cleavageCoverage: 0.6519145636243149,
+            lacing: true,
+            legCoverage: 0.35597874406296026,
+            legLoose: 1.0881236726579273,
+            stroke: "black",
+            fill: "darkred",
+            
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["gothic maid outfit"] = [ ];
+App.Data.AvatarMaps["gothic maid outfit"] = [ 
+    {
+        c: "da.SuperDress",
+        a: {
+            armCoverage: 0.5,
+            armLoose: 1.0223601571998486,
+            cleavageCoverage: 0.3,
+            lacing: false,
+            legCoverage: 0.35597874406296026,
+            legLoose: 1.0881236726579273,
+            stroke: "white",
+            fill: "black",
+            
+          }
+    }
+];
 
-App.Data.AvatarMaps["black high heeled boots"] = [ ];
+// Need boots for this
+//App.Data.AvatarMaps["black high heeled boots"] = [];
 
-App.Data.AvatarMaps["black platform mary janes"] = [ ];
+App.Data.AvatarMaps["black platform mary janes"] = [
+    {
+        c: "da.ClosedToeStrappedPumps",
+        a: {
+            platformHeight: -5.0,
+            toeCoverage: 2,
+            fill: "black",
+        }
+    }
+ ];
 
-App.Data.AvatarMaps["dark dreams shoes"] = [ ];
+App.Data.AvatarMaps["dark dreams shoes"] = [
+    {
+        c: "da.ClosedToeStrappedPumps",
+        a: {
+            platformHeight: -5.0,
+            toeCoverage: 2,
+            fill: "black",
+        }
+    }
+ ];
 
 //Highclass Whore Clothes
 
