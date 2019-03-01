@@ -33,13 +33,19 @@ App.Entity.AvatarEngine = class Avatar {
             da.extendDimensionCalc('human.breastSize', function(base) {
                 return this.getDim('breastSize')
             });
-
+            var t2 = performance.now();
+            console.log("Loaded DA in "+(t2-t0)+"ms.");
+            console.log("Creating patterns");
+            
             //Loading patterns. Embedded patterns are in the story passage named the same as the
             //file name. Get the text attribute for the encoded string.
             da.addPattern("white hearts", Story.passages["txt_heart_1"].text);
+            da.addPattern("pink checks", Story.passages["txt_pink_checks"].text);
+            da.addPattern("pink tartan", Story.passages["txt_pink_tartan"].text)
+            da.addPattern("pink gingham", Story.passages["txt_pink_gingham"].text);
+            da.addPattern("red tartan", Story.passages["txt_red_tartan"].text);
+            da.addPattern("pink athletic socks", App.Avatar._pinkAthleticSocks);
 
-            var t2 = performance.now();
-            console.log("Loaded DA in "+(t2-t0)+"ms.");
 
             //Loop until all the patterns resolve.
             var patternInterval = setInterval(function() {
@@ -395,4 +401,27 @@ App.Entity.AvatarEngine = class Avatar {
     _b(s) { return App.PR.StatToCM(setup.player, s); }
 
     _c(s) { return setup.player.GetStat('STAT', s); }
+
+    // Gradients
+    // I want to be able to dynamically scale these, waiting on a response from the DA developer about this.
+
+    _pinkAthleticSocks(ctx, ex)
+    {
+        console.log(ex);
+        var grd = ctx.createLinearGradient(150.000, 0.000, 150.000, 180.000);
+      
+        // Add colors
+        grd.addColorStop(0.000, 'lightpink');
+        grd.addColorStop(0.514, 'lightpink');
+        grd.addColorStop(0.521, 'white');
+        grd.addColorStop(0.536, 'white');
+        grd.addColorStop(0.541, 'lightpink');
+        grd.addColorStop(0.551, 'lightpink');
+        grd.addColorStop(0.560, 'white');
+        grd.addColorStop(0.571, 'white');
+        grd.addColorStop(0.580, 'lightpink');
+        grd.addColorStop(1.000, 'lightpink');
+
+        return grd;
+    }
 }
