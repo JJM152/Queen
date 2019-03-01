@@ -420,6 +420,98 @@ App.Data.AvatarMaps['low heel maryjanes'] = [
     }
 ];
 
+// Gothic lolita clothes
+
+// These are hat pieces and need special parts.
+//App.Data.AvatarMaps["red and black flower hair pin"] = [ ];
+//App.Data.AvatarMaps["dark dreams bonnet"] = [ ];
+
+App.Data.AvatarMaps["black gothic collar"] = [ ];
+
+App.Data.AvatarMaps["gothic black bra"] = [ ];
+
+App.Data.AvatarMaps["black panties"] = [];
+
+App.Data.AvatarMaps["gothic frilly bloomers"] = [ ];
+
+App.Data.AvatarMaps["gothic striped stockings"] = [ ];
+
+App.Data.AvatarMaps["gothic frilly dress"] = [ ];
+
+App.Data.AvatarMaps["dark dreams dress"] = [ ];
+
+App.Data.AvatarMaps["gothic maid outfit"] = [ ];
+
+App.Data.AvatarMaps["black high heeled boots"] = [ ];
+
+App.Data.AvatarMaps["black platform mary janes"] = [ ];
+
+App.Data.AvatarMaps["dark dreams shoes"] = [ ];
+
+//Highclass Whore Clothes
+
+App.Data.AvatarMaps["whore belt"] = [ ];
+
+App.Data.AvatarMaps["slutty strumpet dress"] = [ ];
+
+App.Data.AvatarMaps["sexy librarian outfit"] = [ ];
+
+App.Data.AvatarMaps["whore sandals"] = [ ];
+
+// Naughty Nun Clothes
+
+// Need a hat piece for this
+//App.Data.AvatarMaps["sexy nun cowl"] = [ ];
+
+App.Data.AvatarMaps["naughty nun dress"] = [ ];
+
+App.Data.AvatarMaps["sexy nun habit"] = [ ];
+
+//Need boot piece for this
+//App.Data.AvatarMaps["sexy nun boots"] = [ ];
+
+// Pet Girl Clothes
+
+// Hat pieces
+//App.Data.AvatarMaps["cow headband"] = [ ];
+//App.Data.AvatarMaps["cat ears"] = [ ];
+
+//Use defaults for now.
+//App.Data.AvatarMaps["cow collar"] = [ ];
+//App.Data.AvatarMaps["nipple bells"] = [ ];
+
+App.Data.AvatarMaps["cow bra"] = [ ];
+
+App.Data.AvatarMaps["cow corset"] = [ ];
+
+App.Data.AvatarMaps["cow panties"] = [ ];
+
+App.Data.AvatarMaps["cow stockings"] = [ ];
+
+App.Data.AvatarMaps["cow skirt"] = [ ];
+
+App.Data.AvatarMaps["fuzzy black bikini"] = [ ];
+
+App.Data.AvatarMaps["sexy kitten costume"] = [ ];
+
+// Needs boots
+//App.Data.AvatarMaps["cow boots"] = [ ];
+
+App.Data.AvatarMaps["fuzzy paws"] = [ ];
+
+// Pirate Slut Clothines
+
+// Needs hat piece.
+//App.Data.AvatarMaps["pirate hat"] = [ ];
+
+//Use default
+//App.Data.AvatarMaps["skull piercings"] = [ ];
+
+App.Data.AvatarMaps["pirate bra"] = [ ];
+
+App.Data.AvatarMaps["pistol brace"] = [ ];
+
+App.Data.AvatarMaps["pirate thong"] = [ ];
 
 App.Data.AvatarMaps['fishnet tights'] = [
     {
@@ -430,3 +522,121 @@ App.Data.AvatarMaps['fishnet tights'] = [
           }
     }
 ];
+
+App.Data.AvatarMaps["fishnet stockings"] = [ ];
+
+App.Data.AvatarMaps["pirate waistcoat"] = [ ];
+
+App.Data.AvatarMaps["pirate queen regalia"] = [ ];
+
+App.Data.AvatarMaps["pirate stripper costume"] = [ ];
+
+// Needs boots
+//App.Data.AvatarMaps["pirate boots"] = [ ];
+//App.Data.AvatarMaps["pirate ankle boots"] = [ ];
+
+// Sexy Dancer Clothes
+
+// Wigs are handled by hair handler.
+//App.Data.AvatarMaps["exotic wig"] = [ ];
+
+App.Data.AvatarMaps["nipple tassels"] = [ ];
+
+App.Data.AvatarMaps["sequined g-string"] = [ ];
+
+App.Data.AvatarMaps["silk stockings"] = [ ];
+
+App.Data.AvatarMaps["stripper costume"] = [ ];
+
+App.Data.AvatarMaps["burlesque costume"] = [ ];
+
+App.Data.AvatarMaps["slutty schoolgirl"] = [ ];
+
+//Need boots parts
+//App.Data.AvatarMaps["go-go boots"] = [ ];
+
+App.Data.AvatarMaps["stripper heels"] = [ ];
+
+App.Data.AvatarMaps["barefoot sandals"] = [];
+
+// Sissy Lolita Clothes
+
+//Needs hat part
+//App.Data.AvatarMaps["pink head bow"] = [ ];
+
+App.Data.AvatarMaps["sissy collar"] = [ ];
+
+App.Data.AvatarMaps["striped bra"] = [ ];
+
+App.Data.AvatarMaps["striped panties"] = [ ];
+
+App.Data.AvatarMaps["frilly bloomers"] = [ ];
+
+App.Data.AvatarMaps["striped stockings"] = [ ];
+
+App.Data.AvatarMaps["sweet cherry socks"] = [ ];
+
+App.Data.AvatarMaps["frilly dress"] = [ ];
+
+App.Data.AvatarMaps["sweet cherry dress"] = [ ];
+
+App.Data.AvatarMaps["sissy maid outfit"] = [ ];
+
+App.Data.AvatarMaps["pink mary janes"] = [ ];
+
+App.Data.AvatarMaps["pink platform mary janes"] = [ ];
+
+App.Data.AvatarMaps["sweet cherry shoes"] = [ ];
+
+// Slutty Lady
+
+App.Data.AvatarMaps["luxurious black bra"] = [ ];
+
+App.Data.AvatarMaps["luxurious black panties"] = [ ];
+
+App.Data.AvatarMaps["luxurious black stockings"] = [ ];
+
+App.Data.AvatarMaps["luxurious black evening gown"] = [ ];
+
+App.Data.AvatarMaps["sexy showgirl outfit"] = [ ];
+
+App.Data.AvatarMaps["luxurious black high heels"] = [ ];
+
+//Ordinary Clothes
+
+// Needs hat piece
+//App.Data.Clothes["bonnet"] = [];
+
+App.Data.Clothes["choker"] = [];
+App.Data.Clothes["chemise"] = [];
+
+App.Data.Clothes["cotton bra"] = [];
+
+App.Data.Clothes["silk bra"] = [];
+App.Data.Clothes["fashion corset"] = [];
+
+App.Data.Clothes["cotton bloomers"] = [];
+
+App.Data.Clothes["sheer bloomers"] = [];
+
+App.Data.Clothes["cotton stockings"] = [];
+App.Data.Clothes["cotton blouse"] = [];
+
+App.Data.Clothes["silk blouse"] = [];
+App.Data.Clothes["leather pants"] = [];
+
+App.Data.Clothes["leather shorts"] = [];
+App.Data.Clothes["cotton dress"] = [];
+App.Data.Clothes["sundress"] = [];
+App.Data.Clothes["sexy dress"] = [];
+
+App.Data.Clothes["landlubber costume"] = [];
+
+App.Data.Clothes["pathetic loser costume"] = [];
+
+App.Data.Clothes["maid costume"] = [];
+App.Data.Clothes["worn boots"] = [];
+
+App.Data.Clothes["short heels"] =  [];
+
+App.Data.Clothes["medium heels"] = [];
