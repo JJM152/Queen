@@ -13,8 +13,6 @@ Config.history.controls = false;
 Config.history.maxStates = 1;
 Config.saves.version = App.Data.Game.Version;
 
-var lockId = LoadScreen.lock();
-
 setup.player = new App.Entity.Player();
 
 // Initalize Avatar Engine
@@ -82,7 +80,7 @@ Config.saves.isAllowed = function() {
     return !tags().includes("no-saving");
 };
 
-LoadScreen.unlock(lockId);
+
 
 // Setup some divs that will not get refreshed on passage navigation.
     if ( $('#hiddenCanvas').length == 0 && $('#avatarFace').length == 0 ) {

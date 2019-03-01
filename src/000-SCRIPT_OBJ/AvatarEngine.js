@@ -11,6 +11,8 @@
 App.Entity.AvatarEngine = class Avatar {
 
     constructor() {
+
+        this.Loaded = false;
         console.log("Loading DA system...");
         var t0 = performance.now();
         da.load().then(function() {
@@ -31,10 +33,27 @@ App.Entity.AvatarEngine = class Avatar {
             da.extendDimensionCalc('human.breastSize', function(base) {
                 return this.getDim('breastSize')
             });
+
+            //Loading patterns. Embedded patterns are in the story passage named the same as the
+            //file name. Get the text attribute for the encoded string.
+            da.addPattern("white hearts", Story.passages["txt_heart_1"].text);
+
             var t2 = performance.now();
             console.log("Loaded DA in "+(t2-t0)+"ms.");
+
+            //Loop until all the patterns resolve.
+            var patternInterval = setInterval(function() {
+                for(var i = 0; i < App.Data.AvatarPatterns.length; i++) {
+                    if (da.listAvailablePatterns().includes(App.Data.AvatarPatterns[i] == false)) return;
+                }
+                console.log("All DA Patterns Loaded");
+                App.Avatar.Loaded = true;
+                clearInterval(patternInterval);
+            }, 20);
+ 
         });
 
+ 
         this._PCData = {
             // provide specific values here to override the default ones set
             age : 26,
@@ -193,8 +212,9 @@ App.Entity.AvatarEngine = class Avatar {
         PC.attachPart(balls);
         var bust = da.Part.create(da.BimboChest, { side: null });
         PC.attachPart(bust);
+        PC.removeSpecificPart(da.NipplesHuman);
         var nips = da.Part.create(da.BimboNipples, { side: null});
-        //PC.attachPart(nips, PC.decorativeParts);
+        PC.attachPart(nips);
 
         return this._ClothesHandler(PC);
     }
@@ -354,8 +374,15 @@ App.Entity.AvatarEngine = class Avatar {
                     var str = "da.Clothes.create("+items[i].c+","+JSON.stringify(items[i].a)+")";
                     console.log(str);
                     // This nonsense here is just to be safe due to script 'compiling' order of Tweego.
-                    if(items[i].a != null && items[i].a.hasOwnProperty('pattern') && typeof items[i].a.pattern === 'string') 
-                        items[i].a.fill = eval(items[i].a.pattern);
+                    if(items[i].a != null && items[i].a.hasOwnProperty('pattern') && typeof items[i].a.pattern === 'string') {
+                        var patternOb = null;
+                        try {
+                            patternOb = eval(items[i].a.pattern);
+                        } catch(err) {
+                            console.log(err);
+                        }
+                        if (patternOb != null) items[i].a.fill = patternOb;
+                    } 
                     var part = items[i].a == null ? da.Clothes.create(eval(items[i].c)) : da.Clothes.create(eval(items[i].c), items[i].a);
                     PC.wearClothing(part);
                 }

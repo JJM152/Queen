@@ -20,10 +20,10 @@ App.Data.JobData["JEZEBELLE_TUTOR_1"] = {
     ],
     "REQUIREMENTS" : [
         { 
-            "TYPE" : "SKILL", "NAME" : "Dancing", "VALUE" : 50, "CONDITION" : "lte"
+            "TYPE" : "SKILL", "NAME" : "Dancing", "VALUE" : 30, "CONDITION" : "lte"
         },
         {
-            "TYPE" : "STYLE_CATEGORY", "NAME" : "Sexy Dancer", "VALUE" : 50, "CONDITION" : "gte"
+            "TYPE" : "STYLE_CATEGORY", "NAME" : "Sexy Dancer", "VALUE" : 40, "CONDITION" : "gte"
         }
 
     ],

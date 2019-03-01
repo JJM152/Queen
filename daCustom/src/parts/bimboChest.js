@@ -342,7 +342,7 @@ export class BimboNipples extends Chest {
     constructor(...data) {
         super({
             fill      : none,
-            loc       : "chest",
+            loc       : "+chest",
             aboveParts: ["parts chest", "decorativeParts chest"],
         }, ...data);
     }

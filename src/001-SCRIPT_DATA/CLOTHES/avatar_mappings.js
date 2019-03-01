@@ -1,3 +1,8 @@
+// Custom patterns.
+App.Data.AvatarPatterns = [
+    "white hearts"
+]
+
 App.Data.AvatarMaps = {
     Neck: [ { c: "da.Collar", a: null } ],
     Nipples: [ 
@@ -241,30 +246,36 @@ App.Data.AvatarMaps['bondage dress'] = [
 
 App.Data.AvatarMaps['collar for daddy'] = [
     {
-        c: "da.SuperSocks",
+        c: "da.Choker",
         a: {
-            legCoverage: 0.007671939247473558,
-            pattern: "da.getPattern('fishnet', 100)",
+            neckBotCoverage: -0.051518301363407515,
+            neckCoverage: 0.3036231423018787,
+            fill: "white",
+            stroke: "hotpink"
           }
     }
 ];
 
 App.Data.AvatarMaps['cute pink bra'] = [
     {
-        c: "da.SuperSocks",
+        c: "da.Bra",
         a: {
-            legCoverage: 0.007671939247473558,
-            pattern: "da.getPattern('fishnet', 100)",
+            fill: "lightpink",
+            stroke: "white",
+            pattern: "da.getPattern('white hearts', 12)",
           }
     }
 ];
 
 App.Data.AvatarMaps['belt with glitter'] = [
     {
-        c: "da.SuperSocks",
-        a: {
-            legCoverage: 0.007671939247473558,
-            pattern: "da.getPattern('fishnet', 100)",
+        c: "da.HalfCorset",
+        a:{
+            botCoverage: 0.28,
+            lacing: false,
+            topCoverage: 0.07977197913902945,
+            stroke: "hsla(298.6,55.0%,54.7%,0.06)",
+            fill: "white",
           }
     }
 ];
