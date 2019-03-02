@@ -252,7 +252,7 @@ App.Entity.AvatarEngine = class Avatar {
     _MapFace(Data) {
         var hormoneMod = (this._c('Hormones')/200);
         var lipMod = (setup.player.GetStat('BODY', 'Lips')/100);
-        Data.basedim.eyelashLength = (10 * hormoneMod);
+        Data.basedim.eyelashLength = 0; // (10 * hormoneMod); --The color on this is broken.
         Data.basedim.faceFem = (20 * (setup.player.GetStat('BODY', 'Face')/100)) + (20 * hormoneMod);
 
         //Lips
@@ -387,6 +387,7 @@ App.Entity.AvatarEngine = class Avatar {
         Data.basedim.hairSaturation = color.s;
         Data.basedim.hairLightness = color.l;
         Data.browFill = 'black';
+        Data.eyelashFill = 'black'
 
         return Data;
     }
@@ -416,7 +417,7 @@ App.Entity.AvatarEngine = class Avatar {
                     PC.wearClothing(part);
                 }
             } else {
-                console.log("Unable to map clothes to avatar: "+o.tag);
+                console.log("Unable to map clothes to avatar: "+o.Tag);
                 console.log(o);
             }
         }

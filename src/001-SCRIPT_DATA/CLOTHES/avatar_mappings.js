@@ -167,7 +167,7 @@ App.Data.AvatarMaps['bimbo cheerleader costume'] = [
             innerNeckCoverage: 0.6982247463744191,
             waistCoverage: 0.9349857088179432,
             fill: "lightpink",
-            stroke: "hotpink"
+            stroke: "antiquewhite"
         }
     },
     {
@@ -178,7 +178,7 @@ App.Data.AvatarMaps['bimbo cheerleader costume'] = [
             outerLoose: 2,
             waistCoverage: 0.04713209965472753,
             fill: "lightpink",
-            stroke: "lightpink"
+            stroke: "antiquewhite"
         }
     }
 ];
@@ -210,6 +210,7 @@ App.Data.AvatarMaps['bimbo heels'] = [
             platformHeight: -5.0,
             toeCoverage: 2,
             fill: "lightpink",
+            stroke: "black"
         }
     }
 ];
