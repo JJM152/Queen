@@ -76,13 +76,11 @@ You spy with your little eye...
 	<<else>>
 		@@.wardrobeButton;<<button "Wear">>
 		<<run setup.player.Wear(setup.player.WardrobeItem($args[0])) >><<replace "#WardrobeUI">><<WearingTable>><</replace>>
-		<<if _Wear.Slot == 'Neck' || _Wear.Slot == 'Wig' || _Wear.Slot == 'Dress' || _Wear.Slot == 'Shirt'>><<run App.Avatar._DrawPortrait();>><</if>>
 		<</button>>@@
 	<</if>>
 <<else>>
 		@@.wardrobeButton;<<button "Wear">>
 		<<run setup.player.Wear(setup.player.WardrobeItem($args[0])) >><<replace "#WardrobeUI">><<WearingTable>><</replace>>
-		<<if _Wear.Slot == 'Neck' || _Wear.Slot == 'Wig' || _Wear.Slot == 'Dress' || _Wear.Slot == 'Shirt'>><<run App.Avatar._DrawPortrait();>><</if>>
 		<</button>>@@
 <</if>>
 <</nobr>><</widget>>
@@ -146,7 +144,6 @@ You spy with your little eye...
 		@@.wardrobeButton;<<button "Remove">>
 		<<set _Worn = setup.player.GetEquipmentInSlot($args[0]);>>
 		<<run setup.player.Remove(setup.player.GetEquipmentInSlot($args[0]))>>
-		<<if _Worn.Slot == 'Neck' || _Worn.Slot == 'Wig' || _Worn.Slot == 'Dress' || _Worn.Slot == 'Shirt'>><<run App.Avatar._DrawPortrait();>><</if>>
 		<<replace "#WardrobeUI">><<WearingTable>><</replace>><</button>>@@
 	<</if>>
 <<else>>
@@ -215,7 +212,8 @@ The style and fashion of your clothing is <<= App.PR.pClothing(setup.player) >>
 <tr>
 	<td colspan=2><h3>@@color:yellow;Worn Items@@</h3></td>
 	<td colspan=3 style="text-align:right"><<click "Get naked">>
-		<<run setup.player.Strip();>>
+		<<run setup.player.Strip();>>\
+		<<run App.Avatar.DrawPortrait();>>\
 		<<replace "#WardrobeUI">><<WearingTable>><</replace>>
 	<</click>> | <<click "Inspect Outfit">>
 		<<replace "#WardrobeUI">><<StyleDisplay>><</replace>>

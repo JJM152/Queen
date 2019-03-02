@@ -508,6 +508,7 @@ App.Data.AvatarMaps["dark dreams dress"] = [
     {
         c: "da.SuperDress",
         a: {
+            forcedNoSideString: true,
             armCoverage: 1.0662247110102107,
             armLoose: 1.0223601571998486,
             cleavageCoverage: 0.6519145636243149,
@@ -525,6 +526,7 @@ App.Data.AvatarMaps["gothic maid outfit"] = [
     {
         c: "da.SuperDress",
         a: {
+            forcedNoSideString: true,
             armCoverage: 0.5,
             armLoose: 1.0223601571998486,
             cleavageCoverage: 0.3,

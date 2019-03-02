@@ -67,7 +67,6 @@ App.Entity.AvatarEngine = class Avatar {
             age : 26,
             fem : 11,
             sub : 2,
-        
             // base physical dimensions
             basedim        : {
                 //areolaSize    : 14.923766816143496,
@@ -138,14 +137,21 @@ App.Entity.AvatarEngine = class Avatar {
                     border: "1px solid black",
                    // width: 480,
                    // height: 960
-                   width: 320,
-                   height: 600
+                   width: 360,
+                   height: 800,
                 });
         } 
 
         var PC = new da.Player( this.GetPCData() );
         PC = this._AttachParts(PC);
-        da.draw(canvasGroup, PC, { printHeight: false, printAdditionalInfo: false, renderShoeSideView: false});
+        da.draw(canvasGroup, PC, { 
+                printHeight: false, 
+                printAdditionalInfo: false, 
+                renderShoeSideView: false,
+                offsetX: 10,
+                offsetY: 0
+            });
+
         console.log(PC);
         //this._DrawPortrait();
     }
@@ -158,6 +164,8 @@ App.Entity.AvatarEngine = class Avatar {
 
     _DrawPortrait()
     {
+        if( settings.displayAvatar == false) return;
+
         var canvasGroup = da.getCanvasGroup("hiddenCanvas", {
                border: "none",
                width: 1000,

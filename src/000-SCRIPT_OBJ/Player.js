@@ -1782,6 +1782,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     Wear (item, lock) {
         this.Clothing.Wear(item.Id, lock);
+        App.Avatar._DrawPortrait();
     }
 
     SetLock(Slot, Lock) {
@@ -1809,8 +1810,11 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
                 || $.inArray(Category, currentlyWorn.Category) < 0 // Item in slot is not of the right category, so swap them.
                 || currentlyWorn.Style < matchingItems[0].Style; // Item in slot has less style, so swap them.
 
-            if (wear) this.Wear(matchingItems[0]);
+            //if (wear) this.Wear(matchingItems[0]);
+
+            if (wear) this.Clothing.Wear(matchingItems[0].Id);
         }
+        App.Avatar._DrawPortrait();
     }
 
     Strip() {
@@ -1821,6 +1825,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
             this.Clothing.TakeOff(this.Clothing.Equipment[prop].Id);
         }
+        App.Avatar._DrawPortrait();
     }
 
     /**
@@ -1839,6 +1844,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     Remove (item) {
         if (item == 0) return;
         this.Clothing.TakeOff(item.Id);
+        App.Avatar._DrawPortrait();
     }
 
     GetItemByName (Name) {
