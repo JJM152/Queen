@@ -65,7 +65,7 @@ App.Data.Clothes["cow panties"] = { // +10
 
 // STOCKINGS SLOT
 App.Data.Clothes["cow stockings"] = { // +15
-    "Name": "cow stockings", "ShortDesc": "a pair of black & white vertically striped silk stockings",
+    "Name": "cow stockings", "ShortDesc": "a pair of cow print silk stockings",
     "LongDesc": "They reach to mid-thigh, are topped off by black lace and tied with a wide white ribbon in a bow.",
     "Slot": "Stockings", "Restrict": ["Stockings"], "Color": "black", "Style": "RARE", "Type" : "CLOTHING",
     "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [ "Pet Girl" ], "Meta" : [ 'cow outfit', 'job reward' ]

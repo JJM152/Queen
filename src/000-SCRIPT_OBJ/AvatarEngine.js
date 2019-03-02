@@ -33,6 +33,7 @@ App.Entity.AvatarEngine = class Avatar {
             da.extendDimensionCalc('human.breastSize', function(base) {
                 return this.getDim('breastSize')
             });
+
             var t2 = performance.now();
             console.log("Loaded DA in "+(t2-t0)+"ms.");
             console.log("Creating patterns");
@@ -46,8 +47,19 @@ App.Entity.AvatarEngine = class Avatar {
             da.addPattern("red tartan", Story.passages["txt_red_tartan"].text);
             da.addPattern("black lace", Story.passages["txt_black_lace"].text);
             da.addPattern("black purple stripe", Story.passages["txt_black_purple_stripe"].text);
-            da.addPattern("pink athletic socks", App.Avatar._pinkAthleticSocks);
+            da.addPattern("red plastic", Story.passages["txt_red_plastic"].text);
+            da.addPattern("cow print", Story.passages["txt_cow_print"].text);
+            da.addPattern("black fur", Story.passages["txt_black_fur"].text);
+            da.addPattern("jolly roger big", Story.passages["txt_jolly_roger_big"].text);
+            da.addPattern("black sequins", Story.passages["txt_black_sequin"].text);
+            da.addPattern("horizontal pink stripe", Story.passages["txt_horizontal_pink_white_stripe"].text);
+            da.addPattern("pink polka dot", Story.passages["txt_pink_polka_dot"].text);
+            da.addPattern("vertical pink stripe", Story.passages["txt_vertical_pink_white_stripe"].text);
+            da.addPattern("pink chevron", Story.passages["txt_pink_chevron"].text);
+            da.addPattern("pink flowers", Story.passages["txt_pink_flowers"].text);
 
+            //Gradients loaded as textures.
+            da.addPattern("pink athletic socks", App.Avatar._pinkAthleticSocks);
 
             //Loop until all the patterns resolve.
             var patternInterval = setInterval(function() {
@@ -186,12 +198,13 @@ App.Entity.AvatarEngine = class Avatar {
                     width : 180,
                     height: 240,
                     // can add any CSS style here like border
-                    border: "none",
+                    border: "solid 2px goldenrod",
                     // you can also position it absolutely
                     // position: "absolute",
                     // top     : "10px",
                     // left    : "10px",
                     // or relative to a parent
+                    position: "relative",
                     parent: document.getElementById("avatarFace"),
                 });
         
@@ -382,7 +395,7 @@ App.Entity.AvatarEngine = class Avatar {
 
         for (var slot in setup.player.Equipment) {
             var o = setup.player.Equipment[slot];
-            if (o == null || o.Slot == 'Wig') continue; //no op
+            if (typeof o === 'undefined' || o == null || o.Slot == 'Wig') continue; //no op
             var id = App.Data.AvatarMaps.hasOwnProperty(o.Tag) ? o.Tag : o.Slot;
             if (App.Data.AvatarMaps.hasOwnProperty(id)) {
                 var items = App.Data.AvatarMaps[id];
@@ -402,6 +415,9 @@ App.Entity.AvatarEngine = class Avatar {
                     var part = items[i].a == null ? da.Clothes.create(eval(items[i].c)) : da.Clothes.create(eval(items[i].c), items[i].a);
                     PC.wearClothing(part);
                 }
+            } else {
+                console.log("Unable to map clothes to avatar: "+o.tag);
+                console.log(o);
             }
         }
 
@@ -417,7 +433,6 @@ App.Entity.AvatarEngine = class Avatar {
 
     _pinkAthleticSocks(ctx, ex)
     {
-        console.log(ex);
         var grd = ctx.createLinearGradient(150.000, 0.000, 150.000, 180.000);
       
         // Add colors
@@ -434,4 +449,5 @@ App.Entity.AvatarEngine = class Avatar {
 
         return grd;
     }
+
 }

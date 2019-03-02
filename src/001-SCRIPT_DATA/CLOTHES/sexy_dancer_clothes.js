@@ -8,7 +8,7 @@
 App.Data.Clothes["exotic wig"] = { // +12
     "Name": "exotic wig", "ShortDesc": "an exotic {COLOR} wig done in twin tails",
     "LongDesc": "This exotic wig is made of finely dyed human hair and strung with jewels.",
-    "Slot": "Wig", "Restrict": ["Wig"], "Color": "purple", "Style": "LEGENDARY", "Type" : "ACCESSORY",
+    "Slot": "Wig", "Restrict": ["Wig"], "Color": "lavender", "Style": "LEGENDARY", "Type" : "ACCESSORY",
     "HairLength": 80, "HairStyle": "twin tails", "HairBonus": 90,
     "WearEffect": [ "FEMININE_CLOTHING" ],  "Category" : [ "Sexy Dancer", "Sissy Lolita", "Bimbo" ]
 };

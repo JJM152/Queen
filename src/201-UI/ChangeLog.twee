@@ -1,8 +1,8 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.10 - ??/??/2019
+!!!0.9c - 03/03/2019
 !!!!General
-* Implemented the <a href="">Dynamic Avatar Drawer</a> library and a wide assortment of clothes are rendering. \
+* Implemented the <a href="https://perplexedpeach.gitlab.io/dynamic-avatar-drawer/">Dynamic Avatar Drawer</a> library and a wide assortment of clothes are rendering. \
 there will be some future improvements in this area as the game matures and I get better at vector graphics. Phew. \
 This is turned off by default (turn it on in the settings menu).
 * Reduced the throttling on AddXP amounts above 250 pts.

@@ -7,7 +7,17 @@ App.Data.AvatarPatterns = [
     "red tartan",
     "pink gingham",
     "black lace",
-    "black purple stripe"
+    "black purple stripe",
+    "red plastic",
+    "cow print",
+    "black fur",
+    "jolly roger big",
+    "black sequins",
+    "horizontal pink stripe",
+    "vertical pink stripe",
+    "pink polka dot",
+    "pink chevron",
+    "pink flowers"
 ]
 
 App.Data.AvatarMaps = {
@@ -35,14 +45,15 @@ App.Data.AvatarMaps = {
     Bra:        [ { c: "da.Bra", a: { fill: "white" } }],
     Corset:     [ { c: "da.Corset", a: { botCoverage: 0, lacing: 0, fill: "black" } }],
     Panty:      [ { c: "da.Panties", a: { fill: "white" } }],
-    Stockings:  [ { c: "da.Stockings", a: { bandWidth: 1, legCoverage: 0.3, fill: "white"}}],
+    Stockings:  [ { c: "da.Stockings", a: { bandWidth: 1, legCoverage: 0.3, fill: "white", stroke: "antiquewhite"}}],
     Shirt:      [ { c: "da.HalterTop", 
                     a:{ 
                         cleavageCoverage: 0.3, 
                         innerNeckCoverage: 0.3, 
                         outerNeckCoverage: 1, 
                         waistCoverage: 0.7,
-                        fill: "white"
+                        fill: "white",
+                        stroke: "antiquewhite"
                     } 
                 }],
     Pants:      [ { c: "da.MediumTightPants", a: null}],
@@ -274,6 +285,7 @@ App.Data.AvatarMaps['cute pink bra'] = [
     }
 ];
 
+//Need an actual belt part
 App.Data.AvatarMaps['belt with glitter'] = [
     {
         c: "da.HalfCorset",
@@ -567,25 +579,132 @@ App.Data.AvatarMaps["dark dreams shoes"] = [
 
 //Highclass Whore Clothes
 
-App.Data.AvatarMaps["whore belt"] = [ ];
+// Need actual belt part.
+App.Data.AvatarMaps["whore belt"] = [
+    {
+        c: "da.HalfCorset",
+        a:{
+            botCoverage: 0.28,
+            lacing: false,
+            topCoverage: 0.07977197913902945,
+            stroke: "hsla(298.6,55.0%,54.7%,0.06)",
+            fill: "gold",
+        }
+    }
+ ];
 
-App.Data.AvatarMaps["slutty strumpet dress"] = [ ];
+App.Data.AvatarMaps["slutty strumpet dress"] = [
+    {
+        c: "da.SuperDress",
+        a:  {
+            armCoverage: -0.40,
+            cleavageCoverage: 0.12,
+            curveCleavageX: 10,
+            curveCleavagey: 10,
+            legCoverage: 0.1,
+            fill: "red",
+            stroke: "darkred",
+            pattern: "da.getPattern('red plastic',100)"
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["sexy librarian outfit"] = [ ];
+App.Data.AvatarMaps["sexy librarian outfit"] = [
+    {
+        c: "da.WomenDressShirt",
+        a:{
+            botParted: 0,
+            collarWidth: 5,
+            liningWidth: 3.5,
+            sleeveLength: 0.2,
+            stomachCoverage: 0.35,
+            topParted: 5,
+            liningPattern: "white",
+            collarPattern: "white",
+            cuffPattern: "white",
+            fill: "antiquewhite",
+            stroke: "white"
+        }
+    },
+    {
+        c: "da.SuperPants",
+        a: {
+            legCoverage: 0.17841725232614758,
+            innerLoose: 2.0,
+            outerLoose: 0.0,
+            waistCoverage: 0.19814630696357116,
+            fill: "black",
+            stroke: "black",
+            pattern: "da.getPattern('black leather',100)"
+        }
+    },
+    {
+        c: "da.Glasses",
+        a: {
+            eccentricity: 5.1000000000000005,
+            fill: "hsla(0.0,0.0%,63.5%,0.06)",
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["whore sandals"] = [ ];
+App.Data.AvatarMaps["whore sandals"] = [
+    {
+        c: "da.ClosedToeStrappedPumps",
+        a: {
+            platformHeight: 0.0,
+            toeCoverage: 2,
+            fill: "red",
+            pattern: "da.getPattern('red plastic', 100)"
+        }
+    }
+ ];
 
 // Naughty Nun Clothes
 
 // Need a hat piece for this
 //App.Data.AvatarMaps["sexy nun cowl"] = [ ];
 
-App.Data.AvatarMaps["naughty nun dress"] = [ ];
+// Redo these with new models or parts... think hard.
+App.Data.AvatarMaps["naughty nun dress"] = [
+    {
+        c: "da.SuperDress",
+        a:  {
+            armCoverage: -0.40,
+            cleavageCoverage: 0.12,
+            legCoverage: 0.1,
+            fill: "black",
+            stroke: "darkred",
+            pattern: "da.getPattern('black leather', 100)"
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["sexy nun habit"] = [ ];
+App.Data.AvatarMaps["sexy nun habit"] = [
+    {
+        c: "da.SuperDress",
+        a:  {
+            armCoverage: -0.40,
+            cleavageCoverage: 0.12,
+            legCoverage: 0.1,
+            fill: "black",
+            stroke: "darkred",
+            pattern: "da.getPattern('black leather', 100)"
+          }
+    }
+ ];
 
 //Need boot piece for this
-//App.Data.AvatarMaps["sexy nun boots"] = [ ];
+App.Data.AvatarMaps["sexy nun boots"] = [
+    {
+        c: "da.ClosedToeStrappedPumps",
+        a: {
+            platformHeight: 0.0,
+            toeCoverage: 2,
+            fill: "red",
+            pattern: "da.getPattern('black leather', 100)"
+        }
+    } 
+ ];
 
 // Pet Girl Clothes
 
@@ -597,24 +716,123 @@ App.Data.AvatarMaps["sexy nun habit"] = [ ];
 //App.Data.AvatarMaps["cow collar"] = [ ];
 //App.Data.AvatarMaps["nipple bells"] = [ ];
 
-App.Data.AvatarMaps["cow bra"] = [ ];
+App.Data.AvatarMaps["cow bra"] = [
+    {
+        c: "da.Bra",
+        a: {
+            fill: "white",
+            stroke: "black",
+            pattern: "da.getPattern('cow print',100)"
+        }
+    }
+ ];
 
-App.Data.AvatarMaps["cow corset"] = [ ];
+App.Data.AvatarMaps["cow corset"] = [
+    {
+        c: "da.HalfCorset",
+        a: {
+            botCoverage: 0.98,
+            topCoverage: 0.66,
+            pattern: "da.getPattern('cow print', 100)",
+            fill: "white",
+            stroke: "black"
+        }
+    } 
+ ];
 
-App.Data.AvatarMaps["cow panties"] = [ ];
+App.Data.AvatarMaps["cow panties"] = [
+    {
+        c: "da.Panties",
+        a: {
+            pattern: "da.getPattern('black leather', 100)",
+            fill: "black",
+            stroke: "black"
+        }
+    } 
+ ];
 
-App.Data.AvatarMaps["cow stockings"] = [ ];
+App.Data.AvatarMaps["cow stockings"] = [
+    {
+         c: "da.Stockings", 
+         a: { 
+            bandWidth: 1, 
+            legCoverage: 0.3, 
+            fill: "white",
+            stroke: "black",
+            pattern: "da.getPattern('cow print', 100)"
+        }
+    }
+ ];
 
-App.Data.AvatarMaps["cow skirt"] = [ ];
+App.Data.AvatarMaps["cow skirt"] = [
+    {
+        c: "da.SuperPants",
+        a: {
+            legCoverage: 0.17841725232614758,
+            innerLoose: 2.0,
+            outerLoose: 2.0,
+            waistCoverage: 0.19814630696357116,
+            fill: "white",
+            stroke: "black",
+            pattern: "da.getPattern('cow print',100)"
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["fuzzy black bikini"] = [ ];
+App.Data.AvatarMaps["fuzzy black bikini"] = [
+    {
+        c: "da.Bra",
+        a: {
+            fill : "black",
+            stroke: "dimgray",
+            pattern: "da.getPattern('black fur',20)"
+        }
+    },
+    {
+        c: "da.Panties",
+        a: {
+            fill : "black",
+            stroke: "dimgray",
+            pattern: "da.getPattern('black fur',20)"
+        }
+    }
+ ];
 
-App.Data.AvatarMaps["sexy kitten costume"] = [ ];
+ // Maybe do something creative with this???
+App.Data.AvatarMaps["sexy kitten costume"] = [
+    {
+        c: "da.Bra",
+        a: {
+            fill : "black",
+            stroke: "dimgray",
+            pattern: "da.getPattern('black fur',20)"
+        }
+    },
+    {
+        c: "da.Panties",
+        a: {
+            fill : "black",
+            stroke: "dimgray",
+            pattern: "da.getPattern('black fur',20)"
+        }
+    }  
+ ];
 
 // Needs boots
 //App.Data.AvatarMaps["cow boots"] = [ ];
 
-App.Data.AvatarMaps["fuzzy paws"] = [ ];
+// These could be better too, but not a priority
+App.Data.AvatarMaps["fuzzy paws"] = [
+    {
+        c: "da.LongGloves",
+        a: {
+            armCoverage: 0.87,
+            fill: "black",
+            stroke: "dimgray",
+            pattern: "da.getPattern('black fur', 20)"
+        } 
+    }
+ ];
 
 // Pirate Slut Clothines
 
@@ -624,11 +842,30 @@ App.Data.AvatarMaps["fuzzy paws"] = [ ];
 //Use default
 //App.Data.AvatarMaps["skull piercings"] = [ ];
 
-App.Data.AvatarMaps["pirate bra"] = [ ];
+App.Data.AvatarMaps["pirate bra"] = [
+    {
+        c: "da.Bra",
+        a: {
+            fill : "black",
+            stroke: "antiquewhite",
+            pattern: "da.getPattern('jolly roger big', 30)"
+        }
+    }
+ ];
 
-App.Data.AvatarMaps["pistol brace"] = [ ];
+ // Need something cool for this.
+//App.Data.AvatarMaps["pistol brace"] = [ ];
 
-App.Data.AvatarMaps["pirate thong"] = [ ];
+App.Data.AvatarMaps["pirate thong"] = [
+    {
+        c: "da.SuperPanties",
+        a: {
+            fill : "black",
+            stroke: "antiquewhite",
+            pattern: "da.getPattern('jolly roger big', 30)"
+        }
+    }
+ ];
 
 App.Data.AvatarMaps['fishnet tights'] = [
     {
@@ -640,13 +877,74 @@ App.Data.AvatarMaps['fishnet tights'] = [
     }
 ];
 
-App.Data.AvatarMaps["fishnet stockings"] = [ ];
+App.Data.AvatarMaps["fishnet stockings"] = [
+    {
+        c: "da.Stockings",
+        a: {
+            fill: "da.getPattern('fishnet', 100)",
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["pirate waistcoat"] = [ ];
+ // Need something cool for this
+//App.Data.AvatarMaps["pirate waistcoat"] = [ ];
 
-App.Data.AvatarMaps["pirate queen regalia"] = [ ];
+App.Data.AvatarMaps["pirate queen regalia"] = [
+    {
+        c: "da.WomenDressShirt",
+        a: {
+                collarCoverage: 1.1254118749224817,
+                collarHeight: 11.758527802786517,
+                collarWidth: 9.917149369960313,
+                liningWidth: 8,
+                sleeveLength: 0.7,
+                stomachCoverage: 0.4,
+                topParted: 5,
+                botParted: 0,
+                cling: 1,
+                fill: "black",
+                stroke: "darkred",
+                pattern: "da.getPattern('leather',100)",
+                collarPattern: "goldenrod",
+                cuffPattern: "goldenrod",
+                liningPattern: "darkred",
+                buttonFill: "goldenrod",
+                buttonStroke: "goldenrod"
+        }
+    },
+    {
+        c: "da.SuperPants",
+        a: {
+            legCoverage: 0.17841725232614758,
+            innerLoose: 2.0,
+            waistCoverage: 0.5,
+            fill: "black",
+            stroke: "darkred",
+            pattern: "da.getPattern('black leather',100)"
+          }
+    }
 
-App.Data.AvatarMaps["pirate stripper costume"] = [ ];
+ ];
+
+App.Data.AvatarMaps["pirate stripper costume"] = [
+    {
+        c: "da.Bra",
+        a: {
+            fill : "black",
+            stroke: "antiquewhite",
+            pattern: "da.getPattern('jolly roger big', 30)"
+        }
+    },
+    {
+        c: "da.SuperPanties",
+        a: {
+            fill : "black",
+            stroke: "antiquewhite",
+            pattern: "da.getPattern('jolly roger big', 30)"
+        }
+    }
+
+ ];
 
 // Needs boots
 //App.Data.AvatarMaps["pirate boots"] = [ ];
@@ -657,103 +955,612 @@ App.Data.AvatarMaps["pirate stripper costume"] = [ ];
 // Wigs are handled by hair handler.
 //App.Data.AvatarMaps["exotic wig"] = [ ];
 
-App.Data.AvatarMaps["nipple tassels"] = [ ];
+//Really need a special part for this and the nipple rings.
+//App.Data.AvatarMaps["nipple tassels"] = [ ];
 
-App.Data.AvatarMaps["sequined g-string"] = [ ];
+App.Data.AvatarMaps["sequined g-string"] = [
+    {
+        c: "da.Panties",
+        a: {
+            genCoverage: 1,
+            waistCoverage: -0.01205814095615343,
+            fill: "black",
+            stroke: "black",
+            pattern: "da.getPattern('black sequins',100)"
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["silk stockings"] = [ ];
+App.Data.AvatarMaps["silk stockings"] = [
+    {
+        c: "da.StockingsGarter",
+        a:  {
+            fill: "hsla(0.0,0.0%,27.8%,0.72)",
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["stripper costume"] = [ ];
+App.Data.AvatarMaps["stripper costume"] = [
+    {
+        c: "da.WomenDressShirt",
+        a: {
+                collarCoverage: 1.1254118749224817,
+                collarHeight: 11.758527802786517,
+                collarWidth: 9.917149369960313,
+                liningWidth: 8,
+                sleeveLength: 0.7,
+                stomachCoverage: 0.2,
+                topParted: 5,
+                botParted: 0,
+                cling: 1,
+                fill: "navy",
+                //stroke: "antiquewhite",
+                collarPattern: "goldenrod",
+                cuffPattern: "white",
+                liningPattern: "white",
+                buttonFill: "goldenrod",
+                buttonStroke: "goldenrod"
+        }
+    },
+    {
+        // Wanted to add trim here, but these pants suck for gradients
+        c: "da.SuperPants",
+        a: {
+            legCoverage: 0.15,
+            innerLoose: 2.0,
+           // outerLoose: 2.5,
+            waistCoverage: 0.4,
+            fill: "navy",
+            stroke: "antiquewhite",
+            //pattern: "da.getPattern('navy trim',100)"
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["burlesque costume"] = [ ];
+App.Data.AvatarMaps["burlesque costume"] = [
+    {
+        c: "da.HalterTop",
+        a: {
+            cleavageCoverage: 0.37570779870038384,
+            innerNeckCoverage: 0.809747000723704,
+            waistCoverage: 1.2437862027470236,
+            fill: "darkred",
+            stroke: "red"
+          }
+    },
+    {
+        // Wanted to add trim here, but these pants suck for gradients
+        c: "da.SuperPants",
+        a: {
+            legCoverage: 0.15,
+            innerLoose: 2.0,
+            waistCoverage: 0.4,
+            fill: "darkred",
+            stroke: "red",
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["slutty schoolgirl"] = [ ];
+App.Data.AvatarMaps["slutty schoolgirl"] = [
+    {
+        c: "da.WomenDressShirt",
+        a:{
+            botParted: 10,
+            collarCoverage: 0.15868819768872377,
+            collarHeight: 3.8669059478170666,
+            collarWidth: 4.129960009649384,
+            liningWidth: 2.8146897004878077,
+            sleeveLength: -0.0999999999999999,
+            stomachCoverage: -0.05833140332293607,
+            topParted: 10,
+            collarPattern: "antiquewhite",
+            cuffPattern: "antiquewhite",
+            fill: "white",
+            stroke: "antiquewhite"
+          }
+},
+{
+    c: "da.SuperPants",
+    a: {
+        legCoverage: 0.17841725232614758,
+        innerLoose: 2.0,
+        outerLoose: 2.0,
+        waistCoverage: 0.19814630696357116,
+        fill: "red",
+        stroke: "black",
+        pattern: "da.getPattern('red tartan',100)"
+      }
+}
+ ];
 
 //Need boots parts
 //App.Data.AvatarMaps["go-go boots"] = [ ];
 
-App.Data.AvatarMaps["stripper heels"] = [ ];
+App.Data.AvatarMaps["stripper heels"] = [
+    {
+        c: "da.ClosedToeStrappedPumps",
+        a: {
+            platformHeight: -5.0,
+            toeCoverage: 2,
+            fill: "black",
+        }
+    }
+ ];
 
-App.Data.AvatarMaps["barefoot sandals"] = [];
+App.Data.AvatarMaps["barefoot sandals"] = [
+    {
+        c: "da.ClosedToeStrappedPumps",
+        a: {
+            shoeHeight: 0.5,
+            platformHeight: 0.10,
+            toeCoverage: 1.0,
+            fill: "silver"
+        }
+    }
+];
 
 // Sissy Lolita Clothes
 
 //Needs hat part
 //App.Data.AvatarMaps["pink head bow"] = [ ];
 
-App.Data.AvatarMaps["sissy collar"] = [ ];
+App.Data.AvatarMaps["sissy collar"] = [
+    {
+        c: "da.Choker",
+        a: {
+            neckBotCoverage: -0.051518301363407515,
+            neckCoverage: 0.3036231423018787,
+            fill: "lightpink",
+            stroke: "antiquewhite"
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["striped bra"] = [ ];
+App.Data.AvatarMaps["striped bra"] = [
+    {
+        c: "da.Bra",
+        a: {
+            fill: "lightpink",
+            stroke: "antiquewhite",
+            pattern: "da.getPattern('horizontal pink stripe',10)"
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["striped panties"] = [ ];
+App.Data.AvatarMaps["striped panties"] = [
+    {
+        c: "da.Panties",
+        a: {
+            fill: "lightpink",
+            stroke: "antiquewhite",
+            pattern: "da.getPattern('horizontal pink stripe',10)"
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["frilly bloomers"] = [ ];
+ // Really need boy shorts style part.
+App.Data.AvatarMaps["frilly bloomers"] = [
+    {
+        c: "da.SuperPanties",
+        a: {
+            fill: "lightpink",
+            stroke: "antiquewhite",
+            pattern: "da.getPattern('pink polka dot',100)"
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["striped stockings"] = [ ];
+App.Data.AvatarMaps["striped stockings"] = [
+    {
+        c: "da.Stockings", 
+        a: { 
+            bandWidth: 0, 
+            legCoverage: 0.3, 
+            fill: "lightpink",
+            stroke: "antiquewhite",
+            pattern: "da.getPattern('vertical pink stripe',10)"
+        }
+    }
+ ];
 
-App.Data.AvatarMaps["sweet cherry socks"] = [ ];
+App.Data.AvatarMaps["sweet cherry socks"] = [
+    {
+        c: "da.SuperSocks",
+        a: {
+            fill: "lightpink",
+            stroke: "antiquewhite",
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["frilly dress"] = [ ];
+App.Data.AvatarMaps["frilly dress"] = [
+    {
+        c: "da.SuperDress",
+        a:  {
+            armCoverage: -0.40,
+            cleavageCoverage: 0.12,
+            legLoose: 1.4,
+            fill: "lightpink",
+            stroke: "antiquewhite",
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["sweet cherry dress"] = [ ];
+App.Data.AvatarMaps["sweet cherry dress"] = [
+    {
+        c: "da.SuperDress",
+        a:  {
+            armCoverage: -0.40,
+            legCoverage: 0.25,
+            cleavageCoverage: 0.12,
+            legLoose: 1.4,
+            fill: "lightpink",
+            stroke: "antiquewhite",
+            pattern: "da.getPattern('pink chevron', 100)"
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["sissy maid outfit"] = [ ];
+App.Data.AvatarMaps["sissy maid outfit"] = [
+    {
+        c: "da.SuperDress",
+        a: {
+            forcedNoSideString: true,
+            armCoverage: 0.5,
+            armLoose: 1.0223601571998486,
+            cleavageCoverage: 0.3,
+            lacing: false,
+            legCoverage: 0.35597874406296026,
+            legLoose: 1.0881236726579273,
+            stroke: "antiquewhite",
+            fill: "lightpink",
+            
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["pink mary janes"] = [ ];
+App.Data.AvatarMaps["pink mary janes"] = [
+    {
+        c: "da.ClosedToeStrappedPumps",
+        a: {
+            platformHeight: -5.0,
+            toeCoverage: 2,
+            fill: "lightpink",
+        }
+    }
+ ];
 
-App.Data.AvatarMaps["pink platform mary janes"] = [ ];
+App.Data.AvatarMaps["pink platform mary janes"] = [
+    {
+        c: "da.ClosedToeStrappedPumps",
+        a: {
+            platformHeight: -5.0,
+            toeCoverage: 2,
+            fill: "lightpink",
+        }
+    }
+ ];
 
-App.Data.AvatarMaps["sweet cherry shoes"] = [ ];
+App.Data.AvatarMaps["sweet cherry shoes"] = [
+    {
+        c: "da.ClosedToeStrappedPumps",
+        a: {
+            platformHeight: -5.0,
+            toeCoverage: 2,
+            fill: "lightpink",
+        }
+    }
+ ];
 
 // Slutty Lady
 
-App.Data.AvatarMaps["luxurious black bra"] = [ ];
+App.Data.AvatarMaps["luxurious black bra"] = [
+    {
+        c: "da.Bra",
+        a:  {
+            fill: "hsla(0.0,0.0%,27.8%,0.72)",
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["luxurious black panties"] = [ ];
+App.Data.AvatarMaps["luxurious black panties"] = [    {
+    c: "da.Panties",
+    a:  {
+        fill: "hsla(0.0,0.0%,27.8%,0.72)",
+      }
+} ];
 
-App.Data.AvatarMaps["luxurious black stockings"] = [ ];
+App.Data.AvatarMaps["luxurious black stockings"] = [
+    {
+        c: "da.StockingsGarter",
+        a:  {
+            fill: "hsla(0.0,0.0%,27.8%,0.72)",
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["luxurious black evening gown"] = [ ];
+App.Data.AvatarMaps["luxurious black evening gown"] = [
+    {
+        c: "da.SuperDress",
+        a: {
+            armCoverage: 0.71,
+            cleavageCoverage: 0.8,
+            cleavegeOpeness: 30,
+            curveCleavageX: 10,
+            curveCleavagey: 10,
+            legCoverage: 0.92,
+            legLoose: 0.26,
+            pattern: "da.getPattern('black sequins', 100)",
+            fill: "black",
+            stroke: "black",
+        }
+    }
+ ];
 
-App.Data.AvatarMaps["sexy showgirl outfit"] = [ ];
+App.Data.AvatarMaps["sexy showgirl outfit"] = [
+    {
+        c: "da.HalterTop",
+        a: {
+            cleavageCoverage: 0.37570779870038384,
+            innerNeckCoverage: 0.809747000723704,
+            waistCoverage: 1.2437862027470236,
+            fill: "darkred",
+            stroke: "red"
+          }
+    },
+    {
+        // Wanted to add trim here, but these pants suck for gradients
+        c: "da.SuperPants",
+        a: {
+            legCoverage: 0.15,
+            innerLoose: 2.0,
+            waistCoverage: 0.4,
+            fill: "darkred",
+            stroke: "red",
+          }
+    }
+ ];
 
-App.Data.AvatarMaps["luxurious black high heels"] = [ ];
+App.Data.AvatarMaps["luxurious black high heels"] = [
+    {
+        c: "da.ClosedToeStrappedPumps",
+        a: {
+            platformHeight: -5.0,
+            toeCoverage: 2,
+            fill: "black",
+        }
+    }
+ ];
 
 //Ordinary Clothes
 
 // Needs hat piece
 //App.Data.Clothes["bonnet"] = [];
 
-App.Data.Clothes["choker"] = [];
-App.Data.Clothes["chemise"] = [];
+App.Data.AvatarMaps["choker"] = [
+    {
+        c: "da.Choker",
+        a: {
+            fill: "black",
+            stroke: "black",
+            pattern: "da.getPattern('black leather', 100)"
+        }
+    }
+];
 
-App.Data.Clothes["cotton bra"] = [];
+App.Data.AvatarMaps["chemise"] = [
+    { 
+        c: "da.Bra", 
+        a: { 
+            fill: "white",
+            stroke: "antiquewhite"
+        } 
+    }
+];
 
-App.Data.Clothes["silk bra"] = [];
-App.Data.Clothes["fashion corset"] = [];
+App.Data.AvatarMaps["cotton bra"] = [
+    { 
+        c: "da.Bra", 
+        a: { 
+            fill: "white",
+            stroke: "antiquewhite"
+        } 
+    }
+];
 
-App.Data.Clothes["cotton bloomers"] = [];
+App.Data.AvatarMaps["silk bra"] = [
+    {
+        c: "da.Bra",
+        a:  {
+            fill: "hsla(0.0,0.0%,27.8%,0.90)",
+          }
+    }
+];
 
-App.Data.Clothes["sheer bloomers"] = [];
+App.Data.AvatarMaps["fashion corset"] = [
+    {
+        c: "da.HalfCorset",
+        a: {
+            fill: "black",
+            stroke: "black",
+            lacing: false,
+            pattern: "da.getPattern('black leather', 100)"
+        }
+    }
+];
 
-App.Data.Clothes["cotton stockings"] = [];
-App.Data.Clothes["cotton blouse"] = [];
+App.Data.AvatarMaps["cotton bloomers"] = [
+    { 
+        c: "da.Panties", 
+        a: { 
+            fill: "white",
+            stroke: "antiquewhite" 
+        } 
+    }
+];
 
-App.Data.Clothes["silk blouse"] = [];
-App.Data.Clothes["leather pants"] = [];
+App.Data.AvatarMaps["sheer bloomers"] = [
+    { 
+        c: "da.Panties", 
+        a: { 
+            fill: "hsla(0.0,0.0%,27.8%,0.90)",
+        } 
+    }
+];
 
-App.Data.Clothes["leather shorts"] = [];
-App.Data.Clothes["cotton dress"] = [];
-App.Data.Clothes["sundress"] = [];
-App.Data.Clothes["sexy dress"] = [];
+App.Data.AvatarMaps["cotton stockings"] = [
+    { 
+        c: "da.Stockings", 
+        a: { bandWidth: 1, 
+            legCoverage: 0.3, 
+            fill: "white",
+            stroke: "antiquewhite"
+        }
+    }
+];
+App.Data.AvatarMaps["cotton blouse"] = [
+    { 
+        c: "da.HalterTop", 
+        a:{ 
+            cleavageCoverage: 0.3, 
+            innerNeckCoverage: 0.3, 
+            outerNeckCoverage: 1, 
+            waistCoverage: 0.7,
+            fill: "white",
+            stroke: "antiquewhite"
+            } 
+    }
+];
 
-App.Data.Clothes["landlubber costume"] = [];
+App.Data.AvatarMaps["silk blouse"] = [
+    { 
+        c: "da.HalterTop", 
+        a:{ 
+            cleavageCoverage: 0.3, 
+            innerNeckCoverage: 0.3, 
+            outerNeckCoverage: 1, 
+            waistCoverage: 0.7,
+            fill: "hsla(0.0,0.0%,100.0%,0.90)",
+            stroke: "antiquewhite"
+        }
+    } 
+];
 
-App.Data.Clothes["pathetic loser costume"] = [];
+App.Data.AvatarMaps["leather pants"] = [
+    {
+        c: "da.SuperLeggins",
+        a: {
+            legCoverage: 0.7111017275365854,
+            fill: "black",
+            stroke: "black",
+            pattern: "da.getPattern('black leather', 100)"
+        }
+    }
+];
 
-App.Data.Clothes["maid costume"] = [];
-App.Data.Clothes["worn boots"] = [];
+App.Data.AvatarMaps["leather shorts"] = [
+    {
+        c: "da.SuperLeggins",
+        a: {
+            legCoverage: 0.11923008841387661,
+            waistCoverage: 0.09950103377645303,
+            fill: "black",
+            stroke: "black",
+            pattern: "da.getPattern('black leather', 100)"
+        }
+    }
+];
+App.Data.AvatarMaps["cotton dress"] = [
+    { 
+        c: "da.SuperDress",
+        a:{
+            armCoverage: 0.5,
+            bustle: true,
+            cleavageCoverage: 0.3,
+            legCoverage: 0.4,
+            legLoose: 0.3,
+            fill: "skyblue",
+            stroke: "black"
+        }    
+    }
+];
 
-App.Data.Clothes["short heels"] =  [];
+App.Data.AvatarMaps["sundress"] = [
+    {
+        c: "da.SuperDress",
+        a:  {
+            armCoverage: -0.40,
+            cleavageCoverage: 0.12,
+            legLoose: 1.4,
+            fill: "lightpink",
+            stroke: "lightpink",
+            pattern: "da.getPattern('pink flowers', 100)"
+          }
+    }
+];
 
-App.Data.Clothes["medium heels"] = [];
+App.Data.AvatarMaps["sexy dress"] = [
+    {
+        c: "da.SuperDress",
+        a:  {
+            armCoverage: -0.40,
+            cleavageCoverage: 0.12,
+            curveCleavageX: 10,
+            curveCleavagey: 10,
+            legCoverage: 0.1,
+            fill: "black",
+            stroke: "black",
+            pattern: "da.getPattern('black sequins',100)"
+          }
+    }
+];
+
+
+// Just use default.
+//App.Data.Clothes["landlubber costume"] = [];
+//App.Data.Clothes["pathetic loser costume"] = [];
+
+//Like all maid costumes, this needs to be redone.
+App.Data.AvatarMaps["maid costume"] = [
+    {
+        c: "da.SuperDress",
+        a: {
+            forcedNoSideString: true,
+            armCoverage: 0.5,
+            armLoose: 1.0223601571998486,
+            cleavageCoverage: 0.3,
+            lacing: false,
+            legCoverage: 0.35597874406296026,
+            legLoose: 1.0881236726579273,
+            stroke: "white",
+            fill: "black",
+            
+          }
+    }
+];
+App.Data.AvatarMaps["worn boots"] = [
+    { 
+        c: "da.FlatShoes", 
+        a: null 
+    }
+];
+
+App.Data.AvatarMaps["short heels"] =  [
+    {
+        c: "da.ClosedToePumps",
+        a: {
+            platformHeight: -3.0,
+            toeCoverage: 2
+        }
+    }
+];
+
+App.Data.AvatarMaps["medium heels"] = [
+    {
+        c: "da.ClosedToePumps",
+        a: {
+            platformHeight: -3.0,
+            toeCoverage: 2
+        }
+    }
+];
