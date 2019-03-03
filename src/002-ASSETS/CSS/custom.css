@@ -37,7 +37,31 @@
 #menu {
 	position: absolute;
 	bottom: 10px;
-	width: 215px;
+	width: 85%;
+}
+
+#menu li {
+	box-sizing: border-box;
+}
+
+#menu li#menu-item-settings {
+	width: 33%;
+	float: left;
+}
+
+#menu li#menu-item-saves {
+	width: 33%;
+	float: left;
+}
+
+#menu li#menu-item-restart {
+	width: 33%;
+	float: right;
+}
+
+#menu li a {
+	text-transform: none;
+	font-size: small;
 }
 
 #story-caption {
@@ -290,11 +314,6 @@ span.pcText  {
 	left: 45px; */
 }
 
-/* Turn off the default menu */
-#menu-core {
-	display: none;
-}
-
 /* Shrink the ui-bar-body so we can put stuff below it. This div gets refreshed on passage load
    by default and the things we want to place should not be refreshed. */
 #ui-bar-body {
@@ -309,7 +328,7 @@ span.pcText  {
 	line-height: 1em;
 }
 
-#avatarContainer { 
+#avatarContainer {
 	width: 220px;
 	padding: 0 2.5em;
 }
