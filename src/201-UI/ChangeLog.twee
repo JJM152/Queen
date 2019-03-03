@@ -5,7 +5,10 @@
 * Extended width of ui tray when inline numbers is turned on.
 * Modified some css values related to the avatar ui and the tray not playing nicely (works on my machine, ahem)
 * Moved the default Sugarcube menu items off the tray as buttons and turned them into links below the player stats.
+* The above should fix an issue some people had with accessing the menus playing on low res devices.
 * Items with the setting 'EXTREME_WAIST_TRAINING' can only lower the Waist down to 10 instead of 0.
+* A bug that happened when overnight effects were migrated to the new effect system prevented players from \
+ever getting fatter. Uh oh, looks like dieting is about to come back in style...
 !!!0.9c - 03/03/2019
 !!!!General
 * Implemented the <a href="https://perplexedpeach.gitlab.io/dynamic-avatar-drawer/">Dynamic Avatar Drawer</a> library and a wide assortment of clothes are rendering. \

@@ -23,11 +23,15 @@ App.Data.EffectLib.NATURAL_NUTRITION = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
     function(o, p) {
-		p.AdjustStat("Nutrition", -5);
-		var nutrition = p.GetStat("STAT", "Nutrition");
-		if (nutrition > 150) {
-			p.AdjustBodyXP("Waist", nutrition - 150); // Get Fatter!?
-		}
+        p.AdjustStat("Nutrition", -5);
+        var nutrition = p.GetStat("STAT", "Nutrition");
+		var nutritionXP = p.GetStatXP("STAT", "Nutrition");
+		if (nutrition >= 90 && nutritionXP > 150) {
+            p.AdjustBodyXP("Waist", nutritionXP - 150); // Get Fatter!?
+            p.SleepLog.push("@@color:yellow;You feel as if you ate too much yesterday.@@");
+        }
+        
+        var nutrition = p.GetStat("STAT", "Nutrition");
 		// Going hungry, lose some belly fat.
         if (nutrition < 50) {
             p.AdjustBodyXP("Waist", -25);
