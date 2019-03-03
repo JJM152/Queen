@@ -1192,11 +1192,11 @@ App.PR = new function() {
 var handleMetersNumberValueSettingChanged = function() {
     if (SugarCube.settings.displayMeterNumber) {
         // to accommodate longer meters
-        $('#ui-bar').css("width","320px"); // seems to work better on most browsers
+        $('#ui-bar').css("width","345px"); // seems to work better on most browsers
         App.PR.numericalMeters = true;
     } else {
         App.PR.numericalMeters = false;
-        $('#ui-bar').css("width","");
+        $('#ui-bar').css("width","320px");
     }
 
     App.PR.RefreshTwineScore();

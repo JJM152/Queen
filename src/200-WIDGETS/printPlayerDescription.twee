@@ -1,7 +1,7 @@
 :: printPlayerDescription [widget]
 <<widget "printPlayerDescription">>\
-<<if settings.displayAvatar == true>>\
 <div id='mirrorContainer'>\
+<<if settings.displayAvatar == true>>\
 <<DrawAvatar>>\
 <div id='mirrorText'>\
 You are <<print App.PR.pHeight(setup.player);>> and <<print App.PR.pFitness(setup.player);>> \
@@ -15,7 +15,6 @@ You have a <<print App.PR.pFace(setup.player);>> <<print App.PR.pHair(setup.play
 You consider your natural beauty to be <<print App.PR.pBeauty(setup.player);>>.
 The fetish appeal of your body is <<print App.PR.pFetish(setup.player);>>.\
 </div>
-</div>
 <<else>>\
 You are <<print window.App.PR.pHeight(setup.player);>> and <<print window.App.PR.pFitness(setup.player);>> \
 You have a <<print window.App.PR.pFace(setup.player);>> <<print window.App.PR.pHair(setup.player);>> \
@@ -28,4 +27,5 @@ You have a <<print window.App.PR.pFace(setup.player);>> <<print window.App.PR.pH
 You consider your natural beauty to be <<print window.App.PR.pBeauty(setup.player);>>.
 The fetish appeal of your body is <<print window.App.PR.pFetish(setup.player);>>.\
 <</if>>\
+</div>
 <</widget>>

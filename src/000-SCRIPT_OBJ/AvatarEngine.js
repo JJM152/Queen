@@ -20,6 +20,11 @@ App.Entity.AvatarEngine = class Avatar {
             } else {
                 container.css("display", "none");
             }
+            // We might be in a mirror dialogue. We could put tags on the passages, but instead let's
+            // just check for an element we know will always exist.
+            if ($('#mirrorContainer').length) {
+                state.display(state.active.title, null, "back"); //Tell engine to reload current passage
+            }
         };
 
         this.Loaded = false;
