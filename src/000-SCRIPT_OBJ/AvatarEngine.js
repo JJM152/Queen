@@ -17,7 +17,7 @@ App.Entity.AvatarEngine = class Avatar {
             if( App.EventHandlers.HasPlayerState() == true && container && settings.displayAvatar == true) {
                 container.css("display", "block");
                 App.Avatar._DrawPortrait();
-            } else {
+            } else if( App.EventHandlers.HasPlayerState() == true && container && settings.displayAvatar == false) {
                 container.css("display", "none");
             }
             // We might be in a mirror dialogue. We could put tags on the passages, but instead let's

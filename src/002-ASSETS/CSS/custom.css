@@ -35,8 +35,8 @@
 }
 
 #menu {
-	position: absolute;
-	bottom: 10px;
+	/* position: absolute;
+	bottom: 10px; */
 	width: 85%;
 }
 
@@ -331,4 +331,6 @@ span.pcText  {
 #avatarContainer {
 	width: 220px;
 	padding: 0 2.5em;
+	margin-left: 10px;
+	margin-top: 40px;
 }
