@@ -22,26 +22,7 @@ App.Data.AvatarPatterns = [
 
 App.Data.AvatarMaps = {
     Neck: [ { c: "da.Collar", a: null } ],
-    Nipples: [ 
-                {   c: "da.RingPiercing", 
-                    a: { side: "right", relativeLocation: { 
-                            drawpoint: "breast.center",
-                            dx: 0,
-                            dy: 0,
-                        },
-                        fill: "lightsteelblue"
-                    }
-                },
-                {   c: "da.RingPiercing", 
-                    a: { side: "left", relativeLocation: { 
-                            drawpoint: "breast.center",
-                            dx: 0,
-                            dy: 0,
-                        },
-                        fill: "lightsteelblue"
-                    }
-                },
-                ],
+// Nipple slots removed due to a bug. Need a new part.
     Bra:        [ { c: "da.Bra", a: { fill: "white" } }],
     Corset:     [ { c: "da.Corset", a: { botCoverage: 0, lacing: 0, fill: "black" } }],
     Panty:      [ { c: "da.Panties", a: { fill: "white" } }],
