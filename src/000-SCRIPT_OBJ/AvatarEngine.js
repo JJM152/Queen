@@ -12,6 +12,16 @@ App.Entity.AvatarEngine = class Avatar {
 
     constructor() {
 
+        this.SettingHandler = function() {
+            var container = $('#avatarContainer');
+            if( App.EventHandlers.HasPlayerState() == true && container && settings.displayAvatar == true) {
+                container.css("display", "block");
+                App.Avatar._DrawPortrait();
+            } else {
+                container.css("display", "none");
+            }
+        };
+
         this.Loaded = false;
         console.log("Loading DA system...");
         var t0 = performance.now();

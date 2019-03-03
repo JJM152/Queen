@@ -136,8 +136,8 @@ button:hover {
   vertical-align: baseline;
 }
 .passage tr, .passage th, .passage td, .passage caption {
-	line-height: 1.0; !important;
-	padding: 2px 3px 2px 3px; !important;
+	line-height: 1.0 !important;
+	padding: 2px 3px 2px 3px !important;
 }
 
 #miniMap {
@@ -282,7 +282,29 @@ span.pcText  {
 #avatarFace {
 	width: 180px;
 	height: 240px;
-	position: absolute;
+	margin-bottom: 0.5em;
+	/* position: absolute;
 	top: 390px;
-	left: 45px;
+	left: 45px; */
+}
+
+/* Turn off the default menu */
+#menu-core {
+	display: none;
+}
+
+/* Shrink the ui-bar-body so we can put stuff below it. This div gets refreshed on passage load
+   by default and the things we want to place should not be refreshed. */
+#ui-bar-body {
+	/* height: 90%; */
+	/* height: calc(100% - 2.5em); */
+	height: 390px !important; 
+	/* margin: 2.5em 0; */
+	margin: 2.5em 0 0.5em 0;
+	padding: 0 1.5em;
+}
+
+#avatarContainer { 
+	width: 220px;
+	padding: 0 2.5em;
 }

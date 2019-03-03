@@ -1,2 +1,6 @@
 :: StoryCaption
-<span id="PlayerScore"><<if ($PlayerState != undefined) && $InIntro != 1>><<score>><</if>></span>\
+<span id="PlayerScore">\
+<<if ($PlayerState != undefined) && $InIntro != 1>>\
+<<score>>\
+<</if>>\
+</span>\

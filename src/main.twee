@@ -64,7 +64,9 @@ Setting.addToggle("alternateControlForRogue", {
 Setting.addToggle("displayAvatar", { 
     label: "Display the PC Avatar in mirrors",
     desc: "Turns on the Avatar drawn by the Dynamic Avatar Drawer library.",
-    default: false
+    default: false,
+    onInit: App.Avatar.SettingHandler,
+    onChange: App.Avatar.SettingHandler,
 });
 
 Setting.addToggle("fastAnimations", { 
@@ -72,6 +74,7 @@ Setting.addToggle("fastAnimations", {
     desc: "Speeds up or turns off certain animations.",
     default: false
 });
+
 App.EventHandlers.Init();
 
 Config.saves.onLoad = App.EventHandlers.onLoad;
@@ -80,11 +83,11 @@ Config.saves.isAllowed = function() {
 };
 
 
-
 // Setup some divs that will not get refreshed on passage navigation.
     if ( $('#hiddenCanvas').length == 0 && $('#avatarFace').length == 0 ) {
-        $("<div id='hiddenCanvas'></div>").appendTo(document.body);
-        $("<div id='avatarFace'></div").appendTo($('#ui-bar'));
+        var canvas = $("<div id='hiddenCanvas'></div>").appendTo(document.body);
+        var container = $("<div id='avatarContainer'></div>").appendTo($("#ui-bar"));
+        var portrait = $("<div id='avatarFace'></div").appendTo(container);
     }
  
 :: Start
