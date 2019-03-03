@@ -1436,11 +1436,11 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         if ((Amount < 0) && (this.GetStat(Type, StatName) <= this.GetMinStat(Type, StatName))) return;
 
         if (Math.abs(this.GetStatXP(Type, StatName)) >= 1000) {
-            Amount =  400 + Math.ceil(Amount / 8);
+            Amount = Math.ceil(Amount / 10);
         } else if (Math.abs(this.GetStatXP(Type, StatName)) >= 500) {
-            Amount = 200 + Math.ceil(Amount / 4);
+            Amount = Math.ceil(Amount / 4);
         } else if (Math.abs(this.GetStatXP(Type, StatName)) >= 250) {
-            Amount = 100 + Math.ceil(Amount / 2);
+            Amount =  Math.ceil(Amount / 2);
         }
 
         if (Type == "STAT")  this._state.CoreStatsXP[StatName] += Amount;
