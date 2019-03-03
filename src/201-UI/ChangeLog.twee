@@ -1,5 +1,12 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.9e - 04/03/2019
+!!!!General
+* Emergency fix for no menu buttons when starting the game (being unable to load an old save).
+* New css style for buttons and position.
+* Fixed a bug that was causing the avatar portrait to not render when you restarted the game.
+* Fixed a bug with XP gains ignoring cap code.
+* Removed the DAD render part for nipple rings, they were crashing on really huge boobs. Will add back in later.
 !!!0.9d - 03/03/2019
 !!!!General
 * Extended width of ui tray when inline numbers is turned on.
