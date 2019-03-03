@@ -1,5 +1,11 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.9d - 03/03/2019
+!!!!General
+* Extended width of ui tray when inline numbers is turned on.
+* Modified some css values related to the avatar ui and the tray not playing nicely (works on my machine, ahem)
+* Moved the default Sugarcube menu items off the tray as buttons and turned them into links below the player stats.
+* Items with the setting 'EXTREME_WAIST_TRAINING' can only lower the Waist down to 10 instead of 0.
 !!!0.9c - 03/03/2019
 !!!!General
 * Implemented the <a href="https://perplexedpeach.gitlab.io/dynamic-avatar-drawer/">Dynamic Avatar Drawer</a> library and a wide assortment of clothes are rendering. \
