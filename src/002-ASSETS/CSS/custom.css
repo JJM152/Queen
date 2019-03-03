@@ -302,8 +302,11 @@ span.pcText  {
 	/* height: calc(100% - 2.5em); */
 	/* height: 390px !important; */
 	/* margin: 2.5em 0; */
+	height: auto;
 	margin: 2.5em 0 0.5em 0;
 	padding: 0 1.5em;
+	overflow: visible;
+	line-height: 1em;
 }
 
 #avatarContainer { 
