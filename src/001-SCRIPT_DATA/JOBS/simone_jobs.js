@@ -32,18 +32,43 @@ App.Data.JobData["SIMONE_JOB1"] = {
             ],
             // Three pseudo-random introductions to the room for variety
             "START" :
-                "The cramped room is lit only by a few flickering lanterns. It reeks of cigar smoke and semen. Men are crowded on the couches lined along the walls, swilling drinks and huffing fat rolls of tobacco. Most of them are manhandling various girls sat upon their laps. Tits and dicks and even two bald cooches -- both presently being finger-fucked -- are on full display.\n\n"+
-                "<<set _irr to random(1,3)>>"+
-                "<<if _irr eq 1>>"+
-                  "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].Name == 'chastity cage' || setup.player.Equipment['Penis'].Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
-                "<<elseif _irr eq 2>>"+
-                  "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
-                  "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
-                  "A surprised cry escapes you when she crushes you against her and nips hard at your earlobe. Apparently this is the reaction she has been after, as she continues to search out ways to force you to wriggle, whimper, and whine."+
-                "<<else>>"+
-                  "An older woman with a mature motherly beauty takes your head and leads you to the center of the room. She smiles pleasantly as she turns to face you and then rather unpleasantly shoves you to your knees. She lifts her ruffled skirt to reveal her bushy muff and swings one leg over your shoulder to bring your face to her crotch. The lusty aroma of her already glistening pussy tickles your nostril hairs. With a thrust of her hips, she shoves her drooling wet cunt onto your face."+
-                "<</if>>",
+                "The cramped room is lit only by a few flickering lanterns. It reeks of cigar smoke and semen. \
+                Men are crowded on the couches lined along the walls, swilling drinks and huffing fat rolls of tobacco. \
+                Most of them are manhandling various girls sat upon their laps. Tits and dicks and even two bald cooches -- \
+                both presently being finger-fucked -- are on full display.\n\n\
+                <<set _irr to random(1,3)>>\
+                <<if _irr eq 1>>\
+                A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads \
+                you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed \
+                simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- \
+                but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment \
+                of the men around you.\n\n\
+                A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand \
+                <<if setup.player.IsAnyClothingWorn(['chastity cage', 'luxurious chastity cage'], 'Penis')>>\
+                discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile \
+                efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding \
+                chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you \
+                from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating \
+                as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly \
+                molestation of her lithe, wriggling body.\
+                <<elseif _irr eq 2>>\
+                An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center \
+                of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her \
+                brute strength makes any resistance trivial. You're forced to try your best to look pleased with her \
+                mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n\
+                Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag \
+                against the tender skin of your neck. You're starting to get the impression that what she truly wants \
+                is to actually eat you.\n\n\
+                A surprised cry escapes you when she crushes you against her and nips hard at your earlobe. Apparently \
+                this is the reaction she has been after, as she continues to search out ways to force you to wriggle, \
+                whimper, and whine.\
+                <<else>>\
+                An older woman with a mature motherly beauty takes your head and leads you to the center of the room. \
+                She smiles pleasantly as she turns to face you and then rather unpleasantly shoves you to your knees. \
+                She lifts her ruffled skirt to reveal her bushy muff and swings one leg over your shoulder to bring your \
+                face to her crotch. The lusty aroma of her already glistening pussy tickles your nostril hairs. With a \
+                thrust of her hips, she shoves her drooling wet cunt onto your face.\
+                <</if>>",
             "RESULTS" : [
                 {"A":  33, "TEXT":
                   "<<if _irr eq 1>>"+
@@ -235,8 +260,10 @@ App.Data.JobData["SIMONE_JOB2"] = {
                 "The cramped room is lit only by a few flickering lanterns. It reeks of cigar smoke and semen. Men are crowded on the couches lined along the walls, swilling drinks and huffing fat rolls of tobacco. Most of them are manhandling various girls sat upon their laps. Tits and dicks and even two bald cooches -- both presently being finger-fucked -- are on full display.\n\n"+
                 "<<set _irr to random(1,3)>>"+
                 "<<if _irr eq 1>>"+
-                  "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].Name == 'chastity cage' || setup.player.Equipment['Penis'].Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
+                "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
+                "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand \
+                <<if setup.player.IsAnyClothingWorn(['chastity cage', 'luxurious chastity cage'], 'Penis')>>\
+                discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
                 "<<elseif _irr eq 2>>"+
                   "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
                   "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
@@ -441,7 +468,9 @@ App.Data.JobData["SIMONE_JOB3"] = {
                 "<<set _irr to random(1,3)>>"+
                 "<<if _irr eq 1>>"+
                   "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].Name == 'chastity cage' || setup.player.Equipment['Penis'].Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
+                  "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand \
+                  <<if setup.player.IsAnyClothingWorn(['chastity cage', 'luxurious chastity cage'], 'Penis')>>\
+                  discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
                 "<<elseif _irr eq 2>>"+
                   "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
                   "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
