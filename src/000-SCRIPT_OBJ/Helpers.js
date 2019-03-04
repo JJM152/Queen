@@ -579,8 +579,16 @@ App.PR = new function() {
                         break;
                     case "IS_WEARING":
                         bMeter = false;
-                        if(checks[i]["VALUE"] == "NOT") pString = "''NOT'' ";
-                        Val = (checks[i]["VALUE"] == "NOT" ? (Player.GetEquipmentInSlot(Name) == null) : (Player.GetEquipmentInSlot(Name) != null));
+                        if(checks[i]["VALUE"] == "NOT")  {
+                            pString = "''NOT'' ";
+                            Val = (Player.GetEquipmentInSlot(Name) == null);
+                        } else if (checks[i]["VALUE"] == "" || typeof checks[i]["VALUE"] === 'undefined') {
+                            pString = "";
+                            Val = (Player.GetEquipmentInSlot(Name) != null);
+                        } else {
+                            pString = "";
+                            Val = Player.IsEquipped(checks[i]["VALUE"]);
+                        }
                         pString = pString + "wearing " + Name.toLowerCase();
                         break;
                     case "TRACK_CUSTOMERS":

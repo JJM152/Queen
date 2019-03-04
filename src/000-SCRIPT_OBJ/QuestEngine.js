@@ -177,7 +177,7 @@ App.QuestEngine = new function() {
                     if (o._itemClass == 'QUEST') {
                         Player.DeleteItem(o);
                     } else {
-                        Player.UseItemCharges( c[i]["NAME"], c[i]["VALUE"]); // consumable quest items.
+                        o.RemoveCharges(c[i]["VALUE"]); // consumable quest items.
                     }
                 }
             }

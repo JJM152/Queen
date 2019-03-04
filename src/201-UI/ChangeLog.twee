@@ -2,12 +2,15 @@
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
 !!!0.10 - ??/??/????
 !!!!General
+* Fixed bug that was causing quest requirements for a worn item to display incorrectly as not worn. (red checkbox)
 * Fixed an oversight that was making reversing tranformation much harder than intended.
 * As above, re-introduced a minor persistant male shift in hormones related to teste size. 
+* Fixed bug where quests that required multiple consumable items didn't use up their charges.
 !!!!Salty Mermaid
 * Fixed an oversight where Julius's experimentation job wasn't granting growth to hips, but just ass.
 !!!!Golden Isle
 * Fixed a null reference in the whoring jobs at the brothel.
+* Uticus' job was available prior to completing his quest due to a bug in the job engine. Fixed the bug.
 !!!!Port Royale
 * Fixed a null reference in the whoring jobs at the brothel.
 * Jezzebelle will now train you up to 4 stars in dancing.

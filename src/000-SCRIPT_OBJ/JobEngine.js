@@ -463,7 +463,10 @@ App.Job = function(Data) {
                     }
                     break;
                 case "EQUIPPED":
-                    return Player.IsEquipped(Name);
+                    if (Player.IsEquipped(Name) == false) {
+                        StatusFlag = false;
+                        ReqString = "@@color:red;Must have '" + Name + "' equipped.@@";
+                    }
                     break;
                 case "STYLE_CATEGORY":
                     if (this._Cmp( Player.GetStyleSpecRating(Name), Value, Condition) == false ){
