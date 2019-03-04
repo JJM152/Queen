@@ -110,6 +110,8 @@ App.Data.JobData["QUAR02"] = {
                 { "TYPE" : "STAT_XP",   "NAME" : "WillPower",   "VALUE" : -50,  "OPT" : "RANDOM" },
                 { "TYPE" : "BODY_XP",   "NAME" : "Ass",         "VALUE" :  50,  "OPT" : 0 },
                 { "TYPE" : "BODY_XP",   "NAME" : "Ass",         "VALUE" :  100, "OPT" : "RANDOM" },
+                { "TYPE" : "BODY_XP",   "NAME" : "Hips",        "VALUE" :  50,  "OPT" : 0 },
+                { "TYPE" : "BODY_XP",   "NAME" : "Hips",        "VALUE" :  100, "OPT" : "RANDOM" },
                 { "TYPE" : "NPC_STAT",  "NAME" : "Mood",        "VALUE" :  10,  "OPT" : 0 },
                 { "TYPE" : "NPC_STAT",  "NAME" : "Lust",        "VALUE" : -10,  "OPT" : 0 },
                 { "TYPE" : "COUNTER",   "NAME" : "CARGO_XP",    "VALUE" :   1,  "OPT" : 1 }

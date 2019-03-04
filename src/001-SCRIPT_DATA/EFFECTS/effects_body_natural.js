@@ -74,18 +74,20 @@ App.Data.EffectLib.NATURAL_HORMONE_SHIFT = {
             p.AdjustBodyXP("Hips",   HormoneShift            ,     10);
             p.AdjustBodyXP("Penis", (HormoneShift * -1.0)    ,      1);
             p.AdjustBodyXP("Balls", (HormoneShift * -1.0)    ,      0);
-        } else {
-            if (p.GetStatXP("STAT", "Hormones") < 0) {
-                HormoneShift = ( 100 - p.GetStat("STAT", "Hormones"));
-                p.AdjustBodyXP("Face", (HormoneShift * -1.0), p.GetStartStat("BODY", "Face"));
-                p.AdjustBodyXP("Bust", (HormoneShift * -1.0), p.GetStartStat("BODY", "Bust"));
-                p.AdjustBodyXP("Lips", (HormoneShift * -1.0), p.GetStartStat("BODY", "Lips"));
-                p.AdjustBodyXP("Ass",  (HormoneShift * -1.0), p.GetStartStat("BODY", "Ass"));
-                p.AdjustBodyXP("Hips", (HormoneShift * -1.0), p.GetStartStat("BODY", "Hips"));
-                p.AdjustBodyXP("Penis", HormoneShift, p.GetStartStat("BODY", "Penis"));
-                p.AdjustBodyXP("Balls", HormoneShift, p.GetStartStat("BODY", "Balls"));
-            }
+        } else if (p.GetStat("STAT", "Hormones") < 100 && p.GetStatXP("STAT", "Hormones") < 0 ) {
+            HormoneShift = ( 100 - p.GetStat("STAT", "Hormones"));
+            p.AdjustBodyXP("Face", (HormoneShift * -1.0), p.GetStartStat("BODY", "Face"));
+            p.AdjustBodyXP("Bust", (HormoneShift * -1.0), p.GetStartStat("BODY", "Bust"));
+            p.AdjustBodyXP("Lips", (HormoneShift * -1.0), p.GetStartStat("BODY", "Lips"));
+            p.AdjustBodyXP("Ass",  (HormoneShift * -1.0), p.GetStartStat("BODY", "Ass"));
+            p.AdjustBodyXP("Hips", (HormoneShift * -1.0), p.GetStartStat("BODY", "Hips"));
+            p.AdjustBodyXP("Penis", HormoneShift, p.GetStartStat("BODY", "Penis"));
+            p.AdjustBodyXP("Balls", HormoneShift, p.GetStartStat("BODY", "Balls"));
         }
+
+        // Decrease the players hormone XP relative to the size of their balls.
+        var hormoneXP = Math.ceil(20 * ( p.GetStat('BODY', 'Balls')/100)) * -1.0
+        p.AdjustStatXP('Hormones', hormoneXP);
     }
 };
 

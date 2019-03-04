@@ -1424,22 +1424,22 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
             console.debug("SetXP: set to "+Amount);
     }
 
-    AdjustXP (Type, StatName, Amount, Limiter) {
+    AdjustXP (Type, StatName, Amount, Limiter, Nocap = false) {
         Amount = Math.ceil(Amount); // No floats.
         if (typeof Limiter === 'undefined') Limiter = 0;
         if (this._state.debugMode)
-            console.debug("AdjustXP: Type="+Type+",Stat="+StatName+",Amount="+Amount+",Limit="+Limiter);
+            console.debug("AdjustXP: Type="+Type+",Stat="+StatName+",Amount="+Amount+",Limit="+Limiter+",NoCap="+Nocap);
 
         if ((Amount > 0) && (this.GetStat(Type, StatName) >= Limiter) && (Limiter != 0)) return;
         if ((Amount < 0) && (this.GetStat(Type, StatName) <= Limiter) && (Limiter != 0)) return;
         if ((Amount > 0) && (this.GetStat(Type, StatName) >= this.GetMaxStat(Type, StatName))) return;
         if ((Amount < 0) && (this.GetStat(Type, StatName) <= this.GetMinStat(Type, StatName))) return;
 
-        if (Math.abs(this.GetStatXP(Type, StatName)) >= 1000) {
+        if (Nocap == false && Math.abs(this.GetStatXP(Type, StatName)) >= 1000) {
             Amount = Math.ceil(Amount / 10);
-        } else if (Math.abs(this.GetStatXP(Type, StatName)) >= 500) {
+        } else if ( Nocap == false && Math.abs(this.GetStatXP(Type, StatName)) >= 500) {
             Amount = Math.ceil(Amount / 4);
-        } else if (Math.abs(this.GetStatXP(Type, StatName)) >= 250) {
+        } else if (Nocap == false && Math.abs(this.GetStatXP(Type, StatName)) >= 250) {
             Amount =  Math.ceil(Amount / 2);
         }
 
@@ -1501,7 +1501,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
                 this._state.SleepLog.push(this.pBodyChange(StatName, "Grow"));
             }
         }
-        this.AdjustXP(Type, StatName, Cost);
+        this.AdjustXP(Type, StatName, Cost, 0, true);
     }
 
     LevelStatGroup (Type) {
