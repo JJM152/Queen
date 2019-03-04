@@ -53,7 +53,7 @@ App.Data.Clothes["gothic black bra"] = { // +10
 
 // PANTY SLOT
 App.Data.Clothes["black panties"] = { // +10
-    "Name": "black panties", "ShortDesc": "a pair of {COLOR} black panties",
+    "Name": "black panties", "ShortDesc": "a pair of {COLOR} panties",
     "LongDesc": "Black sexy silk panties just asking for someone to remove them.",
     "Slot": "Panty", "Restrict": ["Panty"], "Color": "black", "Style": "UNCOMMON", "Type" : "CLOTHING",
     "WearEffect": [ "FEMININE_CLOTHING" ], "Category" : [  "Gothic Lolita", "Bimbo", "Sexy Dancer" ]
