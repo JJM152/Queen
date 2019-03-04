@@ -1,5 +1,12 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.10 - ??/??/????
+!!!!Golden Isle
+* Fixed a null reference in the whoring jobs at the brothel.
+!!!!Port Royale
+* Fixed a null reference in the whoring jobs at the brothel.
+* Jezzebelle will now train you up to 4 stars in dancing. 
+!!!!General
 !!!0.9e - 04/03/2019
 !!!!General
 * Emergency fix for no menu buttons when starting the game (being unable to load an old save).
