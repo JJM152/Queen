@@ -152,7 +152,7 @@ App.Rogue.Player = function() {
                         this._level.digAt(this.getXY());
 
                         // Randomly draw down charge.
-                        if ( this._level._depth > (Math.random() * 100)) {
+                        if ( this._level._depth > (200 * Math.random())) {
                             var shovel = setup.player.GetItemByName("shovel");
                             setup.player.UseItem(shovel.Id);
                             App.Rogue.Engine._textBuffer.write("Your shovel breaks!");
