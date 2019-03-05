@@ -30,6 +30,31 @@ App.Entity.AvatarEngine = class Avatar {
         this.Loaded = false;
         console.log("Loading DA system...");
         var t0 = performance.now();
+        console.log("Creating patterns");
+            
+        //Loading patterns. Embedded patterns are in the story passage named the same as the
+        //file name. Get the text attribute for the encoded string.
+        da.addPattern("white hearts", Story.passages["txt_heart_1"].text);
+        da.addPattern("pink checks", Story.passages["txt_pink_checks"].text);
+        da.addPattern("pink tartan", Story.passages["txt_pink_tartan"].text)
+        da.addPattern("pink gingham", Story.passages["txt_pink_gingham"].text);
+        da.addPattern("red tartan", Story.passages["txt_red_tartan"].text);
+        da.addPattern("black lace", Story.passages["txt_black_lace"].text);
+        da.addPattern("black purple stripe", Story.passages["txt_black_purple_stripe"].text);
+        da.addPattern("red plastic", Story.passages["txt_red_plastic"].text);
+        da.addPattern("cow print", Story.passages["txt_cow_print"].text);
+        da.addPattern("black fur", Story.passages["txt_black_fur"].text);
+        da.addPattern("jolly roger big", Story.passages["txt_jolly_roger_big"].text);
+        da.addPattern("black sequins", Story.passages["txt_black_sequin"].text);
+        da.addPattern("horizontal pink stripe", Story.passages["txt_horizontal_pink_white_stripe"].text);
+        da.addPattern("pink polka dot", Story.passages["txt_pink_polka_dot"].text);
+        da.addPattern("vertical pink stripe", Story.passages["txt_vertical_pink_white_stripe"].text);
+        da.addPattern("pink chevron", Story.passages["txt_pink_chevron"].text);
+        da.addPattern("pink flowers", Story.passages["txt_pink_flowers"].text);
+
+        //Gradients loaded as textures.
+        da.addPattern("pink athletic socks", this._pinkAthleticSocks);
+
         da.load().then(function() {
             // Functions needed here to overwrite some default behavior of
             // the DA library.
@@ -51,40 +76,16 @@ App.Entity.AvatarEngine = class Avatar {
 
             var t2 = performance.now();
             console.log("Loaded DA in "+(t2-t0)+"ms.");
-            console.log("Creating patterns");
-            
-            //Loading patterns. Embedded patterns are in the story passage named the same as the
-            //file name. Get the text attribute for the encoded string.
-            da.addPattern("white hearts", Story.passages["txt_heart_1"].text);
-            da.addPattern("pink checks", Story.passages["txt_pink_checks"].text);
-            da.addPattern("pink tartan", Story.passages["txt_pink_tartan"].text)
-            da.addPattern("pink gingham", Story.passages["txt_pink_gingham"].text);
-            da.addPattern("red tartan", Story.passages["txt_red_tartan"].text);
-            da.addPattern("black lace", Story.passages["txt_black_lace"].text);
-            da.addPattern("black purple stripe", Story.passages["txt_black_purple_stripe"].text);
-            da.addPattern("red plastic", Story.passages["txt_red_plastic"].text);
-            da.addPattern("cow print", Story.passages["txt_cow_print"].text);
-            da.addPattern("black fur", Story.passages["txt_black_fur"].text);
-            da.addPattern("jolly roger big", Story.passages["txt_jolly_roger_big"].text);
-            da.addPattern("black sequins", Story.passages["txt_black_sequin"].text);
-            da.addPattern("horizontal pink stripe", Story.passages["txt_horizontal_pink_white_stripe"].text);
-            da.addPattern("pink polka dot", Story.passages["txt_pink_polka_dot"].text);
-            da.addPattern("vertical pink stripe", Story.passages["txt_vertical_pink_white_stripe"].text);
-            da.addPattern("pink chevron", Story.passages["txt_pink_chevron"].text);
-            da.addPattern("pink flowers", Story.passages["txt_pink_flowers"].text);
-
-            //Gradients loaded as textures.
-            da.addPattern("pink athletic socks", App.Avatar._pinkAthleticSocks);
 
             //Loop until all the patterns resolve.
-            var patternInterval = setInterval(function() {
-                for(var i = 0; i < App.Data.AvatarPatterns.length; i++) {
-                    if (da.listAvailablePatterns().includes(App.Data.AvatarPatterns[i] == false)) return;
-                }
-                console.log("All DA Patterns Loaded");
-                App.Avatar.Loaded = true;
-                clearInterval(patternInterval);
-            }, 20);
+            // var patternInterval = setInterval(function() {
+            //     for(var i = 0; i < App.Data.AvatarPatterns.length; i++) {
+            //         if (da.listAvailablePatterns().includes(App.Data.AvatarPatterns[i] == false)) return;
+            //     }
+            //     console.log("All DA Patterns Loaded");
+            //     App.Avatar.Loaded = true;
+            //     clearInterval(patternInterval);
+            // }, 20);
  
         });
 
