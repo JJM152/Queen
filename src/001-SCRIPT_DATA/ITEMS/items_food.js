@@ -229,17 +229,6 @@ App.Data.Food["apple tart"] = {
     "Effects" : [ "WHOLESOME_MEAL", "ENERGY_COMMON" ]
 };
 
-/** MAGICAL FOOD */
-App.Data.Food["slave gruel"] = {
-    "Name": "slave gruel",
-    "ShortDesc": "Slave gruel mixed with semen",
-    "LongDesc": "This watery looking gruel smells and tastes disgusting. The crew has 'donated' some extra nutrition to it.",
-    "Message": "You wrinkle your nose and drink down the disgusting drool. You gag occasionally as thick clumps of rancid cum slide down your throat.",
-    "Type": "food",
-    "Charges": 1,
-    "Effects" : [ "SLAVE_GRUEL" ]
-};
-
 App.Data.Food["hardtack"] = {
     "Name": "hardtack",
     "ShortDesc": "A piece of hardtack",
@@ -248,6 +237,17 @@ App.Data.Food["hardtack"] = {
     "Type": "food",
     "Charges": 1,
     "Effects" : [ "WHOLESOME_MEAL", "ENERGY_COMMON" ]
+};
+
+/** MAGICAL FOOD */
+App.Data.Food["slave gruel"] = {
+    "Name": "slave gruel",
+    "ShortDesc": "Slave gruel mixed with semen",
+    "LongDesc": "This watery looking gruel smells and tastes disgusting. The crew has 'donated' some extra nutrition to it.",
+    "Message": "You wrinkle your nose and drink down the disgusting drool. You gag occasionally as thick clumps of rancid cum slide down your throat.",
+    "Type": "food",
+    "Charges": 1,
+    "Effects" : [ "SLAVE_GRUEL", "UNWHOLESOME_MEAL" ]
 };
 
 App.Data.Food["red plum"] = {
@@ -279,106 +279,236 @@ App.Data.Food["ambrosia"] = {
     "Charges": 1,
     "Effects" : [ "NUTRITION_LEGENDARY", "NUTRITION_XP_LEGENDARY", "PURGE_LEGENDARY", "HEAL_LEGENDARY", "BOLSTER_WILL_LEGENDARY"]
 };
+
 /** TF FOOD */
 App.Data.Food["starfruit"] = {
-    "Name": "starfruit",
-    "ShortDesc": "Strange starfruit",
-    "LongDesc": "This slightly pink starfruit is pulpy and contains many black seeds. It has a fragrant and intoxicating smell.",
-    "Message": "You take a bite out of the starfruit and savor it's sweet, but citrus taste. You feel your body filling with energy.",
-    "Type": "food",
-    "Charges": 1,
-    "Effects": [ "NUTRITION_UNCOMMON", "NUTRITION_XP_UNCOMMON", "ENERGY_COMMON", "FEMALE_HORMONE_XP_COMMON"]
+    Name: "starfruit",
+    ShortDesc: "Strange starfruit",
+    LongDesc: "\
+        This slightly pink starfruit is pulpy and contains many black seeds. It has a fragrant and intoxicating smell.\
+        ",
+    Message: "\
+        You take a bite out of the starfruit and savor it's sweet, but citrus taste. You feel your body filling with energy.\
+        ",
+    Type: "food",
+    Charges: 1,
+    Effects: [ 
+        "NUTRITION_UNCOMMON", 
+        "NUTRITION_XP_UNCOMMON", 
+        "ENERGY_COMMON", 
+        "FEMALE_HORMONE_XP_COMMON",
+        "UNWHOLESOME_MEAL"
+    ]
 };
+
 App.Data.Food["milkdew melon"] = {
     "Name": "milkdew melon",
     "ShortDesc": "Milkdew Melon",
-    "LongDesc": "This rare melon has a milky white interior. It's has a sweet, but creamy taste.",
-    "Message": "You crack the melon open and eat the contents. It tastes delicious and thick white juice dribbles down your chin.",
+    "LongDesc": "\
+        This rare melon has a milky white interior. It's has a sweet, but creamy taste.\
+        ",
+    "Message": "\
+        You crack the melon open and eat the contents. It tastes delicious and thick white juice dribbles down your chin.\
+        ",
     "Type": "food",
     "Charges": 1,
-    "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "FEMALE_HORMONE_XP_COMMON", "BUST_XP_UNCOMMON", "PERVERSION_XP_COMMON" ]
+    "Effects" : [ 
+        "NUTRITION_COMMON", 
+        "NUTRITION_XP_COMMON", 
+        "FEMALE_HORMONE_XP_COMMON", 
+        "BUST_XP_UNCOMMON", 
+        "PERVERSION_XP_COMMON",
+        "UNWHOLESOME_MEAL"
+     ]
 };
+
 App.Data.Food["peaches and cream"] = {
     "Name": "peaches and cream",
     "ShortDesc": "Peaches and Cream",
-    "LongDesc": "This rare desert is made from the thick juice of the Milkdew Melon that has been combined with preserved peaches of unknown origin.",
-    "Message": "The taste of this desert is sinful on your tongue - it's unlike anything you've eaten before. The sweetness, the creamy texture, the cloying aroma... all together they overwhelm your senses and bring a flush to your body.",
+    "LongDesc": "\
+        This rare desert is made from the thick juice of the Milkdew Melon that has been combined with preserved \
+        peaches of unknown origin.\
+        ",
+    "Message": "\
+        The taste of this desert is sinful on your tongue - it's unlike anything you've eaten before. The sweetness, \
+        the creamy texture, the cloying aroma... all together they overwhelm your senses and bring a flush to your body.\
+        ",
     "Type": "food",
     "Charges": 1,
-    "Effects" : [ "NUTRITION_RARE", "NUTRITION_XP_RARE", "FEMALE_HORMONE_XP_RARE", "BUST_XP_RARE", "PERVERSION_XP_RARE", "PURGE_UNCOMMON" ]
+    "Effects" : [ 
+        "NUTRITION_RARE", 
+        "NUTRITION_XP_RARE", 
+        "FEMALE_HORMONE_XP_RARE", 
+        "BUST_XP_RARE", 
+        "PERVERSION_XP_RARE", 
+        "PURGE_UNCOMMON" 
+    ]
 };
+
 App.Data.Food["honey mead"] = {
     "Name": "honey mead",
     "ShortDesc": "Bzzangr Honey Mead",
-    "LongDesc": "A common drink along the Lingering Coast, made from the honey of giant Bzzangr insects.",
-    "Message": "The mead has a delicious taste that tingles your tongue and lips.",
+    "LongDesc": "\
+        A common drink along the Lingering Coast, made from the honey of giant Bzzangr insects.\
+        ",
+    "Message": "\
+        The mead has a delicious taste that tingles your tongue and lips.\
+        ",
     "Type": "food",
     "Charges": 1,
-    "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "LIPS_XP_UNCOMMON" ]
+    "Effects" : [ 
+        "NUTRITION_COMMON", 
+        "NUTRITION_XP_COMMON", 
+        "LIPS_XP_UNCOMMON",
+        "UNWHOLESOME_MEAL"
+     ]
 };
+
 App.Data.Food["butter gourd"] = {
     "Name": "butter gourd",
     "ShortDesc": "An oddly shaped gourd vegetable",
-    "LongDesc": "The flesh of this vegetable can easily be eaten raw and it has a pleasant, almost buttery flavor and texture.",
-    "Message": "You break open the gourd and dig into the fleshy interior. It's surprisingly smooth and melts in your mouth like butter or pure fat.",
+    "LongDesc": "\
+        The flesh of this vegetable can easily be eaten raw and it has a pleasant, almost buttery flavor and texture.\
+        ",
+    "Message": "\
+        You break open the gourd and dig into the fleshy interior. It's surprisingly smooth and melts in your mouth like \
+        butter or pure fat.\
+        ",
     "Type": "food",
     "Charges": 1,
-    "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "ASS_XP_UNCOMMON", "HIPS_XP_UNCOMMON" ]
+    "Effects" : [ 
+        "NUTRITION_COMMON", 
+        "NUTRITION_XP_COMMON", 
+        "ASS_XP_UNCOMMON", 
+        "HIPS_XP_UNCOMMON",
+        "UNWHOLESOME_MEAL"
+     ]
 };
 
 App.Data.Food["butter gourd pie"] = {
     "Name": "butter gourd pie",
     "ShortDesc": "A small butter gourd pie",
-    "LongDesc": "Best served warm, but still tasty cold - this delicious pastry is filled with spiced butter gourd and glazed with honey",
-    "Message": "You bite into the pie, suppressing an involuntary moan as the delicious filling slides across your tongue.",
+    "LongDesc": "\
+        Best served warm, but still tasty cold - this delicious pastry is filled with spiced butter gourd and \
+        glazed with honey\
+        ",
+    "Message": "\
+        You bite into the pie, suppressing an involuntary moan as the delicious filling slides across your tongue.\
+        ",
     "Type": "food",
     "Charges": 1,
-    "Effects" : [ "NUTRITION_RARE", "NUTRITION_XP_RARE", "ASS_XP_RARE", "HIPS_XP_RARE", "LIPS_XP_RARE" ]
+    "Effects" : [ 
+        "NUTRITION_RARE", 
+        "NUTRITION_XP_RARE", 
+        "ASS_XP_RARE", 
+        "HIPS_XP_RARE", 
+        "LIPS_XP_RARE",
+        "UNWHOLESOME_MEAL"
+     ]
 };
 
 App.Data.Food["jojo nut pie"] = {
     "Name": "jojo nut pie",
     "ShortDesc": "Buttered Jojo nut and pecan pie",
-    "LongDesc": "A relatively common island delicacy. The JoJo nuts that make up the crust of this pie are usually toxic, but a long blanching process renders them harmless and quite tasty - almost like doughy bread.",
-    "Message": "You bite into the pie and chew vigorously. The candied pecans contrast nicely with the odd dough like texture of the Jojo nut crust.",
+    "LongDesc": "\
+        A relatively common island delicacy. The JoJo nuts that make up the crust of this pie are usually toxic, \
+        but a long blanching process renders them harmless and quite tasty - almost like doughy bread.\
+        ",
+    "Message": "\
+        You bite into the pie and chew vigorously. The candied pecans contrast nicely with the odd dough like texture \
+        of the Jojo nut crust.\
+        ",
     "Type": "food",
     "Charges": 1,
-    "Effects" : [ "NUTRITION_RARE", "NUTRITION_XP_RARE", "FACE_XP_RARE" ]
+    "Effects" : [ 
+        "NUTRITION_RARE", 
+        "NUTRITION_XP_RARE", 
+        "FACE_XP_RARE",
+        "UNWHOLESOME_MEAL" 
+    ]
 };
 
 App.Data.Food["pink peach"] = {
     "Name": "pink peach",
     "ShortDesc": "A brightly colored pink peach",
-    "LongDesc": "This brightly colored fruit has a sweet and musky scent. It's bulbous exterior is dimpled with purple specks.",
-    "Message": "You bite into the peach and savor the sweetness of the fruit. You feel almost as if it has a calming, or curative effect on you.",
+    "LongDesc": "\
+        This brightly colored fruit has a sweet and musky scent. It's bulbous exterior is dimpled with purple specks.\
+        ",
+    "Message": "\
+        You bite into the peach and savor the sweetness of the fruit. You feel almost as if it has a calming, or curative \
+        effect on you.\
+        ",
     "Type": "food",
     "Charges": 1,
-    "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "PURGE_UNCOMMON", "FEMALE_HORMONE_XP_COMMON" ]
+    "Effects" : [ 
+        "NUTRITION_COMMON", 
+        "NUTRITION_XP_COMMON", 
+        "PURGE_UNCOMMON", 
+        "FEMALE_HORMONE_XP_COMMON"
+     ]
 };
+
  App.Data.Food["mighty banana"] = {
     "Name": "mighty banana",
     "ShortDesc": "A big red banana that is shaped like a certain organ",
-    "LongDesc": "This banana was imported from a mystified island where the population is said to have dicks as long as their legs.",
-    "Message": "You take a bite from the peeled banana and realise that it has a salty aftertaste. At the same time you feel really manly and empowered",
+    "LongDesc": "\
+        This banana was imported from a mystified island where the population is said to have dicks as long as their legs.\
+        ",
+    "Message": "\
+        You take a bite from the peeled banana and realise that it has a salty aftertaste. At the same time you feel \
+        really manly and empowered\
+        ",
     "Type": "food",
     "Charges": 1,
-    "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "MALE_HORMONE_XP_UNCOMMON", "PENIS_XP_UNCOMMON", "BALLS_XP_UNCOMMON"]
+    "Effects" : [ 
+        "NUTRITION_COMMON", 
+        "NUTRITION_XP_COMMON", 
+        "MALE_HORMONE_XP_UNCOMMON", 
+        "PENIS_XP_UNCOMMON", 
+        "BALLS_XP_UNCOMMON",
+        "UNWHOLESOME_MEAL"
+    ]
 };
+
 App.Data.Food["purple mushrooms"] = {
     "Name": "purple mushroom",
     "ShortDesc": "A handful of rare purple mushrooms",
-    "LongDesc": "These mushrooms range in shapes from small and skinny to rather large specimens. Their caps are bright purple and spotted with darker purple blotches. These are safe to eat, right?",
-    "Message": "You ingest the mushrooms. They don't have much of a taste, but they definitely seem to have some 'kick' to them. You hope this wasn't a foolish idea...",
+    "LongDesc": "\
+        These mushrooms range in shapes from small and skinny to rather large specimens. Their caps are bright purple \
+        and spotted with darker purple blotches. These are safe to eat, right?\
+        ",
+    "Message": "\
+        You ingest the mushrooms. They don't have much of a taste, but they definitely seem to have some 'kick' to them. \
+        You hope this wasn't a foolish idea...\
+        ",
     "Type": "food",
     "Charges": 1,
-    "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "TOXICITY_UNCOMMON", "MALE_HORMONE_XP_RARE", "PENIS_XP_RARE", "BALLS_XP_RARE"]
+    "Effects" : [ 
+        "NUTRITION_COMMON", 
+        "NUTRITION_XP_COMMON", 
+        "TOXICITY_UNCOMMON", 
+        "MALE_HORMONE_XP_RARE", 
+        "PENIS_XP_RARE", 
+        "BALLS_XP_RARE"
+    ]
 };
+
 App.Data.Food["purple sucker"] = {
     "Name": "erotic sucker",
     "ShortDesc": "A erotic purple sucker",
-    "LongDesc": "This large sucker is shaped like a realistic penis, complete with veins and a flared head. The tag advertises the flavor as 'grape and semen'",
+    "LongDesc": "\
+        This large sucker is shaped like a realistic penis, complete with veins and a flared head. The tag \
+        advertises the flavor as 'grape and semen'\
+        ",
     "Message": "Suck... suck... slurp... gasp. Mmm. Fruity, but slightly salty.",
     "Type": "food",
     "Charges": 1,
-    "Effects" : [ "NUTRITION_COMMON", "NUTRITION_XP_COMMON", "LIPS_XP_UNCOMMON", "PERVERSION_XP_COMMON", "PENIS_XP_COMMON" ]
+    "Effects" : [ 
+        "NUTRITION_COMMON", 
+        "NUTRITION_XP_COMMON", 
+        "LIPS_XP_UNCOMMON", 
+        "PERVERSION_XP_COMMON", 
+        "PENIS_XP_COMMON",
+        "UNWHOLESOME_MEAL"
+     ]
 };

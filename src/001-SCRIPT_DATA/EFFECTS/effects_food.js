@@ -19,6 +19,19 @@ App.Data.EffectLib["SNACK"] = {
     "VALUE" : 10,
         "KNOWLEDGE" : [ "Nutrition Up", "Satiation Up+" ]
 };
+
+App.Data.EffectLib["UNWHOLESOME_MEAL"] = {
+    "FUN" : /** 
+    @param {App.Entity.Player} p
+    @param {App.Items.Consumable} o
+    **/
+    function(o,p) {
+        p.AdjustStat('Toxicity', 5);
+    },
+   "VALUE" : 30,
+       "KNOWLEDGE" : [ "Nutrition Up+", "Satiation Up+", "Toxicity Down" ]
+};
+
 App.Data.EffectLib["LIGHT_WHOLESOME_MEAL"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
