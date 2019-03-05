@@ -29,7 +29,7 @@ App.Data.EffectLib["UNWHOLESOME_MEAL"] = {
         p.AdjustStat('Toxicity', 5);
     },
    "VALUE" : 30,
-       "KNOWLEDGE" : [ "Nutrition Up+", "Satiation Up+", "Toxicity Down" ]
+       "KNOWLEDGE" : [ "Unwholesome Meal-" ]
 };
 
 App.Data.EffectLib["LIGHT_WHOLESOME_MEAL"] = {
@@ -41,7 +41,7 @@ App.Data.EffectLib["LIGHT_WHOLESOME_MEAL"] = {
         p.AdjustStat('Toxicity',-5);
     },
     "VALUE" : 30,
-        "KNOWLEDGE" : [ "Nutrition Up+", "Satiation Up+", "Toxicity Down" ]
+        "KNOWLEDGE" : [ "Wholesome Meal+" ]
 };
 App.Data.EffectLib["WHOLESOME_MEAL"] = {
     "FUN" : /** @param {App.Entity.Player} p
@@ -52,7 +52,7 @@ App.Data.EffectLib["WHOLESOME_MEAL"] = {
         p.AdjustStat('Toxicity',-10);
     },
     "VALUE" : 60,
-        "KNOWLEDGE" : [ "Nutrition Up++", "Satiation Up++", "Toxicity Down" ]
+        "KNOWLEDGE" : [ "Wholesome Meal++" ]
 };
 App.Data.EffectLib["LIGHT_ALCOHOL"] = {
     "FUN" : /** @param {App.Entity.Player} p

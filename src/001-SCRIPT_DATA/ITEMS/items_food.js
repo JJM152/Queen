@@ -243,11 +243,19 @@ App.Data.Food["hardtack"] = {
 App.Data.Food["slave gruel"] = {
     "Name": "slave gruel",
     "ShortDesc": "Slave gruel mixed with semen",
-    "LongDesc": "This watery looking gruel smells and tastes disgusting. The crew has 'donated' some extra nutrition to it.",
-    "Message": "You wrinkle your nose and drink down the disgusting drool. You gag occasionally as thick clumps of rancid cum slide down your throat.",
+    "LongDesc": "\
+        This watery looking gruel smells and tastes disgusting. The crew has 'donated' some extra nutrition to it.\
+        ",
+    "Message": "\
+        You wrinkle your nose and drink down the disgusting drool. You gag occasionally as thick clumps of rancid \
+        cum slide down your throat.\
+        ",
     "Type": "food",
     "Charges": 1,
-    "Effects" : [ "SLAVE_GRUEL", "UNWHOLESOME_MEAL" ]
+    "Effects" : [  
+        "UNWHOLESOME_MEAL", 
+        "SLAVE_GRUEL" 
+    ]
 };
 
 App.Data.Food["red plum"] = {
@@ -293,11 +301,11 @@ App.Data.Food["starfruit"] = {
     Type: "food",
     Charges: 1,
     Effects: [ 
+        "UNWHOLESOME_MEAL",
         "NUTRITION_UNCOMMON", 
         "NUTRITION_XP_UNCOMMON", 
         "ENERGY_COMMON", 
-        "FEMALE_HORMONE_XP_COMMON",
-        "UNWHOLESOME_MEAL"
+        "FEMALE_HORMONE_XP_COMMON"
     ]
 };
 
@@ -313,12 +321,12 @@ App.Data.Food["milkdew melon"] = {
     "Type": "food",
     "Charges": 1,
     "Effects" : [ 
+        "UNWHOLESOME_MEAL",
         "NUTRITION_COMMON", 
         "NUTRITION_XP_COMMON", 
         "FEMALE_HORMONE_XP_COMMON", 
         "BUST_XP_UNCOMMON", 
-        "PERVERSION_XP_COMMON",
-        "UNWHOLESOME_MEAL"
+        "PERVERSION_XP_COMMON"
      ]
 };
 
@@ -357,10 +365,10 @@ App.Data.Food["honey mead"] = {
     "Type": "food",
     "Charges": 1,
     "Effects" : [ 
+        "UNWHOLESOME_MEAL",
         "NUTRITION_COMMON", 
         "NUTRITION_XP_COMMON", 
-        "LIPS_XP_UNCOMMON",
-        "UNWHOLESOME_MEAL"
+        "LIPS_XP_UNCOMMON"
      ]
 };
 
@@ -377,11 +385,11 @@ App.Data.Food["butter gourd"] = {
     "Type": "food",
     "Charges": 1,
     "Effects" : [ 
+        "UNWHOLESOME_MEAL",
         "NUTRITION_COMMON", 
         "NUTRITION_XP_COMMON", 
         "ASS_XP_UNCOMMON", 
-        "HIPS_XP_UNCOMMON",
-        "UNWHOLESOME_MEAL"
+        "HIPS_XP_UNCOMMON"
      ]
 };
 
@@ -398,12 +406,12 @@ App.Data.Food["butter gourd pie"] = {
     "Type": "food",
     "Charges": 1,
     "Effects" : [ 
+        "UNWHOLESOME_MEAL",
         "NUTRITION_RARE", 
         "NUTRITION_XP_RARE", 
         "ASS_XP_RARE", 
         "HIPS_XP_RARE", 
-        "LIPS_XP_RARE",
-        "UNWHOLESOME_MEAL"
+        "LIPS_XP_RARE"
      ]
 };
 
@@ -421,10 +429,10 @@ App.Data.Food["jojo nut pie"] = {
     "Type": "food",
     "Charges": 1,
     "Effects" : [ 
+        "UNWHOLESOME_MEAL",
         "NUTRITION_RARE", 
         "NUTRITION_XP_RARE", 
-        "FACE_XP_RARE",
-        "UNWHOLESOME_MEAL" 
+        "FACE_XP_RARE" 
     ]
 };
 
@@ -461,12 +469,12 @@ App.Data.Food["pink peach"] = {
     "Type": "food",
     "Charges": 1,
     "Effects" : [ 
+        "UNWHOLESOME_MEAL",
         "NUTRITION_COMMON", 
         "NUTRITION_XP_COMMON", 
         "MALE_HORMONE_XP_UNCOMMON", 
         "PENIS_XP_UNCOMMON", 
-        "BALLS_XP_UNCOMMON",
-        "UNWHOLESOME_MEAL"
+        "BALLS_XP_UNCOMMON"
     ]
 };
 
@@ -504,11 +512,11 @@ App.Data.Food["purple sucker"] = {
     "Type": "food",
     "Charges": 1,
     "Effects" : [ 
+        "UNWHOLESOME_MEAL",
         "NUTRITION_COMMON", 
         "NUTRITION_XP_COMMON", 
         "LIPS_XP_UNCOMMON", 
         "PERVERSION_XP_COMMON", 
-        "PENIS_XP_COMMON",
-        "UNWHOLESOME_MEAL"
+        "PENIS_XP_COMMON"
      ]
 };

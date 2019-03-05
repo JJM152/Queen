@@ -4,8 +4,10 @@
 !!!!General
 * Fixed bug that was causing quest requirements for a worn item to display incorrectly as not worn. (red checkbox)
 * Fixed an oversight that was making reversing tranformation much harder than intended.
-* As above, re-introduced a minor persistant male shift in hormones related to teste size. 
+* As above, re-introduced a minor persistant male shift in hormones related to teste size. This will make feminization slower.
 * Fixed bug where quests that required multiple consumable items didn't use up their charges.
+* Many food items have had the attribute "Unwholesome Meal" added to them. It gives you a tiny bit of toxicity.
+* Foods that were previously "Wholesome" are now noted as such when you discover their knowledge. They clear a bit of toxicity.
 !!!!Salty Mermaid
 * Fixed an oversight where Julius's experimentation job wasn't granting growth to hips, but just ass.
 !!!!Golden Isle
