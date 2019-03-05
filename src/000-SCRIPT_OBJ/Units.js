@@ -44,7 +44,7 @@ App.UnitSystem = function () {
 
 	this.imperialSystemDefinition = {
 		baseLengthFactor  : 1.0/2.54, // conversion from CGS
-		lengthSymbols     : ['&prime;', "&Prime;", "m"],
+		lengthSymbols     : ["&Prime;", '&prime;', "m"],
 		lengthUnits       : ["inch", "foot", "mile"],
 		lengthUnitsPlural : ["inches", "feet", "miles"],
 		lengthScaleFactors: [12, 5280],
