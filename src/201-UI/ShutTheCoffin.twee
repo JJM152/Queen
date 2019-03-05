@@ -1,0 +1,44 @@
+:: ShutTheCoffin [no-teleport no-saving]
+<<run setup.CoffinGame.SetupGame($GameBookmark);>>
+<div id="GamblingGUI" class="GamblingGUI">\
+<div id="CoffinContainerLeft" class="CoffinContainerLeft">\
+<div id="CoffinDiceContainer"></div>\
+<div id="CoffinBetContainer"></div>\
+</div>\
+<div id="CoffinContainerRight" class="CoffinContainerRight">\
+<img id="coffinBoard" data-passage="img_coffin">\
+</div>\
+<div id="cofBoxWrapper1">\
+<div id="cofbox1" class="coffinNumBox">2</div>\
+<div id="cofbox2" class="coffinNumBox">3</div>\
+<div id="cofbox3" class="coffinNumBox">4</div>\
+<div id="cofbox4" class="coffinNumBox">5</div>\
+<div id="cofbox5" class="coffinNumBox">6</div>\
+<div id="cofbox6" class="coffinNumBox">7</div>\
+<div id="cofbox7" class="coffinNumBox">8</div>\
+<div id="cofbox8" class="coffinNumBox">9</div>\
+</div>\
+<div id="cofBoxWrapper2">\
+<div id="npc_cofbox1" class="coffinNumBox">2</div>\
+<div id="npc_cofbox2" class="coffinNumBox">3</div>\
+<div id="npc_cofbox3" class="coffinNumBox">4</div>\
+<div id="npc_cofbox4" class="coffinNumBox">5</div>\
+<div id="npc_cofbox5" class="coffinNumBox">6</div>\
+<div id="npc_cofbox6" class="coffinNumBox">7</div>\
+<div id="npc_cofbox7" class="coffinNumBox">8</div>\
+<div id="npc_cofbox8" class="coffinNumBox">9</div>\
+</div>\
+<div id="cofPlayerName">You</div>\
+<div id="cofNPCName">Opponent</div>\
+<div id="cofUItray">\
+Welcome @@color:cyan;Shut the Coffin@@! The game is easy to play - roll the dice and if you hit an empty number, \
+mark it and roll again. The first player to mark five or more is the winner!
+
+You can play even if you don't have money by literally betting your ass. Just be careful about losing too much or \
+you might be a vegetable after your opponents are done with you!
+</div>\
+<div id="startButtons" class="cofUIButtons">\
+<button id="cmdStart" class="cofButton">START GAME</button>\
+<button id="cmdQuit" class="cofButton">QUIT GAME</button>\
+</div>
+</div>

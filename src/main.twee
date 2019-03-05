@@ -90,6 +90,10 @@ Config.saves.isAllowed = function() {
         var portrait = $("<div id='avatarFace'></div").appendTo(container);
     }
  
+ // Load gambling classes
+
+ setup.CoffinGame = new App.Gambling.Coffin();
+ 
 :: Start
 <<set $GameBookmark = passage(); >>
 @@color:deepPink;Queen of the Seas@@ is designed to be an RPG like transformation game with @@color:red;heavy non-consentual themes@@. \

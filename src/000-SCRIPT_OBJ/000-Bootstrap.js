@@ -23,3 +23,6 @@ App.Data.Tarot = {};
 App.Data.Whoring = {};
 
 App.Entity = {};
+
+App.Gambling = {};
+App.Gambling.Coffin = {};
