@@ -28,7 +28,7 @@ App.Data.EffectLib["UNWHOLESOME_MEAL"] = {
     function(o,p) {
         p.AdjustStat('Toxicity', 5);
     },
-   "VALUE" : 30,
+   "VALUE" : 0,
        "KNOWLEDGE" : [ "Unwholesome Meal-" ]
 };
 
