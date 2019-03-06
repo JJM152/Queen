@@ -1,18 +1,16 @@
 :: questList [widget]
 <<widget "questList">>\
-<<set _QE = App.QuestEngine;>>\
-<<set _QL = _QE.GetQuests("any", setup.player, $MenuAction);>>\
+<<set _QL = App.Quest.List("any", setup.player, $MenuAction);>>\
 <<set _NPC = setup.player.GetNPC($MenuAction);>>\
-<<set $n = _NPC.pName(); >>\
-You approach $n to ask if there are any 'special tasks' that need to be done.
+<<set _n = _NPC.pName(); >>\
+You approach _n to ask if there are any 'special tasks' that need to be done.
 
 <<for _i = 0; _i < _QL.length; _i++>>\
-<<if _QE.QuestAvailable(setup.player, _QL[_i]["ID"]) or
-_QE.QuestActive(setup.player, _QL[_i]["ID"])>>\
+<<if _QL[_i].IsAvailable(setup.player) or _QL[_i].IsActive(setup.player)>>\
 <<questEntry _QL[_i]>>\
 <<else>>\
-<<if _QE.QuestCompleted(setup.player, _QL[_i]["ID"])>>\
-@@color:grey;<<print _QL[_i]["Title"]>>@@ @@color:yellow;(COMPLETED)@@
+<<if _QL[_i].IsCompleted(setup.player)>>\
+@@color:grey;<<print _QL[_i].Title()>>@@ @@color:yellow;(COMPLETED)@@
 <</if>>\
 <</if>>\
 <</for>>

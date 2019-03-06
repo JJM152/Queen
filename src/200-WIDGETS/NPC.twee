@@ -1,8 +1,7 @@
 :: NPC [widget]
 <<widget NPC>>\
-<<set _QE = App.QuestEngine;>>\
 <<set _NPC = setup.player.GetNPC($args[0]);>>\
-<<set _JE = App.JobEngine;>>\
+<<set _JE = setup.jobEngine;>>\
 <<set _SE = App.StoreEngine;>>\
 <<= App.PR.TokenizeString(setup.player, _NPC, _NPC.ShortDesc())>>
 @@color:DeepPink;NPC Menu@@: <<customMenuLink "Examine" _NPC>>\
@@ -10,11 +9,11 @@
  | <<customMenuLink "Jobs" $args[0]>>\
  <<if _JE.JobsAvailable(setup.player, $args[0])>>\
   @@color:yellow; (!)@@<</if>><</if>>\
- <<if _QE.GetQuests("any", setup.player, $args[0]).length != 0>>\
+ <<if App.Quest.List("any", setup.player, $args[0]).length != 0>>\
  | <<customMenuLink "Quests" $args[0]>>\
- <<if _QE.GetQuests("available", setup.player, $args[0]).length !=0>>\
+ <<if App.Quest.List("available", setup.player, $args[0]).length !=0>>\
  @@color:yellow; (!)@@<</if>>\
- <<if _QE.GetQuests("cancomplete", setup.player, $args[0]).length !=0>>\
+ <<if App.Quest.List("cancomplete", setup.player, $args[0]).length !=0>>\
  @@color:DeepPink; (!)@@<</if>>\
  <</if>>\
 <<if _SE.HasStore(_NPC);>>\

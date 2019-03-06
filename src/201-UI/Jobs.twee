@@ -1,7 +1,7 @@
 :: Jobs [custom-menu]
 <<nobr>>
 <<set _NPC = setup.player.GetNPC($MenuAction);>>
-<<set _JE = App.JobEngine;>>
+<<set _JE = setup.jobEngine;>>
 <<set _JA = _JE.GetAvailableJobs(setup.player, $MenuAction);>>
 <<set _JU = _JE.GetUnavailableJobs(setup.player, $MenuAction);>>
 <span id="JobUI"><<for _i = 0; _i < _JA.length; _i++>>

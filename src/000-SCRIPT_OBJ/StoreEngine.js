@@ -14,7 +14,7 @@ App.StoreEngine = new function() {
 
     /**
      * Checks to see if an NPC has a store inventory or not attached to them.
-     * @param {App.Entity.NPC|NPC} NPC
+     * @param {App.Entity.NPC} NPC
      * @returns {boolean}
      */
     this.HasStore = function(NPC) {
@@ -55,7 +55,7 @@ App.StoreEngine = new function() {
 /**
  * Store Container Object
  * @param {App.Entity.Player} Player
- * @param {App.Entity.NPC|NPC} NPC
+ * @param {App.Entity.NPC} NPC
  * @param {object} StoreData
  * @constructor
  */

@@ -8,7 +8,7 @@ Another path leads uphill to the upper-class part of the city, the Cloud Distric
 <<if setup.player.Phase < 3>>\
 @@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[Cloud District|IslaCloudDistrictGuards]] | [[General Store|IslaStore]] | [[Governors Mansion|IslaMansion]]
 <<else>>\
-<<if App.QuestEngine.GetQuestFlag(setup.player, "THEBACKDOOR") == "COMPLETED">>\
+<<if App.Quest.GetFlag(setup.player, "THEBACKDOOR") === "COMPLETED">>\
 @@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[Cloud District|IslaCloudDistrictGuards]] | @@color:grey;[General Store]@@ | [[Governors Mansion|IslaMansion]]
 <<else>>\
 @@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[Cloud District|IslaCloudDistrictGuards]] | @@color:grey;[General Store]@@ | @@color:grey;[Governors Mansion]@@

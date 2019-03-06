@@ -1,17 +1,16 @@
 :: shipPortLink [widget]
 <<widget shipPortLink>>\
 <<set _Port = setup.player.GetShipLocation(); >>\
-<<set _Quest = App.QuestEngine; >>\
 <<if _Port["Passage"] != "">>\
 <<set _Passage = _Port["Passage"] >>\
-<<if _Quest.GetQuestFlag(setup.player, "BOARDINGPASS") == "ACTIVE">>\
+<<if App.Quest.GetFlag(setup.player, "BOARDINGPASS") == "ACTIVE">>\
 @@color:lime;Disembark@@: @@color:grey;<<print _Port["Title"] >>@@ @@color:red;(LOCKED)@@
 <<else>>\
 @@color:lime;Disembark:@@ <<click `_Port["Title"]`>>\
-<<if _Quest.GetQuestFlag(setup.player, "BOARDINGPASS") != "COMPLETED">>\
+<<if App.Quest.GetFlag(setup.player, "BOARDINGPASS") != "COMPLETED">>\
 <<replace "#BoardingPass">>\
 As you approach the gangplank to leave the @@color:cyan;Salty Mermaid@@, two burly armed Pirates bar your way. Even with the magical geas on you, it appears it won't be possible for you to leave the ship without permission.<</replace>>
-<<run _Quest.SetQuestFlag(setup.player, "PRE_BOARDINGPASS", "COMPLETED");>>\
+<<run App.Quest.SetFlag(setup.player, "PRE_BOARDINGPASS", "COMPLETED");>>\
 <<else>>\
 <<goto _Passage>>\
 <</if>>\

@@ -1,18 +1,18 @@
 App.Data.JobData["BOBOLA_SAP"] = {
-    "ID": "BOBOLA_SAP", 
-    "TITLE": "Tap the Sap", 
-    "GIVER": "Bobola Tree", 
+    "ID": "BOBOLA_SAP",
+    "TITLE": "Tap the Sap",
+    "GIVER": "Bobola Tree",
     "PAY" : 0,
     "RATING" : 3,
     "PHASES" : [ 0, 1, 2, 3 ],
     "DAYS"   : 1,
     "HIDDEN" : false,
     "COST" : [
-        { 
-            "TYPE" : "TIME",  "VALUE" : 1 
+        {
+            "TYPE" : "TIME",  "VALUE" : 1
         },
-        { 
-            "TYPE" : "STAT",  "NAME" : "Energy", "VALUE" : 4 
+        {
+            "TYPE" : "STAT",  "NAME" : "Energy", "VALUE" : 4
         }
     ],
     "REQUIREMENTS" : [],
@@ -59,7 +59,7 @@ App.Data.JobData["BOBOLA_SAP"] = {
             ",
             "RESULTS" : [
                 {
-                    "MILKING_CHECK_1": 50, 
+                    "MILKING_CHECK_1": 50,
                     "TEXT" : "\
                     You're no novice to giving handjobs, but given the circumstances you find it difficult to capture \
                     enough 'sap' in the bucket. You look at the @@small amount@@ and sigh inwardly, just as another root \
@@ -67,14 +67,14 @@ App.Data.JobData["BOBOLA_SAP"] = {
                     "
                 },
                 {
-                    "MILKING_CHECK_1": 500, 
+                    "MILKING_CHECK_1": 500,
                     "TEXT" : "\
                     Your time spent being a sissywhore aboard the Mermaid has given you ample opportunity to learn how \
                     to jerk off a cock. Sure, these roots are not quite the same thing, but under your ministrations \
                     they still spurt just the same. It takes a few minutes and many more loads to your face, but \
                     eventually you think you've gotten the bucket about @@half way full@@.\
                     "
-                }   
+                }
             ],
             "END" : ""
         },
@@ -101,20 +101,20 @@ App.Data.JobData["BOBOLA_SAP"] = {
             ",
             "RESULTS" : [
                 {
-                    "MILKING_CHECK_2": 50, 
+                    "MILKING_CHECK_2": 50,
                     "TEXT" : "\
                     As the beasts various appendages violate your mouth and ass, you reach out to grab them and try to \
                     direct their spurting liquids into your bucket. Unfortunately @@you don't have much success@@.\
                     "
                 },
                 {
-                    "MILKING_CHECK_2": 500, 
+                    "MILKING_CHECK_2": 500,
                     "TEXT" : "\
                     As the beasts various appendages violate your mouth and ass, you reach out to grab them and try to \
                     direct their spurting liquids into your bucket. With skill borne from countless handjobs you somehow \
                     @@manage to capture a sizable amount@@ of the slimy seed in your bucket.\
                     "
-                }   
+                }
             ],
             "END" : " "
         },
@@ -125,10 +125,10 @@ App.Data.JobData["BOBOLA_SAP"] = {
             "CHECKS" : [
                 {
                     "TAG" : "FINAL_RESULT", "TYPE" : "FUNC",
-                    "NAME" : function(p, o)
+                    "FUN" : function(p, s, c)
                     {
-                        return ( o._Checks["MILKING_CHECK_1"]["RESULT"] + o._Checks["MILKING_CHECK_2"]["RESULT"]);
-                    }, 
+                        return ( c["MILKING_CHECK_1"]["RESULT"] + c["MILKING_CHECK_2"]["RESULT"]);
+                    },
                     "VALUE" : 100
                 }
 
@@ -146,7 +146,7 @@ App.Data.JobData["BOBOLA_SAP"] = {
             ",
             "RESULTS" : [
                 {
-                    "FINAL_RESULT": 120, 
+                    "FINAL_RESULT": 120,
                     "TEXT" : "\
                     You attempt to aid the process by flexing and opening your ass as far as it can go, but unfortunately \
                     when you look at the result you realize you haven't collected nearly enough of the disgusting purple \
@@ -154,13 +154,13 @@ App.Data.JobData["BOBOLA_SAP"] = {
                     "
                 },
                 {
-                    "FINAL_RESULT": 500, 
+                    "FINAL_RESULT": 500,
                     "TEXT" : "\
                     After long minutes of squatting over the bucket, feeling the demon trees seed slipping from your \
                     backside, you look down and realize with a sick sense of relief that the bucket is mostly filled. \
                     You don't know how you could have forced yourself to go through that ordeal again if it wasn't.\
                     "
-                }   
+                }
             ],
             "END" : ""
         },
@@ -168,7 +168,7 @@ App.Data.JobData["BOBOLA_SAP"] = {
             "ID" : "Reward Player",
             "TRIGGERS" :[
                 {
-                    "TYPE" : "TAG", "NAME" : "FINAL_RESULT", "VALUE" : 121, "CONDITION" : "gte" 
+                    "TYPE" : "TAG", "NAME" : "FINAL_RESULT", "VALUE" : 121, "CONDITION" : "gte"
                 }
              ],
             "TRIGGERS_ANY" : [ ],

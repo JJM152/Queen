@@ -1,8 +1,7 @@
 :: HiddenCove
-<<set _Quest = App.QuestEngine; >>\
 This hidden cove is easily missed from the sea, being concealed between two massive sheer rock faces and a small atoll of overgrown trees. The path from the jungle leads to a small secluded beach, the waves lazily drifting against its rocky shore. It's apparent that someone has made a camp here recently as you can still see the remains of a cooking fire with several fish bones strewn haphazardly near by.
 
 <<NPC "Paola">>
-<<if _Quest.GetQuestFlag(setup.player, "PAOLA_FETCH") == "COMPLETED">>@@color:yellow;Action@@: [[Purchase a Voodoo Hex|VoodooMenu]]
+<<if App.Quest.GetFlag(setup.player, "PAOLA_FETCH") === "COMPLETED">>@@color:yellow;Action@@: [[Purchase a Voodoo Hex|VoodooMenu]]
 <</if>>
 @@color:lime;Travel@@: [[Into the Jungle|Jungle]]

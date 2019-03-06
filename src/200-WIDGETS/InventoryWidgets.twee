@@ -98,7 +98,7 @@
 <</nobr>><</widget>>
 
 <<widget "InventoryTable">><<nobr>>
-<<set _favoritesEnabled = App.QuestEngine.QuestCompleted(setup.player, "BETTER_LOCKER");>>
+<<set _favoritesEnabled = App.Quest.IsCompleted(setup.player, "BETTER_LOCKER");>>
 <<run App.PR.HighlightActiveTabButton($args[1], $args[0], "Inventory - " +  $args[2])>>
 <<switch $args[0]>>
 <<case "food">>

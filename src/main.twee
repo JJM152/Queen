@@ -13,6 +13,7 @@ Config.history.maxStates = 1;
 Config.saves.version = App.Data.Game.Version;
 
 setup.player = new App.Entity.Player();
+setup.jobEngine = new App.JobEngine();
 
 // Initalize Avatar Engine
 App.Avatar = new App.Entity.AvatarEngine();

@@ -6,7 +6,14 @@
 <<if _Start != "">><<print _Start>><</if>>
 <<for _i = 0; _i < _Scenes.length; _i++>>
 <br/><<print _Scenes[_i].Print();>><</for>>
-<<if _End != "">><br/><<print $args[0].PrintEnd(setup.player, _NPC); >><</if>><</nobr>><</widget>>
+<<if _End != "">><br/><<print _End; >><</if>>
+<<set _Results = App.PR.pTaskRewards($args[0]);>>
+<<if _Results.length > 0>>
+<<print "\n@@color:cyan;Your receive some items:@@\n">>
+<<print _Results.join("\n") + "\n">>
+<</if>>
+<<run $args[0].CompleteScenes(setup.player); >>
+<</nobr>><</widget>>
 
 <<widget "jobButton">><<nobr>>
 <<if $args[0].Available(setup.player, _NPC)>>
