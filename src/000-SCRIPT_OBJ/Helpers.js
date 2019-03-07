@@ -669,6 +669,7 @@ App.PR = new function() {
             var reward = scene.RewardItems();
             if (reward.Pay > 0) { Pay += scene.RewardItems().Pay; }
             for (const ri of reward.Items) {
+                if (typeof ri === 'number') continue; // we had to put number here too in order to maintain order
                 var n = App.Item.SplitId(ri["Name"]);
                 var oItem = App.Item.Factory(n.Category, n.Tag);
                 Items.push(oItem.Description + " x " + ri["Value"]);

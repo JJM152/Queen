@@ -765,9 +765,7 @@ App.Scene = class Scene {
             case "CLOTHES":
             case "PICK_ITEM":
                 var itemRec = this._RewardItems.Items.shift();
-                if (typeof(itemRec) === 'number') {
-                    this._Player.AdjustMoney(itemRec);
-                } else {
+                if (typeof (itemRec) !== 'number') { // if item was converted to money, its value was added to the _RewardItems.Pay
                     var n = App.Item.SplitId(itemRec["Name"]);
                     if (itemRec.Value > 0) {
                         this._Player.AddItem(n.Category, n.Tag, Value, Opt);
