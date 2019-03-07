@@ -55,6 +55,7 @@ div.cofUIButtons {
     display: none;
 }
 
+/** Betting Container **/
 #CoffinBetContainer {
     width: 400px;
     overflow: hidden;
@@ -62,6 +63,199 @@ div.cofUIButtons {
     top: 0px;
     left: 0px;
     background-color: #111;
+    display: none;
+}
+
+div.assBetIcon {
+    background-image: [img[ass_icon]];
+}
+
+div.bjBetIcon {
+    background-image: [img[bj_icon]];
+}
+
+div.handBetIcon {
+    background-image: [img[hand_icon]];
+}
+
+div.titBetIcon {
+    background-image: [img[tits_icon]];
+}
+
+div.coinBetIcon {
+    background-image: [img[coins_icon]];
+    line-height: 64px;
+    color: DeepPink;
+    font-weight: bold;
+    text-align: center;
+    font-size: 32px;
+}
+
+div.itemBetIcon {
+    background-image: [img[item_icon]];
+}
+
+#coffinPirateSelect {
+    width: 380px;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+}
+
+#cmdPrevBet {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+#cmdNextBet {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#CoffinNPCName {
+    position: absolute;
+    top: 9px;
+    right: 50px;
+    display: inline-block;
+    width: 280px;
+    height: 32px;
+    text-align: center;
+    font-weight: bold;
+    background-color: dimgray;
+
+}
+
+#CoffinBet1 {
+    position: absolute;
+    left: 4px;
+    top: 45px;
+    width: 388px;
+    height: 116px;
+    border: solid 2px grey;
+}
+
+div.disabledGamePanel {
+    background:#222;
+    line-height: 120px;
+    font-size: larger;
+    text-align:center;
+}
+
+div.activeGamePanel {
+    cursor: pointer;
+}
+
+div.selectedBet {
+    border: 2px solid gold;
+}
+
+#CoffinBet1Blocker {
+    position: absolute;
+    left: 5px;
+    top: 46px;
+    width: 388px;
+    height: 116px;
+}
+
+#betLabel1 {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    color: antiquewhite;
+}
+
+#betLabel1b {
+    position: absolute;
+    left: 125px;
+    top: 4px;
+    color: antiquewhite;
+}
+
+#betIcon1a {
+    position: absolute;
+    left: 106px;
+    top: 26px;
+    border: solid 1px grey;
+    height: 64px;
+    width: 64px;
+}
+
+#betLabel1c {
+    position: absolute;
+    left: 260px;
+    top: 4px;
+    color: antiquewhite;
+}
+
+#betIcon1b {
+    position: absolute;
+    left: 242px;
+    top: 26px;
+    border: solid 1px gold;
+    height: 64px;
+    width: 64px;
+}
+
+#CoffinBet2 {
+    position: absolute;
+    left: 4px;
+    top: 175px;
+    width: 388px;
+    height: 116px;
+    border: solid 2px grey;
+}
+
+#CoffinBet2Blocker {
+    position: absolute;
+    left: 5px;
+    top: 176px;
+    width: 388px;
+    height: 116px;
+}
+
+#betLabel2 {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    color: antiquewhite;
+}
+
+#betLabel2b {
+    position: absolute;
+    left: 125px;
+    top: 4px;
+    color: antiquewhite;
+}
+
+#betIcon2a {
+    position: absolute;
+    left: 106px;
+    top: 26px;
+    border: solid 1px gold;
+    height: 64px;
+    width: 64px;
+}
+
+#betLabel2c {
+    position: absolute;
+    left: 260px;
+    top: 4px;
+    color: antiquewhite;
+}
+
+#betIcon2b {
+    position: absolute;
+    left: 242px;
+    top: 26px;
+    border: solid 1px gold;
+    height: 64px;
+    width: 64px;
+}
+
+#betButtons {
+    display: none;
 }
 
 #coffinBoard {
@@ -121,4 +315,10 @@ button.cofButton {
     width: 150px;
     margin-right: 10px;
     border: 1px solid black;
+}
+
+button.coffinRoundButton {
+    border-radius: 50%;
+    width: 32px;
+    margin: 5px;
 }

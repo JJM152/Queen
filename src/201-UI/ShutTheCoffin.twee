@@ -3,7 +3,29 @@
 <div id="GamblingGUI" class="GamblingGUI">\
 <div id="CoffinContainerLeft" class="CoffinContainerLeft">\
 <div id="CoffinDiceContainer"></div>\
-<div id="CoffinBetContainer"></div>\
+<div id="CoffinBetContainer">\
+<div id="coffinPirateSelect">\
+<button id="cmdPrevBet" class="coffinRoundButton">&#8249;</button>\
+<span id="CoffinNPCName"></span>\
+<button id="cmdNextBet" class="coffinRoundButton">&#8250;</button>\
+</div>\
+<div id="CoffinBet1">\
+<div id="betLabel1">Top Bet</div>\
+<div id="betLabel1b">Him</div>\
+<div id="betIcon1a"></div>\
+<div id="betLabel1c">You</div>\
+<div id="betIcon1b"></div>\
+</div>\
+<div id="CoffinBet1Blocker"></div>\
+<div id="CoffinBet2">\
+<div id="betLabel2">Bottom Bet</div>\
+<div id="betLabel2b">Him</div>\
+<div id="betIcon2a"></div>\
+<div id="betLabel2c">You</div>\
+<div id="betIcon2b"></div>\
+</div>\
+<div id="CoffinBet2Blocker"></div>\
+</div>\
 </div>\
 <div id="CoffinContainerRight" class="CoffinContainerRight">\
 <img id="coffinBoard" data-passage="img_coffin">\
@@ -40,5 +62,8 @@ you might be a vegetable after your opponents are done with you!
 <div id="startButtons" class="cofUIButtons">\
 <button id="cmdStart" class="cofButton">START GAME</button>\
 <button id="cmdQuit" class="cofButton">QUIT GAME</button>\
-</div>
+</div>\
+<div id="betButtons" class="cofUIButtons">\
+<button id="cmdTakeBet" class="cofButton">TAKE BET</button>\
+<button id="cmdQuitBet" class="cofButton">WALK AWAY</button>\
 </div>
