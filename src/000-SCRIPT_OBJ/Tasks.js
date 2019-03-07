@@ -143,7 +143,7 @@ App.Task = class Task {
                     }
                     break;
                 case "NPC_STAT":
-                    if (typeof NPC === 'undefined' && typeof Option !== 'undefined') NPC = Player.GetNPC(Option);
+                    if (typeof Option !== 'undefined') NPC = Player.GetNPC(Option);
                     if (typeof NPC !== 'undefined') {
                         if (Task._Cmp( NPC.GetStat(Name), Value, Condition ) == false) {
                             StatusFlag = false;
@@ -726,7 +726,7 @@ App.Scene = class Scene {
                         this._RewardItems.Pay += itemCost;
                         this._RewardItems.Items.push(itemCost);
                     } else {
-                        this._RewardItems.Items.push({"Name": App.Item.MakeId(item.cat, item.tag), "Value": val});
+                        this._RewardItems.Items.push({"Name": App.Item.MakeId(item.cat, item.tag), "Value": 1});
                     }
                 }
                 break;
@@ -769,10 +769,10 @@ App.Scene = class Scene {
                     this._Player.AdjustMoney(itemRec);
                 } else {
                     var n = App.Item.SplitId(itemRec["Name"]);
-                    if (Value >= 0) {
+                    if (itemRec.Value > 0) {
                         this._Player.AddItem(n.Category, n.Tag, Value, Opt);
                     } else {
-                        this._Player.TakeItem(itemRec["Name"], Value);
+                        this._Player.TakeItem(itemRec["Name"], 0-itemRec.Value);
                     }
                 }
                 break;
@@ -890,6 +890,9 @@ App.Scene = class Scene {
         Scene.Debug("_ProcessCheck", `${Check.TAG}: ${JSON.stringify(r)}`);
         Results[Check.TAG] = r;
         this._Results[Check.TAG] = r;
+        if (typeof Check.REWARD !== 'undefined') {
+            this._CalculateReward(Check.REWARD, Check.R_NAME, Value, Check.OPT, Result);
+        }
     }
 
     /**
@@ -988,9 +991,16 @@ App.Scene = class Scene {
     CompleteScene() {
         App.Scene.Debug(this.Id() + ":CompleteScene", "Started");
         this._Player.AdjustMoney(this._RewardItems.Pay);
-        var Posts = this._SceneData["POST"];
-        for (var i = 0; i < Posts.length; i++) {
-            this._ApplyReward(Posts[i]["TYPE"], Posts[i]["NAME"], Posts[i]["OPT"]);
+        // apply rewards from checks with "REWARD" prop
+        const Checks = this._SceneData["CHECKS"];
+        for (const c of Checks) {
+            if (typeof c.REWARD !== 'undefined') {
+                this._ApplyReward(c.REWARD, c.R_NAME, c.OPT);
+            }
+        }
+        const Posts = this._SceneData["POST"];
+        for (const p of Posts) {
+            this._ApplyReward(p["TYPE"], p["NAME"], p["OPT"]);
         }
         App.Scene.Debug(this.Id() + ":CompleteScene", "Ended");
     }
