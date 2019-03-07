@@ -7,7 +7,7 @@ App.Data.Quests["PAOLA_FETCH"] = {
         {"TYPE": "QUEST_ITEM", "NAME": "bag of mojo", "VALUE": 1 }
     ],
     "ON_ACCEPT" : [
-        { "TYPE" : "QUEST_FLAG", "NAME" : "VOODOO_PICKUP", "VALUE" : "ACTIVE" }
+        { "TYPE" : "QUEST", "NAME" : "VOODOO_PICKUP", "VALUE" : "START" }
     ],
     "REWARD": [
         {"REWARD_TYPE": "MONEY", "AMOUNT": 200 }
