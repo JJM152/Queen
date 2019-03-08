@@ -21,16 +21,6 @@ div.CoffinContainerRight {
     background-image: [img[img_wood_panel]];
 }
 
-div.cofUIButtons {
-    width: 390px;
-    height: 90px;
-    position: absolute;
-    top: 300px;
-    left:0px;
-    background-color: #222;
-    padding: 5px;
-}
-
 #cofUItray {
     width: 770px;
     height: 180px;
@@ -53,8 +43,15 @@ div.cofUIButtons {
     top: 0px;
     left: 0px;
     display: none;
+    background-color: #111;
 }
 
+#RoundContainer {
+    position: absolute;
+    left: 5px;
+    top: 250px;
+    color: gold;
+}
 /** Betting Container **/
 #CoffinBetContainer {
     width: 400px;
@@ -254,10 +251,6 @@ div.selectedBet {
     width: 64px;
 }
 
-#betButtons {
-    display: none;
-}
-
 #coffinBoard {
     height: 400px;
     margin-left: 120px;
@@ -280,14 +273,29 @@ div.selectedBet {
 }
 
 div.coffinNumBox {
-    background: black;
-    border: solid 1px gold;
-    color: gold;
     text-align: center;
     height: 40px;
     width: 40px;
     margin-bottom: 3px;
     line-height: 40px;
+}
+
+div.CoffinpointEmpty {
+    background: black;
+    border: solid 1px gold;
+    color: gold;
+}
+
+div.CoffinpointMissed {
+    background: black;
+    border: solid 1px dimgray;
+    color: dimgray
+}
+
+div.CoffinpointHit {
+    background: black;
+    border:  solid 1px lime;
+    color: gold;
 }
 
 #cofPlayerName {
@@ -311,6 +319,18 @@ div.coffinNumBox {
 }
 
 /** Button Styles **/
+div.cofUIButtons {
+    width: 390px;
+    height: 90px;
+    position: absolute;
+    top: 300px;
+    left:0px;
+    background-color: #222;
+    padding: 5px;
+    line-height: 90px;
+    text-align: center;
+}
+
 button.cofButton {
     width: 150px;
     margin-right: 10px;
@@ -321,4 +341,15 @@ button.coffinRoundButton {
     border-radius: 50%;
     width: 32px;
     margin: 5px;
+}
+
+#betButtons {
+    display: none;
+}
+
+#playButtons {
+    display: none;
+}
+#endButtons {
+    display: none;
 }

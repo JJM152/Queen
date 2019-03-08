@@ -1,8 +1,10 @@
 :: ShutTheCoffin [no-teleport no-saving]
-<<run setup.CoffinGame.SetupGame($GameBookmark);>>
+<<run setup.CoffinGame.SetupGame("DebugPassage");>>
 <div id="GamblingGUI" class="GamblingGUI">\
 <div id="CoffinContainerLeft" class="CoffinContainerLeft">\
-<div id="CoffinDiceContainer"></div>\
+<div id="CoffinDiceContainer">\
+<div id="RoundContainer"></div>\
+</div>\
 <div id="CoffinBetContainer">\
 <div id="coffinPirateSelect">\
 <button id="cmdPrevBet" class="coffinRoundButton">&#8249;</button>\
@@ -31,24 +33,24 @@
 <img id="coffinBoard" data-passage="img_coffin">\
 </div>\
 <div id="cofBoxWrapper1">\
-<div id="cofbox1" class="coffinNumBox">2</div>\
-<div id="cofbox2" class="coffinNumBox">3</div>\
-<div id="cofbox3" class="coffinNumBox">4</div>\
-<div id="cofbox4" class="coffinNumBox">5</div>\
-<div id="cofbox5" class="coffinNumBox">6</div>\
-<div id="cofbox6" class="coffinNumBox">7</div>\
-<div id="cofbox7" class="coffinNumBox">8</div>\
-<div id="cofbox8" class="coffinNumBox">9</div>\
+<div id="pcbox0" class="coffinNumBox">2</div>\
+<div id="pcbox1" class="coffinNumBox">3</div>\
+<div id="pcbox2" class="coffinNumBox">4</div>\
+<div id="pcbox3" class="coffinNumBox">5</div>\
+<div id="pcbox4" class="coffinNumBox">6</div>\
+<div id="pcbox5" class="coffinNumBox">7</div>\
+<div id="pcbox6" class="coffinNumBox">8</div>\
+<div id="pcbox7" class="coffinNumBox">9</div>\
 </div>\
 <div id="cofBoxWrapper2">\
-<div id="npc_cofbox1" class="coffinNumBox">2</div>\
-<div id="npc_cofbox2" class="coffinNumBox">3</div>\
-<div id="npc_cofbox3" class="coffinNumBox">4</div>\
-<div id="npc_cofbox4" class="coffinNumBox">5</div>\
-<div id="npc_cofbox5" class="coffinNumBox">6</div>\
-<div id="npc_cofbox6" class="coffinNumBox">7</div>\
-<div id="npc_cofbox7" class="coffinNumBox">8</div>\
-<div id="npc_cofbox8" class="coffinNumBox">9</div>\
+<div id="npcbox0" class="coffinNumBox">2</div>\
+<div id="npcbox1" class="coffinNumBox">3</div>\
+<div id="npcbox2" class="coffinNumBox">4</div>\
+<div id="npcbox3" class="coffinNumBox">5</div>\
+<div id="npcbox4" class="coffinNumBox">6</div>\
+<div id="npcbox5" class="coffinNumBox">7</div>\
+<div id="npcbox6" class="coffinNumBox">8</div>\
+<div id="npcbox7" class="coffinNumBox">9</div>\
 </div>\
 <div id="cofPlayerName">You</div>\
 <div id="cofNPCName">Opponent</div>\
@@ -61,9 +63,17 @@ you might be a vegetable after your opponents are done with you!
 </div>\
 <div id="startButtons" class="cofUIButtons">\
 <button id="cmdStart" class="cofButton">START GAME</button>\
-<button id="cmdQuit" class="cofButton">QUIT GAME</button>\
+<button id="cmdQuit" class="cofButton">WALK AWAY</button>\
 </div>\
 <div id="betButtons" class="cofUIButtons">\
 <button id="cmdTakeBet" class="cofButton">TAKE BET</button>\
 <button id="cmdQuitBet" class="cofButton">WALK AWAY</button>\
+</div>\
+<div id="playButtons" class="cofUIButtons">\
+<button id="cmdRollDice" class="cofButton">ROLL DICE</button>\
+</div>
+<div id="endButtons" class="cofUIButtons">\
+<button id="cmdPlayAgain" class="cofButton">PLAY AGAIN</button>\
+<button id="cmdQuit" class="cofButton">WALK AWAY</button>\
+</div>
 </div>

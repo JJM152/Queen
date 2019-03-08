@@ -1252,6 +1252,98 @@ App.PR = new function() {
             e.innerText = activeTabText;
         }
     };
+
+    this.RisingDialog = function(element, message, color) {
+        color = color || 'white';
+        var root = $(element);
+        $('#WhoreDialogDiv').remove();
+
+        var div = $('<div>').addClass('WhoreDialog').attr('id', 'WhoreDialogDiv');
+        var header = $('<h1>').addClass('ml13').html(message);
+        header.css('color', color);
+        div.append(header);
+        root.append(div)
+
+        // Wrap every letter in a span
+        $('.ml13').each(function(){
+            $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
+        });
+
+        anime.timeline({loop: false})
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [100,0],
+                translateZ: 0,
+                opacity: [0,1],
+                easing: "easeOutExpo",
+                duration: 1000,
+                delay: function(el, i) {
+                    return 300 + 30 * i;
+                }
+            }).add({
+            targets: '.ml13 .letter',
+            translateY: [0,-100],
+            opacity: [1,0],
+            easing: "easeInExpo",
+            duration: 1000,
+            delay: function(el, i) {
+                return 100 + 30 * i;
+            }
+        });
+    };
+
+    this.DialogBox = function(element, message, props) {
+        props = props || { };
+        var lineProps = props.hasOwnProperty("color") ? { "background-color": props.color} : { };
+        var root = $(element);
+        $('#WhoreDialogDiv').remove();
+
+        var div = $('<div>').addClass('WhoreDialog').attr('id', 'WhoreDialogDiv').css(props);
+        var header = $('<h1>').addClass('ml1');
+        var inner = $('<span>').addClass('text-wrapper');
+
+        inner.append( $('<span>').addClass('line line1').css(lineProps));
+        inner.append( $('<span>').addClass('letters').html(message));
+        inner.append( $('<span>').addClass('line line2').css(lineProps));
+
+        header.append( inner );
+        div.append(header);
+        root.append(div);
+
+        // Javascript animations.
+        $('.ml1 .letters').each(function(){
+            $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
+        });
+
+        anime.timeline({loop: false})
+            .add({
+                targets: '.ml1 .letter',
+                scale: [0.3,1],
+                opacity: [0,1],
+                translateZ: 0,
+                easing: "easeOutExpo",
+                duration: 600,
+                delay: function(el, i) {
+                    return 70 * (i+1)
+                }
+            }).add({
+            targets: '.ml1 .line',
+            scaleX: [0,1],
+            opacity: [0.5,1],
+            easing: "easeOutExpo",
+            duration: 700,
+            offset: '-=875',
+            delay: function(el, i, l) {
+                return 80 * (l - i);
+            }
+        }).add({
+            targets: '.ml1',
+            opacity: 0,
+            duration: 1000,
+            easing: "easeOutExpo",
+            delay: 1000
+        });
+    };
 };
 
 /**
