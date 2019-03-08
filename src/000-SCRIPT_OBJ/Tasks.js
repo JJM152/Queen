@@ -839,6 +839,10 @@ App.Scene = class Scene {
             case "SLOT":
                 this._Player.UnlockSlot();
                 break;
+            case "TRACK_CUSTOMERS":
+                // Let's set a tag in the player to start tracking their history
+                App.Quest.SetFlag(this._Player, "track_" + Name, this._Player.GetHistory("CUSTOMERS", Name));
+                break;
         }
     }
 
@@ -1519,6 +1523,11 @@ App.Quest = class Quest extends App.Task {
         };
         switch (sceneId) {
             case "INTRO":
+                if (this.TaskData.hasOwnProperty("ON_ACCEPT")) {
+                    for (const ar of this.TaskData["ON_ACCEPT"]) {
+                        res.POST.push(ar);
+                    }
+                }
                 break;
             case "MIDDLE":
                 break;
@@ -1743,10 +1752,6 @@ App.QuestIntroScene = class QuestIntroScene extends App.QuestScene {
     CompleteScene() {
         super.CompleteScene();
         App.Quest.SetFlag(this._Player, this._Quest.ID(), "ACTIVE");
-        if (this._Quest.TaskData.hasOwnProperty("ON_ACCEPT")) {
-            var a = this._Quest.TaskData["ON_ACCEPT"];
-            this._ProcessTriggers(a, { });
-        }
     }
 };
 
