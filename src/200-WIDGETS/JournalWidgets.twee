@@ -9,13 +9,30 @@
 <</if>>
 <<if $args[0] == "active" || $args[0] == "completed" >>
 	<<set _QL = App.Quest.List($args[0], setup.player);>>
+	<<if $args[0] == "completed">>
+		<<run _QL.sort((l, r) => r.CompletedOn(setup.player) - l.CompletedOn(setup.player))>>
+	<<else>>
+		<<run _QL.sort((l, r) => l.AcceptedOn(setup.player) - r.AcceptedOn(setup.player))>>
+	<</if>>
 	<<if _QL.length == 0>>
 		// No $args[0] quests.//
 	<<else>>
 		<<for _q range _QL>>
 			<<if (_q.JournalEntry === "HIDDEN")>> <<continue>> <</if>>
 			<<set _NPC = setup.player.GetNPC(_q.Giver());>>
-			//<<print "[" +_NPC.pName() + " - " + _q.Title() + "]\n";>>//
+			<<set _acceptDay = _q.AcceptedOn(setup.player)>>
+			<<set _completeDay = _q.CompletedOn(setup.player)>>
+			<<if $args[0] == "active">>
+				<div style="float:left">Day <<= _acceptDay>>
+				<<if setup.player.Day !== _acceptDay>> (<<=setup.player.Day - _acceptDay>> days ago)<</if>>
+				</div>
+			<<else>>
+				<div style="float:left">Day <<= _completeDay>>
+				(<<if _completeDay === _acceptDay>>same day <<else>>in <<= _completeDay - _acceptDay>> days<</if>> after accepting)
+				</div>
+			<</if>>
+			<div style="float:right">[ <<=_NPC.pName()>>  -  <<=_q.Title()>> ]</div>
+			<br>
 			<<print window.App.PR.pQuestDialog(_q.ID(), _entryType, setup.player, _NPC);>>
 			<<if $args[0] == "active" && _q.Checks.length !== 0>>
 				<br><<print window.App.PR.pQuestRequirements(_q.ID(), setup.player) + "\n";>>

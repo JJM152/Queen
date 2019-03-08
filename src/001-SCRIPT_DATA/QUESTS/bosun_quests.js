@@ -70,7 +70,7 @@ App.Data.Quests["ISLA_TAVERN02"] = {
     ],
     "ON_ACCEPT" : [
         {
-            "TYPE" : "QUEST_FLAG", "NAME" : "SMUGGLER_PICKUP", "VALUE" : "ACTIVE"
+            "TYPE" : "QUEST", "NAME" : "SMUGGLER_PICKUP", "VALUE" : "START"
         }
     ],
     "REWARD": [

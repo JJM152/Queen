@@ -4,7 +4,7 @@ App.Data.Quests["Q001"] = {
     "PRE": [ ],
     "POST": [
         {
-            "TYPE" : "QUEST_FLAG", "NAME": "Q001b", "VALUE": "ACTIVE"
+            "TYPE" : "QUEST", "NAME": "Q001b", "VALUE": "START"
         }
     ],
     "CHECKS": [],
