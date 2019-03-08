@@ -74,6 +74,6 @@ you might be a vegetable after your opponents are done with you!
 </div>
 <div id="endButtons" class="cofUIButtons">\
 <button id="cmdPlayAgain" class="cofButton">PLAY AGAIN</button>\
-<button id="cmdQuit" class="cofButton">WALK AWAY</button>\
+<button id="cmdQuitPlay" class="cofButton">WALK AWAY</button>\
 </div>
 </div>

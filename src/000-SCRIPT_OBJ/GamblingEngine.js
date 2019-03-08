@@ -38,9 +38,104 @@ App.Gambling.Coffin = class CoffinEngine {
     }
 
     PrintResults() {
-        return "You walk away from the game.";
+        var buffer = "";
+        // Tally money
+        var cash = this._TotalMoney();
+        var items = this._TotalItems();
+        var sex = this._TotalSex();
+        
+        if (cash == 0 && items.length == 0 && sex.length == 0 ) {
+            return "You walk away from the game, none the richer, but none the worse for wear. Maybe you'll play next time?";
+        }
+
+        buffer += this._PrintSex(sex);
+        buffer += this._PrintItems(items);
+
+        if(cash < 0 ) buffer += "You lose " + cash + " coins.";
+        if (cash > 0) buffer += "You win " + cash + " coins.";
+
+        return buffer;
     }
 
+    _PrintItems(items)
+    {
+        var buffer = "";
+        for (var i = 0; i < items.length; i++) {
+            buffer += "Pirate "+items[i].name+" gives you " + items[i].data.desc +".\n\n";
+        }
+
+        return buffer;
+    }
+
+    _PrintSex(sex)
+    {
+        var buffer = "";
+        for (var i = 0; i < sex.length; i++) {
+            buffer += "Pirate "+sex[i].name+" has " + sex[i].sex + " with you.\n\n";
+        }
+
+        return buffer;
+    }
+
+    // Sex that needs to be paid
+    _TotalSex() {
+        var sex = [ ];
+
+        for(var i = 0; i < this.Gamblers.length; i++) {
+            var o = this.Gamblers[i];
+            var s = { };
+            if (o.bet1Want != "Coins" && o.bet1Status == 1) {
+                s.name = o.name;
+                s.sex = sex[this._Skills[o.bet1Want]]
+            } 
+
+            if (o.bet2Want != "Coins" && o.bet2Status == 1) {
+                s.name = o.name;
+                s.sex = sex[this._Skills[o.bet2Want]];
+            }
+        }
+
+        return sex;
+    }
+
+    // Items won.
+    _TotalItems() {
+        var items = [ ];
+        for(var i = 0; i < this.Gamblers.length; i++) {
+            var o = this.Gamblers[i];
+            var item = { };
+            var d = null
+
+            if (o.bet1Offer == "Item" && o.bet1Status == 2) 
+                d = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: o.bet1Value } );
+               
+            if (o.bet2Offer == "Item" && o.bet2Status == 2) 
+                d = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: o.bet2Value } );
+
+            if (d != null)
+            {
+                item.data = d;
+                item.name = o.name;
+                items.push(item);
+            }
+        }
+
+        return items;
+    }
+
+    // Money won or lost.
+    _TotalMoney() {
+        var cash = 0;
+        for(var i = 0; i < this.Gamblers.length; i++) {
+            var o = this.Gamblers[i];
+            if (o.bet1Offer == "Coins" && o.bet1Status == 2) cash += o.bet1Value;
+            if (o.bet1Want == "Coins" && o.bet1Status == 1) cash -= o.bet1Value;
+            if (o.bet2Offer == "Coins" && o.bet2Status == 2) cash += o.bet2Value;
+            if (o.bet2Want == "Coins" && o.bet2Status == 1) cash -= o.bet2Value;
+        }
+
+        return cash;
+    }
     // Setup functions
     _SetupGame() {
 
@@ -187,6 +282,7 @@ App.Gambling.Coffin = class CoffinEngine {
         //Game playing buttons
         $('#cmdRollDice').on("click", this._cbRollDice.bind(this));
         $('#cmdPlayAgain').on("click", this._cbPlayAgain.bind(this));
+        $("#cmdQuitPlay").on("click", this._cbQuitGame.bind(this));
     }
 
     _HighlightBet(data) {
