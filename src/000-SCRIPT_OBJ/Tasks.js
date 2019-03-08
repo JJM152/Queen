@@ -806,6 +806,11 @@ App.Scene = class Scene {
                 if (Opt == "SET" )      this._Player.JobFlags[Name] = Value;
                 if (Opt == "ADD" )      this._Player.JobFlags[Name] += Value;
                 break;
+            case "QUEST":
+                let q = new App.Quest(App.Data.Quests[Name]);
+                if (Value === "START") q.Accept(this._Player);
+                if (Value === "COMPLETE") q.Complete(this._Player);
+                break;
             case "QUEST_FLAG":
                 if (Opt == "DELETE")    delete this._Player.QuestFlags[Name];
                 if (Opt == "SET" )      this._Player.QuestFlags[Name] = Value;
@@ -1669,6 +1674,20 @@ App.Quest = class Quest extends App.Task {
     }
 
     /**
+     * Accepts the quest
+     *
+     * This method is not meant to be used for "Accept" button in the quest dialog because
+     * it creates its own copy of the INTRO scene.
+     * @param {App.Entity.Player} Player
+     */
+    Accept(Player) {
+        let scene = new App.QuestIntroScene(Player, Player.GetNPC(this.Giver()), this._MakeSceneData('INTRO'), this);
+        let checks = {};
+        scene.CalculateScene(checks);
+        scene.CompleteScene();
+    }
+
+    /**
      * Completes the quest
      * @param {App.Entity.Player} Player
      */
@@ -1685,6 +1704,7 @@ App.Quest = class Quest extends App.Task {
      */
     MarkAsCompleted(Player) {
         App.Quest.SetFlag(Player, this.ID(), "COMPLETED");
+        App.Quest.SetFlag(Player, this.ID() + "_CompletedOn", Player.Day);
     }
 
     /**
@@ -1708,6 +1728,26 @@ App.Quest = class Quest extends App.Task {
         return r.filter(function (o) {
             return o["REWARD_TYPE"] == RewardType;
         });
+    }
+
+    /**
+     * Day when the quest was acceped by player
+     * @param {App.Entity.Player} Player
+     * @returns {number}
+     */
+    AcceptedOn(Player) {
+        let r = App.Quest.GetFlag(Player, this.ID() + "_AcceptedOn");
+        return typeof r === 'number' ? r : 1;
+    }
+
+    /**
+     * Day when the quest was completed by player
+     * @param {App.Entity.Player} Player
+     * @returns {number}
+     */
+    CompletedOn(Player) {
+        let r = App.Quest.GetFlag(Player, this.ID() + "_CompletedOn");
+        return typeof r === 'number' ? r : 1;
     }
 };
 
@@ -1752,6 +1792,7 @@ App.QuestIntroScene = class QuestIntroScene extends App.QuestScene {
     CompleteScene() {
         super.CompleteScene();
         App.Quest.SetFlag(this._Player, this._Quest.ID(), "ACTIVE");
+        App.Quest.SetFlag(this._Player, this._Quest.ID() + "_AcceptedOn", this._Player.Day);
     }
 };
 
