@@ -6,11 +6,11 @@ App.Data.JobData["JARV01"] =  {
     "HIDDEN" : true,
     "COST" : [  { "TYPE" : "TIME", "VALUE" : 1 },
         { "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 3 },
-        { "TYPE" : "ITEM", "NAME" : "fortified wine", "VALUE" : 1 }
+        { "TYPE" : "ITEM", "NAME" : "FOOD/fortified wine", "VALUE" : 1 }
     ],
     "REQUIREMENTS" : [
         { "TYPE" : "QUEST",     "NAME" : "THEBACKDOOR",         "VALUE" : "ACTIVE",     "CONDITION" : "eq"  },
-        { "TYPE" : "ITEM",      "NAME" : "fortified wine",      "VALUE" : 1,            "CONDITION" : "gte" }
+        { "TYPE" : "ITEM",      "NAME" : "FOOD/fortified wine",      "VALUE" : 1,            "CONDITION" : "gte" }
     ],
     "INTRO" :   "NPC_NAME wouldn't normally stoop so low as to fuck a common whore behind a tavern, but perhaps if you gave him a little 'mental lubrication' first he might become a little more compliant?",
     "START" : "You slowly saunter up to NPC_NAME's table making sure to stick out your bust and give your arse an extra wiggle. You've clearly got his attention but he briskly turns his head to side. Undeterred "+
