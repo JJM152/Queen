@@ -1579,12 +1579,21 @@ App.Quest = class Quest extends App.Task {
         var Condition   = Req["CONDITION"];
         var Option      = Req["OPT"];
 
-        if (Condition === undefined) Condition = "gte";
+        if (Condition === undefined) {
+            if (typeof Value === 'string') {
+                Condition = "eq";
+            } else {
+                Condition = "gte";
+            }
+        }
         if (typeof Name !== 'undefined' && Name.charAt(0) == '-') {
             Name = Name.slice(1);
             Condition = "lte";
         }
         switch (Type) {
+            case "FLAG":
+                Type = "QUEST_FLAG";
+                break;
             case "NPC_MOOD":
                 Type = "NPC_STAT";
                 Option = Name;
