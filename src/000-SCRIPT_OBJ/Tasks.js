@@ -178,10 +178,10 @@ App.Task = class Task {
                     }
                     break;
                 case "ITEM":
-                    if (Player.GetItemByName(Name) === undefined) {
+                    if (Player.GetItemById(Name) === undefined) {
                         StatusFlag = false;
                         ReqString = "@@color:red;Missing item '" + Name + "' x" + Value + "@@";
-                    } else if (Task._Cmp( Player.GetItemByName(Name).Charges(), Value, Condition) == false) {
+                    } else if (Task._Cmp(Player.GetItemById(Name).Charges(), Value, Condition) == false) {
                         StatusFlag = false;
                         ReqString = "@@color:red;Missing item '" + Name + "' x" + Value + "@@";
                     }
@@ -1189,7 +1189,7 @@ App.Job = class Job extends App.Task {
                     Player.AdjustMoney(Math.floor(Value * -1.0));
                     break;
                 case "ITEM":
-                    var o = Player.GetItemByName(Name);
+                    var o = Player.GetItemById(Name);
                     o.RemoveCharges(Value);
                     break;
                 case "TIME":
@@ -1579,12 +1579,21 @@ App.Quest = class Quest extends App.Task {
         var Condition   = Req["CONDITION"];
         var Option      = Req["OPT"];
 
-        if (Condition === undefined) Condition = "gte";
+        if (Condition === undefined) {
+            if (typeof Value === 'string') {
+                Condition = "eq";
+            } else {
+                Condition = "gte";
+            }
+        }
         if (typeof Name !== 'undefined' && Name.charAt(0) == '-') {
             Name = Name.slice(1);
             Condition = "lte";
         }
         switch (Type) {
+            case "FLAG":
+                Type = "QUEST_FLAG";
+                break;
             case "NPC_MOOD":
                 Type = "NPC_STAT";
                 Option = Name;

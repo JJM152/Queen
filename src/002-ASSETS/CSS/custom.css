@@ -267,17 +267,17 @@ button:hover {
 
 span.npcText  {
 	color:antiquewhite;
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+	font-family: Freeserif, serif;
 }
 
 span.impText  {
 	color:orange;
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+	font-family: Freeserif, serif;
 }
 
 span.pcText  {
 	color:lightpink;
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+	font-family: Freeserif, serif;
 }
 
 /*
