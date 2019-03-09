@@ -4,6 +4,7 @@
 <div id="CoffinContainerLeft" class="CoffinContainerLeft">\
 <div id="CoffinDiceContainer">\
 <div id="RoundContainer"></div>\
+<div id="GamesPlayedContainer"></div>\
 </div>\
 <div id="CoffinBetContainer">\
 <div id="coffinPirateSelect">\
@@ -56,7 +57,9 @@
 <div id="cofNPCName">Opponent</div>\
 <div id="cofUItray">\
 Welcome @@color:cyan;Shut the Coffin@@! The game is easy to play - roll the dice and if you hit an empty number, \
-mark it and roll again. The first player to mark five or more is the winner!
+mark it and roll again. The first player to mark five nails is the winner! If the board is filled until the \
+very last spot, then you enter <span style='color:orange'>SUDDEN DEATH</span> and the first person to hit a double \
+on the dice will win!
 
 You can play even if you don't have money by literally betting your ass. Just be careful about losing too much or \
 you might be a vegetable after your opponents are done with you!

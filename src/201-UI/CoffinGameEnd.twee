@@ -1,4 +1,4 @@
-:: CoffinGameEnd [no-teleport]
+:: CoffinGameEnd [no-teleport no-saving]
 <<set _Exit = setup.CoffinGame._ReturnPassage;>>\
 <<= setup.CoffinGame.PrintResults();>>
 

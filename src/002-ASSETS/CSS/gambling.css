@@ -30,6 +30,8 @@ div.CoffinContainerRight {
     margin-bottom: 5px;
     margin-top: 5px;
     background-color: #111;
+    overflow-y: scroll;
+    overflow-x: none;
 }
 
 
@@ -51,6 +53,13 @@ div.CoffinContainerRight {
     left: 5px;
     top: 250px;
     color: gold;
+}
+
+#GamesPlayedContainer {
+    position: absolute;
+    left: 240px;
+    top: 5px;
+    color: gold; 
 }
 /** Betting Container **/
 #CoffinBetContainer {
@@ -138,6 +147,16 @@ div.disabledGamePanel {
     line-height: 120px;
     font-size: larger;
     text-align:center;
+    opacity: 0.8;
+}
+
+#CoffinMenuBlocker {
+    height: 20px;
+    width: 200px;
+    position: absolute;
+    top: 110px;
+    left: 25px;
+    background-color: #222;
 }
 
 div.activeGamePanel {

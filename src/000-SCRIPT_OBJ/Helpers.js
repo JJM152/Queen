@@ -1032,7 +1032,7 @@ App.PR = new function() {
     this.TokenizeString = function(Player, NPC, String, Opt) {
         if (typeof NPC !== 'undefined' ) {
             String = String.replace(/NPC_NAME's/g, "<span style='color:cyan'>"+NPC.Name()+"'s</span>");
-            String = String.replace(/NPC_NAME/g, NPC.pName());
+            String = String.replace(/NPC_NAME/g, "<span style='color:cyan'>"+NPC.Name()+"</span>");
         }
 
         var _this = this;
@@ -1090,8 +1090,8 @@ App.PR = new function() {
             return _this.GetAdjective(statType, statName, Number(num)) + delim;
         }
 
-        String = String.replace(/PLAYER_NAME/g, "@@color:DeepPink;"+Player.SlaveName+"@@");
-        String = String.replace(/GF_NAME/g, "@@color:pink;"+Player.GirlfriendName+"@@");
+        String = String.replace(/PLAYER_NAME/g, "<span style='color:DeepPink'>"+Player.SlaveName+"</span>");
+        String = String.replace(/GF_NAME/g, "<span style='color:pink'>"+Player.GirlfriendName+"</span>");
         String = String.replace(/pCUP/g, this.pCup(Player)); // needs special handling because it has only a single parameter
         String = String.replace(/NOUN_([A-Za-z_]+)/g, nounReplacer);
         String = String.replace(/ADJECTIVE_([A-Za-z_]+)/g, adjReplacer);
@@ -1104,11 +1104,11 @@ App.PR = new function() {
         String = String.replace(/(n)([A-Z_]+)([^A-Za-z]|$)/g, nReplacer);
         String = String.replace(/(v)([A-Z_]+)([^A-Za-z]|$)/g, vReplacer);
         // Hack for highlighting NPC speech
-        String = String.replace(/ s\(([^\)]+)\)/g, function(m,p) { return "<span class='npcText'>\""+p+"\"</span>"; });
+        String = String.replace(/s\(([^\)]+)\)/g, function(m,p) { return "<span class='npcText'>\""+p+"\"</span>"; });
         // Important! highlight NPC speech
-        String = String.replace(/ s\!\(([^\)]+)\)/g, function(m,p) { return "<span class='impText'>\""+p+"\"</span>"; });
+        String = String.replace(/s\!\(([^\)]+)\)/g, function(m,p) { return "<span class='impText'>\""+p+"\"</span>"; });
         // Hilighting PC speech
-        String = String.replace(/ sp\(([^\)]+)\)/g, function(m,p) { return "<span class='pcText'>\""+p+"\"</span>"; });
+        String = String.replace(/sp\(([^\)]+)\)/g, function(m,p) { return "<span class='pcText'>\""+p+"\"</span>"; });
 
         return String;
     };
@@ -1257,9 +1257,9 @@ App.PR = new function() {
     this.RisingDialog = function(element, message, color) {
         color = color || 'white';
         var root = $(element);
-        $('#WhoreDialogDiv').remove();
+        $('#WhoreDialogDiv2').remove();
 
-        var div = $('<div>').addClass('WhoreDialog').attr('id', 'WhoreDialogDiv');
+        var div = $('<div>').addClass('WhoreDialog').attr('id', 'WhoreDialogDiv2');
         var header = $('<h1>').addClass('ml13').html(message);
         header.css('color', color);
         div.append(header);
@@ -1342,7 +1342,8 @@ App.PR = new function() {
             opacity: 0,
             duration: 1000,
             easing: "easeOutExpo",
-            delay: 1000
+           // delay: 1000
+           //delay: 500
         });
     };
 };
