@@ -55,3 +55,15 @@ App.Data.NPCS["Quartermaster"] = {
         "He eyes you with both delight and disdain as you approach, obviously viewing you as one of the very few onboard to whom he is superior.",
         "Store" : "CARGO"
 };
+
+App.Data.NPCS["Dummy"] = {
+        Name: 'Practice Dummy',
+        Mood: 100,
+        DailyMood: 0,
+        Lust: 100,
+        DailyLust: 0,
+        Title: 'NPC_NAME',
+        LongDesc: "\
+        Just a practice dummy to be used by code. Not to ever be seen by players.\
+        ",
+}

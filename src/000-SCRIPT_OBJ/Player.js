@@ -2333,6 +2333,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     // Game/Environment Variables
     get Day() { return this._state.Day; }
+    set Day(n) { this._state.Day = n; };
     get Phase() { return this._state.Phase; } // 0 morning, 1 afternoon, 2 evening, 3 night, 4 late night
     set Phase(n) { this._state.Phase = n; }
 

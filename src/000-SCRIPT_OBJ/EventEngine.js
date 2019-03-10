@@ -71,7 +71,7 @@ App.EventEngine = class EventEngine {
         if (App.Data.Events.hasOwnProperty(ToPassage) == false || App.Data.Events[ToPassage].length < 1) return [];
 
         return App.Data.Events[ToPassage].filter(function(o) {
-            return ( (FromPassage == 'Any' || o["FROM"] == FromPassage) && ( Player.Day >= o["MIN_DAY"])
+            return ( (o["FROM"] == 'Any' || o["FROM"] == FromPassage) && ( Player.Day >= o["MIN_DAY"])
                 && ( o["PHASE"].includes(Player.Phase) )
                 && ( o["MAX_DAY"] == 0 ? true : o["MAX_DAY"] <= Player.Day)
                 && ( o["MAX_REPEAT"] == 0 ? true :
@@ -95,6 +95,18 @@ App.EventEngine = class EventEngine {
 
         Player.QuestFlags[countKey] = Player.QuestFlags.hasOwnProperty(countKey) ?
             Player.QuestFlags[countKey] = Player.QuestFlags[countKey] + 1 : 1;
+    }
+
+    /**
+     * @param {App.Entity.Player} Player 
+     * @param {string} ID Event Id
+     * @returns {number} Last Day event was fired. 0 if never fired
+     */
+    EventFired(Player, ID)
+    {
+        var lastKey = "EE_"+ID+"_LAST";
+        if (Player.QuestFlags.hasOwnProperty(lastKey)== false) return 0;
+        return Player.QuestFlags[lastKey];
     }
 
     // This isn't working exactly how I want to right now. If a player reloads his page (naughty naughty)

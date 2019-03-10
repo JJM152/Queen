@@ -32,6 +32,7 @@ App.Gambling.Coffin = class CoffinEngine {
         this._PlayerTurn = true;
         this._SuddenDeath = false;
         this._Screen = "NEW"; // NEW -> BET -> GAME -> OVER (BACK TO BET OR END PASSAGE)
+        this._ChatLog = null;
 
     }
 
@@ -76,7 +77,7 @@ App.Gambling.Coffin = class CoffinEngine {
     {
         var buffer = "";
         for (var i = 0; i < items.length; i++) {
-            buffer += items[i].name+" gives you " + items[i].data.desc +".\n\n";
+            buffer += "@@color:cyan;"+items[i].name+"@@ gives you " + items[i].data.desc +".\n\n";
         }
 
         return buffer;
@@ -95,7 +96,7 @@ App.Gambling.Coffin = class CoffinEngine {
             // Fetch an appropriate random passage by skill.
             var passage = App.PR.GetRandomListItem(App.Gambling.Scenes[sex[i].sex]);
             // Make a fake npc to pass to tokenizer.
-            var npc = setup.player.GetNPC("Crew");
+            var npc = setup.player.GetNPC("Dummy"); //Fake NPC
             npc.Data.Name = sex[i].name;
             passage = App.PR.TokenizeString(setup.player, npc, passage); // Tokenize passage
             // Fetch picture
@@ -138,6 +139,13 @@ App.Gambling.Coffin = class CoffinEngine {
             }
         }
 
+        if (sex.length > 0) {
+            var cashValue = sex.length > 1 ? sex.reduce(function(acc, obj) { 
+                    return isNaN(acc) ? acc.val + obj.val : acc + obj.val; 
+                }) : sex[0].val;
+
+            this._TrackStat('SexPaid', cashValue);
+        }
         return sex;
     }
 
@@ -147,8 +155,8 @@ App.Gambling.Coffin = class CoffinEngine {
             // Call skill check to award xp, then fetch the modifier back to use
             // as an indicator of how much to adjust the NPC's feelings.
             var result = setup.player.SkillRoll(sex[i].sex, sex[i].val, 1, true);
-            setup.player.GetNPC("Crew").AdjustStat("Mood", Math.ceil((10*result)));
-            setup.player.GetNPC("Crew").AdjustStat("Lust", Math.ceil( (-10*result)));
+            setup.player.GetNPC("Crew").AdjustStat("Mood", Math.ceil((5*result)));
+            setup.player.GetNPC("Crew").AdjustStat("Lust", Math.ceil( (-5*result)));
         }
     } 
 
@@ -171,7 +179,7 @@ App.Gambling.Coffin = class CoffinEngine {
             setup.player.AdjustMoney( (val * -1.0));
             App.PR.RefreshTwineMoney();
         
-        } else if (status == 2 && want == "Coins") { //Player won
+        } else if (status == 2 && offer == "Coins") { //Player won
 
             setup.player.AdjustMoney(val);
             App.PR.RefreshTwineMoney();
@@ -183,7 +191,9 @@ App.Gambling.Coffin = class CoffinEngine {
     _TotalItems() {
         var items = [ ];
         var scale = function(n) {
-            return n + Math.ceil( n * Math.random()) + Math.ceil( (n/2) * Math.random());
+            var out = n + Math.ceil( n * Math.random()) + Math.ceil( (n/2) * Math.random());
+            console.log('Item adjusted from value ('+n+') to ('+out+')');
+            return out;
         };
 
         for(var i = 0; i < this.Gamblers.length; i++) {
@@ -205,6 +215,14 @@ App.Gambling.Coffin = class CoffinEngine {
             }
         }
 
+        if (items.length > 0) {
+            this._TrackStat('ItemsWon', items.length);
+            var cashValue = items.length > 1 ? items.reduce(function(acc, obj) { //Reduce objects if needed.
+                return isNaN(acc) ? acc.data.price + obj.data.price : acc + obj.data.price; 
+            }) : items[0].data.price;
+
+            this._TrackStat('ItemsWonValue', cashValue);
+        }
         return items;
     }
 
@@ -219,6 +237,8 @@ App.Gambling.Coffin = class CoffinEngine {
             if (o.bet2Want == "Coins" && o.bet2Status == 1) cash -= o.bet2Value;
         }
 
+        if (cash > 0) this._TrackStat('CoinsWon', cash);
+        if (cash < 0) this._TrackStat('CoinsLost', Math.abs(cash));
         return cash;
     }
 
@@ -230,7 +250,6 @@ App.Gambling.Coffin = class CoffinEngine {
             this._SetupPoints();
             this._ButtonSetup();
             this._DisplayGambler(0);
-            console.log("Game setup");
         } else if (this._Screen == "BET") {
             this._SetupPoints();
             this._ButtonSetup();
@@ -251,8 +270,11 @@ App.Gambling.Coffin = class CoffinEngine {
             } else {
                 $('#playButtons').css('display', 'none');
                 $('#endButtons').css('display', 'block');
+                if (this._GamesPlayed > this._MaxGames) $('#cmdPlayAgain').css('display','none');
             }
         }
+
+        this._RefreshChatLog();
     }
 
     _CreateGamblers(flag) {
@@ -262,6 +284,7 @@ App.Gambling.Coffin = class CoffinEngine {
         this._SelectedBet = null;
         this._RoundNum = 1;
         this._GamesPlayed = 1;
+        this._ChatLog = null;
 
         for (var i = 0; i < 6; i++) {
             var g = { };
@@ -350,7 +373,7 @@ App.Gambling.Coffin = class CoffinEngine {
             e.addClass("disabledGamePanel");
             d.html('<span style="color:red">Not enough money.</span>');
             e.append(d);
-        } else if (want != "Coins" && value > (50 - g.lust)) { // Player sex skill too low for pirate lust
+        } else if (want != "Coins" && (value > (50 - g.lust)) || value == 0) { // Player sex skill too low for pirate lust
             e.addClass("disabledGamePanel");
             d.html("<span style='color:red'>Skill: "+this._Wants[want]+" is too low.</span>");
             e.append(d);
@@ -428,11 +451,15 @@ App.Gambling.Coffin = class CoffinEngine {
 
     _WriteChat(msg) {
         var o = this.Gamblers[this._GamblerPosition];
-        var npc = setup.player.GetNPC("Crew");
+        var npc = setup.player.GetNPC("Dummy"); // Fake NPC
         npc.Data.Name = o.n; // Swapsie name
         msg = App.PR.TokenizeString(setup.player, npc, msg);
         $('#cofUItray').append("<P>"+msg+"</P>");
         $('#cofUItray').animate({scrollTop: $('#cofUItray').prop("scrollHeight")}, 1000);
+        if (this._ChatLog == null) {
+            this._ChatLog = [ ];
+        }
+        this._ChatLog.push(msg);
 
     }
 
@@ -443,6 +470,16 @@ App.Gambling.Coffin = class CoffinEngine {
         You start to play dice with NPC_NAME.\n\
         The wager is his "+npcwager+" for "+pcwager+".\n";
         this._WriteChat(msg);
+    }
+
+    _RefreshChatLog()
+    {
+        if (this._ChatLog != null) {
+            for (var i = 0; i < this._ChatLog.length; i++) {
+                $('#cofUItray').append("<P>"+this._ChatLog[i]+"</P>");
+            }
+            $('#cofUItray').scrollTop($('#cofUItray').prop("scrollHeight"));
+        }
     }
 
     _GetOfferBetString() {
@@ -531,13 +568,14 @@ App.Gambling.Coffin = class CoffinEngine {
             this._DialogBox("OPPONENTS TURN", "gold");
             $("#cmdRollDice").css('display', 'none');
             this._PlayerTurn = false;
-            this._Interval = setInterval(this._NPCRollDice.bind(this), 2500);
+            this._Interval = setInterval(this._NPCRollDice.bind(this), this._NPCDiceDelay());
             this._DisableMenuLinks();
         }
 
         this._PrintRound();
         this._PrintGames();
         this._WriteStartChat();
+        this._TrackStat("Played", 1);
     }
 
     _cbSelectBet(e) {
@@ -553,11 +591,11 @@ App.Gambling.Coffin = class CoffinEngine {
     _cbDiceRolled(e)
     {
         var point = this._CheckPoint(e);
-        //Scored hit.
-        if (point != -1 || (this._SuddenDeath == true && this._CheckWin(e) != 0)) {
-            if (point != -1) this._AssignPoint(point);
+        if (point != -1) this._AssignPoint(point);
+        var win = this._CheckWin(e);
 
-            var win = this._CheckWin(e);
+        //Scored hit.
+        if (point != -1 || (this._SuddenDeath == true && win != 0)) {
 
             if (win != 0) { //Something happened and we need to end the game.
                 
@@ -605,12 +643,13 @@ App.Gambling.Coffin = class CoffinEngine {
                         this._WriteChat("The game ends in a draw.");
                         $('#playButtons').css("display", "none");
                         $('#endButtons').css("display", "block");
+                        this._TrackStat('Draw', 1);
                     } else {
                         // HAND OVER CONTROL TO NPC
                         $("#cmdRollDice").css('display', 'none'); // HIDE ROLL BUTTON
                         setTimeout(function() { that._DialogBox("OPPONENTS TURN", "gold") }, 500);
                         this._PlayerTurn = false;
-                        this._Interval = setInterval(this._NPCRollDice.bind(this), 2500);
+                        this._Interval = setInterval(this._NPCRollDice.bind(this), this._NPCDiceDelay());
                         this._DisableMenuLinks();
                         this._PrintRound();
                     }
@@ -634,7 +673,7 @@ App.Gambling.Coffin = class CoffinEngine {
                         $("#cmdRollDice").css('display', 'none'); // HIDE ROLL BUTTON
                         setTimeout(function() { that._DialogBox("OPPONENTS TURN", "gold") }, 500);
                         this._PlayerTurn = false;
-                        this._Interval = setInterval(this._NPCRollDice.bind(this), 2500);
+                        this._Interval = setInterval(this._NPCRollDice.bind(this), this._NPCDiceDelay());
                         this._DisableMenuLinks();
                 
                 } else { // THE NPC WAS ROLLING
@@ -647,6 +686,7 @@ App.Gambling.Coffin = class CoffinEngine {
                         $('#playButtons').css("display", "none");
                         $('#endButtons').css("display", "block");
                         this._WriteChat("The game ends in a draw.");
+                        this._TrackStat('Draw', 1);
                     }
 
                     this._PlayerTurn = true;
@@ -682,6 +722,10 @@ App.Gambling.Coffin = class CoffinEngine {
         rollADie( { element: document.getElementById('CoffinDiceContainer'), numberOfDice: 2, callback: this._cbDiceRolled.bind(this), delay: 3000 });
     }
 
+    _NPCDiceDelay() {
+        return (SugarCube.settings.fastAnimations == true) ? 1000 : 2500;
+    }
+
     _CheckWin(e) {
         var me = this._TotalPoints(this.MyScore);
         var him = this._TotalPoints(this.OpponentScore);
@@ -692,11 +736,13 @@ App.Gambling.Coffin = class CoffinEngine {
             if (this._PlayerTurn == true) {
                 this._DialogBox("YOU WIN!", "gold");
                 this._WriteChat("You won the match!");
+                this._TrackStat("Won", 1);
                 this._AdjustMoney(2);
                 return 2;
             } else {
                 this._DialogBox("YOU LOSE!", "red");
                 this._WriteChat("You lost the match!");
+                this._TrackStat("Lost", 1);
                 this._AdjustMoney(1);
                 return 1;
             }
@@ -705,15 +751,18 @@ App.Gambling.Coffin = class CoffinEngine {
         if (me == 4 && him == 4) {
             this._DialogBox("DRAW", "gold");
             this._WriteChat("The game ends in a draw.");
+            this._TrackStat("Draw", 1);
             return -1;
         } else if (me >= 5) {
             this._DialogBox("YOU WIN!", "gold");
             this._WriteChat("You won the match!")
+            this._TrackStat("Won", 1);
             this._AdjustMoney(2);
             return 2;
         } else if (him >=5 ) {
             this._DialogBox("YOU LOSE!", "red");
             this._WriteChat("You lost the match!");
+            this._TrackStat("Lost", 1);
             this._AdjustMoney(1);
             return 1;
         } else if( me + him == 7) {
@@ -762,6 +811,26 @@ App.Gambling.Coffin = class CoffinEngine {
 
     _RisingDialog(message, color) {
         App.PR.RisingDialog(this._Element, message, color);
+    }
+
+    _TrackStat(stat, value)
+    {
+        if (setup.player.GameStats.hasOwnProperty('COFFIN')== false) {
+            setup.player.GameStats["COFFIN"] = {
+                Played: 0,
+                Won: 0,
+                Lost: 0,
+                Draw: 0,
+                CoinsWon: 0,
+                CoinsLost: 0,
+                ItemsWon: 0,
+                ItemsWonValue: 0,
+                SexPaid: 0
+             };
+        }
+
+        if (setup.player.GameStats.COFFIN.hasOwnProperty(stat) == true )
+            setup.player.GameStats.COFFIN[stat] += value;
     }
 }
 
@@ -848,7 +917,7 @@ App.Gambling.Scenes["BlowJobs"] =
     your mouth.\n\n\
     <<else>>\
     You try your best to pull away, but NPC_NAME is holding you firmly and your forced to try to desperately \
-    breathe through your nose as a seemingly endless amount of sperm is shot down your throat.\n\n\
+    breathe through your nose as a seemingly endless amount of sperm is pumped into your stomach.\n\n\
     <</if>>\
     <</if>>\
     Eventually NPC_NAME is spent and he pulls out of your mouth with a load 'pop', a trail of your saliva mixed \

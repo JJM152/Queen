@@ -95,5 +95,31 @@
 <<if _SexSkillsPrinted>>
 	<<print "<hr>">>
 <</if>>
+<<set _Coffin = _GS.COFFIN>>
+<<if typeof _Coffin !== 'undefined' && _Coffin.Played > 0>>
+	<<= "You've played Coffin Dice " + _Coffin.Played + " times.<br>">>
+	<<= "Matches won: " + _Coffin.Won + "<br>">>
+	<<= "Matches lost: " + _Coffin.Lost + "<br>">>
+	<<= "Matches drawn: " + _Coffin.Draw + "<br>">>
+	<<if _Coffin.CoinsWon > 0>>
+	<<= "You've won "+_Coffin.CoinsWon + " coins">>
+		<<if _Coffin.CoinsLost > 0>>
+			<<= " and lost "+_Coffin.CoinsLost+" for a net earnings of " + (_Coffin.CoinsWon - _Coffin.CoinsLost) +".<br>">>
+		<<else>>
+		<<= ".<br>" >>
+		<</if>>
+	<<else>>
+		<<if _Coffin.CoinsLost > 0>>
+			<<= "You've lost "+_Coffin.CoinsLost+" coins.<br>">>
+		<</if>>
+	<</if>>
+	<<if _Coffin.ItemsWon > 0>>
+		<<= "You've won "+_Coffin.ItemsWon+" items, for an estimated value of "+_Coffin.ItemsWonValue+" coins.<br>">>
+	<</if>>
+	<<if _Coffin.SexPaid > 0>>
+		<<= "You used your body to pay "+_Coffin.SexPaid+" coins worth of debts.<br>" >>
+	<</if>>
+	<<= "<hr>" >>
+<</if>>
 <</nobr>>
 <</widget>>

@@ -1,0 +1,23 @@
+::CoffinDiceEvent [no-teleport no-saving]
+You are passing through the deck of the @@color:cyan;Salty Mermaid@@ one evening when you \
+notice a group of pirates huddled against the stern, hunched on some barrels. Curious, you \
+approach them, hiding behind a barrel to spy on their activities.
+
+From your position, you're able to hear the familiar tumble of rolling dice. It appears the \
+pirates are playing some sort of game. Coins and items are exchanging hands at a rapid pace. \
+You stop for a moment and consider the implications of this. Certainly it represents an \
+opportunity to augement your earnings and perhaps achieve your freedom earlier... but there \
+is also a high degree of risk.
+
+<<if setup.player.GetStat('STAT', 'Perversion') >= 50>>\
+You know these scoundrels fairly well by now and they're always lusting after two things - \
+grog and your booty. Wagering a quick fuck or two on the back of a stack of coins might see \
+you turn a better than expected profit.
+<<else>>\
+Of course, unlike the pirates, you have another form of 'currency' at your disposal. You're already \
+whoring yourself out to these scoundrels, so perhaps a game of dice or two with your literal \
+ass on the line, might see you turn a decent profit and perhaps even save you from their regular \
+perverse attentions.
+<</if>>\
+
+@@color:cyan;Interact@@: [[Carry on|Deck]]

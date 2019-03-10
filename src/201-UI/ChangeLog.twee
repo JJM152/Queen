@@ -8,14 +8,26 @@
 * Fixed bug where quests that required multiple consumable items didn't use up their charges.
 * Many food items have had the attribute "Unwholesome Meal" added to them. It gives you a tiny bit of toxicity.
 * Foods that were previously "Wholesome" are now noted as such when you discover their knowledge. They clear a bit of toxicity.
+* The quest and job engines were largely folded together. This could cause some errors or strange behaviors, please \
+report any issues you see.
+!!!!Coffin Dice (Shut the Coffin)
+* Simple dice game available at the Casino and on the Mermaid.
+* You can gamble with the pirates for items and money and pay off your bets with sex.
+* Only cash is allowed at the Casino.
+* Sex with pirates through this will improve their mood and your skills.
+* Items that pirates wager are generally worth more than your own stakes.
+* This can be used as an alternative to the "Slut Slots", but does not scale as well at upper levels.
 !!!!Salty Mermaid
 * Fixed an oversight where Julius's experimentation job wasn't granting growth to hips, but just ass.
+* Fixed formatting in some quest.
+* Added an event to allow Coffin Dice to be unlocked on the mermaid.
 !!!!Golden Isle
 * Fixed a null reference in the whoring jobs at the brothel.
 * Uticus' job was available prior to completing his quest due to a bug in the job engine. Fixed the bug.
 !!!!Port Royale
 * Fixed a null reference in the whoring jobs at the brothel.
 * Jezzebelle will now train you up to 4 stars in dancing.
+* Added Coffin Dice to the casino as a game (money stakes only).
 !!!!Abamond
 * Reduced shovel break rate in the caverns below Abamond.
 !!!!General

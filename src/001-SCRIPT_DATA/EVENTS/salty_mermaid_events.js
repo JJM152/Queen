@@ -27,3 +27,24 @@ App.Data.Events["Cabin"] = [
         }
     }
 ];
+
+App.Data.Events["Deck"]= [
+    {
+        ID: 'CoffinDiceIntroduction',
+        FROM: 'Any',
+        MAX_REPEAT: 1,
+        MIN_DAY: 20,
+        MAX_DAY: 0,
+        COOL: 0,
+        PHASE: [ 2, 3],
+        PASSAGE: 'CoffinDiceEvent',
+        CHECK: function(p) {
+           return ( 
+                    (   (p.GetStat('SKILL', 'HandJobs') >= 20) ||
+                        (p.GetStat('SKILL', 'BlowJobs') >= 20) ||
+                        (p.GetStat('SKILL', 'TitFucking') >= 20) ||
+                        (p.GetStat('SKILL', 'AssFucking') >= 20) ) && 
+                        (Math.floor(Math.random() * 4) == 0) );
+        }
+    }
+];
