@@ -1,0 +1,83 @@
+:: coffinUI [widget]
+<<widget "coffinUI">>\
+<div id="GamblingGUI" class="GamblingGUI">\
+<div id="CoffinContainerLeft" class="CoffinContainerLeft">\
+<div id="CoffinDiceContainer">\
+<div id="RoundContainer"></div>\
+<div id="GamesPlayedContainer"></div>\
+</div>\
+<div id="CoffinBetContainer">\
+<div id="coffinPirateSelect">\
+<button id="cmdPrevBet" class="coffinRoundButton">&#8249;</button>\
+<span id="CoffinNPCName"></span>\
+<button id="cmdNextBet" class="coffinRoundButton">&#8250;</button>\
+</div>\
+<div id="CoffinBet1">\
+<div id="betLabel1">Top Bet</div>\
+<div id="betLabel1b">Him</div>\
+<div id="betIcon1a"></div>\
+<div id="betLabel1c">You</div>\
+<div id="betIcon1b"></div>\
+</div>\
+<div id="CoffinBet1Blocker"></div>\
+<div id="CoffinBet2">\
+<div id="betLabel2">Bottom Bet</div>\
+<div id="betLabel2b">Him</div>\
+<div id="betIcon2a"></div>\
+<div id="betLabel2c">You</div>\
+<div id="betIcon2b"></div>\
+</div>\
+<div id="CoffinBet2Blocker"></div>\
+</div>\
+</div>\
+<div id="CoffinContainerRight" class="CoffinContainerRight">\
+<img id="coffinBoard" data-passage="img_coffin">\
+</div>\
+<div id="cofBoxWrapper1">\
+<div id="pcbox0" class="coffinNumBox">2</div>\
+<div id="pcbox1" class="coffinNumBox">3</div>\
+<div id="pcbox2" class="coffinNumBox">4</div>\
+<div id="pcbox3" class="coffinNumBox">5</div>\
+<div id="pcbox4" class="coffinNumBox">6</div>\
+<div id="pcbox5" class="coffinNumBox">7</div>\
+<div id="pcbox6" class="coffinNumBox">8</div>\
+<div id="pcbox7" class="coffinNumBox">9</div>\
+</div>\
+<div id="cofBoxWrapper2">\
+<div id="npcbox0" class="coffinNumBox">2</div>\
+<div id="npcbox1" class="coffinNumBox">3</div>\
+<div id="npcbox2" class="coffinNumBox">4</div>\
+<div id="npcbox3" class="coffinNumBox">5</div>\
+<div id="npcbox4" class="coffinNumBox">6</div>\
+<div id="npcbox5" class="coffinNumBox">7</div>\
+<div id="npcbox6" class="coffinNumBox">8</div>\
+<div id="npcbox7" class="coffinNumBox">9</div>\
+</div>\
+<div id="cofPlayerName">You</div>\
+<div id="cofNPCName">Opponent</div>\
+<div id="cofUItray">\
+Welcome @@color:cyan;Shut the Coffin@@! The game is easy to play - roll the dice and if you hit an empty number, \
+mark it and roll again. The first player to mark five nails is the winner! If the board is filled until the \
+very last spot, then you enter <span style='color:orange'>SUDDEN DEATH</span> and the first person to hit a double \
+on the dice will win!
+
+You can play even if you don't have money by literally betting your ass. Just be careful about losing too much or \
+you might be a vegetable after your opponents are done with you!
+</div>\
+<div id="startButtons" class="cofUIButtons">\
+<button id="cmdStart" class="cofButton">START GAME</button>\
+<button id="cmdQuit" class="cofButton">WALK AWAY</button>\
+</div>\
+<div id="betButtons" class="cofUIButtons">\
+<button id="cmdTakeBet" class="cofButton">TAKE BET</button>\
+<button id="cmdQuitBet" class="cofButton">WALK AWAY</button>\
+</div>\
+<div id="playButtons" class="cofUIButtons">\
+<button id="cmdRollDice" class="cofButton">ROLL DICE</button>\
+</div>\
+<div id="endButtons" class="cofUIButtons">\
+<button id="cmdPlayAgain" class="cofButton">PLAY AGAIN</button>\
+<button id="cmdQuitPlay" class="cofButton">WALK AWAY</button>\
+</div>\
+</div>\
+<</widget>>

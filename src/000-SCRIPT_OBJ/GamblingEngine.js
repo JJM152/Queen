@@ -142,8 +142,14 @@ App.Gambling.Coffin = class CoffinEngine {
     }
 
     _AwardSex(sex){
-        for (var i = 0; i < sex.length; i++)
-            setup.player.SkillRoll(sex[i].sex, sex[i].val, 100);
+
+        for (var i = 0; i < sex.length; i++) {
+            // Call skill check to award xp, then fetch the modifier back to use
+            // as an indicator of how much to adjust the NPC's feelings.
+            var result = setup.player.SkillRoll(sex[i].sex, sex[i].val, 1, true);
+            setup.player.GetNPC("Crew").AdjustStat("Mood", Math.ceil((10*result)));
+            setup.player.GetNPC("Crew").AdjustStat("Lust", Math.ceil( (-10*result)));
+        }
     } 
 
     _AwardItems(items)
@@ -176,16 +182,20 @@ App.Gambling.Coffin = class CoffinEngine {
     // Items won.
     _TotalItems() {
         var items = [ ];
+        var scale = function(n) {
+            return n + Math.ceil( n * Math.random()) + Math.ceil( (n/2) * Math.random());
+        };
+
         for(var i = 0; i < this.Gamblers.length; i++) {
             var o = this.Gamblers[i];
             var item = { };
             var d = null
 
             if (o.bet1Offer == "Item" && o.bet1Status == 2) 
-                d = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: o.bet1Value } );
+                d = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: scale(o.bet1Value) } );
                
             if (o.bet2Offer == "Item" && o.bet2Status == 2) 
-                d = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: o.bet2Value } );
+                d = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: scale(o.bet2Value) } );
 
             if (d != null)
             {

@@ -16,14 +16,18 @@ App.EventEngine = class EventEngine {
         this._fromPassage = FromPassage;
         this._toPassage = ToPassage;
 
+        this._d("From: "+FromPassage+",To:"+ToPassage);
+        
         // Check gameover conditions first. Hardcoded just because they are rare.
         if (setup.player.GetStat("STAT", "Health") <= 0) {
-            State.temporary.followup = passageName;
+            this._d("Player died event.");
+            //State.temporary.followup = passageName;
             return "DeathEnd";
         }
 
         if (setup.player.GetStat("STAT", "WillPower") < 20) {
-            State.temporary.followup = passageName;
+            this._d("Player lost too much willpower event.");
+            //State.temporary.followup = passageName;
             return "WillPowerEnd";
         }
 
@@ -67,7 +71,7 @@ App.EventEngine = class EventEngine {
         if (App.Data.Events.hasOwnProperty(ToPassage) == false || App.Data.Events[ToPassage].length < 1) return [];
 
         return App.Data.Events[ToPassage].filter(function(o) {
-            return ( (o["FROM"] == FromPassage) && ( Player.Day >= o["MIN_DAY"])
+            return ( (FromPassage == 'Any' || o["FROM"] == FromPassage) && ( Player.Day >= o["MIN_DAY"])
                 && ( o["PHASE"].includes(Player.Phase) )
                 && ( o["MAX_DAY"] == 0 ? true : o["MAX_DAY"] <= Player.Day)
                 && ( o["MAX_REPEAT"] == 0 ? true :
@@ -98,4 +102,8 @@ App.EventEngine = class EventEngine {
     // dynamic links. However, it's probably not really necessary. I'll think about it.
     get FromPassage() { return this._fromPassage; }
     get ToPassage() { return this._toPassage; }
+
+    _d(m) {
+        if (setup.player.debugMode == true) console.log(m);
+    }
 }

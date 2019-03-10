@@ -8,4 +8,6 @@ the prying eyes of the public, but no one seems to know exactly what.
 
 <<NPC "Swales">>
 
+@@color:yellow;Action@@: \
+<<gamblingLink "Shut the Coffin" "ShutTheCoffinCasino">>
 @@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]

@@ -1,4 +1,4 @@
-:: GameWon [custom-menu]
+:: GameWon [no-teleport]
 <<if setup.player.GetStatPercent("STAT", "WillPower") <= 40>><!-- Contributed by mightyakira @ TFGamesSite Forums -->
 You daintily walk into the captain’s cabins and kneel before Captain Reginald, all on your own accord. You have learnt \
 much from your time with the crew and captain of the Mermaid, it’s almost your second nature now to act exactly the way \
