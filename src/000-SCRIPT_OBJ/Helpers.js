@@ -1,5 +1,7 @@
 App.PR = new function() {
 
+    this.numericalMeters = false;
+
 	/** Shortcut
 	 */
 	this.lengthString = function(x, compact) {
@@ -639,7 +641,7 @@ App.PR = new function() {
         p = Math.floor( ((c/m)*100));
         console.log("pMeter("+c+","+m+",0) called by pQuestMeter");
 
-        return "<span id=\"fixed-font\">" + this.pMeter(c, m, 0) +"</span>&nbsp;"+ p +"% "+Name;
+        return `<span id=\"fixed-font\">${this.pMeter(c, m, 0)}${this.numericalMeters ? '/' + GoalValue : ''}</span>&nbsp; ${p} % ${Name}`;
     };
 
     /**
