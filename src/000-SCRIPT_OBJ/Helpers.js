@@ -309,9 +309,9 @@ App.PR = new function() {
      * @returns {string}
      */
         this.pMeter = function (Score, MaxScore, InvertMeter, HtmlSafe) {
-				Score = Math.max(0, Math.min(Score, MaxScore));
+				const clampedScore = Math.clamp(Score, 0, MaxScore);
                 var units = (MaxScore / 10);
-                var Stars = Math.floor((Score / units));
+                var Stars = Math.floor((clampedScore / units));
                 var sMeter = "";
 				var nMeter = (InvertMeter == 1) ? (100 - (10 * Stars)) : (10 * Stars);
 				var i = 0;
@@ -641,7 +641,7 @@ App.PR = new function() {
         p = Math.floor( ((c/m)*100));
         console.log("pMeter("+c+","+m+",0) called by pQuestMeter");
 
-        return `<span id=\"fixed-font\">${this.pMeter(c, m, 0)}${this.numericalMeters ? '/' + GoalValue : ''}</span>&nbsp; ${p} % ${Name}`;
+        return `<span id=\"fixed-font\">${this.pMeter(c, m, 0)}${this.numericalMeters ? '/' + m : ''}</span>&nbsp; ${p} % ${Name}`;
     };
 
     /**
