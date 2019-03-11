@@ -1435,67 +1435,6 @@ App.Data.Naming = {
     }
 };
 
-App.Data.Enemies = {
-  "PIRATE_A" : {
-      "NAME" : "Pirate", "CATEGORY" : "PIRATES", "CLASSIFICATION" : "MINOR",
-      "TITLE" : "A swarthy ENEMY wielding WEAPON", "GENDER" : "MALE", "MaxHealth" : 60, "MaxEnergy" : 3,
-      "Energy" : 3, "Health" : 60, "Fitness" : 40, "WillPower" : 40, "Perversion" : 40, "Swashbuckling" : 30,
-      "SKILLS" : [ "Slash", "Riposte", "Impale" ],
-      "WEAPONS" : [ { "NAME" : "basic cutlass", "TYPE" : "BLADED_MELEE" } ],
-      "TREASURE" :
-          { "A" :
-              [
-                  { "TYPE" : "MONEY", "NAME" : "MONEY", "AMOUNT" : 20, "OPT" : "RANDOM", "CHANCE" : 100 }
-              ],
-            "B" :
-              [
-                  { "TYPE" : "FOOD", "NAME" : "grog", "AMOUNT" : 1, "OPT" : 0, "CHANCE" : 30 }
-              ]
-          }
-  }
-
-};
-
-App.Data.CombatSkills = {
-    "Slash" : {
-        "NAME" : "Slash", "COST" : 0, "SKILL" : "Swashbuckling", "TYPE" : "BLADED_MELEE", "COOL_DOWN" : 0,
-        "VERB" : [ "slash at ENEMY", "slashes at you"], "TRIGGERS" : [ ], "EFFECTS" : [ ]
-        },
-    "Swing" : {
-        "NAME" : "Swing", "COST" : 0, "SKILL" : "Swashbuckling", "TYPE" : "BLUNT_MELEE", "COOL_DOWN" : 0,
-        "VERB" : [ "swing at ENEMY", "swings at you"], "TRIGGERS" : [ ], "EFFECTS" : [ ]
-    },
-    "Riposte" : {
-        "NAME" : "Riposte", "COST" : 1, "SKILL" : "Swashbuckling", "TYPE" : "ANY_MELEE", "COOL_DOWN" : 0,
-        "VERB" : [ "riposte ENEMY's blow", "ripostes your blow"], "TRIGGERS" : [ "BLOCK_BLOW" ], "EFFECTS" : [ ]
-        },
-    "Hack" : {
-        "NAME" : "Hack", "COST" : 1, "SKILL" : "Swashbuckling", "TYPE" : "BLADED_MELEE", "COOL_DOWN" : 1,
-        "VERB" : ["hack at ENEMY", "hacks at you"], "TRIGGERS" : [ ], "EFFECTS" : [ ]
-        },
-    "Smash" : {
-        "NAME" : "Smash", "COST" : 1, "SKILL" : "Swashbuckling", "TYPE" : "BLUNT_MELEE", "COOL_DOWN" : 1,
-        "VERB" : ["smash ENEMY", "smashes you"], "TRIGGERS" : [ ], "EFFECTS" : [ ]
-        },
-    "Impale" : {
-        "NAME" : "Impale", "COST" : 1, "SKILL" : "Swashbuckling", "TYPE" : "BLADED_MELEE", "COOL_DOWN" : 1,
-        "VERB" : ["smash ENEMY", "smashes you"], "TRIGGERS" : [ ], "EFFECTS" : [ "BLEED_MINOR" ]
-        },
-    "Clobber" : {
-        "NAME" : "Clobber", "COST" : 1, "SKILL" : "Swashbuckling", "TYPE" : "BLUNT_MELEE", "COOL_DOWN" : 1,
-        "VERB" : ["smash ENEMY", "smashes you"], "TRIGGERS" : [ ], "EFFECTS" : [ "DAZE_MINOR" ]
-    }
-
-};
-
-App.Data.Encounters = {
-    "PIRATE_PRACTICE" :
-        [
-            {   "CHANCE" : 100,
-                "INTRO" : "Your opponent steps up for the duel.",
-                "ENEMIES" : [ { "ENEMY" : "PIRATE_A", "MIN" : 1, "MAX" : 1 }]}
-        ]
-};
 
 App.Data.Fashion = {
     "STYLES" : [

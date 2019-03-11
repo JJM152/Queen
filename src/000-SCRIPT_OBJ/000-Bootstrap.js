@@ -26,3 +26,7 @@ App.Entity = {};
 
 App.Gambling = {};
 App.Gambling.Coffin = {};
+
+App.Combat = { };
+App.Combat.Engines = { };
+App.Combat.Moves = { };
