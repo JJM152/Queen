@@ -28,5 +28,7 @@ App.Gambling = {};
 App.Gambling.Coffin = {};
 
 App.Combat = { };
+App.Combat.EncounterData = { };
+App.Combat.EnemyData = { };
 App.Combat.Engines = { };
 App.Combat.Moves = { };

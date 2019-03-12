@@ -231,10 +231,17 @@ App.EventHandlers = new function() {
             for (let slot in eq) {
                 if (!eq.hasOwnProperty(slot)) continue;
                 if (eq[slot] === 0) eq[slot] = null;
+            console.log('Adding new skills to player state...');
+            let ps = save.state.history[0].variables.PlayerState;
+            ps.Skills['BoobJitsu'] = 0;
+            ps.SkillsXP['BoobJitsu'] = 0;
+            ps.Skills['AssFu'] = 0;
+            ps.SkillsXP['AssFu'] = 0;
             }
         }
 
         if (save.version > App.Data.Game.Version) {
+            console.log("Version out of range on save. Loaded : "+save.version+", above expected:"+App.Data.Game.Version);
             /* Invalidates saves outside of legal scope */
             throw new Error("The save you're attempting to load is incompatible with the current game. Please download the latest game version.");
         }

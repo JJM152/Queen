@@ -1,4 +1,5 @@
 App.Combat.Moves["UNARMED"] = {
+    Engine: App.Combat.Engines.Unarmed,
     Punch : {
             Name: "Punch",
             Description: "\
@@ -6,7 +7,6 @@ App.Combat.Moves["UNARMED"] = {
             Stamina: 5,
             Combo: 0, // Generates no combo points
             Speed: 5,
-            Engine: App.Combat.Engines.Unarmed, //Used to do damage and callback to Combat Engine.
             Unlock: function(player) {
                     return true; // No requirements or skills to use.
                 },
@@ -51,7 +51,6 @@ App.Combat.Moves["UNARMED"] = {
             Stamina: 5,
             Combo: 0, // Generates no combo points.
             Speed: 10,
-            Engine: App.Combat.Engines.Unarmed, //Used to do damage and callback to Combat Engine.
             Unlock: function(player) {
                     return true; // No requirements or skills to use.
                 },

@@ -2,7 +2,7 @@
 ifid:2281acf9-aff5-4833-bd11-9d4317bce5ae
 
 :: StoryTitle
-Queen of the Seas (v 0.9e)
+Queen of the Seas (v 0.10)
 :: Story Stylesheet [stylesheet]
 
 :: Story JavaScript [script]
@@ -92,8 +92,9 @@ Config.saves.isAllowed = function() {
     }
  
  // Load gambling classes
-
  setup.CoffinGame = new App.Gambling.Coffin();
+ // Load Combat Engine
+ setup.Combat = new App.Combat.CombatEngine();
  
 :: Start
 <<set $GameBookmark = passage(); >>

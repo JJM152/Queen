@@ -112,7 +112,9 @@ App.Entity.PlayerState = function (){
         "Swashbuckling":    0,
         "Sailing":          0,
         "Navigating":       0,
-        "Styling":          0
+        "Styling":          0,
+        "BoobJitsu":        0,
+        "AssFu":            0,
     };
 
     this.SkillsXP = {
@@ -129,7 +131,9 @@ App.Entity.PlayerState = function (){
         "Swashbuckling":    0,
         "Sailing":          0,
         "Navigating":       0,
-        "Styling":          0
+        "Styling":          0,
+        "BoobJitsu":        0,
+        "AssFu":            0,
     };
 
 
