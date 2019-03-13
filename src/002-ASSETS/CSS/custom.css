@@ -64,6 +64,10 @@
 	font-size: small;
 }
 
+#story {
+	margin-left: 21em;
+}
+
 #story-caption {
 	padding: 0;
 	text-align: left;
