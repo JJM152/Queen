@@ -230,7 +230,7 @@ App.Entity.AvatarEngine = class Avatar {
                 exports,
                 {
                     center: exports[da.Part.RIGHT].neck.nape,
-                    width: 50,
+                    width: 55,
                     height: 70
                 });
         });

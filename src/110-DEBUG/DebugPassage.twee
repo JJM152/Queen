@@ -5,6 +5,7 @@
 @@color:lime;Travel Menu@@
 [[Cabin]] | [[IslaHarbor]] | [[GoldenIsle]] | [[HighHill]] | [[Abamond]] | [[PortRoyale]] | [[PassageTest]]
 [[HiddenCove]] | [[Ruins]] | [[TreasureRoom]] | [[BodyTest]] | <<gamblingLink "Shut the Coffin" "ShutTheCoffin">>
+[[CombatTest]]
 
 @@color:silver;Items Menu@@
 [[Acquire everything|DebugPassage][setup.player.AcquireAllItems();]]

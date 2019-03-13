@@ -1,0 +1,40 @@
+div.CombatGUI {
+    width: 800px;
+    height: 600px;
+    position: relative;
+    border: 1px solid;
+    border-color: #444;
+    background-color: #222;
+}
+
+div.EnemyGUI {
+    width: 670px;
+    height: 400px;
+    background-color: #111;
+}
+
+#InitiativeBar {
+    width:130px;
+    height: 600px;
+    position: absolute;
+    left:670px;
+    top: 0px;
+    background-color: #111;
+}
+
+div.InitiativePortrait {
+    width: 123px;
+    height: 32px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    line-height: 32px;
+    padding-left:5px;
+}
+
+div.ActiveInitiativeFrame { 
+    border: solid 1px green;
+}
+
+div.InactiveInitiativeFrame {
+    bordeR: solid 1px yellow;
+}
