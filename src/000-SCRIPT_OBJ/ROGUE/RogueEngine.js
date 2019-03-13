@@ -1,4 +1,3 @@
-App = App || { Data: { }, Entity: { } };
 App.Rogue = App.Rogue || { };
 
 
@@ -7,7 +6,9 @@ App.Rogue.Engine = new function() {
     //Internal Variables
     this._scheduler = null;
     this._engine = null;
+    /** @type {App.Rogue.Player} */
     this._player = null;
+    /** @type {App.Rogue.Level} */
     this._level = null;
     this._display = null;
     this._textBuffer = null;
@@ -155,12 +156,81 @@ App.Rogue.Engine = new function() {
         }
     };
 
-    this._drawWithLight = function(pxy) {
-        this._currentDrawnCells = this._level.cellsAtRadius( pxy.x, pxy.y, this._player._lightLevel, false );
-        for (var i = 0; i < this._currentDrawnCells.length; i++) {
-            var xy = new App.Rogue.XY();
-            xy.setStr(this._currentDrawnCells[i]);
-            this.draw(xy);
+    this._drawWithLight = function (pxy) {
+        /** light level
+         * @type {number} */
+        const LL = this._player._lightLevel;
+        this._currentDrawnCells = this._level.cellsAtRadius(pxy.x, pxy.y, LL, false);
+
+        /** @type {App.Rogue.XY[]} */
+        const currentDrawnCellsXY = this._currentDrawnCells.map(function (s) {
+            let xy = new App.Rogue.XY();
+            xy.setStr(s);
+            return xy;
+        });
+
+        let walls = new Array(LL * 2 + 1);
+        let visibilityMap = new Array(LL * 2 + 1);
+        for (let i = 0; i < walls.length; ++i) {
+            walls[i] = new Array(LL * 2 + 1);
+            walls[i].fill(0); // starting with no walls
+            visibilityMap[i] = new Array(LL * 2 + 1);
+            visibilityMap[i].fill(false); // everything is invisible
+        }
+
+        const x0 = pxy.x - LL;
+        const y0 = pxy.y - LL;
+
+        const wallXY = this._level.getWalls();
+        for (let xy of currentDrawnCellsXY) {
+            if (wallXY[xy]) {
+                walls[xy.x - x0][xy.y - y0] = 1; // put a wall
+            }
+        }
+
+        // ray tracing to detect visible walls
+        function traceLine(i, j) { // i and j are orts
+            for (let l = 1; l <= LL; ++l) {
+                const x = Math.round(LL + l * i);
+                const y = Math.round(LL + l * j);
+                visibilityMap[x][y] = true;
+                if (walls[x][y] === 1) { // wall found
+                    break;
+                }
+            }
+        }
+
+        // player's position is always visible
+        visibilityMap[LL][LL] = 1;
+
+        traceLine(1, 0);
+        traceLine(-1, 0);
+        traceLine(0, 1);
+        traceLine(0, -1);
+        for (let t = 1; t <= LL; ++t) {
+            let vX = LL;
+            let vY = t;
+            const vL = Math.sqrt(vX * vX + vY * vY);
+            const iX = vX / vL;
+            const iY = vY / vL;
+
+            traceLine(iX, iY);
+            traceLine(-iX, iY);
+            traceLine(iX, -iY);
+            traceLine(-iX, -iY);
+
+            traceLine(iY, iX);
+            traceLine(-iY, iX);
+            traceLine(iY, -iX);
+            traceLine(-iY, -iX);
+        }
+
+        for (const xy of currentDrawnCellsXY) {
+            if (visibilityMap[xy.x - x0][xy.y - y0]) {
+                this.draw(xy);
+            } else {
+                this._display.draw(xy.x, xy.y, null, null, null);
+            }
         }
 
         if (this._lastDrawnCells.length > 0 ) {
@@ -189,5 +259,3 @@ App.Rogue.Engine = new function() {
     }
 
 };
-
-
