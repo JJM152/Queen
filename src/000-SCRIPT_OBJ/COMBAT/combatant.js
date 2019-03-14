@@ -2,7 +2,6 @@ App.Combat.Combatant = class Combatant {
     
     constructor(data, myStatusCB, theirStatusCB, chatLogCB) {
         this._data = Object.create(data); // don't mangle our dictionary
-
         //Naming
         if (this._data.Name.includes('RANDOM_MALE_NAME')) {
             this._Name = this._data.Name.replace(/RANDOM_MALE_NAME/g, App.PR.GetRandomListItem(App.Data.Names.Male));
@@ -12,6 +11,15 @@ App.Combat.Combatant = class Combatant {
             this._Name = this._data.Name;
         }
         this._Title = this._data.Title.replace(/NAME/g, this._Name);
+
+        if (this._data.__proto__.hasOwnProperty('Portraits')) {
+            this._Portrait = App.PR.GetRandomListItem(this._data.Portraits);
+        } else {
+            this._Portrait = "pugilist_a";
+        }
+
+        //Callbacks
+        this._MyStatus = myStatusCB;
 
         //Moveset and personal combat engine
         this._Engine = new this.Moves.Engine(this, myStatusCB, theirStatusCB, chatLogCB);
@@ -23,11 +31,17 @@ App.Combat.Combatant = class Combatant {
         this._Turn = 0;
         //Current delay due to last attack speed
         this._WeaponDelay = 0;
+
+        this._Id = null;
     }
 
     get Name() { return this._Name; }
+    get Portrait() { return this._Portrait; }
+    get Id() { return this._Id; } 
+    set Id(n) { this._Id = null; }
     get Title() { return this._Title; }
     get Health() { return this._data.Health; }
+    get MaxHealth() { return this._data.MaxHealth; }
     get Energy() { return this._data.Energy; }
     get Skill() { return this._data.Skill; }
     get Engine() { return this._Engine; }
@@ -40,13 +54,16 @@ App.Combat.Combatant = class Combatant {
     get Delay() { return this._Delay; }
     get WeaponDelay() { return this._Delay };
     get Turn() { return this._Turn; }
+    get Gender() { return this._data.Gender; }
 
     TakeDamage(n) {
         this._data.Health -= n;
+        this._MyStatus(this);
     }
 
     RecoverHealth(n) {
         this._data.Health += n;
+        this._MyStatus(this);
     }
 
     UseEnergy(n) {
@@ -59,10 +76,12 @@ App.Combat.Combatant = class Combatant {
 
     UseStamina(n) {
         this._data.Stamina -= n;
+        this._MyStatus(this);
     }
 
     RecoverStamina(n) {
         this._data.Stamina += n;
+        this._MyStatus(this);
     }
 
     AddDelay(n) {

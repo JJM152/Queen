@@ -57,7 +57,7 @@ App.Combat.Engines.Generic = class GenericEngine {
     PrintMiss(Misses, Them) {
         var Message = this.GetMissMessage(Misses);
         Message = this._FormatChat(Message, Them);
-        if (typeof this._chatLogCB === 'function') this._chatLogCB(Message);
+        if (typeof this._chatLogCB === 'function') this._chatLogCB(Message, this.Owner);
     }
 
     _FormatChat(Message, Them) {

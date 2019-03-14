@@ -9,8 +9,69 @@ div.CombatGUI {
 
 div.EnemyGUI {
     width: 670px;
-    height: 400px;
+    height: 440px;
     background-color: #111;
+    text-align: center;
+}
+
+div.EnemyContainer {
+    width: 200px;
+    height: 30px;
+    display: inline-block;
+    margin-top: 2px;
+    margin-left: 15px;
+}
+
+div.EnemyPortrait {
+    width: 200px;
+    height: 300px;
+}
+
+div.EnemyTitle {
+    color: gold;
+    font-weight: bold;
+}
+
+div.EnemyStatusFrame {
+    width: 200px;
+    height: 70px;
+    margin-top: 230px;
+}
+
+div.EnemyHPHolder {
+    width: 190px;
+    height: 35px;
+    margin-left: 5px;
+}
+
+div.EnemyHpBar {
+    width: 190px;
+    height: 30px;
+}
+
+div.EnemyHpBarCover {
+    width: 50px;
+    height: 30px;
+    float: left;
+    background-color: darkred;
+}
+
+div.EnemyStaminaHolder{
+    width: 190px;
+    height: 35px;
+    margin-left: 5px;
+} 
+
+div.EnemyStaminaBar {
+    width: 160px;
+    height: 30px;
+}
+
+div.EnemyStaminaBarCover {
+    width: 50px;
+    height: 30px;
+    float: left;
+    background-color: darkgoldenrod;
 }
 
 #InitiativeBar {
@@ -36,5 +97,25 @@ div.ActiveInitiativeFrame {
 }
 
 div.InactiveInitiativeFrame {
-    bordeR: solid 1px yellow;
+    border: solid 1px yellow;
+}
+
+div.InactivePortraitFrame { 
+    border: solid 1px grey;
+}
+
+div.ActivePortraitFrame {
+    border: solid 1px yellow;
+}
+
+div.pugilist_a {
+    background-image: [img[pugilist_a]];
+}
+
+div.pugilist_b {
+    background-image: [img[pugilist_b]];
+}
+
+div.pugilist_c {
+    background-image: [img[pugilist_c]];
 }

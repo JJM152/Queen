@@ -8,10 +8,15 @@ App.Combat.CombatEngine = class CombatEngine {
         this._Timeline = [];
 
         this._UI_MaxInitiative = 13;
+        this._HpBars = { };
+        this._StaminaBars = { };
     }
 
     get Enemies() { return this._enemies; }
 
+    /**
+     * Call before load encounter.
+     */
     InitializeScene()
     {
         this._encounterData = null;
@@ -19,6 +24,8 @@ App.Combat.CombatEngine = class CombatEngine {
         this._player = null;
         this._turn = 0;
         this._Timeline = [];
+        this._HpBars = { };
+        this._StaminaBars = { };
         $(document).one(":passageend", this._DrawUI.bind(this));
     }
 
@@ -34,6 +41,64 @@ App.Combat.CombatEngine = class CombatEngine {
     _DrawUI()
     {
         this._DrawInitiativeBar();
+        this._DrawEnemyContainers();
+    }
+
+    _DrawEnemyContainers()
+    {
+        var root = $('#EnemyGUI');
+        root.empty();
+
+        for (var i = 0; i < this._enemies.length; i++) {
+            var container = $('<div>').attr('id', 'EnemyContainer'+i).addClass('EnemyContainer');
+            container.append('<div>').addClass('EnemyTitle').text(this._enemies[i].Title);
+            var frame = $('<div>').attr('id', 'EnemyPortrait'+i).addClass('EnemyPortrait InactivePortraitFrame');
+            frame.addClass(this._enemies[i].Portrait);
+            container.append(frame);
+            root.append(container);
+            this._DrawStatus(frame, i);
+            this._UpdateHPBar(this._enemies[i]);
+            this._UpdateStaminaBar(this._enemies[i]);
+        }
+    }
+
+    _DrawStatus(container, enemyIndex)
+    {
+        var frame = $('<div>').attr('id', 'StatusFrame'+enemyIndex).addClass('EnemyStatusFrame');
+
+        var hp = $('<div>').attr('id', 'HpHolder'+enemyIndex).addClass('EnemyHPHolder');
+        var hpBar = $('<div>').attr('id', 'EnemyHpBar'+enemyIndex).addClass('EnemyHpBar');
+        var hpCover = $('<div>').attr('id','EnemyHpBarCover'+enemyIndex).addClass('EnemyHpBarCover');
+        hp.append(hpBar);
+        hpBar.append(hpCover);
+        frame.append(hp);
+        this._HpBars[this._enemies[enemyIndex].Id] = hpCover;
+
+        var stamina = $('<div>').attr('id', 'StaminaHolder'+enemyIndex).addClass('EnemyStaminaHolder');
+        var staminaBar = $('<div>').attr('id', 'EnemyStaminaBar'+enemyIndex).addClass('EnemyStaminaBar');
+        var staminaCover = $('<div>').attr('id','EnemyStaminaBarCover'+enemyIndex).addClass('EnemyStaminaBarCover');
+
+        stamina.append(staminaBar);
+        staminaBar.append(staminaCover);
+        frame.append(stamina);
+        this._StaminaBars[this._enemies[enemyIndex].Id] = staminaCover;
+
+        container.append(frame);
+
+    }
+
+    _UpdateHPBar(obj)
+    {
+        var element = this._HpBars[obj.Id];
+        var x = Math.ceil( 190 * (obj.Health / obj.MaxHealth));
+        element.css('width', x+"px");
+    }
+
+    _UpdateStaminaBar(obj)
+    {
+        var element = this._StaminaBars[obj.Id];
+        var x = Math.ceil( 190 * (obj.Stamina / obj.MaxStamina));
+        element.css('width', x+"px");
     }
 
     _DrawInitiativeBar()
@@ -71,10 +136,12 @@ App.Combat.CombatEngine = class CombatEngine {
     _AddEnemy(e)
     {
         const d = App.Combat.EnemyData[e];
-        this._enemies.push( new App.Combat.Combatant(d, 
-                this._UpdateNPCStatusCB.bind(this),
-                this._UpdatePlayerStatusCB.bind(this), 
-                this._ChatLogCB.bind(this)) );
+        var enemy = new App.Combat.Combatant(d, 
+            this._UpdateNPCStatusCB.bind(this),
+            this._UpdatePlayerStatusCB.bind(this), 
+            this._ChatLogCB.bind(this));
+        enemy.Id = "ENEMY_"+this._enemies.length;
+        this._enemies.push( enemy );
     }
 
     /**
@@ -87,6 +154,7 @@ App.Combat.CombatEngine = class CombatEngine {
             Name: p.SlaveName,
             Title: 'NAME',
             Health: p.GetStat('STAT', 'Health'),
+            MaxHealth: 100,
             Energy: p.GetStat('STAT', 'Energy'),
             MaxStamina: 100,
             Stamina: 100,
@@ -97,6 +165,7 @@ App.Combat.CombatEngine = class CombatEngine {
                 this._UpdatePlayerStatusCB.bind(this),
                 this._UpdateNPCStatusCB.bind(this),
                 this._ChatLogCB.bind(this));
+        this._player.Id = "PLAYER";
     }
 
     /**
@@ -150,8 +219,9 @@ App.Combat.CombatEngine = class CombatEngine {
         console.log(m);
     }
 
-    _UpdateNPCStatusCB(m)
+    _UpdateNPCStatusCB(npc)
     {
-        console.log(m);
+        this._UpdateHPBar(npc);
+        this._UpdateStaminaBar(npc);
     }
 }
