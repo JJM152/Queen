@@ -18,6 +18,7 @@ App.Combat.CombatEngine = class CombatEngine {
         this._HpBars = { };
         this._StaminaBars = { };
         this._ChatLog = [ ];
+        this._LastSelectedStyle = "UNARMED"; // Don't overwrite
     
     }
 
@@ -68,6 +69,38 @@ App.Combat.CombatEngine = class CombatEngine {
         this._DrawInitiativeBar();
         this._DrawEnemyContainers();
         this._DrawChatLog();
+        this._DrawStyles();
+        this._DrawCombatButtons();
+    }
+
+    _DrawCombatButtons()
+    {
+        var selectedStyle = $('#combatStyles').children("option:selected").val();
+        var root = $('#CombatCommands');
+        root.empty();
+
+        var d = App.Combat.Moves[selectedStyle];
+
+        for(var prop in d)
+        {
+            if (prop == 'Engine') continue; // filter out this one.
+            var button = $('<div>').attr('id', 'combatButton'+prop).addClass("CombatButton");
+            button.addClass(d[prop].Icon);
+            root.append(button);
+        }
+    }
+
+    _DrawStyles()
+    {
+        var root = $('#combatStyles');
+        var styles = this._player.AvailableMoveset;
+        for(var prop in styles)
+        {
+            var opt = $('<option>').attr('value', prop).text(styles[prop]);
+            if (prop == this._LastSelectedStyle) opt.attr('selected', 'selected');
+            root.append(opt);
+        }
+
     }
 
     _DrawChatLog()

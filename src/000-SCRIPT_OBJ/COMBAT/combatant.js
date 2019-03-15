@@ -109,7 +109,7 @@ App.Combat.Combatant = class Combatant {
         this._Turn += 1;
     }
 
-    
+
     /**
      * Get the speed for the entity at the current turn, or optional turn in the future
      * @param {number} n 
@@ -147,10 +147,11 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
     get IsNPC() { return false; }
 
     get AvailableMoveset() {
-        var a = [ 'UNARMED' ];
-        if (this._player.IsEquipped('Weapon', true) == true) a.push("SWASHBUCKLING");
-        if (this._player.GetStat('SKILL', 'BoobJitsu') > 0) a.push("BOOBJITSU");
-        if (this._player.GetStat('SKILL', 'AssFu') >0 ) a.push('ASSFU');
+        var a = { "UNARMED" : "Unarmed" };
+
+        if (this._player.IsEquipped('Weapon', true) == true) a["SWASHBUCKLING"] = "Swashbuckling";
+        if (this._player.GetStat('SKILL', 'BoobJitsu') > 0) a["BOOBJITSU"] = "Boob-Jitsu";
+        if (this._player.GetStat('SKILL', 'AssFu') >0 ) a["ASSFU"] = "Ass-Fu";
 
         return a;
     }

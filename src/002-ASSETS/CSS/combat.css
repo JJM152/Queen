@@ -105,6 +105,62 @@ div.InitiativePortrait {
     padding-left:5px;
 }
 
+#PlayerCombatStatContainer {
+    width: 660px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
+div.CombatInline {
+    display: inline-block;
+    height: 40px;
+}
+
+#CombatCommands {
+    width: 500px;
+    height: 106px;
+    background-color: #111;
+    border: solid 1px #444;
+    float: left;
+    margin-left: 10px;
+    text-align: center;
+}
+
+button.combatButton {
+    background-color: #111;
+    border: solid 1px #444;
+    margin-bottom: 4px;
+    width: 140px;
+}
+
+button.combatButton:hover {
+    color: yellow;
+    border-color: yellow;
+}
+
+#PlayerStaminaBar {
+    width: 120px;
+    height: 20px;
+    margin-top: 10px;
+    background-color: darkgoldenrod;
+}
+
+#PlayerComboBar {
+    width: 120px;
+    height: 20px;
+    margin-top: 10px;
+    background-color: deeppink; 
+}
+
+div.CombatButton {
+    width: 64px;
+    height: 64px;
+    margin-left: 5px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
 div.ActiveInitiativeFrame { 
     border: solid 1px green;
 }
@@ -131,4 +187,20 @@ div.pugilist_b {
 
 div.pugilist_c {
     background-image: [img[pugilist_c]];
+}
+
+div.punch_icon {
+    background-image: [img[punch_icon]];
+}
+
+div.kick_icon {
+    background-image: [img[kick_icon]];
+}
+
+div.haymaker_icon{
+    background-image: [img[haymaker_icon]];
+} 
+
+div.knee_icon {
+    background-image: [img[knee_icon]];
 }
