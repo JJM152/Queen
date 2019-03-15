@@ -109,6 +109,7 @@ App.Combat.Combatant = class Combatant {
         this._Turn += 1;
     }
 
+    
     /**
      * Get the speed for the entity at the current turn, or optional turn in the future
      * @param {number} n 

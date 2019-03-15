@@ -5,7 +5,10 @@
 @@color:lime;Travel Menu@@
 [[Cabin]] | [[IslaHarbor]] | [[GoldenIsle]] | [[HighHill]] | [[Abamond]] | [[PortRoyale]] | [[PassageTest]]
 [[HiddenCove]] | [[Ruins]] | [[TreasureRoom]] | [[BodyTest]] | <<gamblingLink "Shut the Coffin" "ShutTheCoffin">>
-[[CombatTest]]
+<<click "Combat Test" "CombatTest">>\
+<<run setup.Combat.InitializeScene();>>\
+<<run setup.Combat.LoadEncounter("TEST_FIGHT_1");>>\
+<</click>>\ 
 
 @@color:silver;Items Menu@@
 [[Acquire everything|DebugPassage][setup.player.AcquireAllItems();]]

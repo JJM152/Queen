@@ -1,5 +1,6 @@
 ::combatUI [widget]
 <<widget "combatUI">>\
+<<run setup.Combat.DrawUI();>>\
 <div id="CombatGUI" class="CombatGUI">\
 <div id="EnemyGUI" class="EnemyGUI"></div>\
 <div id="InitiativeBar"></div>\

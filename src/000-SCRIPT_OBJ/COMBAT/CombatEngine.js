@@ -1,3 +1,10 @@
+/**
+ * Make sure to instantiate this object to a namespace that will not be cleared during
+ * normal play. Prior to drawing the UI with the <<combatUI>> widget, make sure that you
+ * call this.InitializeScene() to clear variables and then this.LoadEncounter({}) from the
+ * PREVIOUS passage inside a <<click>> macro, so that the state of this object will not be 
+ * overwritten if the player goes into another menu screen while playing.
+ */
 App.Combat.CombatEngine = class CombatEngine {
     constructor() {
 
@@ -10,6 +17,8 @@ App.Combat.CombatEngine = class CombatEngine {
         this._UI_MaxInitiative = 13;
         this._HpBars = { };
         this._StaminaBars = { };
+        this._ChatLog = [ ];
+    
     }
 
     get Enemies() { return this._enemies; }
@@ -26,14 +35,30 @@ App.Combat.CombatEngine = class CombatEngine {
         this._Timeline = [];
         this._HpBars = { };
         this._StaminaBars = { };
-        $(document).one(":passageend", this._DrawUI.bind(this));
+        this._ChatLog = [ ];
+        
     }
 
+    /**
+     * Load an encounter to the engine.
+     * Come back later and serialize the enemy stats and player stats to save to sessionStorage
+     * and then reconstitute them on reload of page.
+     * @param {string} Encounter encounter data record
+     */
     LoadEncounter(Encounter)
     {
+        sessionStorage.setItem('QOS_ENCOUNTER_KEY', Encounter);
         this._encounterData = Object.create(App.Combat.EncounterData[Encounter]);
         for(const e of this._encounterData.Enemies) this._AddEnemy(e);
         this._AddPlayer(setup.player);
+        this._AddChat(this._encounterData.Intro);
+    }
+
+    DrawUI() {
+        if (this._encounterData == null)
+            this.LoadEncounter(sessionStorage.getItem('QOS_ENCOUNTER_KEY'));
+
+        $(document).one(":passageend", this._DrawUI.bind(this));
     }
 
     //UI COMPONENTS
@@ -42,6 +67,19 @@ App.Combat.CombatEngine = class CombatEngine {
     {
         this._DrawInitiativeBar();
         this._DrawEnemyContainers();
+        this._DrawChatLog();
+    }
+
+    _DrawChatLog()
+    {
+        var root = $('#EnemyGUI');
+        var log = $('<div>').attr('id', 'CombatChatLog');
+        root.append(log);
+            for (var i = 0; i < this._ChatLog.length; i++) {
+                log.append("<P>"+this._ChatLog[i]+"</P>");
+                }
+
+        log.scrollTop(log.prop("scrollHeight"));
     }
 
     _DrawEnemyContainers()
@@ -127,7 +165,41 @@ App.Combat.CombatEngine = class CombatEngine {
 
  
     }
-    // INTERNAL METHODS
+    // OTHER INTERNAL METHODS
+
+    _AddChat(m)
+    {
+        m = this._FormatMessage(m);
+        this._ChatLog.push(m);
+    }
+
+    _FormatMessage(m, o)
+    {
+        if (o == null || typeof o === 'undefined') {
+            o = this._enemies[0];
+        }
+
+        var npc = setup.player.GetNPC("Dummy"); // Fake NPC
+        npc.Data.Name = o.Name; // Swapsie name
+        // Custom replacer(s)
+        var that = this;
+        m = m.replace(/(ENEMY_([0-9]+))/g,function(m, f, n) {
+            console.log("f="+f+",n="+n);
+            return "<span style='color:cyan'>"+that._enemies[n].Name+"</span>";
+        });
+
+        m = App.PR.TokenizeString(setup.player, npc, m);
+        return m;
+    }
+
+    _WriteMessage(m, o)
+    {
+        m = this._FormatMessage(m,o);
+        this._ChatLog.push(m);
+        var log = $('#CombatChatLog');
+        log.append("<P>"+m+"</P>");
+        log.animate({scrollTop: log.prop("scrollHeight")}, 1000);
+    }
 
     /**
      * Add an enemy object to the encounter.

@@ -1,4 +1,3 @@
 :: CombatTest
-<<run setup.Combat.InitializeScene(); >>\
-<<run setup.Combat.LoadEncounter("TEST_FIGHT_1"); >>\
 <<combatUI>>
+[[DebugPassage]]
