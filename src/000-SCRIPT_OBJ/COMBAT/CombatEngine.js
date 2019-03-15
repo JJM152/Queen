@@ -281,9 +281,9 @@ App.Combat.CombatEngine = class CombatEngine {
 
     // CALLBACKS
 
-    _ChatLogCB(m)
+    _ChatLogCB(m, o)
     {
-        console.log(m);
+        this._WriteMessage(m, o);
     }
 
     _UpdatePlayerStatusCB(m)

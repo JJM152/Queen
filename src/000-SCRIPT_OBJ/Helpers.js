@@ -158,7 +158,7 @@ App.PR = new function() {
             // use colour from the first index for now
             // TODO blend colors from all indices
             var color = this.GetLevelingRecord(Type, Stat, Array.isArray(Value) ? Value[0] : Value).COLOR;
-            return "@@color:" + App.Data.Lists.ColorScale[color] + ";" + str + "@@";
+            return "<span style='color:" + App.Data.Lists.ColorScale[color] + "'>" + str + "</span>";
         }
         return str;
     };
