@@ -138,7 +138,7 @@ App.PR = new function() {
         if (propValue == undefined) return "";
 
         var Arr = App.Data.Lists.ColorScale;
-        return "@@color:" + Arr[propValue.COLOR] + ";" + propValue[Property] +"@@";
+        return "<span style='color:" + Arr[propValue.COLOR] + "'>" + propValue[Property] +"</span>";
     };
 
     /**
@@ -271,8 +271,8 @@ App.PR = new function() {
      * @returns {string}
      */
         this.ColorizeString = function (Value, String, Opt) {
-                //return "@@color:" + this.ColorScale(Value, Opt) + ";" + String + "@@("+Value+")";
-                return "@@color:" + this.ColorScale(Value, Opt) + ";" + String + "@@";
+                //return "@@color:" + this.ColorScale(Value, Opt) + ";" + String + "@@";
+                return "<span style='color:"+this.ColorScale(Value, Opt)+"'>"+String+"</span>";
         };
     /**
      * Used to colorize a string with colors corresponding to the meter scheme.
