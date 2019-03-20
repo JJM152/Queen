@@ -84,9 +84,19 @@ App.Combat.CombatEngine = class CombatEngine {
         for(var prop in d)
         {
             if (prop == 'Engine') continue; // filter out this one.
+            var container = $('<div>').addClass("CombatButtonContainer");
+            var span = $('<span>').addClass("CombatToolTip").text(d[prop].Description);
             var button = $('<div>').attr('id', 'combatButton'+prop).addClass("CombatButton");
             button.addClass(d[prop].Icon);
-            root.append(button);
+            if (d[prop].Unlock(this._player)) {
+                button.addClass("CombatButtonEnabled");
+            } else {
+                button.addClass("CombatButtonDisabled");
+            }
+            //button.append(span);
+            container.append(span);
+            container.append(button);
+            root.append(container);
         }
     }
 

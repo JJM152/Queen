@@ -153,13 +153,50 @@ button.combatButton:hover {
     background-color: deeppink; 
 }
 
-div.CombatButton {
+div.CombatButtonContainer {
     width: 64px;
     height: 64px;
     margin-left: 5px;
     margin-top: 20px;
     display: inline-block;
 }
+
+div.CombatButton {
+    width: 64px;
+    height: 64px;
+    display: inline-block;
+    border: solid 1px white;
+}
+
+div.CombatButtonEnabled:hover {
+    border: solid 1px gold;
+}
+
+div.CombatButtonDisabled {
+    opacity: 0.5;
+}
+div.CombatButtonDisabled:hover {
+    border: solid 1px darkred;
+}
+
+.CombatButtonContainer .CombatToolTip {
+    visibility: hidden;
+    text-align: left;
+    border: 1px solid rgb(126, 200, 243);
+    padding: 5px 5px;
+    background-color: black;
+    width: 625px;
+    height: 100px;
+    position: absolute;
+    z-index: 1;
+    top: 330px;
+    opacity: 1 !important;
+    left: 25px;
+}
+
+.CombatButtonContainer:hover .CombatToolTip {
+    visibility: visible;
+  }
 
 div.ActiveInitiativeFrame { 
     border: solid 1px green;

@@ -99,7 +99,7 @@ App.Combat.Moves["UNARMED"] = {
             Combo: 3, // Generates no combo points
             Speed: 10,
             Unlock: function(player) {
-                    return true; // No requirements or skills to use.
+                    return false; // No requirements or skills to use.
                 },
             Effects: [ ], //No effects to apply.
             Miss: [
@@ -136,7 +136,7 @@ App.Combat.Moves["UNARMED"] = {
                 ]
         },
         Knee : {
-            Name: "Kick",
+            Name: "Knee",
             Description: "\
             A knee to the groin. Classic move. More effective on males.",
             Icon: "knee_icon",
@@ -144,7 +144,7 @@ App.Combat.Moves["UNARMED"] = {
             Combo: 5, 
             Speed: 20,
             Unlock: function(player) {
-                    return true; // No requirements or skills to use.
+                    return false; // No requirements or skills to use.
                 },
             Effects: [ ], //No effects to apply.
             Miss: [
