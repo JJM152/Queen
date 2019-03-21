@@ -168,12 +168,17 @@ div.CombatButton {
     border: solid 1px white;
 }
 
+div.CombatButtonEnabled {
+    cursor: pointer;
+}
+
 div.CombatButtonEnabled:hover {
     border: solid 1px gold;
 }
 
 div.CombatButtonDisabled {
     opacity: 0.5;
+    cursor: not-allowed;
 }
 div.CombatButtonDisabled:hover {
     border: solid 1px darkred;
@@ -185,8 +190,6 @@ div.CombatButtonDisabled:hover {
     border: 1px solid rgb(126, 200, 243);
     padding: 5px 5px;
     background-color: black;
-    /*width: 625px;
-    height: 100px;*/
     position: absolute;
     z-index: 1;
     margin-bottom: 64px;
@@ -214,6 +217,7 @@ div.ActivePortraitFrame {
     border: solid 1px yellow;
 }
 
+/* NPC PORTRAITS */
 div.pugilist_a {
     background-image: [img[pugilist_a]];
 }
@@ -226,6 +230,7 @@ div.pugilist_c {
     background-image: [img[pugilist_c]];
 }
 
+/* COMMAND ICONS */
 div.punch_icon {
     background-image: [img[punch_icon]];
 }

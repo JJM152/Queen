@@ -62,6 +62,11 @@ App.Combat.CombatEngine = class CombatEngine {
         $(document).one(":passageend", this._DrawUI.bind(this));
     }
 
+    StartCombat()
+    {
+        this._StartRound();
+    }
+
     //UI COMPONENTS
 
     _DrawUI()
@@ -94,6 +99,7 @@ App.Combat.CombatEngine = class CombatEngine {
             } else {
                 button.addClass("CombatButtonDisabled");
             }
+            button.on("click", {cmd:prop}, this._CombatCommandHandler.bind(this));
             container.append(span);
             container.append(button);
             root.append(container);
@@ -288,6 +294,7 @@ App.Combat.CombatEngine = class CombatEngine {
      */
     _GenerateTimeLine()
     {
+        this._Timeline = [ ];
         var Timeline = { };
         this._PopulateTimeline(this._player, Timeline);
         for(var i = 0; i < this._enemies.length; i++) this._PopulateTimeline(this._enemies[i], Timeline);
@@ -312,8 +319,11 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _PopulateTimeline(o, Timeline)
     {
+        var last = 0;
         for(var i = 0; i < 10; i++) {
             var t = o.GetTimeline(i);
+            if (t <= last) continue;
+            last = t;
             if (Timeline.hasOwnProperty(t)) {
                 Timeline[t].push(o);
             } else {
@@ -322,8 +332,54 @@ App.Combat.CombatEngine = class CombatEngine {
         }
     }
 
+    _StartRound()
+    {
+        //Who's turn is it?
+        if (this._GetCombatant().IsNPC) {
+            this._EnemyTurn();
+        } else {
+            this._PlayerTurn();
+        }
+    }
+
+    _NextRound()
+    {
+        this._DrawInitiativeBar();
+        this._StartRound();
+    }
+
+    _GetCombatant()
+    {
+        return this._Timeline[0];
+    }
+
+    _EnemyTurn()
+    {
+        this._GetCombatant().StartTurn();
+        this._WriteMessage("NPC_NAME attacks you", this._GetCombatant());
+        this._GetCombatant().AddWeaponDelay(10);
+        this._GetCombatant().EndTurn();
+        setTimeout(this._NextRound.bind(this), 1000);
+    }
+
+    _PlayerTurn()
+    {
+        this._WriteMessage("It is your turn!", this._player);
+    }
+
     // CALLBACKS
 
+    _CombatCommandHandler(e)
+    {
+        console.log("command: "+e.data.cmd);
+        if (this._GetCombatant() !== this._player) return;
+        this._WriteMessage("You attack with "+e.data.cmd);
+        this._GetCombatant().StartTurn();
+        this._GetCombatant().AddWeaponDelay(10)
+        this._GetCombatant().EndTurn();
+        this._DrawInitiativeBar();
+        this._StartRound();
+    }
     _ChatLogCB(m, o)
     {
         this._WriteMessage(m, o);
