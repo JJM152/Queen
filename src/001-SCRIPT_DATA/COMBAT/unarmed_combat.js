@@ -3,7 +3,12 @@ App.Combat.Moves["UNARMED"] = {
     Punch : {
             Name: "Punch",
             Description: "\
-            A basic strike with the unarmed fist. No fancy technique.",
+            A basic strike with the unarmed fist. No fancy technique.<br>\
+            <span style='color:darkred'>DMG LOW</span> \
+            <span style='color:darkgoldenrod'>STA LOW</span> \
+            <span style='color:cyan'>SPD FAST</span><br>\
+            <span style='color:deeppink'>Combo Builder</span>\
+            ",
             Icon: "punch_icon",
             Stamina: 5,
             Combo: 0, // Costs no combo points
@@ -48,7 +53,12 @@ App.Combat.Moves["UNARMED"] = {
         Kick : {
             Name: "Kick",
             Description: "\
-            A basic kick. Solid damage, but slow.",
+            A basic kick. Solid damage, but slow.<br>\
+            <span style='color:darkred'>DMG LOW</span> \
+            <span style='color:darkgoldenrod'>STA LOW</span> \
+            <span style='color:cyan'>SPD AVERAGE</span><br>\
+            <span style='color:deeppink'>Combo Builder</span>\
+            ",
             Icon: "kick_icon",
             Stamina: 5,
             Combo: 0, // Costs no combo points
@@ -93,7 +103,13 @@ App.Combat.Moves["UNARMED"] = {
         Haymaker : {
             Name: "Haymaker",
             Description: "\
-            A powerful uppercut that has a chance of stunning an opponent.",
+            A powerful uppercut that has a chance of stunning an opponent.<br>\
+            <span style='color:darkred'>DMG LOW</span> \
+            <span style='color:darkgoldenrod'>STA AVERAGE</span> \
+            <span style='color:cyan'>SPD AVERAGE</span><br>\
+            <span style='color:gold'>Combo Consumer (Low)</span> - \
+            <span style='color:yellow'>STUN</span>\
+            ",
             Icon: "haymaker_icon",
             Stamina: 10,
             Combo: 3, // Generates no combo points
@@ -138,7 +154,13 @@ App.Combat.Moves["UNARMED"] = {
         Knee : {
             Name: "Knee",
             Description: "\
-            A knee to the groin. Classic move. More effective on males.",
+            A knee to the groin. Classic move. More effective on males.<br>\
+            <span style='color:darkred'>DMG ???</span> \
+            <span style='color:darkgoldenrod'>STA LOW</span> \
+            <span style='color:cyan'>SPD SLOW</span><br>\
+            <span style='color:gold'>Combo Consumer (Medium)</span> - \
+            <span style='color:yellow'>??? Effect</span>\
+            ",
             Icon: "knee_icon",
             Stamina: 5,
             Combo: 5, 
