@@ -256,7 +256,8 @@ App.Rogue.Level = function(depth) {
         this._freeCells[exit].SetType("stairs_down");
     };
 
-    this.getEntrance = function() { return this._entrance; };
+    this.getEntrance = function () { return this._entrance; };
+    /** @returns{App.Rogue.XY} */
     this.getExit = function() { return this._exit };
 
     this.setEntity = function(entity, xy) {
