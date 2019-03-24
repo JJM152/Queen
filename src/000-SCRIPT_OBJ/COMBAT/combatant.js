@@ -33,6 +33,8 @@ App.Combat.Combatant = class Combatant {
         this._WeaponDelay = 0;
 
         this._Id = null;
+        //Combo meter - hidden on enemies
+        this._Combo = 0;
     }
 
     get Name() { return this._Name; }
@@ -43,6 +45,7 @@ App.Combat.Combatant = class Combatant {
     get Health() { return this._data.Health; }
     get MaxHealth() { return this._data.MaxHealth; }
     get Energy() { return this._data.Energy; }
+    get Combo() { return this._Combo; }
     get Skill() { return this._data.Skill; }
     get Engine() { return this._Engine; }
     get Moves() { return App.Combat.Moves[this._data.Moves]; }
@@ -79,6 +82,16 @@ App.Combat.Combatant = class Combatant {
         this._MyStatus(this);
     }
 
+    UseCombo(n) {
+        this._Combo -= n;
+        this._MyStatus(this);
+    }
+
+    RecoverCombo(n) {
+        this._Combo += n;
+        this._MyStatus(this);
+    }
+
     RecoverStamina(n) {
         this._data.Stamina += n;
         this._MyStatus(this);
@@ -98,7 +111,7 @@ App.Combat.Combatant = class Combatant {
      */
     AddWeaponDelay(n) {
         this._WeaponDelay = n;
-        this._EndWeaponDelay = (this.Turn + 1)
+        //this._EndWeaponDelay = (this.Turn + 1);
     }
 
     StartTurn() {
@@ -126,6 +139,20 @@ App.Combat.Combatant = class Combatant {
 
             return (this.Speed + this.Delay + this.WeaponDelay) * (this.Turn + n);
         }
+    }
+
+    SkillRoll(Mine, Difficulty)
+    {
+
+    }
+
+    AttackRoll() {
+
+    }
+
+    DefenseRoll()
+    {
+
     }
 }
 

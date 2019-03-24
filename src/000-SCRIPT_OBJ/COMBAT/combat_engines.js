@@ -10,39 +10,73 @@ App.Combat.Engines.Generic = class GenericEngine {
 
         if ( typeof this._owner === 'undefined' ) throw new Error("You must associate this engine with an owner.");
 
-        this._Stamina = 0;
-        this._ComboPoints = 0;
         this._AttackHistory = [ ];
     }
 
     get Owner() { return this._owner }
 
-    /**
-     * Calculate if an attack hits.
-     * @param {*} Attack Data entry that constitutes the attack
-     * @param {*} Target Entity that you are attacking
-     * @param {string} MySkill Attacking skill to test
-     * @param {string} TheirSkill Defending skill to test
-     */
-    CalculateHit(Attack, Target, MySkill, TheirSkill)
-    {
-        const MyRoll = this.Owner.SkillRoll(MySkill, 100, 100, true);
-        const TheirRoll = Target.SkillRoll(TheirSkill, 100, 100, true);
 
-        if (MyRoll < TheirRoll ) {
-            this.PrintMiss(Attack.Miss, Target);
-            return 0;
+    AttackTarget(Target, Command) {
+
+        this.ConsumeResources(Command);
+        var roll = this.CalculateHit(Target, Command);
+
+        // Try to hit target
+        if (roll > 0) {
+            this.DoDamage(Target, Command, roll);
+            this.ApplyEffects(Target, Command, roll);
+            return true;
         } else {
-            return 1;
+            var Message = this.GetMissMessage(Misses);
+            this.PrintMessage(Message, Target);
+            return false;
         }
     }
 
-    DoDamage(Attack, Target, Damage)
+    ConsumeResources(Command) {
+        this.Owner.UseStamina(Command.Stamina);
+        this.Owner.UseCombo(Command.Combo);
+        this.Owner.AddWeaponDelay(Command.Speed);
+    }
+
+    /**
+     * Calculate if an attack hits.
+     * @param {*} Target Entity that you are attacking
+     */
+    CalculateHit(Target)
     {
-        var dmg = Math.ceil(Damage * -1.0);
+        const MyRoll = this.Owner.AttackRoll(); //Includes getting attack buffs
+        const TheirRoll = Target.DefenseRoll(); //Includes getting defense buffs
+
+        return (MyRoll - TheirRoll);
+    }
+
+     /**
+     * @param {string} Message Miss array from attack definition.
+     * @param {*} Target Object we are attacking.
+     */
+    PrintMessage(Message, Target) {
+        
+        if (typeof this._chatLogCB === 'function') {
+            if (this.Owner.IsNPC == true) {
+                this._chatLogCB(Message, this.Owner);
+            } else {
+                this._chatLogCB(Message, Target);
+            }
+        }
+    }
+
+    DoDamage(Target, Command)
+    {
+        var dmg = this.CalculateDamage(Target, Command);
         Target.AdjustStat('Health', dmg);
         this.PrintHit(Attack.Hit, Target, Damage);
         this._theirStatusCB(dmg);
+    }
+
+    CalculateDamage(Target, Command)
+    {
+        return 1;
     }
 
     ApplyEffects(Attack, Target, Effects)
@@ -50,25 +84,7 @@ App.Combat.Engines.Generic = class GenericEngine {
 
     }
 
-    /**
-     * @param {Array} Misses Miss array from attack definition.
-     * @param {*} Them Object we are attacking.
-     */
-    PrintMiss(Misses, Them) {
-        var Message = this.GetMissMessage(Misses);
-        Message = this._FormatChat(Message, Them);
-        if (typeof this._chatLogCB === 'function') this._chatLogCB(Message, this.Owner);
-    }
 
-    _FormatChat(Message, Them) {
-        const TheirName = (typeof Them.Name === 'undefined' ? Them.SlaveName : Them.Name );
-        const MyName = (typeof Them.Name === 'undefined' ? Them.SlaveName : Them.Name );
-
-        Message = Message.replace(/TARGET/g, TheirName);
-        Message = Message.replace(/ATTACKER/g, MyName);
-
-        return Message;
-    }
 
     /**
      * 
