@@ -18,11 +18,8 @@ App.Combat.Combatant = class Combatant {
             this._Portrait = "pugilist_a";
         }
 
-        //Callbacks
-        this._MyStatus = myStatusCB;
+        this.ChangeMoveSet(App.Combat.Engines.Generic, myStatusCB, theirStatusCB, chatLogCB);
 
-        //Moveset and personal combat engine
-        this._Engine = new this.Moves.Engine(this, myStatusCB, theirStatusCB, chatLogCB);
         //First round speed.
         this._Initiative = Math.ceil(this._data.Speed * Math.random());
         //Generic slowing effect
@@ -58,6 +55,8 @@ App.Combat.Combatant = class Combatant {
     get WeaponDelay() { return this._Delay };
     get Turn() { return this._Turn; }
     get Gender() { return this._data.Gender; }
+    get Attack() { return this._data.Attack; }
+    get Defense() { return this._data.Defense; }
 
     TakeDamage(n) {
         this._data.Health -= n;
@@ -111,7 +110,6 @@ App.Combat.Combatant = class Combatant {
      */
     AddWeaponDelay(n) {
         this._WeaponDelay = n;
-        //this._EndWeaponDelay = (this.Turn + 1);
     }
 
     StartTurn() {
@@ -141,18 +139,45 @@ App.Combat.Combatant = class Combatant {
         }
     }
 
+    //We may want to alter this later.
     SkillRoll(Mine, Difficulty)
     {
-
+        return Math.max(0.1, Math.min((Mine/Difficulty), 2.0)); // Default same as player object
     }
 
+    /**
+     * Simulate an attack roll.
+     * @returns {number} roll
+     */
     AttackRoll() {
-
+        var attk = this.Attack;
+        //TODO: Put some checks here to get values from effects
+        return this.SkillRoll(attk, 100);
     }
-
+    /**
+     * Simulate a defensive roll.
+     * @returns {number} roll
+     */
     DefenseRoll()
     {
+        var def = this.Defense;
+        //TODO: Put some checks here to get values from effects
+        return this.SkillRoll(def, 100);
+    }
 
+    /**
+     * Generally only used by players to switch their attack style on the fly.
+     * Called from CombatEngine 
+     * @param {*} Engine reference to personal engine class
+     * @param {*} myStatusCB callback to update my status elements in ui
+     * @param {*} theirStatusCB callback to update enemy status elements in ui
+     * @param {*} chatLogCB callback to update chat log in ui
+     */
+    ChangeMoveSet(Engine, myStatusCB, theirStatusCB, chatLogCB) {
+        //Callbacks
+        this._MyStatus = myStatusCB;
+        //Moveset and personal combat engine
+        this._Engine = new Engine(this, myStatusCB, theirStatusCB, chatLogCB);
     }
 }
 
@@ -181,5 +206,17 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
         if (this._player.GetStat('SKILL', 'AssFu') >0 ) a["ASSFU"] = "Ass-Fu";
 
         return a;
+    }
+
+    get Attack() {
+
+    }
+
+    get Defense() {
+
+    }
+
+    SkillRoll() {
+
     }
 }

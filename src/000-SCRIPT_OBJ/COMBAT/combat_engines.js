@@ -66,16 +66,17 @@ App.Combat.Engines.Generic = class GenericEngine {
         }
     }
 
-    DoDamage(Target, Command)
+    DoDamage(Target, Command, roll)
     {
-        var dmg = this.CalculateDamage(Target, Command);
-        Target.AdjustStat('Health', dmg);
-        this.PrintHit(Attack.Hit, Target, Damage);
+        var dmg = this.CalculateDamage(Target, Command, roll);
+        this.PrintHit(Attack.Hit, Target, roll);
+        Target.TakeDamage(dmg);
         this._theirStatusCB(dmg);
     }
 
-    CalculateDamage(Target, Command)
+    CalculateDamage(Target, Command, Roll)
     {
+        //TODO: Get defensive damage reducing buffs from target here
         return 1;
     }
 
@@ -84,7 +85,12 @@ App.Combat.Engines.Generic = class GenericEngine {
 
     }
 
-
+    PrintHit(Attacks, Target, Roll)
+    {
+        var len = Math.floor(Math.max(0, Math.min((Attacks.length * Roll), (Attacks.length-1))));
+        msg = Attacks[len];
+        this.PrintMessage(msg, Target);
+    }
 
     /**
      * 
