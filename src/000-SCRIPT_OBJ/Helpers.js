@@ -152,7 +152,8 @@ App.PR = new function() {
     this.GetNoun = function(Type, Stat, Value, Colorize) {
         var nCfg = this.GetNamingConfig(Type);
         if (nCfg == undefined || !nCfg.hasOwnProperty(Stat)) return "NO_NOUN_FOR_" + Type + ":" + Stat;
-        var str = this.GetMultiIndexLevelingProperty(nCfg[Stat].NOUN.LEVELING, Value);
+        const nounRec = nCfg[Stat].NOUN;
+        var str = nounRec.LEVELING === undefined ? nounRec : this.GetMultiIndexLevelingProperty(nounRec.LEVELING, Value);
 
         if (Colorize == true) {
             // use colour from the first index for now
