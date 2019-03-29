@@ -88,6 +88,7 @@ App.Combat.Combatant = class Combatant {
 
     RecoverCombo(n) {
         this._Combo += n;
+        if(this._Combo >= 100) this._Combo = 100;
         this._MyStatus(this);
     }
 
@@ -181,6 +182,9 @@ App.Combat.Combatant = class Combatant {
     }
 }
 
+/**
+ * Player combatant class. Just a few tweaks from the base.
+ */
 App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
 
     /**
@@ -196,6 +200,7 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
         this._player = Player;
     }
 
+    get Player() { return this._player; }
     get IsNPC() { return false; }
 
     get AvailableMoveset() {
@@ -208,15 +213,88 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
         return a;
     }
 
+    // Player attack depends on what skill they are using.
     get Attack() {
+        var val = 0;
 
+        switch(this.Engine.Class) {
+            case 'SWASHBUCKLING':
+                val = this.Player.GetStat('SKILL','Swashbuckling');
+                // Technicaly a private method... but whatever javascript
+                val += this.Player._RollBonus('SKILL', 'Swashbuckling');
+                break;
+            case 'BOOBJITSU':
+                val = this.player.GetStat('SKILL', 'BoobJitsu');
+                val += this.Player._RollBonus('SKILL', 'BoobJitsu');
+                break;
+            case 'ASSFU':
+                val = this.Player.GetStat('SKILL', 'AssFu');
+                val += this.Player._RollBonus('SKILL', 'AssFu');
+                break;
+            default:
+                val = Math.floor(this.Player.GetStat('STAT', 'Fitness') * 0.8); // Cap it at 80% of fitness.
+                // no roll bonus for unarmed attacks
+                break;
+        }
+
+        return val;
     }
 
     get Defense() {
+        var val = 0;
 
+        switch(this.Engine.Class) {
+            case 'SWASHBUCKLING':
+                val = this.Player.GetStat('SKILL','Swashbuckling');
+                // Technicaly a private method... but whatever javascript
+                val += this.Player._RollBonus('SKILL', 'Swashbuckling');
+                break;
+            case 'BOOBJITSU':
+                val = this.player.GetStat('SKILL', 'BoobJitsu');
+                val += this.Player._RollBonus('SKILL', 'BoobJitsu');
+                break;
+            case 'ASSFU':
+                val = this.Player.GetStat('SKILL', 'AssFu');
+                val += this.Player._RollBonus('SKILL', 'AssFu');
+                break;
+            default:
+                val = Math.floor(this.Player.GetStat('STAT', 'Fitness') * 0.4); // Cap it at 40% of fitness.
+                val += Math.floor(this.Player.GetStat('SKILL', 'Dancing') * 0.4); // Cap it at 40% of dancing skill.
+                // no roll bonus for unarmed attacks
+                break;
+        }
+
+        return val;
     }
 
-    SkillRoll() {
 
+    // Grant xp to players
+    AttackRoll() {
+        var mod = super.AttackRoll();
+        this.GrantXP(Math.floor(10 * mod));
+    }
+
+    DefenseRoll() {
+        var mod = super.DefenseRoll();
+        this.GrantXP(Math.floor(10 * mod));
+    }
+
+    GrantXP(xp)
+    {
+        switch(this.Engine.Class) {
+            case 'SWASHBUCKLING':
+                this.Player.AdjustSkillXP('Swashbuckling', xp);
+                break;
+            case 'BOOBJITSU':
+                this.Player.AdjustSkillXP('BoobJitsu', xp);
+                break;
+            case 'ASSFU':
+                this.Player.AdjustSkillXP('AssFu', xp);
+                break;
+            default:
+                this.Player.AdjustSkillXP('Fitness', Math.floor(xp/2));
+                this.Player.AdjustSkillXP('Dancing', Math.floor(xp/2));
+                break;
+        }
     }
 }

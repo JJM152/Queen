@@ -25,6 +25,7 @@ App.Combat.Engines.Generic = class GenericEngine {
         if (roll > 0) {
             this.DoDamage(Target, Command, roll);
             this.ApplyEffects(Target, Command, roll);
+            this.GenerateCombo(Target, Command, roll);
             return true;
         } else {
             var Message = this.GetMissMessage(Misses);
@@ -76,11 +77,15 @@ App.Combat.Engines.Generic = class GenericEngine {
 
     CalculateDamage(Target, Command, Roll)
     {
-        //TODO: Get defensive damage reducing buffs from target here
         return 1;
     }
 
     ApplyEffects(Attack, Target, Effects)
+    {
+
+    }
+
+    GenerateCombo(Target, Command, roll)
     {
 
     }
@@ -104,11 +109,63 @@ App.Combat.Engines.Generic = class GenericEngine {
 
 };
 
-// Specialized engine
+// Unarmed combat class
 App.Combat.Engines.Unarmed = class UnarmedCombatEngine extends App.Combat.Engines.Generic {
 
     constructor(...args)
     {
         super(...args);
     }
+
+    get Class() { return "UNARMED"; }
+
+    /**
+     * Calculate the damage of an unarmed attack
+     * @param {*} Target 
+     * @param {*} Command 
+     * @param {number} Roll 
+     */
+    CalculateDamage(Target, Command, Roll)
+    {
+        var base = 3;
+
+        if (Owner.IsNPC() == false) {
+            base = Math.floor(this.Owner.Player.GetStat('STAT', 'Fitness')/20);
+            base = Math.max(1, Math.min(base, 5)); // clamp 1 to 5
+        } 
+    }
+
+};
+
+//Swashbuckling Class
+App.Combat.Engines.Swashbuckling = class SwashbucklingCombatEngine extends App.Combat.Engines.Generic {
+
+    constructor(...args)
+    {
+        super(...args);
+    }
+
+    get Class() { return "SWASHBUCKLING"; }
+};
+
+//Boob-jitsu Class
+App.Combat.Engines.Boobjitsu = class BoobjitsuCombatEngine extends App.Combat.Engines.Generic {
+
+    constructor(...args)
+    {
+        super(...args);
+    }
+
+    get Class() { return "BOOBJITSU"; }
+};
+
+//Ass-fu Class
+App.Combat.Engines.Assfu = class AssfuCombatEngine extends App.Combat.Engines.Generic {
+
+    constructor(...args)
+    {
+        super(...args);
+    }
+
+    get Class() { return "ASSFU"; }
 };

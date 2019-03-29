@@ -112,7 +112,7 @@ App.Combat.Moves["UNARMED"] = {
             ",
             Icon: "haymaker_icon",
             Stamina: 10,
-            Combo: 3, // Generates no combo points
+            Combo: 3, 
             Speed: 10,
             Unlock: function(player) {
                     return false; // No requirements or skills to use.

@@ -928,8 +928,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     /**
      *
-     * @param {string} Type
-     * @param {string} Name
+     * @param {string} Type SKILL or STAT
+     * @param {string} Name Attribute to check
      * @returns {number}
      * @private
      */
