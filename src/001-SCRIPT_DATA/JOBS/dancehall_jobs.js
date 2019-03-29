@@ -721,7 +721,7 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
              "CHECKS" : [
                  {
                      "TAG": "PERFORMANCE_BONUS", "TYPE" : "FUNC",
-                     "NAME": function(p, s, c) {
+                     "FUN": function(p, s, c) {
                          return (c["DANCE_CHECK_1"]["MOD"] +
                                 c["DANCE_CHECK_2"]["MOD"] +
                                 c["STRIPPING_CHECK_1"]["MOD"] +
@@ -1147,7 +1147,7 @@ App.Data.JobData["DANCE_EXPERT"] = {
              "CHECKS" : [
                  {
                      "TAG": "PERFORMANCE_BONUS", "TYPE" : "FUNC",
-                     "NAME": function(p, s, c) {
+                     "FUN": function(p, s, c) {
                          return (c["DANCE_CHECK_1"]["MOD"] +
                                 c["DANCE_CHECK_2"]["MOD"] +
                                 c["STRIPPING_CHECK_1"]["MOD"] +
