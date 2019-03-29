@@ -75,15 +75,15 @@ App.Task = class Task {
      * @param {App.Entity.Player} Player
      * @param {App.Entity.NPC|String} NPC
      * @param {App.Data.Tasks.Requirement[]} Requirements
+     * @param {string[]} [MissingRequirements] Will be filled with textual description of missing requirements
      * @returns {boolean}
      */
-    static CheckRequirements(Player, NPC, Requirements) {
+    static CheckRequirements(Player, NPC, Requirements, MissingRequirements) {
         let Type, Name, Value, Condition, Option;
         let StatusFlag = true;
         let Result = true;
         let ReqString = "";
-        /** @type {string[]} */
-        this._MissingRequirements  = [ ];
+        if (MissingRequirements === undefined) MissingRequirements = [];
 
         for(const r of Requirements) {
             Type        = r.TYPE;
@@ -257,7 +257,7 @@ App.Task = class Task {
 
             }
 
-            if (ReqString != "") this._MissingRequirements.push(ReqString);
+            if (ReqString != "") MissingRequirements.push(ReqString);
             if (!StatusFlag && Result) { Result = false; }
         }
 
@@ -1072,7 +1072,8 @@ App.Job = class Job extends App.Task {
      * @returns {boolean}
      */
     Requirements(Player, NPC) {
-        return Job.CheckRequirements(Player, NPC, this._Req());
+        this._MissingRequirements = [];
+        return Job.CheckRequirements(Player, NPC, this._Req(), this._MissingRequirements);
     }
 
     /**
