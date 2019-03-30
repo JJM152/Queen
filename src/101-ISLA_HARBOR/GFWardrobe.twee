@@ -1,5 +1,5 @@
 :: GFWardrobe
-<<set _GFWardrobeQuest = App.Quest.ByTag("GFWARDROBE"); >>\
+<<set _GFWardrobeQuest = App.Quest.VirtualById("GFWARDROBE"); >>\
 <<set $GameBookmark = passage(); >>\
 You are standing infront of a beautiful mahogany wardrobe. It's rich, dark-varnished color is accentuated with burnished brass and inlaid ivory accents. It's worth more than you are! But then again, you're very cheap these days, aren't you?
 <<if _GFWardrobeQuest.IsCompleted(setup.player) == false>>
@@ -20,7 +20,7 @@ Despite the onset of a rather sudden stomachache, you shake your head against th
 <<run setup.player.AddItem("QUEST", "14 inch purple dildo", 1); >>\
 <<run setup.player.AddItem("QUEST", "porno portfolio", 1); >>\
 <<run setup.player.AdjustMoney($irr);>>\
-<<run _GFWardrobeQuest.MarskAsCompleted(setup.player);>>
+<<run _GFWardrobeQuest.MarkAsCompleted(setup.player);>>
 <</if>>
 @@color:cyan;Interact:@@ [[Exit|GirlfriendRoom]] | [[Vanity|GFVanity]] | [[Mirror|GFMirror]]
 <span id="WardrobeUI"><<WearingTable>></span>

@@ -1433,6 +1433,18 @@ App.Quest = class Quest extends App.Task {
     }
 
     /**
+     * Creates a quest object that operates a virtual quest
+     *
+     * The virtual quest does not have a definition (in App.Data.Quests)
+     * and its only property is the quest ID. Thus it can be used only for
+     * testing or setting quest flags.
+     * @param {string} Id
+     */
+    static VirtualById(Id) {
+        return new App.Quest({ "ID": Id });
+    }
+
+    /**
      * Retrieve a quest related flag.
      * @param {App.Entity.Player} Player
      * @param {string} Flag
