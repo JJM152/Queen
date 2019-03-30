@@ -69,7 +69,7 @@ App.Data.Quests["STRIPPING"] = {
         staff take up seats around the Galley as you get on the stage. One of the cooks, an older man with a \
         strange hat begins to play a raunchy tune on an even older piano that has been recently rolled into place. \
         You start off your gyrations a little awkwardly, trying to get in tune with the music. Each time it comes \
-        up to an exclamation, you make sure to stick out either your pBUST tits or pASS ass with a shake and a \
+        up to an exclamation, you make sure to stick out either your pBUST tits or nASS with a shake and a \
         jiggle to put extra emphasis on them. As the song progresses you start taking off more and more clothes, \
         trying to do it in a flirty and teasing way, smiling and winking at the audience. By now the men are \
         clapping their hands and hooting as you are gyrating your pBUST tits at them, each nipple has a small \

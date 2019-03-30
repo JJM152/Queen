@@ -1254,8 +1254,8 @@ App.Data.Ratings = {
                 70 : "You have a ADJECTIVE NOUN that gyrates back and forth when you strut your stuff.",
                 76 : "Your ADJECTIVE NOUN sensuously wobbles and jiggles at every minor movement, entrancing watchers.",
                 82 : "Your ADJECTIVE NOUN sensuously wobbles and jiggles at every minor movement, entrancing watchers.",
-                88 : "Your ADJECTIVE NOUN shakes and wobbles at the most minor movement of your pHIPS hips. Clothing can barely contain it and men lust after it.",
-                94 : "Your ADJECTIVE NOUN shakes and wobbles at the most minor movement of your pHIPS hips. Clothing can barely contain it and men lust after it.",
+                88 : "Your ADJECTIVE NOUN shakes and wobbles at the most minor movement of your nHIPS. Clothing can barely contain it and men lust after it.",
+                94 : "Your ADJECTIVE NOUN shakes and wobbles at the most minor movement of your nHIPS. Clothing can barely contain it and men lust after it.",
                100 : "Your ADJECTIVE NOUN jiggles almost uncontrollably at the most minor prompting. A small slap sends off an 'butt quake' of jiggly NOUN flesh and men dream of fucking it."
             },
             "Cup": {

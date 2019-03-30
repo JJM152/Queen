@@ -6,7 +6,7 @@
 // 'Grand Hazard' Sorta like craps. Old West style game. - TBD
 
 App.Gambling.Coffin = class CoffinEngine {
-    
+
     constructor() {
 
         this.MyScore = [0,0,0,0,0,0,0,0];
@@ -54,7 +54,7 @@ App.Gambling.Coffin = class CoffinEngine {
         var cash = this._TotalMoney();
         var items = this._TotalItems();
         var sex = this._TotalSex();
-        
+
         if (cash == 0 && items.length == 0 && sex.length == 0 ) {
             return "You walk away from the game, none the richer, but none the worse for wear. Maybe you'll play next time?";
         }
@@ -129,7 +129,7 @@ App.Gambling.Coffin = class CoffinEngine {
                 s.val = o.bet1Value;
                 s.sex = this._Skills[o.bet1Want];
                 sex.push(s);
-            } 
+            }
 
             if (o.bet2Want != "Coins" && o.bet2Status == 1) {
                 s.name = o.n;
@@ -140,8 +140,8 @@ App.Gambling.Coffin = class CoffinEngine {
         }
 
         if (sex.length > 0) {
-            var cashValue = sex.length > 1 ? sex.reduce(function(acc, obj) { 
-                    return isNaN(acc) ? acc.val + obj.val : acc + obj.val; 
+            var cashValue = sex.length > 1 ? sex.reduce(function(acc, obj) {
+                    return isNaN(acc) ? acc.val + obj.val : acc + obj.val;
                 }) : sex[0].val;
 
             this._TrackStat('SexPaid', cashValue);
@@ -158,7 +158,7 @@ App.Gambling.Coffin = class CoffinEngine {
             setup.player.GetNPC("Crew").AdjustStat("Mood", Math.ceil((5*result)));
             setup.player.GetNPC("Crew").AdjustStat("Lust", Math.ceil( (-5*result)));
         }
-    } 
+    }
 
     _AwardItems(items)
     {
@@ -175,10 +175,10 @@ App.Gambling.Coffin = class CoffinEngine {
         var val = this._SelectedBet == 1 ? o.bet1Value : o.bet2Value;
 
         if (status == 1 && want == "Coins") {   //Player lost
-            
+
             setup.player.AdjustMoney( (val * -1.0));
             App.PR.RefreshTwineMoney();
-        
+
         } else if (status == 2 && offer == "Coins") { //Player won
 
             setup.player.AdjustMoney(val);
@@ -201,10 +201,10 @@ App.Gambling.Coffin = class CoffinEngine {
             var item = { };
             var d = null
 
-            if (o.bet1Offer == "Item" && o.bet1Status == 2) 
+            if (o.bet1Offer == "Item" && o.bet1Status == 2)
                 d = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: scale(o.bet1Value) } );
-               
-            if (o.bet2Offer == "Item" && o.bet2Status == 2) 
+
+            if (o.bet2Offer == "Item" && o.bet2Status == 2)
                 d = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: scale(o.bet2Value) } );
 
             if (d != null)
@@ -218,7 +218,7 @@ App.Gambling.Coffin = class CoffinEngine {
         if (items.length > 0) {
             this._TrackStat('ItemsWon', items.length);
             var cashValue = items.length > 1 ? items.reduce(function(acc, obj) { //Reduce objects if needed.
-                return isNaN(acc) ? acc.data.price + obj.data.price : acc + obj.data.price; 
+                return isNaN(acc) ? acc.data.price + obj.data.price : acc + obj.data.price;
             }) : items[0].data.price;
 
             this._TrackStat('ItemsWonValue', cashValue);
@@ -290,13 +290,13 @@ App.Gambling.Coffin = class CoffinEngine {
             var g = { };
             g.n = App.PR.GetRandomListItem(App.Data.Names["Male"]);
 
-            if (!flag) { 
+            if (!flag) {
                 g.n = "Pirate " + g.n;
                 g.bet1Offer = (100 * Math.random()) > 90 ? "Item" : "Coins";
                 g.bet1Want = (100 * Math.random() > 40) ? "Coins" : Math.round((this._Wants.length-1) * Math.random());
                 g.bet1Value = this._CalculateBetValue(g.bet1Offer, g.bet1Want);
                 g.bet1Status = 0; // 0 nothing, 1 lose, 2 win
-                
+
                 g.bet2Offer = (100 * Math.random()) > 90 ? "Item" : "Coins";
                 g.bet2Want = (100 * Math.random() > 40) ? "Coins" : Math.round((this._Wants.length-1) * Math.random());
                 g.bet2Value = this._CalculateBetValue(g.bet2Offer, g.bet2Want);
@@ -313,7 +313,7 @@ App.Gambling.Coffin = class CoffinEngine {
                 g.bet1Want = "Coins";
                 g.bet1Value = 100;
                 g.bet1Status = 0;
-                
+
                 g.bet2Offer = "Coins";
                 g.bet2Want = "Coins";
                 g.bet2Value = 200;
@@ -332,11 +332,11 @@ App.Gambling.Coffin = class CoffinEngine {
         return Math.ceil( 50 * (setup.player.Skills[this._Skills[Want]]/100));
     }
 
-    _DisplayGambler(pos = 0) { 
+    _DisplayGambler(pos = 0) {
         const g = this.Gamblers[pos];
         console.log(g);
         $("#CoffinNPCName").text(g.n);
-        
+
         //Setup first bet.
         var icon = g.bet1Offer == "Coins" ? "coinBetIcon" : "itemBetIcon";
         var value = g.bet1Offer == "Coins" ? g.bet1Value : "";
@@ -408,7 +408,7 @@ App.Gambling.Coffin = class CoffinEngine {
                 $('#npcbox'+i).removeClass().addClass('coffinNumBox CoffinpointHit');
             } else {
                 $('#pcbox'+i).removeClass().addClass('coffinNumBox CoffinpointEmpty');
-                $('#npcbox'+i).removeClass().addClass('coffinNumBox CoffinpointEmpty'); 
+                $('#npcbox'+i).removeClass().addClass('coffinNumBox CoffinpointEmpty');
             }
 
         }
@@ -598,7 +598,7 @@ App.Gambling.Coffin = class CoffinEngine {
         if (point != -1 || (this._SuddenDeath == true && win != 0)) {
 
             if (win != 0) { //Something happened and we need to end the game.
-                
+
                 this._Screen = "OVER";
 
                 if (this._PlayerTurn == false) {
@@ -619,7 +619,7 @@ App.Gambling.Coffin = class CoffinEngine {
                     } else {
                         this.Gamblers[this._GamblerPosition].bet2Status = win;
                     }
-                
+
                 }
             }
 
@@ -661,7 +661,7 @@ App.Gambling.Coffin = class CoffinEngine {
                     // HAND OVER CONTROL TO PC
                     this._PlayerTurn = true;
                     setTimeout(function() { that._DialogBox("YOUR TURN", "gold") }, 500);
-                    
+
             }
             // TURN OFF PLAY AGAIN BUTTON AT MAX GAMES
             if (this._GamesPlayed > this._MaxGames) $('#cmdPlayAgain').css('display','none');
@@ -675,7 +675,7 @@ App.Gambling.Coffin = class CoffinEngine {
                         this._PlayerTurn = false;
                         this._Interval = setInterval(this._NPCRollDice.bind(this), this._NPCDiceDelay());
                         this._DisableMenuLinks();
-                
+
                 } else { // THE NPC WAS ROLLING
                     this._RoundNum++; //END THIS ROUND
                     this._PrintRound();
@@ -991,7 +991,7 @@ App.Gambling.Scenes["AssFucking"] =
     never succumb to the life of a whore... even if sometimes it does feel a little good.\n\n\
     <</if>>\
     <</if>>\
-    NPC_NAME works his tool up your well lubricated backside. His hands firmly grip onto your pHIPS hips and \
+    NPC_NAME works his tool up your well lubricated backside. His hands firmly grip onto your nHIPS and \
     he uses them for leverage as he starts to pounds your pASS arse. \
     <<if setup.player.GetStat('STAT', 'Perversion') > 80>>\
     You've long become accustomed to cocks pounding your sissy hole and the feeling it provides is one of \
@@ -1003,7 +1003,7 @@ App.Gambling.Scenes["AssFucking"] =
     <<else>>\
     <<if setup.player.GetStat('STAT', 'Perversion') > 50>>\
     Even though you've become accustomed to cocks pounding your sissy hole, the feeling at first is quite \
-    painful. You grit your teeth and endure while the sound of NPC_NAME slapping against your pASS ass \
+    painful. You grit your teeth and endure while the sound of NPC_NAME slapping against your nASS \
     echoes in air. Slowly, you notice that the feeling of pain starts to turn into one of pleasure. You panick \
     at first, but the almost hypnotic sound of your ass being fucked combined with these new sensations \
     start to cause your breath to hitch and your mind to go blank. You almost don't even notice it when \
