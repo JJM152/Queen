@@ -1125,11 +1125,13 @@ App.PR = new function() {
         String = String.replace(/(n)([A-Z_]+)([^A-Za-z]|$)/g, nReplacer);
         String = String.replace(/(v)([A-Z_]+)([^A-Za-z]|$)/g, vReplacer);
         // Hack for highlighting NPC speech
-        String = String.replace(/s\(([^\)]+)\)/g, function(m,p) { return "<span class='npcText'>\""+p+"\"</span>"; });
+        String = String.replace(/s\(([^\)]+)\)/g, function(m,p) { return `<span class='npcText'>"${p}"</span>`; });
         // Important! highlight NPC speech
-        String = String.replace(/s\!\(([^\)]+)\)/g, function(m,p) { return "<span class='impText'>\""+p+"\"</span>"; });
+        String = String.replace(/s\!\(([^\)]+)\)/g, function(m,p) { return `<span class='impText'>"${p}"</span>`; });
         // Hilighting PC speech
-        String = String.replace(/sp\(([^\)]+)\)/g, function(m,p) { return "<span class='pcText'>\""+p+"\"</span>"; });
+        String = String.replace(/sp\(([^\)]+)\)/g, function (m, p) { return `<span class='pcText'>"${p}"</span>`; });
+        // Hilighting PC thoughts
+        String = String.replace(/tp\(([^\)]+)\)/g, function (m, p) { return `<span class='pcThought'>"${p}"</span>`; });
 
         return String;
     };
