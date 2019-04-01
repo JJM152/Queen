@@ -504,7 +504,7 @@ App.PR = new function() {
             bMeter = false;
             pString = "";
 
-            if (Name.charAt(0) == '-') {
+            if (Name !== undefined && Name.charAt(0) == '-') {
                 Name = Name.slice(1);
                 Invert = 1;
             }
