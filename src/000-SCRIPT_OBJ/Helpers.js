@@ -575,6 +575,19 @@ App.PR = new function() {
                         Val = (typeof Player.GetItemByName(Name) !== 'undefined');
                     }
                     break;
+                case "ITEM": {
+                    bMeter = false;
+                    const itemName = App.Item.SplitId(Name);
+                    pString = App.Item.Factory(itemName.Category, itemName.Tag).Name;
+                    var cv = checks[i]["VALUE"];
+                    if (typeof cv !== 'undefined' && cv > 1) {
+                        pString = pString + " x" + cv;
+                        Val = (typeof Player.GetItemById(Name) !== 'undefined' && Player.GetItemById(Name).Charges() >= cv);
+                    } else {
+                        Val = (typeof Player.GetItemById(Name) !== 'undefined');
+                    }
+                    break;
+                }
                 case "DAYS_PASSED":
                     bMeter = false;
                     pString = "wait " + (App.Quest.GetFlag(Player, Name) - Player.Day) + " days";
