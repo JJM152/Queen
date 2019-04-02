@@ -841,6 +841,9 @@ App.Scene = class Scene {
             case "SAIL_DAYS":
                 this._Player.AdvanceSailDays(Value);
                 break;
+            case "SET_CLOTHING_LOCK":
+                this._Player.Clothing.SetLock(Name, Value);
+                break;
             case "SLOT":
                 this._Player.UnlockSlot();
                 break;
