@@ -85,7 +85,7 @@ App.Data.JobData["JARV01"] =  {
             "CHECKS" : [ ],
             "POST" : [
                 { "TYPE" : "QUEST_FLAG", "NAME": "THEBACKDOOR", "OPT": "SET", "VALUE" : "COMPLETED"},
-                { "TYPE" : "QUEST_ITEM", "NAME" : "isla harbor mansion key", "VALUE" : 1 }
+                { "TYPE" : "ITEM", "NAME" : "QUEST/isla harbor mansion key", "VALUE" : 1 }
             ],
             "START" :   "",
             "END" : "Once you come out of your own orgasmic fog, you notice that NPC_NAME appears to have fainted dead against the alley wall. Without hesitation you rummage through his pockets until you find a specific key that GF_NAME used to use to let you into the mansion after hours. Ironically enough, you let Jarvis up your backdoor so that you could use his later.",

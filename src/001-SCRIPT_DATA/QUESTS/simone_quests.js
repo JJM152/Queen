@@ -6,7 +6,7 @@ App.Data.Quests["SIMONE_MISSING_FRIEND"] = {
     "POST": [ ],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "14 inch purple dildo", "VALUE": 1
+            "TYPE": "ITEM", "NAME": "QUEST/14 inch purple dildo", "VALUE": 1
         }
     ],
     "ON_ACCEPT" : [],

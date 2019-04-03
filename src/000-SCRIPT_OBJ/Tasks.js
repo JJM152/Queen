@@ -703,10 +703,6 @@ App.Scene = class Scene {
                 Scene.Debug("_CalculateReward", "Items.push(" + {"Name": App.Item.MakeId(Type, Name), "Value": val, "Opt": Opt}.toString() + ")");
                 this._RewardItems.Items.push({"Name": App.Item.MakeId(Type, Name), "Value": val, "Opt": Opt});
                 break;
-            case "QUEST_ITEM":
-                Scene.Debug("_CalculateReward", "Items.push(" + {"Name": App.Item.MakeId("QUEST", Name), "Value": val, "Opt": Opt}.toString() + ")");
-                this._RewardItems.Items.push({"Name": App.Item.MakeId("QUEST", Name), "Value": val, "Opt": Opt});
-                break;
             case "CLOTHES":
                 var data = App.Data.Clothes[Name];
                 if (this._Player.OwnsWardrobeItem(data)) {
@@ -761,7 +757,6 @@ App.Scene = class Scene {
             case "DRUGS":
             case "COSMETICS":
             case "LOOT_BOX":
-            case "QUEST_ITEM":
             case "CLOTHES":
             case "PICK_ITEM":
                 var itemRec = this._RewardItems.Items.shift();
@@ -1570,13 +1565,15 @@ App.Quest = class Quest extends App.Task {
                     }
                 }
 
-                var checks = this.TaskData['CHECKS'];
-                var questItems = checks.filter(function (o) { return o["TYPE"] == 'QUEST_ITEM'; });
-                if (questItems.length > 0) {
-                    for (var itemRule of questItems) {
-                        itemRule['VALUE'] = 0 - itemRule['VALUE'];
-                        res.POST.push(itemRule);
-                    }
+                const checks = this.TaskData['CHECKS'];
+                let itemsToConsume = checks.filter(function (o) {
+                    return o["TYPE"] == 'ITEM' &&
+                        typeof o["NAME"] !== 'undefined' &&
+                        !o["NAME"].startsWith("CLOTHES/");
+                });
+                for (const itemRule of itemsToConsume) {
+                    itemRule['VALUE'] = 0 - itemRule['VALUE'];
+                    res.POST.push(itemRule);
                 }
                 break;
         }
@@ -1623,10 +1620,6 @@ App.Quest = class Quest extends App.Task {
                 break;
             case "STAT_CORE":
                 Type = "STAT";
-                break;
-            case "QUEST_ITEM":
-                Type = "ITEM";
-                Name = `QUEST/${Name}`;
                 break;
         }
         return {

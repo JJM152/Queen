@@ -175,7 +175,7 @@ App.Data.JobData["BOBOLA_SAP"] = {
             "CHECKS" : [],
             "POST" : [
                 {
-                    "TYPE" : "QUEST_ITEM", "NAME" : "bucket of bobola sap", "VALUE" : 1
+                    "TYPE" : "ITEM", "NAME" : "QUEST/bucket of bobola sap", "VALUE" : 1
                 }
              ],
             "START" : "",

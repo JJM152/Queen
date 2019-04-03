@@ -65,7 +65,7 @@ App.Data.Quests["ISLA_TAVERN02"] = {
     "POST": [],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "smugglers rum cask", "VALUE": 1
+            "TYPE": "ITEM", "NAME": "QUEST/smugglers rum cask", "VALUE": 1
         }
     ],
     "ON_ACCEPT" : [
