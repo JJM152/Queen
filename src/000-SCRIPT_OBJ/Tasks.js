@@ -1553,7 +1553,7 @@ App.Quest = class Quest extends App.Task {
             case "MIDDLE":
                 break;
             case "FINISH":
-                res.POST = this.TaskData['POST'];
+                res.POST = clone(this.TaskData['POST']);
                 for (let p of res.POST) {
                     if (p["TYPE"] === "QUEST_FLAG" && typeof p["OPT"] === 'undefined') {
                         p["OPT"] = "SET";
