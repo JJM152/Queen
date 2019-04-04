@@ -357,7 +357,7 @@ App.Task = class Task {
 
         for ( var i = 0; i < this.TaskData["JOB_RESULTS"].length; i++)
             if (Percent <= this.TaskData["JOB_RESULTS"][i][Tag])
-                return this.TaskData["JOB_RESULTS"][i]["TEXT"].replace(/(@@.*@@)/g, Colorize );
+                return this.TaskData["JOB_RESULTS"][i]["TEXT"].replace(/@@((?!color:).)+?@@/g, Colorize);
 
         return Output;
     }
@@ -949,7 +949,7 @@ App.Scene = class Scene {
         for (var i = 0; i < this._SceneData["RESULTS"].length; i++) {
             if (Percent <= this._SceneData["RESULTS"][i][Tag]) {
                 console.log("Percent " + Percent + "<=" + this._SceneData["RESULTS"][i][Tag]);
-                return this._SceneData["RESULTS"][i]["TEXT"].replace(/(@@.*@@)/g, Colorize);
+                return this._SceneData["RESULTS"][i]["TEXT"].replace(/@@((?!color:).)+?@@/g, Colorize);
             }
         }
         return Output;
