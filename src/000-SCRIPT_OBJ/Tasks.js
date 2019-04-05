@@ -357,7 +357,7 @@ App.Task = class Task {
 
         for ( var i = 0; i < this.TaskData["JOB_RESULTS"].length; i++)
             if (Percent <= this.TaskData["JOB_RESULTS"][i][Tag])
-                return this.TaskData["JOB_RESULTS"][i]["TEXT"].replace(/(@@.*@@)/g, Colorize );
+                return this.TaskData["JOB_RESULTS"][i]["TEXT"].replace(/@@((?!color:).)+?@@/g, Colorize);
 
         return Output;
     }
@@ -841,6 +841,9 @@ App.Scene = class Scene {
             case "SAIL_DAYS":
                 this._Player.AdvanceSailDays(Value);
                 break;
+            case "SET_CLOTHING_LOCK":
+                this._Player.Clothing.SetLock(Name, Value);
+                break;
             case "SLOT":
                 this._Player.UnlockSlot();
                 break;
@@ -946,7 +949,7 @@ App.Scene = class Scene {
         for (var i = 0; i < this._SceneData["RESULTS"].length; i++) {
             if (Percent <= this._SceneData["RESULTS"][i][Tag]) {
                 console.log("Percent " + Percent + "<=" + this._SceneData["RESULTS"][i][Tag]);
-                return this._SceneData["RESULTS"][i]["TEXT"].replace(/(@@.*@@)/g, Colorize);
+                return this._SceneData["RESULTS"][i]["TEXT"].replace(/@@((?!color:).)+?@@/g, Colorize);
             }
         }
         return Output;
@@ -1433,6 +1436,18 @@ App.Quest = class Quest extends App.Task {
     }
 
     /**
+     * Creates a quest object that operates a virtual quest
+     *
+     * The virtual quest does not have a definition (in App.Data.Quests)
+     * and its only property is the quest ID. Thus it can be used only for
+     * testing or setting quest flags.
+     * @param {string} Id
+     */
+    static VirtualById(Id) {
+        return new App.Quest({ "ID": Id });
+    }
+
+    /**
      * Retrieve a quest related flag.
      * @param {App.Entity.Player} Player
      * @param {string} Flag
@@ -1538,7 +1553,7 @@ App.Quest = class Quest extends App.Task {
             case "MIDDLE":
                 break;
             case "FINISH":
-                res.POST = this.TaskData['POST'];
+                res.POST = clone(this.TaskData['POST']);
                 for (let p of res.POST) {
                     if (p["TYPE"] === "QUEST_FLAG" && typeof p["OPT"] === 'undefined') {
                         p["OPT"] = "SET";
