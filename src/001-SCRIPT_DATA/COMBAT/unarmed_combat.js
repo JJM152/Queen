@@ -13,6 +13,7 @@ App.Combat.Moves["UNARMED"] = {
             Stamina: 5,
             Combo: 0, // Costs no combo points
             Speed: 5,
+            Damage: 1.0,
             Unlock: function(player) {
                     return true; // No requirements or skills to use.
                 },
@@ -63,6 +64,7 @@ App.Combat.Moves["UNARMED"] = {
             Stamina: 5,
             Combo: 0, // Costs no combo points
             Speed: 10,
+            Damage: 1.5,
             Unlock: function(player) {
                     return true; // No requirements or skills to use.
                 },
@@ -114,8 +116,9 @@ App.Combat.Moves["UNARMED"] = {
             Stamina: 10,
             Combo: 3, 
             Speed: 10,
+            Damage: 2.0,
             Unlock: function(player) {
-                    return false; // No requirements or skills to use.
+                    return true; // No requirements or skills to use.
                 },
             Effects: [ ], //No effects to apply.
             Miss: [
@@ -165,8 +168,9 @@ App.Combat.Moves["UNARMED"] = {
             Stamina: 5,
             Combo: 5, 
             Speed: 20,
+            Damage: 1.0,
             Unlock: function(player) {
-                    return false; // No requirements or skills to use.
+                    return true; // No requirements or skills to use.
                 },
             Effects: [ ], //No effects to apply.
             Miss: [

@@ -10,6 +10,7 @@ App.Combat.CombatEngine = class CombatEngine {
 
         this._encounterData = null;
         this._enemies = [ ];
+        /** @type {App.Combat.Player} */
         this._player = null;
         this._turn = 0;
         this._Timeline = [];
@@ -76,6 +77,10 @@ App.Combat.CombatEngine = class CombatEngine {
         this._DrawChatLog();
         this._DrawStyles();
         this._DrawCombatButtons();
+
+        //Status for players.
+        this._UpdatePlayerComboBar();
+        this._UpdatePlayerStaminaBar();
     }
 
     _DrawCombatButtons()
@@ -94,7 +99,8 @@ App.Combat.CombatEngine = class CombatEngine {
                 "<span style='color:yellow'>"+d[prop].Name+"</span><br>"+d[prop].Description);
             var button = $('<div>').attr('id', 'combatButton'+prop).addClass("CombatButton");
             button.addClass(d[prop].Icon);
-            if (d[prop].Unlock(this._player)) {
+            //if (d[prop].Unlock(this._player)) {
+            if (this._player.Engine.CheckCommand(d[prop])) {
                 button.addClass("CombatButtonEnabled");
             } else {
                 button.addClass("CombatButtonDisabled");
@@ -103,6 +109,25 @@ App.Combat.CombatEngine = class CombatEngine {
             container.append(span);
             container.append(button);
             root.append(container);
+        }
+    }
+
+    _UpdateCombatButtons()
+    {
+        var selectedStyle = $('#combatStyles').children("option:selected").val();
+        var d = App.Combat.Moves[selectedStyle];
+
+        for(var prop in d)
+        {
+            if (prop == 'Engine') continue; // filter out this one.
+            var button = $("#combatButton"+prop);
+            if (this._player.Engine.CheckCommand(d[prop])) {
+                button.removeClass("CombatButtonDisabled");
+                button.addClass("CombatButtonEnabled");
+            } else {
+                button.removeClass("CombatButtonEnabled");
+                button.addClass("CombatButtonDisabled");
+            }
         }
     }
 
@@ -188,6 +213,20 @@ App.Combat.CombatEngine = class CombatEngine {
         element.css('width', x+"px");
     }
 
+    _UpdatePlayerStaminaBar()
+    {
+        var element = $('#PlayerStaminaBar');
+        var x = Math.ceil( 120 * (this._player.Stamina / this._player.MaxStamina));
+        element.css('width', x+"px");
+    }
+
+    _UpdatePlayerComboBar()
+    {
+        var element = $('#PlayerComboBar');
+        var x = Math.ceil( 120 * (this._player.Combo / this._player.MaxCombo));
+        element.css('width', x+"px");
+    }
+
     _DrawInitiativeBar()
     {
         this._GenerateTimeLine(); // Generate data structure
@@ -198,8 +237,9 @@ App.Combat.CombatEngine = class CombatEngine {
         //Title
         root.append( $('<div>').addClass('InitiativePortrait').text('TURN'));
 
+        var max = this._Timeline.length >= this._UI_MaxInitiative ? this._UI_MaxInitiative : this._Timeline.length;
         // Create portrait frames.
-        for (var i = 0; i < this._UI_MaxInitiative; i ++)
+        for (var i = 0; i < max; i ++)
         {
             var frame = $('<div>').attr('id', 'InitiativePortrait'+i).addClass('InitiativePortrait');
             
@@ -320,7 +360,7 @@ App.Combat.CombatEngine = class CombatEngine {
     _PopulateTimeline(o, Timeline)
     {
         var last = 0;
-        for(var i = 0; i < 10; i++) {
+        for(var i = 0; i < 5; i++) {
             var t = o.GetTimeline(i);
             if (t <= last) continue;
             last = t;
@@ -387,7 +427,9 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _UpdatePlayerStatusCB(m)
     {
-        console.log(m);
+        this._UpdatePlayerComboBar();
+        this._UpdatePlayerStaminaBar();
+        this._UpdateCombatButtons();
     }
 
     _UpdateNPCStatusCB(npc)

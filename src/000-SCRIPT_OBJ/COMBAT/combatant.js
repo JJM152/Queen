@@ -1,3 +1,6 @@
+/**
+ * Base combatant class, used by NPC's and inherited by the player class.
+ */
 App.Combat.Combatant = class Combatant {
     
     constructor(data, myStatusCB, theirStatusCB, chatLogCB) {
@@ -41,7 +44,9 @@ App.Combat.Combatant = class Combatant {
     get Title() { return this._Title; }
     get Health() { return this._data.Health; }
     get MaxHealth() { return this._data.MaxHealth; }
+    get MaxEnergy() { return 10; } // Hardcoded - same as player max energy.
     get Energy() { return this._data.Energy; }
+    get MaxCombo() { return 10; } // Hardcoded
     get Combo() { return this._Combo; }
     get Skill() { return this._data.Skill; }
     get Engine() { return this._Engine; }
@@ -65,19 +70,29 @@ App.Combat.Combatant = class Combatant {
 
     RecoverHealth(n) {
         this._data.Health += n;
+        if (this._data.Health >= this.MaxHealth) this._data.Health = this.MaxHealth;
         this._MyStatus(this);
     }
 
     UseEnergy(n) {
         this._data.Energy -= n;
+        this._MyStatus(this);
     }
 
     RecoverEnergy(n) {
         this._data.Energy += n;
+        if (this._data.Energy >= this.MaxEnergy) this._data.Energy = this.MaxEnergy;
+        this._MyStatus(this);
     }
 
     UseStamina(n) {
         this._data.Stamina -= n;
+        this._MyStatus(this);
+    }
+
+    RecoverStamina(n) {
+        this._data.Stamina += n;
+        if (this._data.Stamina >= this.MaxStamina) this._data.Stamina = this.MaxStamina;
         this._MyStatus(this);
     }
 
@@ -88,12 +103,7 @@ App.Combat.Combatant = class Combatant {
 
     RecoverCombo(n) {
         this._Combo += n;
-        if(this._Combo >= 100) this._Combo = 100;
-        this._MyStatus(this);
-    }
-
-    RecoverStamina(n) {
-        this._data.Stamina += n;
+        if(this._Combo >= this.MaxCombo) this._Combo = this.MaxCombo;
         this._MyStatus(this);
     }
 
@@ -128,7 +138,7 @@ App.Combat.Combatant = class Combatant {
      */
     GetTimeline(n)
     {
-        n = n || this.Turn;
+        n = typeof n === 'undefined' ? this.Turn : n;
 
         if (n == 0 && this.Turn == 0) {
 
@@ -140,7 +150,12 @@ App.Combat.Combatant = class Combatant {
         }
     }
 
-    //We may want to alter this later.
+    /**
+     * 
+     * @param {number} Mine My skill value
+     * @param {number} Difficulty to check against
+     * @return {number} Floating point between 0.1 and 2.0 indicating value of roll.
+     */
     SkillRoll(Mine, Difficulty)
     {
         return Math.max(0.1, Math.min((Mine/Difficulty), 2.0)); // Default same as player object
@@ -148,7 +163,7 @@ App.Combat.Combatant = class Combatant {
 
     /**
      * Simulate an attack roll.
-     * @returns {number} roll
+     * @returns {number} roll - floating point between 0.1 and 2.0
      */
     AttackRoll() {
         var attk = this.Attack;
@@ -157,7 +172,7 @@ App.Combat.Combatant = class Combatant {
     }
     /**
      * Simulate a defensive roll.
-     * @returns {number} roll
+     * @returns {number} roll - floating point between 0.1 and 2.0
      */
     DefenseRoll()
     {
@@ -272,11 +287,13 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
     AttackRoll() {
         var mod = super.AttackRoll();
         this.GrantXP(Math.floor(10 * mod));
+        return mod;
     }
 
     DefenseRoll() {
         var mod = super.DefenseRoll();
         this.GrantXP(Math.floor(10 * mod));
+        return mod;
     }
 
     GrantXP(xp)

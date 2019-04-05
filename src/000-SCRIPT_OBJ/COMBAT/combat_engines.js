@@ -13,9 +13,20 @@ App.Combat.Engines.Generic = class GenericEngine {
         this._AttackHistory = [ ];
     }
 
+    /**
+     * @returns {App.Combat.Combatant|App.Combat.Player}
+     */
     get Owner() { return this._owner }
 
+    get LastMove() {
+        return this._AttackHistory.length >= 1 ? this._AttackHistory[this._AttackHistory.length-1] : null;
+    }
 
+    /**
+     * Attack the enemy
+     * @param {App.Combat.Combatant|App.Combat.Player} Target
+     * @param {*} Command 
+     */
     AttackTarget(Target, Command) {
 
         this.ConsumeResources(Command);
@@ -25,7 +36,7 @@ App.Combat.Engines.Generic = class GenericEngine {
         if (roll > 0) {
             this.DoDamage(Target, Command, roll);
             this.ApplyEffects(Target, Command, roll);
-            this.GenerateCombo(Target, Command, roll);
+            this.Owner.RecoverCombo(this.GenerateCombo(Target, Command, roll));
             return true;
         } else {
             var Message = this.GetMissMessage(Misses);
@@ -40,9 +51,18 @@ App.Combat.Engines.Generic = class GenericEngine {
         this.Owner.AddWeaponDelay(Command.Speed);
     }
 
+    CheckCommand(Command) {
+        //console.log(Command);
+        if (Command.Unlock(this.Owner) == false) return false;
+        if (Command.Stamina > this.Owner.Stamina) return false;
+        if (Command.Combo > this.Owner.Combo) return false;
+
+        return true;
+    }
+
     /**
      * Calculate if an attack hits.
-     * @param {*} Target Entity that you are attacking
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  Entity that you are attacking
      */
     CalculateHit(Target)
     {
@@ -54,7 +74,7 @@ App.Combat.Engines.Generic = class GenericEngine {
 
      /**
      * @param {string} Message Miss array from attack definition.
-     * @param {*} Target Object we are attacking.
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  Object we are attacking.
      */
     PrintMessage(Message, Target) {
         
@@ -72,7 +92,6 @@ App.Combat.Engines.Generic = class GenericEngine {
         var dmg = this.CalculateDamage(Target, Command, roll);
         this.PrintHit(Attack.Hit, Target, roll);
         Target.TakeDamage(dmg);
-        this._theirStatusCB(dmg);
     }
 
     CalculateDamage(Target, Command, Roll)
@@ -87,7 +106,7 @@ App.Combat.Engines.Generic = class GenericEngine {
 
     GenerateCombo(Target, Command, roll)
     {
-
+        return 0;
     }
 
     PrintHit(Attacks, Target, Roll)
@@ -121,18 +140,54 @@ App.Combat.Engines.Unarmed = class UnarmedCombatEngine extends App.Combat.Engine
 
     /**
      * Calculate the damage of an unarmed attack
-     * @param {*} Target 
+     * @param {App.Combat.Combatant|App.Combat.Player} Target 
      * @param {*} Command 
      * @param {number} Roll 
+     * @returns {number} Damage
      */
     CalculateDamage(Target, Command, Roll)
     {
         var base = 3;
 
         if (Owner.IsNPC() == false) {
-            base = Math.floor(this.Owner.Player.GetStat('STAT', 'Fitness')/20);
-            base = Math.max(1, Math.min(base, 5)); // clamp 1 to 5
-        } 
+            base = Math.max(1, Math.min(Math.floor(this.Owner.Player.GetStat('STAT', 'Fitness')/20), 5));
+        } else {
+            base = base + Math.floor(this.Owner.Attack/20);
+        }
+        
+        if (Command.Name != "Knee") {
+            base = Math.floor(base * Command.Damage); // Add damage mod
+        } else {
+            var mod = Target.Gender == 1 ? 4.0 : 2.0; // Knee attack does more damage on male enemies
+            base = Math.floor(base * mod);
+        }
+
+        return base;
+    }
+
+    /**
+     * Generate any combo points
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     */
+    GenerateCombo(Target, Command, Roll)
+    {
+        if ( (Command.Name == "Punch" && this.LastMove() == "Kick") ||
+             (Command.Name == "Kick" && this.LastMove() == "Punch") ) {
+                 return 1;
+             }
+    }
+
+    /**
+     * Apply effects to enemy
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     */
+    ApplyEffects(Target, Command, Roll)
+    {
+
     }
 
 };
