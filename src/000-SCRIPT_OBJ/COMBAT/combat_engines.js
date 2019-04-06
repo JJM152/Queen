@@ -39,7 +39,7 @@ App.Combat.Engines.Generic = class GenericEngine {
             this.Owner.RecoverCombo(this.GenerateCombo(Target, Command, roll));
             return true;
         } else {
-            var Message = this.GetMissMessage(Misses);
+            var Message = this.GetMissMessage(Command.Miss);
             this.PrintMessage(Message, Target);
             return false;
         }
@@ -68,7 +68,7 @@ App.Combat.Engines.Generic = class GenericEngine {
     {
         const MyRoll = this.Owner.AttackRoll(); //Includes getting attack buffs
         const TheirRoll = Target.DefenseRoll(); //Includes getting defense buffs
-
+        console.log("CalculateHit: MyRoll="+MyRoll+",TheirRoll="+TheirRoll);
         return (MyRoll - TheirRoll);
     }
 
@@ -90,7 +90,7 @@ App.Combat.Engines.Generic = class GenericEngine {
     DoDamage(Target, Command, roll)
     {
         var dmg = this.CalculateDamage(Target, Command, roll);
-        this.PrintHit(Attack.Hit, Target, roll);
+        this.PrintHit(Command.Hit, Target, roll);
         Target.TakeDamage(dmg);
     }
 
@@ -112,7 +112,7 @@ App.Combat.Engines.Generic = class GenericEngine {
     PrintHit(Attacks, Target, Roll)
     {
         var len = Math.floor(Math.max(0, Math.min((Attacks.length * Roll), (Attacks.length-1))));
-        msg = Attacks[len];
+        var msg = (typeof this.Owner.IsNPC !== 'undefined' && this.Owner.IsNPC == true ) ? Attacks[len][1] : Attacks[len][0];
         this.PrintMessage(msg, Target);
     }
 

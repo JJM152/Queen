@@ -31,7 +31,7 @@
 <button id="cmdDefend" class="combatButton">Defend</button><br>\
 <button id="cmdFlee" class="combatButton">Flee</button>\
 </div>\
-<div id="CombatCommands"></div>
-</div>
-</div>
+<div id="CombatCommands"></div>\
+</div>\
+</div>\
 <</widget>>

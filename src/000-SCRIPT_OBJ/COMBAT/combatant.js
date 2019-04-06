@@ -35,12 +35,15 @@ App.Combat.Combatant = class Combatant {
         this._Id = null;
         //Combo meter - hidden on enemies
         this._Combo = 0;
+
+        //Is this object alive or dead?
+        this._Dead = false;
     }
 
     get Name() { return this._Name; }
     get Portrait() { return this._Portrait; }
     get Id() { return this._Id; } 
-    set Id(n) { this._Id = null; }
+    set Id(n) { this._Id = n; }
     get Title() { return this._Title; }
     get Health() { return this._data.Health; }
     get MaxHealth() { return this._data.MaxHealth; }
@@ -52,6 +55,7 @@ App.Combat.Combatant = class Combatant {
     get Engine() { return this._Engine; }
     get Moves() { return App.Combat.Moves[this._data.Moves]; }
     get IsNPC() { return true; }
+    get IsDead() { return this._Dead; };
     get MaxStamina() { return this._data.MaxStamina; }
     get Stamina() { return this._data.Stamina; }
     get Speed() { return this._data.Speed; }
@@ -65,6 +69,7 @@ App.Combat.Combatant = class Combatant {
 
     TakeDamage(n) {
         this._data.Health -= n;
+        if (this._data.Health <= 0) this._Dead = true;
         this._MyStatus(this);
     }
 
@@ -158,7 +163,10 @@ App.Combat.Combatant = class Combatant {
      */
     SkillRoll(Mine, Difficulty)
     {
-        return Math.max(0.1, Math.min((Mine/Difficulty), 2.0)); // Default same as player object
+        var targetRoll = (100 - Math.max(5, Math.min((50 + (Mine - Difficulty)), 95)));
+        var diceRoll = Math.floor(Math.random() * 100);
+
+        return Math.max(0.1, Math.min((diceRoll/targetRoll), 2.0)); // Default same as player object
     }
 
     /**
@@ -286,18 +294,21 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
     // Grant xp to players
     AttackRoll() {
         var mod = super.AttackRoll();
+        console.log("AttackRoll:"+mod);
         this.GrantXP(Math.floor(10 * mod));
         return mod;
     }
 
     DefenseRoll() {
         var mod = super.DefenseRoll();
+        console.log("DefenseRoll:"+mod);
         this.GrantXP(Math.floor(10 * mod));
         return mod;
     }
 
     GrantXP(xp)
     {
+        console.log("GrantXP:"+xp);
         switch(this.Engine.Class) {
             case 'SWASHBUCKLING':
                 this.Player.AdjustSkillXP('Swashbuckling', xp);
@@ -309,7 +320,7 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
                 this.Player.AdjustSkillXP('AssFu', xp);
                 break;
             default:
-                this.Player.AdjustSkillXP('Fitness', Math.floor(xp/2));
+                this.Player.AdjustStatXP('Fitness', Math.floor(xp/2));
                 this.Player.AdjustSkillXP('Dancing', Math.floor(xp/2));
                 break;
         }

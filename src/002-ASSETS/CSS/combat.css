@@ -168,6 +168,10 @@ div.CombatButton {
     border: solid 1px white;
 }
 
+div.EnemySelectEnabled {
+    cursor: crosshair;
+}
+
 div.CombatButtonEnabled {
     cursor: pointer;
 }
@@ -193,7 +197,7 @@ div.CombatButtonDisabled:hover {
     position: absolute;
     z-index: 1;
     margin-bottom: 64px;
-    left: 20%;
+    left: 50%;
     bottom: 40px;
 }
 
@@ -210,11 +214,16 @@ div.InactiveInitiativeFrame {
 }
 
 div.InactivePortraitFrame { 
-    border: solid 1px grey;
+    border: solid 4px grey;
 }
 
 div.ActivePortraitFrame {
-    border: solid 1px yellow;
+    border: solid 4px limegreen;
+}
+
+p.ChatLog {
+    margin-block-start: 2px;
+    margin-block-end: 2px;
 }
 
 /* NPC PORTRAITS */

@@ -8,6 +8,7 @@
 App.Combat.CombatEngine = class CombatEngine {
     constructor() {
 
+        this._target = null;
         this._encounterData = null;
         this._enemies = [ ];
         /** @type {App.Combat.Player} */
@@ -81,6 +82,8 @@ App.Combat.CombatEngine = class CombatEngine {
         //Status for players.
         this._UpdatePlayerComboBar();
         this._UpdatePlayerStaminaBar();
+        //Start the fight.
+        this._StartRound();
     }
 
     _DrawCombatButtons()
@@ -164,13 +167,16 @@ App.Combat.CombatEngine = class CombatEngine {
         for (var i = 0; i < this._enemies.length; i++) {
             var container = $('<div>').attr('id', 'EnemyContainer'+i).addClass('EnemyContainer');
             container.append('<div>').addClass('EnemyTitle').text(this._enemies[i].Title);
-            var frame = $('<div>').attr('id', 'EnemyPortrait'+i).addClass('EnemyPortrait InactivePortraitFrame');
+            var frame = $('<div>').attr('id', 'EnemyPortrait'+i).addClass('EnemyPortrait');
+            frame.addClass("EnemySelectEnabled");
             frame.addClass(this._enemies[i].Portrait);
+            frame.on("click", {index:i}, this._SelectEnemyHandler.bind(this));
             container.append(frame);
             root.append(container);
             this._DrawStatus(frame, i);
             this._UpdateHPBar(this._enemies[i]);
             this._UpdateStaminaBar(this._enemies[i]);
+            this._UpdateEnemyPortraits();
         }
     }
 
@@ -197,6 +203,30 @@ App.Combat.CombatEngine = class CombatEngine {
 
         container.append(frame);
 
+    }
+
+    _UpdateEnemyPortraits()
+    {
+        for (var i = 0; i < this._enemies.length; i++)
+        {
+            var frame = $("#EnemyPortrait"+i);
+            frame.removeClass("ActivePortraitFrame");
+            frame.removeClass("InactivePortraitFrame");
+
+            if (this._enemies[i].IsDead) {
+                frame.css("opacity", 0.5);
+                frame.addClass("InactivePortraitFrame");
+                frame.removeClass("EnemySelectEnabled");
+                if (this._enemies[i] == this._target) this._target = null;
+                frame.off("click");
+            } else {
+                if (this._enemies[i] == this._target) {
+                    frame.addClass("ActivePortraitFrame");
+                } else {
+                    frame.addClass("InactivePortraitFrame");
+                }
+            }
+        }
     }
 
     _UpdateHPBar(obj)
@@ -286,8 +316,8 @@ App.Combat.CombatEngine = class CombatEngine {
         m = this._FormatMessage(m,o);
         this._ChatLog.push(m);
         var log = $('#CombatChatLog');
-        log.append("<P>"+m+"</P>");
-        log.animate({scrollTop: log.prop("scrollHeight")}, 1000);
+        log.append("<P class='ChatLog'>"+m+"</P>");
+        log.animate({scrollTop: log.prop("scrollHeight")}, 500);
     }
 
     /**
@@ -337,7 +367,10 @@ App.Combat.CombatEngine = class CombatEngine {
         this._Timeline = [ ];
         var Timeline = { };
         this._PopulateTimeline(this._player, Timeline);
-        for(var i = 0; i < this._enemies.length; i++) this._PopulateTimeline(this._enemies[i], Timeline);
+        for(var i = 0; i < this._enemies.length; i++) {
+            if (this._enemies[i].IsDead == true) continue;
+            this._PopulateTimeline(this._enemies[i], Timeline);
+        }
 
         
         // Navigate timeline. Rely on the expected behavior of first set keys being retrieved first.
@@ -399,7 +432,7 @@ App.Combat.CombatEngine = class CombatEngine {
         this._WriteMessage("NPC_NAME attacks you", this._GetCombatant());
         this._GetCombatant().AddWeaponDelay(10);
         this._GetCombatant().EndTurn();
-        setTimeout(this._NextRound.bind(this), 1000);
+        setTimeout(this._NextRound.bind(this), 500);
     }
 
     _PlayerTurn()
@@ -413,13 +446,32 @@ App.Combat.CombatEngine = class CombatEngine {
     {
         console.log("command: "+e.data.cmd);
         if (this._GetCombatant() !== this._player) return;
-        this._WriteMessage("You attack with "+e.data.cmd);
+
+        if (this._target == null) {
+            this._WriteMessage("<span style='color:red'>Select a target first!</span>");
+            return;
+        }
+
+        var Command = this._GetCombatant().Moves[e.data.cmd];
+        console.log(Command);
         this._GetCombatant().StartTurn();
-        this._GetCombatant().AddWeaponDelay(10)
+        this._GetCombatant().Engine.AttackTarget(this._target, Command);
         this._GetCombatant().EndTurn();
         this._DrawInitiativeBar();
         this._StartRound();
     }
+
+    _SelectEnemyHandler(e)
+    {
+        console.log("_SelectEnemyHandler:"+e.data.index);
+        var obj = this._enemies[e.data.index];
+        if (obj.IsDead != true) {
+            this._target = obj;
+        }
+
+        this._UpdateEnemyPortraits();
+    }
+
     _ChatLogCB(m, o)
     {
         this._WriteMessage(m, o);
@@ -434,7 +486,9 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _UpdateNPCStatusCB(npc)
     {
+        console.log(npc);
         this._UpdateHPBar(npc);
         this._UpdateStaminaBar(npc);
+        this._UpdateEnemyPortraits();
     }
 }
