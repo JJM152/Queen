@@ -153,7 +153,7 @@ App.Combat.CombatEngine = class CombatEngine {
         var log = $('<div>').attr('id', 'CombatChatLog');
         root.append(log);
             for (var i = 0; i < this._ChatLog.length; i++) {
-                log.append("<P>"+this._ChatLog[i]+"</P>");
+                log.append("<P class='ChatLog'>"+this._ChatLog[i]+"</P>");
                 }
 
         log.scrollTop(log.prop("scrollHeight"));
@@ -357,6 +357,16 @@ App.Combat.CombatEngine = class CombatEngine {
                 this._UpdateNPCStatusCB.bind(this),
                 this._ChatLogCB.bind(this));
         this._player.Id = "PLAYER";
+        this._SwitchMoveSet("UNARMED");
+
+    }
+
+    _SwitchMoveSet(Name)
+    {
+        var MoveSet = App.Combat.Moves[Name];
+        this._player.ChangeMoveSet(MoveSet.Engine, this._UpdatePlayerStatusCB.bind(this),
+                this._UpdateNPCStatusCB.bind(this),
+                this._ChatLogCB.bind(this));
     }
 
     /**
@@ -437,7 +447,7 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _PlayerTurn()
     {
-        this._WriteMessage("It is your turn!", this._player);
+        //this._WriteMessage("It is your turn!", this._player);
     }
 
     // CALLBACKS

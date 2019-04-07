@@ -107,6 +107,7 @@ App.Combat.Combatant = class Combatant {
     }
 
     RecoverCombo(n) {
+        console.log("Combo:"+this._Combo+",Adding:"+n);
         this._Combo += n;
         if(this._Combo >= this.MaxCombo) this._Combo = this.MaxCombo;
         this._MyStatus(this);

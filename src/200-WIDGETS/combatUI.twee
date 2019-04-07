@@ -15,13 +15,13 @@
 <div style="float: left;">\
     <div style="height:40px;width:75px;line-height:40px">Stamina:</div>\
 </div>\
-<div style="float: left;">\
+<div style="float: left;margin-top:10px;height:20px;width:120px;background-color:black;">\
     <div id="PlayerStaminaBar"></div>\
 </div>\
 <div style="float: left;">\
     <div style="height:40px;width:75px;line-height:40px">Combo:</div>\
 </div>\
-<div style="float: left">\
+<div style="float: left;margin-top:10px;height:20px;width:120px;background-color:black;">\
     <div id="PlayerComboBar"></div>\
 </div>\
 </div>\

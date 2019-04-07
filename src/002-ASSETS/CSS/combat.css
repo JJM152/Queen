@@ -142,14 +142,12 @@ button.combatButton:hover {
 #PlayerStaminaBar {
     width: 120px;
     height: 20px;
-    margin-top: 10px;
     background-color: darkgoldenrod;
 }
 
 #PlayerComboBar {
     width: 120px;
     height: 20px;
-    margin-top: 10px;
     background-color: deeppink; 
 }
 
@@ -197,8 +195,8 @@ div.CombatButtonDisabled:hover {
     position: absolute;
     z-index: 1;
     margin-bottom: 64px;
-    left: 50%;
-    bottom: 40px;
+    left: 20%;
+    top: 20px;
 }
 
 .CombatButtonContainer:hover .CombatToolTip {

@@ -37,10 +37,12 @@ App.Combat.Engines.Generic = class GenericEngine {
             this.DoDamage(Target, Command, roll);
             this.ApplyEffects(Target, Command, roll);
             this.Owner.RecoverCombo(this.GenerateCombo(Target, Command, roll));
+            this._AttackHistory.push(Command.Name);
             return true;
         } else {
             var Message = this.GetMissMessage(Command.Miss);
             this.PrintMessage(Message, Target);
+            this._AttackHistory.push("Miss");
             return false;
         }
     }
@@ -90,7 +92,7 @@ App.Combat.Engines.Generic = class GenericEngine {
     DoDamage(Target, Command, roll)
     {
         var dmg = this.CalculateDamage(Target, Command, roll);
-        this.PrintHit(Command.Hit, Target, roll);
+        this.PrintHit(Command.Hit, Target, roll, dmg);
         Target.TakeDamage(dmg);
     }
 
@@ -109,10 +111,11 @@ App.Combat.Engines.Generic = class GenericEngine {
         return 0;
     }
 
-    PrintHit(Attacks, Target, Roll)
+    PrintHit(Attacks, Target, Roll, Damage)
     {
         var len = Math.floor(Math.max(0, Math.min((Attacks.length * Roll), (Attacks.length-1))));
         var msg = (typeof this.Owner.IsNPC !== 'undefined' && this.Owner.IsNPC == true ) ? Attacks[len][1] : Attacks[len][0];
+        msg += " <span style='color:red'>("+Damage+")</span>";
         this.PrintMessage(msg, Target);
     }
 
@@ -149,7 +152,7 @@ App.Combat.Engines.Unarmed = class UnarmedCombatEngine extends App.Combat.Engine
     {
         var base = 3;
 
-        if (Owner.IsNPC() == false) {
+        if (this.Owner.IsNPC == false) {
             base = Math.max(1, Math.min(Math.floor(this.Owner.Player.GetStat('STAT', 'Fitness')/20), 5));
         } else {
             base = base + Math.floor(this.Owner.Attack/20);
@@ -162,6 +165,7 @@ App.Combat.Engines.Unarmed = class UnarmedCombatEngine extends App.Combat.Engine
             base = Math.floor(base * mod);
         }
 
+        console.log("Calculate Damage:"+base);
         return base;
     }
 
@@ -170,13 +174,17 @@ App.Combat.Engines.Unarmed = class UnarmedCombatEngine extends App.Combat.Engine
      * @param {App.Combat.Combatant|App.Combat.Player} Target  
      * @param {*} Command 
      * @param {*} Roll 
+     * @returns {number} number of combo points to grant
      */
     GenerateCombo(Target, Command, Roll)
     {
-        if ( (Command.Name == "Punch" && this.LastMove() == "Kick") ||
-             (Command.Name == "Kick" && this.LastMove() == "Punch") ) {
+        console.log("Player:GenerateCombo: "+Command.Name);
+        if ( (Command.Name == "Punch" && this.LastMove == "Kick") ||
+             (Command.Name == "Kick" && this.LastMove == "Punch") ) {
                  return 1;
              }
+             
+        return 0;
     }
 
     /**
