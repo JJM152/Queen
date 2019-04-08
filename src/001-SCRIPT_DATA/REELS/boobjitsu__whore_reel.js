@@ -8,7 +8,7 @@ App.Data.Slots["COMMON_BOOBJITSU_MATRIARCH"] =
     "VALUE" : 1000,
     "CSS"   : 'TitsSlotReel',
     "DATA"  : // 50% Tits
-        [ "ASS", "TITS", "BJ", "TITS", "TITS", "TITS"  ]
+        [ "ASS", "HAND", "BJ", "TITS", "TITS", "TITS"  ]
 
 };
 
