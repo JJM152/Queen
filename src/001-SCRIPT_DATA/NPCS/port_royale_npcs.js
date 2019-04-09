@@ -250,3 +250,15 @@ App.Data.NPCS["Isabella Ioveanu"] = {
     "LongDesc": "Though she seems much junior in age to her mistress, this young woman carries herself with equal poise. Beyond sharing a scandalous taste in dress, other similarities exist: the same midnight black hair, snowy pale complexion and identical, striking blue irises. Though her wide-set eyes and high cheekbones should place her heritage far more east in the continent than her madam's, there remains an uncanny resemblance between the two.",
     "Store" : "Isabella"
 };
+
+
+//Governor Mansion
+App.Data.NPCS["Jeffrey"] = {
+    "Name": "Jeffrey ",
+    "Mood": 40,
+    "DailyMood": 0,
+    "Lust": 40,
+    "DailyLust": 10,
+    "Title": "NPC_NAME, Butler",
+    "LongDesc": "Cool guy, all-round.",
+};
