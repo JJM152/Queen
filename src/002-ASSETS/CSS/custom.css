@@ -284,6 +284,12 @@ span.pcText  {
 	font-family: Freeserif, serif;
 }
 
+span.pcThought {
+	color: lightpink;
+	font-family: Freeserif, serif;
+	font-style: italic;
+}
+
 /*
 #mirrorContainer {
 	width: 1000px;

@@ -131,11 +131,14 @@ App.PR = new function() {
      * @param {string} Stat
      * @param {string} Property
      * @param {number|number[]} Value
+     * @param {boolean} [Colorize] default is false
      * @returns {string}
      */
-    this.GetLevelingProperty = function(Type, Stat, Property, Value) {
+    this.GetLevelingProperty = function(Type, Stat, Property, Value, Colorize) {
         var propValue = this.GetLevelingRecord(Type, Stat, Value);
         if (propValue == undefined) return "";
+
+        if (!Colorize) return propValue[Property];
 
         var Arr = App.Data.Lists.ColorScale;
         return "<span style='color:" + Arr[propValue.COLOR] + "'>" + propValue[Property] +"</span>";
@@ -152,7 +155,8 @@ App.PR = new function() {
     this.GetNoun = function(Type, Stat, Value, Colorize) {
         var nCfg = this.GetNamingConfig(Type);
         if (nCfg == undefined || !nCfg.hasOwnProperty(Stat)) return "NO_NOUN_FOR_" + Type + ":" + Stat;
-        var str = this.GetMultiIndexLevelingProperty(nCfg[Stat].NOUN.LEVELING, Value);
+        const nounRec = nCfg[Stat].NOUN;
+        var str = nounRec.LEVELING === undefined ? nounRec : this.GetMultiIndexLevelingProperty(nounRec.LEVELING, Value);
 
         if (Colorize == true) {
             // use colour from the first index for now
@@ -168,9 +172,10 @@ App.PR = new function() {
 	 * @param {string} Type
 	 * @param {string} Stat
 	 * @param {App.Entity.Player} Player
+     * @param {boolean} [Colorize]
 	 * @returns {string[]}
 	 */
-	this.GetNoneAdjectives = function(Type, Stat, Player) {
+	this.GetNoneAdjectives = function(Type, Stat, Player, Colorize) {
         var tCfg = this.GetNamingConfig(Type);
         var sCfg = tCfg != undefined ? tCfg[Stat] : undefined;
         if (sCfg == undefined) return [];
@@ -187,7 +192,7 @@ App.PR = new function() {
             var statVal = Player.GetStatPercent(s[0], s[1]);
             if (statVal >= adjectiveApplicableLevels[i].MIN && statVal <= adjectiveApplicableLevels[i].MAX) {
                 var r = adjectiveRatings[i].split('/');
-                adjs.push(this.GetAdjective(r[0], r[1], statVal));
+                adjs.push(App.PR.GetAdjective(r[0], r[1], statVal, Colorize));
             }
         }
 
@@ -211,7 +216,7 @@ App.PR = new function() {
         var str = this.GetNoun(Type, Stat, indexValues, Colorize);
 
         if (Adjectives == true) {
-            str = this.GetNoneAdjectives(Type, Stat, Player).join(' ') + ' ' + str;
+            str = this.GetNoneAdjectives(Type, Stat, Player, Colorize).join(' ') + ' ' + str;
         }
         return str;
     };
@@ -221,10 +226,11 @@ App.PR = new function() {
      * @param {string} Type
      * @param {string} Stat
      * @param {number} Value
+     * @param {boolean} [Colorize]
      * @returns {string}
      */
-	this.GetAdjective = function(Type, Stat, Value) {
-		return this.GetLevelingProperty(Type, Stat, "ADJECTIVE", Value);
+	this.GetAdjective = function(Type, Stat, Value, Colorize) {
+		return this.GetLevelingProperty(Type, Stat, "ADJECTIVE", Value, Colorize);
 	};
 
     /**
@@ -242,7 +248,7 @@ App.PR = new function() {
             return _this.GetPlayerNoun(Type, Stat, Player, false, true) + delim;
         }
         function adjReplace(match, delim) {
-            return _this.GetAdjective(Type, Stat, Player.GetStat(Type, Stat)) + delim;
+            return _this.GetAdjective(Type, Stat, Player.GetStat(Type, Stat), true) + delim;
         }
         String = String.replace(/PLAYER_NAME/g, Player.SlaveName);
         String = String.replace(/LENGTH_C/g, this.lengthString(this.StatToCM(Player,Stat), true).toString());
@@ -740,7 +746,7 @@ App.PR = new function() {
         var fPercent = Player.GetStatPercent("STAT", "Fitness");
 
         if (typeof Arg !== 'undefined') {
-            return this.GetAdjective("BODY", "Ass", aPercent) + ' ' + this.GetAdjective("BODY", "AssFirmness", fPercent);
+            return this.GetAdjective("BODY", "Ass", aPercent, true) + ' ' + this.GetAdjective("BODY", "AssFirmness", fPercent, true);
         }
 
         var hPercent = Player.GetStatPercent("BODY", "Hips");
@@ -754,7 +760,7 @@ App.PR = new function() {
             } else {
                 Output += " It is @@color:lime;flattered@@ by your ";
             }
-            Output += this.GetAdjective("BODY", "Hips", hPercent) + " hips.";
+            Output += this.GetAdjective("BODY", "Hips", hPercent, true) + " hips.";
         }
 
         return Output;
@@ -769,7 +775,7 @@ App.PR = new function() {
         this.pPenis = function (Player, Arg) {
             var pPercent = Player.GetStatPercent("BODY", "Penis");
             var iLength = this.CMtoINCH(Player.GetStat("BODY", "Penis"));
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Penis", pPercent);
+            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Penis", pPercent, true);
             return this.TokenizeRating(Player, "BODY", "Penis", this.GetRating("Penis", pPercent));
 		};
 
@@ -799,7 +805,7 @@ App.PR = new function() {
      */
     this.pBalls = function (Player, Arg) {
             var bPercent = Player.GetStatPercent("BODY", "Balls");
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Balls", bPercent);
+            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Balls", bPercent, true);
             return this.TokenizeRating(Player, "BODY", "Balls", this.GetRating("Balls", bPercent));
         };
 
@@ -812,7 +818,7 @@ App.PR = new function() {
     this.pWaist = function (Player, Arg) {
             var wPercent = Player.GetStatPercent("BODY", "Waist");
             var iLength = this.CMtoINCH(this.WaistInCM(Player));
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Waist", wPercent);
+            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Waist", wPercent, true);
             return this.TokenizeRating(Player, "BODY", "Waist", this.GetRating("Waist", wPercent));
         };
 
@@ -825,7 +831,7 @@ App.PR = new function() {
     this.pBust = function (Player, Arg) {
         var bPercent = Player.GetStatPercent("BODY", "Bust");
         if (typeof Arg !== 'undefined') {
-            return this.GetAdjective("BODY", "Bust", bPercent);
+            return this.GetAdjective("BODY", "Bust", bPercent, true);
         }
         return this.TokenizeRating(Player, "BODY", "Bust", this.GetRating("Bust", bPercent));
     };
@@ -848,7 +854,7 @@ App.PR = new function() {
      */
     this.pLips = function (Player, Arg) {
             var lPercent = Player.GetStatPercent("BODY", "Lips");
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Lips", lPercent);
+            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Lips", lPercent, true);
         return this.TokenizeRating(Player, "BODY", "Lips", this.GetRating("Lips", lPercent));
         };
     /**
@@ -859,7 +865,7 @@ App.PR = new function() {
      */
     this.pHips = function (Player, Arg) {
             var hPercent = Player.GetStatPercent("BODY", "Hips");
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Hips", hPercent);
+            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Hips", hPercent, true);
             return this.TokenizeRating(Player, "BODY", "Hips", this.GetRating("Hips", hPercent));
         };
 
@@ -912,7 +918,7 @@ App.PR = new function() {
      */
     this.pFace = function (Player, Arg) {
             var fPercent = Player.GetStatPercent("BODY", "Face");
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Face", fPercent);
+            if (typeof Arg !== 'undefined') return App.PR.GetAdjective("BODY", "Face", fPercent, true);
             var Output = this.TokenizeRating(Player, "BODY", "Face", this.GetRating("Face", fPercent));
             if (Player.MakeupRating() == 0) {
                 Output += " it is bare and devoid of cosmetics.";
@@ -936,8 +942,8 @@ App.PR = new function() {
      */
     this.pFitness = function (Player, Arg) {
             var fPercent = Player.GetStatPercent("STAT", "Fitness");
-            if (typeof Arg !== 'undefined') return this.GetAdjective("STAT", "Fitness", fPercent);
-            return this.TokenizeRating(Player, "STAT", "Fitness", this.GetRating("Fitness", fPercent));
+            if (typeof Arg !== 'undefined') return this.GetAdjective("STAT", "Fitness", fPercent, true);
+            return App.PR.TokenizeRating(Player, "STAT", "Fitness", this.GetRating("Fitness", fPercent));
         };
 
     /**
@@ -947,7 +953,7 @@ App.PR = new function() {
      * @returns {string}
      */
     this.pHormones = function (Player, Arg) {
-        return this.GetAdjective("STAT", "Hormones", Player.GetStat("STAT", "Hormones"));
+        return App.PR.GetAdjective("STAT", "Hormones", Player.GetStat("STAT", "Hormones"), true);
     };
 
     /**
@@ -1030,7 +1036,7 @@ App.PR = new function() {
 
         var _this = this;
         function adjReplacer(match, stat) {
-            return _this.GetAdjective("BODY", stat, Player.GetStat("BODY", stat));
+            return _this.GetAdjective("BODY", stat, Player.GetStat("BODY", stat), true);
         }
         function nounReplacer(match, stat) {
             return _this.GetPlayerNoun("BODY", stat, Player, false, true);
@@ -1080,7 +1086,7 @@ App.PR = new function() {
             var statType = Player.CoreStats.hasOwnProperty(statName) ? "STAT" :
                 Player.Skills.hasOwnProperty(statName) ? "SKILL" : "BODY";
 
-            return _this.GetAdjective(statType, statName, Number(num)) + delim;
+            return _this.GetAdjective(statType, statName, Number(num), true) + delim;
         }
 
         String = String.replace(/PLAYER_NAME/g, "<span style='color:DeepPink'>"+Player.SlaveName+"</span>");
@@ -1088,7 +1094,7 @@ App.PR = new function() {
         String = String.replace(/pCUP/g, this.pCup(Player)); // needs special handling because it has only a single parameter
         String = String.replace(/NOUN_([A-Za-z_]+)/g, nounReplacer);
         String = String.replace(/ADJECTIVE_([A-Za-z_]+)/g, adjReplacer);
-        String = String.replace(/pBLOWJOBS/g, this.GetAdjective("SKILL", "BlowJobs", Player.GetStat("SKILL", "BlowJobs")));
+        String = String.replace(/pBLOWJOBS/g, this.GetAdjective("SKILL", "BlowJobs", Player.GetStat("SKILL", "BlowJobs"), true));
         String = String.replace(/pPHASE/g, Player.GetPhase(false));
         String = String.replace(/pEQUIP\(([^\)]*)\)/g, equipReplacer);
         String = String.replace(/(p)([A-Z]+)_([0-9]+)([^0-9]|$)/g, pReplacer2);
@@ -1097,11 +1103,13 @@ App.PR = new function() {
         String = String.replace(/(n)([A-Z_]+)([^A-Za-z]|$)/g, nReplacer);
         String = String.replace(/(v)([A-Z_]+)([^A-Za-z]|$)/g, vReplacer);
         // Hack for highlighting NPC speech
-        String = String.replace(/s\(([^\)]+)\)/g, function(m,p) { return "<span class='npcText'>\""+p+"\"</span>"; });
+        String = String.replace(/s\(([^\)]+)\)/g, function(m,p) { return `<span class='npcText'>"${p}"</span>`; });
         // Important! highlight NPC speech
-        String = String.replace(/s\!\(([^\)]+)\)/g, function(m,p) { return "<span class='impText'>\""+p+"\"</span>"; });
+        String = String.replace(/s\!\(([^\)]+)\)/g, function(m,p) { return `<span class='impText'>"${p}"</span>`; });
         // Hilighting PC speech
-        String = String.replace(/sp\(([^\)]+)\)/g, function(m,p) { return "<span class='pcText'>\""+p+"\"</span>"; });
+        String = String.replace(/sp\(([^\)]+)\)/g, function (m, p) { return `<span class='pcText'>"${p}"</span>`; });
+        // Hilighting PC thoughts
+        String = String.replace(/tp\(([^\)]+)\)/g, function (m, p) { return `<span class='pcThought'>"${p}"</span>`; });
 
         return String;
     };

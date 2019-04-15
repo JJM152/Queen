@@ -9,14 +9,14 @@ App.Data.JobData["PEACOCK_WAITRESS"] = {
     "REQUIREMENTS" : [
         { "TYPE" : "STYLE", "NAME" : "STYLE", "VALUE" : 50, "CONDITION" : "gte" }
     ],
-    "START" :   "NPC_NAME smiles at you brightly and takes your hand in greeting.\n\n"+
-    "\"@@color:cyan;The job's easy enough lass, so don't worry if you don't have much experience at wenching. So long as you don't "+
-    "screw up too badly, you'll get paid@@\", he says.\n\n"+
-    "That's a relief. For once it seems you can get paid some coin without having to suck a dick... or five.\n\n"+
-    "\"@@color:cyan;Just a word of warning...@@\" he adds, \"@@color:cyan;The boys can get pretty 'hands on' if you know what I mean, "+
-    "especially after they've had a few. It shouldn't go too far... not like last time anyway.@@\"\n\n"+
-    "Aaaaaand... there it is.",
-    "INTRO" : "NPC_NAME says, \"@@color:cyan;I'm always looking for help on the floor. If you can sling beers and don't mind a hand or two on your arse, we're hiring.@@\"",
+    "START" :   "NPC_NAME smiles at you brightly and takes your hand in greeting.\n\n\
+    s(The job's easy enough lass, so don't worry if you don't have much experience at wenching. So long as you don't \
+    screw up too badly, you'll get paid), she says.\n\n\
+    That's a relief. For once it seems you can get paid some coin without having to suck a dick... or five.\n\n\
+    s(Just a word of warning...) she adds, s(The boys can get pretty 'hands on' if you know what I mean, \
+    especially after they've had a few. It shouldn't go too far... not like last time anyway.)\n\n\
+    Aaaaaand... there it is.",
+    "INTRO" : "NPC_NAME says, s(I'm always looking for help on the floor. If you can sling beers and don't mind a hand or two on your arse, we're hiring)",
     "SCENES" : [
         {
             "ID" : "SCENE01",
@@ -110,17 +110,16 @@ App.Data.JobData["PEACOCK_WAITRESS"] = {
                 {"TYPE" : "MONEY", "NAME" : "", "VALUE" : 60, "OPT" : "TAG_C1" }
             ],
             "START" :
-            "During your shift one of the locals begins to entertain the crowd by playing on his fiddle. The tune is quite catchy and you find yourself tapping your feet "+
-            "in time with the music. Some of the patrons catch on and with a little encouragement start to dance with you. Soon they are encouraging you as you twirl and "+
-            "twist away on the floor and the incessant clapping starts to get to your head. Caught up in the moment you quickly climb on top of the bar and start dancing for "+
-            "the crowd."
-            ,
+            "During your shift one of the locals begins to entertain the crowd by playing on his fiddle. The tune is quite catchy and \
+            you find yourself tapping your feet in time with the music. Some of the patrons catch on and with a little encouragement \
+            start to dance with you. Soon they are encouraging you as you twirl and twist away on the floor and the incessant clapping \
+            starts to get to your head. Caught up in the moment you quickly climb on top of the bar and start dancing for the crowd.",
             "END" :
                 "",
             "RESULTS" : [
                 {"C1":  33, "TEXT": "Your dancing is @@competent, if not inspired@@ and while the crowd seems to enjoy it, they don't really loosen their purse strings for you either."},
                 {"C1":  66, "TEXT": "You mix in a few sexy moves with your dancing, exposing your pBUST tits in brief flashes and winking saucily at the crowd and you are @@rewarded with a good amount of tips@@ for your effort."},
-                {"C1": 500, "TEXT": "Using everything you know, you prance and strut your stuff across the bar. You tease and flirt with the crowd, exposing brief glimpses of your pBUST tits and pASS ass to them and riling them up into a sexual frenzy. By the end of your routine they are @@practically showering you with coins@@."} ]
+                {"C1": 500, "TEXT": "Using everything you know, you prance and strut your stuff across the bar. You tease and flirt with the crowd, exposing brief glimpses of your nBUST and nASS to them and riling them up into a sexual frenzy. By the end of your routine they are @@practically showering you with coins@@."} ]
         }
     ],
     "END" : "Finally, your shift in the tavern is over. NPC_NAME comes up to you and hands you your pay for the night.",

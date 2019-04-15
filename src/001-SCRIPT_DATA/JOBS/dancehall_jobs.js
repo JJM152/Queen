@@ -99,8 +99,8 @@ App.Data.JobData["DANCE_AMATEUR"] = {
             ],
             "START" : "\
             In the middle of the stage is a large revolving pole that is used to perform acrobatic stunts. You \
-            saunter towards it, doing your best to exaggerate the gait of your pHIPS hips and accentuate your \
-            pASS ass. Once there, you lean over and place your hands on the pole, smile at the crowd and attempt \
+            saunter towards it, doing your best to exaggerate the gait of your nHIPS and accentuate your \
+            nASS. Once there, you lean over and place your hands on the pole, smile at the crowd and attempt \
             a simple move.\
             ",
             "RESULTS" : [
@@ -207,7 +207,7 @@ App.Data.JobData["DANCE_AMATEUR"] = {
             <</if>>\
             You slowly spin around to face the crowd, clad only in your pEQUIP(Bra|$bare chest), pEQUIP(Panty|$naked ass) \
             and a (fake) smile plastered on your face.  You time your movements to the music, undulating around \
-            the stage in a series of exageratedly flirty movements, slapping your pASS ass and fake moaning as you grope \
+            the stage in a series of exageratedly flirty movements, slapping your nASS and fake moaning as you grope \
             yourself.\
             ",
             "RESULTS" : [
@@ -256,7 +256,7 @@ App.Data.JobData["DANCE_AMATEUR"] = {
             <<else>>\
             You place your hands under your breasts and give them a firm shake at the crowd while \
             smiling broadly. <</if>>\
-            Slowly you rub and tweak your nipples, your pLIPS lips making an exaggerated 'o' to delight them.\
+            Slowly you rub and tweak your nipples, your nLIPS making an exaggerated 'o' to delight them.\
             <<if setup.player.IsEquipped('Panty',true)>>\
             You bend over infront of your crowd, your hands going to the sides of your \
             pEQUIP(Panty). With exaggerated movements you slowly wiggle them down your legs until they \
@@ -267,7 +267,7 @@ App.Data.JobData["DANCE_AMATEUR"] = {
             <<if setup.player.GetStat('BODY', 'Penis') <= 10>>\
             There is a smattering of laughter at the size of your member and a few shouts of 'Sissy!' \
             out in the crowd. It's humilating but you smile through it. <</if>>\
-            With a final pirouette, you expose your pASS ass to the crowd and spread your cheeks at them\
+            With a final pirouette, you expose your nASS to the crowd and spread your cheeks at them\
             <<if setup.player.IsEquipped('Ass', true)>> exposing your pEQUIP(Ass), much to their delight. \
             <<else>>.<</if>>\
             Just as the music begins to finish up, you give yourself one last double handed slap on the \
@@ -457,8 +457,8 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
              ],
              "START" : "\
              In the middle of the stage is a large revolving pole that is used to perform acrobatic stunts. You \
-             saunter towards it, doing your best to exaggerate the gait of your pHIPS hips and accentuate your \
-             pASS ass. Once there, you lean over and place your hands on the pole, smile at the crowd and attempt \
+             saunter towards it, doing your best to exaggerate the gait of your nHIPS and accentuate your \
+             nASS. Once there, you lean over and place your hands on the pole, smile at the crowd and attempt \
              a simple move.\
              ",
              "RESULTS" : [
@@ -565,7 +565,7 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
              <</if>>\
              You slowly spin around to face the crowd, clad only in your pEQUIP(Bra|$bare chest), pEQUIP(Panty|$naked ass) \
              and a (fake) smile plastered on your face.  You time your movements to the music, undulating around \
-             the stage in a series of exageratedly flirty movements, slapping your pASS ass and fake moaning as you grope \
+             the stage in a series of exageratedly flirty movements, slapping your nASS and fake moaning as you grope \
              yourself.\
              ",
              "RESULTS" : [
@@ -614,7 +614,7 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
              <<else>>\
              You place your hands under your breasts and give them a firm shake at the crowd while \
              smiling broadly. <</if>>\
-             Slowly you rub and tweak your nipples, your pLIPS lips making an exaggerated 'o' to delight them.\
+             Slowly you rub and tweak your nipples, your nLIPS making an exaggerated 'o' to delight them.\
              <<if setup.player.IsEquipped('Panty',true)>>\
              You bend over infront of your crowd, your hands going to the sides of your \
              pEQUIP(Panty). With exaggerated movements you slowly wiggle them down your legs until they \
@@ -625,7 +625,7 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
              <<if setup.player.GetStat('BODY', 'Penis') <= 10>>\
              There is a smattering of laughter at the size of your member and a few shouts of 'Sissy!' \
              out in the crowd. It's humilating but you smile through it. <</if>>\
-             With a final pirouette, you expose your pASS ass to the crowd and spread your cheeks at them\
+             With a final pirouette, you expose your nASS to the crowd and spread your cheeks at them\
              <<if setup.player.IsEquipped('Ass', true)>> exposing your pEQUIP(Ass), much to their delight. \
              <<else>>.<</if>>\
              Just as the music begins to finish up, you give yourself one last double handed slap on the \
@@ -872,8 +872,8 @@ App.Data.JobData["DANCE_EXPERT"] = {
              ],
              "START" : "\
              In the middle of the stage is a large revolving pole that is used to perform acrobatic stunts. You \
-             saunter towards it, doing your best to exaggerate the gait of your pHIPS hips and accentuate your \
-             pASS ass. Once there, you lean over and place your hands on the pole, smile at the crowd and attempt \
+             saunter towards it, doing your best to exaggerate the gait of your nHIPS and accentuate your \
+             nASS. Once there, you lean over and place your hands on the pole, smile at the crowd and attempt \
              a simple move.\
              ",
              "RESULTS" : [
@@ -980,7 +980,7 @@ App.Data.JobData["DANCE_EXPERT"] = {
              <</if>>\
              You slowly spin around to face the crowd, clad only in your pEQUIP(Bra|$bare chest), pEQUIP(Panty|$naked ass) \
              and a (fake) smile plastered on your face.  You time your movements to the music, undulating around \
-             the stage in a series of exageratedly flirty movements, slapping your pASS ass and fake moaning as you grope \
+             the stage in a series of exageratedly flirty movements, slapping your nASS and fake moaning as you grope \
              yourself.\
              ",
              "RESULTS" : [
@@ -1029,7 +1029,7 @@ App.Data.JobData["DANCE_EXPERT"] = {
              <<else>>\
              You place your hands under your breasts and give them a firm shake at the crowd while \
              smiling broadly. <</if>>\
-             Slowly you rub and tweak your nipples, your pLIPS lips making an exaggerated 'o' to delight them.\
+             Slowly you rub and tweak your nipples, your nLIPS making an exaggerated 'o' to delight them.\
              <<if setup.player.IsEquipped('Panty',true)>>\
              You bend over infront of your crowd, your hands going to the sides of your \
              pEQUIP(Panty). With exaggerated movements you slowly wiggle them down your legs until they \
@@ -1040,7 +1040,7 @@ App.Data.JobData["DANCE_EXPERT"] = {
              <<if setup.player.GetStat('BODY', 'Penis') <= 10>>\
              There is a smattering of laughter at the size of your member and a few shouts of 'Sissy!' \
              out in the crowd. It's humilating but you smile through it. <</if>>\
-             With a final pirouette, you expose your pASS ass to the crowd and spread your cheeks at them\
+             With a final pirouette, you expose your nASS to the crowd and spread your cheeks at them\
              <<if setup.player.IsEquipped('Ass', true)>> exposing your pEQUIP(Ass), much to their delight. \
              <<else>>.<</if>>\
              Just as the music begins to finish up, you give yourself one last double handed slap on the \

@@ -235,7 +235,7 @@ App.Data.JobData["ISLA_WAITRESS"] = {
                 {
                     "C1": 500,
                     "TEXT": "Using everything you know, you prance and strut your stuff across the bar. You \
-                    tease and flirt with the crowd, exposing brief glimpses of your pBUST tits and pASS ass to \
+                    tease and flirt with the crowd, exposing brief glimpses of your pBUST tits and nASS to \
                     them and riling them up into a sexual frenzy. By the end of your routine they are \
                     @@practically showering you with coins@@."
                 }

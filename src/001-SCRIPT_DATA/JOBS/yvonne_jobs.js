@@ -13,11 +13,12 @@ App.Data.JobData["YVONNE_TRAINING"] = {
 
     ],
     "INTRO" :
-        "NPC_NAME says, \"Looking for some style tutoring? Sure, I can help you, for a price...\"",
+        "NPC_NAME says s(Looking for some style tutoring? Sure, I can help you, for a price...)",
     "START" :
-        "NPC_NAME ushers you into her inner working area and sits you in front of a large vanity situated in front of a wide picture window. She explains that the " +
-        "natural light is good for exposing flaws that need to be addressed. With a bit of flourish, she sits you in front of a pristine glass mirror and begins "+
-        "to explain to you many concepts and techniques related to applying pigments and powder to 'accentuate your natural beauty'.",
+        "NPC_NAME ushers you into her inner working area and sits you in front of a large vanity situated in front of a wide \
+        picture window. She explains that the natural light is good for exposing flaws that need to be addressed. With a bit \
+        of flourish, she sits you in front of a pristine glass mirror and begins to explain to you many concepts and techniques \
+        related to applying pigments and powder to 'accentuate your natural beauty'.",
     "SCENES" : [
         {
             // No requirements.
@@ -54,10 +55,11 @@ App.Data.JobData["YVONNE_TRAINING"] = {
             ],
             // Just print widget
             "START" :
-                "Next, comes a lecture and practice session related to hair care and styling. NPC_NAME spends quite a long time going into detail about "+
-            "how you should care for and maintain your hair, even recommending several products that (of course) she happens to sell. On the back of that "+
-            "she segues into some practical examples of styling - taking your hair and demonstrating how to craft various popular styles. Finally, it becomes "+
-            "your turn to try and attempt it, and you bite your lip with concentration as you get to work.",
+                "Next, comes a lecture and practice session related to hair care and styling. NPC_NAME spends quite a long time \
+                going into detail about how you should care for and maintain your hair, even recommending several products that \
+                (of course) she happens to sell. On the back of that she segues into some practical examples of styling - taking \
+                your hair and demonstrating how to craft various popular styles. Finally, it becomes your turn to try and attempt \
+                it, and you bite your lip with concentration as you get to work.",
             "RESULTS" : [
                 {"B":  85, "TEXT":  "It's @@more difficult@@ than you thought and NPC_NAME has to constantly correct your technique or choices."},
                 {"B": 120, "TEXT":  "With only minor commentary from NPC_NAME, you manage to do @@a decent job@@. "},
@@ -69,8 +71,9 @@ App.Data.JobData["YVONNE_TRAINING"] = {
 
     ],
     "END" :
-        "Finally, finished for the day, NPC_NAME happily takes your payment and ushers you to the door.\n\n"+
-        "\"You're welcome to come back any time you want PLAYER_NAME,\" she says, \"Just come early enough in the day and we'll work something out.\"\n\n"+
-        "Despite your misgivings about makeup in general, the experience was good enough that you might just take her up on that offer.",
+        "Finally, finished for the day, NPC_NAME happily takes your payment and ushers you to the door.\n\n\
+        s(You're welcome to come back any time you want, PLAYER_NAME,) she says, s(Just come early enough in the day and we'll \
+        work something out.)\n\n\
+        Despite your misgivings about makeup in general, the experience was good enough that you might just take her up on that offer.",
     "JOB_RESULTS" : [ ]
 };

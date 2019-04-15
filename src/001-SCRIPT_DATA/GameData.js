@@ -791,7 +791,7 @@ App.Data.Lists = {
                     {"NAME"  : "braided",       "DIFFICULTY" : 80,  "RESOURCE1" : 0,    "RESOURCE2" : 0 ,   "MIN" : 40, "MAX" : 100,  "STYLE" : 35, "SHORT" : "extravagantly long braids"},
                     {"NAME"  : "twin tails",    "DIFFICULTY" : 90,  "RESOURCE1" : 1,    "RESOURCE2" : 1 ,   "MIN" : 50, "MAX" :  80,  "STYLE" : 75, "SHORT" : "extremely long twin tails"}
             ],
-            "HairColors" : 
+            "HairColors" :
             {
                 "black" : { h: 0, s: 0, l: 0},
                 "blond" : { h: 60, s: 100, l: 80 },
@@ -1254,8 +1254,8 @@ App.Data.Ratings = {
                 70 : "You have a ADJECTIVE NOUN that gyrates back and forth when you strut your stuff.",
                 76 : "Your ADJECTIVE NOUN sensuously wobbles and jiggles at every minor movement, entrancing watchers.",
                 82 : "Your ADJECTIVE NOUN sensuously wobbles and jiggles at every minor movement, entrancing watchers.",
-                88 : "Your ADJECTIVE NOUN shakes and wobbles at the most minor movement of your pHIPS hips. Clothing can barely contain it and men lust after it.",
-                94 : "Your ADJECTIVE NOUN shakes and wobbles at the most minor movement of your pHIPS hips. Clothing can barely contain it and men lust after it.",
+                88 : "Your ADJECTIVE NOUN shakes and wobbles at the most minor movement of your nHIPS. Clothing can barely contain it and men lust after it.",
+                94 : "Your ADJECTIVE NOUN shakes and wobbles at the most minor movement of your nHIPS. Clothing can barely contain it and men lust after it.",
                100 : "Your ADJECTIVE NOUN jiggles almost uncontrollably at the most minor prompting. A small slap sends off an 'butt quake' of jiggly NOUN flesh and men dream of fucking it."
             },
             "Cup": {
@@ -1404,9 +1404,22 @@ App.Data.Ratings = {
 
 App.Data.Naming = {
     "BodyConfig": {
-        "Face": { "NOUN": "face" },
-        "Hair": { "NOUN": "hair" },
+        "Face": {
+            "ADJECTIVE": {
+                "RATING": ["BODY/Face"]
+            },
+            "NOUN": "face"
+            },
+        "Hair": {
+            "ADJECTIVE": {
+                "RATING": ["BODY/Hair"]
+            },
+            "NOUN": "hair"
+        },
         "Lips": {
+            "ADJECTIVE": {
+                "RATING": ["BODY/Lips"],
+            },
             "NOUN" : {
                 "LEVELING" : {
                     0   : "lips",
@@ -1457,9 +1470,20 @@ App.Data.Naming = {
                 }
             }
         },
-        "Hips" : { "NOUN" : "hips"},
-        "Waist" : { "NOUN" : "waist"},
-        "Penis" : {
+        "Hips": {
+            "ADJECTIVE": {
+                "RATING": ["BODY/Hips"]
+            },
+            "NOUN": "hips"
+        },
+        "Waist": {
+            "ADJECTIVE": {
+                "RATING": ["BODY/Waist"]
+            },
+            "NOUN": "waist"
+        },
+        "Penis": {
+            "ADJECTIVE": { "RATING": ["BODY/Penis"] },
             "NOUN" : {
                 "LEVELING": {
                     0   : "sissy clit",
@@ -1467,6 +1491,18 @@ App.Data.Naming = {
                     25  : "dick",
                     66  : "cock",
                     100 : "tool"
+                }
+            },
+        },
+        "Balls": {
+            "ADJECTIVE": {
+                "RATING": ["BODY/Balls"]
+            },
+            "NOUN": {
+                "LEVELING": {
+                    0: "testes",
+                    5: "balls",
+                    100: "balls"
                 }
             },
         }
@@ -1484,4 +1520,3 @@ App.Data.Fashion = {
 App.Data.Game = {
     Version : 0.10
 };
-

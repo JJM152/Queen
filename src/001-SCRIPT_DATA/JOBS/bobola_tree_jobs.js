@@ -29,7 +29,7 @@ App.Data.JobData["BOBOLA_SAP"] = {
         You feel a strong gripping pressure on your leg and let out a high pitched screech as you are hoisted into the air! \
         From your upside down position you can see that the NPC_NAME's network of roots are all animated and thrashing \
         around, waving menacingly at you! You open your mouth to scream again, but before you can make a sound one of \
-        the thinner roots jams through your pLIPS lips. It's only then that you truely realize the horror that is in \
+        the thinner roots jams through your nLIPS. It's only then that you truely realize the horror that is in \
         store for you.\
     ",
     "SCENES" : [

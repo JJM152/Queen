@@ -14,8 +14,9 @@ App.Data.JobData["SHIP_NAV01"] = {
         { "TYPE" : "IN_PORT", "VALUE" : 0, "CONDITION": false }
     ],
     "INTRO" : "Not used",
-    "START" : `You approach the ships helm, nodding briefly to @@color:cyan;Kipler@@ as you assume your station. Normally the huge
-    pirate stares at you with lavacious eyes, but when it comes his job of piloting the @@color:cyan;Salty Mermaid@@ he's quite the professional.`,
+    "START": `You approach the ships helm, nodding briefly to @@color:cyan;Kipler@@ as you assume your station. Normally the huge \
+    pirate stares at you with lavacious eyes, but when it comes his job of piloting the @@color:cyan;Salty Mermaid@@ he's quite \
+    the professional.`,
     "SCENES" : [
         {
             "ID" : "SCENE01",
@@ -55,8 +56,9 @@ App.Data.JobData["SHIP_NAV01"] = {
             "POST" : [
                 { "TYPE" : "SAIL_DAYS", "VALUE": 1 }
             ],
-            "START" : `You made amazing time today, even @@color:cyan;Kipler@@ noticed how switched on you were. You feel as if the wind was pushing
-             you towards your destination and all you had to do was just gently nudge the ship in the right direction. It's a satisfying feeling.`,
+            "START": `You made amazing time today, even @@color:cyan;Kipler@@ noticed how switched on you were. You feel as if \
+            the wind was pushing you towards your destination and all you had to do was just gently nudge the ship in the right \
+            direction. It's a satisfying feeling.`,
             "RESULTS" : [ ],
             "END" : ""
         }
