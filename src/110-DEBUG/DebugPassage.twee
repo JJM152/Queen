@@ -8,7 +8,20 @@
 <<click "Combat Test" "CombatTest">>\
 <<run setup.Combat.InitializeScene();>>\
 <<run setup.Combat.LoadEncounter("TEST_FIGHT_1");>>\
-<</click>>\ 
+<</click>>\
+
+<<if Array.isArray(Config.saves.autosave) && Config.saves.autosave.includes("hideout")>>
+	<<link "Disable autosaving at safe locations" "DebugPassage">>
+		<<set Config.saves.autosave = Config.saves.autosave.filter(s => s !== "hideout")>>
+	<</link>>
+<<else>>
+	<<link "Enable autosaving at safe locations" "DebugPassage">>
+		<<if !Array.isArray(Config.saves.autosave)>>
+			<<set Config.saves.autosave = []>>
+		<</if>>
+		<<run Config.saves.autosave.push("hideout");>>
+	<</link>>
+<</if>>
 
 @@color:silver;Items Menu@@
 [[Acquire everything|DebugPassage][setup.player.AcquireAllItems();]]

@@ -1,4 +1,4 @@
-:: Cabin [no-teleport event]
+:: Cabin [no-teleport event hideout]
 Your "cabin" is really a converted jail cell used for holding prisoners -- or in your case, a slave. It's been poorly \
 fitted with some decrepit furnishings and just enough amenities for you to sustain your life as a whore. \
 <<if setup.player.QuestFlags.CABIN_DECORATION eq "COMPLETED">>Although you have managed to secure some small comforts to brighten up the place a little. <</if>>\
