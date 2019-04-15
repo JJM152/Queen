@@ -42,7 +42,7 @@ App.Data.Quests["LORD_ROWE_PORNO_DELIVERY"] = {
     ],
     "ON_ACCEPT" : [
         { "TYPE" : "QUEST", "NAME" : "LORD_ROWE_DELIVERY", "VALUE" : "START" },
-        { "TYPE" : "QUEST_ITEM", "NAME" : "lolita book", "VALUE" : 1 }
+        { "TYPE" : "ITEM", "NAME" : "QUEST/lolita book", "VALUE" : 1 }
     ],
     "REWARD": [
         { "REWARD_TYPE": "MONEY", "AMOUNT": 500 },

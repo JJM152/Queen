@@ -9,10 +9,10 @@ App.Data.Quests["ROYAL_ENTRANCE_2"] = {
     ],
     "CHECKS" : [
         {
-            "TYPE" : "QUEST_ITEM", "NAME" : "bucket of refined bobola sap", "VALUE" : 1,
+            "TYPE": "ITEM", "NAME": "QUEST/bucket of refined bobola sap", "VALUE": 1,
         },
         {
-            "TYPE" : "QUEST_ITEM", "NAME" : "butter gourd", "VALUE" : 5,
+            "TYPE" : "ITEM", "NAME" : "FOOD/butter gourd", "VALUE" : 5,
         },
         {
             "TYPE" : "MONEY", "VALUE" : 2000
@@ -85,7 +85,7 @@ App.Data.Quests["FINDING_YOUR_BALLS_2"] = {
     ],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "rare ore", "VALUE": 1
+            "TYPE": "ITEM", "NAME": "QUEST/rare ore", "VALUE": 1
         },
         {
             "TYPE": "MONEY", "NAME": "MONEY", "VALUE": 2000

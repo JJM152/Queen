@@ -192,7 +192,7 @@ App.Data.Quests["FINDING_YOUR_BALLS_1"] = {
     ],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "strange chemicals", "VALUE": 1
+            "TYPE": "ITEM", "NAME": "QUEST/strange chemicals", "VALUE": 1
         }
     ],
     "POST": [

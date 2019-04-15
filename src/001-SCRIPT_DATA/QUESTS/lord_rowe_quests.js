@@ -39,7 +39,7 @@ App.Data.Quests["LORD_ROWE_DELIVERY"] = {
     "POST": [
     ],
     "CHECKS": [
-        {"TYPE": "QUEST_ITEM", "NAME": "lolita book", "VALUE": 1 }
+        {"TYPE": "ITEM", "NAME": "QUEST/lolita book", "VALUE": 1 }
     ],
     "ON_ACCEPT" : [
     ],

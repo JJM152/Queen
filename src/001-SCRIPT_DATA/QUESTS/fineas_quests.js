@@ -15,7 +15,7 @@ App.Data.Quests["BOBOLA_SAP_1"] = {
             "TYPE": "MONEY", "NAME": "MONEY", "VALUE": 500
         },
         {
-            "TYPE" : "QUEST_ITEM", "NAME" : "bucket of bobola sap", "VALUE" : 1
+            "TYPE": "ITEM", "NAME": "QUEST/bucket of bobola sap", "VALUE": 1
         }
     ],
     "ON_ACCEPT" : [],

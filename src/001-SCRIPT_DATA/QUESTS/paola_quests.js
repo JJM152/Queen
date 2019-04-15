@@ -4,7 +4,7 @@ App.Data.Quests["PAOLA_FETCH"] = {
     "PRE": [ ],
     "POST": [ ],
     "CHECKS": [
-        {"TYPE": "QUEST_ITEM", "NAME": "bag of mojo", "VALUE": 1 }
+        { "TYPE": "ITEM", "NAME": "QUEST/bag of mojo", "VALUE": 1 }
     ],
     "ON_ACCEPT" : [
         { "TYPE" : "QUEST", "NAME" : "VOODOO_PICKUP", "VALUE" : "START" }
