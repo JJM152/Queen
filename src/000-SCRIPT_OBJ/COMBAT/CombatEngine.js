@@ -498,11 +498,11 @@ App.Combat.CombatEngine = class CombatEngine {
         if (e.data.cmd == 'flee') {
 
             if (this._flee == 0) {
-                this._WriteMessage("<span style='color:red'>You cannot flee!</span>");
+                this._WriteMessage("<span style='color:red'>You cannot flee!</span>", this._player);
                 return;
             }
             if (Math.floor(Math.random() * 100) > this._flee) {
-                this._WriteMessage("<span style='color:red'>You attempt to flee, but fail!</span>");
+                this._WriteMessage("<span style='color:red'>You attempt to flee, but fail!</span>", this._player);
                 this._GetCombatant().StartTurn();
                 //no op
                 this._GetCombatant().EndTurn();
@@ -527,8 +527,19 @@ App.Combat.CombatEngine = class CombatEngine {
 
         if (e.data.cmd == 'restoreStamina')
         {
-
-            return;
+            if (SugarCube.setup.player.Energy <= 0) {
+                this._WriteMessage("<span style='color:red'>You do not have enough energy!</span>", this._player);
+                return;
+            } else {
+                this._WriteMessage("<span style='color:lime'>You pull deep from your reserves and catch a second wind!</span>", this._player);
+                this._GetCombatant().StartTurn();
+                this._GetCombatant().RecoverStamina(100);
+                this._GetCombatant().UseEnergy(1);
+                this._GetCombatant().EndTurn();
+                this._DrawInitiativeBar();
+                this._StartRound();
+                return;
+            }
         }
 
         if (this._target == null) {

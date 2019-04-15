@@ -329,4 +329,17 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
                 break;
         }
     }
+
+    UseEnergy(n) {
+        var x = Math.abs(n) * -1; // Always reduce
+        this.Player.AdjustStat('Energy', x);
+        App.PR.RefreshTwineMeter("Energy");
+    }
+
+    RecoverEnergy(n)
+    {
+        this.Player.AdjustStat('Energy', n);
+        App.PR.RefreshTwineMeter("Energy");
+    }
+
 }
