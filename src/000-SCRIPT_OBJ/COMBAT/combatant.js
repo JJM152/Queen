@@ -52,6 +52,9 @@ App.Combat.Combatant = class Combatant {
     get MaxCombo() { return 10; } // Hardcoded
     get Combo() { return this._Combo; }
     get Skill() { return this._data.Skill; }
+    /**
+     * @returns {App.Combat.Engines.Generic}
+     */
     get Engine() { return this._Engine; }
     get Moves() { return App.Combat.Moves[this._data.Moves]; }
     get IsNPC() { return true; }

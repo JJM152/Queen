@@ -47,6 +47,13 @@ App.Combat.Engines.Generic = class GenericEngine {
         }
     }
 
+    Defend()
+    {
+        this.Owner.RecoverStamina(10); // Regain some stamina
+        this.PrintMessage("You assume a defensive position and catch your breath.", null);
+        // Apply a self buff here, TBD with buff engine.
+    }
+
     ConsumeResources(Command) {
         this.Owner.UseStamina(Command.Stamina);
         this.Owner.UseCombo(Command.Combo);

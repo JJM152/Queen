@@ -73,11 +73,15 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _DrawUI()
     {
+        // Main UI Components.
         this._DrawInitiativeBar();
         this._DrawEnemyContainers();
         this._DrawChatLog();
         this._DrawStyles();
         this._DrawCombatButtons();
+
+        // Default Control buttons
+        this._AddDefaultCommands();
 
         //Status for players.
         this._UpdatePlayerComboBar();
@@ -104,11 +108,11 @@ App.Combat.CombatEngine = class CombatEngine {
             button.addClass(d[prop].Icon);
             //if (d[prop].Unlock(this._player)) {
             if (this._player.Engine.CheckCommand(d[prop])) {
+                button.on("click", {cmd:prop}, this._CombatCommandHandler.bind(this));
                 button.addClass("CombatButtonEnabled");
             } else {
                 button.addClass("CombatButtonDisabled");
             }
-            button.on("click", {cmd:prop}, this._CombatCommandHandler.bind(this));
             container.append(span);
             container.append(button);
             root.append(container);
@@ -124,7 +128,9 @@ App.Combat.CombatEngine = class CombatEngine {
         {
             if (prop == 'Engine') continue; // filter out this one.
             var button = $("#combatButton"+prop);
+            button.off('click');
             if (this._player.Engine.CheckCommand(d[prop])) {
+                button.on("click", {cmd:prop}, this._CombatCommandHandler.bind(this));
                 button.removeClass("CombatButtonDisabled");
                 button.addClass("CombatButtonEnabled");
             } else {
@@ -134,6 +140,21 @@ App.Combat.CombatEngine = class CombatEngine {
         }
     }
 
+    _AddDefaultCommands()
+    {
+        var defendBtn = $('#cmdDefend');
+        defendBtn.on("click", {cmd: 'defend'}, this._CombatCommandHandler.bind(this));
+        var fleeBtn = $('#cmdFlee');
+        fleeBtn.on("click", {cmd: 'flee'}, this._CombatCommandHandler.bind(this));
+        var restoreBtn = $('#cmdRestoreStamina');
+        restoreBtn.on("click", {cmd: 'restoreStamina'}, this._CombatCommandHandler.bind(this));
+    }
+
+    _UpdateDefaultCommands()
+    {
+
+    }
+    
     _DrawStyles()
     {
         var root = $('#combatStyles');
@@ -431,6 +452,9 @@ App.Combat.CombatEngine = class CombatEngine {
         this._StartRound();
     }
 
+    /**
+     * @returns {App.Combat.Combatant|App.Combat.Player}
+     */
     _GetCombatant()
     {
         return this._Timeline[0];
@@ -456,6 +480,26 @@ App.Combat.CombatEngine = class CombatEngine {
     {
         console.log("command: "+e.data.cmd);
         if (this._GetCombatant() !== this._player) return;
+
+        if (e.data.cmd == 'flee') {
+
+            return;
+        }
+
+        if (e.data.cmd == 'defend') {
+            this._GetCombatant().StartTurn();
+            this._GetCombatant().Engine.Defend();
+            this._GetCombatant().EndTurn();
+            this._DrawInitiativeBar();
+            this._StartRound();
+            return;
+        }
+
+        if (e.data.cmd == 'restoreStamina')
+        {
+
+            return;
+        }
 
         if (this._target == null) {
             this._WriteMessage("<span style='color:red'>Select a target first!</span>");
