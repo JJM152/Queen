@@ -6,7 +6,7 @@
 [[Cabin]] | [[IslaHarbor]] | [[GoldenIsle]] | [[HighHill]] | [[Abamond]] | [[PortRoyale]] | [[PassageTest]]
 [[HiddenCove]] | [[Ruins]] | [[TreasureRoom]] | [[BodyTest]] | <<gamblingLink "Shut the Coffin" "ShutTheCoffin">>
 <<click "Combat Test" "CombatTest">>\
-<<run setup.Combat.InitializeScene();>>\
+<<run setup.Combat.InitializeScene({flee:30,fleePassage:"DebugPassage"});>>\
 <<run setup.Combat.LoadEncounter("TEST_FIGHT_1");>>\
 <</click>>\
 

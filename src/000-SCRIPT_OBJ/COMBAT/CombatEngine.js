@@ -21,6 +21,8 @@ App.Combat.CombatEngine = class CombatEngine {
         this._StaminaBars = { };
         this._ChatLog = [ ];
         this._LastSelectedStyle = "UNARMED"; // Don't overwrite
+        this._flee = 0;
+        this._fleePassage = 'Cabin';
     
     }
 
@@ -28,8 +30,9 @@ App.Combat.CombatEngine = class CombatEngine {
 
     /**
      * Call before load encounter.
+     * @param {*} opts option object
      */
-    InitializeScene()
+    InitializeScene(opts)
     {
         this._encounterData = null;
         this._enemies = [ ];
@@ -39,6 +42,11 @@ App.Combat.CombatEngine = class CombatEngine {
         this._HpBars = { };
         this._StaminaBars = { };
         this._ChatLog = [ ];
+        
+        if (typeof opts !== 'undefined') {
+            if (opts.hasOwnProperty('flee')) this._flee = opts.flee;
+            if (opts.hasOwnProperty('fleePassage')) this._fleePassage = opts.fleePassage;
+        }
         
     }
 
@@ -51,6 +59,8 @@ App.Combat.CombatEngine = class CombatEngine {
     LoadEncounter(Encounter)
     {
         sessionStorage.setItem('QOS_ENCOUNTER_KEY', Encounter);
+        sessionStorage.setItem('QOS_ENCOUNTER_FLEE', this._flee);
+        sessionStorage.setItem('QOS_ENCOUNTER_FLEE_PASSAGE', this._fleePassage);
         this._encounterData = Object.create(App.Combat.EncounterData[Encounter]);
         for(const e of this._encounterData.Enemies) this._AddEnemy(e);
         this._AddPlayer(setup.player);
@@ -58,8 +68,12 @@ App.Combat.CombatEngine = class CombatEngine {
     }
 
     DrawUI() {
-        if (this._encounterData == null)
+        // Reconstitute some data from the session storage if the player reloaded the page to be a cheat.
+        if (this._encounterData == null) {
             this.LoadEncounter(sessionStorage.getItem('QOS_ENCOUNTER_KEY'));
+            this._flee = sessionStorage.getItem('QOS_ENCOUNTER_FLEE');
+            this._fleePassage = sessionStorage.getItem('QOS_ENCOUNTER_FLEE_PASSAGE');
+        }
 
         $(document).one(":passageend", this._DrawUI.bind(this));
     }
@@ -483,6 +497,22 @@ App.Combat.CombatEngine = class CombatEngine {
 
         if (e.data.cmd == 'flee') {
 
+            if (this._flee == 0) {
+                this._WriteMessage("<span style='color:red'>You cannot flee!</span>");
+                return;
+            }
+            if (Math.floor(Math.random() * 100) > this._flee) {
+                this._WriteMessage("<span style='color:red'>You attempt to flee, but fail!</span>");
+                this._GetCombatant().StartTurn();
+                //no op
+                this._GetCombatant().EndTurn();
+                this._DrawInitiativeBar();
+                this._StartRound();
+                return;
+            } else {
+                // placeholder for now
+                SugarCube.State.display(this._fleePassage);
+            }
             return;
         }
 
