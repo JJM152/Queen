@@ -99,8 +99,21 @@ App.Combat.Engines.Generic = class GenericEngine {
     DoDamage(Target, Command, roll)
     {
         var dmg = this.CalculateDamage(Target, Command, roll);
+        // Apply effect bonuses
+        if ( this.Owner.HasEffect('BLOODTHIRST')) dmg = Math.ceil( dmg * 1.5);
+        if ( Target.HasEffect('GUARDED')) dmg = Math.floor( dmg * 0.7);
         this.PrintHit(Command.Hit, Target, roll, dmg);
         Target.TakeDamage(dmg);
+
+        if ( this.Owner.HasEffect('LIFE LEECH')) {
+            var heal = Math.ceil( dmg * 0.5);
+            this.Owner.RecoverHealth(heal);
+            if (this.Owner.IsNPC == true) {
+                this.PrintMessage("NPC_NAME heals " + heal + " damage.", Target);
+            } else {
+                this.PrintMessage("You heal " + heal + " damage.", Target);
+            }
+        }
     }
 
     CalculateDamage(Target, Command, Roll)

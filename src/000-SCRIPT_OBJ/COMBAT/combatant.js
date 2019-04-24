@@ -38,6 +38,12 @@ App.Combat.Combatant = class Combatant {
 
         //Is this object alive or dead?
         this._Dead = false;
+
+        this._AllowedEffects = [
+            'STUNNED', 'BLINDED', 'GUARDED', 'DODGING', 'BLOODTHIRST', 'SEEKING', 'LIFE LEECH'
+        ]
+        
+        this._Effects = { };
     }
 
     get Name() { return this._Name; }
@@ -69,6 +75,40 @@ App.Combat.Combatant = class Combatant {
     get Gender() { return this._data.Gender; }
     get Attack() { return this._data.Attack; }
     get Defense() { return this._data.Defense; }
+    get AllowedEffects() { return this._AllowedEffects; }
+    get Effects() { return this._Effects; }
+
+    /**
+     * 
+     * @param {string} e one of 'STUNNED', 'BLINDED', 'GUARDED', 'DODGING', 'BLOODTHIRST', 'SEEKING', 'LIFE LEECH'
+     * @returns {boolean}
+     */
+    HasEffect(e) { return this._Effects.hasOwnProperty(e); }
+
+    /**
+     * Add a valid effect
+     * @param {string} e 
+     * @param {number} d 
+     */
+    AddEffect(e, d) {
+        if ( this.AllowedEffects.includes(e) == true) {
+            if ( this._Effects.hasOwnProperty(e) ) {
+                var n = Math.abs(this._Effects[e]) + d;
+                this._Effects[e] = n;
+            } else {
+                this._Effects[e] = d;
+            }
+        }
+    }
+
+    ReduceEffect(e, d) {
+        if (this._Effects.hasOwnProperty(e)) {
+            this._Effects[e] -= d;
+            if (this._Effects[e] <= 0) {
+                delete this._Effects[e];
+            }
+        }
+    }
 
     TakeDamage(n) {
         this._data.Health -= n;
@@ -163,12 +203,14 @@ App.Combat.Combatant = class Combatant {
      * 
      * @param {number} Mine My skill value
      * @param {number} Difficulty to check against
+     * @param {number} Mod bonus / penalty to roll
      * @return {number} Floating point between 0.1 and 2.0 indicating value of roll.
      */
-    SkillRoll(Mine, Difficulty)
+    SkillRoll(Mine, Difficulty, Mod)
     {
+
         var targetRoll = (100 - Math.max(5, Math.min((50 + (Mine - Difficulty)), 95)));
-        var diceRoll = Math.floor(Math.random() * 100);
+        var diceRoll = Math.floor(Math.random() * 100) + Mod;
 
         return Math.max(0.1, Math.min((diceRoll/targetRoll), 2.0)); // Default same as player object
     }
@@ -179,8 +221,13 @@ App.Combat.Combatant = class Combatant {
      */
     AttackRoll() {
         var attk = this.Attack;
+        var Mod = 0;
+        
+        if ( HasEffect("BLINDED")) Mod -= 30;
+        if ( HasEffect("SEEKING")) Mod += 30;
+
         //TODO: Put some checks here to get values from effects
-        return this.SkillRoll(attk, 100);
+        return this.SkillRoll(attk, 100, Mod);
     }
     /**
      * Simulate a defensive roll.
@@ -189,8 +236,13 @@ App.Combat.Combatant = class Combatant {
     DefenseRoll()
     {
         var def = this.Defense;
+        var Mod = 0;
+
+        if ( HasEffect("STUNNED")) Mod -= 30;
+        if ( HasEffect("DODGING")) Mod += 30;
+
         //TODO: Put some checks here to get values from effects
-        return this.SkillRoll(def, 100);
+        return this.SkillRoll(def, 100, Mod);
     }
 
     /**
