@@ -13,7 +13,6 @@ App.Combat.CombatEngine = class CombatEngine {
         this._enemies = [ ];
         /** @type {App.Combat.Player} */
         this._player = null;
-        this._turn = 0;
         this._Timeline = [];
 
         this._UI_MaxInitiative = 13;
@@ -37,7 +36,6 @@ App.Combat.CombatEngine = class CombatEngine {
         this._encounterData = null;
         this._enemies = [ ];
         this._player = null;
-        this._turn = 0;
         this._Timeline = [];
         this._HpBars = { };
         this._StaminaBars = { };
@@ -47,6 +45,10 @@ App.Combat.CombatEngine = class CombatEngine {
             if (opts.hasOwnProperty('flee')) this._flee = opts.flee;
             if (opts.hasOwnProperty('fleePassage')) this._fleePassage = opts.fleePassage;
         }
+
+        sessionStorage.setItem('QOS_ENCOUNTER_FLEE', this._flee);
+        sessionStorage.setItem('QOS_ENCOUNTER_FLEE_PASSAGE', this._fleePassage);
+
         
     }
 
@@ -59,8 +61,7 @@ App.Combat.CombatEngine = class CombatEngine {
     LoadEncounter(Encounter)
     {
         sessionStorage.setItem('QOS_ENCOUNTER_KEY', Encounter);
-        sessionStorage.setItem('QOS_ENCOUNTER_FLEE', this._flee);
-        sessionStorage.setItem('QOS_ENCOUNTER_FLEE_PASSAGE', this._fleePassage);
+
         this._encounterData = Object.create(App.Combat.EncounterData[Encounter]);
         for(const e of this._encounterData.Enemies) this._AddEnemy(e);
         this._AddPlayer(setup.player);
@@ -338,7 +339,6 @@ App.Combat.CombatEngine = class CombatEngine {
         // Custom replacer(s)
         var that = this;
         m = m.replace(/(ENEMY_([0-9]+))/g,function(m, f, n) {
-            console.log("f="+f+",n="+n);
             return "<span style='color:cyan'>"+that._enemies[n].Name+"</span>";
         });
 
@@ -417,7 +417,6 @@ App.Combat.CombatEngine = class CombatEngine {
             this._PopulateTimeline(this._enemies[i], Timeline);
         }
 
-        
         // Navigate timeline. Rely on the expected behavior of first set keys being retrieved first.
         // If this doens't work then get keys as array, sort, navigate that. Dumb but whatever.
         var position = 0;
@@ -432,16 +431,17 @@ App.Combat.CombatEngine = class CombatEngine {
                 position++;
             }
         }
+        console.log(this._Timeline);
 
     }
 
     _PopulateTimeline(o, Timeline)
     {
-        var last = 0;
-        for(var i = 0; i < 5; i++) {
-            var t = o.GetTimeline(i);
-            if (t <= last) continue;
-            last = t;
+        var Time = o.GetTimeline(5); // Get 5 turns.
+        console.log("name="+o.Name);
+        console.log(Time);
+        for(var i = 0; i < Time.length; i++) {
+            var t = Time[i];
             if (Timeline.hasOwnProperty(t)) {
                 Timeline[t].push(o);
             } else {
@@ -477,9 +477,9 @@ App.Combat.CombatEngine = class CombatEngine {
     _EnemyTurn()
     {
         this._GetCombatant().StartTurn();
-        this._WriteMessage("NPC_NAME attacks you", this._GetCombatant());
-        this._GetCombatant().AddWeaponDelay(10);
+        this._GetCombatant().DoAI(this._player, this._ChatLogCB.bind(this));
         this._GetCombatant().EndTurn();
+        //this._NextRound();
         setTimeout(this._NextRound.bind(this), 500);
     }
 
@@ -492,9 +492,8 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _CombatCommandHandler(e)
     {
-        console.log("command: "+e.data.cmd);
         if (this._GetCombatant() !== this._player) return;
-
+        
         if (e.data.cmd == 'flee') {
 
             if (this._flee == 0) {
@@ -504,10 +503,9 @@ App.Combat.CombatEngine = class CombatEngine {
             if (Math.floor(Math.random() * 100) > this._flee) {
                 this._WriteMessage("<span style='color:red'>You attempt to flee, but fail!</span>", this._player);
                 this._GetCombatant().StartTurn();
-                //no op
+                this._GetCombatant().AddWeaponDelay(10);
                 this._GetCombatant().EndTurn();
-                this._DrawInitiativeBar();
-                this._StartRound();
+                this._NextRound();
                 return;
             } else {
                 // placeholder for now
@@ -520,8 +518,7 @@ App.Combat.CombatEngine = class CombatEngine {
             this._GetCombatant().StartTurn();
             this._GetCombatant().Engine.Defend();
             this._GetCombatant().EndTurn();
-            this._DrawInitiativeBar();
-            this._StartRound();
+            this._NextRound();
             return;
         }
 
@@ -531,13 +528,10 @@ App.Combat.CombatEngine = class CombatEngine {
                 this._WriteMessage("<span style='color:red'>You do not have enough energy!</span>", this._player);
                 return;
             } else {
-                this._WriteMessage("<span style='color:lime'>You pull deep from your reserves and catch a second wind!</span>", this._player);
                 this._GetCombatant().StartTurn();
-                this._GetCombatant().RecoverStamina(100);
-                this._GetCombatant().UseEnergy(1);
+                this._GetCombatant().Engine.Recover();
                 this._GetCombatant().EndTurn();
-                this._DrawInitiativeBar();
-                this._StartRound();
+                this._NextRound();
                 return;
             }
         }
@@ -548,7 +542,6 @@ App.Combat.CombatEngine = class CombatEngine {
         }
 
         var Command = this._GetCombatant().Moves[e.data.cmd];
-        console.log(Command);
         this._GetCombatant().StartTurn();
         this._GetCombatant().Engine.AttackTarget(this._target, Command);
         this._GetCombatant().EndTurn();
@@ -558,7 +551,6 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _SelectEnemyHandler(e)
     {
-        console.log("_SelectEnemyHandler:"+e.data.index);
         var obj = this._enemies[e.data.index];
         if (obj.IsDead != true) {
             this._target = obj;
@@ -567,6 +559,11 @@ App.Combat.CombatEngine = class CombatEngine {
         this._UpdateEnemyPortraits();
     }
 
+    /**
+     * call back for writing to the chat log window
+     * @param {string} m 
+     * @param {App.Combat.Combatant|App.Combat.Player} o 
+     */
     _ChatLogCB(m, o)
     {
         this._WriteMessage(m, o);
@@ -581,7 +578,6 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _UpdateNPCStatusCB(npc)
     {
-        console.log(npc);
         this._UpdateHPBar(npc);
         this._UpdateStaminaBar(npc);
         this._UpdateEnemyPortraits();

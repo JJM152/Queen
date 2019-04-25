@@ -1,5 +1,5 @@
 App.Combat.EncounterData['TEST_FIGHT_1'] = {
-    Enemies: [ "Pugilist", "Pugilist", "Pugilist" ],
+    Enemies: [ "Pugilist" ],
     Fatal: false,
     WinPassage: "Deck",
     LosePassage: "Deck",

@@ -5,7 +5,7 @@ App.Combat.EnemyData['Pugilist'] = {
     MaxHealth: 100,
     Energy: 3,
     Attack: 50,
-    Defense: 50,
+    Defense: 30,
     MaxStamina: 100,
     Stamina: 100,
     Speed: 50,

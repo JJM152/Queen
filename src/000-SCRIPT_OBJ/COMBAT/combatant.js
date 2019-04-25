@@ -21,14 +21,14 @@ App.Combat.Combatant = class Combatant {
             this._Portrait = "pugilist_a";
         }
 
-        this.ChangeMoveSet(App.Combat.Engines.Generic, myStatusCB, theirStatusCB, chatLogCB);
+        if (this._data.__proto__.hasOwnProperty('Moves')) {
+            this.ChangeMoveSet(App.Combat.Moves[this._data.Moves].Engine, myStatusCB, theirStatusCB, chatLogCB);
+        } else {
+            this.ChangeMoveSet(App.Combat.Engines.Generic, myStatusCB, theirStatusCB, chatLogCB);
+        }
 
-        //First round speed.
-        this._Initiative = Math.ceil(this._data.Speed * Math.random());
-        //Generic slowing effect
-        this._Delay = 0;
         //Number of turns taken
-        this._Turn = 0;
+        this._Turn = 1;
         //Current delay due to last attack speed
         this._WeaponDelay = 0;
 
@@ -68,9 +68,7 @@ App.Combat.Combatant = class Combatant {
     get MaxStamina() { return this._data.MaxStamina; }
     get Stamina() { return this._data.Stamina; }
     get Speed() { return this._data.Speed; }
-    get Initiative() { return this._Initiative; }
-    get Delay() { return this._Delay; }
-    get WeaponDelay() { return this._Delay };
+    get WeaponDelay() { return this._WeaponDelay; };
     get Turn() { return this._Turn; }
     get Gender() { return this._data.Gender; }
     get Attack() { return this._data.Attack; }
@@ -87,7 +85,7 @@ App.Combat.Combatant = class Combatant {
 
     /**
      * Add a valid effect
-     * @param {string} e 
+     * @param {string} e one of 'STUNNED', 'BLINDED', 'GUARDED', 'DODGING', 'BLOODTHIRST', 'SEEKING', 'LIFE LEECH' 
      * @param {number} d 
      */
     AddEffect(e, d) {
@@ -101,6 +99,11 @@ App.Combat.Combatant = class Combatant {
         }
     }
 
+    /**
+     * Reduce an effect
+     * @param {string} e  one of 'STUNNED', 'BLINDED', 'GUARDED', 'DODGING', 'BLOODTHIRST', 'SEEKING', 'LIFE LEECH'
+     * @param {number} d 
+     */
     ReduceEffect(e, d) {
         if (this._Effects.hasOwnProperty(e)) {
             this._Effects[e] -= d;
@@ -150,18 +153,9 @@ App.Combat.Combatant = class Combatant {
     }
 
     RecoverCombo(n) {
-        console.log("Combo:"+this._Combo+",Adding:"+n);
         this._Combo += n;
         if(this._Combo >= this.MaxCombo) this._Combo = this.MaxCombo;
         this._MyStatus(this);
-    }
-
-    AddDelay(n) {
-        this._Delay += n;
-    }
-
-    ReduceDelay(n) {
-        this._Delay -= n;
     }
 
     /**
@@ -169,7 +163,7 @@ App.Combat.Combatant = class Combatant {
      * @param {number} n 
      */
     AddWeaponDelay(n) {
-        this._WeaponDelay = n;
+        this._WeaponDelay += n;
     }
 
     StartTurn() {
@@ -178,25 +172,26 @@ App.Combat.Combatant = class Combatant {
 
     EndTurn() {
         this._Turn += 1;
+        for (var k in this.Effects) 
+        {
+            this.ReduceEffect(k, 1);
+        }
     }
 
 
     /**
      * Get the speed for the entity at the current turn, or optional turn in the future
-     * @param {number} n 
+     * @param {number} n The number of turns to predict.
      */
     GetTimeline(n)
     {
-        n = typeof n === 'undefined' ? this.Turn : n;
-
-        if (n == 0 && this.Turn == 0) {
-
-            return this.Initiative; // First ever call.
-
-        } else {
-
-            return (this.Speed + this.Delay + this.WeaponDelay) * (this.Turn + n);
+        var arr = [];
+        for (var i = 1; i <= n; i++) {
+            var Time = (this.Speed * (this.Turn+i)) + this.WeaponDelay;
+            arr.push(Time);
         }
+
+        return arr;
     }
 
     /**
@@ -223,8 +218,8 @@ App.Combat.Combatant = class Combatant {
         var attk = this.Attack;
         var Mod = 0;
         
-        if ( HasEffect("BLINDED")) Mod -= 30;
-        if ( HasEffect("SEEKING")) Mod += 30;
+        if ( this.HasEffect("BLINDED")) Mod -= 30;
+        if ( this.HasEffect("SEEKING")) Mod += 30;
 
         //TODO: Put some checks here to get values from effects
         return this.SkillRoll(attk, 100, Mod);
@@ -238,8 +233,8 @@ App.Combat.Combatant = class Combatant {
         var def = this.Defense;
         var Mod = 0;
 
-        if ( HasEffect("STUNNED")) Mod -= 30;
-        if ( HasEffect("DODGING")) Mod += 30;
+        if ( this.HasEffect("STUNNED")) Mod -= 30;
+        if ( this.HasEffect("DODGING")) Mod += 30;
 
         //TODO: Put some checks here to get values from effects
         return this.SkillRoll(def, 100, Mod);
@@ -258,6 +253,31 @@ App.Combat.Combatant = class Combatant {
         this._MyStatus = myStatusCB;
         //Moveset and personal combat engine
         this._Engine = new Engine(this, myStatusCB, theirStatusCB, chatLogCB);
+    }
+
+    /**
+     * 
+     * @param {App.Combat.Combatant|App.Combat.Player} Target 
+     * @param {function} chatLogCB 
+     */
+    DoAI(Target, chatLogCB)
+    {
+        if (this.HasEffect("STUNNED")) {
+            chatLogCB("NPC_NAME looks dazed and fumbles around.", this);
+            return;
+        }
+
+        if (this.Stamina < 10) {
+            if (this.Energy > 0 ) {
+                this.Engine.Recover();
+            } else {
+                this.Engine.Defend();
+            }
+            return;
+        }
+
+        //Call Enginef or Specific routine.
+        this.Engine.DoAI(Target);
     }
 }
 
@@ -279,6 +299,7 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
         this._player = Player;
     }
 
+    get Name() { return this._player.SlaveName; }
     get Player() { return this._player; }
     get IsNPC() { return false; }
 
@@ -350,21 +371,18 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
     // Grant xp to players
     AttackRoll() {
         var mod = super.AttackRoll();
-        console.log("AttackRoll:"+mod);
         this.GrantXP(Math.floor(10 * mod));
         return mod;
     }
 
     DefenseRoll() {
         var mod = super.DefenseRoll();
-        console.log("DefenseRoll:"+mod);
         this.GrantXP(Math.floor(10 * mod));
         return mod;
     }
 
     GrantXP(xp)
     {
-        console.log("GrantXP:"+xp);
         switch(this.Engine.Class) {
             case 'SWASHBUCKLING':
                 this.Player.AdjustSkillXP('Swashbuckling', xp);

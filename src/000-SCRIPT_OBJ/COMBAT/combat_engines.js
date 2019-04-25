@@ -47,11 +47,37 @@ App.Combat.Engines.Generic = class GenericEngine {
         }
     }
 
+    Recover()
+    {
+        // use energy for stamina
+        this.Owner.UseEnergy(1);
+        this.Owner.RecoverStamina(100);
+        this.Owner.AddWeaponDelay(10);
+        if (this.Owner.IsNPC == true) {
+            this.PrintMessage("<span style='color:lime'>NPC_NAME catches a second wind!</span>", this.Owner);
+        } else {
+            this.PrintMessage("<span style='color:lime'>You pull deep from your reserves and catch a second wind!</span>", this.Owner);
+        }
+    }
     Defend()
     {
         this.Owner.RecoverStamina(10); // Regain some stamina
-        this.PrintMessage("You assume a defensive position and catch your breath.", null);
-        // Apply a self buff here, TBD with buff engine.
+        this.Owner.AddEffect('GUARDED', 2);
+        this.Owner.AddWeaponDelay(10);
+        if (this.Owner.IsNPC == true) {
+            this.PrintMessage("<span style='color:lime'>NPC_NAME assumes a defensive position.</span>", this.Owner);
+        } else {
+            this.PrintMessage("<span style='color:lime'>You assume a defensive position and catch your breath.</span>", this.Owner);
+        }
+    }
+
+    DoAI(Target)
+    {
+        if (this.Owner.IsNPC == true) {
+            this.PrintMessage("<span style='color:red'>*BUG*</span> NPC_NAME doesn't know what to do!", this.Owner);
+        } else {
+            this.PrintMessage("<span style='red'>*BUG* NO AI routine implemented for player attack.", this.Owner);
+        }
     }
 
     ConsumeResources(Command) {
@@ -170,7 +196,7 @@ App.Combat.Engines.Unarmed = class UnarmedCombatEngine extends App.Combat.Engine
      */
     CalculateDamage(Target, Command, Roll)
     {
-        var base = 3;
+        var base = 1;
 
         if (this.Owner.IsNPC == false) {
             base = Math.max(1, Math.min(Math.floor(this.Owner.Player.GetStat('STAT', 'Fitness')/20), 5));
@@ -216,6 +242,31 @@ App.Combat.Engines.Unarmed = class UnarmedCombatEngine extends App.Combat.Engine
     ApplyEffects(Target, Command, Roll)
     {
 
+        if (Command.Name == 'Haymaker') {
+            var chance = Math.max(10, Math.min((100 * Roll), 100));
+            console.log("Haymaker stun chance="+chance+", Modifier="+Roll);
+            if ( chance >= Math.floor(Math.random() * 100)) {
+                Target.AddEffect('STUNNED', 2);
+                if (this.Owner.IsNPC) {
+                    this.PrintMessage("NPC_NAME stuns you!", Target);
+                } else {
+                    this.PrintMessage("You stun NPC_NAME!", Target);
+                }
+            }
+        }
+    }
+
+    DoAI(Target)
+    {
+        if (this.Owner.Combo >= this.Owner.Moves["Knee"].Combo) {
+            this.AttackTarget(Target, this.Owner.Moves["Knee"]);
+        } else if (this.Owner.Combo >= this.Owner.Moves["Haymaker"].Combo) {
+            this.AttackTarget(Target, this.Owner.Moves["Haymaker"]);
+        } else if (this.LastMove == "Kick") {
+            this.AttackTarget(Target, this.Owner.Moves["Punch"]);
+        } else {
+            this.AttackTarget(Target, this.Owner.Moves["Kick"]);
+        }
     }
 
 };
