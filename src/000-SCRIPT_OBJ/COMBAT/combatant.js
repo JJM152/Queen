@@ -293,10 +293,14 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
      * @param {function} myStatusCB 
      * @param {function} theirStatusCB 
      * @param {function} chatLogCB 
+     * @param {function} loseHandler 
+     * @param {function} winHandler 
      */
-    constructor(Player, data, myStatusCB, theirStatusCB, chatLogCB) {
+    constructor(Player, data, myStatusCB, theirStatusCB, chatLogCB, loseHandler, winHandler) {
         super(data, myStatusCB, theirStatusCB, chatLogCB);
         this._player = Player;
+        this._loseHandler = loseHandler;
+        this._winHandler = winHandler;
     }
 
     get Name() { return this._player.SlaveName; }
@@ -411,5 +415,22 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
         this.Player.AdjustStat('Energy', n);
         App.PR.RefreshTwineMeter("Energy");
     }
+
+    TakeDamage(n) {
+        var x = Math.abs(n) * -1; // Always reduce
+        this.Player.AdjustStat('Health', x);
+        App.PR.RefreshTwineMeter('Health');
+        // Test for loss - 
+        if (this.Player.GetStat('STAT', 'Health') <= 0) {
+            this._loseHandler(this.Player);
+        }
+    }
+
+    RecoverHealth(n) {
+        this.Player.AdjustStat('Health', n);
+        App.PR.RefreshTwineMeter('Health');
+    }
+
+    RecoverHealth
 
 }

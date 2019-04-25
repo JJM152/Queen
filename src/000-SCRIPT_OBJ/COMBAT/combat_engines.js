@@ -260,7 +260,7 @@ App.Combat.Engines.Unarmed = class UnarmedCombatEngine extends App.Combat.Engine
     {
         if (this.Owner.Combo >= this.Owner.Moves["Knee"].Combo) {
             this.AttackTarget(Target, this.Owner.Moves["Knee"]);
-        } else if (this.Owner.Combo >= this.Owner.Moves["Haymaker"].Combo) {
+        } else if (this.Owner.Combo >= this.Owner.Moves["Haymaker"].Combo && Math.floor(Math.random()* 100) >= 60) {
             this.AttackTarget(Target, this.Owner.Moves["Haymaker"]);
         } else if (this.LastMove == "Kick") {
             this.AttackTarget(Target, this.Owner.Moves["Punch"]);

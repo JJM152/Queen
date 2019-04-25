@@ -1,10 +1,10 @@
 App.Combat.EnemyData['Pugilist'] = {
     Name: 'RANDOM_MALE_NAME',
     Title: 'Brawler NAME',
-    Health: 100,
-    MaxHealth: 100,
+    Health: 50,
+    MaxHealth: 50,
     Energy: 3,
-    Attack: 50,
+    Attack: 60,
     Defense: 30,
     MaxStamina: 100,
     Stamina: 100,

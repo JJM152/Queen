@@ -27,6 +27,10 @@ App.Combat.CombatEngine = class CombatEngine {
 
     get Enemies() { return this._enemies; }
 
+    get DuelMode() { return this._encounterData.Fatal != true; }
+    get WinPassage() { return this._encounterData.WinPassage; }
+    get LosePassage() { return this._encounterData.LosePassage; }
+
     /**
      * Call before load encounter.
      * @param {*} opts option object
@@ -345,7 +349,7 @@ App.Combat.CombatEngine = class CombatEngine {
         m = m.replace(/NPC_PRONOUN/g, function(m, f, n ) {
             return o.Gender == 1 ? "his" : "her";
         });
-        
+
         m = App.PR.TokenizeString(setup.player, npc, m);
         return m;
     }
@@ -394,7 +398,9 @@ App.Combat.CombatEngine = class CombatEngine {
         this._player = new App.Combat.Player(setup.player, data,
                 this._UpdatePlayerStatusCB.bind(this),
                 this._UpdateNPCStatusCB.bind(this),
-                this._ChatLogCB.bind(this));
+                this._ChatLogCB.bind(this),
+                this._LoseFight.bind(this),
+                this._WinFight.bind(this));
         this._player.Id = "PLAYER";
         this._SwitchMoveSet("UNARMED");
 
@@ -489,6 +495,17 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _PlayerTurn()
     {
+        if (this._player.HasEffect('STUNNED')) {
+            this._WriteMessage("<span style='color:red'>You are stunned!</span>", this._player);
+            this._GetCombatant().StartTurn();
+            this._GetCombatant().EndTurn();
+            this._NextRound();
+        }
+
+        if (this._enemies.filter(function(o) { return o.IsDead == false}).length == 0) {
+            this._WriteMessage("You have defeated all your foes!", this._player);
+            setTimeout(this._WinFight.bind(this), 500);
+        }
         //this._WriteMessage("It is your turn!", this._player);
     }
 
@@ -585,5 +602,20 @@ App.Combat.CombatEngine = class CombatEngine {
         this._UpdateHPBar(npc);
         this._UpdateStaminaBar(npc);
         this._UpdateEnemyPortraits();
+    }
+
+    _LoseFight(Player)
+    {
+        console.log("Lose fight called");
+        if (this.DuelMode == true) {
+            Player.AdjustStat('Health', 10); // Don't kill them...
+            SugarCube.State.display(this.LosePassage);
+        }
+    }
+
+    _WinFight()
+    {
+        console.log("Win fight called");
+        SugarCube.State.display(this.WinPassage);
     }
 }

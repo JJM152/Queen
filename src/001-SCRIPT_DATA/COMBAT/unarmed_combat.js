@@ -137,20 +137,20 @@ App.Combat.Moves["UNARMED"] = {
                 ],
             Hit: [
                     [
-                        "You strike NPC_NAME with a light blow!",
-                        "NPC_NAME strikes you with a light blow!"
+                        "You strike NPC_NAME with a glancing haymaker!",
+                        "NPC_NAME strikes you with a glancing haymaker!"
                     ],
                     [
-                        "You punch NPC_NAME with a solid strike!",
-                        "NPC_NAME punches you with a solid strike!"
+                        "You punch NPC_NAME with a solid haymaker!",
+                        "NPC_NAME punches you with a solid haymaker!"
                     ],
                     [
-                        "You punch NPC_NAME with a brutal strike!",
-                        "NPC_NAME punches you with a brutal strike!"
+                        "You punch NPC_NAME with a brutal haymaker!",
+                        "NPC_NAME punches you with a brutal haymaker!"
                     ],
                     [
-                        "You hit NPC_NAME with a bone crushing punch!",
-                        "NPC_NAME hits you with a bone crushing punch!"
+                        "You hit NPC_NAME with a bone crushing haymaker!",
+                        "NPC_NAME hits you with a bone crushing haymaker!"
                     ]
                 ]
         },
@@ -189,20 +189,20 @@ App.Combat.Moves["UNARMED"] = {
                 ],
             Hit: [
                     [
-                        "You strike NPC_NAME with a light kick!",
-                        "NPC_NAME strikes you with a light kick!"
+                        "You strike NPC_NAME with a light knee kick!",
+                        "NPC_NAME strikes you with a light knee kick!"
                     ],
                     [
-                        "You hit NPC_NAME with a solid kick!",
-                        "NPC_NAME hits you with a solid kick!"
+                        "You hit NPC_NAME with a solid knee kick!",
+                        "NPC_NAME hits you with a solid knee kick!"
                     ],
                     [
-                        "You hit NPC_NAME with a brutal kick!",
-                        "NPC_NAME hits you with a brutal kick!"
+                        "You hit NPC_NAME with a brutal knee kick!",
+                        "NPC_NAME hits you with a brutal knee kick!"
                     ],
                     [
-                        "You hit NPC_NAME with a bone crushing kick!",
-                        "NPC_NAME hits you with a bone crushing kick!"
+                        "You hit NPC_NAME with a bone crushing knee kick!",
+                        "NPC_NAME hits you with a bone crushing knee kick!"
                     ]
             ]
         },
