@@ -342,6 +342,10 @@ App.Combat.CombatEngine = class CombatEngine {
             return "<span style='color:cyan'>"+that._enemies[n].Name+"</span>";
         });
 
+        m = m.replace(/NPC_PRONOUN/g, function(m, f, n ) {
+            return o.Gender == 1 ? "his" : "her";
+        });
+        
         m = App.PR.TokenizeString(setup.player, npc, m);
         return m;
     }
