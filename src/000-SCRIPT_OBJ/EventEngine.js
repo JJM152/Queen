@@ -1,5 +1,12 @@
 App.EventEngine = class EventEngine {
 
+    constructor() {
+        this._PassageOverride = null;
+    }
+
+    get PassageOverride() { return this._PassageOverride; }
+    set PassageOverride(n) { this._PassageOverride = n; };
+    
     /**
      * Checks a dictionary of destinations (including 'any') for conditions to process.
      * On a succesful evaluation return a string of a twine passage to the initiating handler
@@ -18,6 +25,13 @@ App.EventEngine = class EventEngine {
 
         this._d("From: "+FromPassage+",To:"+ToPassage);
         
+        //One time override
+        if (this.PassageOverride != null) {
+            var tmp = this.PassageOverride;
+            this.PassageOverride = null;
+            return tmp;
+        }
+
         // Check gameover conditions first. Hardcoded just because they are rare.
         if (setup.player.GetStat("STAT", "Health") <= 0) {
             this._d("Player died event.");

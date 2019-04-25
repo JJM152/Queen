@@ -336,7 +336,8 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
                 val += this.Player._RollBonus('SKILL', 'AssFu');
                 break;
             default:
-                val = Math.floor(this.Player.GetStat('STAT', 'Fitness') * 0.8); // Cap it at 80% of fitness.
+                val = 20;
+                val += Math.floor(this.Player.GetStat('STAT', 'Fitness') * 0.8); // Cap it at 80% of fitness.
                 // no roll bonus for unarmed attacks
                 break;
         }
@@ -362,7 +363,8 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
                 val += this.Player._RollBonus('SKILL', 'AssFu');
                 break;
             default:
-                val = Math.floor(this.Player.GetStat('STAT', 'Fitness') * 0.4); // Cap it at 40% of fitness.
+                val = 20;
+                val += Math.floor(this.Player.GetStat('STAT', 'Fitness') * 0.4); // Cap it at 40% of fitness.
                 val += Math.floor(this.Player.GetStat('SKILL', 'Dancing') * 0.4); // Cap it at 40% of dancing skill.
                 // no roll bonus for unarmed attacks
                 break;

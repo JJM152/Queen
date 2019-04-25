@@ -21,11 +21,11 @@ App.Avatar = new App.Entity.AvatarEngine();
 // Random Events and Conditional Navigation Override
 // Override navigation on death.
 
-App.eventEngine = new App.EventEngine();
+setup.eventEngine = new App.EventEngine();
 
 Config.navigation.override = function (passageName) {
     if (App.EventHandlers.HasPlayerState() == false) return; //ignore these checks if there is no player state.
-    return App.eventEngine.CheckEvents(setup.player, State.passage, passageName);
+    return setup.eventEngine.CheckEvents(setup.player, State.passage, passageName);
 };
 
 Setting.addHeader("Display settings");

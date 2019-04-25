@@ -610,6 +610,10 @@ App.Combat.CombatEngine = class CombatEngine {
         if (this.DuelMode == true) {
             Player.AdjustStat('Health', 10); // Don't kill them...
             SugarCube.State.display(this.LosePassage);
+        } else {
+            // you ded.
+            setup.eventEngine.PassageOverride = this.LosePassage;
+            SugarCube.State.display(this.LosePassage);
         }
     }
 

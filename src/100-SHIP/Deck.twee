@@ -7,7 +7,7 @@ You are on the main deck of the Salty Mermaid. This area is busy during most tim
 <<else>>\
 <<whoreLink "SaltyMermaid">>\
 <</if>>\
-<<if App.eventEngine.EventFired(setup.player, 'CoffinDiceIntroduction') > 0>>\
+<<if setup.eventEngine.EventFired(setup.player, 'CoffinDiceIntroduction') > 0>>\
  | <<gamblingLink "Coffin Dice" "ShutTheCoffin">>\
 <</if>>\
 <<if setup.player.Phase == 4>>\
