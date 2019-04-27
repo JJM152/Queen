@@ -88,10 +88,13 @@ App.Combat.Engines.Generic = class GenericEngine {
     }
 
     CheckCommand(Command) {
-        //console.log(Command);
+        console.log("CheckCommand called on "+Command.Name);
         if (Command.Unlock(this.Owner) == false) return false;
+        console.log("Passed Unlock()");
         if (Command.Stamina > this.Owner.Stamina) return false;
+        console.log("Have Stamina");
         if (Command.Combo > this.Owner.Combo) return false;
+        console.log("Have Combo pts");
 
         return true;
     }
@@ -504,4 +507,104 @@ App.Combat.Engines.Assfu = class AssfuCombatEngine extends App.Combat.Engines.Ge
     }
 
     get Class() { return "ASSFU"; }
+
+    CalculateDamage(Target, Command, Roll)
+    {
+        var base = Math.floor(this.Owner.Ass / 10) + Math.floor( this.Owner.Attack / 10);
+        return Math.floor(base * Command.Damage); // Add damage mod
+    }
+
+    /**
+     * Generate any combo points
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     * @returns {number} number of combo points to grant
+     */
+    GenerateCombo(Target, Command, Roll)
+    {
+
+        if ( (Command.Name == "Shake It" && this.LastMove == "Booty Slam") ||
+             (Command.Name == "Booty Slam" && this.LastMove == "Shake It") ) {
+                 return 1;
+             }
+
+        if ( Command.Name == 'Twerk' && 
+            (this.LastMove == 'Ass Quake' || this.LastMove == 'Thunder Buns' || this.LastMove == 'Buns of Steel')) { 
+                return 2; 
+            }
+             
+        return 0;
+    }
+
+    /**
+     * Apply effects to enemy
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     */
+    ApplyEffects(Target, Command, Roll)
+    {
+
+        if (Command.Name == 'Shake It') {
+            Target.AddEffect('BLINDED', 3);
+        }
+
+        if (Command.Name == 'Twerk') {
+            this.Owner.AddEffect('DODGING', 3);
+        }
+
+        if (Command.Name == 'Ass Quake') {
+            if ( Math.floor(100 * Math.random()) <= (this.Owner.Attack/3) ) {
+                Target.AddEffect('STUNNED', 3);
+                if (this.Owner.IsNPC) {
+                    this.PrintMessage("<span style='color:yellow'>NPC_NAME stuns you!</span>", Target);
+                } else {
+                    this.PrintMessage("<span style='color:yellow'>You stun NPC_NAME!</span>", Target);
+                }
+            }
+        }
+
+        if (Command.Name == 'Thunder Buns') {
+            if ( Math.floor(100 * Math.random()) <= this.Owner.Attack/2 ) {
+                Target.AddEffect('STUNNED', 4);
+                if (this.Owner.IsNPC) {
+                    this.PrintMessage("<span style='color:yellow'>NPC_NAME stuns you!</span>", Target);
+                } else {
+                    this.PrintMessage("<span style='color:yellow'>You stun NPC_NAME!</span>", Target);
+                }
+            }
+        }
+
+        if (Command.Name == 'Buns of Steel') {
+            if ( Math.floor(100 * Math.random()) <= this.Owner.Attack ) {
+                Target.AddEffect('STUNNED', 4);
+                if (this.Owner.IsNPC) {
+                    this.PrintMessage("<span style='color:yellow'>NPC_NAME stuns you!</span>", Target);
+                } else {
+                    this.PrintMessage("<span style='color:yellow'>You stun NPC_NAME!</span>", Target);
+                }
+            }
+
+            this.Owner.AddEffect('GUARDED', 4);
+        }
+
+    }
+
+    DoAI(Target)
+    {
+        if (this.Owner.Combo >= this.Owner.Moves["Buns of Steel"].Combo ) {
+            this.AttackTarget(Target, this.Owner.Moves["Buns of Steel"]);
+        } else if (this.Owner.Combo >= this.Owner.Moves["Thunder Buns"].Combo && Math.floor(Math.random()* 100) >= 60) {
+            this.AttackTarget(Target, this.Owner.Moves["Thunder Buns"]);
+        } else if (this.Owner.Combo >= this.Owner.Moves["Ass Quake"].Combo && Math.floor(Math.random()* 100) >= 80) {
+            this.AttackTarget(Target, this.Owner.Moves["Ass Quake"]);
+        } else if (this.LastMove == 'Buns of Steel' || this.LastMove == 'Thunder Buns' || this.LastMove == 'Ass Quake') {
+            this.AttackTarget(Target, this.Owner.Moves['Twerk']);
+        } else if (this.LastMove == "Booty Slam") {
+            this.AttackTarget(Target, this.Owner.Moves["Shake It"]);
+        } else {
+            this.AttackTarget(Target, this.Owner.Moves["Booty Slam"]);
+        }
+    } 
 };

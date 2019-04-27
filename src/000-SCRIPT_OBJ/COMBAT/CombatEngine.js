@@ -33,7 +33,7 @@ App.Combat.CombatEngine = class CombatEngine {
         this._LastSelectedStyle = s;
         sessionStorage.setItem('QOS_ENCOUNTER_COMBAT_STYLE', this._LastSelectedStyle);
     }
-    
+
     get Enemies() { return this._enemies; }
 
     get DuelMode() { return this._encounterData.Fatal != true; }
@@ -133,7 +133,7 @@ App.Combat.CombatEngine = class CombatEngine {
             var container = $('<div>').addClass("CombatButtonContainer");
             var span = $('<span>').addClass("CombatToolTip").html(
                 "<span style='color:yellow'>"+d[prop].Name+"</span><br>"+d[prop].Description);
-            var button = $('<div>').attr('id', 'combatButton'+prop).addClass("CombatButton");
+            var button = $('<div>').attr('id', 'combatButton'+prop.replace(/ /g,'_')).addClass("CombatButton");
             button.addClass(d[prop].Icon);
             if (this._player.Engine.CheckCommand(d[prop])) {
                 button.on("click", {cmd:prop}, this._CombatCommandHandler.bind(this));
@@ -152,10 +152,11 @@ App.Combat.CombatEngine = class CombatEngine {
         var selectedStyle = $('#combatStyles').children("option:selected").val();
         var d = App.Combat.Moves[selectedStyle];
 
+        console.log('_UpdateCombatButtons called');
         for(var prop in d)
         {
             if (prop == 'Engine') continue; // filter out this one.
-            var button = $("#combatButton"+prop);
+            var button = $("#combatButton"+prop.replace(/ /g,'_'));
             button.off('click');
             if (this._player.Engine.CheckCommand(d[prop])) {
                 button.on("click", {cmd:prop}, this._CombatCommandHandler.bind(this));
