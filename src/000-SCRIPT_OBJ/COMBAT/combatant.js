@@ -58,6 +58,14 @@ App.Combat.Combatant = class Combatant {
     get MaxCombo() { return 10; } // Hardcoded
     get Combo() { return this._Combo; }
     get Skill() { return this._data.Skill; }
+
+    get Bust() {
+        return this.data.__proto__.hasOwnProperty('Bust') ? this.data.Bust : this.Attack;
+    }
+
+    get Ass() {
+        return this.data.__proto__.hasOwnProperty('Ass') ? this.data.Ass : this.Attack;
+    }
     /**
      * @returns {App.Combat.Engines.Generic}
      */
@@ -328,7 +336,7 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
                 val += this.Player._RollBonus('SKILL', 'Swashbuckling');
                 break;
             case 'BOOBJITSU':
-                val = this.player.GetStat('SKILL', 'BoobJitsu');
+                val = this.Player.GetStat('SKILL', 'BoobJitsu');
                 val += this.Player._RollBonus('SKILL', 'BoobJitsu');
                 break;
             case 'ASSFU':
@@ -355,7 +363,7 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
                 val += this.Player._RollBonus('SKILL', 'Swashbuckling');
                 break;
             case 'BOOBJITSU':
-                val = this.player.GetStat('SKILL', 'BoobJitsu');
+                val = this.Player.GetStat('SKILL', 'BoobJitsu');
                 val += this.Player._RollBonus('SKILL', 'BoobJitsu');
                 break;
             case 'ASSFU':
@@ -461,4 +469,7 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
         }
     }
 
+    get Bust() { return this.Player.GetStat('BODY', 'Bust'); }
+
+    get Ass() { return this.Player.GetStat('BODY', 'Ass'); }
 }

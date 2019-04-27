@@ -25,6 +25,15 @@ App.Combat.CombatEngine = class CombatEngine {
     
     }
 
+    get LastSelectedStyle() {
+        return this._LastSelectedStyle;
+    }
+
+    set LastSelectedStyle(s) {
+        this._LastSelectedStyle = s;
+        sessionStorage.setItem('QOS_ENCOUNTER_COMBAT_STYLE', this._LastSelectedStyle);
+    }
+    
     get Enemies() { return this._enemies; }
 
     get DuelMode() { return this._encounterData.Fatal != true; }
@@ -74,10 +83,11 @@ App.Combat.CombatEngine = class CombatEngine {
 
     DrawUI() {
         // Reconstitute some data from the session storage if the player reloaded the page to be a cheat.
-        if (this._encounterData == null) {
-            this.LoadEncounter(sessionStorage.getItem('QOS_ENCOUNTER_KEY'));
+        if (this._encounterData == null) {            
+            this._LastSelectedStyle = sessionStorage.getItem('QOS_ENCOUNTER_COMBAT_STYLE');
             this._flee = sessionStorage.getItem('QOS_ENCOUNTER_FLEE');
             this._fleePassage = sessionStorage.getItem('QOS_ENCOUNTER_FLEE_PASSAGE');
+            this.LoadEncounter(sessionStorage.getItem('QOS_ENCOUNTER_KEY'));
         }
 
         $(document).one(":passageend", this._DrawUI.bind(this));
@@ -177,14 +187,17 @@ App.Combat.CombatEngine = class CombatEngine {
     {
         var root = $('#combatStyles');
         var styles = this._player.AvailableMoveset;
-        if (Object.keys(styles).includes(this._LastSelectedStyle) == false) {
-            this._LastSelectedStyle = 'UNARMED';
+        console.log("Loading Style="+this.LastSelectedStyle);
+        if (Object.keys(styles).includes(this.LastSelectedStyle) == false) {
+            console.log("Cant find last selected style in keys:"+this.LastSelectedStyle);
+            console.log(Object.keys(styles));
+            this.LastSelectedStyle = 'UNARMED';
         }
 
         for(var prop in styles)
         {
             var opt = $('<option>').attr('value', prop).text(styles[prop]);
-            if (prop == this._LastSelectedStyle) opt.attr('selected', 'selected');
+            if (prop == this.LastSelectedStyle) opt.attr('selected', 'selected');
             root.append(opt);
         }
 
@@ -407,17 +420,18 @@ App.Combat.CombatEngine = class CombatEngine {
                 this._LoseFight.bind(this),
                 this._WinFight.bind(this));
         this._player.Id = "PLAYER";
-        this._SwitchMoveSet("UNARMED");
+        this._SwitchMoveSet(this.LastSelectedStyle);
 
     }
 
     _SwitchMoveSet(Name)
     {
+        console.log("SwitchingMoveSet to "+Name);
         var MoveSet = App.Combat.Moves[Name];
         this._player.ChangeMoveSet(MoveSet.Engine, this._UpdatePlayerStatusCB.bind(this),
                 this._UpdateNPCStatusCB.bind(this),
                 this._ChatLogCB.bind(this));
-        this._LastSelectedStyle = Name;
+        this.LastSelectedStyle = Name;
     }
 
     /**

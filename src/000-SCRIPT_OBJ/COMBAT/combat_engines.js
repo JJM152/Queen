@@ -36,8 +36,8 @@ App.Combat.Engines.Generic = class GenericEngine {
             this.Owner.RecoverCombo(this.GenerateCombo(Target, Command, roll));
             this._AttackHistory.push(Command.Name);
             this.ConsumeResources(Command);
-            this.DoDamage(Target, Command, roll);
             this.ApplyEffects(Target, Command, roll);
+            this.DoDamage(Target, Command, roll);     
             return true;
         } else {
             this._AttackHistory.push("Miss");
@@ -104,7 +104,6 @@ App.Combat.Engines.Generic = class GenericEngine {
     {
         const MyRoll = this.Owner.AttackRoll(); //Includes getting attack buffs
         const TheirRoll = Target.DefenseRoll(); //Includes getting defense buffs
-        console.log("CalculateHit: MyRoll="+MyRoll+",TheirRoll="+TheirRoll);
         return (MyRoll - TheirRoll);
     }
 
@@ -129,21 +128,29 @@ App.Combat.Engines.Generic = class GenericEngine {
         // Apply effect bonuses
         if ( this.Owner.HasEffect('BLOODTHIRST')) dmg = Math.ceil( dmg * 1.5);
         if ( Target.HasEffect('GUARDED')) dmg = Math.floor( dmg * 0.7);
+
         if ( Target.HasEffect('PARRY'))  {
             dmg = 0; // block all damage.
             Target.ReduceEffect('PARRY', 1); // Reduce parry counter.
-        }
+            if (this.Owner.IsNPC == true) {
+                this.PrintMessage("You parry NPC_NAME's attack!", Target);
+            } else {
+                this.PrintMessage("NPC_NAME parries your attack!", Target);
+            }
+        } else {
 
-        this.PrintHit(Command.Hit, Target, roll, dmg);
-        Target.TakeDamage(dmg);
+            this.PrintHit(Command.Hit, Target, roll, dmg);
+            Target.TakeDamage(dmg);
+
+        }
 
         if ( this.Owner.HasEffect('LIFE LEECH')) {
             var heal = Math.ceil( dmg * 0.5);
             this.Owner.RecoverHealth(heal);
             if (this.Owner.IsNPC == true) {
-                this.PrintMessage("NPC_NAME heals " + heal + " damage.", Target);
+                this.PrintMessage("NPC_NAME heals <span style='color:lime'>" + heal + "</span> damage.", Target);
             } else {
-                this.PrintMessage("You heal " + heal + " damage.", Target);
+                this.PrintMessage("You heal <span style='color:lime'>" + heal + "</span> damage.", Target);
             }
         }
     }
@@ -251,9 +258,9 @@ App.Combat.Engines.Unarmed = class UnarmedCombatEngine extends App.Combat.Engine
             if ( chance >= Math.floor(Math.random() * 100)) {
                 Target.AddEffect('STUNNED', 2);
                 if (this.Owner.IsNPC) {
-                    this.PrintMessage("NPC_NAME stuns you!", Target);
+                    this.PrintMessage("<span style='color:yellow'>NPC_NAME stuns you!</span>", Target);
                 } else {
-                    this.PrintMessage("You stun NPC_NAME!", Target);
+                    this.PrintMessage("<span style='color:yellow'>You stun NPC_NAME!</span>", Target);
                 }
             }
         }
@@ -297,7 +304,7 @@ App.Combat.Engines.Swashbuckling = class SwashbucklingCombatEngine extends App.C
 
         if (this.Owner.IsNPC == false) {
             var weaponQuality = this.Owner.GetWeaponQuality();
-            var skill = this.Owner.Player.GetStat('SKILL', 'Swashbuckling');
+            var skill = this.Owner.Attack;
             var fitness = this.Owner.Player.GetStat('STAT', 'Fitness');
             var mod =  1 + ( skill / 100) + (fitness / 100);
 
@@ -337,7 +344,6 @@ App.Combat.Engines.Swashbuckling = class SwashbucklingCombatEngine extends App.C
      */
     GenerateCombo(Target, Command, Roll)
     {
-        console.log("This attack:"+Command.Name+",LastMove:"+this.LastMove);
 
         if ( (Command.Name == "Slash" && this.LastMove == "Stab") ||
              (Command.Name == "Stab" && this.LastMove == "Slash") ) {
@@ -373,7 +379,7 @@ App.Combat.Engines.Swashbuckling = class SwashbucklingCombatEngine extends App.C
             this.AttackTarget(Target, this.Owner.Moves["Cleave"]);
         } else if (this.Owner.Combo >= this.Owner.Moves["Riposte"].Combo && this.LastMove == 'Parry') {
             this.AttackTarget(Target, this.Owner.Moves["Riposte"]);
-        } else if (Math.floor(Math.random() * 100) >= 80) {
+        } else if ( (this.LastMove != 'Riposte' && this.LastMove != 'Parry') && Math.floor(Math.random() * 100) >= 70) {
             this.AttackTarget(Target, this.Owner.Moves['Parry']);
         } else if (this.LastMove == "Stab") {
             this.AttackTarget(Target, this.Owner.Moves["Stab"]);
@@ -392,6 +398,101 @@ App.Combat.Engines.Boobjitsu = class BoobjitsuCombatEngine extends App.Combat.En
     }
 
     get Class() { return "BOOBJITSU"; }
+
+    CalculateDamage(Target, Command, Roll)
+    {
+        var base = Math.floor(this.Owner.Bust / 10) + Math.floor( this.Owner.Attack / 10);
+        return Math.floor(base * Command.Damage); // Add damage mod
+    }
+
+    /**
+     * Generate any combo points
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     * @returns {number} number of combo points to grant
+     */
+    GenerateCombo(Target, Command, Roll)
+    {
+
+        if ( (Command.Name == "Jiggle" && this.LastMove == "Wobble") ||
+             (Command.Name == "Wobble" && this.LastMove == "Jiggle") ) {
+                 return 1;
+             }
+
+        if ( Command.Name == 'Bust Out' && 
+            (this.LastMove == 'Twirl' || this.LastMove == 'Boob Quake' || this.LastMove == 'Titty Twister')) { 
+                return 2; 
+            }
+             
+        return 0;
+    }
+
+    /**
+     * Apply effects to enemy
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     */
+    ApplyEffects(Target, Command, Roll)
+    {
+
+        if (Command.Name == 'Jiggle') {
+            Target.AddEffect('BLINDED', 3);
+        }
+
+        if (Command.Name == 'Wobble') {
+            this.Owner.AddEffect('BLOODTHIRST', 3);
+        }
+
+        if (Command.Name == 'Bust Out') {
+            this.Owner.AddEffect('SEEKING');
+        }
+
+        if (Command.Name == 'Twirl') {
+            this.Owner.AddEffect('LIFE LEECH', 1);
+        }
+
+        if (Command.Name == 'Boob Quake') {
+            if ( Math.floor(100 * Math.random()) <= (this.Owner.Attack/2) ) {
+                Target.AddEffect('STUNNED', 3);
+                if (this.Owner.IsNPC) {
+                    this.PrintMessage("<span style='color:yellow'>NPC_NAME stuns you!</span>", Target);
+                } else {
+                    this.PrintMessage("<span style='color:yellow'>You stun NPC_NAME!</span>", Target);
+                }
+            }
+        }
+
+        if (Command.Name == 'Titty Twister') {
+            if ( Math.floor(100 * Math.random()) <= this.Owner.Attack ) {
+                Target.AddEffect('STUNNED', 4);
+                if (this.Owner.IsNPC) {
+                    this.PrintMessage("<span style='color:yellow'>NPC_NAME stuns you!</span>", Target);
+                } else {
+                    this.PrintMessage("<span style='color:yellow'>You stun NPC_NAME!</span>", Target);
+                }
+            }
+        }
+
+    }
+
+    DoAI(Target)
+    {
+        if (this.Owner.Combo >= this.Owner.Moves["Titty Twister"].Combo ) {
+            this.AttackTarget(Target, this.Owner.Moves["Titty Twister"]);
+        } else if (this.Owner.Combo >= this.Owner.Moves["Boob Quake"].Combo && Math.floor(Math.random()* 100) >= 60) {
+            this.AttackTarget(Target, this.Owner.Moves["Boob Quake"]);
+        } else if (this.Owner.Combo >= this.Owner.Moves["Twirl"].Combo && Math.floor(Math.random()* 100) >= 80) {
+            this.AttackTarget(Target, this.Owner.Moves["Twirl"]);
+        } else if (this.LastMove == 'Titty Twister' || this.LastMove == 'Boob Quake' || this.LastMove == 'Twirl') {
+            this.AttackTarget(Target, this.Owner.Moves['Bust Out']);
+        } else if (this.LastMove == "Wobble") {
+            this.AttackTarget(Target, this.Owner.Moves["Jiggle"]);
+        } else {
+            this.AttackTarget(Target, this.Owner.Moves["Wobble"]);
+        }
+    } 
 };
 
 //Ass-fu Class

@@ -103,7 +103,8 @@ App.Combat.Moves["SWASHBUCKLING"] = {
     Parry : {
         Name: "Parry",
         Description: "\
-        A defensive move, does no damage. Sets up for riposte. You cannot parry twice in a row.<br>\
+        A defensive move, does no damage. Sets up for riposte.<br> \
+        You cannot parry twice in a row or after a riposte.<br>\
         <span style='color:darkred'>DMG NONE</span> \
         <span style='color:darkgoldenrod'>STA LOW</span> \
         <span style='color:cyan'>SPD VERY SLOW</span><br>\
@@ -115,7 +116,7 @@ App.Combat.Moves["SWASHBUCKLING"] = {
         Speed: 20,
         Damage: 0,
         Unlock: function(player) {
-                return player.IsEquipped("Weapon", true) && player.Engine.LastMove != 'Parry';   
+                return player.IsEquipped("Weapon", true) && player.Engine.LastMove != 'Parry' && player.Engine.LastMove != 'Riposte';   
             },
         Miss: [
                 [
