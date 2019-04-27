@@ -33,11 +33,11 @@ App.Combat.Engines.Generic = class GenericEngine {
 
         // Try to hit target
         if (roll > 0) {
+            this.Owner.RecoverCombo(this.GenerateCombo(Target, Command, roll));
             this._AttackHistory.push(Command.Name);
             this.ConsumeResources(Command);
             this.DoDamage(Target, Command, roll);
             this.ApplyEffects(Target, Command, roll);
-            this.Owner.RecoverCombo(this.GenerateCombo(Target, Command, roll));
             return true;
         } else {
             this._AttackHistory.push("Miss");
@@ -337,6 +337,8 @@ App.Combat.Engines.Swashbuckling = class SwashbucklingCombatEngine extends App.C
      */
     GenerateCombo(Target, Command, Roll)
     {
+        console.log("This attack:"+Command.Name+",LastMove:"+this.LastMove);
+
         if ( (Command.Name == "Slash" && this.LastMove == "Stab") ||
              (Command.Name == "Stab" && this.LastMove == "Slash") ) {
                  return 1;
