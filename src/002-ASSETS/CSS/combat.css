@@ -237,6 +237,54 @@ div.pugilist_c {
     background-image: [img[pugilist_c]];
 }
 
+div.pirate_a {
+    background-image: [img[pirate_a]];
+}
+
+div.pirate_b {
+    background-image: [img[pirate_b]];
+}
+
+div.pirate_c {
+    background-image: [img[pirate_c]];
+}
+
+div.pirate_d {
+    background-image: [img[pirate_d]];
+}
+
+div.mamazon_a {
+    background-image: [img[mamazon_a]];
+}
+
+div.mamazon_b {
+    background-image: [img[mamazon_b]];
+}
+
+div.mamazon_c {
+    background-image: [img[mamazon_c]];
+}
+
+div.gluteus_tribe_a {
+    background-image: [img[gluteus_tribe_a]];
+}
+
+div.gluteus_tribe_b {
+    background-image: [img[gluteus_tribe_b]];
+}
+
+div.gluteus_tribe_c {
+    background-image: [img[gluteus_tribe_c]];
+}
+
+div.kipler_combat {
+    background-image: [img[kipler_combat]];
+}
+
+div.kraken_a {
+    background-image: [img[kraken_a]];
+}
+
 /* COMMAND ICONS */
 div.punch_icon {
     background-image: [img[punch_icon]];

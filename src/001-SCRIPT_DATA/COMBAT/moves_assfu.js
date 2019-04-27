@@ -21,7 +21,7 @@ App.Combat.Moves["ASSFU"] = {
         Miss: [
                 [
                     "You attempt shake your pASS ass at NPC_NAME, but miss!",
-                    "NPC_NAME tries to shake PC_PRONOUN jiggly ass at you, but misses!" 
+                    "NPC_NAME tries to shake NPC_PRONOUN jiggly ass at you, but misses!" 
                 ]
             ],
         Hit: [
@@ -51,7 +51,7 @@ App.Combat.Moves["ASSFU"] = {
         Miss: [
                 [
                     "You attempt slam NPC_NAME with your pASS booty, but miss!",
-                    "NPC_NAME tries to slam you with PC_PRONOUN bouncy booty, but misses!" 
+                    "NPC_NAME tries to slam you with NPC_PRONOUN bouncy booty, but misses!" 
                 ]
             ],
         Hit: [
@@ -82,7 +82,7 @@ App.Combat.Moves["ASSFU"] = {
         Miss: [
                 [
                     "You attempt to twerk NPC_NAME with your pASS ass, but miss!",
-                    "NPC_NAME tries to twerk you with PC_PRONOUN jiggly ass, but misses!" 
+                    "NPC_NAME tries to twerk you with NPC_PRONOUN jiggly ass, but misses!" 
                 ]
             ],
         Hit: [

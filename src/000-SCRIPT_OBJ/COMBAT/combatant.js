@@ -60,11 +60,11 @@ App.Combat.Combatant = class Combatant {
     get Skill() { return this._data.Skill; }
 
     get Bust() {
-        return this.data.__proto__.hasOwnProperty('Bust') ? this.data.Bust : this.Attack;
+        return this._data.hasOwnProperty('Bust') ? this.data.Bust : this.Attack;
     }
 
     get Ass() {
-        return this.data.__proto__.hasOwnProperty('Ass') ? this.data.Ass : this.Attack;
+        return this._data.hasOwnProperty('Ass') ? this.data.Ass : this.Attack;
     }
     /**
      * @returns {App.Combat.Engines.Generic}
