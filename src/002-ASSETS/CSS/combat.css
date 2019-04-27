@@ -253,3 +253,27 @@ div.haymaker_icon{
 div.knee_icon {
     background-image: [img[knee_icon]];
 }
+
+div.slash_icon {
+    background-image: [img[slash_icon]];
+}
+
+div.stab_icon {
+    background-image: [img[stab_icon]];
+}
+
+div.parry_icon {
+    background-image: [img[parry_icon]];
+}
+
+div.riposte_icon {
+    background-image: [img[riposte_icon]];
+}
+
+div.cleave_icon {
+    background-image: [img[cleave_icon]];
+}
+
+div.behead_icon {
+    background-image: [img[behead_icon]];
+}

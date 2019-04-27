@@ -40,7 +40,7 @@ App.Combat.Combatant = class Combatant {
         this._Dead = false;
 
         this._AllowedEffects = [
-            'STUNNED', 'BLINDED', 'GUARDED', 'DODGING', 'BLOODTHIRST', 'SEEKING', 'LIFE LEECH'
+            'STUNNED', 'BLINDED', 'GUARDED', 'DODGING', 'BLOODTHIRST', 'SEEKING', 'LIFE LEECH', 'PARRY'
         ]
         
         this._Effects = { };
@@ -62,7 +62,7 @@ App.Combat.Combatant = class Combatant {
      * @returns {App.Combat.Engines.Generic}
      */
     get Engine() { return this._Engine; }
-    get Moves() { return App.Combat.Moves[this._data.Moves]; }
+    get Moves() { return App.Combat.Moves[this.Engine.Class]; }
     get IsNPC() { return true; }
     get IsDead() { return this._Dead; };
     get MaxStamina() { return this._data.MaxStamina; }
@@ -78,14 +78,14 @@ App.Combat.Combatant = class Combatant {
 
     /**
      * 
-     * @param {string} e one of 'STUNNED', 'BLINDED', 'GUARDED', 'DODGING', 'BLOODTHIRST', 'SEEKING', 'LIFE LEECH'
+     * @param {string} e one of 'STUNNED', 'BLINDED', 'GUARDED', 'DODGING', 'BLOODTHIRST', 'SEEKING', 'LIFE LEECH', 'PARRY'
      * @returns {boolean}
      */
     HasEffect(e) { return this._Effects.hasOwnProperty(e); }
 
     /**
      * Add a valid effect
-     * @param {string} e one of 'STUNNED', 'BLINDED', 'GUARDED', 'DODGING', 'BLOODTHIRST', 'SEEKING', 'LIFE LEECH' 
+     * @param {string} e one of 'STUNNED', 'BLINDED', 'GUARDED', 'DODGING', 'BLOODTHIRST', 'SEEKING', 'LIFE LEECH', 'PARRY' 
      * @param {number} d 
      */
     AddEffect(e, d) {
@@ -101,7 +101,7 @@ App.Combat.Combatant = class Combatant {
 
     /**
      * Reduce an effect
-     * @param {string} e  one of 'STUNNED', 'BLINDED', 'GUARDED', 'DODGING', 'BLOODTHIRST', 'SEEKING', 'LIFE LEECH'
+     * @param {string} e  one of 'STUNNED', 'BLINDED', 'GUARDED', 'DODGING', 'BLOODTHIRST', 'SEEKING', 'LIFE LEECH', 'PARRY'
      * @param {number} d 
      */
     ReduceEffect(e, d) {
@@ -433,6 +433,32 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
         App.PR.RefreshTwineMeter('Health');
     }
 
-    RecoverHealth
+    IsEquipped(Slot, Flag)
+    {
+        return this.Player.IsEquipped(Slot, Flag);
+    }
+
+    /**
+     * Attempt to figure out the quality of an equipped weapon.
+     * @returns {number} value 1 through 5.
+     */
+    GetWeaponQuality()
+    {
+        if (this.IsEquipped('Weapon', true) == false) return 1;
+        var o = this.Player.GetEquipmentInSlot('Weapon');
+        if (!o || typeof o === 'undefined' || o == null) return 1;
+
+        if (o.Data.Style == 'COMMON') { 
+            return 2;
+        } else if (o.Data.Style == 'UNCOMMON' ) {
+            return 3;
+        } else if (o.Data.Style == 'RARE' ) {
+            return 4;
+        } else if (o.Data.Style == 'LEGENDARY' ) {
+            return 5;
+        } else {
+            return 1;
+        }
+    }
 
 }

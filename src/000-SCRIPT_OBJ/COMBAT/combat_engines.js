@@ -28,21 +28,22 @@ App.Combat.Engines.Generic = class GenericEngine {
      * @param {*} Command 
      */
     AttackTarget(Target, Command) {
-
-        this.ConsumeResources(Command);
+  
         var roll = this.CalculateHit(Target, Command);
 
         // Try to hit target
         if (roll > 0) {
+            this._AttackHistory.push(Command.Name);
+            this.ConsumeResources(Command);
             this.DoDamage(Target, Command, roll);
             this.ApplyEffects(Target, Command, roll);
             this.Owner.RecoverCombo(this.GenerateCombo(Target, Command, roll));
-            this._AttackHistory.push(Command.Name);
             return true;
         } else {
+            this._AttackHistory.push("Miss");
+            this.ConsumeResources(Command);
             var Message = this.GetMissMessage(Command.Miss);
             this.PrintMessage(Message, Target);
-            this._AttackHistory.push("Miss");
             return false;
         }
     }
@@ -128,6 +129,11 @@ App.Combat.Engines.Generic = class GenericEngine {
         // Apply effect bonuses
         if ( this.Owner.HasEffect('BLOODTHIRST')) dmg = Math.ceil( dmg * 1.5);
         if ( Target.HasEffect('GUARDED')) dmg = Math.floor( dmg * 0.7);
+        if ( Target.HasEffect('PARRY'))  {
+            dmg = 0; // block all damage.
+            Target.ReduceEffect('PARRY', 1); // Reduce parry counter.
+        }
+
         this.PrintHit(Command.Hit, Target, roll, dmg);
         Target.TakeDamage(dmg);
 
@@ -211,7 +217,6 @@ App.Combat.Engines.Unarmed = class UnarmedCombatEngine extends App.Combat.Engine
             base = Math.floor(base * mod);
         }
 
-        console.log("Calculate Damage:"+base);
         return base;
     }
 
@@ -224,7 +229,6 @@ App.Combat.Engines.Unarmed = class UnarmedCombatEngine extends App.Combat.Engine
      */
     GenerateCombo(Target, Command, Roll)
     {
-        console.log("Player:GenerateCombo: "+Command.Name);
         if ( (Command.Name == "Punch" && this.LastMove == "Kick") ||
              (Command.Name == "Kick" && this.LastMove == "Punch") ) {
                  return 1;
@@ -244,7 +248,6 @@ App.Combat.Engines.Unarmed = class UnarmedCombatEngine extends App.Combat.Engine
 
         if (Command.Name == 'Haymaker') {
             var chance = Math.max(10, Math.min((100 * Roll), 100));
-            console.log("Haymaker stun chance="+chance+", Modifier="+Roll);
             if ( chance >= Math.floor(Math.random() * 100)) {
                 Target.AddEffect('STUNNED', 2);
                 if (this.Owner.IsNPC) {
@@ -280,6 +283,102 @@ App.Combat.Engines.Swashbuckling = class SwashbucklingCombatEngine extends App.C
     }
 
     get Class() { return "SWASHBUCKLING"; }
+
+    /**
+     * Calculate the damage of an swashbuckling attack
+     * @param {App.Combat.Combatant|App.Combat.Player} Target 
+     * @param {*} Command 
+     * @param {number} Roll 
+     * @returns {number} Damage
+     */
+    CalculateDamage(Target, Command, Roll)
+    {
+        var base = 1;
+
+        if (this.Owner.IsNPC == false) {
+            var weaponQuality = this.Owner.GetWeaponQuality();
+            var skill = this.Owner.Player.GetStat('SKILL', 'Swashbuckling');
+            var fitness = this.Owner.Player.GetStat('STAT', 'Fitness');
+            var mod =  1 + ( skill / 100) + (fitness / 100);
+
+            base = Math.ceil(weaponQuality * mod);
+        } else {
+            base = base + Math.floor(this.Owner.Attack/10);
+        }
+        
+        if (Command.Name == 'Riposte') { // Converts combo points into extra damage.
+            // Drain all combo points.
+            var combo = this.Owner.Combo;
+            this.Owner.UseCombo(combo);
+            
+            base = base + (combo * 2); // bonus base damage from combo points.
+        }
+
+        if (Command.Name == 'Behead') { // Chance to do massive damage against enemies at low health
+            if (Target.Health / Target.MaxHealth < 0.5) {
+                var chance = (65 - Math.floor((100 * (Target.Health / Target.MaxHealth))));
+                if (chance >= Math.floor(Math.random() * 100)) {
+                    base = Target.Health;
+                }
+            }
+        }
+
+        base = Math.floor(base * Command.Damage); // Add damage mod
+
+        return base;
+    }
+
+    /**
+     * Generate any combo points
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     * @returns {number} number of combo points to grant
+     */
+    GenerateCombo(Target, Command, Roll)
+    {
+        if ( (Command.Name == "Slash" && this.LastMove == "Stab") ||
+             (Command.Name == "Stab" && this.LastMove == "Slash") ) {
+                 return 1;
+             }
+
+        if ( Command.Name == 'Parry') { return 1; } // yeet
+             
+        return 0;
+    }
+
+    /**
+     * Apply effects to enemy
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     */
+    ApplyEffects(Target, Command, Roll)
+    {
+
+        if (Command.Name == 'Parry') {
+            this.Owner.AddEffect('GUARDED', 2);
+            this.Owner.AddEffect('PARRY', 2);
+        }
+
+    }
+
+    DoAI(Target)
+    {
+        if (this.Owner.Combo >= this.Owner.Moves["Behead"].Combo ) {
+            this.AttackTarget(Target, this.Owner.Moves["Behead"]);
+        } else if (this.Owner.Combo >= this.Owner.Moves["Cleave"].Combo && Math.floor(Math.random()* 100) >= 60) {
+            this.AttackTarget(Target, this.Owner.Moves["Cleave"]);
+        } else if (this.Owner.Combo >= this.Owner.Moves["Riposte"].Combo && this.LastMove == 'Parry') {
+            this.AttackTarget(Target, this.Owner.Moves["Riposte"]);
+        } else if (Math.floor(Math.random() * 100) >= 80) {
+            this.AttackTarget(Target, this.Owner.Moves['Parry']);
+        } else if (this.LastMove == "Stab") {
+            this.AttackTarget(Target, this.Owner.Moves["Stab"]);
+        } else {
+            this.AttackTarget(Target, this.Owner.Moves["Slash"]);
+        }
+    }    
 };
 
 //Boob-jitsu Class

@@ -17,7 +17,6 @@ App.Combat.Moves["UNARMED"] = {
             Unlock: function(player) {
                     return true; // No requirements or skills to use.
                 },
-            Effects: [ ], //No effects to apply.
             Miss: [
                     [
                         "You swing at NPC_NAME with your fist, but miss!",
@@ -68,7 +67,6 @@ App.Combat.Moves["UNARMED"] = {
             Unlock: function(player) {
                     return true; // No requirements or skills to use.
                 },
-            Effects: [ ], //No effects to apply.
             Miss: [
                     [
                         "You kick at NPC_NAME, but miss!",
@@ -120,7 +118,6 @@ App.Combat.Moves["UNARMED"] = {
             Unlock: function(player) {
                     return true; // No requirements or skills to use.
                 },
-            Effects: [ ], //No effects to apply.
             Miss: [
                     [
                         "You swing at NPC_NAME with your fist, but miss!",
@@ -172,7 +169,6 @@ App.Combat.Moves["UNARMED"] = {
             Unlock: function(player) {
                     return true; // No requirements or skills to use.
                 },
-            Effects: [ ], //No effects to apply.
             Miss: [
                     [
                         "You kick at NPC_NAME, but miss!",

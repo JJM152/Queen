@@ -125,7 +125,6 @@ App.Combat.CombatEngine = class CombatEngine {
                 "<span style='color:yellow'>"+d[prop].Name+"</span><br>"+d[prop].Description);
             var button = $('<div>').attr('id', 'combatButton'+prop).addClass("CombatButton");
             button.addClass(d[prop].Icon);
-            //if (d[prop].Unlock(this._player)) {
             if (this._player.Engine.CheckCommand(d[prop])) {
                 button.on("click", {cmd:prop}, this._CombatCommandHandler.bind(this));
                 button.addClass("CombatButtonEnabled");
@@ -178,12 +177,18 @@ App.Combat.CombatEngine = class CombatEngine {
     {
         var root = $('#combatStyles');
         var styles = this._player.AvailableMoveset;
+        if (Object.keys(styles).includes(this._LastSelectedStyle) == false) {
+            this._LastSelectedStyle = 'UNARMED';
+        }
+
         for(var prop in styles)
         {
             var opt = $('<option>').attr('value', prop).text(styles[prop]);
             if (prop == this._LastSelectedStyle) opt.attr('selected', 'selected');
             root.append(opt);
         }
+
+        root.on("change", this._CombatStyleChangeHandler.bind(this));
 
     }
 
@@ -412,6 +417,7 @@ App.Combat.CombatEngine = class CombatEngine {
         this._player.ChangeMoveSet(MoveSet.Engine, this._UpdatePlayerStatusCB.bind(this),
                 this._UpdateNPCStatusCB.bind(this),
                 this._ChatLogCB.bind(this));
+        this._LastSelectedStyle = Name;
     }
 
     /**
@@ -568,6 +574,14 @@ App.Combat.CombatEngine = class CombatEngine {
         this._GetCombatant().EndTurn();
         this._DrawInitiativeBar();
         this._StartRound();
+    }
+
+    _CombatStyleChangeHandler(e)
+    {
+        var list = $('#combatStyles');
+        var style = list.val();
+        this._SwitchMoveSet(style);
+        this._DrawCombatButtons();
     }
 
     _SelectEnemyHandler(e)
