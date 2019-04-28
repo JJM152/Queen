@@ -86,7 +86,7 @@ App.Combat.Moves["BOOBJITSU"] = {
             ],
         Hit: [
                 [
-                    "You swing your nBUST at NPC_NAME, beating NPC_PRONOUN harshly!",
+                    "You swing your nBUST at NPC_NAME, beating them harshly!",
                     "NPC_NAME swings NPC_PRONOUN heaving hooters at you, beating you harshly!" 
                 ]
             ]

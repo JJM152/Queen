@@ -520,3 +520,21 @@ App.Data.Food["purple sucker"] = {
         "PENIS_XP_COMMON"
      ]
 };
+
+App.Data.Food["purple tentacle"] = {
+    Name : "purple tentacle",
+    ShortDesc: "A slimy purple tentacle",
+    LongDesc: "\
+    This slimy tentacle comes from a rare form of ocean creature called a Kraken. It's deep purple skin is mottled \
+    with splotches of green and the underside is lined with suckers.\
+    ",
+    Message: "The tentacle is rubbery, faintly oily and tastes disturbingly unidentifable. You feel like you've had better ideas...",
+    Type: "food",
+    Charges: 1,
+    Effects: [
+        "UNWHOLESOME_MEAL",
+        "NUTRITION_COMMON",
+        "NUTRITION_XP_COMMON",
+        "PERVERSION_XP_RARE"
+    ]
+}

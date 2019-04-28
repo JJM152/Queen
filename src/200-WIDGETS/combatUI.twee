@@ -35,3 +35,9 @@
 </div>\
 </div>\
 <</widget>>
+<<widget "combatResults">>\
+<span style='color:yellow;font-size:larger'>Combat Results:</span>
+
+<<run setup.Combat.DrawResults(); >>\
+<div id="WinDiv"></div>\
+<</widget>>

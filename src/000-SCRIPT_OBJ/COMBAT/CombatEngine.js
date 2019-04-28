@@ -22,6 +22,7 @@ App.Combat.CombatEngine = class CombatEngine {
         this._LastSelectedStyle = "UNARMED"; // Don't overwrite
         this._flee = 0;
         this._fleePassage = 'Cabin';
+        this._LootBuffer = [ ];
     
     }
 
@@ -53,6 +54,7 @@ App.Combat.CombatEngine = class CombatEngine {
         this._HpBars = { };
         this._StaminaBars = { };
         this._ChatLog = [ ];
+        this._LootBuffer = [ ];
         
         if (typeof opts !== 'undefined') {
             if (opts.hasOwnProperty('flee')) this._flee = opts.flee;
@@ -91,6 +93,10 @@ App.Combat.CombatEngine = class CombatEngine {
         }
 
         $(document).one(":passageend", this._DrawUI.bind(this));
+    }
+
+    DrawResults() {
+        $(document).one(":passageend", this._DrawWinLog.bind(this));
     }
 
     StartCombat()
@@ -216,6 +222,18 @@ App.Combat.CombatEngine = class CombatEngine {
                 }
 
         log.scrollTop(log.prop("scrollHeight"));
+    }
+
+    _DrawWinLog()
+    {
+        var root = $('#WinDiv');
+        var log = $('<div>').attr('id', 'WinChatLog');
+        root.append(log);
+        for (var i = 0; i < this._ChatLog.length; i++) {
+            log.append("<P class='ChatLog'>"+this._ChatLog[i]+"</P>");
+            }
+
+    log.scrollTop(log.prop("scrollHeight"));
     }
 
     _DrawEnemyContainers()
@@ -635,7 +653,6 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _LoseFight(Player)
     {
-        console.log("Lose fight called");
         if (this.DuelMode == true) {
             Player.AdjustStat('Health', 10); // Don't kill them...
             SugarCube.State.display(this.LosePassage);
@@ -649,6 +666,59 @@ App.Combat.CombatEngine = class CombatEngine {
     _WinFight()
     {
         console.log("Win fight called");
+
+        if (this._encounterData.__proto__.hasOwnProperty('Loot')) {
+
+            //Generate loot.
+            for (var i = 0; i < this._encounterData.Loot.length; i++) {
+                this._GrantLoot(this._encounterData.Loot[i]);
+            }
+
+            if (this._LootBuffer.length > 0) {
+                if (this._encounterData.__proto__.hasOwnProperty('LootMessage')) {
+                    this._AddChat("<span style='color:yellow'>"+this._encounterData.LootMessage+"</span>");
+                } else {
+                    this._AddChat("<span style='color:yellow'>You find some loot...</span>")
+                }
+
+                for(var x = 0; x < this._LootBuffer.length; x++) 
+                    this._AddChat("<span style='color:yellow'>&check; </span>"+this._LootBuffer[x]);
+            }
+        }
+
         SugarCube.State.display(this.WinPassage);
+    }
+
+    _GrantLoot(data) {
+
+        console.log(data);
+
+        if (data.Chance == 100 || data.Chance <= Math.floor(Math.random() * 100)) {
+            if (data.Type == 'Coins') {
+                var coins = this._amt(data);
+                setup.player.AdjustMoney( coins );
+                this._LootBuffer.push( coins + " coins");
+            } else if (data.Type == 'Random' ) {
+                var item = App.Item.PickItem( [ 'FOOD', 'DRUGS', 'COSMETICS'], { price: this._amt(data) } );
+                if (item != null) {
+                    setup.player.AddItem(item.cat, item.tag, 0);
+                    this._LootBuffer.push(item.desc);
+                }
+            } else {
+                // Specific loot.
+                var count = this._amt(data);
+                var item = setup.player.AddItem(data.Type, data.Tag, count);
+                if (count < 2) {
+                    this._LootBuffer.push(item.Description);
+                } else {
+                    this._LootBuffer.push(item.Description + " x"+count);
+                }
+            }
+        }
+    }
+
+    _amt(data)
+    {
+        return Math.floor(Math.max(data.Min, (Math.random() * data.Max)));
     }
 }
