@@ -796,7 +796,8 @@ App.Data.Lists = {
                 "black" : { h: 0, s: 0, l: 0},
                 "blond" : { h: 60, s: 100, l: 80 },
                 "brown" : { h: 40, s: 0, l: 40 },
-                "red" : { h: 0, s: 100, l: 30 }
+                "red" : { h: 0, s: 100, l: 30 },
+                "lavender" : { h: 240, s: 67, l: 94}
             },
             "SexActFrequency": ["HandJobs", "BlowJobs", "BlowJobs", "TitFucking", "AssFucking", "AssFucking"],
             "SkillDictionary": { "HandJobs" : "Hand Job", "BlowJobs" : "Blow Job", "TitFucking" : "Titty Fuck", "AssFucking" : "Ass Fuck" },

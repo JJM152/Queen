@@ -9,7 +9,7 @@
 <<run setup.Combat.InitializeScene({flee:30,fleePassage:"DebugPassage"});>>\
 <<run setup.Combat.LoadEncounter("TEST_FIGHT_1");>>\
 <</click>>\
-| <<click "Combat Test 2" "CombatTest">>\
+ | <<click "Combat Test 2" "CombatTest">>\
 <<run setup.Combat.InitializeScene({flee:30,fleePassage:"DebugPassage"});>>\
 <<run setup.Combat.LoadEncounter("TEST_FIGHT_2");>>\
 <</click>>\
