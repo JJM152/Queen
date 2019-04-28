@@ -13,6 +13,7 @@
 <<run setup.Combat.InitializeScene({flee:30,fleePassage:"DebugPassage"});>>\
 <<run setup.Combat.LoadEncounter("TEST_FIGHT_2");>>\
 <</click>>\
+ | [[ColorScaleTest]]
 
 <<if Array.isArray(Config.saves.autosave) && Config.saves.autosave.includes("hideout")>>
 	<<link "Disable autosaving at safe locations" "DebugPassage">>

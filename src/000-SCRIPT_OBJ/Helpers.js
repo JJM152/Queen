@@ -306,6 +306,14 @@ App.PR = new function() {
             return Arr[Math.ceil( (Arr.length * (Value/Max))-1)];
         };
 
+        this.debugColorScale = function()
+        {
+            var str = "";
+            for (var i = 0; i < App.Data.Lists.ColorScale.length; i++)
+            str += "<span style='color:"+ App.Data.Lists.ColorScale[i]+"'>Index "+i+" = "+App.Data.Lists.ColorScale[i]+"</span><br>";
+            return str;
+        }
+
     /**
      * Prints out a 10 star meter surrounded with brackets.
      * @param {number} Score - Current stat/score
