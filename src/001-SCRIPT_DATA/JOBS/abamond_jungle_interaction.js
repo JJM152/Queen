@@ -35,14 +35,14 @@ App.Data.JobData["JUNGLE01"] = {
             "RESULTS" : [
                 {"A":  50, "TEXT":  "You spend what seems like hours traipsing through the jungle, @@not really sure@@ which way you are heading."},
                 {"A":  99, "TEXT":  "You do your best to clear a straight path, trying to follow the sun, however, your managed to @@get turned around someplace@@... how unfortunate."},
-                {"A": 100, "TEXT":  "You do your best to clear a straight path, trying to follow the sun. @@It seems to have worked@@ and you managed to survey a large part of the jungle."}
+                {"A": 500, "TEXT":  "You do your best to clear a straight path, trying to follow the sun. @@It seems to have worked@@ and you managed to survey a large part of the jungle."}
                 ]
         },
-        {   // If pass check 'A' and If counter is at MAX (5) and the cove hasn't been found yet.
+        {   // If pass check 'A' and If counter is at MAX (3) and the cove hasn't been found yet.
             "ID" : "SCENE04a",
             "TRIGGERS" :[
                 { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
-                { "TYPE" : "COUNTER",   "NAME" : "JUNGLE_COUNTER", "VALUE" : 5, "CONDITION" : "gte" },
+                { "TYPE" : "COUNTER",   "NAME" : "JUNGLE_COUNTER", "VALUE" : 3, "CONDITION" : "gte" },
                 { "TYPE" : "FLAG",      "NAME" : "COVE_FOUND",     "OPT"   : "NOT_SET" }
             ],
             "TRIGGERS_ANY" : [ ],
@@ -57,13 +57,14 @@ App.Data.JobData["JUNGLE01"] = {
             "END" : "",
             "RESULTS" : [ ]
         },
-        {   // If pass check 'A' and If counter is at MAX (5) and if we haven't just found the cove (reward flag) and the ruins hasn't been found yet.
+        {   // If pass check 'A' and If counter is at MAX (3) and if we haven't just found the cove (reward flag) and the ruins hasn't been found yet.
             "ID" : "SCENE04a",
             "TRIGGERS" :[
-                { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
-                { "TYPE" : "COUNTER",   "NAME" : "JUNGLE_COUNTER",  "VALUE" : 5, "CONDITION" : "gte" },
+                { "TYPE" : "TAG",       "NAME" : "A",               "VALUE" : 100,  "CONDITION" : "gte" },
+                { "TYPE" : "COUNTER",   "NAME" : "JUNGLE_COUNTER",  "VALUE" : 3,    "CONDITION" : "gte" },
                 { "TYPE" : "FLAG",      "NAME" : "JUNGLE_REWARD",   "OPT"   : "NOT_SET" },
-                { "TYPE" : "FLAG",      "NAME" : "RUINS_FOUND",     "OPT"   : "NOT_SET" }
+                { "TYPE" : "FLAG",      "NAME" : "RUINS_FOUND",     "OPT"   : "NOT_SET" },
+                { "TYPE" : "FLAG",      "NAME" : "COVE_FOUND",      "OPT"   : "SET" }
             ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [ ],
@@ -80,11 +81,11 @@ App.Data.JobData["JUNGLE01"] = {
             "RESULTS" : [ ]
         },
         {
-            // On a skill success we want to increment our success counter. Don't process if we just hit max (5) and set the reward counter.
+            // On a skill success we want to increment our success counter. Don't process if we just hit max (3) and set the reward counter.
             "ID" : "SCENE04b",
             "TRIGGERS" :[
                 { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
-                { "TYPE" : "COUNTER", "NAME" : "JUNGLE_COUNTER", "VALUE" : 4, "CONDITION" : "lte" },
+                { "TYPE" : "COUNTER", "NAME" : "JUNGLE_COUNTER", "VALUE" : 2, "CONDITION" : "lte" },
                 { "TYPE" : "FLAG", "NAME" : "JUNGLE_REWARD",  "OPT" : "NOT_SET" }
             ],
             "TRIGGERS_ANY" : [ ],
