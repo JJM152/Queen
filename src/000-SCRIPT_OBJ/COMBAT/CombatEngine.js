@@ -653,6 +653,9 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _LoseFight(Player)
     {
+        if (this._encounterData.__proto__.hasOwnProperty('LoseHandler'))
+        this._encounterData.LoseHandler();
+
         if (this.DuelMode == true) {
             Player.AdjustStat('Health', 10); // Don't kill them...
             SugarCube.State.display(this.LosePassage);
@@ -685,6 +688,9 @@ App.Combat.CombatEngine = class CombatEngine {
                     this._AddChat("<span style='color:yellow'>&check; </span>"+this._LootBuffer[x]);
             }
         }
+
+        if (this._encounterData.__proto__.hasOwnProperty('WinHandler'))
+            this._encounterData.WinHandler();
 
         SugarCube.State.display(this.WinPassage);
     }
