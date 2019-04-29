@@ -265,3 +265,21 @@ App.Combat.EnemyData['Kipler Hard'] = {
     Gender: 1,
     Portraits: [ 'pirate_a', 'pirate_b', 'pirate_c', 'pirate_d']   
 }
+
+// Siren
+
+App.Combat.EnemyData['Champion Siren'] = {
+    Name: 'Siren',
+    Title: 'Black Witch NAME',
+    Health: 300,
+    MaxHealth: 300,
+    Energy: 3,
+    Attack: 150,
+    Defense: 50,
+    MaxStamina: 200,
+    Stamina: 200,
+    Speed: 50,
+    Moves: 'SIREN',
+    Gender: 1,
+    Portraits: [ 'siren_a',]   
+}

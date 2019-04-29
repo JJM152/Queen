@@ -618,7 +618,7 @@ App.Combat.Engines.Assfu = class AssfuCombatEngine extends App.Combat.Engines.Ge
 // ====================================================
 
 // Kraken
-App.Combat.Engines.Kraken = class UnarmedCombatEngine extends App.Combat.Engines.Generic {
+App.Combat.Engines.Kraken = class KrakenCombatEngine extends App.Combat.Engines.Generic {
 
     constructor(...args)
     {
@@ -715,6 +715,88 @@ App.Combat.Engines.Kraken = class UnarmedCombatEngine extends App.Combat.Engines
             default: 
                     this.AttackTarget(Target, this.Owner.Moves['Grab']);
             }
+    }
+
+};
+
+// Siren
+App.Combat.Engines.Siren = class SirenCombatEngine extends App.Combat.Engines.Generic {
+
+    constructor(...args)
+    {
+        super(...args);
+    }
+
+    get Class() { return "SIREN"; }
+
+    /**
+     * Calculate the damage of an unarmed attack
+     * @param {App.Combat.Combatant|App.Combat.Player} Target 
+     * @param {*} Command 
+     * @param {number} Roll 
+     * @returns {number} Damage
+     */
+    CalculateDamage(Target, Command, Roll)
+    {
+
+        return Math.ceil( Math.max(1, ((this.Owner.Attack/10)*Math.random())) * Command.Damage);
+    }
+
+    /**
+     * Generate any combo points
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     * @returns {number} number of combo points to grant
+     */
+    GenerateCombo(Target, Command, Roll)
+    {
+        if ( (Command.Name == 'Touch' && this.LastMove == 'Toss') ||
+             (Command.Name == 'Toss' && this.LastMove == 'Touch') ||
+             (this.LastMove == 'Miss') )
+             {
+                 return 1;
+             }
+        return 0;
+    }
+
+    /**
+     * Apply effects to enemy
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     */
+    ApplyEffects(Target, Command, Roll)
+    {
+
+        if (Target.IsNPC == true) return; // No effects on non-player characters.
+
+        if (Command.Name == 'Scream') {
+            Target.AddEffect('STUNNED', 2);
+            this.Owner.AddEffect('BLOODTHIRST', 2);
+            if (this.Owner.IsNPC) {
+                this.PrintMessage("<span style='color:yellow'>NPC_NAME stuns you!</span>", Target);
+            } else {
+                this.PrintMessage("<span style='color:yellow'>You stun NPC_NAME!</span>", Target);
+            }
+        } else if (Command.Name == 'Drown') {
+            Target.AddEffect('BLINDED', 3);
+
+        }
+    }
+
+    DoAI(Target)
+    {
+        if (this.Owner.Combo >= this.Owner.Moves["Drown"].Combo ) {
+            this.AttackTarget(Target, this.Owner.Moves["Drown"]);
+        } else if (this.Owner.Combo >= this.Owner.Moves["Scream"].Combo && Math.floor(Math.random()* 100) >= 60) {
+            this.AttackTarget(Target, this.Owner.Moves["Scream"]);
+        } else if (this.LastMove == "Toss") {
+            this.AttackTarget(Target, this.Owner.Moves["Touch"]);
+        } else {
+            this.AttackTarget(Target, this.Owner.Moves["Toss"]);
+        }
+
     }
 
 };

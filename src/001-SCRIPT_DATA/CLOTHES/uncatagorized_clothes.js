@@ -201,7 +201,7 @@ App.Data.Clothes["cock ribbon"] = {
 
 // WEAPON SLOT (huh?)
 App.Data.Clothes["worn machete"] = {
-    "Name": "worn machete", "ShortDesc": "@@color:purple;a well worn machete@@",
+    "Name": "worn machete", "ShortDesc": "<span style='color:purple'>a well worn machete</span>",
     "LongDesc": "This large blade is 32cm long and has a slightly curved angle to it. It's not really a knife, but more like an axe. In a fight you could use it similar to a short sword.",
     "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Style": "COMMON", "Type" : "WEAPON",
     "WearEffect": [ ], "InMarket" : false
