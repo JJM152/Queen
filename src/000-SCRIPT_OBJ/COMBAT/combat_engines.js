@@ -349,13 +349,15 @@ App.Combat.Engines.Swashbuckling = class SwashbucklingCombatEngine extends App.C
     GenerateCombo(Target, Command, Roll)
     {
 
-        if ( (Command.Name == "Slash" && this.LastMove == "Stab") ||
-             (Command.Name == "Stab" && this.LastMove == "Slash") ) {
+        if ( 
+             (Command.Name == "Slash" && this.LastMove == "Stab") ||
+             (Command.Name == "Stab" && this.LastMove == "Slash") ||
+             (Command.Name == 'Slash' && this.LastMove == 'Riposte') ||
+             ( Command.Name == 'Parry')
+            ) {
                  return 1;
-             }
+              }
 
-        if ( Command.Name == 'Parry') { return 1; } // yeet
-             
         return 0;
     }
 
@@ -371,6 +373,8 @@ App.Combat.Engines.Swashbuckling = class SwashbucklingCombatEngine extends App.C
         if (Command.Name == 'Parry') {
             this.Owner.AddEffect('GUARDED', 2);
             this.Owner.AddEffect('PARRY', 2);
+        } else if (Command.Name == 'Stab' && this.LastMove == 'Riposte') {
+            this.Owner.AddEffect('SEEKING', 3);
         }
 
     }
@@ -686,7 +690,7 @@ App.Combat.Engines.Kraken = class UnarmedCombatEngine extends App.Combat.Engines
             this.Defend();
             return;
         }
-        
+
         switch(this.LastMove) {
             case 'Ejaculate2':
             case 'Ejaculate1':

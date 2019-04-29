@@ -4,6 +4,7 @@ App.Combat.Moves["SWASHBUCKLING"] = {
         Name: "Slash",
         Description: "\
         A fast, quick, attack.<br>\
+        If used after a riposte, recover some combo points.<br>\
         <span style='color:darkred'>DMG LOW</span> \
         <span style='color:darkgoldenrod'>STA LOW</span> \
         <span style='color:cyan'>SPD FAST</span><br>\
@@ -54,6 +55,7 @@ App.Combat.Moves["SWASHBUCKLING"] = {
         Name: "Stab",
         Description: "\
         A powerful weapon stab.<br>\
+        If used after a riposte, grant an accuracy buff.<br>\
         <span style='color:darkred'>DMG MED</span> \
         <span style='color:darkgoldenrod'>STA MED</span> \
         <span style='color:cyan'>SPD SLOW</span><br>\

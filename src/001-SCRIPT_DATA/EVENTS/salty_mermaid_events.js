@@ -27,15 +27,15 @@ App.Data.Events["Cabin"] = [
         }
     },
     {
-        ID: 'KrakenAttack', // A unique ID for the event.
-        FROM: 'Sleep', // The passage you are traversing from
-        MAX_REPEAT: 0, // Number of times the event can repeat, 0 means forever.
-        MIN_DAY: 20, // Minimum day the event shows up on
-        MAX_DAY: 0, // Maximum day the event shows up on, 0 means forever
-        COOL: 10, // Interval between repeats on this event.
-        PHASE: [ 0 ], // Time phases the event is valid for
-        PASSAGE: 'KrakenAttackEvent', // Override passage that the player is routed to.
-        CHECK: function(p) { // Condition function that is called to check if the event fires.
+        ID: 'KrakenAttack',
+        FROM: 'Sleep',
+        MAX_REPEAT: 0,
+        MIN_DAY: 20,
+        MAX_DAY: 0,
+        COOL: 10,
+        PHASE: [ 0 ],
+        PASSAGE: 'KrakenAttackEvent',
+        CHECK: function(p) { 
             return (Math.floor(Math.random() * 4) == 0);
         }  
     }
