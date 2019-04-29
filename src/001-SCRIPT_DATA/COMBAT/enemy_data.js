@@ -204,15 +204,15 @@ App.Combat.EnemyData['Champion Gluteus'] = {
 App.Combat.EnemyData['Kraken Tentacle'] = {
     Name: 'Tentacle',
     Title: 'Kraken NAME',
-    Health: 100,
-    MaxHealth: 100,
+    Health: 50,
+    MaxHealth: 50,
     Energy: 3,
-    Attack: 40,
+    Attack: 80,
     Defense: 20,
     MaxStamina: 100,
     Stamina: 100,
     Speed: 50,
-    Moves: 'UNARMED',
+    Moves: 'KRAKEN',
     Gender: 1,
     Portraits: [ 'kraken_a']
 };

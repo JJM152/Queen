@@ -135,6 +135,7 @@ App.Combat.Engines.Generic = class GenericEngine {
         if ( Target.HasEffect('PARRY'))  {
             dmg = 0; // block all damage.
             Target.ReduceEffect('PARRY', 1); // Reduce parry counter.
+            this._AttackHistory.push("Miss"); // We missed. Sadface.
             if (this.Owner.IsNPC == true) {
                 this.PrintMessage("You parry NPC_NAME's attack!", Target);
             } else {
@@ -607,4 +608,109 @@ App.Combat.Engines.Assfu = class AssfuCombatEngine extends App.Combat.Engines.Ge
             this.AttackTarget(Target, this.Owner.Moves["Booty Slam"]);
         }
     } 
+};
+
+// MONSTER CLASSES
+// ====================================================
+
+// Kraken
+App.Combat.Engines.Kraken = class UnarmedCombatEngine extends App.Combat.Engines.Generic {
+
+    constructor(...args)
+    {
+        super(...args);
+    }
+
+    get Class() { return "KRAKEN"; }
+
+    /**
+     * Calculate the damage of an unarmed attack
+     * @param {App.Combat.Combatant|App.Combat.Player} Target 
+     * @param {*} Command 
+     * @param {number} Roll 
+     * @returns {number} Damage
+     */
+    CalculateDamage(Target, Command, Roll)
+    {
+        if (Command.Name == 'Ejactulate1' || Command.Name == 'Ejaculate2') return 0;
+
+        return Math.ceil( Math.max(2, (5*Math.random())) * Command.Damage);
+    }
+
+    /**
+     * Generate any combo points
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     * @returns {number} number of combo points to grant
+     */
+    GenerateCombo(Target, Command, Roll)
+    {
+        return 0;
+    }
+
+    /**
+     * Apply effects to enemy
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     */
+    ApplyEffects(Target, Command, Roll)
+    {
+
+        if (Target.IsNPC == true) return; // No effects on non-player characters.
+
+        if (Command.Name == 'Grab') {
+            this.Owner.AddEffect('SEEKING', 4);
+
+        } else if (Command.Name == 'Ejaculate1') {
+            Target.Player.AdjustStatXP('Perversion', 20);
+            Target.Player.AdjustStatXP('WillPower', -20);
+            Target.Player.AdjustBodyXP('Lips', 100);
+            Target.Player.AdjustStatXP('Hormones', 100);
+            Target.Player.AdjustBodyXP('Bust', 100);
+
+        } else if (Command.Name == 'Ejaculate2') {
+            Target.Player.AdjustStatXP('Perversion', 20);
+            Target.Player.AdjustStatXP('WillPower', -20);
+            Target.Player.AdjustBodyXP('Hips', 100);
+            Target.Player.AdjustStatXP('Hormones', 100);
+            Target.Player.AdjustBodyXP('Ass', 100);
+        }
+    }
+
+    DoAI(Target)
+    {
+
+        if (this.Owner.Stamina < 30 && (50 >= (100 * Math.random()))) {
+            this.Defend();
+            return;
+        }
+        
+        switch(this.LastMove) {
+            case 'Ejaculate2':
+            case 'Ejaculate1':
+                    this.AttackTarget(Target, this.Owner.Moves["Strangle"]);
+                    break;
+            case 'Ass':
+                    this.AttackTarget(Target, this.Owner.Moves['Ejaculate2']);
+                    break;
+            case 'Mouth':
+                    this.AttackTarget(Target, this.Owner.Moves["Ejaculate1"]);
+                    break;
+            case 'Strangle':
+                    if (100 * Math.random() >= 50) {
+                        this.AttackTarget(Target, this.Owner.Moves['Ass']);
+                    } else {
+                        this.AttackTarget(Target, this.Owner.Moves['Mouth']);
+                    }
+                    break;
+            case 'Grab':
+                    this.AttackTarget(Target, this.Owner.Moves['Strangle']);
+                    break;
+            default: 
+                    this.AttackTarget(Target, this.Owner.Moves['Grab']);
+            }
+    }
+
 };
