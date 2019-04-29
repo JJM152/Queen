@@ -1,0 +1,34 @@
+:: KrakenAttackEvent [no-teleport no-saving]
+<span style='font-size:larger;color:red'>B - O - O - M!</span>
+
+You wake up in the morning to the firing of cannons and sounds of shrieking! In a daze, you lurch out of your \
+bed and stumble towards the door of your cabin and out onto the deck. The ship lurches to the left, then to \
+the right and you almost tumble to the floor, only to be swept away by a crashing wave over the ships bow that \
+sends you flying towards the helm.
+
+The combination of the cold sea water and your own adrenaline quickly clear the fog from your mind. All around you \
+is a scene straight from the depths of hell - the crew is engaged in a mortal battle with a Kraken, a create of legend! 
+
+A giant tentacle flies over your head, catching a pirate in the back and sending him flying, his cutlass flying from \
+his hands and landing precariously close to your head. 
+
+This looks dangerous, what should you do?
+
+@@color:cyan;Interact@@: \
+<<if setup.player.IsEquipped('Weapon', true) == false>>\
+    <<click "Grab the sword and fight" "Combat">>\
+    <<if setup.player.OwnsWardrobeItem('CLOTHES', 'rusty cutlass');>>\
+    <<run setup.player.Wear(setup.player.WardrobeItem('CLOTHES/rusty cutlass'), false);>>\
+    <<else>>\
+    <<run setup.player.AddItem('CLOTHES', 'rusty cutlass', 1, 'WEAR');>>\
+    <</if>>\
+    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"FleeKraken"});>>\
+    <<run setup.Combat.LoadEncounter("KrakenAttack");>>\
+    <</click>>\
+<<else>>\
+    <<click "Fight the Kraken" "Combat">>\
+    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"FleeKraken"});>>\
+    <<run setup.Combat.LoadEncounter("KrakenAttack");>>\
+    <</click>>\
+<</if>> | \
+[[Find someplace to hide!|CombatFleeKraken]]

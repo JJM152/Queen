@@ -149,3 +149,13 @@ App.Data.Clothes["steel cutlass"] = {
     "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Style": "RARE", "Type": "WEAPON",
     "WearEffect": [], "ActiveEffect" : [ "CUT_THROAT" ], "Category" : [ "Pirate Slut"], "InMarket": false
 };
+
+App.Data.Clothes["rusty cutlass"] = {
+    "Name": "rusty cutlass", "ShortDesc": "a rusty {COLOR} cutlass",
+    "LongDesc": "\
+    This rusty sword has seen better days. Obviously the pirate who used to own this blade never took care \
+    of it and unfortunately it's deteriorated too much to be repaired in any way. \
+    ",
+    "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Style": "COMMON", "Type": "WEAPON",
+    "WearEffect": [], "ActiveEffect" : [ ], "Category" : [ "Pirate Slut"], "InMarket": false
+};

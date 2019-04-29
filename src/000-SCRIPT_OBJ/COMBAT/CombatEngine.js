@@ -568,7 +568,9 @@ App.Combat.CombatEngine = class CombatEngine {
                 this._NextRound();
                 return;
             } else {
-                // placeholder for now
+                if (this._encounterData.__proto__.hasOwnProperty('FleeHandler')) 
+                    this._encounterData.FleeHandler();
+
                 SugarCube.State.display(this._fleePassage);
             }
             return;
@@ -657,7 +659,7 @@ App.Combat.CombatEngine = class CombatEngine {
         this._encounterData.LoseHandler();
 
         if (this.DuelMode == true) {
-            Player.AdjustStat('Health', 10); // Don't kill them...
+            Player.CoreStats.Health = 10; // Don't kill them...
             SugarCube.State.display(this.LosePassage);
         } else {
             // you ded.
