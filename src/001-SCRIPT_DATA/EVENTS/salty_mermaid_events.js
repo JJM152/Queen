@@ -38,7 +38,21 @@ App.Data.Events["Cabin"] = [
         CHECK: function(p) { 
             return (Math.floor(Math.random() * 4) == 0);
         }  
+    },
+    {
+        ID: 'PirateAttack',
+        FROM: 'Sleep',
+        MAX_REPEAT: 0,
+        MIN_DAY: 25,
+        MAX_DAY: 0,
+        COOL: 15,
+        PHASE: [ 0 ],
+        PASSAGE: 'PirateAttackEvent',
+        CHECK: function(p) { 
+            return (Math.floor(Math.random() * 4) == 0);
+        }  
     }
+
 ];
 
 App.Data.Events["Deck"]= [
@@ -58,6 +72,19 @@ App.Data.Events["Deck"]= [
                         (p.GetStat('SKILL', 'TitFucking') >= 20) ||
                         (p.GetStat('SKILL', 'AssFucking') >= 20) ) && 
                         (Math.floor(Math.random() * 4) == 0) );
+        }
+    },
+    {
+        ID: 'SirenAttack',
+        FROM: 'Any',
+        MAX_REPEAT: 0,
+        MIN_DAY: 40,
+        MAX_DAY: 0,
+        COOL: 12,
+        PHASE: [ 3],
+        PASSAGE: 'SirenAttackEvent',
+        CHECK: function(p) {
+            return (Math.floor(Math.random() * 4) == 0);
         }
     }
 ];

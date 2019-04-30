@@ -1,0 +1,32 @@
+:: SirenAttackEvent [no-teleport no-saving]
+<span style='font-size:larger;color:cyan'>SCREEEEEEEEEEEEEEEEEECH!</span>
+
+The sound of crashing waves in the night is broken by piercing shriek that forces you to cover your ears! You look around \
+in a daze to see some of the crew scrambling about and fetching weapons. Within moments, you realize why as a large \
+shape practically leaps out of the water onto the deck.
+
+Standing at least 8 feet tall, with the lower body of some kind of serpeant and the upper body of a beautiful woman, \
+there is no doubt about it, but the ship is under attack by a flock of Sirens. A brave pirate is the first one to \
+respond, recklessly charging into their midst, only to be tossed aside like a rag doll, his unconcious body \
+landing at your feet.
+
+This looks dangerous, what should you do?
+
+@@color:cyan;Interact@@: \
+<<if setup.player.IsEquipped('Weapon', true) == false>>\
+    <<click "Grab the fallen pirates sword and fight" "Combat">>\
+    <<if setup.player.OwnsWardrobeItem('CLOTHES', 'rusty cutlass');>>\
+    <<run setup.player.Wear(setup.player.WardrobeItem('CLOTHES/rusty cutlass'), false);>>\
+    <<else>>\
+    <<run setup.player.AddItem('CLOTHES', 'rusty cutlass', 1, 'WEAR');>>\
+    <</if>>\
+    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleeSiren"});>>\
+    <<run setup.Combat.LoadEncounter("SirenAttack");>>\
+    <</click>>\
+<<else>>\
+    <<click "Fight the Sirens" "Combat">>\
+    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleeSiren"});>>\
+    <<run setup.Combat.LoadEncounter("SirenAttack");>>\
+    <</click>>\
+<</if>> | \
+[[Run away!|CombatFleeSiren]]

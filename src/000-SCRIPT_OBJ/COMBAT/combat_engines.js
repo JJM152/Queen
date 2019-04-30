@@ -789,7 +789,7 @@ App.Combat.Engines.Siren = class SirenCombatEngine extends App.Combat.Engines.Ge
     {
         if (this.Owner.Combo >= this.Owner.Moves["Drown"].Combo ) {
             this.AttackTarget(Target, this.Owner.Moves["Drown"]);
-        } else if (this.Owner.Combo >= this.Owner.Moves["Scream"].Combo && Math.floor(Math.random()* 100) >= 60) {
+        } else if (this.Owner.Combo >= this.Owner.Moves["Scream"].Combo && Math.floor(Math.random()* 100) >= 75) {
             this.AttackTarget(Target, this.Owner.Moves["Scream"]);
         } else if (this.LastMove == "Toss") {
             this.AttackTarget(Target, this.Owner.Moves["Touch"]);

@@ -1,7 +1,7 @@
 :: KrakenAttackEvent [no-teleport no-saving]
 <span style='font-size:larger;color:red'>B - O - O - M!</span>
 
-You wake up in the morning to the firing of cannons and sounds of shrieking! In a daze, you lurch out of your \
+You wake up in the morning to the firing of cannons and sounds of screaming! In a daze, you lurch out of your \
 bed and stumble towards the door of your cabin and out onto the deck. The ship lurches to the left, then to \
 the right and you almost tumble to the floor, only to be swept away by a crashing wave over the ships bow that \
 sends you flying towards the helm.
@@ -22,12 +22,12 @@ This looks dangerous, what should you do?
     <<else>>\
     <<run setup.player.AddItem('CLOTHES', 'rusty cutlass', 1, 'WEAR');>>\
     <</if>>\
-    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"FleeKraken"});>>\
+    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleeKraken"});>>\
     <<run setup.Combat.LoadEncounter("KrakenAttack");>>\
     <</click>>\
 <<else>>\
     <<click "Fight the Kraken" "Combat">>\
-    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"FleeKraken"});>>\
+    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleeKraken"});>>\
     <<run setup.Combat.LoadEncounter("KrakenAttack");>>\
     <</click>>\
 <</if>> | \
