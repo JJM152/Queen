@@ -21,6 +21,7 @@ App.Combat.CombatEngine = class CombatEngine {
         this._ChatLog = [ ];
         this._LastSelectedStyle = "UNARMED"; // Don't overwrite
         this._flee = 0;
+        this._noWeapons = false;
         this._fleePassage = 'Cabin';
         this._LootBuffer = [ ];
     
@@ -55,14 +56,17 @@ App.Combat.CombatEngine = class CombatEngine {
         this._StaminaBars = { };
         this._ChatLog = [ ];
         this._LootBuffer = [ ];
+        this._noWeapons = false;
         
         if (typeof opts !== 'undefined') {
             if (opts.hasOwnProperty('flee')) this._flee = opts.flee;
             if (opts.hasOwnProperty('fleePassage')) this._fleePassage = opts.fleePassage;
+            if (opts.hasOwnProperty('noWeapons')) this._noWeapons = opts.noWeapons;
         }
 
         sessionStorage.setItem('QOS_ENCOUNTER_FLEE', this._flee);
         sessionStorage.setItem('QOS_ENCOUNTER_FLEE_PASSAGE', this._fleePassage);
+        sessionStorage.setItem('QOS_ENCOUNTER_NO_WEAPONS', this._noWeapons);
 
         
     }
@@ -89,6 +93,7 @@ App.Combat.CombatEngine = class CombatEngine {
             this._LastSelectedStyle = sessionStorage.getItem('QOS_ENCOUNTER_COMBAT_STYLE');
             this._flee = sessionStorage.getItem('QOS_ENCOUNTER_FLEE');
             this._fleePassage = sessionStorage.getItem('QOS_ENCOUNTER_FLEE_PASSAGE');
+            this._noWeapons = sessionStorage.getItem('QOS_ENCOUNTER_NO_WEAPONS');
             this.LoadEncounter(sessionStorage.getItem('QOS_ENCOUNTER_KEY'));
         }
 
@@ -203,6 +208,7 @@ App.Combat.CombatEngine = class CombatEngine {
 
         for(var prop in styles)
         {
+            if (this._noWeapons == true && prop == 'SWASHBUCKLING') continue; // Don't allow weapon combat.
             var opt = $('<option>').attr('value', prop).text(styles[prop]);
             if (prop == this.LastSelectedStyle) opt.attr('selected', 'selected');
             root.append(opt);
