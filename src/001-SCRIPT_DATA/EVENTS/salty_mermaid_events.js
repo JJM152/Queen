@@ -75,6 +75,19 @@ App.Data.Events["Deck"]= [
         }
     },
     {
+        ID: 'FightClubIntroduction',
+        FROM: 'Any',
+        MAX_REPEAT: 1,
+        MIN_DAY: 20,
+        MAX_DAY: 0,
+        COOL: 0,
+        PHASE: [ 2, 3],
+        PASSAGE: 'FightClubEvent',
+        CHECK: function(p) {
+           return (Math.floor(Math.random() * 4) == 0);
+        }
+    },
+    {
         ID: 'SirenAttack',
         FROM: 'Any',
         MAX_REPEAT: 0,

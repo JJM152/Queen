@@ -123,6 +123,20 @@ App.EventEngine = class EventEngine {
         return Player.QuestFlags[lastKey];
     }
 
+    /**
+     * Manually trigger an event and ignore checks, coolsdowns, etc.
+     * @param {App.Entity.Player} Player 
+     * @param {string} Passage 
+     * @param {string} ID 
+     */
+    FireEvent(Player, Passage, ID)
+    {
+        var event = App.Data.Events[Passage].filter(function(o) { return o.ID == ID; })[0];
+        console.log(event);
+        this._setFlags(Player, event["ID"]);
+        SugarCube.State.display(event["PASSAGE"]);
+    }
+
     // This isn't working exactly how I want to right now. If a player reloads his page (naughty naughty)
     // then this object gets baleeeeted and these references are null, which means I can't use them for
     // dynamic links. However, it's probably not really necessary. I'll think about it.

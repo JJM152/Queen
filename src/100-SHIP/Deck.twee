@@ -10,6 +10,10 @@ You are on the main deck of the Salty Mermaid. This area is busy during most tim
 <<if setup.eventEngine.EventFired(setup.player, 'CoffinDiceIntroduction') > 0>>\
  | <<gamblingLink "Coffin Dice" "ShutTheCoffin">>\
 <</if>>\
+<<if setup.eventEngine.EventFired(setup.player, 'FightClubIntroduction') > 0 
+    && ( setup.player.Phase == 2 || setup.player.Phase == 3) && (setup.player.Day % 3 == 0)>>\
+ | [[Fight Club|MermaidFightClub]]\
+<</if>>\
 <<if setup.player.Phase == 4>>\
 
 @@color:lime;Travel@@: [[Cabin]] | @@color:grey;[Ships Helm]@@ | @@color:grey;[Galley]@@ | @@color:grey;[Cargo Hold]@@ | @@color:grey;[Captain's Quarters]@@
