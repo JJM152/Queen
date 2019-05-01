@@ -1360,6 +1360,8 @@ App.PR = new function() {
         });
     };
 
+    //Stuff to support fight club
+    
     this.FightClubFlag = function(Club)
     {
         return "FIGHTCLUB_TRACK_" + Club.replace(/ /g, "_");
@@ -1377,7 +1379,6 @@ App.PR = new function() {
         return Player.QuestFlags[key];
     }
 
-    //Stuff to support fight club
     this.FightClubMenu = function(Player, Club)
     {
         var clubFlag = this.FightClubFlag(Club);

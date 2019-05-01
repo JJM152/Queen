@@ -217,53 +217,36 @@ App.Combat.EnemyData['Kraken Tentacle'] = {
     Portraits: [ 'kraken_a']
 };
 
-// Kipler
-App.Combat.EnemyData['Kipler Easy'] = {
+App.Combat.EnemyData['Kipler'] = {
     Name: 'Kipler',
     Title: 'First Mate NAME',
-    Health: 100,
-    MaxHealth: 100,
-    Energy: 3,
-    Attack: 60,
-    Defense: 30,
-    MaxStamina: 100,
-    Stamina: 100,
-    Speed: 50,
-    Moves: 'SWASHBUCKLING',
-    Gender: 1,
-    Portraits: [ 'pirate_a', 'pirate_b', 'pirate_c', 'pirate_d']   
-}
-
-App.Combat.EnemyData['Kipler Average'] = {
-    Name: 'Kipler',
-    Title: 'First Mate NAME',
-    Health: 150,
-    MaxHealth: 150,
-    Energy: 3,
-    Attack: 80,
-    Defense: 40,
-    MaxStamina: 100,
-    Stamina: 100,
-    Speed: 50,
-    Moves: 'SWASHBUCKLING',
-    Gender: 1,
-    Portraits: [ 'pirate_a', 'pirate_b', 'pirate_c', 'pirate_d']   
-}
-
-App.Combat.EnemyData['Kipler Hard'] = {
-    Name: 'Kipler',
-    Title: 'First Mate NAME',
-    Health: 200,
-    MaxHealth: 200,
-    Energy: 3,
-    Attack: 100,
+    Health: 250,
+    MaxHealth: 250,
+    Energy: 5,
+    Attack: 130,
     Defense: 50,
     MaxStamina: 100,
     Stamina: 100,
     Speed: 50,
     Moves: 'SWASHBUCKLING',
     Gender: 1,
-    Portraits: [ 'pirate_a', 'pirate_b', 'pirate_c', 'pirate_d']   
+    Portraits: [ 'kipler_combat' ]   
+}
+
+App.Combat.EnemyData['Kipler Unarmed'] = {
+    Name: 'Kipler',
+    Title: 'First Mate NAME',
+    Health: 250,
+    MaxHealth: 250,
+    Energy: 5,
+    Attack: 130,
+    Defense: 50,
+    MaxStamina: 100,
+    Stamina: 100,
+    Speed: 50,
+    Moves: 'UNARMED',
+    Gender: 1,
+    Portraits: [ 'kipler_combat' ]   
 }
 
 // Siren

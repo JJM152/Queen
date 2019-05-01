@@ -390,9 +390,9 @@ App.Combat.Engines.Swashbuckling = class SwashbucklingCombatEngine extends App.C
         } else if ( (this.LastMove != 'Riposte' && this.LastMove != 'Parry') && Math.floor(Math.random() * 100) >= 70) {
             this.AttackTarget(Target, this.Owner.Moves['Parry']);
         } else if (this.LastMove == "Stab") {
-            this.AttackTarget(Target, this.Owner.Moves["Stab"]);
-        } else {
             this.AttackTarget(Target, this.Owner.Moves["Slash"]);
+        } else {
+            this.AttackTarget(Target, this.Owner.Moves["Stab"]);
         }
     }    
 };
