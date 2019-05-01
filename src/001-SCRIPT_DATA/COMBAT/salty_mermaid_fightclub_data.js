@@ -42,6 +42,12 @@ App.Combat.ClubData['Salty Mermaid'] = [
         'MaxWins' : 100,
         'Encounter' : 'Salty Mermaid Buccaneer',
     },
+    {
+        'Title' : '??? Mystery ???',
+        'WinsRequired': 100,
+        'MaxWins': 101,
+        'Encounter' : 'Salty Mermaid Mystery'
+    }
 ];
 
 //Enemies that you can bet on.
@@ -376,6 +382,49 @@ App.Combat.EncounterData['Salty Mermaid Buccaneer'] = {
             Tag: null,
             Min: 150,
             Max: 250
+        },
+    ],
+    WinHandler : function() {
+        setup.player.NextPhase(1);
+        App.PR.AddFightClubResult(setup.player, 'Salty Mermaid', 1);
+    },
+    LoseHandler : function() { 
+        setup.player.NextPhase(1);
+        App.PR.AddFightClubResult(setup.player, 'Salty Mermaid', 0);
+    },
+    FleeHandler : function() {
+        setup.player.NextPhase(1);
+    }
+};
+
+App.Combat.EncounterData['Salty Mermaid Mystery'] = {
+    Enemies: [ "Kipler Unarmed" ],
+    Fatal: false,
+    WinPassage: "CombatWinFightClubMermaid",
+    LosePassage: "CombatLoseFightClubMermaid",
+    Intro: "You step up to the ring, ready to fight. ENEMY_0 scoffs at you.",
+    LootMessage: "You claim your victory prize...",
+    Loot: [ 
+        {
+            Chance: 100,
+            Type: 'Coins',
+            Tag: null,
+            Min: 250,
+            Max: 500
+        },
+        {
+            Chance: 100,
+            Type: 'Random',
+            Tag: null,
+            Min: 250,
+            Max: 500
+        },
+        {
+            Chance: 100,
+            Type: 'Random',
+            Tag: null,
+            Min: 250,
+            Max: 500
         },
     ],
     WinHandler : function() {
