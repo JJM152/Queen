@@ -46,7 +46,10 @@ App.Combat.ClubData['Salty Mermaid'] = [
 
 //Enemies that you can bet on.
 App.Combat.ClubBetData['Salty Mermaid'] = [
-    'Salty Mermaid Landlubber', 'Salty Mermaid Swabbie', 'Salty Mermaid Middy', 'Salty Mermaid Seadog', 'Kipler Unarmed'
+    'Salty Mermaid Landlubber', 'Salty Mermaid Swabbie', 'Salty Mermaid Middy', 'Salty Mermaid Seadog', 
+    'Salty Mermaid Landlubber', 'Salty Mermaid Swabbie', 'Salty Mermaid Middy', 'Salty Mermaid Seadog',
+    'Salty Mermaid Landlubber', 'Salty Mermaid Swabbie', 'Salty Mermaid Middy', 'Salty Mermaid Seadog',  
+    'Kipler Unarmed'
 ];
 
 //Enemies

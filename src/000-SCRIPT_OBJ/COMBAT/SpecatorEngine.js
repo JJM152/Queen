@@ -57,8 +57,14 @@ App.Combat.SpectatorEngine = class SpectatorEngine {
 
         this._OP_A = this._AddEnemy(App.PR.GetRandomListItem(App.Combat.ClubBetData[Club]));
         this._OP_A.Id = 'A';
-        this._OP_B = this._AddEnemy(App.PR.GetRandomListItem(App.Combat.ClubBetData[Club]));
-        this._OP_B.Id = 'B';
+
+        // Don't allow the same "name" to fight each other. Useful for unique encounters.
+        while(true) {
+            this._OP_B = this._AddEnemy(App.PR.GetRandomListItem(App.Combat.ClubBetData[Club]));
+            this._OP_B.Id = 'B';
+            if (this.OpponentA.Name != this.OpponentB.Name) break;
+        }
+
         this._CurrentOpponent = this._OP_A;
 
     }

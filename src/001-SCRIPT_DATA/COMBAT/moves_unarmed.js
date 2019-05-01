@@ -185,20 +185,20 @@ App.Combat.Moves["UNARMED"] = {
                 ],
             Hit: [
                     [
-                        "You strike NPC_NAME with a light knee kick!",
-                        "NPC_NAME strikes you with a light knee kick!"
+                        "You strike NPC_NAME with a light knee to the privates!",
+                        "NPC_NAME strikes you with a light knee to the privates!"
                     ],
                     [
-                        "You hit NPC_NAME with a solid knee kick!",
-                        "NPC_NAME hits you with a solid knee kick!"
+                        "You hit NPC_NAME with a solid knee to the privates!",
+                        "NPC_NAME hits you with a solid knee to the privates!"
                     ],
                     [
-                        "You hit NPC_NAME with a brutal knee kick!",
-                        "NPC_NAME hits you with a brutal knee kick!"
+                        "You hit NPC_NAME with a brutal knee to the privates!",
+                        "NPC_NAME hits you with a brutal knee to the privates!"
                     ],
                     [
-                        "You hit NPC_NAME with a bone crushing knee kick!",
-                        "NPC_NAME hits you with a bone crushing knee kick!"
+                        "You hit NPC_NAME with a bone crushing knee to the privates!",
+                        "NPC_NAME hits you with a bone crushing knee to the privates!"
                     ]
             ]
         },
