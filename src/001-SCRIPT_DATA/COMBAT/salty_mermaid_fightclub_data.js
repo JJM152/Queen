@@ -39,7 +39,7 @@ App.Combat.ClubData['Salty Mermaid'] = [
     {
         'Title' : 'Buccaneer - One vs. Two.',
         'WinsRequired' : 20,
-        'MaxWins' : 0,
+        'MaxWins' : 100,
         'Encounter' : 'Salty Mermaid Buccaneer',
     },
 ];
