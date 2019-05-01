@@ -124,3 +124,55 @@ App.Data.Quests["Q004"] = {
         In the end it paid off because not only did NPC_NAME give you a small reward, but now @@color:cyan;Julius@@ will occasionally \
         sell you higher quality drugs."
 };
+
+App.Data.Quests["KIPLER_SPAR_QUEST"] = {
+    "ID": "KIPLER_SPAR_QUEST",
+    "Title": "Student of the Blade",
+    "GIVER": "FirstMate",
+    "PRE": [
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "EE_KiplerSpar_COUNT", "VALUE" : 1
+        }
+    ],
+    "CHECKS": [
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "KIPLER_DEFEATED_SUB_QUEST", "VALUE" : "COMPLETED", "ALT_TITLE" : "Defeat Kipler in a Duel"
+        }
+    ],
+    "POST": [],
+    "REWARD": [
+        {
+            "REWARD_TYPE": "ITEM", "TYPE": "CLOTHES", "NAME": "kiplers kutter", "AMOUNT": 1
+        }
+    ],
+    "INTRO": "\
+    NPC_NAME eyes you as you approach him. s(You were watching me spar on the deck? Did you like what you saw?), \
+    he asks. You try not to roll your eyes at his lame pickup line and instead ask him if what you heard was true.\n\n\
+    sp(Will you really give your sword to anyone who can beat you in a duel?)\n\n\
+    NPC_NAME snorts.\
+    s(Aye, tis true. But so far that's never happened... and it likely never will.)\n\n\
+    You wonder if that's true or not.\
+        ",
+    "MIDDLE":"\
+    s(Still practicing are you, PLAYER_NAME?), says NPC_NAME.\n\n\
+    You nod your head sheepishly, avoiding the knowing look on NPC_NAME's face. You both know that \
+    you'll have to endure many, many more of his special \"lessons\" before you even come close to \
+    defeating him.\
+        ",
+    "FINISH":"\
+    NPC_NAME grimaces and then lets out a defeated sigh.\n\n\
+    s(I can't... I can't believe it.. beaten, and by a...) NPC_NAME looks off into the distance, it's \
+    obvious that he's having trouble dealing with the fact that he was beaten by a sissy whore on his \
+    own ship. The rammifications of this to his reputation will be large, but that's not your concern.\n\n\
+    s(Here... take it), he says. s(Take it and get lost...)\n\n\
+    Well, you had no idea he'd be such a spoiled loser, but at least you got a shiny new sword out of it.\
+        ",
+    "JOURNAL_ENTRY" :"\
+    If you can best NPC_NAME in a duel, he'll be honor bound to give you his rare magical sword.\
+        ",
+    "JOURNAL_COMPLETE" :"\
+    You somehow managed to defeat NPC_NAME in a straight up duel and as a result he granted you \
+    his magical sword. He was quite despondant over the fact that he was beaten by a mere whore and \
+    it's certain that the crew won't let him live this down.\
+        "
+};

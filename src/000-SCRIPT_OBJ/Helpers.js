@@ -525,7 +525,11 @@ App.PR = new function() {
 
             switch (checks[i]["TYPE"]) {
                 case "FLAG":
-                    continue;
+                case "QUEST_FLAG":
+                    bMeter = false;
+                    Val = Player.QuestFlags.hasOwnProperty(Name) == false ? false : Player.QuestFlags[Name] == checks[i]["VALUE"];
+                    pString = checks[i].hasOwnProperty("ALT_TITLE") ? checks[i]["ALT_TITLE"] : Name;
+                    console.log(checks[i]);
                     break;
                 case "NPC_MOOD":
                     bMeter = true;
