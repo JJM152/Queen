@@ -112,7 +112,7 @@ App.Combat.Moves["UNARMED"] = {
             ",
             Icon: "haymaker_icon",
             Stamina: 10,
-            Combo: 3, 
+            Combo: 2, 
             Speed: 10,
             Damage: 2.0,
             Unlock: function(player) {
@@ -163,7 +163,7 @@ App.Combat.Moves["UNARMED"] = {
             ",
             Icon: "knee_icon",
             Stamina: 5,
-            Combo: 5, 
+            Combo: 3, 
             Speed: 20,
             Damage: 1.0,
             Unlock: function(player) {

@@ -95,6 +95,8 @@ Config.saves.isAllowed = function() {
  setup.CoffinGame = new App.Gambling.Coffin();
  // Load Combat Engine
  setup.Combat = new App.Combat.CombatEngine();
+ // Load Spectator Engine
+ setup.Spectator = new App.Combat.SpectatorEngine();
  
 :: Start
 <<set $GameBookmark = passage(); >>

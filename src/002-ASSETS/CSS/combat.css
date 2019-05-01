@@ -14,6 +14,13 @@ div.EnemyGUI {
     text-align: center;
 }
 
+div.EnemyBetGUI {
+    width: 670px;
+    height: 310px;
+    background-color: #111;
+    text-align: center;
+}
+
 div.EnemyContainer {
     width: 200px;
     height: 30px;

@@ -451,7 +451,6 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _SwitchMoveSet(Name)
     {
-        console.log("SwitchingMoveSet to "+Name);
         var MoveSet = App.Combat.Moves[Name];
         this._player.ChangeMoveSet(MoveSet.Engine, this._UpdatePlayerStatusCB.bind(this),
                 this._UpdateNPCStatusCB.bind(this),
@@ -534,12 +533,15 @@ App.Combat.CombatEngine = class CombatEngine {
         this._GetCombatant().StartTurn();
         this._GetCombatant().DoAI(this._player, this._ChatLogCB.bind(this));
         this._GetCombatant().EndTurn();
-        //this._NextRound();
-        setTimeout(this._NextRound.bind(this), 500);
+
+        if (this._player.IsDead == false)
+        setTimeout(this._NextRound.bind(this), 500); // Don't attack if PC is defeated.
     }
 
     _PlayerTurn()
     {
+        if (this._player.IsDead == true) return; // Don't do anything if defeated.
+
         if (this._player.HasEffect('STUNNED')) {
             this._WriteMessage("<span style='color:red'>You are stunned!</span>", this._player);
             this._GetCombatant().StartTurn();
@@ -735,4 +737,6 @@ App.Combat.CombatEngine = class CombatEngine {
     {
         return Math.floor(Math.max(data.Min, (Math.random() * data.Max)));
     }
+
+    // Somewhat hackish stuff to support fight club
 }

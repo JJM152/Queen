@@ -28,6 +28,8 @@ App.Gambling = {};
 App.Gambling.Coffin = {};
 
 App.Combat = { };
+App.Combat.ClubData = [ ];
+App.Combat.ClubBetData = [ ];
 App.Combat.EncounterData = { };
 App.Combat.EnemyData = { };
 App.Combat.Engines = { };

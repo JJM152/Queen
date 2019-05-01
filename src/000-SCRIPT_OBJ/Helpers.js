@@ -1355,6 +1355,62 @@ App.PR = new function() {
            //delay: 500
         });
     };
+
+    this.FightClubFlag = function(Club)
+    {
+        return "FIGHTCLUB_TRACK_" + Club.replace(/ /g, "_");
+    }
+
+    this.AddFightClubResult = function(Player, Club, Victory)
+    {
+        var key = Victory == 1 ? this.FightClubFlag(Club) + "_WINS" : this.FightClubFlag(Club) + "_LOSSES";
+        if (Player.QuestFlags.hasOwnProperty(key)) {
+            Player.QuestFlags[key] = 1 + Player.QuestFlags[key];
+        } else {
+            Player.QuestFlags[key] = 1;
+        }
+
+        return Player.QuestFlags[key];
+    }
+
+    //Stuff to support fight club
+    this.FightClubMenu = function(Player, Club)
+    {
+        var clubFlag = this.FightClubFlag(Club);
+        var winFlag = clubFlag + "_WINS";
+
+        var wins = Player.QuestFlags.hasOwnProperty(winFlag) ? Player.QuestFlags[winFlag] : 0;
+
+        var rows = App.Combat.ClubData[Club];
+
+        var str = "";
+
+        for(var i = 0; i < rows.length; i++) {
+            var r = rows[i];
+            str += "<tr>";
+            str += "<td>" + this.ColorizeString( (i+1), r.Title, rows.length) + "</td>";
+
+            //Fight
+            if (wins < r.WinsRequired ) {
+                str += "<td>@@color:grey;Need "+r.WinsRequired+" wins@@</td>";
+            } else if (wins > r.MaxWins) {
+                str += "<td>@@color:orange;Too Experienced@@</td>";
+            } else if (Player.Phase > 3) {
+                str += "<td>@@color:red;CLOSED@@</td>"
+            } else {
+                str += "<td> \
+                <<click 'Fight!' 'Combat'>> \
+                <<run setup.Combat.InitializeScene({noWeapons:true});>>\
+                <<run setup.Combat.LoadEncounter('"+r.Encounter+"');>>\
+                <</click>>\
+                </td>";
+            }
+            str += "</tr>";
+        }
+
+        return str;
+
+    }
 };
 
 /**

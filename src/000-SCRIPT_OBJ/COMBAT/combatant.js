@@ -123,7 +123,10 @@ App.Combat.Combatant = class Combatant {
 
     TakeDamage(n) {
         this._data.Health -= n;
-        if (this._data.Health <= 0) this._Dead = true;
+        if (this._data.Health <= 0) { 
+            this._Dead = true;
+            this._ChatLog("NPC_NAME is defeated!", this);
+        }
         this._MyStatus(this);
     }
 
@@ -259,6 +262,7 @@ App.Combat.Combatant = class Combatant {
     ChangeMoveSet(Engine, myStatusCB, theirStatusCB, chatLogCB) {
         //Callbacks
         this._MyStatus = myStatusCB;
+        this._ChatLog = chatLogCB;
         //Moveset and personal combat engine
         this._Engine = new Engine(this, myStatusCB, theirStatusCB, chatLogCB);
     }
@@ -433,6 +437,7 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
         // Test for loss - 
         if (this.Player.GetStat('STAT', 'Health') <= 0) {
             this._loseHandler(this.Player);
+            this._Dead = true;
         }
     }
 

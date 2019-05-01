@@ -1,0 +1,34 @@
+:: FightClubWidget [widget]
+<<widget "FightClubMenu">>\
+<<set _club = $args[0]>>\
+<<set _questFlag = "FIGHTCLUB_TRACK_" + _club.replace(/ /g, "_")>>\
+<<set _winsKey = _questFlag + "_WINS">>\
+<<set _lossesKey = _questFlag + "_LOSSES">>\
+<<set _wins = setup.player.QuestFlags.hasOwnProperty(_winsKey) ? setup.player.QuestFlags[_winsKey] : 0>>\
+<<set _losses = setup.player.QuestFlags.hasOwnProperty(_lossesKey) ? setup.player.QuestFlags[_lossesKey] : 0>>\
+<table class=".MyTable" style="width:600px;">
+<tbody>
+<tr>
+<td colspan="2" style="text-align:center;border-bottom:1px solid white">@@color:gold;The <<= _club>> Fight Club!@@</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom:1px solid white">
+Your Personal Record is <<= _wins >> wins and <<= _losses >> losses.
+You can choose to bet on, or participate in any of the fights below.
+
+</td>
+</tr>
+<tr><td colspan="3">&nbsp;</td></tr>
+<tr><td style="width:450px">''Fight Level''</td><td style="width:150px">''Join Fight''</td></tr>
+<<= App.PR.FightClubMenu(setup.player, $args[0]);>>
+</tbody></table>\
+
+<<if setup.player.Phase == 2 || setup.player.Phase == 3>>\
+Or instead of fighting yourself, you could <<click "Place a bet" "FightBetUI">> on the next fight.\
+<<set $GameBookmark = passage();>>\
+<<run setup.Spectator.LoadEncounter($args[0], $args[1])>>\
+<</click>>\
+<<else>>\
+Fighting is over for the night. Come back next time if you want to participate or place a bet.\
+<</if>>\
+<</widget>>
