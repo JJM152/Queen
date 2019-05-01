@@ -34,6 +34,8 @@ App.Combat.SpectatorEngine = class SpectatorEngine {
     }
 
     get PayoutStr() {
+        if (this.BetOn == null) return "";
+
         if (this.IWon) {
             return "You win @@color:gold;"+this.MaxBet+" coins@@!";
         } else {
@@ -84,6 +86,15 @@ App.Combat.SpectatorEngine = class SpectatorEngine {
         return str;
     }
 
+    WatchLink()
+    {
+        var str = "<<click 'Just watch' 'FightBetOverUI'>> \
+        <<run setup.player.NextPhase(1);>>\
+        <<run setup.Spectator.SpectateFight();>><</click>>";
+
+        return str;
+    }
+
     BetALink()
     {
         return this.BetLink(this.OpponentA);
@@ -99,6 +110,12 @@ App.Combat.SpectatorEngine = class SpectatorEngine {
         this._BetOn = TargetId;
         this._SimulateCombat();
         this._DoPayout();
+    }
+
+    SpectateFight()
+    {
+        this._BetOn = null;
+        this._SimulateCombat();
     }
 
     _DrawUI()
@@ -218,16 +235,13 @@ App.Combat.SpectatorEngine = class SpectatorEngine {
 
     _NextRound()
     {
-        console.log(this.CA.Id);
         this._CurrentOpponent = this.CA.Id == 'A' ? this.OpponentB : this.OpponentA;
-        console.log(this.CA.Id);
     }
 
     _SimulateCombat()
     {
         while( this.OpponentA.IsDead != true && this.OpponentB.IsDead != true)
         {
-            console.log("Turn:" + this.CA.Name);
             this.CA.StartTurn();
             this.CA.DoAI(this.CT, this._ChatLogCB.bind(this));
             this.CA.EndTurn();

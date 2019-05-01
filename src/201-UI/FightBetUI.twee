@@ -6,7 +6,7 @@ The next fight up is:
 <<= setup.Spectator.BetALink(); >>
 <<= setup.Spectator.BetBLink(); >>
 
-@@color:lime;Travel@@: <<click "Go Back" $GameBookmark>><</click>>
+@@color:lime;Travel@@: <<= setup.Spectator.WatchLink(); >>
 
 ::FightBetOverUI
 The fighters step into the ring and and square off against each other...
