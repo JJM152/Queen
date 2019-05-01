@@ -99,5 +99,21 @@ App.Data.Events["Deck"]= [
         CHECK: function(p) {
             return (Math.floor(Math.random() * 4) == 0);
         }
+    },
+    {
+        ID: 'KiplerSpar',
+        FROM: 'Any',
+        MAX_REPEAT: 1,
+        MIN_DAY: 10,
+        MAX_DAY: 0,
+        COOL: 3,
+        PHASE: [ 2 ],
+        PASSAGE: 'KiplerSparEvent',
+        CHECK: function(p) {
+            return (
+            (p.GetStat('SKILL', 'Swashbuckling') >= 20) &&
+            (Math.floor(Math.random() * 4) == 0)
+            );
+        }
     }
 ];
