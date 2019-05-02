@@ -195,6 +195,7 @@ App.Combat.EncounterData['SirenAttack'] = {
     }
 };
 
+// Pirate Attack on the Salty Mermaid
 App.Combat.EncounterData['PirateAttack'] = {
     Enemies: [ "Pirate", "Pirate" ],
     Fatal: false,
@@ -256,5 +257,25 @@ App.Combat.EncounterData['PirateAttack'] = {
         setup.player.GetNPC('FirstMate').AdjustStat('Mood', -5);
         setup.player.GetNPC('Cook').AdjustStat('Mood', -5);
         setup.player.GetNPC('Quartermaster').AdjustStat('Mood', -5);
+    }
+};
+
+// Kipler Duel
+App.Combat.EncounterData['KIPLER_DUEL'] = {
+    Enemies: [ "Kipler" ],
+    Fatal: false,
+    WinPassage: "CombatWinKiplerDuel",
+    LosePassage: "CombatLoseKiplerDuel",
+    Intro: "You follow <span style='color:cyan;'>Kipler</span> out onto the deck, a small crowd assembles to watch your duel",
+    WinHandler : function() {
+        setup.player.NextPhase(1);
+        setup.player.QuestFlags['KIPLER_DEFEATED_SUB_QUEST'] = 'COMPLETED';
+        setup.player.GetNPC('Crew').AdjustStat('Mood', 20);
+    },
+    LoseHandler : function() { 
+        setup.player.NextPhase(1);
+    },
+    FleeHandler : function() {
+        setup.player.NextPhase(1);
     }
 };
