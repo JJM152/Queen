@@ -4,7 +4,10 @@ of overgrown trees. The path from the jungle leads to a small secluded beach, th
 rocky shore. It's apparent that someone has made a camp here recently as you can still see the remains of a cooking \
 fire with several fish bones strewn haphazardly near by.
 
+There is a seldom used trail here that winds up the side of the hill to a forested plateu and the jungle lies \
+behind you.
+
 <<NPC "Paola">>
 <<if App.Quest.GetFlag(setup.player, "PAOLA_FETCH") === "COMPLETED">>@@color:yellow;Action@@: [[Purchase a Voodoo Hex|VoodooMenu]]
 <</if>>
-@@color:lime;Travel@@: [[Into the Jungle|Jungle]]
+@@color:lime;Travel@@: [[Back to the Jungle|Jungle]] | [[Hillside Plateu|AB_Plateu]]

@@ -1,0 +1,9 @@
+::AB_GlutezonShop
+This 'shop' is really nothing more than a simple stall with a table, upon which are arranged an assortment \
+of goods crafted by the native tribeswomen. Several large baskets are out in the open, their produce practically \
+spilling out while what appears to be proper crates, possibly purloined from passing ships, are used as stools \
+for customers who want to sit down and enjoy their puchases.
+
+<<NPC "Didi">>
+
+@@color:lime;Travel@@: [[Village Yard|AB_GlutezonVillage]]

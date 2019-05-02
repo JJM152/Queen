@@ -149,9 +149,9 @@ App.Combat.EnemyData['Champion Mamazon'] = {
 }
 
 // Gluteus Tribe
-App.Combat.EnemyData['Weak Gluteus'] = {
+App.Combat.EnemyData['Weak Glutezon'] = {
     Name: 'RANDOM_FEMALE_NAME',
-    Title: 'Tribeswoman NAME',
+    Title: 'Glutezon NAME',
     Health: 60,
     MaxHealth: 60,
     Energy: 3,
@@ -166,9 +166,9 @@ App.Combat.EnemyData['Weak Gluteus'] = {
     Portraits: [ 'gluteus_tribe_a', 'gluteus_tribe_b', 'gluteus_tribe_c']   
 }
 
-App.Combat.EnemyData['Gluteus'] = {
+App.Combat.EnemyData['Glutezon'] = {
     Name: 'RANDOM_FEMALE_NAME',
-    Title: 'Tribeswoman NAME',
+    Title: 'Glutezon NAME',
     Health: 80,
     MaxHealth: 80,
     Energy: 3,
@@ -183,9 +183,9 @@ App.Combat.EnemyData['Gluteus'] = {
     Portraits: [ 'gluteus_tribe_a', 'gluteus_tribe_b', 'gluteus_tribe_c']     
 }
 
-App.Combat.EnemyData['Champion Gluteus'] = {
+App.Combat.EnemyData['Champion Glutezon'] = {
     Name: 'RANDOM_FEMALE_NAME',
-    Title: 'Tribeswoman NAME',
+    Title: 'Glutezon NAME',
     Health: 100,
     MaxHealth: 100,
     Energy: 3,
