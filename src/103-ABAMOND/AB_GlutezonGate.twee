@@ -1,4 +1,5 @@
 ::AB_GlutezonGate
+<<set _Quest = App.Quest.ByTag("MAMAZON_CHAMP"); >>\
 You stand before a large, sturdy barricade made out of cleverly masoned boulders. Patches of moss and other \
 vegetable matter fill the cracks while some sections have been reinforced with dirt. The wall itself appears \
 to seperate the valley from a larger settlement beyond and has a single central gate to control access to \
@@ -10,7 +11,7 @@ One of them calls out to you, <span class='npcText'>"Who dares approach the vill
 
 @@color:lime;Travel@@: [[Overgrown Cairn|AB_OvergrownCairn]] | \
 <<click "Enter Village">>\
-<<if App.Quest.GetFlag(setup.player, 'MAMAZON_CHAMP') == 'COMPLETED'>>\
+<<if _Quest.IsCompleted(setup.player)>>\
 <<replace "#Notification">>\
 You try to approach the gate but are stopped by an arrow plunging into the ground infront of you!
 

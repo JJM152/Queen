@@ -677,6 +677,8 @@ App.Scene = class Scene {
             return Checks[TagRef.slice(TagRef.indexOf("_")+1)][Prop];
         };
 
+        Scene.Debug("_CalculateReward", [ Type, Name, Value, Opt, Checks ]);
+
         // value refers to a result of a previous check
         var val = (typeof (Value) === 'string' && Value.indexOf("TAG_") === 0) ? tagRef(Value, Checks, "RESULT") : Value;
         if (Opt == 'RANDOM' ) val = Math.floor((val * Math.random())+1);
@@ -1033,7 +1035,7 @@ App.Scene = class Scene {
 
 /** @type {boolean}
  *  @private */
-App.Scene._debug = false;
+App.Scene._debug = true;
 
 // --------------------- Jobs ----------------------------
 /**
@@ -1608,6 +1610,7 @@ App.Quest = class Quest extends App.Task {
                 Type = "QUEST_FLAG";
                 break;
             case "NPC_MOOD":
+            case "MOOD":
                 Type = "NPC_STAT";
                 Option = Name;
                 Name = "Mood";

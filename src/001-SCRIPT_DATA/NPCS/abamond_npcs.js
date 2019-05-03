@@ -73,7 +73,8 @@ App.Data.NPCS["Emi Bigwuns"] = {
         prestigious family, her breasts can only be described as 'utterly amazing', which is to say \
         completely substandard for Mamazon society. She reluctantly admits that this is primarily why \
         she became a merchant.\
-        "
+        ",
+    "Store" : "Emi"
 };
 
 //Glutezons
@@ -105,5 +106,6 @@ App.Data.NPCS["Didi"] = {
         pair. Her enormous buttocks wiggle and shake as she walks, barely contained by her voluminous loin \
         cloth. Didi is a descendant of a pirate that was shipwrecked on this island two generations ago, \
         which explains her unusual coloring and appreciation for items from more civilied parts.\
-        "
+        ",
+    "Store" : "Didi"
 };

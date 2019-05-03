@@ -1,4 +1,5 @@
 ::AB_MamazonGate
+<<set _Quest = App.Quest.ByTag("GLUTEZON_CHAMP"); >>\
 You stand before a large, sturdy wooden pallisade made out of felled logs and lashed together with woven \
 jungle vines. There is a large gate made out of stout timber in the middle, obviously barricaded from the \
 inside. Standing on some type of platform behind the barrier is a pair of blonde women with absolutely \
@@ -9,7 +10,7 @@ One of them calls out to you, <span class='npcText'>"Who dares approach the vill
 
 @@color:lime;Travel@@: [[Forest Clearing|AB_ForestClearing]] | \
 <<click "Enter Village">>\
-<<if App.Quest.GetFlag(setup.player, 'GLUTEZON_CHAMP') == 'COMPLETED'>>\
+<<if _Quest.IsCompleted(setup.player)>>\
 <<replace "#Notification">>\
 You try to approach the gate but are stopped by an arrow plunging into the ground infront of you!
 

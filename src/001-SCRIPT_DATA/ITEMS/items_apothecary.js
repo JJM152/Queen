@@ -246,6 +246,16 @@ App.Data.Drugs["AP_sweetgrass"] = {
     "Effects" : [ "FEMALE_HORMONE_XP_LEGENDARY", "BOLSTER_WILL_RARE", "TOXICITY_COMMON" ]
 };
 
+App.Data.Drugs["AP_glutezon1"] = {
+    "Name": "cordial of rosehip and honey",
+    "ShortDesc": "Cordial of Rosehip and Honey",
+    "LongDesc": "Offering improved feminine confidence, it's a rose-hued, watery infusion of herbs.",
+    "Message": "The sweet, herbal drink is a medley of floral and fragrant tastes. You feel more womanly just drinking it.",
+    "Type": "potion",
+    "Charges": 1,
+    "Effects" : [ "FEMALE_HORMONE_XP_LEGENDARY", "ASS_XP_RARE", "HIPS_XP_RARE", "TOXICITY_COMMON" ]
+};
+
 App.Data.Drugs["AP_saffron"] = {
     "Name": "embrocation of saffron and red clover",
     "ShortDesc": "Embrocation of Saffron and Red Clover",
@@ -264,6 +274,16 @@ App.Data.Drugs["AP_fenugreek"] = {
     "Type": "potion",
     "Charges": 1,
     "Effects" : [ "BUST_XP_LEGENDARY", "FEMALE_HORMONE_XP_LEGENDARY", "TOXICITY_UNCOMMON" ]
+};
+
+App.Data.Drugs["AP_plasterglutezon"] = {
+    "Name": "plaster of bobola sap and black powder",
+    "ShortDesc": "Plaster of Bobola Sap and Black Powder",
+    "LongDesc": "A strong arse enhancer, in the form of a thick, taupe-colored ointment.",
+    "Message": "You rub the rubbery ointment over your arse. A cold, analgesic effect quickly emerges, then lingers on for quite some time.",
+    "Type": "potion",
+    "Charges": 1,
+    "Effects" : [ "ASS_XP_LEGENDARY", "HIPS_XP_LEGENDARY", "TOXICITY_UNCOMMON" ]
 };
 
 App.Data.Drugs["AP_senna"] = {
