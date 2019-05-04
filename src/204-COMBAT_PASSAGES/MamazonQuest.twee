@@ -1,0 +1,71 @@
+:: CombatEncounterMamazonQuest [no-teleport no-saving]
+You hide behind a small ramshackle shed that is next to the villages compost bins. It's not the best environment \
+in terms of smell, but it does afford you a complete view of the fields. You wait, and wait and wait, and just \
+as you're about to give up, you see a trio of shrouded shapes appear from the tree line and make their way \
+towards the crops. 
+
+As the shapes get closer, it appears that they are group of women wearing cloaks and all with a single distinguishing \
+feature, that is to say, they all have absolutely enormous asses. Without a doubt this is a raid by the \
+neighboring @@color:cyan;Glutezon@@ tribe! Taking on all three of them is a risky proposition, but running \
+away is unlikely to gain you the favor of the warrior like @@color:cyan;Bustilla@@. 
+
+What do you do?
+
+@@color:yellow;Action@@: <<click "Ambush them!" "Combat">>\
+    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleeMamazonQuest"});>>\
+    <<run setup.Combat.LoadEncounter("GlutezonAmbush");>>\
+    <</click>>\
+ | <<click "Stay Hidden" "CombatAvoidMamazonQuest">>\
+    <<run setup.player.NextPhase(1);>>\
+    <</click>>\
+:: CombatWinMamazonQuest [no-teleport no-saving]
+<<combatResults>>
+
+The three raiders lay on the ground defeated, their giant fleshy arses proudly jutting into the air. With \
+their defeat, your acceptance into the @@color:cyan;Mamazon@@ tribe is assured. All you need to do now is \
+report back to Queen @@color:cyan;Bustilla@@ and have her tribeswomen pick up the bodies.
+
+@@color:lime;Travel@@: [[Continue|AB_MamazonCroplands]]
+
+:: CombatLoseMamazonQuest [no-teleport no-saving]
+<<combatResults>>
+
+The warriors from the @@color:cyan;Glutezon@@ Tribe were too much for you. You don't even remember which attack \
+it was that did you in, either a crushing slam from a giant arse, or a between the cheeks face sit that stole \
+your breath. In any case, your mangled body will likely be found in the morning by the @@color:cyan;Mamazon@@ \
+women who tend these fields.
+
+Certainly, this was one way to free yourself from slavery, but perhaps not the best ending you could get?
+
+@@color:lime;Travel@@: [[Continue|DeathEnd]]
+
+:: CombatFleeMamazonQuest [no-teleport no-saving]
+You "wisely" decide that discretion is the better part of valor and turn tail to run. The @@color:cyan;Glutezon@@ \
+raiders make a half hearted attempt to chase you, but thankfully you are able to make it to the gate leading \
+back to the @@color:gold;Mamazon Village@@.
+
+Unfortunately without any proof that the @@color:cyan;Glutezons@@ are behind these attacks, it seems unlikely that \
+you will be able to convince Queen @@color:cyan;Bustilla@@ to let you join her tribe. Perhaps you could try again \
+sometime later?
+
+@@color:lime;Travel@@: [[Continue|AB_MamazonCroplands]]
+
+:: CombatAvoidMamazonQuest [no-teleport no-saving]
+You "wisely" decide that discretion is the better part of valor and remain hidden behind the shed. The trio of \
+@@color:cyan;Glutezon@@ raiders wreck a large portion of the field, kicking and stomping on the precious milkdew \
+melons that the @@color:cyan;Mamazons@@ depend on for their livelyhood and sustenance. Eventually they decide \
+that the risk of being caught is too high and they leave on their own, but that now presents another problem.
+
+How are you going to convince @@color:cyan;Bustilla@@ to let you join her tribe without defeating these \
+women?
+
+@@color:lime;Travel@@: [[Continue|AB_MamazonCroplands]]
+
+:: CombatNoEncounterMamazonQuest [no-teleport no-saving]
+You hide behind a small ramshackle shed that is next to the villages compost bins. It's not the best environment \
+in terms of smell, but it does afford you a complete view of the fields. You wait, and wait and wait, however as \
+the night goes on, nothing shows up. You feel like tonight was a bust, no pun intended.
+
+Maybe try again on another evening?
+
+@@color:lime;Travel@@: [[Continue|AB_MamazonCroplands]]

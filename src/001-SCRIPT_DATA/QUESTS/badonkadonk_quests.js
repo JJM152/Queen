@@ -10,7 +10,7 @@ App.Data.Quests["GLUTEZON_CHAMP"] = {
     ],
     "CHECKS": [
         {
-            "TYPE" : "QUEST_FLAG", "NAME" : "GLUTEZON_CHAMP_SUB1", "VALUE" : "COMPLETED", "ALT_TITLE" : "Find out where the male slaves are disappearing to."
+            "TYPE" : "QUEST_FLAG", "NAME" : "GlUTEZON_CHAMP_SUB1", "VALUE" : "COMPLETED", "ALT_TITLE" : "Find out where the male slaves are disappearing to."
         }
     ],
     "POST": [
@@ -69,8 +69,9 @@ App.Data.Quests["GLUTEZON_CHAMP"] = {
         they'll probably never talk to you again.\
         ",
         "JOURNAL_ENTRY" :"\
-        NPC_NAME has asked you to put a stop to whatever was abducting the village's male slave. If you do so, \
-        she has promised to promote you to a member of her tribe, for whatever good that's worth. \
+        NPC_NAME has asked you to put a stop to whatever was abducting the village's male slaves. If you do so, \
+        she has promised to promote you to a member of her tribe, for whatever good that's worth. Search around \
+        at night and see what you can find. \
         ",
         "JOURNAL_COMPLETE" :"\
         You found out that the Mamazons were seducing the village's male slaves in secret late night liasons. \

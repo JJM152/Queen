@@ -279,3 +279,42 @@ App.Combat.EncounterData['KIPLER_DUEL'] = {
         setup.player.NextPhase(1);
     }
 };
+
+// Mamazon Quest Encounter
+App.Combat.EncounterData['GlutezonAmbush'] = {
+    Enemies: [ "Weak Glutezon", "Weak Glutezon", "Weak Glutezon" ],
+    Fatal: true,
+    WinPassage: "CombatWinMamazonQuest",
+    LosePassage: "CombatLoseMamazonQuest",
+    Intro: "You leap from your hiding spot and engage with the raiders!",
+    WinHandler : function() {
+        setup.player.NextPhase(1);
+        setup.player.QuestFlags['MAMAZON_CHAMP_SUB1'] = 'COMPLETED';
+        setup.player.GetNPC('Bustilla').AdjustStat('Mood', 20);
+        setup.player.GetNPC('Emi Bigwuns').AdjustStat('Mood', 20);
+    },
+    LoseHandler : function() { 
+        setup.player.NextPhase(1);
+    },
+    FleeHandler : function() {
+        setup.player.NextPhase(1);
+    }
+};
+
+// Glutezon Quest Encounter
+App.Combat.EncounterData['MamazonAmbush'] = {
+    Enemies: [ "Weak Mamazon", "Weak Mamazon" ],
+    Fatal: true,
+    WinPassage: "CombatWinGlutezonQuest",
+    LosePassage: "CombatLoseGlutezonQuest",
+    Intro: "You leap from your hiding spot and engage with the seductresses!",
+    WinHandler : function() {
+        setup.player.NextPhase(1);
+    },
+    LoseHandler : function() { 
+        setup.player.NextPhase(1);
+    },
+    FleeHandler : function() {
+        setup.player.NextPhase(1);
+    }
+};
