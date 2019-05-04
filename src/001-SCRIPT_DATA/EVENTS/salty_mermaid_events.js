@@ -1,4 +1,5 @@
 //Template for making events - the key is the destination passage you are traveling to.
+
 App.Data.Events["Cabin"] = [
     {
         ID: 'CrewRape', // A unique ID for the event.
@@ -50,6 +51,34 @@ App.Data.Events["Cabin"] = [
         PASSAGE: 'PirateAttackEvent',
         CHECK: function(p) { 
             return (Math.floor(Math.random() * 4) == 0);
+        }  
+    },
+    {
+        ID: 'StarvationEvent',
+        FROM: 'Sleep',
+        FORCE: true,
+        MAX_REPEAT: 1,
+        MIN_DAY: 1,
+        MAX_DAY: 30,
+        COOL: 0,
+        PHASE: [ 0 ],
+        PASSAGE: 'StarvationEvent',
+        CHECK: function(p) { 
+            return (p.GetStat('STAT', 'Nutrition') <= 20);
+        }  
+    },
+    {
+        ID: 'ToxicityEvent',
+        FROM: 'Sleep',
+        FORCE: true,
+        MAX_REPEAT: 1,
+        MIN_DAY: 1,
+        MAX_DAY: 30,
+        COOL: 0,
+        PHASE: [ 0 ],
+        PASSAGE: 'ToxicityEvent',
+        CHECK: function(p) { 
+            return (p.GetStat('STAT', 'Toxicity') >= 100);
         }  
     }
 

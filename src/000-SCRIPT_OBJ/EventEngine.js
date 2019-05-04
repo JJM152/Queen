@@ -53,7 +53,7 @@ App.EventEngine = class EventEngine {
 
         //todo: have to add quest flags to character when event fires off.
         if (validEvents.length > 0) {
-            var event = validEvents[Math.floor(Math.random() * validEvents.length)];
+            var event = this._SelectEvent(validEvents);
             if (event["CHECK"](Player) == true) {
                 this._setFlags(Player, event["ID"]);
                 return event["PASSAGE"];
@@ -63,7 +63,7 @@ App.EventEngine = class EventEngine {
         validEvents = this._FilterEvents(Player, FromPassage, "Any");
 
         if (validEvents.length > 0) {
-            var event = validEvents[Math.floor(Math.random() * validEvents.length)];
+            var event = this._SelectEvent(validEvents);
             if (event["CHECK"](Player) == true) {
                 this._setFlags(Player, event["ID"]);
                 return event["PASSAGE"];
@@ -87,12 +87,30 @@ App.EventEngine = class EventEngine {
         return App.Data.Events[ToPassage].filter(function(o) {
             return ( (o["FROM"] == 'Any' || o["FROM"] == FromPassage) && ( Player.Day >= o["MIN_DAY"])
                 && ( o["PHASE"].includes(Player.Phase) )
-                && ( o["MAX_DAY"] == 0 ? true : o["MAX_DAY"] <= Player.Day)
+                && ( o["MAX_DAY"] == 0 ? true : Player.Day <= o["MAX_DAY"] )
                 && ( o["MAX_REPEAT"] == 0 ? true :
                     (Player.QuestFlags.hasOwnProperty("EE_"+o["ID"]+"_COUNT") ? Player.QuestFlags["EE_"+o["ID"]+"_COUNT"] < o["MAX_REPEAT"] : true))
                 &&  (Player.QuestFlags.hasOwnProperty("EE_"+o["ID"]+"_LAST") ? Player.QuestFlags["EE_"+o["ID"]+"_LAST"] + o["COOL"] < Player.Day : true)
             );
         });
+    }
+
+    /**
+     * Select an event from the available ones.
+     * @param {Array<object>} eventArray 
+     */
+    _SelectEvent(eventArray)
+    {
+        this._d("_SelectEvent:");
+        this._d(eventArray);
+        var events = eventArray.filter( o =>    
+                        o.hasOwnProperty('FORCE') && 
+                        o.FORCE == true &&
+                        o.CHECK(setup.player) == true);
+                        
+        if (events.length > 0) return events.shift();
+
+        return eventArray[Math.floor(Math.random() * eventArray.length)];
     }
 
     /**

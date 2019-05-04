@@ -33,11 +33,11 @@ App.Data.EffectLib.NATURAL_NUTRITION = {
         
         var nutrition = p.GetStat("STAT", "Nutrition");
 		// Going hungry, lose some belly fat.
-        if (nutrition < 50) {
+        if (nutrition <= 40) {
             p.AdjustBodyXP("Waist", -25);
         }
         // Starving. Yikes.
-        if (nutrition < 20) {
+        if (nutrition <= 20) {
             p.SleepLog.push("@@color:red;You are starving!@@");
             p.AdjustStat("Energy", -1); // Reduce Energy.
             p.AdjustStat("Health", -15);
