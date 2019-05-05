@@ -1242,8 +1242,16 @@ App.Data.Naming = {
             "NOUN": {
                 "INDEX": ["BODY/Ass", "STAT/Fitness"],
                 "LEVELING": {
-                    0   : "ass",
-                    100 : "ass"
+                     0  : "ass",
+                    20  : "bum",
+                    30  : "bottom",
+                    40  : "tail",
+                    50  : "posterior",
+                    60  : "backside",
+                    70  : "rump",
+                    80  : "keister",
+                    90  : "derrière",
+                    100 : "derrière",
                 }
             }
         },
@@ -1266,7 +1274,9 @@ App.Data.Naming = {
                     0   : "sissy clit",
                     10  : "over sized sissy clit",
                     25  : "dick",
-                    66  : "cock",
+                    45  : "cock",
+                    66  : "dong",
+                    70  : "schlong",
                     100 : "tool"
                 }
             },
