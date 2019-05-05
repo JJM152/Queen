@@ -198,6 +198,7 @@ App.Rogue.Player = function() {
                 return true;
             }
 
+            if (this._lightDuration < 20 && this._lightDuration > 1) App.Rogue.Engine._textBuffer.write("Your torch is sputtering.");
             if (this._lightDuration == 1) App.Rogue.Engine._textBuffer.write("Your torch goes out!");
             if (this._lightDuration > 0) this._lightDuration--;
             if (this._lightDuration < 1) {
