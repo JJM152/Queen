@@ -311,12 +311,12 @@ App.Gambling.Coffin = class CoffinEngine {
 
                 g.bet1Offer = "Coins";
                 g.bet1Want = "Coins";
-                g.bet1Value = 100;
+                g.bet1Value = 50 + Math.ceil( 50 * Math.random());
                 g.bet1Status = 0;
 
                 g.bet2Offer = "Coins";
                 g.bet2Want = "Coins";
-                g.bet2Value = 200;
+                g.bet2Value = 100 + Math.ceil( 100 * Math.random());
                 g.bet2Status = 0;
 
                 g.lust = 50;
