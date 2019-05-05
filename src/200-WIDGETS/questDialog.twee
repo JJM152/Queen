@@ -1,46 +1,28 @@
 :: questDialog [widget]
 <<widget "questDialog">>\
-<<set _ID = $args[0]["ID"]>>\
-<<set _QE = App.QuestEngine;>>\
-<<set $ChoiceItem = 0>>\
+<<set _Quest = $args[0]>>\
 <<set _NPC = setup.player.GetNPC($MenuAction)>>\
-<<if _QE.GetQuestFlag(setup.player, _ID) == 0>>\
-<<print App.PR.pQuestDialog(_ID, "INTRO", setup.player, _NPC); >>
-
+<<set _Scenes = _Quest.PlayScenes(setup.player, _NPC);>>\
+<<set _End = _Quest.PrintEnd(setup.player, _NPC);>>
+<<for _s range _Scenes>><br/><<print _s.Print();>><</for>>\
+<<if _End != "">><br/><<print _End; >><</if>>\
+<<if !_Quest.IsActive(setup.player) and _Quest.IsAvailable(setup.player, _NPC)>>\
 @@.cmdButton;<<button "Accept">>\
-<<run _QE.AcceptQuest(setup.player, _ID)>>\
+<<run _Quest.CompleteScenes(setup.player);>>\
 <<replace "#QuestUI">><<questList>><</replace>><</button>>@@   @@.cmdButton;<<button "Decline">><<replace "#QuestUI">><<questList>><</replace>><</button>>@@
 <<else>>\
-<<if _QE.CanCompleteQuest(setup.player, _ID) == 0>>\
-<<print App.PR.pQuestDialog(_ID, "MIDDLE", setup.player, _NPC); >>
-
-<<print App.PR.pQuestRequirements(_ID, setup.player);>>
-
+<<if !_Quest.CanComplete(setup.player)>>\
 @@.cmdButton;<<button "Okay, fine">><<replace "#QuestUI">><<questList>><</replace>><</button>>@@
 <<else>>\
-<<print App.PR.pQuestDialog(_ID, "FINISH", setup.player, _NPC); >>
-
-<<if $args[0]["REWARD"].length != 0>>\
+<<set _Rewards = App.PR.pTaskRewards(_Quest);>>\
+<<if _Rewards.length > 0>>\
 @@color:DeepPink;Quest Rewards@@:
-<<set _Rewards = App.PR.pQuestRewards(_ID) >>\
-<<set $ChoiceItem to 0>>\
-<<for _i = 0; _i < _Rewards.length; _i++>>\
-<<print _Rewards[_i] >><br/><</for>>
-<<set _Choices = _QE.GetQuestRewards(_ID, "ITEM_CHOICE");>>\
-<<if _Choices.length > 0>>\
-@@color:Cyan;Pick One@@:
-<ul>
-<<for _i = 0; _i < _Choices.length;_i++>>\
-<<if _i == 0>>\
-<li><<print '<<radiobutton "$ChoiceItem"  "'+_Choices[_i]["NAME"] +'" checked>> ' + App.PR.pItemDesc(_Choices[_i]["TYPE"], _Choices[_i]["NAME"], _Choices[_i]["AMOUNT"]) >></li><<else>>\
-<li><<print '<<radiobutton "$ChoiceItem"  "'+_Choices[_i]["NAME"] +'">> ' + App.PR.pItemDesc(_Choices[_i]["TYPE"], _Choices[_i]["NAME"], _Choices[_i]["AMOUNT"]) >></li><</if>>\
-<</for>>\
-</ul>
+<<print App.PR.pTaskRewards(_Quest).join("\n") + "\n";>>\
 <</if>>\
-<</if>>
 @@.cmdButton;<<button "Complete Quest" $GameBookmark>>\
-<<run _QE.CompleteQuest(setup.player, _ID, $ChoiceItem); >>\
-<<if _QE.GetQuestFlag(setup.player, "GAME_WON") == 1>>\
+<<run App.PR.SetTaskRewardChoices(_Quest); >>\
+<<run _Quest.CompleteScenes(setup.player); >>\
+<<if App.Quest.GetFlag(setup.player, "GAME_WON") == 1>>\
 <<goto "GameWon">>\
 <</if>>\
 <</button>>@@

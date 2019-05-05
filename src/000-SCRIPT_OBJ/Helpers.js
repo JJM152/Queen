@@ -1,5 +1,7 @@
 App.PR = new function() {
 
+    this.numericalMeters = false;
+
 	/** Shortcut
 	 */
 	this.lengthString = function(x, compact) {
@@ -130,14 +132,17 @@ App.PR = new function() {
      * @param {string} Stat
      * @param {string} Property
      * @param {number|number[]} Value
+     * @param {boolean} [Colorize] default is false
      * @returns {string}
      */
-    this.GetLevelingProperty = function(Type, Stat, Property, Value) {
+    this.GetLevelingProperty = function(Type, Stat, Property, Value, Colorize) {
         var propValue = this.GetLevelingRecord(Type, Stat, Value);
         if (propValue == undefined) return "";
 
+        if (!Colorize) return propValue[Property];
+
         var Arr = App.Data.Lists.ColorScale;
-        return "@@color:" + Arr[propValue.COLOR] + ";" + propValue[Property] +"@@";
+        return "<span style='color:" + Arr[propValue.COLOR] + "'>" + propValue[Property] +"</span>";
     };
 
     /**
@@ -151,13 +156,14 @@ App.PR = new function() {
     this.GetNoun = function(Type, Stat, Value, Colorize) {
         var nCfg = this.GetNamingConfig(Type);
         if (nCfg == undefined || !nCfg.hasOwnProperty(Stat)) return "NO_NOUN_FOR_" + Type + ":" + Stat;
-        var str = this.GetMultiIndexLevelingProperty(nCfg[Stat].NOUN.LEVELING, Value);
+        const nounRec = nCfg[Stat].NOUN;
+        var str = nounRec.LEVELING === undefined ? nounRec : this.GetMultiIndexLevelingProperty(nounRec.LEVELING, Value);
 
         if (Colorize == true) {
             // use colour from the first index for now
             // TODO blend colors from all indices
             var color = this.GetLevelingRecord(Type, Stat, Array.isArray(Value) ? Value[0] : Value).COLOR;
-            return "@@color:" + App.Data.Lists.ColorScale[color] + ";" + str + "@@";
+            return "<span style='color:" + App.Data.Lists.ColorScale[color] + "'>" + str + "</span>";
         }
         return str;
     };
@@ -167,9 +173,10 @@ App.PR = new function() {
 	 * @param {string} Type
 	 * @param {string} Stat
 	 * @param {App.Entity.Player} Player
+     * @param {boolean} [Colorize]
 	 * @returns {string[]}
 	 */
-	this.GetNoneAdjectives = function(Type, Stat, Player) {
+	this.GetNoneAdjectives = function(Type, Stat, Player, Colorize) {
         var tCfg = this.GetNamingConfig(Type);
         var sCfg = tCfg != undefined ? tCfg[Stat] : undefined;
         if (sCfg == undefined) return [];
@@ -186,7 +193,7 @@ App.PR = new function() {
             var statVal = Player.GetStatPercent(s[0], s[1]);
             if (statVal >= adjectiveApplicableLevels[i].MIN && statVal <= adjectiveApplicableLevels[i].MAX) {
                 var r = adjectiveRatings[i].split('/');
-                adjs.push(this.GetAdjective(r[0], r[1], statVal));
+                adjs.push(App.PR.GetAdjective(r[0], r[1], statVal, Colorize));
             }
         }
 
@@ -210,7 +217,7 @@ App.PR = new function() {
         var str = this.GetNoun(Type, Stat, indexValues, Colorize);
 
         if (Adjectives == true) {
-            str = this.GetNoneAdjectives(Type, Stat, Player).join(' ') + ' ' + str;
+            str = this.GetNoneAdjectives(Type, Stat, Player, Colorize).join(' ') + ' ' + str;
         }
         return str;
     };
@@ -248,10 +255,11 @@ App.PR = new function() {
      * @param {string} Type
      * @param {string} Stat
      * @param {number} Value
+     * @param {boolean} [Colorize]
      * @returns {string}
      */
-	this.GetAdjective = function(Type, Stat, Value) {
-		return this.GetLevelingProperty(Type, Stat, "ADJECTIVE", Value);
+	this.GetAdjective = function(Type, Stat, Value, Colorize) {
+		return this.GetLevelingProperty(Type, Stat, "ADJECTIVE", Value, Colorize);
 	};
 
     /**
@@ -269,7 +277,7 @@ App.PR = new function() {
             return _this.GetPlayerNoun(Type, Stat, Player, false, true) + delim;
         }
         function adjReplace(match, delim) {
-            return _this.GetAdjective(Type, Stat, Player.GetStat(Type, Stat)) + delim;
+            return _this.GetAdjective(Type, Stat, Player.GetStat(Type, Stat), true) + delim;
         }
         String = String.replace(/PLAYER_NAME/g, Player.SlaveName);
         String = String.replace(/LENGTH_C/g, this.lengthString(this.StatToCM(Player,Stat), true).toString());
@@ -298,8 +306,8 @@ App.PR = new function() {
      * @returns {string}
      */
         this.ColorizeString = function (Value, String, Opt) {
-                //return "@@color:" + this.ColorScale(Value, Opt) + ";" + String + "@@("+Value+")";
-                return "@@color:" + this.ColorScale(Value, Opt) + ";" + String + "@@";
+                //return "@@color:" + this.ColorScale(Value, Opt) + ";" + String + "@@";
+                return "<span style='color:"+this.ColorScale(Value, Opt)+"'>"+String+"</span>";
         };
     /**
      * Used to colorize a string with colors corresponding to the meter scheme.
@@ -327,6 +335,14 @@ App.PR = new function() {
             return Arr[Math.ceil( (Arr.length * (Value/Max))-1)];
         };
 
+        this.debugColorScale = function()
+        {
+            var str = "";
+            for (var i = 0; i < App.Data.Lists.ColorScale.length; i++)
+            str += "<span style='color:"+ App.Data.Lists.ColorScale[i]+"'>Index "+i+" = "+App.Data.Lists.ColorScale[i]+"</span><br>";
+            return str;
+        }
+
     /**
      * Prints out a 10 star meter surrounded with brackets.
      * @param {number} Score - Current stat/score
@@ -336,9 +352,9 @@ App.PR = new function() {
      * @returns {string}
      */
         this.pMeter = function (Score, MaxScore, InvertMeter, HtmlSafe) {
-				Score = Math.max(0, Math.min(Score, MaxScore));
+				const clampedScore = Math.clamp(Score, 0, MaxScore);
                 var units = (MaxScore / 10);
-                var Stars = Math.floor((Score / units));
+                var Stars = Math.floor((clampedScore / units));
                 var sMeter = "";
 				var nMeter = (InvertMeter == 1) ? (100 - (10 * Stars)) : (10 * Stars);
 				var i = 0;
@@ -512,174 +528,238 @@ App.PR = new function() {
      * @param {App.Entity.Player} Player
      * @returns {string}
      */
-        this.pQuestRequirements = function(QuestID, Player)
-		{
-			var checks = App.Data.Quests[QuestID]["CHECKS"];
-			var Out = [];
-			var Meter = "";
-            var Percent = 0;
-            var Val = 0;
-            var Name = "";
-			var pString  = "";
-            var Invert = 0;
-            var bMeter = false;
+    this.pQuestRequirements = function(QuestID, Player)
+    {
+        /** @type {App.Data.Tasks.Check[]} */
+        var checks = App.Data.Quests[QuestID]["CHECKS"];
+        var Out = [];
+        var Meter = "";
+        var Percent = 0;
+        var Val = 0;
+        var Name = "";
+        var pString  = "";
+        var Invert = 0;
+        var bMeter = false;
 
-			for (var i = 0; i < checks.length; i++) {
-                Name = checks[i]["NAME"];
-                Invert = 0;
-                bMeter = false;
-                pString = "";
+        for (var i = 0; i < checks.length; i++) {
+            Name = checks[i]["NAME"];
+            Invert = 0;
+            bMeter = false;
+            pString = "";
 
-                if (typeof Name !== 'undefined' && Name.charAt(0) == '-') {
-                    Name = Name.slice(1);
-                    Invert = 1;
-                }
-
-                switch (checks[i]["TYPE"]) {
-                    case "FLAG":
-                        continue;
-                    case "NPC_MOOD":
-                        bMeter = true;
-                        Val = Player.GetNPC(Name).Mood();
-                        pString = Player.GetNPC(Name).pName();
-                        break;
-                    case "MONEY":
-                        bMeter = true;
-                        Val = Player.Money;
-                        pString = "@@color:yellow;Coins@@";
-                        break;
-                    case "STAT_BODY":
-                        bMeter = true;
-                        Val = Player.GetStatPercent("BODY", Name);
-                        pString = Name;
-                        break;
-                    case "STAT_CORE":
-                        bMeter = true;
-                        Val = Player.GetStatPercent("STAT", Name);
-                        pString = Name;
-                        break;
-                    case "STAT_SKILL":
-                        bMeter = true;
-                        Val = Player.GetStatPercent("SKILL", Name);
-                        pString = Name;
-                        break;
-                    case "STYLE_CATEGORY":
-                        bMeter = true;
-                        Val = Math.max(0, Math.min(Player.GetStyleSpecRating(Name), 100));
-                        pString = Name;
-                        break;
-                    case "HAIR_STYLE":
-                        bMeter = false;
-                        Val = ((Player.GetHairStyle() == Name) == checks[i]["VALUE"]);
-                        pString = "Hair style - "+Name;
-                        break;
-                    case "HAIR_COLOR":
-                        bMeter = false;
-                        Val = ((Player.GetHairColor() == Name) == checks[i]["VALUE"]);
-                        pString = "Hair color - "+Name;
-                        break;
-                    case "QUEST_ITEM":
-                    // Clothing items cannot be consumed quest items at this time.
-                        bMeter = false;
-                        if (App.Data.QuestItems.hasOwnProperty(Name)) {
-                            pString = App.Data.QuestItems[Name]["ShortDesc"];
-                        } else if (App.Data.Food.hasOwnProperty(Name)) {
-                            pString = App.Data.Food[Name]["ShortDesc"];
-                        } else if (App.Data.Drugs.hasOwnProperty(Name)) {
-                            pString = App.Data.Drugs[Name]["ShortDesc"];
-                        } else if (App.Data.Misc.hasOwnProperty(Name)) {
-                            pString = App.Data.Misc[Name]["ShortDesc"];
-                        } else {
-                            pString = App.Data.Cosmetics[Name]["ShortDesc"];
-                        }
-                        var cv = checks[i]["VALUE"];
-                        if (typeof cv !== 'undefined' && cv > 1)
-                         {
-                             pString = pString +" x"+cv;
-                             Val = (typeof Player.GetItemByName(Name) !== 'undefined' && Player.GetItemByName(Name).Charges() >= cv);
-                         } else {
-                            Val = (typeof Player.GetItemByName(Name) !== 'undefined');
-                         }
-                        break;
-                    case "DAYS_PASSED":
-                        bMeter = false;
-                        pString = "wait " + (App.QuestEngine.GetQuestFlag(Player, Name) - Player.Day) + " days";
-                        Val = ((App.QuestEngine.GetQuestFlag(Player, Name) - Player.Day) < 1);
-                        break;
-                    case "IS_WEARING":
-                        bMeter = false;
-                        if(checks[i]["VALUE"] == "NOT") pString = "''NOT'' ";
-                        Val = (checks[i]["VALUE"] == "NOT" ? (Player.GetEquipmentInSlot(Name) == null) : (Player.GetEquipmentInSlot(Name) != null));
-                        pString = pString + "wearing " + Name.toLowerCase();
-                        break;
-                    case "TRACK_CUSTOMERS":
-                        bMeter = false;
-                        var flag = App.QuestEngine.GetQuestFlag(Player, "track_"+Name);
-                        var count = Player.GetHistory("CUSTOMERS", Name);
-                        Val = (count - flag >= checks[i]["VALUE"]);
-                        pString = "Satisfy Customers "+(count-flag)+"/"+checks[i]["VALUE"];
-                        break;
-                    case "TRACK_PROGRESS":
-                        bMeter = true;
-                        Val = App.QuestEngine.GetProgressValue(Player, Name);
-                        pString = "Progress";
-                        break;
-                }
-
-                if (bMeter == true) {
-                    Out.push(this.pQuestMeter(Player, pString, Val, checks[i]["VALUE"], Invert));
-                } else {
-                    Out.push(this.pQuestCheckbox(Player, pString, Val));
-                }
-
-			}
-
-			return Out.join("\n");
-		};
-
-        this.pQuestCheckbox = function(Player, pString, Val)
-        {
-            var Out = pString + " ";
-            Out = Out + (Val == true ? "@@color:lime; &#9745; @@" : "@@color:red; &#9746; @@");
-            return Out;
-        };
-
-        this.pQuestMeter = function(Player, Name, PlayerValue, GoalValue, Invert )
-        {
-            console.log("pQuestMeter("+Player+","+Name+","+PlayerValue+","+GoalValue+","+Invert+")");
-            var c, m, p;
-            if (typeof Invert !== 'undefined' && Invert == 1) {
-                m = (100 - GoalValue);
-                c = (100 - PlayerValue);
-            }  else {
-                c = PlayerValue;
-                m = GoalValue;
+            if (Name !== undefined && Name.charAt(0) == '-') {
+                Name = Name.slice(1);
+                Invert = 1;
             }
 
-            p = Math.floor( ((c/m)*100));
-            console.log("pMeter("+c+","+m+",0) called by pQuestMeter");
+            switch (checks[i]["TYPE"]) {
+                case "FLAG":
+                case "QUEST_FLAG":
+                    bMeter = false;
+                    Val = Player.QuestFlags.hasOwnProperty(Name) == false ? false : Player.QuestFlags[Name] == checks[i]["VALUE"];
+                    pString = checks[i].hasOwnProperty("ALT_TITLE") ? checks[i]["ALT_TITLE"] : Name;
+                    console.log(checks[i]);
+                    break;
+                case "NPC_MOOD":
+                    bMeter = true;
+                    Val = Player.GetNPC(Name).Mood();
+                    pString = Player.GetNPC(Name).pName();
+                    break;
+                case "MONEY":
+                    bMeter = true;
+                    Val = Player.Money;
+                    pString = "@@color:yellow;Coins@@";
+                    break;
+                case "STAT_BODY":
+                    bMeter = true;
+                    Val = Player.GetStatPercent("BODY", Name);
+                    pString = Name;
+                    break;
+                case "STAT_CORE":
+                    bMeter = true;
+                    Val = Player.GetStatPercent("STAT", Name);
+                    pString = Name;
+                    break;
+                case "STAT_SKILL":
+                    bMeter = true;
+                    Val = Player.GetStatPercent("SKILL", Name);
+                    pString = Name;
+                    break;
+                case "STYLE_CATEGORY":
+                    bMeter = true;
+                    Val = Math.max(0, Math.min(Player.GetStyleSpecRating(Name), 100));
+                    pString = Name;
+                    break;
+                case "HAIR_STYLE":
+                    bMeter = false;
+                    Val = ((Player.GetHairStyle() == Name) == checks[i]["VALUE"]);
+                    pString = "Hair style - "+Name;
+                    break;
+                case "HAIR_COLOR":
+                    bMeter = false;
+                    Val = ((Player.GetHairColor() == Name) == checks[i]["VALUE"]);
+                    pString = "Hair color - "+Name;
+                    break;
+                case "ITEM": {
+                    bMeter = false;
+                    const itemName = App.Item.SplitId(Name);
+                    pString = App.Item.Factory(itemName.Category, itemName.Tag).Name;
+                    var cv = checks[i]["VALUE"];
+                    if (typeof cv !== 'undefined' && cv > 1) {
+                        pString = pString + " x" + cv;
+                        Val = (typeof Player.GetItemById(Name) !== 'undefined' && Player.GetItemById(Name).Charges() >= cv);
+                    } else {
+                        Val = (typeof Player.GetItemById(Name) !== 'undefined');
+                    }
+                    break;
+                }
+                case "DAYS_PASSED":
+                    bMeter = false;
+                    pString = "wait " + (App.Quest.GetFlag(Player, Name) - Player.Day) + " days";
+                    Val = ((App.Quest.GetFlag(Player, Name) - Player.Day) < 1);
+                    break;
+                case "IS_WEARING":
+                    bMeter = false;
+                    if (checks[i]["VALUE"] == "NOT") {
+                        pString = "''NOT'' ";
+                        Val = (Player.GetEquipmentInSlot(Name) == null);
+                    } else if (checks[i]["VALUE"] == "" || typeof checks[i]["VALUE"] === 'undefined') {
+                        pString = "";
+                        Val = (Player.GetEquipmentInSlot(Name) != null);
+                    } else {
+                        pString = "";
+                        Val = Player.IsEquipped(checks[i]["VALUE"]);
+                    }
+                    pString = pString + "wearing " + Name.toLowerCase();
+                    break;
+                case "TRACK_CUSTOMERS":
+                    bMeter = false;
+                    var flag = App.Quest.GetFlag(Player, "track_"+Name);
+                    var count = Player.GetHistory("CUSTOMERS", Name);
+                    Val = (count - flag >= checks[i]["VALUE"]);
+                    pString = "Satisfy Customers "+(count-flag)+"/"+checks[i]["VALUE"];
+                    break;
+                case "TRACK_PROGRESS":
+                    bMeter = true;
+                    Val = App.Quest.GetProgressValue(Player, Name);
+                    pString = "Progress";
+                    break;
+            }
 
-            return "<span id=\"fixed-font\">" + this.pMeter(c, m, 0) +"</span>&nbsp;"+ p +"% "+Name;
-        };
+            if (bMeter == true) {
+                Out.push(this.pQuestMeter(Player, pString, Val, checks[i]["VALUE"], Invert));
+            } else {
+                Out.push(this.pQuestCheckbox(Player, pString, Val));
+            }
 
-        this.pQuestRewards = function(QuestID)
-		{
-			var Rewards = App.Data.Quests[QuestID]["REWARD"];
-			var Output = [ ];
-			var oItem;
+        }
 
-			for (var i = 0; i < Rewards.length; i++)
-			{
-				if (Rewards[i]["REWARD_TYPE"] == "MONEY") Output.push( "@@color:yellow;"+ Rewards[i]["AMOUNT"] + " coins@@.");
-                if (Rewards[i]["REWARD_TYPE"] == "SLOT") Output.push( "@@color:cyan;A slot reel unlock!@@");
-				if (Rewards[i]["REWARD_TYPE"] == "ITEM" ) {
-					oItem = App.Item.Factory( Rewards[i]["TYPE"], Rewards[i]["NAME"]);
-					Output.push( oItem.Description + " x " + Rewards[i]["AMOUNT"]);
-				}
-			}
+        return Out.join("\n");
+    };
 
-			return Output;
-		};
+    this.pQuestCheckbox = function(Player, pString, Val)
+    {
+        var Out = pString + " ";
+        Out = Out + (Val == true ? "@@color:lime; &#9745; @@" : "@@color:red; &#9746; @@");
+        return Out;
+    };
+
+    this.pQuestMeter = function(Player, Name, PlayerValue, GoalValue, Invert )
+    {
+        console.log("pQuestMeter("+Player+","+Name+","+PlayerValue+","+GoalValue+","+Invert+")");
+        var c, m, p;
+        if (typeof Invert !== 'undefined' && Invert == 1) {
+            m = (100 - GoalValue);
+            c = (100 - PlayerValue);
+        }  else {
+            c = PlayerValue;
+            m = GoalValue;
+        }
+
+        p = Math.floor( ((c/m)*100));
+        console.log("pMeter("+c+","+m+",0) called by pQuestMeter");
+
+        return `<span id=\"fixed-font\">${this.pMeter(c, m, 0)}${this.numericalMeters ? '/' + m : ''}</span>&nbsp; ${p} % ${Name}`;
+    };
+
+    /**
+     * Get ID for a reward choices radio group
+     * @param {App.Scene} Scene
+     * @returns {string}
+     * @private
+     */
+    this._choiceRadioGroupId = function(Scene) {
+        return "taskRewardChoices" + Scene.Id();
+    };
+
+    /**
+     * Print out task rewards
+     * @param {App.Task} Task
+     * @returns {string[]}
+     */
+    this.pTaskRewards = function(Task) {
+        var Output = [ ];
+
+        var Pay = Task.TaskData["PAY"];
+        if (Pay === undefined) Pay = 0;
+        var Items = [ ];
+        var SlotUnlockCount = 0;
+
+        for (const scene of Task.Scenes) {
+            var reward = scene.RewardItems();
+            if (reward.Pay > 0) { Pay += scene.RewardItems().Pay; }
+            for (const ri of reward.Items) {
+                if (typeof ri === 'number') continue; // we had to put number here too in order to maintain order
+                var n = App.Item.SplitId(ri["Name"]);
+                var oItem = App.Item.Factory(n.Category, n.Tag);
+                Items.push(oItem.Description + " x " + ri["Value"]);
+            }
+            SlotUnlockCount += reward.SlotUnlockCount;
+        }
+
+        if (Pay > 0) {
+            Output.push("@@color:yellow;"+ Pay + " coins@@");
+        }
+        var i = 0;
+        for (i = 0; i < SlotUnlockCount; ++i) {
+            Output.push("@@color:cyan;A slot reel unlock!@@");
+        }
+        Output.push.apply(Output, Items);
+
+        // we print item choices at the end, thus let's loop scenes one more time
+        for (const scene of Task.Scenes) {
+            var Reward = scene.RewardItems();
+            if (Reward.ItemChoices.length === 0) continue;
+            var SceneId = scene.Id();
+            var radioName = this._choiceRadioGroupId(scene);
+            var choiceSelection = "<ul id=\"ItemChoice"+ SceneId + "\">\n";
+            for (i = 0; i < Reward.ItemChoices.length; ++i) {
+                var ci = Reward.ItemChoices[i];
+                n = App.Item.SplitId(ci["Name"]);
+                oItem = App.Item.Factory(n.Category, n.Tag);
+                choiceSelection += "<li><input type=\"radio\" id=\"" + radioName + i + "\" name=\"" + radioName + "\" value=\"" + i +"\"";
+                if (i === 0) {
+                    choiceSelection += " checked";
+                }
+                choiceSelection += "><label for=\"" + radioName + i + "\">" + oItem.Description + " x " + ci["Value"] + "</label></li>";
+            }
+            choiceSelection += "</ul>";
+            Output.push(choiceSelection);
+        }
+        return Output;
+    };
+
+    /**
+     * Set scene item choices basing on the user selection
+     * @param {App.Task} Task
+     */
+    this.SetTaskRewardChoices = function(Task) {
+        for (var scene of Task.Scenes) {
+            var reward = scene.RewardItems();
+            if (reward.ItemChoices.length === 0) continue;
+            reward.ChosenItem = parseInt(document.querySelector('input[name="' + this._choiceRadioGroupId(scene) + '"]:checked')["value"]);
+        }
+    };
 
     /**
      * Print the description of an item.
@@ -707,7 +787,7 @@ App.PR = new function() {
         var fPercent = Player.GetStatPercent("STAT", "Fitness");
 
         if (typeof Arg !== 'undefined') {
-            return this.GetAdjective("BODY", "Ass", aPercent) + ' ' + this.GetAdjective("BODY", "AssFirmness", fPercent);
+            return this.GetAdjective("BODY", "Ass", aPercent, true) + ' ' + this.GetAdjective("BODY", "AssFirmness", fPercent, true);
         }
 
         var hPercent = Player.GetStatPercent("BODY", "Hips");
@@ -721,7 +801,7 @@ App.PR = new function() {
             } else {
                 Output += " It is @@color:lime;flattered@@ by your ";
             }
-            Output += this.GetAdjective("BODY", "Hips", hPercent) + " hips.";
+            Output += this.GetAdjective("BODY", "Hips", hPercent, true) + " hips.";
         }
 
         return Output;
@@ -736,7 +816,7 @@ App.PR = new function() {
         this.pPenis = function (Player, Arg) {
             var pPercent = Player.GetStatPercent("BODY", "Penis");
             var iLength = this.CMtoINCH(Player.GetStat("BODY", "Penis"));
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Penis", pPercent);
+            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Penis", pPercent, true);
             return this.TokenizeRating(Player, "BODY", "Penis", this.GetRating("Penis", pPercent));
 		};
 
@@ -766,7 +846,7 @@ App.PR = new function() {
      */
     this.pBalls = function (Player, Arg) {
             var bPercent = Player.GetStatPercent("BODY", "Balls");
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Balls", bPercent);
+            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Balls", bPercent, true);
             return this.TokenizeRating(Player, "BODY", "Balls", this.GetRating("Balls", bPercent));
         };
 
@@ -779,7 +859,7 @@ App.PR = new function() {
     this.pWaist = function (Player, Arg) {
             var wPercent = Player.GetStatPercent("BODY", "Waist");
             var iLength = this.CMtoINCH(this.WaistInCM(Player));
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Waist", wPercent);
+            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Waist", wPercent, true);
             return this.TokenizeRating(Player, "BODY", "Waist", this.GetRating("Waist", wPercent));
         };
 
@@ -792,7 +872,7 @@ App.PR = new function() {
     this.pBust = function (Player, Arg) {
         var bPercent = Player.GetStatPercent("BODY", "Bust");
         if (typeof Arg !== 'undefined') {
-            return this.GetAdjective("BODY", "Bust", bPercent);
+            return this.GetAdjective("BODY", "Bust", bPercent, true);
         }
         return this.TokenizeRating(Player, "BODY", "Bust", this.GetRating("Bust", bPercent));
     };
@@ -817,7 +897,7 @@ App.PR = new function() {
      */
     this.pLips = function (Player, Arg) {
             var lPercent = Player.GetStatPercent("BODY", "Lips");
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Lips", lPercent);
+            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Lips", lPercent, true);
         return this.TokenizeRating(Player, "BODY", "Lips", this.GetRating("Lips", lPercent));
         };
     /**
@@ -828,7 +908,7 @@ App.PR = new function() {
      */
     this.pHips = function (Player, Arg) {
             var hPercent = Player.GetStatPercent("BODY", "Hips");
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Hips", hPercent);
+            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Hips", hPercent, true);
             return this.TokenizeRating(Player, "BODY", "Hips", this.GetRating("Hips", hPercent));
         };
 
@@ -881,7 +961,7 @@ App.PR = new function() {
      */
     this.pFace = function (Player, Arg) {
             var fPercent = Player.GetStatPercent("BODY", "Face");
-            if (typeof Arg !== 'undefined') return this.GetAdjective("BODY", "Face", fPercent);
+            if (typeof Arg !== 'undefined') return App.PR.GetAdjective("BODY", "Face", fPercent, true);
             var Output = this.TokenizeRating(Player, "BODY", "Face", this.GetRating("Face", fPercent));
             if (Player.MakeupRating() == 0) {
                 Output += " it is bare and devoid of cosmetics.";
@@ -905,8 +985,8 @@ App.PR = new function() {
      */
     this.pFitness = function (Player, Arg) {
             var fPercent = Player.GetStatPercent("STAT", "Fitness");
-            if (typeof Arg !== 'undefined') return this.GetAdjective("STAT", "Fitness", fPercent);
-            return this.TokenizeRating(Player, "STAT", "Fitness", this.GetRating("Fitness", fPercent));
+            if (typeof Arg !== 'undefined') return this.GetAdjective("STAT", "Fitness", fPercent, true);
+            return App.PR.TokenizeRating(Player, "STAT", "Fitness", this.GetRating("Fitness", fPercent));
         };
 
     /**
@@ -916,7 +996,7 @@ App.PR = new function() {
      * @returns {string}
      */
     this.pHormones = function (Player, Arg) {
-        return this.GetAdjective("STAT", "Hormones", Player.GetStat("STAT", "Hormones"));
+        return App.PR.GetAdjective("STAT", "Hormones", Player.GetStat("STAT", "Hormones"), true);
     };
 
     /**
@@ -994,12 +1074,12 @@ App.PR = new function() {
     this.TokenizeString = function(Player, NPC, String, Opt) {
         if (typeof NPC !== 'undefined' ) {
             String = String.replace(/NPC_NAME's/g, "<span style='color:cyan'>"+NPC.Name()+"'s</span>");
-            String = String.replace(/NPC_NAME/g, NPC.pName());
+            String = String.replace(/NPC_NAME/g, "<span style='color:cyan'>"+NPC.Name()+"</span>");
         }
 
         var _this = this;
         function adjReplacer(match, stat) {
-            return _this.GetAdjective("BODY", stat, Player.GetStat("BODY", stat));
+            return _this.GetAdjective("BODY", stat, Player.GetStat("BODY", stat), true);
         }
         function nounReplacer(match, stat) {
             return _this.GetPlayerNoun("BODY", stat, Player, false, true);
@@ -1049,15 +1129,15 @@ App.PR = new function() {
             var statType = Player.CoreStats.hasOwnProperty(statName) ? "STAT" :
                 Player.Skills.hasOwnProperty(statName) ? "SKILL" : "BODY";
 
-            return _this.GetAdjective(statType, statName, Number(num)) + delim;
+            return _this.GetAdjective(statType, statName, Number(num), true) + delim;
         }
 
-        String = String.replace(/PLAYER_NAME/g, "@@color:DeepPink;"+Player.SlaveName+"@@");
-        String = String.replace(/GF_NAME/g, "@@color:pink;"+Player.GirlfriendName+"@@");
+        String = String.replace(/PLAYER_NAME/g, "<span style='color:DeepPink'>"+Player.SlaveName+"</span>");
+        String = String.replace(/GF_NAME/g, "<span style='color:pink'>"+Player.GirlfriendName+"</span>");
         String = String.replace(/pCUP/g, this.pCup(Player)); // needs special handling because it has only a single parameter
         String = String.replace(/NOUN_([A-Za-z_]+)/g, nounReplacer);
         String = String.replace(/ADJECTIVE_([A-Za-z_]+)/g, adjReplacer);
-        String = String.replace(/pBLOWJOBS/g, this.GetAdjective("SKILL", "BlowJobs", Player.GetStat("SKILL", "BlowJobs")));
+        String = String.replace(/pBLOWJOBS/g, this.GetAdjective("SKILL", "BlowJobs", Player.GetStat("SKILL", "BlowJobs"), true));
         String = String.replace(/pPHASE/g, Player.GetPhase(false));
         String = String.replace(/pEQUIP\(([^\)]*)\)/g, equipReplacer);
         String = String.replace(/(p)([A-Z]+)_([0-9]+)([^0-9]|$)/g, pReplacer2);
@@ -1066,11 +1146,13 @@ App.PR = new function() {
         String = String.replace(/(n)([A-Z_]+)([^A-Za-z]|$)/g, nReplacer);
         String = String.replace(/(v)([A-Z_]+)([^A-Za-z]|$)/g, vReplacer);
         // Hack for highlighting NPC speech
-        String = String.replace(/ s\(([^\)]+)\)/g, function(m,p) { return "<span class='npcText'>\""+p+"\"</span>"; });
+        String = String.replace(/s\(([^\)]+)\)/g, function(m,p) { return `<span class='npcText'>"${p}"</span>`; });
         // Important! highlight NPC speech
-        String = String.replace(/ s\!\(([^\)]+)\)/g, function(m,p) { return "<span class='impText'>\""+p+"\"</span>"; });
+        String = String.replace(/s\!\(([^\)]+)\)/g, function(m,p) { return `<span class='impText'>"${p}"</span>`; });
         // Hilighting PC speech
-        String = String.replace(/ sp\(([^\)]+)\)/g, function(m,p) { return "<span class='pcText'>\""+p+"\"</span>"; });
+        String = String.replace(/sp\(([^\)]+)\)/g, function (m, p) { return `<span class='pcText'>"${p}"</span>`; });
+        // Hilighting PC thoughts
+        String = String.replace(/tp\(([^\)]+)\)/g, function (m, p) { return `<span class='pcThought'>"${p}"</span>`; });
 
         return String;
     };
@@ -1215,6 +1297,156 @@ App.PR = new function() {
             e.innerText = activeTabText;
         }
     };
+
+    this.RisingDialog = function(element, message, color) {
+        color = color || 'white';
+        var root = $(element);
+        $('#WhoreDialogDiv2').remove();
+
+        var div = $('<div>').addClass('WhoreDialog').attr('id', 'WhoreDialogDiv2');
+        var header = $('<h1>').addClass('ml13').html(message);
+        header.css('color', color);
+        div.append(header);
+        root.append(div)
+
+        // Wrap every letter in a span
+        $('.ml13').each(function(){
+            $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
+        });
+
+        anime.timeline({loop: false})
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [100,0],
+                translateZ: 0,
+                opacity: [0,1],
+                easing: "easeOutExpo",
+                duration: 1000,
+                delay: function(el, i) {
+                    return 300 + 30 * i;
+                }
+            }).add({
+            targets: '.ml13 .letter',
+            translateY: [0,-100],
+            opacity: [1,0],
+            easing: "easeInExpo",
+            duration: 1000,
+            delay: function(el, i) {
+                return 100 + 30 * i;
+            }
+        });
+    };
+
+    this.DialogBox = function(element, message, props) {
+        props = props || { };
+        var lineProps = props.hasOwnProperty("color") ? { "background-color": props.color} : { };
+        var root = $(element);
+        $('#WhoreDialogDiv').remove();
+
+        var div = $('<div>').addClass('WhoreDialog').attr('id', 'WhoreDialogDiv').css(props);
+        var header = $('<h1>').addClass('ml1');
+        var inner = $('<span>').addClass('text-wrapper');
+
+        inner.append( $('<span>').addClass('line line1').css(lineProps));
+        inner.append( $('<span>').addClass('letters').html(message));
+        inner.append( $('<span>').addClass('line line2').css(lineProps));
+
+        header.append( inner );
+        div.append(header);
+        root.append(div);
+
+        // Javascript animations.
+        $('.ml1 .letters').each(function(){
+            $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
+        });
+
+        anime.timeline({loop: false})
+            .add({
+                targets: '.ml1 .letter',
+                scale: [0.3,1],
+                opacity: [0,1],
+                translateZ: 0,
+                easing: "easeOutExpo",
+                duration: 600,
+                delay: function(el, i) {
+                    return 70 * (i+1)
+                }
+            }).add({
+            targets: '.ml1 .line',
+            scaleX: [0,1],
+            opacity: [0.5,1],
+            easing: "easeOutExpo",
+            duration: 700,
+            offset: '-=875',
+            delay: function(el, i, l) {
+                return 80 * (l - i);
+            }
+        }).add({
+            targets: '.ml1',
+            opacity: 0,
+            duration: 1000,
+            easing: "easeOutExpo",
+           // delay: 1000
+           //delay: 500
+        });
+    };
+
+    //Stuff to support fight club
+    
+    this.FightClubFlag = function(Club)
+    {
+        return "FIGHTCLUB_TRACK_" + Club.replace(/ /g, "_");
+    }
+
+    this.AddFightClubResult = function(Player, Club, Victory)
+    {
+        var key = Victory == 1 ? this.FightClubFlag(Club) + "_WINS" : this.FightClubFlag(Club) + "_LOSSES";
+        if (Player.QuestFlags.hasOwnProperty(key)) {
+            Player.QuestFlags[key] = 1 + Player.QuestFlags[key];
+        } else {
+            Player.QuestFlags[key] = 1;
+        }
+
+        return Player.QuestFlags[key];
+    }
+
+    this.FightClubMenu = function(Player, Club)
+    {
+        var clubFlag = this.FightClubFlag(Club);
+        var winFlag = clubFlag + "_WINS";
+
+        var wins = Player.QuestFlags.hasOwnProperty(winFlag) ? Player.QuestFlags[winFlag] : 0;
+
+        var rows = App.Combat.ClubData[Club];
+
+        var str = "";
+
+        for(var i = 0; i < rows.length; i++) {
+            var r = rows[i];
+            str += "<tr>";
+            str += "<td>" + this.ColorizeString( (i+1), r.Title, rows.length) + "</td>";
+
+            //Fight
+            if (wins < r.WinsRequired ) {
+                str += "<td>@@color:grey;Need "+r.WinsRequired+" wins@@</td>";
+            } else if (wins > r.MaxWins && r.MaxWins != 0) {
+                str += "<td>@@color:orange;Too Experienced@@</td>";
+            } else if (Player.Phase > 3) {
+                str += "<td>@@color:red;CLOSED@@</td>"
+            } else {
+                str += "<td> \
+                <<click 'Fight!' 'Combat'>> \
+                <<run setup.Combat.InitializeScene({noWeapons:true});>>\
+                <<run setup.Combat.LoadEncounter('"+r.Encounter+"');>>\
+                <</click>>\
+                </td>";
+            }
+            str += "</tr>";
+        }
+
+        return str;
+
+    }
 };
 
 /**

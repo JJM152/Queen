@@ -14,9 +14,9 @@ flights of stairs, reminding callers of their place.
 <<NPC 'Uticus'>>
 
 @@color:lime;Travel@@: [[High Hill District|HighHill]] | <<click "Enter the Mansion">>\
-<<set _Quest = App.QuestEngine; >>\
 <<set _Npc = setup.player.GetNPC('Uticus');>>\
-<<if _Quest.GetQuestFlag(setup.player, "ROYAL_ENTRANCE") != "COMPLETED">>\
+
+<<if App.Quest.IsCompleted(setup.player, "ROYAL_ENTRANCE")>>\
 <<replace "#TravelLink">>\
 
 As you approach the entrance to the @@color:gold;Governor's Mansion@@ a huge giant of a man stop you.

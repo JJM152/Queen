@@ -3,4 +3,14 @@ The helm of the Salty Mermaid is manned around the clock by a navigator and usua
 
 <<NPC "FirstMate">>
 <<jobLinks "HELM" 1>>
+<<if    (setup.player.QuestFlags.hasOwnProperty('KIPLER_SPAR_QUEST') 
+        && setup.player.QuestFlags['KIPLER_SPAR_QUEST'] == 'ACTIVE') 
+    &&
+        (setup.player.QuestFlags.hasOwnProperty('KIPLER_DEFEATED_SUB_QUEST') == false 
+        || setup.player.QuestFlags['KIPLER_DEFEATED_SUB_QUEST'] != 'COMPLETED')>>\
+@@color:yellow;Action@@: <<click "Spar with Kipler" "Combat">>\
+<<run setup.Combat.InitializeScene();>>\
+<<run setup.Combat.LoadEncounter("KIPLER_DUEL");>>\
+<</click>>
+<</if>>\
 @@color:lime;Travel@@: [[Deck]]

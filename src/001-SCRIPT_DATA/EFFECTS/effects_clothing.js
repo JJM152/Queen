@@ -109,7 +109,7 @@ App.Data.EffectLib["WAIST_TRAINING"] = {
 App.Data.EffectLib["EXTREME_WAIST_TRAINING"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
-    function(o,p) { p.AdjustBodyXP('Waist',-40, 0); },
+    function(o,p) { p.AdjustBodyXP('Waist',-20, 10); },
     "VALUE" : 250,
         "KNOWLEDGE" : [ "Waist Training++++" ]
 };

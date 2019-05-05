@@ -1,0 +1,28 @@
+:: CombatWinSiren [no-teleport no-saving]
+<<combatResults>>
+
+After a fierce struggle, the combined forces on the @@color:cyan;Salty Mermaid@@ drive the Sirens \
+back to the depths of the sea. Some of the crew noticed your valliant display of martial prowess and you can \
+see then eye you with new respect... well, as much respect as they can have for you anyway.
+
+@@color:lime;Travel@@: [[Deck]]
+
+:: CombatLoseSiren [no-teleport no-saving]
+<<combatResults>>
+
+You wake up on your back, covered in bruises and staring at the stars. You're not quite sure how you managed to \
+survive, be it luck, or fate, but you count your blessings. Perhaps next time you won't risk your neck for \
+the crew of this blasted ship... or at least, you'll come better prepared.
+
+Still, despite the pain, it appears that the crew did appreciate your efforts. 
+
+@@color:lime;Travel@@: [[Deck]]
+
+:: CombatFleeSiren [no-teleport no-saving]
+You "wisely" decide that discretion is the better part of valor and hide behind some crates for the better part of \
+the hour. Eventually the crew led by @@color:cyan;First Mate Kipler@@ routes the Sirens and you're left only nursing \
+a slight headache from their incessant screeching. 
+
+Quickly, before anyone notices, you decide to slink away.
+
+@@color:lime;Travel@@: [[Deck]]

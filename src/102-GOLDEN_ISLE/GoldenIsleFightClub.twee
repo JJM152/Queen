@@ -1,0 +1,13 @@
+::GoldenIsleFightClub
+This area is off to the side of the @@color:gold;'Bazzaar'@@, tucked into a portion of the area that is frequently \
+used for exhibitions of all sorts. Someone has set up a large roped off platform, evidently a fighting ring of \
+some sort and there are various banners hanging from poles exclaiming things like, 'Win coins if you can defeat \
+our champions!' or 'Are you man enough to go 10 rounds with Killer?'
+
+It appears that you can sign up to compete in a bare knuckle fight of some sort, strictly no weapons allowed, or \
+even bet on the other opponents fighting themselves. Clearly an interesting prospect and an unusual form of \
+entertainment in these isles.
+
+<<FightClubMenu "Golden Isle" 100>>
+
+@@color:lime;Travel@@: [[The Bazaar|Bazaar]]

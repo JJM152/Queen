@@ -1,0 +1,396 @@
+div.CombatGUI {
+    width: 800px;
+    height: 600px;
+    position: relative;
+    border: 1px solid;
+    border-color: #444;
+    background-color: #222;
+}
+
+div.EnemyGUI {
+    width: 670px;
+    height: 440px;
+    background-color: #111;
+    text-align: center;
+}
+
+div.EnemyBetGUI {
+    width: 670px;
+    height: 310px;
+    background-color: #111;
+    text-align: center;
+}
+
+div.EnemyContainer {
+    width: 200px;
+    height: 30px;
+    display: inline-block;
+    margin-top: 2px;
+    margin-left: 15px;
+}
+
+div.EnemyPortrait {
+    width: 200px;
+    height: 300px;
+}
+
+div.EnemyTitle {
+    color: gold;
+    font-weight: bold;
+}
+
+div.EnemyStatusFrame {
+    width: 200px;
+    height: 70px;
+    margin-top: 230px;
+}
+
+div.EnemyHPHolder {
+    width: 190px;
+    height: 35px;
+    margin-left: 5px;
+}
+
+div.EnemyHpBar {
+    width: 190px;
+    height: 30px;
+}
+
+div.EnemyHpBarCover {
+    width: 50px;
+    height: 30px;
+    float: left;
+    background-color: darkred;
+}
+
+div.EnemyStaminaHolder{
+    width: 190px;
+    height: 35px;
+    margin-left: 5px;
+} 
+
+div.EnemyStaminaBar {
+    width: 160px;
+    height: 30px;
+}
+
+div.EnemyStaminaBarCover {
+    width: 50px;
+    height: 30px;
+    float: left;
+    background-color: darkgoldenrod;
+}
+
+#CombatChatLog {
+    background-color: #111;
+    width: 630px;
+    height: 100px;
+    margin-top: 305px;
+    margin-left: 25px;
+    border: solid 1 px grey;
+    overflow-y: scroll;
+    overflow-x: none;
+    text-align: left;
+    padding-left: 5px;
+}
+
+#WinChatLog {
+    background-color: #111;
+    width: 800px;
+    height: 250px;
+    border: solid 1 px grey;
+    overflow-y: scroll;
+    overflow-x: none;
+    text-align: left;
+    padding-left: 5px;
+}
+
+#InitiativeBar {
+    width:130px;
+    height: 600px;
+    position: absolute;
+    left:670px;
+    top: 0px;
+    background-color: #111;
+}
+
+div.InitiativePortrait {
+    width: 123px;
+    height: 32px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    line-height: 32px;
+    padding-left:5px;
+}
+
+#PlayerCombatStatContainer {
+    width: 660px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
+div.CombatInline {
+    display: inline-block;
+    height: 40px;
+}
+
+#CombatCommands {
+    width: 500px;
+    height: 106px;
+    background-color: #111;
+    border: solid 1px #444;
+    float: left;
+    margin-left: 10px;
+    text-align: center;
+}
+
+button.combatButton {
+    background-color: #111;
+    border: solid 1px #444;
+    margin-bottom: 4px;
+    width: 140px;
+}
+
+button.combatButton:hover {
+    color: yellow;
+    border-color: yellow;
+}
+
+#PlayerStaminaBar {
+    width: 120px;
+    height: 20px;
+    background-color: darkgoldenrod;
+}
+
+#PlayerComboBar {
+    width: 120px;
+    height: 20px;
+    background-color: deeppink; 
+}
+
+div.CombatButtonContainer {
+    width: 64px;
+    height: 64px;
+    margin-left: 5px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+div.CombatButton {
+    width: 64px;
+    height: 64px;
+    display: inline-block;
+    border: solid 1px white;
+}
+
+div.EnemySelectEnabled {
+    cursor: crosshair;
+}
+
+div.CombatButtonEnabled {
+    cursor: pointer;
+}
+
+div.CombatButtonEnabled:hover {
+    border: solid 1px gold;
+}
+
+div.CombatButtonDisabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+div.CombatButtonDisabled:hover {
+    border: solid 1px darkred;
+}
+
+.CombatButtonContainer .CombatToolTip {
+    visibility: hidden;
+    text-align: left;
+    border: 1px solid rgb(126, 200, 243);
+    padding: 5px 5px;
+    background-color: black;
+    position: absolute;
+    z-index: 1;
+    margin-bottom: 64px;
+    left: 20%;
+    top: 20px;
+}
+
+.CombatButtonContainer:hover .CombatToolTip {
+    visibility: visible;
+  }
+
+div.ActiveInitiativeFrame { 
+    border: solid 1px green;
+}
+
+div.InactiveInitiativeFrame {
+    border: solid 1px yellow;
+}
+
+div.InactivePortraitFrame { 
+    border: solid 4px grey;
+}
+
+div.ActivePortraitFrame {
+    border: solid 4px limegreen;
+}
+
+p.ChatLog {
+    margin-block-start: 2px;
+    margin-block-end: 2px;
+}
+
+/* NPC PORTRAITS */
+div.pugilist_a {
+    background-image: [img[pugilist_a]];
+}
+
+div.pugilist_b {
+    background-image: [img[pugilist_b]];
+}
+
+div.pugilist_c {
+    background-image: [img[pugilist_c]];
+}
+
+div.pirate_a {
+    background-image: [img[pirate_a]];
+}
+
+div.pirate_b {
+    background-image: [img[pirate_b]];
+}
+
+div.pirate_c {
+    background-image: [img[pirate_c]];
+}
+
+div.pirate_d {
+    background-image: [img[pirate_d]];
+}
+
+div.mamazon_a {
+    background-image: [img[mamazon_a]];
+}
+
+div.mamazon_b {
+    background-image: [img[mamazon_b]];
+}
+
+div.mamazon_c {
+    background-image: [img[mamazon_c]];
+}
+
+div.gluteus_tribe_a {
+    background-image: [img[gluteus_tribe_a]];
+}
+
+div.gluteus_tribe_b {
+    background-image: [img[gluteus_tribe_b]];
+}
+
+div.gluteus_tribe_c {
+    background-image: [img[gluteus_tribe_c]];
+}
+
+div.kipler_combat {
+    background-image: [img[kipler_combat]];
+}
+
+div.kraken_a {
+    background-image: [img[kraken_a]];
+}
+
+div.siren_a {
+    background-image: [img[siren_a]];
+}
+/* COMMAND ICONS */
+div.punch_icon {
+    background-image: [img[punch_icon]];
+}
+
+div.kick_icon {
+    background-image: [img[kick_icon]];
+}
+
+div.haymaker_icon{
+    background-image: [img[haymaker_icon]];
+} 
+
+div.knee_icon {
+    background-image: [img[knee_icon]];
+}
+
+div.slash_icon {
+    background-image: [img[slash_icon]];
+}
+
+div.stab_icon {
+    background-image: [img[stab_icon]];
+}
+
+div.parry_icon {
+    background-image: [img[parry_icon]];
+}
+
+div.riposte_icon {
+    background-image: [img[riposte_icon]];
+}
+
+div.cleave_icon {
+    background-image: [img[cleave_icon]];
+}
+
+div.behead_icon {
+    background-image: [img[behead_icon]];
+}
+
+div.jiggle_icon {
+    background-image: [img[jiggle_icon]];
+}
+
+div.wobble_icon {
+    background-image: [img[wobble_icon]];
+}
+
+div.bustout_icon {
+    background-image: [img[bustout_icon]];
+}
+
+div.twirl_icon {
+    background-image: [img[twirl_icon]];
+}
+
+div.boobquake_icon {
+    background-image: [img[boobquake_icon]];
+}
+
+div.tittytwister_icon {
+    background-image: [img[tittytwister_icon]];
+}
+
+div.shakeit_icon {
+    background-image: [img[shakeit_icon]];
+}
+
+div.bootyslam_icon {
+    background-image: [img[bootyslam_icon]];
+}
+
+div.twerk_icon {
+    background-image: [img[twerk_icon]];
+}
+
+div.assquake_icon {
+    background-image: [img[assquake_icon]];
+}
+
+div.thunderbuns_icon {
+    background-image: [img[thunderbuns_icon]];
+}
+
+div.bunsofsteel_icon {
+    background-image: [img[bunsofsteel_icon]];
+}

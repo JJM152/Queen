@@ -1,0 +1,30 @@
+:: CombatWinKraken [no-teleport no-saving]
+<<combatResults>>
+
+After a fierce struggle, the combined forces on the @@color:cyan;Salty Mermaid@@ drive the mighty Kraken \
+back to the depths of the sea. Some of the crew noticed your valliant display of martial prowess and you can \
+see then eye you with new respect... well, as much respect as they can have for you anyway.
+
+@@color:lime;Travel@@: [[Cabin]]
+
+:: CombatLoseKraken [no-teleport no-saving]
+<<combatResults>>
+
+You wake up on your back, covered in what can only be described as giant squid semen and staring at the stars. \
+You're not quite sure how you managed to survive, but it appears that while you were unconcious the Kraken's \
+tentacles had their way with your body. You ache and hurt all over and as you stand up, a literal torrent of \
+goopy white mess floods out your backside and pools on the deck. 
+
+You wince in pain and horror and hope that no one noticed your defeat.
+
+@@color:lime;Travel@@: [[Cabin]]
+
+:: CombatFleeKraken [no-teleport no-saving]
+You "wisely" decide that discretion is the better part of valor and hide underneath a pile of unconcious and dying \
+pirates for the better part of an hour. Sure, other people might call that cowardly, but you're a slave on this ship \
+and you don't feel like dying for the sake of your captors or their goods.
+
+After a while the sounds of combat drift off, the massive Kraken seeming to have had enough of the ships fierce \
+resistance. Quickly, before anyone notices, you decide to slink away.
+
+@@color:lime;Travel@@: [[Cabin]]

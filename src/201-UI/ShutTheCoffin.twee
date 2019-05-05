@@ -1,0 +1,9 @@
+:: ShutTheCoffin [no-teleport no-saving]
+<<run setup.CoffinGame.SetupGame("Deck");>>\
+<<coffinUI>>
+:: ShutTheCoffinDebug [no-teleport no-saving]
+<<run setup.CoffinGame.SetupGame("DebugPassage");>>\
+<<coffinUI>>
+:: ShutTheCoffinCasino [no-teleport no-saving]
+<<run setup.CoffinGame.SetupGame("Casino", true);>>\
+<<coffinUI>>

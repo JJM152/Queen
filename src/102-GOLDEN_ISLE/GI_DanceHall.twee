@@ -13,10 +13,10 @@ and plenty of exposed skin.
 @@color:lime;Travel@@: [[High Hill District|HighHill]] | [[Backstage|GI_BackStage]]
 :: GI_StudyCrowd
 You take your time and casually stroll through the crowd, observing the dancers that are working the floor \
-and performing, both on stage as well as in semi-secluded 'private' dances. 
+and performing, both on stage as well as in semi-secluded 'private' dances.
 
 After some time, you come to the decision that currently the crowd favors \
-@@color:cyan;<<= App.JobEngine.GetDance() >> style@@ of fashion. If you have anything that suits, you could always \
+@@color:cyan;<<= App.JobEngine.instance.GetDance() >> style@@ of fashion. If you have anything that suits, you could always \
 go backstage and change before performing.
 
 @@color:cyan;Interact:@@ [[Back|GI_DanceHall]]

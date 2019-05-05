@@ -1,0 +1,71 @@
+::StarvationEvent [no-teleport no-saving]
+You wake up this morning dizzy and with a throbbing headache. You've eaten so little recently that it \
+feels like your stomach is sticking to your spine. Food on board the @@color:cyan;Salty Mermaid@@ isn't free \
+and the only way to earn your keep is to either whore or perform jobs for the crew, both reprehensible acts.
+
+Still, you steady yourself and prepare for the day of torment ahead. You exit your cabin and take a shakey \
+step onto the @@color:gold;Deck@@, only to lose your balance in a fit of weakness, sending you sprawling \
+to the ground.
+
+The fall doesn't hurt as much as you would expect, your senses dulled by the overwhelming hunger that \
+pervades your every moment. You lay on the ground, your face pressed against the damp wood, for long \
+moments until a pair of boots appear in front of your face and familiar voice calls out to you.
+
+<span class='npcText'>"Whatya doin' down there whore? You're supposed to fuck the crew, not the deck \
+you dimwitted sissy!"</span> barks @@color:cyan;Cookie@@
+
+You tilt your head up to look at the obese cook. Your eyes meet for a moment and the usual cruel \
+expression on his face softens somewhat, then changes into something more perverse. Without any words \
+exchanged between you, he bundles you up to your feet and half carries you towards the \
+@@color:gold;Galley@@. 
+
+Once inside, @@color:cyan;Cookie@@ leads you over to the looming high chair and shoves you into it. Before you can even \
+catch your breath, you find yourself locked in behind the large wooden tray. Just as you are about to protest, \
+@@color:cyan;Cookie@@ puts one of his massive fingers against your lips and goes, <span class='npcText'>"Shh... just be quiet \
+like a good little sissy baby."</span>
+
+He then manacles you to the chair and produces a large pink bonnet that he secures to your head as well as a \
+frilly pink bib that he places around your neck. He chuckles mirthfully to himself and then says, \
+<span class='npcText'>"One minute sissy girl. Daddy has a treat for you."</span> \
+You hear some shuffling behind you as @@color:cyan;Cookie@@ rummages around in the kitchen. Within moments he returns \
+with a large bowl of yellowish goop and ominously, no spoon. He sets the bowl down on the counter next to \
+him and pulls down his trousers, revealing a fat and massive cock.
+
+With one hand he scoops up some of the mysterious goop and slathers a large heaping on his turgid member. \
+He approaches you eagerly, his massive cock waving in front of your face.
+
+@@color:cyan;Cookie@@ says, <span class='npcText'>"Now be a good sissy and open wide..."</span>
+
+You quickly turn your head away, but it's to no avail as @@color:cyan;Cookie@@ easily palms your entire skull with one of \
+his massive meat hooks and turns you to face his cock. Without much ceremony he pushes his meat past your lips.
+
+Inwardly you sigh. This entire act is humiliating and degrading, but you're the one that wanted a free meal. \
+Faking a smile you lean forward and start licking the goop from @@color:cyan;Cookie@@'s dick, taking care to run your tongue \
+and lips over his glans while consuming as much of the 'food' as you can.
+
+@@color:cyan;Cookie@@ continues feeding you this way by putting more and more of the mystery gruel on his cock and forcing \
+it past your lips. Somewhere after the fourth or fifth serving you start to feel your head get light and your \
+lips start to tingle. Without even noticing it you have been absently slurping and licking the gruel off his \
+massive member and licking your lips in between servings. Eventually @@color:cyan;Cookie@@ gets \
+tired of the game and begins to fuck your face in earnest. You think that this is supposed to hurt, but \
+for some reason your entire face and brain feel numb. Maybe there was something in the gruel?
+
+@@color:cyan;Cookie@@ grabs your head and forces it down on his pole. The strength of this man is not to be underestimated as 
+he easily buries your lips down to the root of his shaft. You feel his already massive member swell in size \
+and then start to spasm as he shoots an enormous amount of cum past your tonsils and down your throat.
+
+After all is said and done and after @@color:cyan;Cookie@@ has unlocked you from the chair, you let out a small burp flavored \
+with sperm and say to yourself, <span class='playerText'>"I guess there's no such thing as a 'free meal'"</span>
+
+@@color:cyan;Cookie@@ says to you, <span class='npcText'>"Not bad whore. If you're every hungry and looking for \
+a meal, come see me."</span>
+
+//You can visit Cookie if he is horny enough and you're hungry enough for a free meal. Select from his \
+@@color:yellow;'jobs'@@ menu.//
+
+@@color:lime;Travel@@: <<click "Continue" "Galley">>\
+<<run setup.player.NextPhase(1);>>\
+<<run setup.player.CoreStats.Nutrition = 80;>>\
+<<run setup.player.AdjustXP('STAT','Hormones', 100);>>\
+<<run setup.player.AdjustXP('STAT','Nutrition', 100);>>\
+<</click>>

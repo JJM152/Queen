@@ -1,4 +1,4 @@
-:: CrewRapeEvent
+:: CrewRapeEvent [no-teleport no-saving]
 <!-- Rape City -->\
 <<run setup.player.NextPhase(2);>>\
 <<run setup.player.GetNPC("Crew").AdjustStat("Mood", 10);>>\

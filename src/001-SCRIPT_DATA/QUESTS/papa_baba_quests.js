@@ -6,13 +6,13 @@ App.Data.Quests["BOBOLA_SAP_2"] = {
             "TYPE" : "QUEST_FLAG", "NAME" : "BOBOLA_SAP_1", "VALUE" : "ACTIVE"
         }
     ],
-    "POST": [],
+    "POST": [ ],
     "CHECKS": [
         {
             "TYPE": "FLAG", "NAME": "BOBOLA_SAP_1", "VALUE": "ACTIVE"
         },
         {
-            "TYPE" : "QUEST_ITEM", "NAME" : "smugglers ale", "VALUE" : 6,
+            "TYPE" : "ITEM", "NAME" : "FOOD/smugglers ale", "VALUE" : 6,
         }
     ],
     "ON_ACCEPT" : [],

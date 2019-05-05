@@ -1,0 +1,9 @@
+::MermaidFightClub [no-teleport]
+It's not really a sanctioned activity, but the @@color:cyan;Captain Reginald@@ looks the other way when it \
+comes to this activity, at least so long as his crew doesn't mangle themselves into uselessness. The 'club' \
+itself is just a makeshift ring and barrels used as seats and tables. Some of the pirates are chatting and \
+joking with each other while a few others appear to be reading themselves for their turn in the ring.
+
+<<FightClubMenu "Salty Mermaid" 50>>
+
+@@color:lime;Travel@@: [[Deck]]

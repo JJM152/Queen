@@ -1,0 +1,5 @@
+:: CoffinGameEnd [no-teleport no-saving]
+<<set _Exit = setup.CoffinGame._ReturnPassage;>>\
+<<= setup.CoffinGame.PrintResults();>>
+
+@@color:cyan;Interact@@: <<click "Exit" _Exit>><</click>>

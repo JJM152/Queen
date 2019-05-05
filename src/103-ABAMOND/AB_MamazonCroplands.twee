@@ -1,0 +1,18 @@
+::AB_MamazonCroplands
+<<set _Quest = App.Quest.ByTag('MAMAZON_CHAMP');>>\
+Through the rear gate of the village lies a twisting trail that winds down the hillside and \
+into a small, secluded valley. The land here has been cultivated, with a primative fence surrounding it to \
+keep away some of the smaller animals on the island. There are no guards posted here as the natural terrain \
+makes the only easily accessible path here directly through the @@color:gold;Mamazon Village@@.
+
+<<if _Quest.IsActive(setup.player, 'MAMAZON_CHAMP') && setup.player.Phase == 3>>\
+@@color:cyan;Interact@@: <<click "Lay in Wait">>\
+<<if random(1, 100) > 50>>\
+<<goto "CombatEncounterMamazonQuest">>\
+<<else>>\
+<<run setup.player.NextPhase(1);>>\
+<<goto "CombatNoEncounterMamazonQuest">>\
+<</if>>\
+<</click>> 
+<</if>>\
+@@color:lime;Travel@@: [[Mamazon Village|AB_MamazonVillage]]

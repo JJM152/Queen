@@ -146,6 +146,27 @@ App.Data.Clothes["pirate ankle boots"] = { // +20
 App.Data.Clothes["steel cutlass"] = {
     "Name": "steel cutlass", "ShortDesc": "a nasty looking {COLOR} cutlass",
     "LongDesc": "The edge on this curved blade is wicked sharp and glints in the sun. Just holding it you feel like a real pirate.",
-    "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Style": "RARE", "Type": "WEAPON",
+    "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Style": "UNCOMMON", "Type": "WEAPON",
     "WearEffect": [], "ActiveEffect" : [ "CUT_THROAT" ], "Category" : [ "Pirate Slut"], "InMarket": false
+};
+
+App.Data.Clothes["rusty cutlass"] = {
+    "Name": "rusty cutlass", "ShortDesc": "a rusty {COLOR} cutlass",
+    "LongDesc": "\
+    This rusty sword has seen better days. Obviously the pirate who used to own this blade never took care \
+    of it and unfortunately it's deteriorated too much to be repaired in any way. \
+    ",
+    "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "steel", "Style": "COMMON", "Type": "WEAPON",
+    "WearEffect": [], "ActiveEffect" : [ ], "Category" : [ "Pirate Slut"], "InMarket": false
+};
+
+App.Data.Clothes["kiplers kutter"] = {
+    "Name": "kiplers kutter", "ShortDesc": "a glittering shiny cutlass",
+    "LongDesc": "\
+    You won this sword in a sparring match with @@color:cyan;First Mate Kipler@@, a feat that the crew \
+    are still talking about. The sword itself is old, far older than the man who once wielded it and it \
+    has various letters etched into the blade in a language that's completely undecipherable.\
+    ",
+    "Slot": "Weapon", "Restrict": ["Weapon"], "Color": "silver", "Style": "RARE", "Type": "WEAPON",
+    "WearEffect": [  ], "ActiveEffect" : [ "MAJOR_PIRATES_GRACE" ], "Category" : [ "Pirate Slut"], "InMarket": false
 };

@@ -1,10 +1,24 @@
 :: Deck [no-teleport]
 You are on the main deck of the Salty Mermaid. This area is busy during most times of the day and evening as men either go about their jobs or take the occasional break to gamble or relax. From here you can travel to other areas of the ship or prostitute yourself for some coin.
 
-@@color:yellow;Action@@: <<if setup.player.GetStat("STAT","Energy") < 1 or setup.player.Phase == 4 or App.QuestEngine.GetQuestFlag(setup.player, "Q001") != "COMPLETED">>@@color:grey;[Whore]@@<<else>><<whoreLink "SaltyMermaid">><</if>>
+@@color:yellow;Action@@: \
+<<if setup.player.GetStat("STAT","Energy") < 1 or setup.player.Phase == 4 or App.Quest.GetFlag(setup.player, "Q001") != "COMPLETED">>\
+@@color:grey;[Whore]@@\
+<<else>>\
+<<whoreLink "SaltyMermaid">>\
+<</if>>\
+<<if setup.eventEngine.EventFired(setup.player, 'CoffinDiceIntroduction') > 0>>\
+ | <<gamblingLink "Coffin Dice" "ShutTheCoffin">>\
+<</if>>\
+<<if setup.eventEngine.EventFired(setup.player, 'FightClubIntroduction') > 0 
+    && ( setup.player.Phase == 2 || setup.player.Phase == 3) && (setup.player.Day % 3 == 0)>>\
+ | [[Fight Club|MermaidFightClub]]\
+<</if>>\
 <<if setup.player.Phase == 4>>\
+
 @@color:lime;Travel@@: [[Cabin]] | @@color:grey;[Ships Helm]@@ | @@color:grey;[Galley]@@ | @@color:grey;[Cargo Hold]@@ | @@color:grey;[Captain's Quarters]@@
 <<else>>\
+
 @@color:lime;Travel@@: [[Cabin]] | [[Ships Helm|FirstMate]] |  [[Galley]] | [[Cargo Hold|Cargo]] | [[Captain's Quarters|Captain]]
 <<shipPortLink>>\
 <</if>>

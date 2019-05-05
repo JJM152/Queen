@@ -1,0 +1,22 @@
+:: CombatWinKiplerDuel [no-teleport no-saving]
+<<combatResults>>
+
+Your last blow sends @@color:cyan;Kipler@@ sprawling to the deck, the crowd going so silent that you can swear \
+the only sounds are the sea and your heartbeat. Everyone, including the First Mate himself, seems to be amazed \
+at what you've managed to do. There is a pregnant pause, and then a cheer goes up from the crew. Even \
+@@color:cyan;Kipler@@ himself cracks a grin.
+
+The black giant picks himself up off the deck and heads back towards the helm, beckoning you to follow.
+
+@@color:lime;Travel@@: [[Helm|FirstMate]]
+
+:: CombatLoseKiplerDuel [no-teleport no-saving]
+<<combatResults>>
+
+You slowly open your eyes and stare at the ceiling of your cabin. Somehow, someone, must have hauled your sissy \
+ass back in here after your defeat by the fearsome First Mate of the @@color:cyan;Salty Mermaid@@. You try to \
+rise to your feet, but stumble instead to the floor. 
+
+Where did you put those medicinal herbs?
+
+@@color:lime;Travel@@: [[Continue|Deck]]

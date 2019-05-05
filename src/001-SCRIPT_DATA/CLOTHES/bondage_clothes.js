@@ -138,7 +138,7 @@ App.Data.Clothes["voodoo anal plug"] = { // +9
     "Name": "voodoo anal plug", "ShortDesc": "an enormous rubbery anal plug",
     "LongDesc": "\
     This giant plug was hand crafted just for your sissy-hole. It has a special feature that causes it to \
-    gradually expand while worn. It also secrets a concentrated essence of various chemical and herbal \
+    gradually expand while worn. It also secretes a concentrated essence of various chemical and herbal \
     extracts to promote a truly fuckable arse.\
     ",
     "Slot": "Butt", "Restrict": ["Butt"], "Color": "black", "Style": "RARE", "Type" : "ACCESSORY",

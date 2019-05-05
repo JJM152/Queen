@@ -17,7 +17,6 @@ App.Entity.PlayerState = function (){
     this.MakeupBonus = 0;
     this.EyeColor = "brown";
     this.Money = 0;
-    this.SleepLog = [];
     /** @type {number} */
     this.SailDays = 1;
     this.LastUsedMakeup = "minimal blush and lipstick";
@@ -112,7 +111,9 @@ App.Entity.PlayerState = function (){
         "Swashbuckling":    0,
         "Sailing":          0,
         "Navigating":       0,
-        "Styling":          0
+        "Styling":          0,
+        "BoobJitsu":        0,
+        "AssFu":            0,
     };
 
     this.SkillsXP = {
@@ -129,7 +130,9 @@ App.Entity.PlayerState = function (){
         "Swashbuckling":    0,
         "Sailing":          0,
         "Navigating":       0,
-        "Styling":          0
+        "Styling":          0,
+        "BoobJitsu":        0,
+        "AssFu":            0,
     };
 
 
@@ -871,7 +874,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      * @param {number} SkillVal
      * @param {number} Difficulty
      * @param {number} Amount
-     * @param {number} Scaling
+     * @param {boolean} [Scaling=false]
      */
     GenericRoll (SkillVal, Difficulty, Amount, Scaling ) {
         Scaling         = Scaling || false;
@@ -909,6 +912,17 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
         this.AdjustSkillXP(SkillName, XpEarned);
 
+        // Corrupt player for performing sex skill checks.
+        if (SkillName == 'HandJobs') {
+            this.CorruptWillPower(XpEarned, 40);
+        } else if (SkillName == 'TitFucking') {
+            this.CorruptWillPower(XpEarned, 50);
+        } else if (SkillName == 'BlowJobs') {
+            this.CorruptWillPower(XpEarned, 60);
+        } else if (SkillName == 'AssFucking') {
+            this.CorruptWillPower(XpEarned, 70);
+        }
+
         if (this._state.debugMode) console.log("SkillRoll(" + SkillName + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " XPMod="+XpMod+"\n");
 
         if (DiceRoll >= Target) {
@@ -923,9 +937,29 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     }
 
     /**
+     * 
+     * @param {number} XP Amount of XP this act can grant.
+     * @param {number} Difficulty Perversion threshhold for corruption
+     */
+    CorruptWillPower(XP, Difficulty = 50)
+    {
+        if (this._state.debugMode) 
+            console.log("CorruptWillPower("+XP+","+Difficulty+") called");
+
+        var Perv = this.GetStat('STAT', 'Perversion');
+        var mod = 1 - Math.max(0, Math.min(Perv/Difficulty,1)); // 0 - 1
+        var toWillPowerXP = Math.ceil(XP * mod) * -1.0;
+        var toPerversionXP = Math.ceil( (XP * mod)/2);
+
+        this.AdjustXP('STAT', 'WillPower', toWillPowerXP, 0, true);
+        this.AdjustXP('STAT', 'Perversion', toPerversionXP, 0, true);
+
+    }
+
+    /**
      *
-     * @param {string} Type
-     * @param {string} Name
+     * @param {string} Type SKILL or STAT
+     * @param {string} Name Attribute to check
      * @returns {number}
      * @private
      */
@@ -1428,23 +1462,23 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
             console.debug("SetXP: set to "+Amount);
     }
 
-    AdjustXP (Type, StatName, Amount, Limiter) {
+    AdjustXP (Type, StatName, Amount, Limiter, Nocap = false) {
         Amount = Math.ceil(Amount); // No floats.
         if (typeof Limiter === 'undefined') Limiter = 0;
         if (this._state.debugMode)
-            console.debug("AdjustXP: Type="+Type+",Stat="+StatName+",Amount="+Amount+",Limit="+Limiter);
+            console.debug("AdjustXP: Type="+Type+",Stat="+StatName+",Amount="+Amount+",Limit="+Limiter+",NoCap="+Nocap);
 
         if ((Amount > 0) && (this.GetStat(Type, StatName) >= Limiter) && (Limiter != 0)) return;
         if ((Amount < 0) && (this.GetStat(Type, StatName) <= Limiter) && (Limiter != 0)) return;
         if ((Amount > 0) && (this.GetStat(Type, StatName) >= this.GetMaxStat(Type, StatName))) return;
         if ((Amount < 0) && (this.GetStat(Type, StatName) <= this.GetMinStat(Type, StatName))) return;
 
-        if (Math.abs(this.GetStat(Type, StatName)) >= 1000) {
-            Amount =  400 + Math.ceil(Amount / 8);
-        } else if (Math.abs(this.GetStatXP(Type, StatName)) >= 500) {
-            Amount = 200 + Math.ceil(Amount / 4);
-        } else if (Math.abs(this.GetStatXP(Type, StatName)) >= 250) {
-            Amount = 100 + Math.ceil(Amount / 2);
+        if (Nocap == false && Math.abs(this.GetStatXP(Type, StatName)) >= 1000) {
+            Amount = Math.ceil(Amount / 10);
+        } else if ( Nocap == false && Math.abs(this.GetStatXP(Type, StatName)) >= 500) {
+            Amount = Math.ceil(Amount / 4);
+        } else if (Nocap == false && Math.abs(this.GetStatXP(Type, StatName)) >= 250) {
+            Amount =  Math.ceil(Amount / 2);
         }
 
         if (Type == "STAT")  this._state.CoreStatsXP[StatName] += Amount;
@@ -1478,34 +1512,51 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         var Step = (TargetScore < 0) ? (Leveling["STEP"] * -1.0) : Leveling["STEP"];
 
         if (Type == "STAT") {
+
+            if (StatName == "Fitness") {
+                if (Step < 0) {
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("Fitness", "Shrink"));
+                } else {
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("Fitness", "Grow"));
+                }
+            }
+
             if (StatName == "WillPower") {
                 if (Step < 0) {
-                    this._state.SleepLog.push(this.pBodyChange("WillPower", "Shrink"));
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("WillPower", "Shrink"));
                 } else {
-                    this._state.SleepLog.push(this.pBodyChange("WillPower", "Grow"));
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("WillPower", "Grow"));
                 }
             }
 
             if (StatName == "Hormones") {
                 if (Step < 0 ) {
-                    this._state.SleepLog.push(this.pBodyChange("Hormones", "Shrink"));
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("Hormones", "Shrink"));
                 } else {
-                    this._state.SleepLog.push(this.pBodyChange("Hormones", "Grow"));
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("Hormones", "Grow"));
                 }
             }
             this.AdjustStat(StatName, Step);
         }
 
-        if (Type == "SKILL") this.AdjustSkill(StatName, Step);
+        if (Type == "SKILL")  {
+            var statTitle = App.Data.Lists.SkillConfig[StatName].hasOwnProperty('ALTNAME') ? 
+                App.Data.Lists.SkillConfig[StatName]["ALTNAME"] : StatName;
+            this.AdjustSkill(StatName, Step);
+            setup.Notifications.AddMessage('KNOWLEDGE', 
+                this.Day+1, 
+                "Your "+App.PR.ColorizeString(this.GetStatPercent('SKILL', StatName), statTitle) + " skill improves!");
+        }
+
         if (Type == "BODY") {
             this.AdjustBody(StatName, Step);
             if (Step < 0) {
-                this._state.SleepLog.push(this.pBodyChange(StatName, "Shrink"));
+                setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange(StatName, "Shrink"));
             } else {
-                this._state.SleepLog.push(this.pBodyChange(StatName, "Grow"));
+                setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange(StatName, "Grow"));
             }
         }
-        this.AdjustXP(Type, StatName, Cost);
+        this.AdjustXP(Type, StatName, Cost, 0, true);
     }
 
     LevelStatGroup (Type) {
@@ -1527,29 +1578,6 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         this.AdjustBodyXP(Object.keys(this._state.BodyStats)[Math.floor(Math.random() * Object.keys(this._state.BodyStats).length)], Amount, 0);
     }
 
-    DoHealing (OvernightFlag) {
-        var Heal = 5 + ( (this.GetStat("STAT", "Energy")*2) + (this.GetStat("STAT", "Fitness") / 10));
-        Heal = Heal * (( 100 - Math.max(0, Math.min(this.GetStat("STAT", "Toxicity"), 100))) / 100); // Toxicity up to 100 reduces natural healing.
-
-        if (OvernightFlag == 0) Heal = Heal / 2;
-
-        if (OvernightFlag == 1) {
-            this.AdjustStat("Energy",
-                ( Math.floor((this.GetStat("STAT", "Nutrition") / 20) + (this.GetStat("STAT", "Fitness") / 20))));
-        }
-
-        this.AdjustStat("Health",   Math.ceil(Heal));
-
-        if (OvernightFlag == 1) {
-            var PoisonDamage = Math.ceil((this.GetStat("STAT", "Health") * ((Math.max(0, Math.min((this.GetStat("STAT", "Toxicity") - 100), 200)) / 10) * 0.1))); // 0 - .2
-            if (PoisonDamage > 0) {
-                this.AdjustStat("Health", (PoisonDamage * -0.5));
-                this._state.SleepLog.push("@@color:red;&dArr;You feel slightly sick@@... your current " + App.PR.ColorizeString(this.GetStatPercent("STAT", "Toxicity"), "Toxicity") +
-                    " is probably to blame.");
-            }
-        }
-	}
-
 	BodyEffects() {
         if(this._state.BodyEffects !== undefined) return App.Data.NaturalBodyEffects.concat(this._state.BodyEffects);
         return App.Data.NaturalBodyEffects;
@@ -1557,7 +1585,6 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     // Resting and Sleeping functions.
     NextDay () {
-        this._state.SleepLog = []; // Null the overnight results text log.
 
         // Gain 'Knowledge' about worn clothes, log days worn.
         // Apply passive effects on worn items.
@@ -1571,7 +1598,15 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
             this.AddHistory("DAYS_WORN", this.Clothing.Equipment[prop].Name, 1); // tracking just days worn
             this.Clothing.Equipment[prop].ApplyEffects(this);
             var logMsg = this.Clothing.Equipment[prop].LearnKnowledge(this);
-            if ((typeof logMsg != 'undefined') && logMsg != "") this._state.SleepLog.push(logMsg);
+            if ((typeof logMsg != 'undefined') && logMsg != "") setup.Notifications.AddMessage('KNOWLEDGE', this.Day+1, logMsg);
+        }
+
+        // Tarot card effects and dream.
+        if (this.JobFlags.hasOwnProperty('TAROT_CARD')) {
+            var tarot = App.Data.Tarot[this.JobFlags["TAROT_CARD"]];
+            this.ApplyEffects(tarot.Effects);
+            setup.Notifications.AddMessage('DREAMS', this.Day+1, tarot.Msg);
+            delete this.JobFlags["TAROT_CARD"];
         }
 
         this.ApplyEffects(this.BodyEffects());
@@ -1585,17 +1620,16 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         this._state.HairStyle = "bed head";
         this._state.MakeupStyle = "plain faced";
 
+        // Decrease voodoo effects
+        this.EndHexDuration();
+
         this._state.Day++;
         // What day are we on our current voyage.
         this._state.SailDays = ((this._state.SailDays + 1) >= App.Data.Lists["ShipRoute"].length) ? 0 : (this._state.SailDays + 1);
         this._state.Phase = 0;
-
-        // Decrease voodoo effects
-        this.EndHexDuration();
         this.NPCNextDay();
-        App.QuestEngine.NextDay(this);
+        App.Quest.NextDay(this);
         App.Avatar.DrawPortrait();
-
     } // NextDay
 
     /**
@@ -1615,10 +1649,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     }
 
     Rest () {
-        this._state.SleepLog = [];
         this.NextPhase(1);
-        this.DoHealing(0);
-        this.AdjustStat("Energy", 1);
+        this.ApplyEffects( [ "NATURAL_RESTING"] );
         this.LevelStatGroup("SKILL");
     }
 
@@ -1951,6 +1983,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         }
     }
 
+    /** @param {App.Item} item */
     DeleteItem(item) {
         this.Inventory.RemoveItem(item.Id);
     }
@@ -1994,12 +2027,14 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     /**
      * Find item and reduce charges. Delete from inventory if out of charges.
-     * @param ItemId {string}
+     * @param {string} ItemId
+     * @param {number} [Charges=1] Charges to consume
      * @returns The item object
      */
-    TakeItem (ItemId) {
+    TakeItem(ItemId, Charges) {
         var o = this.GetItemById(ItemId);
-        o.RemoveCharges(1); // will remove the item from inventory if charges reaches 0
+        if (Charges === undefined) Charges = 1;
+        o.RemoveCharges(Charges); // will remove the item from inventory if charges reaches 0
         return o;
     }
 
@@ -2084,7 +2119,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
                     if (this._state.VoodooEffects[prop] <= 0) {
                         delete this._state.VoodooEffects["PIRATES_PROWESS"];
                         delete this._state.VoodooEffects["PIRATES_PROWESS_DURATION"];
-                        this._state.SleepLog.push("You feel the effects of your pirates skill leave you...");
+                        setup.Notifications.AddMessage('STATUS_CHANGE', this.Day+1, "You feel the effects of your pirates skill leave you...");
                     }
             }
         }
@@ -2315,7 +2350,6 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     get MakeupBonus() { return this._state.MakeupBonus; }
     get EyeColor() { return this._state.EyeColor; }
     get Money() { return this._state.Money; }
-    get SleepLog() { return this._state.SleepLog; }
     /** @type {number} */
     get SailDays() { return this._state.SailDays; }
     get LastUsedMakeup() { return this._state.LastUsedMakeup; }
@@ -2335,6 +2369,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     // Game/Environment Variables
     get Day() { return this._state.Day; }
+    set Day(n) { this._state.Day = n; };
     get Phase() { return this._state.Phase; } // 0 morning, 1 afternoon, 2 evening, 3 night, 4 late night
     set Phase(n) { this._state.Phase = n; }
 

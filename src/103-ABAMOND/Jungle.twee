@@ -3,7 +3,7 @@ The jungles of Abamond are dark, luscious, and imposing. All around you the soun
 Off in the distance you can make out the path back to the @@color:gold;'Lonely Pier'@@. The jungle foliage is thick and all around you, but the trail \
 still continues towards the northern marshlands, evocatively named the @@color:gold;'Black Swamp'@@.
 
-<<set _JE = App.JobEngine; >>\
+<<set _JE = setup.jobEngine; >>\
 <<if (_JE.HasJobFlag(setup.player, "RUINS_FOUND") == false || _JE.HasJobFlag(setup.player, "COVE_FOUND") == false) && setup.player.IsEquipped("worn machete")>>\
 With the @@color:purple;worn machete@@ in your hands, you might be able to hack a path through the underbrush if you put some effort into it.
 

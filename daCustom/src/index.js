@@ -33,12 +33,12 @@ export * from "./face_parts/pupil";
 export * from "./player/player";
 export * from "./player/dimensions";
 export * from "./player/expression";
-export * from "./player/bimbochest";
 export * from "./player/mods";
 export * from "./player/stats";
 export * from "./parts/part";
 export * from "./parts/arm";
 export * from "./parts/butt";
+export * from "./parts/bimboChest";
 export * from "./parts/chest";
 export * from "./parts/feet";
 export * from "./parts/groin";
@@ -73,4 +73,3 @@ export * from "./clothes/accessory";
 export * from "./items/item";
 export * from "./decorative_parts/tattoo";
 export * from "./skeletons/default_parts";
-

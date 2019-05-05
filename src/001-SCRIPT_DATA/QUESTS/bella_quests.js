@@ -5,7 +5,7 @@ App.Data.Quests["BELLA_INTRODUCTION"] = {
     "POST": [],
     "CHECKS": [
         {
-            "TYPE" : "QUEST_ITEM", "NAME" : "letter of introduction", "VALUE" : 1,
+            "TYPE" : "ITEM", "NAME" : "QUEST/letter of introduction", "VALUE" : 1,
         }
     ],
     "ON_ACCEPT" : [],

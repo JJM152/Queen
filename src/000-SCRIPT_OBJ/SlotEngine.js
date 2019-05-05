@@ -205,7 +205,6 @@ App.SlotEngine = new function() {
         affTags = oLust.map(function(o) { return o.Tag; }).filter(function(a,b,s) { return s.indexOf(a) == b; }); // Tags we touched their mood.
 
         for(i = 0; i < npcTags.length; i++) // Iterate through and adjust mood.
-            console.log("Adjusting Lust for " + npcTags[i] + " by " + lust);
             if (affTags.contains(npcTags[i]))
                 this._Player.GetNPC(npcTags[i]).AdjustStat("Lust", lust);
 
@@ -227,6 +226,16 @@ App.SlotEngine = new function() {
             } else {
                 this._Player.AdjustSkillXP(statName, xp);
             }
+            if (statName == 'HandJobs') {
+                this._Player.CorruptWillPower(xp, 40);
+            } else if (statName == 'TitFucking') {
+                this._Player.CorruptWillPower(xp, 50);
+            } else if (statName == 'BlowJobs') {
+                this._Player.CorruptWillPower(xp, 60);
+            } else if (statName == 'AssFucking') {
+                this._Player.CorruptWillPower(xp, 70);
+            }
+
             this._EndStatus.push("You gained @@color:cyan;" + xp + "@@ " + name + " XP.");
         }
 
@@ -667,112 +676,23 @@ App.SlotEngine = new function() {
     };
 
     /** Make a cool looking dialog.
-     //    <h1 class="ml1">
-     //    <span class="text-wrapper">
-     //    <span class="line line1"></span>
-     //    <span class="letters">THURSDAY</span>
-     //    <span class="line line2"></span>
-     //    </span>
-     //    </h1>
      * @param message
      * @private
      */
     this._Dialog = function(message) {
-        var root = $(this._Element);
-        $('#WhoreDialogDiv').remove();
-
-        var div = $('<div>').addClass('WhoreDialog').attr('id', 'WhoreDialogDiv');
-        var header = $('<h1>').addClass('ml1');
-        var inner = $('<span>').addClass('text-wrapper');
-
-        inner.append( $('<span>').addClass('line line1'));
-        inner.append( $('<span>').addClass('letters').html(message));
-        inner.append( $('<span>').addClass('line line2'));
-
-        header.append( inner );
-        div.append(header);
-        root.append(div);
-
-        // Javascript animations.
-        $('.ml1 .letters').each(function(){
-            $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
-        });
-
-        anime.timeline({loop: false})
-            .add({
-                targets: '.ml1 .letter',
-                scale: [0.3,1],
-                opacity: [0,1],
-                translateZ: 0,
-                easing: "easeOutExpo",
-                duration: 600,
-                delay: function(el, i) {
-                    return 70 * (i+1)
-                }
-            }).add({
-            targets: '.ml1 .line',
-            scaleX: [0,1],
-            opacity: [0.5,1],
-            easing: "easeOutExpo",
-            duration: 700,
-            offset: '-=875',
-            delay: function(el, i, l) {
-                return 80 * (l - i);
-            }
-        }).add({
-            targets: '.ml1',
-            opacity: 0,
-            duration: 1000,
-            easing: "easeOutExpo",
-            delay: 1000
-        });
-    };
+        App.PR.DialogBox(this._Element, message);
+    }
 
     /**
      * Rising message
-     * <h1 class="ml13">Rising Strong</h1>
      * @param {string} message
      * @param {string} color
      * @private
      */
-    this._RisingDialog = function(message, color) {
-        color = color || 'white';
-        var root = $(this._Element);
-        $('#WhoreDialogDiv').remove();
-
-        var div = $('<div>').addClass('WhoreDialog').attr('id', 'WhoreDialogDiv');
-        var header = $('<h1>').addClass('ml13').html(message);
-        header.css('color', color);
-        div.append(header);
-        root.append(div)
-
-        // Wrap every letter in a span
-        $('.ml13').each(function(){
-            $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
-        });
-
-        anime.timeline({loop: false})
-            .add({
-                targets: '.ml13 .letter',
-                translateY: [100,0],
-                translateZ: 0,
-                opacity: [0,1],
-                easing: "easeOutExpo",
-                duration: 1000,
-                delay: function(el, i) {
-                    return 300 + 30 * i;
-                }
-            }).add({
-            targets: '.ml13 .letter',
-            translateY: [0,-100],
-            opacity: [1,0],
-            easing: "easeInExpo",
-            duration: 1000,
-            delay: function(el, i) {
-                return 100 + 30 * i;
-            }
-        });
-    };
+    this._RisingDialog = function(message, color)
+    {
+        App.PR.RisingDialog(this._Element, message, color);
+    }
 
     /** Draw a big circle with a bang on it.
          <h1 class="ml8">
@@ -1285,7 +1205,6 @@ App.SlotEngine = new function() {
             var marginTop = -(heightBefore + ((that.endingLocation) * that.height));
             if (SugarCube.settings.fastAnimations == true) {
             jqoSlider.css('margin-top', marginTop+"px");
-            console.log(jqoSlider);
             } else {
             jqoSlider.stop(true,true).animate(
                 {"margin-top":marginTop+"px"},

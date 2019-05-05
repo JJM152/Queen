@@ -1,4 +1,3 @@
-App = App || { Data: { }, Entity: { } };
 App.Rogue = App.Rogue || { };
 
 App.Rogue.Level = function(depth) {
@@ -48,7 +47,7 @@ App.Rogue.Level = function(depth) {
             this._freeCells[xy] = new App.Rogue.Entity( { ch:null, fg:null, bg:null });
             //this._freeCells[xy].setPosition(xy, this);
         } else {
-            this._walls[xy] = new App.Rogue.Entity( { ch:'.', fg:"#888", bg:null });
+            this._walls[xy] = new App.Rogue.Entity( { ch:'*', fg:"#888", bg:null });
         }
     };
     this._connectCB = function( from, to) {
@@ -103,19 +102,21 @@ App.Rogue.Level = function(depth) {
     {
         var cells = [ ];
 
-        var startY = Math.max( 0,(y - r));
-        var endY = Math.min( this._size.y - 1, (y + r));
+        const startY = Math.max( 0,(y - r));
+        const endY = Math.min(this._size.y - 1, (y + r));
+        const startX = Math.max(0, x - r);
+        const endX = Math.min(this._size.x - 1, x + r);
 
        // console.log("startY="+startY+",endY="+endY);
 
         for(var row = startY ; row <= endY ; row++){
-
+            const dy = row - y;
             var rangeX = r - Math.abs(row - y);
-            var startX = Math.max(0, (x - rangeX));
-            var endX = Math.min(this._size.x - 1, (x + rangeX));
             //console.log("rangeX"+rangeX+",startX="+startX+",endX="+endX);
 
-            for(var col = startX ; col <= endX ; col++){
+            for (var col = startX; col <= endX; col++){
+                const dx = col - x;
+                if (Math.sqrt(dx * dx + dy * dy) > r) continue;
                 var xy = col+","+row;
                 if(free == true && typeof this._freeCells[xy] !== 'undefined') {
                     cells.push(xy);
@@ -187,7 +188,7 @@ App.Rogue.Level = function(depth) {
         }
 
         //Hack for Quest(s) {
-            if (setup.player.QuestFlags.hasOwnProperty("FINDING_YOUR_BALLS_2") 
+            if (setup.player.QuestFlags.hasOwnProperty("FINDING_YOUR_BALLS_2")
                 && setup.player.QuestFlags["FINDING_YOUR_BALLS_2"] == "ACTIVE"
                 && (typeof setup.player.GetItemByName("rare ore") === 'undefined')
                 && (Math.random() * 100 < this._depth)) {
@@ -255,7 +256,8 @@ App.Rogue.Level = function(depth) {
         this._freeCells[exit].SetType("stairs_down");
     };
 
-    this.getEntrance = function() { return this._entrance; };
+    this.getEntrance = function () { return this._entrance; };
+    /** @returns{App.Rogue.XY} */
     this.getExit = function() { return this._exit };
 
     this.setEntity = function(entity, xy) {

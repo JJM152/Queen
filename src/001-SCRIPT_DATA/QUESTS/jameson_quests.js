@@ -9,10 +9,10 @@ App.Data.Quests["ROYAL_ENTRANCE_2"] = {
     ],
     "CHECKS" : [
         {
-            "TYPE" : "QUEST_ITEM", "NAME" : "bucket of refined bobola sap", "VALUE" : 1,
+            "TYPE": "ITEM", "NAME": "QUEST/bucket of refined bobola sap", "VALUE": 1,
         },
         {
-            "TYPE" : "QUEST_ITEM", "NAME" : "butter gourd", "VALUE" : 5,
+            "TYPE" : "ITEM", "NAME" : "FOOD/butter gourd", "VALUE" : 5,
         },
         {
             "TYPE" : "MONEY", "VALUE" : 2000
@@ -85,7 +85,7 @@ App.Data.Quests["FINDING_YOUR_BALLS_2"] = {
     ],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "rare ore", "VALUE": 1
+            "TYPE": "ITEM", "NAME": "QUEST/rare ore", "VALUE": 1
         },
         {
             "TYPE": "MONEY", "NAME": "MONEY", "VALUE": 2000
@@ -103,29 +103,29 @@ App.Data.Quests["FINDING_YOUR_BALLS_2"] = {
     ],
     "INTRO":
         "\
-        \"Welcome to the Locker miss\" says NPC_NAME. \"Is there anything I could help you with?\"\n\n\
+        s(Welcome to the Locker, miss) says NPC_NAME. s(Is there anything I could help you with?)\n\n\
         It's an awkward conversation, but you managed to ask NPC_NAME if he has anything that could help with \
         your rapidly diminishing manhood. At this point, it's pretty clear that he realizes you are a sissy, but \
         he doesn't make any sort of issue of it. You get enough abuse aboard the Mermaid, so you're thankful for \
         these small things.\n\n\
         NPC_NAME ponders for a moment and then reaches under the counter to produce a large dusty tome. He gently \
         opens and flips to a specific page.\n\n\
-        \"This might do the trick\" he mutters in a low voice. You glance at the page and it seems to be a diagram \
+        s(This might do the trick) he mutters in a low voice. You glance at the page and it seems to be a diagram \
         for some sort of cock torture device? How could this possibly help you??\n\n\
-        NPC_NAME notices your discontent and continues to speak, \"Now, don't be alarmed. This device, when affixed to... \
+        NPC_NAME notices your discontent and continues to speak, s(Now, don't be alarmed. This device, when affixed to... \
         ahem... your 'apendage' will prevent it from being affected by all sorts of diseases and magical curses. I'm \
         not one hundred percent certain that this will reverse any damage already done, but it should at least protect \
-        you going forward.\"\n\n\
+        you going forward.)\n\n\
         He stops and ponders for a moment.\n\n\
-        \"The only issue is, I don't have one in stock and I don't have the materials available to reproduce it from \
+        s(The only issue is, I don't have one in stock and I don't have the materials available to reproduce it from \
         this diagram. Tell you what PLAYER_NAME, if you can find me some @@color:purple;rare ore@@ and bring me \
-        the sum of @@color:gold;2000 coins@@ then I'll be able to help you. Sound like a deal?\"\n\n\
+        the sum of @@color:gold;2000 coins@@ then I'll be able to help you. Sound like a deal?)\n\n\
         It's a lot of money and you have no idea where youll find this 'rare ore' at, but do you really \
         have a choice in the matter?\
         ",
     "MIDDLE":
         "\
-        \"Have you returned with the rare ore?\" asks NPC_NAME. \"It's fine to take your time if you need it.\"\
+        s(Have you returned with the rare ore?) asks NPC_NAME. s(It's fine to take your time if you need it.)\
         ",
     "FINISH":
     "\

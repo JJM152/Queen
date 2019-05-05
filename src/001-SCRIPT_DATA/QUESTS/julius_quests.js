@@ -160,8 +160,8 @@ App.Data.Quests["BETTER_LOCKER"] = {
     "ON_DAY_PASSED": function(Player) {
         var npcMood = Player.GetNPC(this.GIVER).Mood();
         // at highest mood this should take 7 days, but if mood is lower than 60 (Satisfied), Julius re-uses already done items for other means
-        App.QuestEngine.SetProgressValue(SugarCube.setup.player, "JuliusHandwork",
-            Math.clamp(App.QuestEngine.GetProgressValue(SugarCube.setup.player, "JuliusHandwork") + (npcMood - 60)/7/40., 0., 1.));
+        App.Quest.SetProgressValue(SugarCube.setup.player, "JuliusHandwork",
+            Math.clamp(App.Quest.GetProgressValue(SugarCube.setup.player, "JuliusHandwork") + (npcMood - 60)/7/40., 0., 1.));
     },
     "FINISH":"\
         s(Okay, PLAYER_NAME, here is your stuff.) NPC_NAME handles you a set of servicable, if heavy, wooden boxes, \
@@ -192,7 +192,7 @@ App.Data.Quests["FINDING_YOUR_BALLS_1"] = {
     ],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "strange chemicals", "VALUE": 1
+            "TYPE": "ITEM", "NAME": "QUEST/strange chemicals", "VALUE": 1
         }
     ],
     "POST": [

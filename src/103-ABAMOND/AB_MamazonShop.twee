@@ -1,0 +1,9 @@
+::AB_MamazonShop
+This shop is an open air affair, essentially a large shelter that contains various baskets filled with goods. \
+It's obvious that in such a small village that no care is taken to prevent thefts as anyone stupid enough \
+to steal would find themselves exiled. A rickety wooden table lays in front of the shelter, it is covered \
+in an array of produce, all of it native to the island, and most of it quite rare.
+
+<<NPC "Emi Bigwuns">>
+
+@@color:lime;Travel@@: [[Village Green|AB_MamazonVillage]]

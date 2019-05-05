@@ -1,0 +1,21 @@
+::FightBetUI
+<<run setup.Spectator.DrawUI();>>\
+The next fight up is:
+
+<div id='EnemyGUI' class='EnemyBetGUI'></div>
+<<= setup.Spectator.BetALink(); >>
+<<= setup.Spectator.BetBLink(); >>
+
+@@color:lime;Travel@@: <<= setup.Spectator.WatchLink(); >>
+
+::FightBetOverUI
+The fighters step into the ring and and square off against each other...
+
+<span style='color:yellow;font-size:larger'>Combat Results:</span>
+
+<<run setup.Spectator.DrawResults(); >>\
+<div id="WinDiv"></div>
+@@color:cyan;<<= setup.Spectator.Winner; >>@@ is declared the winner!
+<<= setup.Spectator.PayoutStr;>>
+
+@@color:lime;Travel@@: <<click "Continue" $GameBookmark>><</click>>

@@ -28,7 +28,7 @@ App.Data.Loot["DUNGEON_RARE"] = [
     { category: "LOOT_BOX", tag: "rare lolita loot box", min: 1, max: 1 },
     { category: "LOOT_BOX", tag: "rare pirate loot box", min: 1, max: 1 },
     { category: "LOOT_BOX", tag: "rare dancer loot box", min: 1, max: 1 },
-    { category: "LOOT_BOX", tag: "rare sissy chest", min: 1, max: 1 },
+    { category: "LOOT_BOX", tag: "rare sissy loot box", min: 1, max: 1 },
     { category: "DRUGS", tag: "siren elixir", min: 1, max: 1 },
     { category: "DRUGS", tag: "AP_sarsaparilla", min: 1, max: 1 },
     { category: "DRUGS", tag: "AP_widows_web", min: 1, max: 1 },

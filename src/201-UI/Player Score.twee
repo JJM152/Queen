@@ -40,11 +40,6 @@ Coins: <span id="Money"><<print setup.player.Money>></span>
 	<td>Hormones:</td>
 	<td><span id="Hormones"><<print App.PR.pStatMeter("Hormones",setup.player);>></span><<if setup.player.GetStat("STAT","Hormones") < 78>>@@color:cyan;♂@@<<else>><<if setup.player.GetStat("STAT","Hormones") >= 144>>@@color:DeepPink;♀@@<<else>>@@color:orange;⚥<</if>><</if>></td>
 </tr>
-	<td colspan="2">\
-	<<link "Saves">><<run UI.saves()>><</link>> |\
-	<<link "Settings">><<run UI.settings()>><</link>> |\
-	<<link "Restart">><<run UI.restart()>><</link>>\
-	</td>
 </tbody>
 </table>
 <</widget>>

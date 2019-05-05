@@ -1,0 +1,32 @@
+:: PirateAttackEvent [no-teleport no-saving]
+<span style='font-size:larger;color:red'>B - O - O - M!</span>
+
+You wake up in the morning to the firing of cannons and sounds of crashing swords! In a daze, you lurch out of your \
+bed and stumble towards the door of your cabin and out onto the deck. 
+
+The scene before you is one of utter chaos - it seems that a navy ship, doubtless one filled with privateers has caught \
+up to the @@color:cyan;Salty Mermaid@@ during the night and launched a sneak attack by boat. Men are fighting on deck and \
+the two ships are neck and neck, firing cannons at each other.
+
+A dead boarder lays at your feet, his rusty cutlass still fresh with blood from his last fight. 
+
+This looks dangerous, what should you do?
+
+@@color:cyan;Interact@@: \
+<<if setup.player.IsEquipped('Weapon', true) == false>>\
+    <<click "Grab the sword and fight" "Combat">>\
+    <<if setup.player.OwnsWardrobeItem('CLOTHES', 'rusty cutlass');>>\
+    <<run setup.player.Wear(setup.player.WardrobeItem('CLOTHES/rusty cutlass'), false);>>\
+    <<else>>\
+    <<run setup.player.AddItem('CLOTHES', 'rusty cutlass', 1, 'WEAR');>>\
+    <</if>>\
+    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleePirates"});>>\
+    <<run setup.Combat.LoadEncounter("PirateAttack");>>\
+    <</click>>\
+<<else>>\
+    <<click "Help repel the boarders" "Combat">>\
+    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleePirates"});>>\
+    <<run setup.Combat.LoadEncounter("PirateAttack");>>\
+    <</click>>\
+<</if>> | \
+[[Find someplace to hide!|CombatFleePirate]]

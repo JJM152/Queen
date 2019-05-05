@@ -1,18 +1,18 @@
 App.Data.JobData["UTICUS_ANAL"] = {
-    "ID": "UTICUS_ANAL", 
-    "TITLE": "Going in the Backdoor", 
-    "GIVER": "Uticus", 
+    "ID": "UTICUS_ANAL",
+    "TITLE": "Going in the Backdoor",
+    "GIVER": "Uticus",
     "PAY" : 0,
     "RATING" : 3,
     "PHASES" : [ 0, 1, 2, 3 ],
     "DAYS"   : 1,
     "HIDDEN" : true,
     "COST" : [
-        { 
-            "TYPE" : "TIME",  "VALUE" : 1 
+        {
+            "TYPE" : "TIME",  "VALUE" : 1
         },
-        { 
-            "TYPE" : "STAT",  "NAME" : "Energy", "VALUE" : 2 
+        {
+            "TYPE" : "STAT",  "NAME" : "Energy", "VALUE" : 2
         }
     ],
     "REQUIREMENTS" : [
@@ -44,9 +44,9 @@ App.Data.JobData["UTICUS_ANAL"] = {
                 }
 
             ],
-            "POST" : [ 
-                { 
-                    "TYPE" : "NPC_STAT", "NAME" : "Lust", "VALUE" : -20 
+            "POST" : [
+                {
+                    "TYPE" : "NPC_STAT", "NAME" : "Lust", "VALUE" : -20
                 }
             ],
             "START" : "\
@@ -78,23 +78,23 @@ App.Data.JobData["UTICUS_ANAL"] = {
             ",
             "RESULTS" : [
                 {
-                    "ANAL_CHECK_1": 50, 
+                    "ANAL_CHECK_1": 50,
                     "TEXT" : "\
-                    NPC_NAME wipes his massive cock off on your pASS ass and gives you a good smack to boot.\n\n\
+                    NPC_NAME wipes his massive cock off on your nASS and gives you a good smack to boot.\n\n\
                     s(@@Not Bad@@, slut) he says. s(Come see me again sometime if ya wanna have some fun, eh?)\n\n\
                     NPC_NAME walks away, leaving your cum drenched ass exposed to the air. It takes some time before \
                     you have recovered enough strength in your legs to get upright and carry on.\
                     "
                 },
                 {
-                    "ANAL_CHECK_1": 500, 
+                    "ANAL_CHECK_1": 500,
                     "TEXT" : "\
-                    NPC_NAME wipes his massive cock off on your pASS ass and gives you a good smack to boot.\n\n\
+                    NPC_NAME wipes his massive cock off on your nASS and gives you a good smack to boot.\n\n\
                     s(@@What a nice fuck you are@@, you little slut) he says. s(Come see me again sometime if ya wanna have some fun, eh?)\n\n\
                     NPC_NAME walks away, leaving your cum drenched ass exposed to the air. It takes some time before \
                     you have recovered enough strength in your legs to get upright and carry on.\
                     "
-                }   
+                }
             ],
             "END" : ""
         }

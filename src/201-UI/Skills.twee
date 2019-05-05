@@ -35,6 +35,14 @@
 <td>Ass Fucking</td><td><span id="fixed-font"><<print App.PR.pSkillMeter("AssFucking",setup.player); >></span></td>
 <td colspan="4"> </td>
 </tr>
+<<if setup.player.GetStat('SKILL', 'BoobJitsu') > 0 || setup.player.GetStat('SKILL', 'AssFu') > 0>>\
+<tr><td colspan="6" style="border-bottom: 1px solid">@@color:DeepPink;Perverted Arts@@</td></tr>\
+<tr>\
+<td>Boob-Jitsu</td><td><span id="fixed-font"><<print App.PR.pSkillMeter('BoobJitsu', setup.player)>></span></td>
+<td>Ass-Fu</td><td><span id="fixed-font"><<= App.PR.pSkillMeter('AssFu', setup.player)>></span></td>
+<td colspan="4"> </td>
+</tr>
+<</if>>\
 </tbody>
 </table>
 @@color:yellow;Slot Reel Management@@

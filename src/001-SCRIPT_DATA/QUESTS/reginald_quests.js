@@ -4,7 +4,7 @@ App.Data.Quests["Q001"] = {
     "PRE": [ ],
     "POST": [
         {
-            "TYPE" : "QUEST_FLAG", "NAME": "Q001b", "VALUE": "ACTIVE"
+            "TYPE" : "QUEST", "NAME": "Q001b", "VALUE": "START"
         }
     ],
     "CHECKS": [],
@@ -399,7 +399,7 @@ App.Data.Quests["Q007"] =  {
     "JOURNAL_COMPLETE": "\
     You managed to complete the Captain's quest and in the process have been turned into almost the perfect \
     fuck doll. From when you started, a slightly boyish looking young man, you've ended up as a slutty bimbo \
-    with pBUST tits, a pASS ass and a pair of pLIPS lips that could suck off a horse. Very few \"natural\" women \
+    with pBUST tits, a nASS and a pair of nLIPS that could suck off a horse. Very few \"natural\" women \
     could compete with you when it comes to looks and technique, it'd be fitting to say that you're a \
     Queen of a Whore.\
     "

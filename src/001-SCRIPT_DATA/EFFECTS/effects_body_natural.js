@@ -1,13 +1,38 @@
 // This file lists effects that happens with body on their own with time
 /** HEALTH */
 /** ENERGY */
+// Overnight healing.
 App.Data.EffectLib.NATURAL_HEALING = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Items.Consumable} o*/
-    function(o, p) { p.DoHealing(1); },
-    "VALUE" : 0, "KNOWLEDGE" : [ "Healing+" ]
+    @param {App.Items.Consumable} o*/
+    function(o, p) { 
+        var Heal = 5 + Math.ceil(p.GetStat('STAT', 'Energy') * 2) +
+                  Math.ceil(p.GetStat('STAT', 'Fitness') / 10); // 5 + 0-20 + 0-10
+        var Energy = Math.ceil( (p.GetStat('STAT', 'Nutrition')/20) + (p.GetStat('STAT', 'Fitness')/20)); // 1 - 10
+        var mod = 1 - Math.max(0, Math.min(p.GetStat('STAT', 'Toxicity')/100, 1.0)); // 0 - 1
+
+        p.AdjustStat('Health', Math.ceil(Heal * mod));
+        p.AdjustStat('Energy', Math.ceil(Energy * mod));
+
+    },
+    "VALUE" : 0, "KNOWLEDGE" : [ "Healing++" ]
 };
 
+// Resting healing.
+App.Data.EffectLib.NATURAL_RESTING = 
+{
+    "FUN" : /** @param {App.Entity.Player} p
+    @param {App.Items.Consumable} o*/
+    function(o, p) { 
+        var Heal = Math.max(1, Math.min(Math.ceil( (p.GetStat('STAT', 'Nutrition')/20) + (p.GetStat('STAT', 'Fitness')/20)), 10)); // 1 - 10
+        var mod = 1 - Math.max(0, Math.min(p.GetStat('STAT', 'Toxicity')/100, 1.0)); // 0 - 1
+        p.AdjustStat('Health', Math.ceil(Heal * mod));
+        p.AdjustStat('Energy', 1);
+        p.AdjustStat('Toxicity', -5);
+    },
+    "VALUE" : 0, 
+    "KNOWLEDGE" : [ "Healing+" ] 
+}
 App.Data.EffectLib.NATURAL_QUEST_HOOKS = {
     "FUN" : /** @param {App.Entity.Player} p */
     function(o, p) {
@@ -23,18 +48,22 @@ App.Data.EffectLib.NATURAL_NUTRITION = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
     function(o, p) {
-		p.AdjustStat("Nutrition", -5);
-		var nutrition = p.GetStat("STAT", "Nutrition");
-		if (nutrition > 150) {
-			p.AdjustBodyXP("Waist", nutrition - 150); // Get Fatter!?
-		}
+        p.AdjustStat("Nutrition", -5);
+        var nutrition = p.GetStat("STAT", "Nutrition");
+		var nutritionXP = p.GetStatXP("STAT", "Nutrition");
+		if (nutrition >= 90 && nutritionXP > 150) {
+            p.AdjustBodyXP("Waist", nutritionXP - 150); // Get Fatter!?
+            setup.Notifications.AddMessage("STATUS_CHANGE", p.Day+1, "@@color:yellow;You feel as if you ate too much yesterday.@@");
+        }
+        
+        var nutrition = p.GetStat("STAT", "Nutrition");
 		// Going hungry, lose some belly fat.
-        if (nutrition < 50) {
+        if (nutrition <= 40) {
             p.AdjustBodyXP("Waist", -25);
         }
         // Starving. Yikes.
-        if (nutrition < 20) {
-            p.SleepLog.push("@@color:red;You are starving!@@");
+        if (nutrition <= 20) {
+            setup.Notifications.AddMessage("STATUS_CHANGE", p.Day+1, "@@color:red;You are starving!@@");
             p.AdjustStat("Energy", -1); // Reduce Energy.
             p.AdjustStat("Health", -15);
             p.AdjustBodyXP("Waist", -50);
@@ -49,6 +78,24 @@ App.Data.EffectLib.NATURAL_DETOXIFICATION = {
     @param {App.Items.Consumable} o*/
    function(o, p) { p.AdjustStat("Toxicity", -( (5 + (p.GetStat("STAT", "Fitness") / 10)))*2); },
    "VALUE" : 0, "KNOWLEDGE" : [ "Detoxification+" ]
+};
+
+App.Data.EffectLib.NATURAL_TOXIC_DAMAGE = {
+    "FUN" : /** @param {App.Entity.Player} p
+    @param {App.Items.Consumable} o*/
+   function(o, p) { 
+        var Tox = p.GetStat('STAT', 'Toxicity');
+        var dmg = Tox <= 100 ? 0 : Math.ceil(10 * (Tox/300));
+
+        if (dmg > 0) {
+            p.AdjustStat('Health', (dmg * -1.0));
+            setup.Notifications.AddMessage("STATUS_CHANGE", p.Day+1, "@@color:red;&dArr;You feel slightly sick@@... your current " + 
+                App.PR.ColorizeString(p.GetStatPercent("STAT", "Toxicity"), "Toxicity") +
+                " is probably to blame.");
+            }
+    },
+   "VALUE" : 0, 
+   "KNOWLEDGE" : [ "Poisoned+" ]
 };
 
 /** HORMONES */
@@ -70,18 +117,20 @@ App.Data.EffectLib.NATURAL_HORMONE_SHIFT = {
             p.AdjustBodyXP("Hips",   HormoneShift            ,     10);
             p.AdjustBodyXP("Penis", (HormoneShift * -1.0)    ,      1);
             p.AdjustBodyXP("Balls", (HormoneShift * -1.0)    ,      0);
-        } else {
-            if (p.GetStatXP("STAT", "Hormones") < 0) {
-                HormoneShift = ( 100 - p.GetStat("STAT", "Hormones"));
-                p.AdjustBodyXP("Face", (HormoneShift * -1.0), p.GetStartStat("BODY", "Face"));
-                p.AdjustBodyXP("Bust", (HormoneShift * -1.0), p.GetStartStat("BODY", "Bust"));
-                p.AdjustBodyXP("Lips", (HormoneShift * -1.0), p.GetStartStat("BODY", "Lips"));
-                p.AdjustBodyXP("Ass",  (HormoneShift * -1.0), p.GetStartStat("BODY", "Ass"));
-                p.AdjustBodyXP("Hips", (HormoneShift * -1.0), p.GetStartStat("BODY", "Hips"));
-                p.AdjustBodyXP("Penis", HormoneShift, p.GetStartStat("BODY", "Penis"));
-                p.AdjustBodyXP("Balls", HormoneShift, p.GetStartStat("BODY", "Balls"));
-            }
+        } else if (p.GetStat("STAT", "Hormones") < 100 && p.GetStatXP("STAT", "Hormones") < 0 ) {
+            HormoneShift = ( 100 - p.GetStat("STAT", "Hormones"));
+            p.AdjustBodyXP("Face", (HormoneShift * -1.0), p.GetStartStat("BODY", "Face"));
+            p.AdjustBodyXP("Bust", (HormoneShift * -1.0), p.GetStartStat("BODY", "Bust"));
+            p.AdjustBodyXP("Lips", (HormoneShift * -1.0), p.GetStartStat("BODY", "Lips"));
+            p.AdjustBodyXP("Ass",  (HormoneShift * -1.0), p.GetStartStat("BODY", "Ass"));
+            p.AdjustBodyXP("Hips", (HormoneShift * -1.0), p.GetStartStat("BODY", "Hips"));
+            p.AdjustBodyXP("Penis", HormoneShift, p.GetStartStat("BODY", "Penis"));
+            p.AdjustBodyXP("Balls", HormoneShift, p.GetStartStat("BODY", "Balls"));
         }
+
+        // Decrease the players hormone XP relative to the size of their balls.
+        var hormoneXP = Math.ceil(20 * ( p.GetStat('BODY', 'Balls')/100)) * -1.0
+        p.AdjustStatXP('Hormones', hormoneXP);
     }
 };
 
@@ -118,9 +167,10 @@ App.Data.EffectLib.NATURAL_LACTATION_DECREASE = {
 /** WAIST */
 
 App.Data.NaturalBodyEffects = [
+    "NATURAL_DETOXIFICATION",
     "NATURAL_HEALING",
     "NATURAL_NUTRITION",
-    "NATURAL_DETOXIFICATION",
+    "NATURAL_TOXIC_DAMAGE",
     "NATURAL_HORMONE_SHIFT",
     "NATURAL_FITNESS_DECREASE",
     "NATURAL_HAIR_GROW",

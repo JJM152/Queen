@@ -6,7 +6,7 @@
 
 App.Data.LootBoxes["common dancer loot box"] = {
     "Name": "common dancer chest",
-    "ShortDesc": "@@color:grey;A small gift box shaped like a treasure chest@@",
+    "ShortDesc": "@@color:grey;A small tacky looking treasure chest@@",
     "LongDesc": "This small black treasure chest sports an attractive leopard print pattern and is wrapped with a shiny white ribbon and bow.",
     "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
     "Type": "LOOT_BOX",
@@ -17,7 +17,7 @@ App.Data.LootBoxes["common dancer loot box"] = {
 
 App.Data.LootBoxes["uncommon dancer loot box"] = {
     "Name": "uncommon dancer chest",
-    "ShortDesc": "@@color:lime;A gift box shaped like a treasure chest@@",
+    "ShortDesc": "@@color:lime;A tacky looking  treasure chest@@",
     "LongDesc": "This black treasure chest sports an attractive leopard print pattern and is wrapped with a shiny white ribbon and bow.",
     "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
     "Type": "LOOT_BOX",
@@ -28,7 +28,7 @@ App.Data.LootBoxes["uncommon dancer loot box"] = {
 
 App.Data.LootBoxes["rare dancer loot box"] = {
     "Name": "rare dancer chest",
-    "ShortDesc": "@@color:cyan;A large gift box shaped like a treasure chest@@",
+    "ShortDesc": "@@color:cyan;A large tacky looking treasure chest@@",
     "LongDesc": "This large black treasure chest sports an attractive leopard print pattern and is wrapped with a shiny white ribbon and bow.",
     "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
     "Type": "LOOT_BOX",
@@ -39,7 +39,7 @@ App.Data.LootBoxes["rare dancer loot box"] = {
 
 App.Data.LootBoxes["legendary dancer loot box"] = {
     "Name": "legendary dancer chest",
-    "ShortDesc": "@@color:orange;A huge gift box shaped like a treasure chest@@",
+    "ShortDesc": "@@color:orange;A huge tacky looking treasure chest@@",
     "LongDesc": "This huge black treasure chest sports an attractive leopard print pattern and is wrapped with a shiny white ribbon and bow.",
     "Message": "With unrestrained curiosity you tear open the treasure chest to find...\n\n",
     "Type": "LOOT_BOX",

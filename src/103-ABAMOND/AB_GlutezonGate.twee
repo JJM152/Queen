@@ -1,0 +1,40 @@
+::AB_GlutezonGate
+<<set _Quest = App.Quest.ByTag("MAMAZON_CHAMP"); >>\
+You stand before a large, sturdy barricade made out of cleverly masoned boulders. Patches of moss and other \
+vegetable matter fill the cracks while some sections have been reinforced with dirt. The wall itself appears \
+to seperate the valley from a larger settlement beyond and has a single central gate to control access to \
+whatever lies beyond. On top of the wall is a pair of dark haired women, both \
+of them are armed with bows and have absolutely enormous asses. 
+
+One of them calls out to you, <span class='npcText'>"Who dares approach the village of the \
+<span style='color:cyan'>Glutezons</span>?"</span>
+
+@@color:lime;Travel@@: [[Overgrown Cairn|AB_OvergrownCairn]] | \
+<<click "Enter Village">>\
+<<if _Quest.IsCompleted(setup.player)>>\
+<<replace "#Notification">>\
+You try to approach the gate but are stopped by an arrow plunging into the ground infront of you!
+
+<span class='npcText'>"Halt! We won't allow any allies of the <span style='color:cyan'>Mamazons</span> \
+to enter our peaceful village! Begone thot!"</span>
+
+It seems like you've burned your bridges with the @@color:cyan;Glutezons@@.
+<</replace>>\
+<<else>>\
+<<if setup.player.GetStat('BODY', 'Ass') < 40>>\
+<<replace "#Notification">>\
+You try to approach the gate but are stopped by an arrow plunging into the ground infront of you!
+
+<span class='npcText'>"Halt! Begone from <span style='color:cyan'>Glutezon</span> lands you pancake arsed whore, \
+before we kill you for being a <span style='color:cyan'>Mamazon</span> spy!"</span>
+
+It seems like you've encountered the fabled @@color:cyan;Glutezons@@, a tribe of jungle women with immense \
+asses. Perhaps if you were equally as endowed they might allow you to enter their village...
+<</replace>>\
+<<else>>\
+<<goto "AB_GlutezonVillage">>\
+<</if>>\
+<</if>>\
+<</click>>
+
+<span id="Notification"></span>

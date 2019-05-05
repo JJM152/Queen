@@ -2,7 +2,7 @@
 ifid:2281acf9-aff5-4833-bd11-9d4317bce5ae
 
 :: StoryTitle
-Queen of the Seas (v 0.9c)
+Queen of the Seas (v 0.10)
 :: Story Stylesheet [stylesheet]
 
 :: Story JavaScript [script]
@@ -13,6 +13,7 @@ Config.history.maxStates = 1;
 Config.saves.version = App.Data.Game.Version;
 
 setup.player = new App.Entity.Player();
+setup.jobEngine = new App.JobEngine();
 
 // Initalize Avatar Engine
 App.Avatar = new App.Entity.AvatarEngine();
@@ -20,11 +21,11 @@ App.Avatar = new App.Entity.AvatarEngine();
 // Random Events and Conditional Navigation Override
 // Override navigation on death.
 
-App.eventEngine = new App.EventEngine();
+setup.eventEngine = new App.EventEngine();
 
 Config.navigation.override = function (passageName) {
     if (App.EventHandlers.HasPlayerState() == false) return; //ignore these checks if there is no player state.
-    return App.eventEngine.CheckEvents(setup.player, State.passage, passageName);
+    return setup.eventEngine.CheckEvents(setup.player, State.passage, passageName);
 };
 
 Setting.addHeader("Display settings");
@@ -89,6 +90,15 @@ Config.saves.isAllowed = function() {
         var container = $("<div id='avatarContainer'></div>").appendTo($("#ui-bar"));
         var portrait = $("<div id='avatarFace'></div").appendTo(container);
     }
+ 
+ // Load gambling classes
+ setup.CoffinGame = new App.Gambling.Coffin();
+ // Load Combat Engine
+ setup.Combat = new App.Combat.CombatEngine();
+ // Load Spectator Engine
+ setup.Spectator = new App.Combat.SpectatorEngine();
+ // Load notification engine
+ setup.Notifications = new App.Notifications.Engine();
  
 :: Start
 <<set $GameBookmark = passage(); >>

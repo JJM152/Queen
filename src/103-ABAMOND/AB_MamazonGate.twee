@@ -1,0 +1,39 @@
+::AB_MamazonGate
+<<set _Quest = App.Quest.ByTag("GLUTEZON_CHAMP"); >>\
+You stand before a large, sturdy wooden pallisade made out of felled logs and lashed together with woven \
+jungle vines. There is a large gate made out of stout timber in the middle, obviously barricaded from the \
+inside. Standing on some type of platform behind the barrier is a pair of blonde women with absolutely \
+stupendous funbags, barely held in check by their struggling leather bras.
+
+One of them calls out to you, <span class='npcText'>"Who dares approach the village of the \
+<span style='color:cyan'>Mamazons</span>?"</span>
+
+@@color:lime;Travel@@: [[Forest Clearing|AB_ForestClearing]] | \
+<<click "Enter Village">>\
+<<if _Quest.IsCompleted(setup.player)>>\
+<<replace "#Notification">>\
+You try to approach the gate but are stopped by an arrow plunging into the ground infront of you!
+
+<span class='npcText'>"Halt! We won't allow any allies of the <span style='color:cyan'>Glutezons</span> \
+to enter our peaceful village! Begone thot!"</span>
+
+It seems like you've burned your bridges with the @@color:cyan;Mamazons@@.
+<</replace>>\
+<<else>>\
+<<if setup.player.GetStat('BODY', 'Bust') < 40>>\
+<<replace "#Notification">>\
+You try to approach the gate but are stopped by an arrow plunging into the ground infront of you!
+
+<span class='npcText'>"Halt! Begone from <span style='color:cyan'>Mamazon</span> lands you flat chested harlot, \
+before we kill you for being a <span style='color:cyan'>Glutezon</span> spy!"</span>
+
+It seems like you've encountered the fabled @@color:cyan;Mamazons@@, a tribe of jungle women with immense \
+breasts. Perhaps if you were equally as endowed they might allow you to enter their village...
+<</replace>>\
+<<else>>\
+<<goto "AB_MamazonVillage">>\
+<</if>>\
+<</if>>\
+<</click>>
+
+<span id="Notification"></span>

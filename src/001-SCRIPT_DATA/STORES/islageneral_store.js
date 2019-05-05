@@ -5,7 +5,7 @@ App.Data.Stores["ISLASTORE"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "COSMETICS",    "QTY":    5,     "MAX":    5,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "hair products"            },
         { "CATEGORY":   "COMMON",   "TYPE": "MISC_CONSUMABLE","QTY": 10,     "MAX":   10,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "torch"                  },
         { "CATEGORY":   "COMMON",   "TYPE": "MISC_CONSUMABLE","QTY":  8,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "shovel"                 },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",         "QTY":    5,     "MAX":    5,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "fortified wine"           },
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",         "QTY":    3,     "MAX":    3,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "fortified wine"           },
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "wig"                      },
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "sundress"                 },
         { "CATEGORY":   "COMMON",   "TYPE": "CLOTHES",      "QTY":    1,     "MAX":    1,  "PRICE":  1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "striped bra"              },

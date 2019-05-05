@@ -1,0 +1,36 @@
+:: CombatWinPirate [no-teleport no-saving]
+<<combatResults>>
+
+After a fierce struggle, the combined forces on the @@color:cyan;Salty Mermaid@@ repel the boarders. \
+Unfortunately the Mermaid is in no state to give pursuit, having sustained heavy damage from the \
+cannon fire. Instead the crew hurridly runs about patching holes and operating the bilge.
+
+Some of the crew noticed your valliant display of martial prowess and you can \
+see then eye you with new respect... well, as much respect as they can have for you anyway.
+
+@@color:lime;Travel@@: [[Cabin]]
+
+:: CombatLosePirate [no-teleport no-saving]
+<<combatResults>>
+
+You wake up on your back, covered in bruises and staring at the stars. You're not quite sure how you managed to \
+survive, be it luck, or fate, but you count your blessings. Perhaps next time you won't risk your neck for \
+the crew of this blasted ship... or at least, you'll come better prepared.
+
+Still, despite the pain, it appears that the crew did appreciate your efforts. 
+
+@@color:lime;Travel@@: [[Cabin]]
+
+:: CombatFleePirate [no-teleport no-saving]
+You quickly run back into your cabin and slam the door shut behind you. With frentic energy \
+you start shoving your meagre furnishings against the door trying to blockade it and then \
+finally add your own bodyweight to the mess.
+
+The sounds of fighting outside intensifies and the cannon blasts continue for a good quarter of an hour. \
+You're certain that the @@color:cyan;Salty Mermaid@@ is starting to list to the port, but before you \
+can ponder how far it is to swim to shore, a shout goes up outside! It appears that the crew was \
+victorious after all.
+
+Hopefully no one noticed your cowardice...
+
+@@color:lime;Travel@@: [[Cabin]]

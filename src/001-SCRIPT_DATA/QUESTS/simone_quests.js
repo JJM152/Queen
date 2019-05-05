@@ -3,19 +3,20 @@ App.Data.Quests["SIMONE_MISSING_FRIEND"] = {
     "Title": "Simone's Missing Friend",
     "GIVER": "Simone",
     "PRE": [ ],
-    "POST": [ ],
+    "POST": [
+        {
+            "TYPE" : "NPC_STAT", "NAME" : "Mood", "VALUE" : 15
+        },
+     ],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "14 inch purple dildo", "VALUE": 1
+            "TYPE": "ITEM", "NAME": "QUEST/14 inch purple dildo", "VALUE": 1
         }
     ],
     "ON_ACCEPT" : [],
     "REWARD": [
         {
             "REWARD_TYPE": "MONEY", "AMOUNT": 200
-        },
-        {
-            "REWARD_TYPE" : "MOOD", "NAME" : "Simone", "AMOUNT" : 15
         },
         {
             "REWARD_TYPE": "ITEM_CHOICE", "TYPE": "LOOT_BOX", "NAME": "legendary food loot box", "AMOUNT": 1

@@ -11,13 +11,19 @@ App.Data.JobData["CHARMAINE_JOB1"] = {
         { "TYPE" : "SKILL", "NAME" : "HandJobs", "VALUE" : 50, "CONDITION" : "gte" }
     ],
     "INTRO" :
-        "NPC_NAME says, \"I have a special group of clients that might be interested in those dainty hands of yours.\"",
+        "NPC_NAME says, s(I have a special group of clients that might be interested in those dainty hands of yours.)",
     "START" :
-    "NPC_NAME says, \"This handy-dandy job is as simple as stone soup, PLAYER_NAME. Go in, wiggle your wares a trifle, and then make haste with some prime peeter-pumping. Warm hands and a tender touch is vital, mind you, but you best be a mighty quick cock-juggler, too. You only got two jimmy-jerkers and there's gonna be plenty of testy peckers aching for their turn.\"\n\n"+
-    "You nod in understanding. Neglecting an erection is just asking for an ass-whooping in the 'cabin girl' line of work.\n\n"+
-    "\"The customary standards apply: take the load on the face unless they request elseways, swallow some jizz here and there like a good whore, and of course look like you can't never ever yank enough cummy cock to save your depraved little slutty life. You know, the usual,\" she says with a shrug.\n\n"+
-    "Yeah, you think to yourself, 'the usual'.\n\n"+
-    "\"On to the task at hand!\" NPC_NAME laughs and beckons for you to follow her. She ushers you to the back room and sends you in with a playful smack on your behind.",
+        "NPC_NAME says, s(This handy-dandy job is as simple as stone soup, PLAYER_NAME. Go in, wiggle your wares a trifle, and \
+        then make haste with some prime peeter-pumping. Warm hands and a tender touch is vital, mind you, but you best be a mighty \
+        quick cock-juggler, too. You only got two jimmy-jerkers and there's gonna be plenty of testy peckers aching for their \
+        turn.)\n\n\
+        You nod in understanding. Neglecting an erection is just asking for an ass-whooping in the 'cabin girl' line of work.\n\n\
+        s(The customary standards apply: take the load on the face unless they request elseways, swallow some jizz here and there \
+        like a good whore, and of course look like you can't never ever yank enough cummy cock to save your depraved little slutty \
+        life. You know, the usual), she says with a shrug.\n\n\
+        tp(Yeah), you think to yourself, tp('the usual'.)\n\n\
+        s(On to the task at hand!) NPC_NAME laughs and beckons for you to follow her. She ushers you to the back room and sends \
+        you in with a playful smack on your behind.",
     "SCENES" : [
         {
             // Enter into room. Flirt with men.
@@ -32,11 +38,14 @@ App.Data.JobData["CHARMAINE_JOB1"] = {
             ],
             // Three pseudo-random introductions to the room for variety
             "START" :
-            "The cramped room is lit only by a few flickering lanterns. It reeks of cigar smoke and semen. Men are crowded on the couches lined along the walls, swilling drinks and huffing fat rolls of tobacco. Most of them are manhandling various girls sat upon their laps. Tits and dicks and even two bald cooches -- both presently being finger-fucked -- are on full display.\n\n"+
+                "The cramped room is lit only by a few flickering lanterns. It reeks of cigar smoke and semen. Men are crowded on \
+                the couches lined along the walls, swilling drinks and huffing fat rolls of tobacco. Most of them are manhandling various girls sat upon their laps. Tits and dicks and even two bald cooches -- both presently being finger-fucked -- are on full display.\n\n"+
             "<<set _irr to random(1,3)>>"+
             "<<if _irr eq 1>>"+
             "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-            "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].Name == 'chastity cage' || setup.player.Equipment['Penis'].Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
+            "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <\
+            <<if setup.player.IsAnyClothingWorn(['chastity cage', 'luxurious chastity cage'], 'Penis')>>\
+            discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
             "<<elseif _irr eq 2>>"+
             "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
             "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
@@ -138,7 +147,8 @@ App.Data.JobData["CHARMAINE_JOB1"] = {
                 { "TYPE" : "FLAG",      "NAME" : "CHARMAINE_REWARD",            "VALUE" :   1,  "OPT" : "SET" },
                 { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon dancer loot box", "VALUE" :   1,  "OPT" : "" }
             ],
-            "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\". She hands you a novelty gift bag shaped like a teddy bear. What goodies could be inside?",
+            "START": "NPC_NAME says s(Here, you've earned this PLAYER_NAME). She hands you a novelty gift bag shaped like a \
+            teddy bear. What goodies could be inside?",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -158,7 +168,8 @@ App.Data.JobData["CHARMAINE_JOB1"] = {
                 { "TYPE" : "COUNTER",    "NAME" : "CHARMAINE_LOOT",    "VALUE" : 1, "OPT" : 1 },
                 { "TYPE" : "QUEST_FLAG", "NAME" : "CHARMAINE_JOB_1",   "VALUE" : "COMPLETED", "OPT" : "SET" }
             ],
-            "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
+            "START": "NPC_NAME says, s!(Nice work today. Those rascals were quite happy with your service. Keep it up and I \
+            might slip you a little bit something extra...)",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -176,7 +187,8 @@ App.Data.JobData["CHARMAINE_JOB1"] = {
                 { "TYPE" : "FLAG",  "NAME" : "CHARMAINE_HANDJOB_UNLOCK", "VALUE" : 1, "OPT" : "SET" },
                 { "TYPE" : "STORE", "NAME" : "SAUCY_SLATTERN", "VALUE" :  "COMMON_HANDMAIDEN",   "OPT" : "UNLOCK"    }
             ],
-            "START" :   "\"Oh, and before I forget... check out my shop sometime. There might be something that'd interest a wank specialist such as yourself!\"",
+            "START": "s(Oh, and before I forget... check out my shop sometime. There might be something that'd interest a wank \
+            specialist such as yourself!)",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -197,8 +209,8 @@ App.Data.JobData["CHARMAINE_JOB1"] = {
 
     ],
     "END" :
-    "NPC_NAME says, \"Another day, another coin, eh PLAYER_NAME?\"\n\n"+
-    "NPC_NAME fetches a small bag from behind the counter and counts your pay and tips for the night into your awaiting hands.",
+    "NPC_NAME says s(Another day, another coin, eh PLAYER_NAME?)\n\n\
+    NPC_NAME fetches a small bag from behind the counter and counts your pay and tips for the night into your awaiting hands.",
     "JOB_RESULTS" : [ ]
 };
 App.Data.JobData["CHARMAINE_JOB2"] = {
@@ -236,7 +248,9 @@ App.Data.JobData["CHARMAINE_JOB2"] = {
             "<<set _irr to random(1,3)>>"+
             "<<if _irr eq 1>>"+
             "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-            "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].Name == 'chastity cage' || setup.player.Equipment['Penis'].Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
+            "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand \
+            <<if setup.player.IsAnyClothingWorn(['chastity cage', 'luxurious chastity cage'], 'Penis')>>\
+            discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
             "<<elseif _irr eq 2>>"+
             "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
             "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
@@ -339,7 +353,7 @@ App.Data.JobData["CHARMAINE_JOB2"] = {
                 { "TYPE" : "FLAG",      "NAME" : "CHARMAINE_REWARD",            "VALUE" :   1,  "OPT" : "SET" },
                 { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon dancer loot box",    "VALUE" :   1,  "OPT" : "" }
             ],
-            "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\". She hands you a novelty gift bag shaped like a teddy bear, you wonder what's inside it?",
+            "START" :   "NPC_NAME sayss (Here, you've earned this, PLAYER_NAME). She hands you a novelty gift bag shaped like a teddy bear, you wonder what's inside it?",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -359,7 +373,7 @@ App.Data.JobData["CHARMAINE_JOB2"] = {
                 { "TYPE" : "COUNTER",   "NAME" : "CHARMAINE_LOOT",    "VALUE" :   1,  "OPT" : 1 },
                 { "TYPE" : "QUEST_FLAG", "NAME" : "CHARMAINE_JOB_2",   "VALUE" : "COMPLETED", "OPT" : "SET" }
             ],
-            "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
+            "START" :   "NPC_NAME says  s(Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...)",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -377,7 +391,7 @@ App.Data.JobData["CHARMAINE_JOB2"] = {
                 { "TYPE" : "FLAG",  "NAME" : "CHARMAINE_BLOWJOB_UNLOCK", "VALUE" : 1, "OPT" : "SET" },
                 { "TYPE" : "STORE", "NAME" : "SAUCY_SLATTERN", "VALUE" :  "COMMON_BREATH_MINT",   "OPT" : "UNLOCK"    }
             ],
-            "START" :   "\"Oh, and before I forget... check out my shop sometime. There might be something that'd interest an aspiring cock sucker such as yourself!\"",
+            "START" : "s(Oh, and before I forget... check out my shop sometime. There might be something that'd interest an aspiring cock sucker such as yourself!)",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -398,7 +412,7 @@ App.Data.JobData["CHARMAINE_JOB2"] = {
 
     ],
     "END" :
-    "NPC_NAME says, \"Another day, another coin, eh PLAYER_NAME?\"\n\n"+
+    "NPC_NAME says s(Another day, another coin, eh PLAYER_NAME?)\n\n"+
     "NPC_NAME fetches a small bag from behind the counter and counts your pay and tips for the night into your awaiting hands.",
     "JOB_RESULTS" : [ ]
 };
@@ -415,12 +429,12 @@ App.Data.JobData["CHARMAINE_JOB3"] = {
         { "TYPE" : "SKILL", "NAME" : "TitFucking", "VALUE" : 50, "CONDITION" : "gte" },
         { "TYPE" : "BODY",  "NAME" : "Bust", "VALUE" : 23, "CONDITION" : "gte" }
     ],
-    "INTRO" : "NPC_NAME says, \"I have a special group of clients that might be interested in you... if you have the skills.\"",
+    "INTRO" : "NPC_NAME sayss (I have a special group of clients that might be interested in you... if you have the skills.)",
     "START" :
-    "NPC_NAME says, \"So here's the deal PLAYER_NAME, none of my regular girls will take the job, but I have a group of clients paying good coin "+
+    "NPC_NAME sayss (So here's the deal PLAYER_NAME, none of my regular girls will take the job, but I have a group of clients paying good coin "+
     "to have a bit of a party in the back room. You won't be the only entertainment for the evening, but it's been requested to supply a slut who can "+
-    "wank a good load all over her tits and look happy about it. Swallow a little jizz here and there. You know, the usual.\"\n\n"+
-    "Yes, you think to yourself, 'the usual'.\n\n"+
+    "wank a good load all over her tits and look happy about it. Swallow a little jizz here and there. You know, the usual.)\n\n"+
+    "tp(Yes,) you think to yourself, tp('the usual'.)\n\n"+
     "NPC_NAME gives you the run down on the rest of the job and ushers you into the back room."
     ,
     "SCENES" : [
@@ -441,7 +455,9 @@ App.Data.JobData["CHARMAINE_JOB3"] = {
             "<<set _irr to random(1,3)>>"+
             "<<if _irr eq 1>>"+
             "A wee young blonde with smouldering eyes and a felicitous 'pixie' haircut takes your hand and leads you to the center of the room. She runs her slender fingers down your chest, smiling an adorable gap-toothed simper, and jiggles her slim behind as best she can. You catch on that you are meant to dance with her -- but the 'dance' quickly devolves into the two of you lewdly groping one another purely for the enjoyment of the men around you.\n\n"+
-            "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand <<if setup.player.Equipment['Penis'].Name == 'chastity cage' || setup.player.Equipment['Penis'].Name == 'luxurious chastity cage'>>discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
+            "A smirk plays on your dance partner's slender but wickedly twisty lips when her dainty hand \
+            <<if setup.player.IsAnyClothingWorn(['chastity cage', 'luxurious chastity cage'], 'Penis')>>\
+            discovers your caged clitty. Her finger traces around the contraption and she playfully feigns futile efforts to remove it <<else>>happens upon your hardening penis. She pinches her fingers on your budding chubby, gently kneading the blood from it and cramping it snugly in her hand to purposefully prevent you from achieving an erection <</if>>while brushing her steamy mouth on the flesh of your neck. As frustrating as it feels, you find yourself lightheaded with giddiness. Much to her delight, you redouble your unmannerly molestation of her lithe, wriggling body."+
             "<<elseif _irr eq 2>>"+
             "An amazonian woman with dark hair and darker eyes engulfs your hand in her own and yanks you into the center of the room with her. She immediately begins manhandling your body in some sort of dance of dominance. Her brute strength makes any resistance trivial. You're forced to try your best to look pleased with her mistreatment so that you don't sour the carefree carnal mood of the others in the room.\n\n"+
             "Still, you can't help but wince when her fingers dig into the flesh of your ass or when her teeth drag against the tender skin of your neck. You're starting to get the impression that what she truly wants is to actually eat you.\n\n"+
@@ -546,7 +562,7 @@ App.Data.JobData["CHARMAINE_JOB3"] = {
                 { "TYPE" : "FLAG",      "NAME" : "CHARMAINE_REWARD",            "VALUE" :   1,  "OPT" : "SET" },
                 { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon sissy loot box", "VALUE" :    1,  "OPT" : "" }
             ],
-            "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\". She hands you a novelty gift bag shaped like a teddy bear, you wonder what's inside it?",
+            "START" :   "NPC_NAME sayss (Here, you've earned this, PLAYER_NAME). She hands you a novelty gift bag shaped like a teddy bear, you wonder what's inside it?",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -566,7 +582,7 @@ App.Data.JobData["CHARMAINE_JOB3"] = {
                 { "TYPE" : "COUNTER",   "NAME" : "CHARMAINE_LOOT",    "VALUE" :   1,  "OPT" : 1 },
                 { "TYPE" : "QUEST_FLAG", "NAME" : "CHARMAINE_JOB_3",   "VALUE" : "COMPLETED", "OPT" : "SET" }
             ],
-            "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
+            "START" :   "NPC_NAME says s(Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...)",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -584,7 +600,7 @@ App.Data.JobData["CHARMAINE_JOB3"] = {
                 { "TYPE" : "FLAG",  "NAME" : "CHARMAINE_TIT_UNLOCK", "VALUE" : 1, "OPT" : "SET" },
                 { "TYPE" : "STORE", "NAME" : "SAUCY_SLATTERN", "VALUE" :  "COMMON_BOOBJITSU_MATRIARCH",   "OPT" : "UNLOCK"    }
             ],
-            "START" :   "\"Oh, and before I forget... check out my shop sometime. There might be something that'd interest a woman with your kind of 'assets'!\"",
+            "START" : "s(Oh, and before I forget... check out my shop sometime. There might be something that'd interest a woman with your kind of 'assets'!)",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -605,7 +621,7 @@ App.Data.JobData["CHARMAINE_JOB3"] = {
 
     ],
     "END" :
-    "NPC_NAME says, \"Another day, another coin, eh PLAYER_NAME?\"\n\n"+
+    "NPC_NAME says s(Another day, another coin, eh PLAYER_NAME?)\n\n"+
     "NPC_NAME fetches a small bag from behind the counter and counts your pay and tips for the night into your awaiting hands.",
     "JOB_RESULTS" : [ ]
 };
@@ -621,12 +637,12 @@ App.Data.JobData["CHARMAINE_JOB4"] = {
     "REQUIREMENTS" : [
         { "TYPE" : "SKILL", "NAME" : "AssFucking", "VALUE" : 50, "CONDITION" : "gte" }
     ],
-    "INTRO" : "NPC_NAME says, \"I have a special group of clients that might be interested in you... if you have the skills.\"",
+    "INTRO" : "NPC_NAME says s(I have a special group of clients that might be interested in you... if you have the skills.)",
     "START" :
-    "NPC_NAME says, \"So here's the deal PLAYER_NAME, none of my regular girls will take the job, but I have a group of clients paying good coin "+
+    "NPC_NAME says s(So here's the deal PLAYER_NAME, none of my regular girls will take the job, but I have a group of clients paying good coin "+
     "to have a bit of a party in the back room. You won't be the only entertainment for the evening, but it's been requested to supply a slut who can "+
-    "furious anal pounding and look happy about it. Swallow a little jizz here and there. You know, the usual.\"\n\n"+
-    "Yes, you think to yourself, 'the usual'.\n\n"+
+    "furious anal pounding and look happy about it. Swallow a little jizz here and there. You know, the usual.)\n\n"+
+    "tp(Yes,) you think to yourself, tp('the usual'.)\n\n"+
     "NPC_NAME gives you the run down on the rest of the job and ushers you into the back room."
     ,
     "SCENES" : [
@@ -725,8 +741,8 @@ App.Data.JobData["CHARMAINE_JOB4"] = {
             ,
             "RESULTS" : [
                 {"C":  33, "TEXT": "It's @@difficult to deal with the pounding you're getting@@ and still get off yourself, the customer finishes off inside you, but you're left unsatisfied."},
-                {"C":  66, "TEXT": "You try to really put on a show for the man, gasping and moaning as you stroke your balls and pPENIS sissy clit. Eventually he comes hard in your ass and gives you a smile. @@Your enthusiasm was appreciated.@@" },
-                {"C": 500, "TEXT": "You furiously rub your pPENIS sissy clit while being brutally sodomized by the man. Every time he thrusts into you, it sends a shiver up your spine and causes you" +
+                {"C":  66, "TEXT": "You try to really put on a show for the man, gasping and moaning as you stroke your balls and nPENIS. Eventually he comes hard in your ass and gives you a smile. @@Your enthusiasm was appreciated.@@" },
+                {"C": 500, "TEXT": "You furiously rub your nPENIS while being brutally sodomized by the man. Every time he thrusts into you, it sends a shiver up your spine and causes you" +
                 "to moan like a bitch in heat. Eventually the man bottoms out in your ass, the violent force of his ejaculation sending you into your own perversion filed orgasm. He notices the mess and smile at you, it appears @@he liked how much you enjoyed the act.@@"} ],
             "END" :
             "\n\nEventually everyone is spent and you find yourself covered, literally dripping with jism. You wipe some out of your eyes and then "+
@@ -748,7 +764,7 @@ App.Data.JobData["CHARMAINE_JOB4"] = {
                 { "TYPE" : "FLAG",      "NAME" : "CHARMAINE_REWARD",            "VALUE" :   1,  "OPT" : "SET" },
                 { "TYPE" : "LOOT_BOX",  "NAME" : "uncommon pirate loot box", "VALUE" :   1,  "OPT" : "" }
             ],
-            "START" :   "NPC_NAME says, \"Here, you've earned this PLAYER_NAME\". She hands you a novelty gift bag shaped like a teddy bear, you wonder what's inside it?",
+            "START" :   "NPC_NAME says s(Here, you've earned this, PLAYER_NAME). She hands you a novelty gift bag shaped like a teddy bear, you wonder what's inside it?",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -768,7 +784,7 @@ App.Data.JobData["CHARMAINE_JOB4"] = {
                 { "TYPE" : "COUNTER",   "NAME" : "CHARMAINE_LOOT",    "VALUE" :   1,  "OPT" : 1 },
                 { "TYPE" : "QUEST_FLAG", "NAME" : "CHARMAINE_JOB_4",   "VALUE" : "COMPLETED", "OPT" : "SET" }
             ],
-            "START" :   "NPC_NAME says, \"Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...\"",
+            "START" :   "NPC_NAME says s(Nice work today. Those rascals were quite happy with your service. Keep it up and I might slip you a little bit something extra...)",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -786,7 +802,7 @@ App.Data.JobData["CHARMAINE_JOB4"] = {
                 { "TYPE" : "FLAG",  "NAME" : "CHARMAINE_ASS_UNLOCK", "VALUE" : 1, "OPT" : "SET" },
                 { "TYPE" : "STORE", "NAME" : "SAUCY_SLATTERN", "VALUE" :  "COMMON_ANAL_ANGEL",   "OPT" : "UNLOCK"    }
             ],
-            "START" :   "\"Oh, and before I forget... check out my shop sometime. There might be something that'd interest a whore with such a loose arse!!\"",
+            "START" : "s(Oh, and before I forget... check out my shop sometime. There might be something that'd interest a whore with such a loose arse!!)",
             "END" : "",
             "RESULTS" : [ ]
         },
@@ -807,7 +823,7 @@ App.Data.JobData["CHARMAINE_JOB4"] = {
 
     ],
     "END" :
-    "NPC_NAME says, \"Another day, another coin, eh PLAYER_NAME?\"\n\n"+
+    "NPC_NAME says s(Another day, another coin, eh PLAYER_NAME?)\n\n"+
     "NPC_NAME fetches a small bag from behind the counter and counts your pay and tips for the night into your awaiting hands.",
     "JOB_RESULTS" : [ ]
 };

@@ -65,12 +65,12 @@ App.Data.Quests["ISLA_TAVERN02"] = {
     "POST": [],
     "CHECKS": [
         {
-            "TYPE": "QUEST_ITEM", "NAME": "smugglers rum cask", "VALUE": 1
+            "TYPE": "ITEM", "NAME": "QUEST/smugglers rum cask", "VALUE": 1
         }
     ],
     "ON_ACCEPT" : [
         {
-            "TYPE" : "QUEST_FLAG", "NAME" : "SMUGGLER_PICKUP", "VALUE" : "ACTIVE"
+            "TYPE" : "QUEST", "NAME" : "SMUGGLER_PICKUP", "VALUE" : "START"
         }
     ],
     "REWARD": [
@@ -98,7 +98,7 @@ App.Data.Quests["ISLA_TAVERN02"] = {
         You momentarily jump back in surprise!\n\n\
         NPC_NAME chuckles to himself. s(Don't be afraid, I'm giving this to you nice and proper. \
         It's served me well back when I was a freebooter. An all around handy tool and good \
-        for a fight when you're in a pinch.\
+        for a fight when you're in a pinch.)\
         "
     ,
     "JOURNAL_ENTRY": "\

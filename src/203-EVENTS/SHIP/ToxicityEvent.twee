@@ -1,0 +1,60 @@
+:: ToxicityEvent
+You wake up this morning in a cold sweat. Every pore on your skin feels like it's oozing foulness and the \
+usual roiling of the @@color:cyan;Salty Mermaid@@ sends your stomach into a fit of nausea. Stumbling to your \
+feet, you wipe your greasy hair from your eyes and get ready for yet another humiliating day of hell.
+
+Once appropriately prepared, you open the door of your cabin and head out onto the @@color:gold;Deck@@. \
+The sea air is brisk and clean, you feel momentarily better, thinking to yourself that perhaps all you \
+needed was some fresh air. That idea is promptly shoved to the side however as a lightning fast bout \
+of nausea forces you to empty the contents of your stomach over the stern.
+
+<span class='npcText'>"Feeling a wee bit see sick are we lass?"</span> asks a voice behind you. You recognize it\
+as @@color:cyan;Julius@@, the quartermaster onboard the ship. 
+
+You start to push away from the railing, when you feel a hand seize you by the shoulder. 
+
+<span class='npcText'>"Wait"</span>, says Julius. <span class='npcText'>"You're toxic aren't ya?"</span>
+
+You blink. Toxic? What does he mean?
+
+The quartermaster reaches into one of the various pouches that adorns his uniform and produces a strange fruit. \
+Without any discussion, he simply shoves it into your mouth, leaving you stunned.
+
+<span class='npcText'>"Eat it."</span>
+
+Something about the tone of his voice makes you instantly comply. You bite down into the fruit and a sweet juice \
+flows down your throat that energizes and invigorates you. You hungerly wolf down the rest of the fruit, only to be \
+handed yet another.
+
+<span class='npcText'>"You've got toxicity poisoning, you need to ease off the drugs and strange shit that fat slob
+sells in the <span style='color:gold;'>Galley</span>.'"</span>
+
+You take the fruit from @@color:cyan;Julius@@ and bite into it as well. A calming and cooling feeling settles \
+over your body and your stomach finally stops lurching along with the ship. Julius continues his impromptu lecture.
+
+<span class='npcText'>"Keep an eye out for these peaches, also there are some plums native to an island around \
+here that can <span style='lime'>purge</span> toxicity from your blood. Healing potions work as well."</span>
+
+You nod your head as you swallow the last bite of peach that you were given.
+
+<span class='npcText'>"And stay away from cheap herbs and dust when you're sick. That shit will only \
+make the problem worse. The herbs are the worst, they'll heal you but make you sicker. You need to flush \
+the poison from your system and use those herbs sparingly."</span>
+
+He pokes you in the chest.
+
+<span class='npcText'>"Sparingly. You got it?"</span>
+
+You nod in acknowledgment. This is all great, useful advice. Uncharacteristic for a member of this crew, and \
+you're overcome with a momentary feeling of grattitude. However, before you can properly thank \
+@@color:cyan;Julius@@ he promptly turns heel and walks away. 
+
+Still, this is good information and you ''are'' feeling better. You'll be sure to follow his advice from now on.
+
+//You can buy peaches from @@color:cyan;Cookie@@ if he likes you enough that will purge some toxicity from your \
+blood, otherwise resting and sleeping will slowly cure you.//
+
+@@color:lime;Travel@@: <<click "Continue" "Deck">>\
+<<run setup.player.CoreStats.Toxicity = 0;>>\
+<<run setup.player.CoreStatsXP.Toxicity = 0;>>\
+<</click>>

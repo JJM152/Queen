@@ -1,0 +1,5 @@
+::ColorScaleTest
+
+<<= App.PR.debugColorScale(); >>
+
+[[DebugPassage]]

@@ -7,7 +7,8 @@ some of them obviously procured much like you were. If you had the time, you'd l
 to what you'd find inside this warren of stalls. Perhaps treasure, perhaps junk.
 
 There are a few standing, more permanent storefronts here. One of them has a hanging sign identifies an @@color:gold;'Apothecary'@@ shop, \
-emblazoned with a mortar and pestle emblem and the motto, 'Major Agit Deus.'
+emblazoned with a mortar and pestle emblem and the motto, 'Major Agit Deus.' Off in the distance it appears that there is \
+some sort of event going on at the @@color:gold;'Exhibition Yard'@@, perhaps you should check it out?
 
 @@color:yellow;Action@@: <<marketLink "BAZAAR_STORE">>
-@@color:lime;Travel@@: [[Portside District|Portside]] | [[Apothecary|GI_Apothecary]]
+@@color:lime;Travel@@: [[Portside District|Portside]] | [[Apothecary|GI_Apothecary]] | [[Exhibition Yard|GoldenIsleFightClub]]

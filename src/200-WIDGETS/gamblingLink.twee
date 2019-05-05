@@ -1,0 +1,20 @@
+:: gamblingLink [widget]
+<<widget "gamblingLink">>\
+<<nobr>>
+<<set _GameName = "Play "+$args[0];>>
+<<set _Link = $args[1];>>
+<<set _Energy = setup.player.GetStat('STAT', 'Energy')>>
+<<set _Phase = setup.player.Phase>>
+<<if _Energy < 1 || _Phase >= 4>>
+    @@color:grey;[<<= _GameName >>]@@
+<<else>>
+<<click _GameName _Link>>
+        <<run setup.player.AdjustStat("Energy", -1);>>
+        <<run setup.player.NextPhase(1);>>
+    <<if tags().includes("custom-menu") == false;>>
+    <<set $GameBookmark = passage();>>
+<</if>>
+<</click>>
+<</if>>
+<</nobr>>\
+<</widget>>

@@ -1,0 +1,196 @@
+:: CombatEncounterGlutezonQuest [no-teleport no-saving]
+You hide behind a the @@color:gold;Overgrown Cairn@@. The thick shadows and foilage provide \
+ample cover from prying eyes. You wait, and wait and wait, and just \
+as you're about to give up, you see a pair of shrouded shapes appear from the tree line and make their way \
+towards the cairn. 
+
+As the shapes get closer, it appears that they are group of women wearing cloaks and all with a single distinguishing \
+feature, that is to say, they all have absolutely enormous breasts. Without a doubt this is a raid by the \
+neighboring @@color:cyan;Mamazon@@ tribe! You wait for a moment, considering what to do when all of a sudden \
+a small group of ragged looking men creep out of the shadows as well.
+
+These must be the male slaves that Queen @@color:cyan;Badonka-Donk@@ was talking about. The two groups meet each \
+other in the open moonlight and without much pre-amble the @@color:cyan;Mamazon@@ women get down on their knees \
+and start offering their gigantic breasts to the men. It's clear what's going on here and what's happening to \
+the male slaves. 
+
+What do you do?
+
+@@color:yellow;Action@@: <<click "Ambush them!" "Combat">>\
+    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleeGlutezonQuest"});>>\
+    <<run setup.Combat.LoadEncounter("MamazonAmbush");>>\
+    <</click>>\
+ | <<click "Stay Hidden" "CombatAvoidGlutezonQuest">>\
+    <<run setup.player.NextPhase(1);>>\
+    <</click>>\
+:: CombatWinGlutezonQuest [no-teleport no-saving]
+<<combatResults>>
+
+The two women lay on the ground defeated, their giant fleshy tits proudly jutting into the air. One of the \
+menfolk approaches you.
+
+<span class='npcText'>"You're not one of the village warriors!"</span> he says. <span class='npcText'>"You've \
+ruined everything! We're tired of the constant rimjobs and buggery and random face sitting. We hate asses!"</span>
+
+There is a smattering of agreement from the rest of the male slaves. It appears that even though you defeated \
+the @@color:cyan;Mamazon@@ warriors, the male slaves don't want to return to the @@color:cyan;Glutezon@@ village. \
+There are a lot of them, so trying to use force to make them return is unlikely to. Maybe if you were to change \
+their minds and convince them of the superiority of asses to tits, they would return on their own. 
+
+What do you do?
+
+@@color:yellow;Action@@: <<if setup.player.GetStat('STAT', 'Perversion') >= 40>>\
+<<click "Convince them">>\
+<<if setup.player.SkillRoll('AssFucking', 100, 100, true) >= 100>>\
+<<run setup.player.QuestFlags['GlUTEZON_CHAMP_SUB1'] = 'COMPLETED';>>\
+<<run setup.player.GetNPC('Badonkadonk').AdjustStat('Mood', 20);>>\
+<<run setup.player.GetNPC('Didi').AdjustStat('Mood', 20);>>\
+<<goto CombatWinGlutezonQuestComplete>>\
+<<else>>\
+<<goto CombatWinGlutezonQuestFailed>>\
+<</if>>\
+<</click>>\
+<</if>>\
+<<if setup.player.GetStat('STAT', 'Perversion') <= 60>>\
+ | [[Forget it|CombatWinGlutezonQuestFailed2]] \
+<<else>>\
+ | @@color:grey;Too Perverted to refuse@@ \
+<</if>>\
+
+:: CombatWinGlutezonQuestComplete [no-teleport no-saving]
+By now you've had so many dicks up your backside, what's a few more? These slaves look like they're used \
+to taking orders from women, but you decide against trying to force them back to their village. Instead, \
+you grab their leader push him back up against a tree with your <<= App.PR.pAss(setup.player,true) >> ass. \
+He looks surprised at your aggressiveness and the men around him are equally concerned about what is going on.
+
+However, before he can protest, you start rubbing your arsecheeks up and down on his crotch while whispering \
+a string of filthy encouragements. It doesn't take long for him to have the desired effect and almost \
+instinctively he starts to buck against your hips. Before he can get too into it, you stop and walk away, \
+bending over a small stump and exposing your booty to the pale moonlight.
+
+All eyes are on you now as you lick your finger seductively, making sure to maintain eye contact with the men and \
+then with an exaggerated moan, you start working it up your backside. During this act you sneak a glance at the \
+crowd - some of the men are outright masturbating through their trousers.
+
+Encouraged by this fact, you start vigorously fucking your backside with your fingers while tossing your hair \
+around and screaming orgasmically. You actually start to get caught up in your act, so you're surprised when \
+one of the men, probably the leader, grabs you from behind and thrusts his turgid dick in between your cheeks.
+
+You toss him a fake smile and slowly allow him to enter your sissyhole, the look on his face is one of pure pleasure \
+and he starts to fuck your well lubricated ass with vigour. The other men are now seriously aggitated, which works \
+in your favor as you turn your head to address them and say, 
+
+<span class='pcText'>"If you want what he's having, then why don't you all go home right now?"</span>
+
+The first one to break is a younger man with an obviously straining errection. He turns tail and rushes back \
+in the direction of the @@color:cyan;Glutezon@@ village. There is a pregnant pause, the night filled only with \
+the sound of your asshole being pummeled, before the other men decide they can't take it any more and join him \
+in returning home.
+
+Soon after, the man who was raping you blows his load, a hot slimy gush of semen filling your bowels. \
+<<if setup.player.GetStat('STAT', 'Perversion') >= 80>>\
+Being the enormous pervert you are, the sensation \
+sends you into your own orgasm and soon the two of you are screaming and cumming in unison.\
+<<else>>\
+<<if setup.player.GetStat('STAT', 'Perversion') >= 60>>\
+You've been fucked so many times up the arse, that by now it's not only become commonplace, but actually \
+somewhat pleasurable. You try to prevent yourself from experiencing the humiliation of cumming while \
+another man is in your ass, but alas the sensation is too much for you to bear and you ejaculate \
+all over your feet.\
+<<else>>\
+No matter how many times you get sodomized, the experience always leaves your stomach doing flips. There is \
+a slight, and highly disturbing, moment when you feel a pure pulse of pleasure as the man works his dick \
+further up your bottom, but you're able to quickly shut it down before embarassing yourself.\
+<</if>>\
+<</if>>\
+ Now spent, the male slave pulls out of your rear with a loud ''pop''. He looks to be dazed, almost as if \
+ he is not comprehending what he just did. Such is the sway that a juicy ass has over the sex slaves of the \
+@@color:cyan;Glutezon@@ tribe. It doesn't much more than a knowing look on your behalf to send him on his \
+way back to the village.
+
+With that done, you should probably return to @@color:cyan;Badonka-Donk@@ and tell her of your success.
+
+@@color:lime;Travel@@: [[Continue|AB_OvergrownCairn]]
+:: CombatWinGlutezonQuestFailed
+By now you've had so many dicks up your backside, what's a few more? These slaves look like they're used \
+to taking orders from women, but you decide against trying to force them back to their village. Instead, \
+you grab their leader push him back up against a tree with your <<= App.PR.pAss(setup.player,true) >> ass. \
+He looks surprised at your aggressiveness and the men around him are equally concerned about what is going on.
+
+However, before he can protest, you start rubbing your arsecheeks up and down on his crotch while whispering \
+a string of filthy encouragements. It doesn't take long for him to have the desired effect and almost \
+instinctively he starts to buck against your hips. Before he can get too into it, you stop and walk away, \
+bending over a small stump and exposing your booty to the pale moonlight.
+
+All eyes are on you now as you lick your finger seductively, making sure to maintain eye contact with the men and \
+then with an exaggerated moan, you start working it up your backside. During this act you sneak a glance at the \
+crowd - some of the men are looking at you in horror, clearly they are not being convinced.
+
+Discouraged by this fact, you try to increase your allure by vigorously fucking your backside with your fingers while tossing your hair \
+around and screaming orgasmically. You actually start to get caught up in your act, so you're surprised when \
+one of the men, probably the leader, places his foot on your ass and shoves you to the ground.
+
+You scream in outrage and land face first on the other side of the tree stump. You quickly turn over to voice \
+your outrage, but only catch glimpses of the men fleeing off into the distance. Clearly, your plan had one \
+fatal flaw - trying to sell water to a drowning man.
+
+Still, even though you failed this time, perhaps you might be able to get a second chance at a later date?
+
+@@color:lime;Travel@@: [[Continue|AB_OvergrownCairn]]
+:: CombatWinGlutezonQuestFailed2
+Sure, you ''might'' be able to convince these guys of the error of their ways, but there is no \
+way in hades that you're @@color:HotPink;perveted@@ enough to try. If they want to bugger a huge ass \
+then they can go back to the @@color:cyan;Glutezon@@ camp.
+
+Of course, this decision means that it'll be impossible to convince @@color:Cyan;Badonka-Donk@@ to let \
+you join her tribe, but considering what their activities appear to be, you're not so sure about \
+joining them in the first place.
+
+@@color:lime;Travel@@: [[Continue|AB_OvergrownCairn]]
+
+:: CombatLoseGlutezonQuest [no-teleport no-saving]
+<<combatResults>>
+
+The warriors from the @@color:cyan;Mamazon@@ Tribe were too much for you. You don't even remember which attack \
+it was that did you in, either a crushing slam from a massive breast, or a crippling cleaveage hold that stole \
+your breath. In any case, your mangled body will likely be found in the morning by the @@color:cyan;Glutezon@@ \
+women who live in this area.
+
+Certainly, this was one way to free yourself from slavery, but perhaps not the best ending you could get?
+
+@@color:lime;Travel@@: [[Continue|DeathEnd]]
+
+:: CombatFleeGlutezonQuest [no-teleport no-saving]
+You "wisely" decide that discretion is the better part of valor and turn tail to run. The @@color:cyan;Mamazon@@ \
+raiders make a half hearted attempt to chase you, but thankfully you are able to make it to the gate leading \
+back to the @@color:gold;Glutezon Village@@.
+
+Unfortunately without any proof that the @@color:cyan;Glutezons@@ are behind these abductions, it seems unlikely that \
+you will be able to convince Queen @@color:cyan;Badonka-Donk@@ to let you join her tribe. Perhaps you could try again \
+sometime later?
+
+@@color:lime;Travel@@: [[Continue|AB_GlutezonGate]]
+
+:: CombatAvoidGlutezonQuest [no-teleport no-saving]
+You "wisely" decide that discretion is the better part of valor and remain hidden behind the cairn. \
+The @@color:cyan;Mamazon@@ sluts quickly descend upon the male slaves and soon the night is filled with \
+the sounds of vigorous copulation. Stream after stream of ejaculate coats the massive breasts of the two \
+women and by the time they are done titfucking all of the assembled men, even you're burning with the \
+need to rub one out. 
+
+After that display, the men leave with the amazones. It's pretty clear to you that this is less of an \
+abduction and more of a recruitment drive for the @@color:cyan;Mamazon@@ village.
+
+Still, this poses a problem. How are you going to convince @@color:cyan;Badonka-Donk@@ to let you join \
+her tribe without putting an end to this night-time orgy?
+
+@@color:lime;Travel@@: [[Continue|AB_OvergrownCairn]]
+
+:: CombatNoEncounterGlutezonQuest [no-teleport no-saving]
+You hide behind a the @@color:gold;Overgrown Cairn@@. The thick shadows and foilage provide \
+ample cover from prying eyes. You wait, and wait and wait, however as \
+the night goes on, no one shows up or passes in this direction.
+
+Maybe try again on another evening?
+
+@@color:lime;Travel@@: [[Continue|AB_OvergrownCairn]]

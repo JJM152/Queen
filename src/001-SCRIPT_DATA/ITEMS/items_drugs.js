@@ -78,6 +78,22 @@ App.Data.Drugs["healing potion"] = {
     "Effects" : [ "HEAL_COMMON", "PURGE_COMMON", "NUTRITION_UNCOMMON" ]
 };
 
+App.Data.Drugs["healing elixir"] = {
+    "Name": "healing elixir",
+    "ShortDesc": "Elixir of Healing",
+    "LongDesc": "\
+    These potions are a lot more common than most people would believe. They have the ability to cure minor wounds, \
+    combat disease and purge poisons from your system.\
+    ",
+    "Message": "\
+    You gulp down the elixir. It's sickly sweet, like a viscous syrup made from pure sugar. Within moments you \
+    feel the effects as your body starts to rejuvenate.\
+    ",
+    "Type": "potion",
+    "Charges": 1,
+    "Effects" : [ "HEAL_RARE", "PURGE_COMMON", "NUTRITION_UNCOMMON" ]
+};
+
 App.Data.Drugs["hair tonic"] = {
     "Name": "hair tonic",
     "ShortDesc": "Old JumJum's Hair Tonic",

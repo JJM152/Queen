@@ -5,6 +5,7 @@ App.Rogue.Player = function() {
 
     this._visual = {ch:"@", fg:"deepPink"};
     this._xy = null;
+    /** @type {App.Rogue.Level}*/
     this._level = null;
     this._speed = 100;
     this._hp = 10;
@@ -152,7 +153,7 @@ App.Rogue.Player = function() {
                         this._level.digAt(this.getXY());
 
                         // Randomly draw down charge.
-                        if ( this._level._depth > (Math.random() * 100)) {
+                        if ( this._level._depth > (200 * Math.random())) {
                             var shovel = setup.player.GetItemByName("shovel");
                             setup.player.UseItem(shovel.Id);
                             App.Rogue.Engine._textBuffer.write("Your shovel breaks!");
@@ -197,6 +198,7 @@ App.Rogue.Player = function() {
                 return true;
             }
 
+            if (this._lightDuration < 20 && this._lightDuration > 1) App.Rogue.Engine._textBuffer.write("Your torch is sputtering.");
             if (this._lightDuration == 1) App.Rogue.Engine._textBuffer.write("Your torch goes out!");
             if (this._lightDuration > 0) this._lightDuration--;
             if (this._lightDuration < 1) {
@@ -206,6 +208,22 @@ App.Rogue.Player = function() {
                     App.Rogue.Engine._textBuffer.write("It is dark. Press '/' to light a torch.");
                 }
                 this._lightLevel = 1;
+            }
+
+            if (this._lightDuration > 0 && Math.random() < 0.15) {
+                // get approximate direction to exit
+                /** @type {App.Rogue.XY} */
+                const exit = this._level.getExit();
+                const dirToExit = Math.atan2(xy.y - exit.y, exit.x - xy.x); // y axis it from top to bottom
+
+                function dirString(angle) {
+                    const sector = angle / (Math.PI / 4);
+                    if (angle < -3 || sector > 3) return "west";
+                    if (sector > 1) return "north";
+                    if (sector < -1) return "south";
+                    return "east";
+                }
+                App.Rogue.Engine._textBuffer.write(`A light breeze from the ${dirString(dirToExit)} causes your torch to flicker.`);
             }
 
             this._level.setEntity(this, xy);

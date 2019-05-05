@@ -7,7 +7,7 @@ meager as they are.
 
 <<NPC "Charmaine">>
 
-<<if App.QuestEngine.GetQuestFlag(setup.player, "CHARMAINE_CUSTOMER_SERVICE") == "COMPLETED" || App.QuestEngine.GetQuestFlag(setup.player, "CHARMAINE_CUSTOMER_SERVICE") == "ACTIVE">>@@color:yellow;Action@@: <<if setup.player.GetStat("STAT","Energy") < 1 or setup.player.Phase == 4>>@@color:grey;[Whore]@@
+<<if App.Quest.GetFlag(setup.player, "CHARMAINE_CUSTOMER_SERVICE") == "COMPLETED" || App.Quest.GetFlag(setup.player, "CHARMAINE_CUSTOMER_SERVICE") == "ACTIVE">>@@color:yellow;Action@@: <<if setup.player.GetStat("STAT","Energy") < 1 or setup.player.Phase == 4>>@@color:grey;[Whore]@@
 <<else>><<whoreLink "SaucySlattern">>
 <</if>><</if>>\
 @@color:lime;Travel@@: [[Portside District|Portside]]
