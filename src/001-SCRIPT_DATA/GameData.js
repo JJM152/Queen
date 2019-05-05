@@ -826,7 +826,7 @@ App.Data.Lists = {
                     "Grow" : "Your body feels strange... as if you're becoming @@color:DeepPink;&uArr;more feminine and girly@@. Maybe there's something in the food?",
                     "Shrink" : "Your body feels more normal... as if you're becoming more @@color:Cyan;&dArr;more masculine and manly@@. Perhaps the drugs are wearing off?"
                 },
-                "Fitnessr": {
+                "Fitness": {
                     "Grow" : "You feel @@color:lime;&uArr;stronger and more fit@@. Your overall fitness has increased.",
                     "Shrink" : "Your feel  @@color:red;&dArr;lazy and lethargic@@ from lack of proper exercise. Your fitness has decreased."
                 },
