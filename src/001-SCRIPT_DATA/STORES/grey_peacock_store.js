@@ -7,6 +7,6 @@ App.Data.Stores["PEACOCK"] = {
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "buttered toddy" },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "whip syllabub"  },
         { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    4,     "MAX":    4,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "cordial waters" },
-        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    3,     "MAX":    3,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "orgeat"         }
+        { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":    2,     "MAX":    2,  "PRICE":   1.0, "MOOD":  0,   "LOCK": 0,  "TAG" : "orgeat"         }
     ]
 };
