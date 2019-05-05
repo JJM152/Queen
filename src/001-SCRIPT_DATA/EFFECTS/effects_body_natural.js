@@ -1,13 +1,38 @@
 // This file lists effects that happens with body on their own with time
 /** HEALTH */
 /** ENERGY */
+// Overnight healing.
 App.Data.EffectLib.NATURAL_HEALING = {
     "FUN" : /** @param {App.Entity.Player} p
-     @param {App.Items.Consumable} o*/
-    function(o, p) { p.DoHealing(1); },
-    "VALUE" : 0, "KNOWLEDGE" : [ "Healing+" ]
+    @param {App.Items.Consumable} o*/
+    function(o, p) { 
+        var Heal = 5 + Math.ceil(p.GetStat('STAT', 'Energy') * 2) +
+                  Math.ceil(p.GetStat('STAT', 'Fitness') / 10); // 5 + 0-20 + 0-10
+        var Energy = Math.ceil( (p.GetStat('STAT', 'Nutrition')/20) + (p.GetStat('STAT', 'Fitness')/20)); // 1 - 10
+        var mod = 1 - Math.max(0, Math.min(p.GetStat('STAT', 'Toxicity')/100, 1.0)); // 0 - 1
+
+        p.AdjustStat('Health', Math.ceil(Heal * mod));
+        p.AdjustStat('Energy', Math.ceil(Energy * mod));
+
+    },
+    "VALUE" : 0, "KNOWLEDGE" : [ "Healing++" ]
 };
 
+// Resting healing.
+App.Data.EffectLib.NATURAL_RESTING = 
+{
+    "FUN" : /** @param {App.Entity.Player} p
+    @param {App.Items.Consumable} o*/
+    function(o, p) { 
+        var Heal = Math.max(1, Math.min(Math.ceil( (p.GetStat('STAT', 'Nutrition')/20) + (p.GetStat('STAT', 'Fitness')/20)), 10)); // 1 - 10
+        var mod = 1 - Math.max(0, Math.min(p.GetStat('STAT', 'Toxicity')/100, 1.0)); // 0 - 1
+        p.AdjustStat('Health', Math.ceil(Heal * mod));
+        p.AdjustStat('Energy', 1);
+        p.AdjustStat('Toxicity', -5);
+    },
+    "VALUE" : 0, 
+    "KNOWLEDGE" : [ "Healing+" ] 
+}
 App.Data.EffectLib.NATURAL_QUEST_HOOKS = {
     "FUN" : /** @param {App.Entity.Player} p */
     function(o, p) {
@@ -53,6 +78,24 @@ App.Data.EffectLib.NATURAL_DETOXIFICATION = {
     @param {App.Items.Consumable} o*/
    function(o, p) { p.AdjustStat("Toxicity", -( (5 + (p.GetStat("STAT", "Fitness") / 10)))*2); },
    "VALUE" : 0, "KNOWLEDGE" : [ "Detoxification+" ]
+};
+
+App.Data.EffectLib.NATURAL_TOXIC_DAMAGE = {
+    "FUN" : /** @param {App.Entity.Player} p
+    @param {App.Items.Consumable} o*/
+   function(o, p) { 
+        var Tox = p.GetStat('STAT', 'Toxicity');
+        var dmg = Tox <= 100 ? 0 : Math.ceil(10 * (Tox/300));
+
+        if (dmg > 0) {
+            p.AdjustStat('Health', (dmg * -1.0));
+            p.SleepLog.push("@@color:red;&dArr;You feel slightly sick@@... your current " + 
+                App.PR.ColorizeString(this.GetStatPercent("STAT", "Toxicity"), "Toxicity") +
+                " is probably to blame.");
+            }
+    },
+   "VALUE" : 0, 
+   "KNOWLEDGE" : [ "Poisoned+" ]
 };
 
 /** HORMONES */
@@ -124,9 +167,10 @@ App.Data.EffectLib.NATURAL_LACTATION_DECREASE = {
 /** WAIST */
 
 App.Data.NaturalBodyEffects = [
+    "NATURAL_DETOXIFICATION",
     "NATURAL_HEALING",
     "NATURAL_NUTRITION",
-    "NATURAL_DETOXIFICATION",
+    "NATURAL_TOXIC_DAMAGE",
     "NATURAL_HORMONE_SHIFT",
     "NATURAL_FITNESS_DECREASE",
     "NATURAL_HAIR_GROW",

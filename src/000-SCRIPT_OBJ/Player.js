@@ -1527,29 +1527,6 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         this.AdjustBodyXP(Object.keys(this._state.BodyStats)[Math.floor(Math.random() * Object.keys(this._state.BodyStats).length)], Amount, 0);
     }
 
-    DoHealing (OvernightFlag) {
-        var Heal = 5 + ( (this.GetStat("STAT", "Energy")*2) + (this.GetStat("STAT", "Fitness") / 10));
-        Heal = Heal * (( 100 - Math.max(0, Math.min(this.GetStat("STAT", "Toxicity"), 100))) / 100); // Toxicity up to 100 reduces natural healing.
-
-        if (OvernightFlag == 0) Heal = Heal / 2;
-
-        if (OvernightFlag == 1) {
-            this.AdjustStat("Energy",
-                ( Math.floor((this.GetStat("STAT", "Nutrition") / 20) + (this.GetStat("STAT", "Fitness") / 20))));
-        }
-
-        this.AdjustStat("Health",   Math.ceil(Heal));
-
-        if (OvernightFlag == 1) {
-            var PoisonDamage = Math.ceil((this.GetStat("STAT", "Health") * ((Math.max(0, Math.min((this.GetStat("STAT", "Toxicity") - 100), 200)) / 10) * 0.1))); // 0 - .2
-            if (PoisonDamage > 0) {
-                this.AdjustStat("Health", (PoisonDamage * -0.5));
-                this._state.SleepLog.push("@@color:red;&dArr;You feel slightly sick@@... your current " + App.PR.ColorizeString(this.GetStatPercent("STAT", "Toxicity"), "Toxicity") +
-                    " is probably to blame.");
-            }
-        }
-	}
-
 	BodyEffects() {
         if(this._state.BodyEffects !== undefined) return App.Data.NaturalBodyEffects.concat(this._state.BodyEffects);
         return App.Data.NaturalBodyEffects;
@@ -1616,8 +1593,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     Rest () {
         this._state.SleepLog = [];
         this.NextPhase(1);
-        this.DoHealing(0);
-        this.AdjustStat("Energy", 1);
+        this.ApplyEffects( [ "NATURAL_RESTING"] );
         this.LevelStatGroup("SKILL");
     }
 
