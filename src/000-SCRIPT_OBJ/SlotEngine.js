@@ -205,7 +205,6 @@ App.SlotEngine = new function() {
         affTags = oLust.map(function(o) { return o.Tag; }).filter(function(a,b,s) { return s.indexOf(a) == b; }); // Tags we touched their mood.
 
         for(i = 0; i < npcTags.length; i++) // Iterate through and adjust mood.
-            console.log("Adjusting Lust for " + npcTags[i] + " by " + lust);
             if (affTags.contains(npcTags[i]))
                 this._Player.GetNPC(npcTags[i]).AdjustStat("Lust", lust);
 
@@ -1206,7 +1205,6 @@ App.SlotEngine = new function() {
             var marginTop = -(heightBefore + ((that.endingLocation) * that.height));
             if (SugarCube.settings.fastAnimations == true) {
             jqoSlider.css('margin-top', marginTop+"px");
-            console.log(jqoSlider);
             } else {
             jqoSlider.stop(true,true).animate(
                 {"margin-top":marginTop+"px"},

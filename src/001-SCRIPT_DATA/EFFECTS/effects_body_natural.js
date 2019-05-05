@@ -53,7 +53,7 @@ App.Data.EffectLib.NATURAL_NUTRITION = {
 		var nutritionXP = p.GetStatXP("STAT", "Nutrition");
 		if (nutrition >= 90 && nutritionXP > 150) {
             p.AdjustBodyXP("Waist", nutritionXP - 150); // Get Fatter!?
-            p.SleepLog.push("@@color:yellow;You feel as if you ate too much yesterday.@@");
+            setup.Notifications.AddMessage("STATUS_CHANGE", p.Day+1, "@@color:yellow;You feel as if you ate too much yesterday.@@");
         }
         
         var nutrition = p.GetStat("STAT", "Nutrition");
@@ -63,7 +63,7 @@ App.Data.EffectLib.NATURAL_NUTRITION = {
         }
         // Starving. Yikes.
         if (nutrition <= 20) {
-            p.SleepLog.push("@@color:red;You are starving!@@");
+            setup.Notifications.AddMessage("STATUS_CHANGE", p.Day+1, "@@color:red;You are starving!@@");
             p.AdjustStat("Energy", -1); // Reduce Energy.
             p.AdjustStat("Health", -15);
             p.AdjustBodyXP("Waist", -50);
@@ -89,8 +89,8 @@ App.Data.EffectLib.NATURAL_TOXIC_DAMAGE = {
 
         if (dmg > 0) {
             p.AdjustStat('Health', (dmg * -1.0));
-            p.SleepLog.push("@@color:red;&dArr;You feel slightly sick@@... your current " + 
-                App.PR.ColorizeString(this.GetStatPercent("STAT", "Toxicity"), "Toxicity") +
+            setup.Notifications.AddMessage("STATUS_CHANGE", p.Day+1, "@@color:red;&dArr;You feel slightly sick@@... your current " + 
+                App.PR.ColorizeString(p.GetStatPercent("STAT", "Toxicity"), "Toxicity") +
                 " is probably to blame.");
             }
     },

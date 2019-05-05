@@ -3,7 +3,15 @@
 
 You wake up not long after, feeling slightly more energetic.
 
-<<if setup.player.SleepLog.length != 0>><<for _i to 0; _i lt setup.player.SleepLog.length; _i++>>\
-<<print setup.player.SleepLog[_i]>><br/><</for>><</if>>\
 @@color:cyan;Interact@@: [[Exit|Cabin]]
-@@color:yellow;Action@@: <<if setup.player.Phase != 3>><<if setup.player.CoreStats["Energy"] < setup.player.GetMaxStat("STAT", "Energy")>>[[Continue Resting|Rest]]<<else>>@@color:grey;[Continue Resting]@@<</if>><<else>>[[Sleep]]<</if>>
+@@color:yellow;Action@@: <<if setup.player.Phase != 3>>\
+<<if setup.player.CoreStats["Energy"] < setup.player.GetMaxStat("STAT", "Energy")>>\
+[[Continue Resting|Rest]]\
+<<else>>\
+@@color:grey;[Continue Resting]@@\
+<</if>>\
+<<else>>\
+<<click "Sleep" "Sleep">>\
+<<run setup.player.NextDay();>>\
+<</click>>\
+<</if>>

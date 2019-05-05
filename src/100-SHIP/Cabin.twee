@@ -23,7 +23,17 @@ for light and a velvety purple curtain draped next to your bed that brings some 
 <<set $InIntro = 0>>\
 <span id='descSpan'></span>
 @@color:cyan;Interact@@: [[Wardrobe]] | [[Vanity]] | [[Mirror]]
-@@color:yellow;Action@@: <<if setup.player.Phase < 3>><<if setup.player.CoreStats["Energy"] == setup.player.GetMaxStat("STAT","Energy");>>@@color:grey;[Rest]@@<<else>><<customMenuLink "Rest">><</if>><<else>><<customMenuLink "Sleep">><</if>> | \
+@@color:yellow;Action@@: <<if setup.player.Phase < 3>>\
+<<if setup.player.CoreStats["Energy"] == setup.player.GetMaxStat("STAT","Energy");>>\
+@@color:grey;[Rest]@@\
+<<else>>\
+<<customMenuLink "Rest">>\
+<</if>>\
+<<else>>\
+<<click "Sleep" "Sleep">>\
+<<run setup.player.NextDay();>>\
+<</click>>\
+<</if>> | \
 <<if setup.player.CanReStyle() == true>><<link [[Quick Makeup and Hair|Cabin]]>><<run setup.player.ReStyle()>><</link>><<else>>@@color:grey;[Quick Makeup and Hair]@@<</if>>
 @@color:lime;Travel@@: [[Deck]]
 

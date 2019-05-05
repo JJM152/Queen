@@ -34,3 +34,5 @@ App.Combat.EncounterData = { };
 App.Combat.EnemyData = { };
 App.Combat.Engines = { };
 App.Combat.Moves = { };
+
+App.Notifications = { };

@@ -344,7 +344,7 @@ App.Data.Lists = {
                 }
             },
 			"SkillConfig" : {
-				"HandJobs": { "MIN" : 0, "MAX" : 100, "START" : 0,
+				"HandJobs": { "MIN" : 0, "MAX" : 100, "START" : 0, "ALTNAME" : "Hand Jobs",
                     "LEVELING" : {
                          5 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  1},
                         10 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  2},
@@ -363,7 +363,7 @@ App.Data.Lists = {
                        100 : { "COST" : 1500, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 16}
                     }
                 },
-				"TitFucking": { "MIN" : 0, "MAX" : 100, "START" : 0,
+				"TitFucking": { "MIN" : 0, "MAX" : 100, "START" : 0, "ALTNAME" : "Tit Fucking",
                     "LEVELING" : {
                          5 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  1},
                         10 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  2},
@@ -382,7 +382,7 @@ App.Data.Lists = {
                        100 : { "COST" : 1500, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 16}
                     }
                 },
-				"BlowJobs": { "MIN" : 0, "MAX" : 100, "START" : 0,
+				"BlowJobs": { "MIN" : 0, "MAX" : 100, "START" : 0, "ALTNAME" : "Blow Jobs",
                     "LEVELING" : {
                          5 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "dick licker", "COLOR" :  1},
                         10 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "dick licker", "COLOR" :  2},
@@ -401,7 +401,7 @@ App.Data.Lists = {
                        100 : { "COST" : 1500, "STEP" : 1, "ADJECTIVE" : "cock sucking queen", "COLOR" : 16}
                     }
                 },
-				"AssFucking": { "MIN" : 0, "MAX" : 100, "START" : 0,
+				"AssFucking": { "MIN" : 0, "MAX" : 100, "START" : 0, "ALTNAME" : "AssFucking",
                     "LEVELING" : {
                          5 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  1},
                         10 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  2},
@@ -610,7 +610,7 @@ App.Data.Lists = {
                        100 : { "COST" :  750, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 16}
                     }
                 },
-                "BoobJitsu": { "MIN" : 0, "MAX" : 100, "START" : 0,
+                "BoobJitsu": { "MIN" : 0, "MAX" : 100, "START" : 0, "ALTNAME" : "Boob-Jitsu",
                 "LEVELING" : {
                         5 : { "COST" :   50, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  1},
                         10 : { "COST" :   50, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  2},
@@ -629,7 +629,7 @@ App.Data.Lists = {
                         100 : { "COST" :  750, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 16}
                     }
                 },
-				"AssFu": { "MIN" : 0, "MAX" : 100, "START" : 0,
+				"AssFu": { "MIN" : 0, "MAX" : 100, "START" : 0, "ALTNAME" : "Ass-Fu",
                     "LEVELING" : {
                          5 : { "COST" :   50, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  1},
                         10 : { "COST" :   50, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  2},
@@ -799,234 +799,6 @@ App.Data.Lists = {
                 "red" : { h: 0, s: 100, l: 30 },
                 "lavender" : { h: 240, s: 67, l: 94}
             },
-            "SexActFrequency": ["HandJobs", "BlowJobs", "BlowJobs", "TitFucking", "AssFucking", "AssFucking"],
-            "SkillDictionary": { "HandJobs" : "Hand Job", "BlowJobs" : "Blow Job", "TitFucking" : "Titty Fuck", "AssFucking" : "Ass Fuck" },
-            "SexCommands" : {
-                "HandJobs" : [
-                    { "Name": "Stroke", "SKILL" : "HandJobs", "DIFFICULTY" : 20, "Basic" : 0, "Advanced" : 30, "Expert" : 60, "Arousal" : 4, "Satisfaction" : 8 },
-                    { "Name": "Lubricate", "SKILL" : "HandJobs", "DIFFICULTY" : 20, "Basic" : 5, "Advanced" : 30, "Expert" : 60, "Arousal" : 8, "Satisfaction" : 4 },
-                    { "Name": "Wank", "SKILL" : "HandJobs", "DIFFICULTY" : 30, "Basic" : 20, "Advanced" : 40, "Expert" : 70, "Arousal" : 8, "Satisfaction" : 12 },
-                    { "Name": "Encourage", "SKILL" : "HandJobs", "DIFFICULTY" : 30, "Basic" : 40, "Advanced" : 60, "Expert" : 80, "Arousal" : 12, "Satisfaction" : 8 },
-                    { "Name": "Finish", "SKILL" : "HandJobs", "DIFFICULTY" : 40, "Basic" : 0, "Advanced" : 60, "Expert" : 80, "Arousal" : 4, "Satisfaction" : 8 }],
-                "BlowJobs" : [
-                    { "Name": "Suck", "SKILL" : "BlowJobs", "DIFFICULTY" : 20, "Basic" : 0, "Advanced" : 30, "Expert" : 60, "Arousal" : 4, "Satisfaction" : 8 },
-                    { "Name": "Lick", "SKILL" : "BlowJobs", "DIFFICULTY" : 20, "Basic" : 5, "Advanced" : 30, "Expert" : 60, "Arousal" : 8, "Satisfaction" : 4 },
-                    { "Name": "Tease", "SKILL" : "BlowJobs", "DIFFICULTY" : 30, "Basic" : 20, "Advanced" : 40, "Expert" : 70, "Arousal" : 12, "Satisfaction" : 8 },
-                    { "Name": "Throat", "SKILL" : "BlowJobs", "DIFFICULTY" : 30, "Basic" : 40, "Advanced" : 60, "Expert" : 80, "Arousal" : 8, "Satisfaction" : 12 },
-                    { "Name": "Finish", "SKILL" : "BlowJobs", "DIFFICULTY" : 40, "Basic" : 0, "Advanced" : 60, "Expert" : 80, "Arousal" : 12, "Satisfaction" : 8 }],
-                "TitFucking" : [
-                    { "Name": "Stroke","SKILL" : "TitFucking", "DIFFICULTY" : 20, "Basic" : 0, "Advanced" : 30, "Expert" : 60, "Arousal" : 4, "Satisfaction" : 8 },
-                    { "Name": "Lubricate", "SKILL" : "TitFucking", "DIFFICULTY" : 20, "Basic" : 5, "Advanced" : 30, "Expert" : 60, "Arousal" : 8, "Satisfaction" : 12 },
-                    { "Name": "Wank", "SKILL" : "TitFucking", "DIFFICULTY" : 30, "Basic" : 20, "Advanced" : 40, "Expert" : 70, "Arousal" : 8, "Satisfaction" : 12 },
-                    { "Name": "Encourage", "SKILL" : "TitFucking", "DIFFICULTY" : 30, "Basic" : 40, "Advanced" : 60, "Expert" : 80, "Arousal" : 12, "Satisfaction" : 8 },
-                    { "Name": "Finish", "SKILL" : "TitFucking", "DIFFICULTY" : 40, "Basic" : 0, "Advanced" : 60, "Expert" : 80, "Arousal" : 12, "Satisfaction" : 8 }],
-                "AssFucking" : [
-                    { "Name": "Spread", "SKILL" : "AssFucking", "DIFFICULTY" : 20, "Basic" : 0, "Advanced" : 30, "Expert" : 60, "Arousal" : 4, "Satisfaction" : 8 },
-                    { "Name": "Encourage", "SKILL" : "AssFucking", "DIFFICULTY" : 20, "Basic" : 5, "Advanced" : 30, "Expert" : 60, "Arousal" : 8, "Satisfaction" : 4 },
-                    { "Name": "Sway", "SKILL" : "AssFucking", "DIFFICULTY" : 30, "Basic" : 20, "Advanced" : 40, "Expert" : 70, "Arousal" : 8, "Satisfaction" : 12 },
-                    { "Name": "Pound", "SKILL" : "AssFucking", "DIFFICULTY" : 30, "Basic" : 40, "Advanced" : 60, "Expert" : 80, "Arousal" : 12, "Satisfaction" : 8 },
-                    { "Name": "Finish", "SKILL" : "AssFucking", "DIFFICULTY" : 40, "Basic" : 0, "Advanced" : 60, "Expert" : 80, "Arousal" : 12, "Satisfaction" : 8 }]
-            },
-            "SexChats": {
-                "HandJobs": {
-                    "CustomerIntro": [
-                        "Come here PLAYER_NAME, ya slutty bitch and give me a handy.",
-                        "Hey PLAYER_NAME, I want you to give me a nice and slow hand job.",
-                        "Talk dirty to me and wank me off.",
-                        "Be a good little PLAYER_NAME-slut and pull my meat til I blow a load on your whore face."],
-                    "Negotiate": [
-                        "How about you come over here and let me stroke your cock?",
-                        "Hmm... how about I wank you off all over my face instead?"],
-                    "Angry" : [
-                        "Bitch, I'm not in the mood for your sass. Do what I say now!" ],
-                    "Disagree" : [
-                        "Not this time, I really want a hand job and that's it.",
-                        "Stop talking foolishness and start stroking cock." ],
-                    "Agree" : [
-                        "Alright PLAYER_NAME, we'll try it your way. This better be a damn good hand job."],
-                    "StrokeBasic" : [
-                        "You hesitantly stroke NPC_NAME's cock with your hands. It stiffens slightly under your touch.",
-                        "You gingerly pump your fingers along the shaft of NPC_NAME's cock. He groans slightly."],
-                    "StrokeAdvanced" : [
-                        "You grab NPC_NAME's cock with both hands and pump your fingers up and down while looking him in the eye.",
-                        "You let out a slight moan as you start pumping NPC_NAME's cock towards your face."],
-                    "StrokeExpert" : [
-                        "You stare NPC_NAME in the eyes and lick your lips while furiously jacking his cock towards your face.",
-                        "You expertly pump your fingers along the shaft of NPC_NAME's cock. He groans slightly."],
-                    "LubricateBasic" : [
-                        "You spit and drool on NPC_NAME's cock while trying to maintain eye contact and softly begin to stroke him."],
-                    "LubricateAdvanced" : [
-                        "You gently lick NPC_NAME's cock up and down making sure to get it slick and wet with copious amounts of drool, once finished you start pumping him seductively." ],
-                    "LubricateExpert" : [
-                        "You passionately lick and slobber up and down NPC_NAME's clock, sucking on his balls and the tip of his cock. Once finished, you start expertly pumping him while maintaining eye contact."],
-                    "WankBasic" : [
-                        "You awkwardly run your hands up and down NPC_NAME's shaft, trying hard to arouse him."],
-                    "WankAdvanced" : [
-                        "You vigorously wank NPC_NAME's cock all over your face and massage his balls." ],
-                    "WankExpert" : [
-                        "You expertly wank NPC_NAME's cock over your chest and face while massaging his balls and licking his shaft."],
-                    "EncourageBasic" : [
-                        "You awkwardly run your hands up and down NPC_NAME's cock and balls, taking your time to try and arouse him."],
-                    "EncourageAdvanced" : [
-                        "You gently rub NPC_NAME's cock all over your face and massage his balls." ],
-                    "EncourageExpert" : [
-                        "You expertly rub NPC_NAME's cock over your chest and face while massaging his balls and licking his shaft."],
-                    "FinishBasic" : [
-                        "You concentrate on furiously stroking NPC_NAME's cock. Eventually you feel his body shudder and he climaxes, spurting long ropes of cum into your hair." ],
-                    "FinishAdvanced" : [
-                        "You maintain eye contact while quickly pumping NPC_NAME's cock and encouraging him to give you a big load of cum. After a few moments you feel his dick pulse and shoot a large stream of semen all over your face."],
-                    "FinishExpert" : [
-                        "You gaze sexily at NPC_NAME while stroking his dick expertly. You encourage him, begging him to release his load on you and eventually you feel his dick start to spasm. The first gushes of his semen land on your face and you quickly cover the tip of his dick with your mouth to catch the rest of it. He pumps for a long time, jism filling your cheeks. When his orgasm subsides you open your mouth, showing off the cum you've collected and then you swallow and lick your lips." ]
-                },
-                "BlowJobs": {
-                    "CustomerIntro": [
-                        "Come here PLAYER_NAME, ya whore and suck me off.",
-                        "Oi, PLAYER_NAME! Gimme a blow job with that slutty mouth o' yours.",
-                        "Damn it PLAYER_NAME, get your whore mouth over here and suck my cock.",
-                        "Hey slut, get over here and swallow my load."],
-                    "Negotiate": [
-                        "How about I suck that cock of yours instead?",
-                        "Why don't you try blowing a load in my mouth?"],
-                    "Angry" : [
-                        "You're going to choke on my meat and you're going to like it!",
-                        "If you don't start sucking, then I'm going to start choking."],
-                    "Disagree" : [
-                        "Not this time, I really want a blow job and that's it.",
-                        "Stop talking foolishness and start sucking cock." ],
-                    "Agree" : [
-                        "Alright PLAYER_NAME, we'll try it your way. This better be a damn good blow job."],
-                    "SuckBasic" : [
-                        "You hesitantly suck on NPC_NAME's dick, slowly bobbing your head up and down on his shaft.",
-                        "You lick and suck on the head of NPC_NAME's cock and then take him fully in your mouth."],
-                    "SuckAdvanced" : [
-                        "You lick the end of NPC_NAME's dick and run your lips over the head of his cock before taking it in your mouth.",
-                        "You languidly suck on NPC_NAME's cock, wrapping your lips around his turgid meat and using your tongue to pleasure him."],
-                    "SuckExpert" : [
-                        "Your expertly roll NPC_NAME's cock around in your mouth and suck him with a noisy slurping sound.",
-                        "You vigorously bob your head up and down on NPC_NAME's shaft and work your tongue around the head of his cock."],
-                    "LickBasic" : [
-                        "You lick and drool on NPC_NAME's cock while trying to maintain eye contact."],
-                    "LickAdvanced" : [
-                        "You gently lick NPC_NAME's cock up and down making sure to get it slick and wet with copious amounts of drool." ],
-                    "LickExpert" : [
-                        "You passionately lick and slobber up and down NPC_NAME's clock, sucking on his balls and the tip of his cock."],
-                    "TeaseBasic" : [
-                        "You softly moan while sucking on the head of NPC_NAME's cock."],
-                    "TeaseAdvanced" : [
-                        "You take NPC_NAME's cock deep in your mouth and moan while maintaining eye contact with him." ],
-                    "TeaseExpert" : [
-                        "You stare at NPC_NAME's cock and then intently attack it with your mouth while moaning and playing with yourself."],
-                    "ThroatBasic" : [
-                        "You slowly work NPC_NAME's cock down your throat and bob your head up and down while he fucks your mouth."],
-                    "ThroatAdvanced" : [
-                        "You go down as far as you can on NPC_NAME's dick until there is tears in your eyes and then proceed to let him fuck your mouth." ],
-                    "ThroatExpert" : [
-                        "You easily go down to the root of NPC_NAME's cock and then furiously begin bobbing your head up and down."],
-                    "FinishBasic" : [
-                        "You do your best to maintain suction on NPC_NAME's dick while he fucks your face. Eventually he grabs the side of your head, holding it in place as he pumps shot after shot of semen into your mouth."],
-                    "FinishAdvanced" : [
-                        "NPC_NAME proceeds to fuck your face with abandon and you do your best to accommodate him, eventually he grabs the side of your head and cums hard down your throat."],
-                    "FinishExpert" : [
-                        "You work your head up and down on NPC_NAME's cock, taking as much as you can down your throat with each pump. Eventually NPC_NAME grabs the back of your head and grinds your face into his crotch and unleashes a torrent of cum into your gullet."]
-                },
-                "TitFucking": {
-                    "CustomerIntro": [
-                        "Come here and let me fuck those titties!",
-                        "Oi, PLAYER_NAME! I want to blow a load all over those tits!"],
-                    "Negotiate": [
-                        "Why don't you fuck my tits and blow a load all over them?",
-                        "Oh, but I was looking forward to having a load all over my jugs..."],
-                    "Angry" : [
-                        "Since when do pairs of tits talk back?",
-                        "Dammit, I'm not in the mood for your bullshit PLAYER_NAME." ],
-                    "Disagree" : [
-                        "Not this time, I really want a titty fuck and that's it.",
-                        "Stop talking foolishness and start stroking dick." ],
-                    "Agree" : [
-                        "Alright PLAYER_NAME, we'll try it your way. Now get those tits ready."],
-                    "StrokeBasic" : [
-                        "You hesitantly stroke NPC_NAME's cock with your tits. It stiffens slightly under your touch.",
-                        "You slowly move your tits along the shaft of NPC_NAME's cock. He groans slightly."],
-                    "StrokeAdvanced" : [
-                        "You envelop NPC_NAME's cock with both tits and pump them up and down while looking him in the eye.",
-                        "You let out a slight moan as you start pumping NPC_NAME's cock with your tits."],
-                    "StrokeExpert" : [
-                        "You stare NPC_NAME in the eyes and lick your lips while furiously jacking his cock with your melons.",
-                        "You expertly pump your tits along the shaft of NPC_NAME's cock. He groans slightly."],
-                    "LubricateBasic" : [
-                        "You spit and drool on NPC_NAME's cock while trying to maintain eye contact and softly begin to stroke him."],
-                    "LubricateAdvanced" : [
-                        "You gently lick NPC_NAME's cock up and down making sure to get it slick and wet with copious amounts of drool, once finished you start pumping him seductively with your knockers." ],
-                    "LubricateExpert" : [
-                        "You passionately lick and slobber up and down NPC_NAME's clock, sucking on his balls and the tip of his cock. Once finished, you start expertly pumping him while maintaining eye contact."],
-                    "WankBasic" : [
-                        "You awkwardly wank your tits up and down NPC_NAME's cock and balls, taking your time to try and arouse him."],
-                    "WankAdvanced" : [
-                        "You vigorously wank NPC_NAME's cock with your tits. Occasionally you lick his shaft and smear the drool along your cleavage while fondling his balls." ],
-                    "WankExpert" : [
-                        "You wank your tits roughly up and down on NPC_NAME's dick, trying to make sure that you get as much contact as possible while drooling and licking on his cock."],
-                    "EncourageBasic" : [
-                        "You do your best to arouse NPC_NAME by fondling your tits and talking dirty. He slides his dick between your tits and starts to slowly pump away."],
-                    "EncourageAdvanced" : [
-                        "You moan and encourage NPC_NAME as he pumps away at your hooters." ],
-                    "EncourageExpert" : [
-                        "You beg NPC_NAME to fuck your whore tits and dump his cum all over them. He responds by pumping away furiously."],
-                    "FinishBasic" : [
-                        "You do your best to hold your tits together while NPC_NAME fucks away at them. Eventually his entire body shudders and he shoots rope after rope of smelly sperm on them."],
-                    "FinishAdvanced" : [
-                        "You jack your tits up and down on NPC_NAME's cock and encourage him to cum. He pumps furiously until he climaxes and blasts you in the face with a thick rope of semen."],
-                    "FinishExpert" : [
-                        "You expertly work your tits up and down on NPC_NAME's cock, encouraging him to dirty your body with his seed. The last comment sends him over the edge and he starts to cum all over your tits, only to have you put your mouth over his dick and start sucking the rest out."]
-                },
-                "AssFucking": {
-                    "CustomerIntro": [
-                        "Bend over PLAYER_NAME and let me fuck your sissy whore ass.",
-                        "Prepare that sissy-slut ass for a mighty fucking!",
-                        "I'm going to fuck your ass so hard you won't be able to sit down for a week!"],
-                    "Negotiate": [
-                        "But my slutty sissy ass is so empty right now...",
-                        "Why don't you come over here and fuck my ass silly?"],
-                    "Angry" : [
-                        "I'm not paying for your personality. Now bend over bitch!",
-                        "Shut your whore mouth and open your ass!" ],
-                    "Disagree" : [
-                        "Not this time, I really want to fuck your whore ass and that's it.",
-                        "Stop talking foolishness and bend over, here I come, slut!" ],
-                    "Agree" : [
-                        "Alright PLAYER_NAME, now bend over and make way for a pounding."],
-                    "SpreadBasic" : [
-                        "You gasp slightly as you do your best to spread your ass checks so that NPC_NAME can pump away at your slutty sissy hole.",
-                        "You spread your cheeks and try to push your sphincter open so that NPC_NAME gets better access as he pumps your butt."],
-                    "SpreadAdvanced" : [
-                        "You hold each of your butt cheeks and open your sphincter wide, enabling NPC_NAME to get better access as he rails your sissy ass."],
-                    "SpreadExpert" : [
-                        "You moan and gasp as your totally open butt hole allows NPC_NAME to plow you with abandon."],
-                    "EncourageBasic" : [
-                        "As NPC_NAME pounds your butt, you try to fake a moan and encourage him to fuck you."],
-                    "EncourageAdvanced" : [
-                        "As NPC_NAME pounds your butt, you moan and encourage him to fuck your sissy ass." ],
-                    "EncourageExpert" : [
-                        "As NPC_NAME pounds your butt, you buck your hips and moan passionately, begging him to fuck your dirty whore ass."],
-                    "SwayBasic" : [
-                        "You gently try to rock your ass back and forth on NPC_NAME's cock while he fucks you."],
-                    "SwayAdvanced" : [
-                        "You rock your hips and stimulate NPC_NAME's cock as he fucks your ass." ],
-                    "SwayExpert" : [
-                        "You sway and match the rhythm of your movements to NPC_NAME's thrusts as he fucks your ass."],
-                    "PoundBasic" : [
-                        "You try to push back on NPC_NAME's cock as he fucks your ass."],
-                    "PoundAdvanced" : [
-                        "You move your ass up and down in time with NPC_NAME's thrusts, forcing his cock deep into your sissy asshole." ],
-                    "PoundExpert" : [
-                        "You passionately push back in time with NPC_NAME's thrust taking every inch of his cock up your sissy hole and causing him to gasp in pleasure."],
-                    "FinishBasic" : [
-                        "You do your best to hold on while NPC_NAME fucks your ass. Eventually you feel his body stop and seize up and then a warm sensation as your bowels fill with cum."],
-                    "FinishAdvanced" : [
-                        "You move your ass vigorously in an attempt to pleasure NPC_NAME as he fucks you. Eventually he lets loose a mighty howl and rams his cock all the way up your ass, filling it with pent up cum."],
-                    "FinishExpert" : [
-                        "You stroke your sissy clit at NPC_NAME fucks your ass, eventually the combination of the two acts brings you to climax. The ensuing orgasm causes your sphincter to spasm and send NPC_NAME over the edge. As he buries himself up your ass, the sensation of hot cum flooding your bowels sends you into another dizzying orgasm."]
-                }
-            },
 			"BodyChanges" : {
                 "WillPower": {
                     "Grow" : "You feel @@color:lime;&uArr;renewed resolve@@ to persevere. Your Willpower has increased.",
@@ -1035,6 +807,10 @@ App.Data.Lists = {
                 "Hormones" : {
                     "Grow" : "Your body feels strange... as if you're becoming @@color:DeepPink;&uArr;more feminine and girly@@. Maybe there's something in the food?",
                     "Shrink" : "Your body feels more normal... as if you're becoming more @@color:Cyan;&dArr;more masculine and manly@@. Perhaps the drugs are wearing off?"
+                },
+                "Fitnessr": {
+                    "Grow" : "You feel @@color:lime;&uArr;stronger and more fit@@. Your overall fitness has increased.",
+                    "Shrink" : "Your feel  @@color:red;&dArr;lazy and lethargic@@ from lack of proper exercise. Your fitness has decreased."
                 },
 				"Face" :
 				{

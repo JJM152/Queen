@@ -184,7 +184,6 @@ App.EventHandlers = new function() {
             newP.MakeupBonus = oldP.MakeupBonus;
             newP.EyeColor = oldP.EyeColor;
             newP.Money = oldP.Money;
-            newP.SleepLog = oldP.SleepLog;
             newP.SailDays = oldP.SailDays;
             newP.LastUsedMakeup = oldP.LastUsedMakeup;
             newP.LastUsedHair = oldP.LastUsedHair;

@@ -17,7 +17,6 @@ App.Entity.PlayerState = function (){
     this.MakeupBonus = 0;
     this.EyeColor = "brown";
     this.Money = 0;
-    this.SleepLog = [];
     /** @type {number} */
     this.SailDays = 1;
     this.LastUsedMakeup = "minimal blush and lipstick";
@@ -1509,31 +1508,48 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         var Step = (TargetScore < 0) ? (Leveling["STEP"] * -1.0) : Leveling["STEP"];
 
         if (Type == "STAT") {
+
+            if (StatName == "Fitness") {
+                if (Step < 0) {
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("Fitness", "Shrink"));
+                } else {
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("Fitness", "Grow"));
+                }
+            }
+
             if (StatName == "WillPower") {
                 if (Step < 0) {
-                    this._state.SleepLog.push(this.pBodyChange("WillPower", "Shrink"));
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("WillPower", "Shrink"));
                 } else {
-                    this._state.SleepLog.push(this.pBodyChange("WillPower", "Grow"));
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("WillPower", "Grow"));
                 }
             }
 
             if (StatName == "Hormones") {
                 if (Step < 0 ) {
-                    this._state.SleepLog.push(this.pBodyChange("Hormones", "Shrink"));
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("Hormones", "Shrink"));
                 } else {
-                    this._state.SleepLog.push(this.pBodyChange("Hormones", "Grow"));
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("Hormones", "Grow"));
                 }
             }
             this.AdjustStat(StatName, Step);
         }
 
-        if (Type == "SKILL") this.AdjustSkill(StatName, Step);
+        if (Type == "SKILL")  {
+            var statTitle = App.Data.Lists.SkillConfig[StatName].hasOwnProperty('ALTNAME') ? 
+                App.Data.Lists.SkillConfig[StatName]["ALTNAME"] : StatName;
+            this.AdjustSkill(StatName, Step);
+            setup.Notifications.AddMessage('KNOWLEDGE', 
+                this.Day+1, 
+                "Your "+App.PR.ColorizeString(this.GetStatPercent('SKILL', StatName), statTitle) + " skill improves!");
+        }
+
         if (Type == "BODY") {
             this.AdjustBody(StatName, Step);
             if (Step < 0) {
-                this._state.SleepLog.push(this.pBodyChange(StatName, "Shrink"));
+                setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange(StatName, "Shrink"));
             } else {
-                this._state.SleepLog.push(this.pBodyChange(StatName, "Grow"));
+                setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange(StatName, "Grow"));
             }
         }
         this.AdjustXP(Type, StatName, Cost, 0, true);
@@ -1565,7 +1581,6 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     // Resting and Sleeping functions.
     NextDay () {
-        this._state.SleepLog = []; // Null the overnight results text log.
 
         // Gain 'Knowledge' about worn clothes, log days worn.
         // Apply passive effects on worn items.
@@ -1579,7 +1594,15 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
             this.AddHistory("DAYS_WORN", this.Clothing.Equipment[prop].Name, 1); // tracking just days worn
             this.Clothing.Equipment[prop].ApplyEffects(this);
             var logMsg = this.Clothing.Equipment[prop].LearnKnowledge(this);
-            if ((typeof logMsg != 'undefined') && logMsg != "") this._state.SleepLog.push(logMsg);
+            if ((typeof logMsg != 'undefined') && logMsg != "") setup.Notifications.AddMessage('KNOWLEDGE', this.Day+1, logMsg);
+        }
+
+        // Tarot card effects and dream.
+        if (this.JobFlags.hasOwnProperty('TAROT_CARD')) {
+            var tarot = App.Data.Tarot[this.JobFlags["TAROT_CARD"]];
+            this.ApplyEffects(tarot.Effects);
+            setup.Notifications.AddMessage('DREAMS', this.Day+1, tarot.Msg);
+            delete this.JobFlags["TAROT_CARD"];
         }
 
         this.ApplyEffects(this.BodyEffects());
@@ -1593,13 +1616,13 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         this._state.HairStyle = "bed head";
         this._state.MakeupStyle = "plain faced";
 
+        // Decrease voodoo effects
+        this.EndHexDuration();
+
         this._state.Day++;
         // What day are we on our current voyage.
         this._state.SailDays = ((this._state.SailDays + 1) >= App.Data.Lists["ShipRoute"].length) ? 0 : (this._state.SailDays + 1);
         this._state.Phase = 0;
-
-        // Decrease voodoo effects
-        this.EndHexDuration();
         this.NPCNextDay();
         App.Quest.NextDay(this);
         App.Avatar.DrawPortrait();
@@ -1622,7 +1645,6 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     }
 
     Rest () {
-        this._state.SleepLog = [];
         this.NextPhase(1);
         this.ApplyEffects( [ "NATURAL_RESTING"] );
         this.LevelStatGroup("SKILL");
@@ -2093,7 +2115,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
                     if (this._state.VoodooEffects[prop] <= 0) {
                         delete this._state.VoodooEffects["PIRATES_PROWESS"];
                         delete this._state.VoodooEffects["PIRATES_PROWESS_DURATION"];
-                        this._state.SleepLog.push("You feel the effects of your pirates skill leave you...");
+                        setup.Notifications.AddMessage('STATUS_CHANGE', this.Day+1, "You feel the effects of your pirates skill leave you...");
                     }
             }
         }
@@ -2324,7 +2346,6 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     get MakeupBonus() { return this._state.MakeupBonus; }
     get EyeColor() { return this._state.EyeColor; }
     get Money() { return this._state.Money; }
-    get SleepLog() { return this._state.SleepLog; }
     /** @type {number} */
     get SailDays() { return this._state.SailDays; }
     get LastUsedMakeup() { return this._state.LastUsedMakeup; }
