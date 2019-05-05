@@ -373,9 +373,9 @@ App.Gambling.Coffin = class CoffinEngine {
             e.addClass("disabledGamePanel");
             d.html('<span style="color:red">Not enough money.</span>');
             e.append(d);
-        } else if (want != "Coins" && (value > (50 - g.lust)) || value == 0) { // Player sex skill too low for pirate lust
+        } else if (value == 0 ) { // Player sex skill too low for pirate lust
             e.addClass("disabledGamePanel");
-            d.html("<span style='color:red'>Skill: "+this._Wants[want]+" is too low.</span>");
+            d.html("<span style='color:red'>Not skillfull enough.</span>");
             e.append(d);
         } else if ( status != 0 ) {
             e.addClass("disabledGamePanel");
