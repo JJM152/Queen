@@ -38,7 +38,7 @@ here that can <span style='lime'>purge</span> toxicity from your blood. Healing 
 You nod your head as you swallow the last bite of peach that you were given.
 
 <span class='npcText'>"And stay away from cheap herbs and dust when you're sick. That shit will only \
-make the problem worst. The herbs are the worst, they'll heal you but make you sicker. You need to flush \
+make the problem worse. The herbs are the worst, they'll heal you but make you sicker. You need to flush \
 the poison from your system and use those herbs sparingly."</span>
 
 He pokes you in the chest.
@@ -51,7 +51,8 @@ you're overcome with a momentary feeling of grattitude. However, before you can 
 
 Still, this is good information and you ''are'' feeling better. You'll be sure to follow his advice from now on.
 
-//You can buy peaches from @@color:cyan;Cookie@@ if he likes you enough that will purge some toxicity from your blood.//
+//You can buy peaches from @@color:cyan;Cookie@@ if he likes you enough that will purge some toxicity from your \
+blood, otherwise resting and sleeping will slowly cure you.//
 
 @@color:lime;Travel@@: <<click "Continue" "Deck">>\
 <<run setup.player.CoreStats.Toxicity = 0;>>\

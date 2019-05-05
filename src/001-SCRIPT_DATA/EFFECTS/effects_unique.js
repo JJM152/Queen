@@ -109,11 +109,12 @@ App.Data.EffectLib["SIREN_ELIXIR"] = {
         p.AdjustBodyXP('Ass', 100);
         p.AdjustBodyXP('Waist',-100);
         p.AdjustBodyXP('Hair', 100);
+        p.AdjustStat('Toxicity', 50);
     },
     "VALUE" : 500,
     "KNOWLEDGE" : [ "Female Hormones+++", "Face Prettier++",
         "Bust Growth++", "Ass Growth++", "Hips Wider++", "WillPower Up+++",
-        "Waist Narrower++", "Perversion Down++++" ]
+        "Waist Narrower++", "Perversion Down++++", "Toxicity Up---" ]
 };
 
 App.Data.EffectLib["ELECTUARY_MARS"] = {
