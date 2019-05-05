@@ -344,3 +344,12 @@ span.pcThought {
 	margin-left: 10px;
 	margin-top: 40px;
 }
+
+div.HeaderSection {
+	width: 100%;
+	font-weight: bold;
+	font-size: larger;
+	padding-left: 20px;
+	color: white;
+	background-color: steelblue;
+}

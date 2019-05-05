@@ -117,7 +117,7 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
 [[I am 18 years of age or older.|Difficulty]]
 
 @@color:yellow;Additional Links...@@
-[[Change Log|ChangeLog]] | [[Rules and FAQ|Rules]] | <a href="https://www.tfgamessite.com/index.php?module=viewgame&id=1680">IGDB Entry</a> | <a href="https://github.com/JJM152/Queen">GitHub Repository</a>
+[[Change Log|ChangeLog]] | [[Rules and FAQ|Help]] | <a href="https://www.tfgamessite.com/index.php?module=viewgame&id=1680">IGDB Entry</a> | <a href="https://github.com/JJM152/Queen">GitHub Repository</a>
 
 :: Difficulty
 <<set $PlayerState = new App.Entity.PlayerState();>>\

@@ -1,0 +1,108 @@
+:: Help [custom-menu no-teleport no-saving]
+@@color:cyan;Interact@@ <<click "Exit" $GameBookmark>><</click>>
+
+<div class='HeaderSection' style='background-color:indigo'>Player Attributes</div>
+Player attributes are divided into three main categories - @@color:maroon;Statistics@@, @@color:steelblue;Body@@ \
+and @@color:seagreen;Skills@@. They can be developed in \
+many different ways, such as through training, magic, chemistry, or just random chance. There are two components \
+that make up every attribute, it's ''Score'' and it's ''XP''. ''XP'', either positive or negative will adjust an \
+attribute if accumulated sufficiently.
+
+<div class='HeaderSection' style='background-color:maroon'>Statistics</div>
+Statistics are typically increased by use, although certain magical affects can increase or decrease them.
+* ''Health'' - How much damage you can take before death.
+* ''Energy'' - A measure of how many actions you can take before being exhausted.
+* ''Willpower'' - Your mental fortitude. If this drops too low, you lose the game.
+* ''Perversion'' - Affects how you react to certain activities. Can protect from some ''Willpower'' losses.
+* ''Nutrition'' - How well fed you are. If this drops too low, you'll starve. Also influences healing.
+* ''Femininity'' - How feminine you are in mannerisms.
+* ''Toxicity'' - How toxic your blood is. Very high levels can retard healing, or even kill you.
+* ''Hormones'' - A scale between masculine and feminine. So long as you have testes, you will slowly shift male.
+Finally, there is a 'hidden' attribute called ''Fitness'' that increases with physical activity and decreases if \
+you are lazy. It plays a factor in how much ''Energy'' and ''Health'' you recover overnight.
+
+<div class='HeaderSection' style='background-color:steelblue'>Body</div>
+A big part of this game is experimenting with the effects various foods, potions and drugs have on your \
+players body. You can see a description of most changes by observing yourself in a mirror in your @@color:gold;Cabin@@ \
+and if you have the ''Avatar'' turned on from the ''Settings'' menu then you will see a 2D rendering of those \
+changes as well as whatever clothing you happen to be wearing.
+
+Here are a few major points:
+* ''Hormones'' - Can induce a physical change towards either feminine or masculine attributes, but there is a limit.
+* ''Food'' - Most food that isn't marked as ''Wholesome'' has a transformation effect on you. 
+* ''Potions'' - There are several potions that give multiple transformations.
+* ''Duration'' - All changes are permenant unless undone by some other factor. They typically happen overnight and you \
+will be able to observe them through the log that gets displayed when you ''Sleep''
+
+<div class='HeaderSection' style='background-color:seagreen'>Skills</div>
+Skills are gained through either being taught them, or through practice. When you perform an action that \
+involves a skill, the quality of that action gets determined and the result you get is based on that figure. \
+You typically do not have entire 'pass' or 'fail' states for most skill usages, but they do exist. 
+
+Using a skill will give ''XP'' and that XP can be processed either when you are ''Resting'' or ''Sleeping'' \
+for material gains in points. You can observe all your skills from the ''Skills'' panel link in the side bar.
+* ''Swashbuckling'' - The art of fighting like a pirate. Good for both offense and defense.
+* ''Sailing'' - The main skill required to be a competent Helmsman.
+* ''Navigation'' - Helps prevent you from being lost and aids in exploring.
+* ''Seduction'' - Aids you in arousing targets and convincing them to do what you want.
+* ''Singing'' - Everyone enjoys a good sea-shanty. "Yo, ho, yo ho, a Pirates life for Me."
+* ''Dancing'' - Includes exotic dancing. Good dancers are also fast on their feet, which can be handy.
+* ''Cleaning'' - Hey, someone has to do it.
+* ''Cooking'' - The ability to make delicious meals.
+* ''Serving'' - Customer service. Can affect things like pay or tips for certain jobs.
+In addition to the above, there are also the sex skills, ''Hand Jobs'', ''Blow Jobs'', ''Tit Fucking'' and \
+''Ass Fucking''. Since you're playing this game, we'll assume you know what they are. There may be other, hidden, \
+skills that you can learn or find.
+
+<div class='HeaderSection' style='background-color:hotpink'>Whoring</div>
+This is the primary way to earn money on the @@color:cyan;Salty Mermaid@@, but it can also be employed at \
+various other locations in the world. The act itself is largely abstracted into a simple slot machine \
+interface that simulates your somewhat 'less than enthusiastic' attitude towards your new rank in life. You start \
+out the game with three slot reels unlocked and some beginner slots that you can equip from your ''Skills'' \
+panel. The first time you attempt to Whore, a small tutorial page will appear.
+
+While playing the game you can complete quests that will grant you either additional unlocks of slot reels, or \
+the reels themselves. This simulates how you slowly start to accept your whoring lifestyle. Eventually when \
+you have all of your slots unlocked and filled, you will be churning through customers like a super slut and \
+raking in the doubloons. 
+
+A word of caution though - It is very easy to lose ''Willpower'' through whoring. Having a high ''Perversion'' \
+stat will help minimize this.
+
+<div class='HeaderSection' style='background-color:crimson'>Combat</div>
+The world is not a very safe place, as your current predicament shows. It will occasionally be required that \
+you either fight, or flee from various enemies that wish to do you harm. This is where combat comes in. The \
+key attributes of combat are:
+* ''Stamina'' - Consumed to perform attacks.
+* ''Combo'' - Can be generated by using attacks in the right sequence. Consumed by some attacks.
+* ''Style'' - Can be selected and changed at any time in the UI. Not all styles are allowed during all fights.
+* ''Attack'' - Hidden statistic, governed by skill style being used.
+* ''Defense'' - Hidden statistic, governed by the skill style being used.
+* ''Status Effects'' - Certain attacks can grant you buffs, or debuff your enemies.
+By default, there are two main modes of fighting available to your character:
+* ''Unarmed'' - Damage is determined by ''Fitness''. Having a high ''Dancing'' skill can aid in defense.
+* ''Swashbuckling'' - Damage is determined by weapon quality, success in attack and defense is from the skill.
+In addition to the above, there may be other combat techniques that you can learn. There are also some \
+moves that are common to all styles:
+* ''Restore Stamina'' - Converts 1 point of ''Energy'' into a full bar of ''Stamina''.
+* ''Defend'' - A very fast combat move that grants you a defense buff and gives you a small bit of ''Stamina''.
+* ''Flee'' - Not available in all fights. If succesfull, you flee from combat.
+As a player character, you have the ability to consume items in combat whenever you want. This is a huge \
+advantage and you should make liberal use of it. A final @@color:maroon;word of warning@@ - Not all fights \
+will be fatal, but many of them are. Always expect the worst.
+
+<div class='HeaderSection' style='background-color:orangered'>Healing and Recovery</div>
+During the course of your adventure, you will become seriously fucked up at one point or another and in danger \
+of dying, or worse, losing your mind and becoming a sissy fuckslut for the rest of your life. Typically, \
+''Resting'' or ''Sleeping'' will recover your ''Health'' and ''Energy'' while lowering your ''Toxicity'', but \
+recovering ''Willpower'' is much harder. Here are a few useful tips:
+* Resting all day can stockpile energy which is useful for when you want to do an action like whoring, or fighting.
+* Resting also can cause you to process skill gains faster than just sleeping.
+* Both Resting and Sleeping can heal you, gain energy and reduce your Toxicity.
+* Generally, Nutrition and Fitness play a big role in Energy and Health recovery.
+* Some consumable items can help you slowly recovery Willpower, make sure to pay attention to any knowledge gained.
+* Raising your Perversion very high can help insulate you from a lot of Willpower losses. Join the dark side.
+While managing your Health is relatively easy to understand, @@color:maroon;be warned@@ that you will also lose \
+the game if your WillPower ever drops below 20% (2 stars). When in doubt, hit the hard liquer and pray.
+
+@@color:cyan;Interact@@ <<click "Exit" $GameBookmark>><</click>>

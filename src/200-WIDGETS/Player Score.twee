@@ -7,7 +7,7 @@ Coins: <span id="Money"><<print setup.player.Money>></span>
 <tbody>
 <tr>
 	<td colspan="2">\
-<<customMenuLink "Journal">> | <<customMenuLink "Skills">> | <<customMenuLink "Inventory">>
+<span style='padding-left:20px'><<customMenuLink "Journal">> | <<customMenuLink "Skills">> | <<customMenuLink "Inventory">></span>
 	</td>
 </tr>
 <tr>
@@ -40,6 +40,9 @@ Coins: <span id="Money"><<print setup.player.Money>></span>
 	<td>Hormones:</td>
 	<td><span id="Hormones"><<print App.PR.pStatMeter("Hormones",setup.player);>></span><<if setup.player.GetStat("STAT","Hormones") < 78>>@@color:cyan;♂@@<<else>><<if setup.player.GetStat("STAT","Hormones") >= 144>>@@color:DeepPink;♀@@<<else>>@@color:orange;⚥<</if>><</if>></td>
 </tr>
+<tr><td colspan="2">\
+<span style='padding-left:20px'><<customMenuLink "Help">></span>
+</td></tr>
 </tbody>
 </table>
 <</widget>>
