@@ -913,6 +913,17 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
         this.AdjustSkillXP(SkillName, XpEarned);
 
+        // Corrupt player for performing sex skill checks.
+        if (SkillName == 'HandJobs') {
+            this.CorruptWillPower(XpEarned, 40);
+        } else if (SkillName == 'TitFucking') {
+            this.CorruptWillPower(XpEarned, 50);
+        } else if (SkillName == 'BlowJobs') {
+            this.CorruptWillPower(XpEarned, 60);
+        } else if (SkillName == 'AssFucking') {
+            this.CorruptWillPower(XpEarned, 70);
+        }
+
         if (this._state.debugMode) console.log("SkillRoll(" + SkillName + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " XPMod="+XpMod+"\n");
 
         if (DiceRoll >= Target) {
@@ -924,6 +935,26 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         if (Scaling == true) return XpMod;
         if (DiceRoll >= Target ) return 1;
         return 0;
+    }
+
+    /**
+     * 
+     * @param {number} XP Amount of XP this act can grant.
+     * @param {number} Difficulty Perversion threshhold for corruption
+     */
+    CorruptWillPower(XP, Difficulty = 50)
+    {
+        if (this._state.debugMode) 
+            console.log("CorruptWillPower("+XP+","+Difficulty+") called");
+
+        var Perv = this.GetStat('STAT', 'Perversion');
+        var mod = 1 - Math.max(0, Math.min(Perv/Difficulty,1)); // 0 - 1
+        var toWillPowerXP = Math.ceil(XP * mod) * -1.0;
+        var toPerversionXP = Math.ceil( (XP * mod)/2);
+
+        this.AdjustXP('STAT', 'WillPower', toWillPowerXP, 0, true);
+        this.AdjustXP('STAT', 'Perversion', toPerversionXP, 0, true);
+
     }
 
     /**

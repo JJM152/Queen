@@ -227,6 +227,16 @@ App.SlotEngine = new function() {
             } else {
                 this._Player.AdjustSkillXP(statName, xp);
             }
+            if (statName == 'HandJobs') {
+                this._Player.CorruptWillPower(xp, 40);
+            } else if (statName == 'TitFucking') {
+                this._Player.CorruptWillPower(xp, 50);
+            } else if (statName == 'BlowJobs') {
+                this._Player.CorruptWillPower(xp, 60);
+            } else if (statName == 'AssFucking') {
+                this._Player.CorruptWillPower(xp, 70);
+            }
+
             this._EndStatus.push("You gained @@color:cyan;" + xp + "@@ " + name + " XP.");
         }
 
