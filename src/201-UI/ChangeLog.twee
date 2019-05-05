@@ -10,6 +10,16 @@
 * Foods that were previously "Wholesome" are now noted as such when you discover their knowledge. They clear a bit of toxicity.
 * The quest and job engines were largely folded together. This could cause some errors or strange behaviors, please \
 report any issues you see.
+* The quanity of hard alcohol in the game has been reduced across the board.
+* General sex acts will slowly lower your willpower unless you are perverted enough. 
+* Toxicity now reduces (slightly) when you rest.
+!!!!Combat System
+* Basic RPG style combat engine added to the game. 
+* Unarmed style is affected primarily by your fitness stat.
+* Swashbuckling requires an equipped weapon of some sort. Better weapons mean more damage.
+* You can use as many items as you want in combat, it's the special power of the player character.
+* There may be other, hidden, combat styles you can learn.
+* Not all fights are lethal, but it's better to treat them as they are or you may get a 'Game Over'
 !!!!Coffin Dice (Shut the Coffin)
 * Simple dice game available at the Casino and on the Mermaid.
 * You can gamble with the pirates for items and money and pay off your bets with sex.
@@ -21,6 +31,11 @@ report any issues you see.
 * Fixed an oversight where Julius's experimentation job wasn't granting growth to hips, but just ass.
 * Fixed formatting in some quest.
 * Added an event to allow Coffin Dice to be unlocked on the mermaid.
+* There is now a fight club on the ship. You can find it after a random event. It's open every third evening.
+* Kipler has had a new quest added to him, triggered after a random event.
+* There are now two tutorial events that can fire off within the first 30 days if you are starving or poisoned.
+* There are now a few random events that start after the first month where the ship will encounter enemies. You may \
+decide to join the battle and fight as well. These events can repeat.
 !!!!Golden Isle
 * Fixed a null reference in the whoring jobs at the brothel.
 * Uticus' job was available prior to completing his quest due to a bug in the job engine. Fixed the bug.
@@ -30,6 +45,9 @@ report any issues you see.
 * Added Coffin Dice to the casino as a game (money stakes only).
 !!!!Abamond
 * Reduced shovel break rate in the caverns below Abamond.
+* New area accessible from the Hidden Cove. This leads to two competing tribes of jungle women, the @@color:cyan;Mamazons@@ and \
+the @@color:cyan;Glutezons@@. You can complete a simple quest to become a member of either tribe, but doing so will exclude you \
+from the other.
 !!!!General
 !!!0.9e - 04/03/2019
 !!!!General
