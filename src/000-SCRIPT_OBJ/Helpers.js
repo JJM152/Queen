@@ -1398,7 +1398,7 @@ App.PR = new function() {
             //Fight
             if (wins < r.WinsRequired ) {
                 str += "<td>@@color:grey;Need "+r.WinsRequired+" wins@@</td>";
-            } else if (wins > r.MaxWins) {
+            } else if (wins > r.MaxWins && r.MaxWins != 0) {
                 str += "<td>@@color:orange;Too Experienced@@</td>";
             } else if (Player.Phase > 3) {
                 str += "<td>@@color:red;CLOSED@@</td>"

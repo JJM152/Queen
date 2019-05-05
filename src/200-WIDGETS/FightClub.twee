@@ -23,7 +23,7 @@ You can choose to bet on, or participate in any of the fights below.
 <<= App.PR.FightClubMenu(setup.player, $args[0]);>>
 </tbody></table>\
 
-<<if setup.player.Phase == 2 || setup.player.Phase == 3>>\
+<<if setup.player.Phase < 4>>\
 Or instead of fighting yourself, you could <<click "Place a bet or spectate" "FightBetUI">> on the next fight.\
 <<set $GameBookmark = passage();>>\
 <<run setup.Spectator.LoadEncounter($args[0], $args[1])>>\

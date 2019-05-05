@@ -1,0 +1,23 @@
+:: CombatWinFightClubGoldenIsle [no-teleport no-saving]
+<<combatResults>>
+
+The cheers and jeers of the pirates resound in your ears, some of them laughing to themselves at the hilarity of \
+your opponent being beaten by a sissy, but you pay it no mind - a victory is a victory and to the victor goes \
+the spoils.
+
+@@color:lime;Travel@@: [[Continue|GoldenIsleFightClub]]
+
+:: CombatLoseFightClubGoldenIsle [no-teleport no-saving]
+<<combatResults>>
+
+You wake up on your back, not an unusual position for you on these days. It appears that after your defeat you were \
+dragged off to the side and dumped somewhere out of way. No one helps you as you wearily get to your feet.  
+
+You wince in pain as you make your way back to the 'ring'
+
+@@color:lime;Travel@@: [[Continue|GoldenIsleFightClub]]
+
+:: CombatFleeFightClubGoldenIsle [no-teleport no-saving]
+Should never see this.
+
+@@color:lime;Travel@@: [[Continue|GoldenIsleFightClub]]
