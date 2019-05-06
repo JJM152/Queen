@@ -3,6 +3,7 @@
 !!!0.10b - 07/05/2019
 !!!!Bug Fixes
 * Not really a bug, but reverted PR #136 to restore previous Bust attribute scaling.
+* Losing Kipler's duel now places you in the correct area when you click Continue.
 !!!0.10 - 06/05/2019
 !!!!General
 * Fixed bug that was causing quest requirements for a worn item to display incorrectly as not worn. (red checkbox)
