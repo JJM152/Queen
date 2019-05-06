@@ -427,7 +427,7 @@ App.Data.JobData["CHARMAINE_JOB3"] = {
         { "TYPE" : "STAT", "NAME" : "Energy", "VALUE" : 1 } ],
     "REQUIREMENTS" : [
         { "TYPE" : "SKILL", "NAME" : "TitFucking", "VALUE" : 50, "CONDITION" : "gte" },
-        { "TYPE" : "BODY",  "NAME" : "Bust", "VALUE" : 23, "CONDITION" : "gte" }
+        { "TYPE" : "BODY",  "NAME" : "Bust", "VALUE" : 20, "CONDITION" : "gte" }
     ],
     "INTRO" : "NPC_NAME sayss (I have a special group of clients that might be interested in you... if you have the skills.)",
     "START" :
