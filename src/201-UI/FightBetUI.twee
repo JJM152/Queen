@@ -1,4 +1,4 @@
-::FightBetUI
+::FightBetUI [no-teleport]
 <<run setup.Spectator.DrawUI();>>\
 The next fight up is:
 
@@ -8,7 +8,7 @@ The next fight up is:
 
 @@color:lime;Travel@@: <<= setup.Spectator.WatchLink(); >>
 
-::FightBetOverUI
+::FightBetOverUI [no-teleport]
 The fighters step into the ring and and square off against each other...
 
 <span style='color:yellow;font-size:larger'>Combat Results:</span>
