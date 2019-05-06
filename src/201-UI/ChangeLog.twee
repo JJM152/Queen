@@ -1,6 +1,9 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.10 - ??/??/????
+!!!0.10b - 07/05/2019
+!!!!Bug Fixes
+* Not really a bug, but reverted PR #136 to restore previous Bust attribute scaling.
+!!!0.10 - 06/05/2019
 !!!!General
 * Fixed bug that was causing quest requirements for a worn item to display incorrectly as not worn. (red checkbox)
 * Fixed an oversight that was making reversing tranformation much harder than intended.
