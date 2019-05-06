@@ -128,47 +128,29 @@ App.Data.Lists = {
                       100 : { "COST" : 1500, "STEP" : 1, "ADJECTIVE" : "dick sucking",      "COLOR" : 16}
                     }
                 },
-                "Bust": {
-                    "MIN": 0, "MAX": 100, "START": 0, "CM_MIN": 80, "CM_MAX": 130,
-                    /* We use a function here because we want the exact second order polynom here
-                     * Alternatively, it could be substituted by a leveling table, as used by other
-                     * stats. The table would look as follows:
-                     * "LEVELING_COST": {
-                     *    1: { "COST": 659, "STEP": 1},
-                     *    2: { "COST": 53, "STEP": 1},
-                     *    3: { "COST": 59, "STEP": 1},
-                     *   .... // and so on according to the formula below
-                     * }
-                     * Please note that the table lists XP costs between levels, while the function
-                     * always returns XP costs to go from level 0 to the given one.
-                     */
-                    "LEVELING_COST" : function(level) {
-                        if (level <= 0) return 0;
-                        var cup = level/3;
-                        return Math.floor((9.51*cup*cup + 39.7*cup + 190) * 3.23);
-                        },
+                "Bust": { "MIN" : 0, "MAX" : 100, "START" : 0, "CM_MIN" : 80, "CM_MAX": 130,
                     "LEVELING" : {
-                        0 : { "ADJECTIVE" : "flat",        "COLOR" :  1},
-                        5 : { "ADJECTIVE" : "swollen",     "COLOR" :  3},
-                        8 : { "ADJECTIVE" : "perky",       "COLOR" :  4},
-                       11 : { "ADJECTIVE" : "shapely",     "COLOR" :  5},
-                       15 : { "ADJECTIVE" : "sizable",     "COLOR" :  6},
-                       19 : { "ADJECTIVE" : "prominent",   "COLOR" :  7},
-                       24 : { "ADJECTIVE" : "luscious",    "COLOR" :  8},
-                       29 : { "ADJECTIVE" : "plentiful",   "COLOR" :  8},
-                       34 : { "ADJECTIVE" : "generous",    "COLOR" :  9},
-                       39 : { "ADJECTIVE" : "pendulous",   "COLOR" : 10},
-                       44 : { "ADJECTIVE" : "substantial", "COLOR" : 11},
-                       49 : { "ADJECTIVE" : "voluptuous",  "COLOR" : 11},
-                       54 : { "ADJECTIVE" : "extensive",   "COLOR" : 12},
-                       59 : { "ADJECTIVE" : "voluminous",  "COLOR" : 12},
-                       64 : { "ADJECTIVE" : "gigantic",    "COLOR" : 13},
-                       70 : { "ADJECTIVE" : "stupendous",  "COLOR" : 14},
-                       76 : { "ADJECTIVE" : "massive",     "COLOR" : 14},
-                       82 : { "ADJECTIVE" : "colossal",    "COLOR" : 15},
-                       88 : { "ADJECTIVE" : "immense",     "COLOR" : 16},
-                       94 : { "ADJECTIVE" : "enormous",    "COLOR" : 16},
-                      100 : { "ADJECTIVE" : "mountainous", "COLOR" : 16}
+                        0 : { "COST" : 150, "STEP" : 1, "ADJECTIVE" : "flat",        "COLOR" :  1},
+                        5 : { "COST" : 150, "STEP" : 1, "ADJECTIVE" : "swollen",     "COLOR" :  3},
+                        8 : { "COST" : 150, "STEP" : 1, "ADJECTIVE" : "perky",       "COLOR" :  4},
+                       11 : { "COST" : 175, "STEP" : 1, "ADJECTIVE" : "shapely",     "COLOR" :  5},
+                       15 : { "COST" : 175, "STEP" : 1, "ADJECTIVE" : "sizable",     "COLOR" :  6},
+                       19 : { "COST" : 200, "STEP" : 1, "ADJECTIVE" : "prominent",   "COLOR" :  7},
+                       24 : { "COST" : 200, "STEP" : 1, "ADJECTIVE" : "luscious",    "COLOR" :  8},
+                       29 : { "COST" : 220, "STEP" : 1, "ADJECTIVE" : "plentiful",   "COLOR" :  8},
+                       34 : { "COST" : 300, "STEP" : 1, "ADJECTIVE" : "generous",    "COLOR" :  9},
+                       39 : { "COST" : 325, "STEP" : 1, "ADJECTIVE" : "pendulous",   "COLOR" : 10},
+                       44 : { "COST" : 350, "STEP" : 1, "ADJECTIVE" : "substantial", "COLOR" : 11},
+                       49 : { "COST" : 375, "STEP" : 1, "ADJECTIVE" : "voluptuous",  "COLOR" : 11},
+                       54 : { "COST" : 400, "STEP" : 1, "ADJECTIVE" : "extensive",   "COLOR" : 12},
+                       59 : { "COST" : 425, "STEP" : 1, "ADJECTIVE" : "voluminous",  "COLOR" : 12},
+                       64 : { "COST" : 450, "STEP" : 1, "ADJECTIVE" : "gigantic",    "COLOR" : 13},
+                       70 : { "COST" : 450, "STEP" : 1, "ADJECTIVE" : "stupendous",  "COLOR" : 14},
+                       76 : { "COST" : 475, "STEP" : 1, "ADJECTIVE" : "massive",     "COLOR" : 14},
+                       82 : { "COST" : 500, "STEP" : 1, "ADJECTIVE" : "colossal",    "COLOR" : 15},
+                       88 : { "COST" : 525, "STEP" : 1, "ADJECTIVE" : "immense",     "COLOR" : 16},
+                       94 : { "COST" : 550, "STEP" : 1, "ADJECTIVE" : "enormous",    "COLOR" : 16},
+                      100 : { "COST" : 575, "STEP" : 1, "ADJECTIVE" : "mountainous", "COLOR" : 16}
                     }
                 },
                 "Lactation": { "MIN" : 0, "MAX" : 100, "START" : 0, "CM_MIN" : 0, "CM_MAX" : 0,

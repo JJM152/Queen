@@ -156,7 +156,7 @@ App.Data.Quests["Q005"] = {
     "POST": [],
     "CHECKS": [
         {
-            "TYPE": "STAT_BODY", "NAME": "Bust", "VALUE": 13
+            "TYPE": "STAT_BODY", "NAME": "Bust", "VALUE": 11
         },
         {
             "TYPE": "STAT_BODY", "NAME": "Lips", "VALUE": 32
@@ -296,7 +296,7 @@ App.Data.Quests["Q007"] =  {
     "POST": [],
     "CHECKS": [
         {
-            "TYPE": "STAT_BODY", "NAME": "Bust", "VALUE": 42
+            "TYPE": "STAT_BODY", "NAME": "Bust", "VALUE": 39
         },
         {
             "TYPE": "STAT_BODY", "NAME": "Ass", "VALUE": 39
