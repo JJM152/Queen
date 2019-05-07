@@ -1512,7 +1512,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
                 var statTitle = App.Data.Lists.SkillConfig[StatName].hasOwnProperty('ALTNAME') ? 
                     App.Data.Lists.SkillConfig[StatName]["ALTNAME"] : StatName;
                 this.AdjustSkill(StatName, Step);
-                var adjective = Step < 0 ? " decreases! How did this happen!?" : " improves!";
+                var adjective = Step < 0 ? " skill decreases! How did this happen!?" : " skill improves!";
                 setup.Notifications.AddMessage('KNOWLEDGE', this.Day+1, 
                     "Your "+App.PR.ColorizeString(this.GetStatPercent('SKILL', StatName), statTitle) + adjective);
                 break;
