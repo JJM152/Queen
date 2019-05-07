@@ -329,7 +329,7 @@ App.Gambling.Coffin = class CoffinEngine {
     _CalculateBetValue(Offer, Want)
     {
         if ((Offer == "Item" || Offer == "Coins") && Want == "Coins") return 25 + Math.ceil(25 * Math.random());
-        return Math.ceil( 50 * (setup.player.Skills[this._Skills[Want]]/100));
+        return Math.max(Math.ceil(25 * Math.random()) + Math.ceil( 75 * (setup.player.Skills[this._Skills[Want]]/100)), 5);
     }
 
     _DisplayGambler(pos = 0) {
