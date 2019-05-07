@@ -1,0 +1,3 @@
+[submodule "DAD"]
+	path = DAD
+	url = https://gitlab.com/JJM152/dynamic-avatar-drawer.git
