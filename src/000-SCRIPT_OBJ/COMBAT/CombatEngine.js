@@ -445,7 +445,9 @@ App.Combat.CombatEngine = class CombatEngine {
                 this._LoseFight.bind(this),
                 this._WinFight.bind(this));
         this._player.Id = "PLAYER";
-        this._SwitchMoveSet(this.LastSelectedStyle);
+
+        if (this._noWeapons == true && this.LastSelectedStyle != "SWASHBUCKLING")
+            this._SwitchMoveSet(this.LastSelectedStyle);
 
     }
 

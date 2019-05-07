@@ -9,6 +9,7 @@
 * You can now flee from the Pirate Attack event on the Salty Mermaid (whoops)
 * Reduces effects of Toxicity on retarding health and energy (higher threshold)
 * You will always get at least 1 energy no matter how toxic you are after sleeping.
+* Fixed bug when you joined a "no weapons" fight and your last used style was Swashbuckling. Primarily affected fight clubs.
 !!!0.10 - 06/05/2019
 !!!!General
 * Fixed bug that was causing quest requirements for a worn item to display incorrectly as not worn. (red checkbox)
