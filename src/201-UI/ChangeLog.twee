@@ -2,6 +2,8 @@
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
 !!!0.10c - ??/??/????
 * Fishnet stockings were missing their pattern, fixed now.
+* Clothing with the 'Jacket' part was crashing on breasts too small. Fixed it and sent pull request to DAD author's \
+repository because I'm such a nice and helpful person.
 !!!0.10b - 07/05/2019
 !!!!Bug Fixes
 * Not really a bug, but reverted PR #136 to restore previous Bust attribute scaling.
