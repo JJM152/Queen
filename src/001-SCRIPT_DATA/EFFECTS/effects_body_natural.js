@@ -6,14 +6,15 @@ App.Data.EffectLib.NATURAL_HEALING = {
     "FUN" : /** @param {App.Entity.Player} p
     @param {App.Items.Consumable} o*/
     function(o, p) { 
-        var Heal = 5 + Math.ceil(p.GetStat('STAT', 'Energy') * 2) +
+        var Health = 5 + Math.ceil(p.GetStat('STAT', 'Energy') * 2) +
                   Math.ceil(p.GetStat('STAT', 'Fitness') / 10); // 5 + 0-20 + 0-10
-        var Energy = Math.ceil( (p.GetStat('STAT', 'Nutrition')/20) + (p.GetStat('STAT', 'Fitness')/20)); // 1 - 10
-        var mod = 1 - Math.max(0, Math.min(p.GetStat('STAT', 'Toxicity')/100, 1.0)); // 0 - 1
+        var Energy = Math.floor( (p.GetStat('STAT', 'Nutrition')/25) + (p.GetStat('STAT', 'Fitness')/25)); // 1 - 8
+        var mod = 1 - Math.max(0, Math.min(p.GetStat('STAT', 'Toxicity')/150, 1.0)); // 0 - 1
 
-        p.AdjustStat('Health', Math.ceil(Heal * mod));
-        p.AdjustStat('Energy', Math.ceil(Energy * mod));
-
+        Energy = Energy < 1 ? 1 : Math.ceil(Energy * mod); // Always give 1 energy.
+        Health = Math.ceil(Health * mod) < 5 ? 5 : Math.ceil(Health * mod);
+        p.AdjustStat('Health', Health);
+        p.AdjustStat('Energy', Energy);
     },
     "VALUE" : 0, "KNOWLEDGE" : [ "Healing++" ]
 };
@@ -25,7 +26,7 @@ App.Data.EffectLib.NATURAL_RESTING =
     @param {App.Items.Consumable} o*/
     function(o, p) { 
         var Heal = Math.max(1, Math.min(Math.ceil( (p.GetStat('STAT', 'Nutrition')/20) + (p.GetStat('STAT', 'Fitness')/20)), 10)); // 1 - 10
-        var mod = 1 - Math.max(0, Math.min(p.GetStat('STAT', 'Toxicity')/100, 1.0)); // 0 - 1
+        var mod = 1 - Math.max(0, Math.min(p.GetStat('STAT', 'Toxicity')/150, 1.0)); // 0 - 1
         p.AdjustStat('Health', Math.ceil(Heal * mod));
         p.AdjustStat('Energy', 1);
         p.AdjustStat('Toxicity', -5);

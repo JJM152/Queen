@@ -7,6 +7,8 @@
 * Added [no-teleport] attributes to the fight bet interfaces. It's weird to get the late night travel link from that UI!
 * Skill names cleaned up for overnight sleep log. Added some more messages for Perversion and Femininity changes.
 * You can now flee from the Pirate Attack event on the Salty Mermaid (whoops)
+* Reduces effects of Toxicity on retarding health and energy (higher threshold)
+* You will always get at least 1 energy no matter how toxic you are after sleeping.
 !!!0.10 - 06/05/2019
 !!!!General
 * Fixed bug that was causing quest requirements for a worn item to display incorrectly as not worn. (red checkbox)
