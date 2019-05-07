@@ -20,12 +20,12 @@ This looks dangerous, what should you do?
     <<else>>\
     <<run setup.player.AddItem('CLOTHES', 'rusty cutlass', 1, 'WEAR');>>\
     <</if>>\
-    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleePirates"});>>\
+    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleePirate"});>>\
     <<run setup.Combat.LoadEncounter("PirateAttack");>>\
     <</click>>\
 <<else>>\
     <<click "Help repel the boarders" "Combat">>\
-    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleePirates"});>>\
+    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleePirate"});>>\
     <<run setup.Combat.LoadEncounter("PirateAttack");>>\
     <</click>>\
 <</if>> | \
