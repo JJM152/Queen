@@ -150,12 +150,21 @@ div.disabledGamePanel {
     opacity: 0.8;
 }
 
-#CoffinMenuBlocker {
+#CoffinMenuBlockerTop {
     height: 20px;
     width: 200px;
     position: absolute;
-    top: 110px;
-    left: 25px;
+    top: 155px;
+    left: 30px;
+    background-color: #222;
+}
+
+#CoffinMenuBlockerBottom {
+    height: 20px;
+    width: 200px;
+    position: absolute;
+    top: 345px;
+    left: 30px;
     background-color: #222;
 }
 

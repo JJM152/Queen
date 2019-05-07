@@ -706,15 +706,15 @@ App.Gambling.Coffin = class CoffinEngine {
     _DisableMenuLinks()
     {
         var container = $('#ui-bar');
-        var blocker = $('<div>').attr('id', 'CoffinMenuBlocker');
-        container.append(blocker);
+        container.append($('<div>').attr('id', 'CoffinMenuBlockerTop'));
+        container.append($('<div>').attr('id', 'CoffinMenuBlockerBottom'));
 
     }
 
     _EnableMenuLinks()
     {
-        var blocker = $('#CoffinMenuBlocker');
-        blocker.remove();
+        $('#CoffinMenuBlockerTop').remove();
+        $('#CoffinMenuBlockerBottom').remove();
     }
 
     _NPCRollDice()

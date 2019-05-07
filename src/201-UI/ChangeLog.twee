@@ -14,6 +14,7 @@ that UI!
 fight clubs.
 * Added a random component and increased bet pool for Coffin Dice on the Mermaid when offering up sex as your \
 part of the bet. This will the player to earn some coins even with poor sex skills and a not-horny crew.
+* Disabled new 'Help' link when playing dice game (opponents turn only).
 !!!0.10 PRE RELEASE - 06/05/2019
 !!!!General
 * Fixed bug that was causing quest requirements for a worn item to display incorrectly as not worn. (red checkbox)

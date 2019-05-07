@@ -1,0 +1,15 @@
+a#Patreon {
+    background-image: [img[patreon_icon]];
+    display: inline-block;
+    width: 130px;
+    height: 30px;
+    margin-bottom: 10px;
+  }
+
+a#Reddit {
+    background-image: [img[reddit_icon]];
+    display: inline-block;
+    width: 130px;
+    height: 30px;   
+    margin-bottom: 10px; 
+}
