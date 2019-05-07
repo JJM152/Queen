@@ -863,7 +863,7 @@ App.Data.AvatarMaps["fishnet stockings"] = [
     {
         c: "da.Stockings",
         a: {
-            fill: "da.getPattern('fishnet', 100)",
+            pattern: "da.getPattern('fishnet', 100)",
           }
     }
  ];

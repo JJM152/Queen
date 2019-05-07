@@ -1,5 +1,7 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.10c - ??/??/????
+* Fishnet stockings were missing their pattern, fixed now.
 !!!0.10b - 07/05/2019
 !!!!Bug Fixes
 * Not really a bug, but reverted PR #136 to restore previous Bust attribute scaling.
@@ -13,7 +15,7 @@ that UI!
 * Fixed bug when you joined a "no weapons" fight and your last used style was Swashbuckling. Primarily affected \
 fight clubs.
 * Added a random component and increased bet pool for Coffin Dice on the Mermaid when offering up sex as your \
-part of the bet. This will the player to earn some coins even with poor sex skills and a not-horny crew.
+part of the bet. This will allow the player to earn some coins even with poor sex skills and a not-horny crew.
 * Disabled new 'Help' link when playing dice game (opponents turn only).
 !!!0.10 PRE RELEASE - 06/05/2019
 !!!!General
