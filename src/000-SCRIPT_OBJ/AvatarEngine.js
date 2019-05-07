@@ -255,10 +255,10 @@ App.Entity.AvatarEngine = class Avatar {
         PC.attachPart(penis);
         var balls = da.Part.create(da.TesticlesHuman, { side: "right" });
         PC.attachPart(balls);
-        var bust = da.Part.create(da.BimboChest, { side: null });
+        var bust = da.Part.create(da.OversizedChest, { side: null });
         PC.attachPart(bust);
         PC.removeSpecificPart(da.NipplesHuman);
-        var nips = da.Part.create(da.BimboNipples, { side: null});
+        var nips = da.Part.create(da.OversizedChestNipples, { side: null});
         PC.attachPart(nips);
 
         return this._ClothesHandler(PC);
