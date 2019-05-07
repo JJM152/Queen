@@ -401,7 +401,7 @@ App.Data.Lists = {
                        100 : { "COST" : 1500, "STEP" : 1, "ADJECTIVE" : "cock sucking queen", "COLOR" : 16}
                     }
                 },
-				"AssFucking": { "MIN" : 0, "MAX" : 100, "START" : 0, "ALTNAME" : "AssFucking",
+				"AssFucking": { "MIN" : 0, "MAX" : 100, "START" : 0, "ALTNAME" : "Ass Fucking",
                     "LEVELING" : {
                          5 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  1},
                         10 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  2},
@@ -811,6 +811,14 @@ App.Data.Lists = {
                 "Fitness": {
                     "Grow" : "You feel @@color:lime;&uArr;stronger and more fit@@. Your overall fitness has increased.",
                     "Shrink" : "Your feel  @@color:red;&dArr;lazy and lethargic@@ from lack of proper exercise. Your fitness has decreased."
+                },
+                "Perversion":{
+                    "Grow" : "All of the debauchery you have engaged in has made you @@color:hotpink;&uArr;more perverted and debased@@. Is this a good thing?",
+                    "Shrink" : "In a flash of insight, you seem to grasp upon some of your previous morals. You have become @@color:cyan;&dArr;less perverted@@. This is good, right?"
+                },
+                "Femininity":{
+                    "Grow" : "The endless hours spent acting like a woman has subtly @@color:hotpink;&uArr;made you more feminine@@. You will act more like a woman now.",
+                    "Shrink" : "In a flash of insight, you recall your previous persona and @@color:cyan;&dArr;become more masculine@@. You will act less like a woman now."
                 },
 				"Face" :
 				{

@@ -1507,52 +1507,32 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         var Cost = (TargetScore < 0) ? Leveling["COST"] : (Leveling["COST"] * -1.0);
         var Step = (TargetScore < 0) ? (Leveling["STEP"] * -1.0) : Leveling["STEP"];
 
-        if (Type == "STAT") {
+        switch(Type) {
+            case 'SKILL':             
+                var statTitle = App.Data.Lists.SkillConfig[StatName].hasOwnProperty('ALTNAME') ? 
+                    App.Data.Lists.SkillConfig[StatName]["ALTNAME"] : StatName;
+                this.AdjustSkill(StatName, Step);
+                var adjective = Step < 0 ? " decreases! How did this happen!?" : " improves!";
+                setup.Notifications.AddMessage('KNOWLEDGE', this.Day+1, 
+                    "Your "+App.PR.ColorizeString(this.GetStatPercent('SKILL', StatName), statTitle) + adjective);
+                break;
+                
+            case 'STAT':
+                this.AdjustStat(StatName, Step);
+                if (App.Data.Lists.BodyChanges.hasOwnProperty(StatName))
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange(StatName, (Step < 0 ? "Shrink" : "Grow")));
+                break;
 
-            if (StatName == "Fitness") {
-                if (Step < 0) {
-                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("Fitness", "Shrink"));
-                } else {
-                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("Fitness", "Grow"));
-                }
-            }
+            case 'BODY':
+                this.AdjustBody(StatName, Step);
+                if (App.Data.Lists.BodyChanges.hasOwnProperty(StatName))
+                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange(StatName, (Step < 0 ? "Shrink" : "Grow")));
+                break;                
 
-            if (StatName == "WillPower") {
-                if (Step < 0) {
-                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("WillPower", "Shrink"));
-                } else {
-                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("WillPower", "Grow"));
-                }
-            }
-
-            if (StatName == "Hormones") {
-                if (Step < 0 ) {
-                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("Hormones", "Shrink"));
-                } else {
-                    setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange("Hormones", "Grow"));
-                }
-            }
-            this.AdjustStat(StatName, Step);
         }
 
-        if (Type == "SKILL")  {
-            var statTitle = App.Data.Lists.SkillConfig[StatName].hasOwnProperty('ALTNAME') ? 
-                App.Data.Lists.SkillConfig[StatName]["ALTNAME"] : StatName;
-            this.AdjustSkill(StatName, Step);
-            setup.Notifications.AddMessage('KNOWLEDGE', 
-                this.Day+1, 
-                "Your "+App.PR.ColorizeString(this.GetStatPercent('SKILL', StatName), statTitle) + " skill improves!");
-        }
-
-        if (Type == "BODY") {
-            this.AdjustBody(StatName, Step);
-            if (Step < 0) {
-                setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange(StatName, "Shrink"));
-            } else {
-                setup.Notifications.AddMessage('STAT_CHANGE', this.Day+1, this.pBodyChange(StatName, "Grow"));
-            }
-        }
         this.AdjustXP(Type, StatName, Cost, 0, true);
+
     }
 
     LevelStatGroup (Type) {
