@@ -255,7 +255,7 @@ var Store = function(Player, NPC, StoreData) {
         if ( ( this._Player.StoreInventory[this._Id]["LAST_STOCKED"] == 0)
             || (this._Player.StoreInventory[this._Id]["LAST_STOCKED"] + this._Data["RESTOCK"] <= this._Player.Day) ) {
 
-            if (this._Player.StoreInventory[this._Id]["INVENTORY"].length == 0)
+            //if (this._Player.StoreInventory[this._Id]["INVENTORY"].length == 0)
                 this._Player.StoreInventory[this._Id]["INVENTORY"] = this._Data["INVENTORY"];
 
             for (var i = 0; i < this._Player.StoreInventory[this._Id]["INVENTORY"].length; i++)
@@ -285,8 +285,6 @@ var Store = function(Player, NPC, StoreData) {
                 // Copy data record object into new variable or we get some bad reference juju.
                 var RareEntry = $.extend({}, Rares[Math.floor(Math.random() * Rares.length)]);
                 this._Player.StoreInventory[this._Id]["RARE"].push( RareEntry );
-                console.log("Adding rare item");
-                console.log(RareEntry);
             }
         }
 
