@@ -306,6 +306,15 @@ div.kraken_a {
 div.siren_a {
     background-image: [img[siren_a]];
 }
+
+div.harlot_a {
+    background-image: [img[harlot_a]];
+}
+
+div.harlot_b {
+    background-image: [img[harlot_b]];
+}
+
 /* COMMAND ICONS */
 div.punch_icon {
     background-image: [img[punch_icon]];

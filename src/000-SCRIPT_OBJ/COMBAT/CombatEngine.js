@@ -24,6 +24,7 @@ App.Combat.CombatEngine = class CombatEngine {
         this._noWeapons = false;
         this._fleePassage = 'Cabin';
         this._LootBuffer = [ ];
+        this._introChat = null;
     
     }
 
@@ -62,11 +63,13 @@ App.Combat.CombatEngine = class CombatEngine {
             if (opts.hasOwnProperty('flee')) this._flee = opts.flee;
             if (opts.hasOwnProperty('fleePassage')) this._fleePassage = opts.fleePassage;
             if (opts.hasOwnProperty('noWeapons')) this._noWeapons = opts.noWeapons;
+            if (opts.hasOwnProperty('intro')) this._introChat = opts.intro;
         }
 
         sessionStorage.setItem('QOS_ENCOUNTER_FLEE', this._flee);
         sessionStorage.setItem('QOS_ENCOUNTER_FLEE_PASSAGE', this._fleePassage);
         sessionStorage.setItem('QOS_ENCOUNTER_NO_WEAPONS', this._noWeapons);
+        sessionStorage.setItem('QOS_ENCOUNTER_INTRO', this._introChat);
 
         
     }
@@ -84,7 +87,11 @@ App.Combat.CombatEngine = class CombatEngine {
         this._encounterData = Object.create(App.Combat.EncounterData[Encounter]);
         for(const e of this._encounterData.Enemies) this._AddEnemy(e);
         this._AddPlayer(setup.player);
-        this._AddChat(this._encounterData.Intro);
+        if (this._introChat && this._introChat != null) {
+            this._AddChat(this._introChat);
+        } else { 
+            this._AddChat(this._encounterData.Intro);
+        }
     }
 
     DrawUI() {
@@ -95,6 +102,7 @@ App.Combat.CombatEngine = class CombatEngine {
             this._fleePassage = sessionStorage.getItem('QOS_ENCOUNTER_FLEE_PASSAGE');
             this._noWeapons = sessionStorage.getItem('QOS_ENCOUNTER_NO_WEAPONS');
             this.LoadEncounter(sessionStorage.getItem('QOS_ENCOUNTER_KEY'));
+            this._introChat = sessionStorage.getItem('QOS_ENCOUNTER_INTRO');
         }
 
         $(document).one(":passageend", this._DrawUI.bind(this));
@@ -163,7 +171,6 @@ App.Combat.CombatEngine = class CombatEngine {
         var selectedStyle = $('#combatStyles').children("option:selected").val();
         var d = App.Combat.Moves[selectedStyle];
 
-        console.log('_UpdateCombatButtons called');
         for(var prop in d)
         {
             if (prop == 'Engine') continue; // filter out this one.
@@ -199,10 +206,7 @@ App.Combat.CombatEngine = class CombatEngine {
     {
         var root = $('#combatStyles');
         var styles = this._player.AvailableMoveset;
-        console.log("Loading Style="+this.LastSelectedStyle);
         if (Object.keys(styles).includes(this.LastSelectedStyle) == false) {
-            console.log("Cant find last selected style in keys:"+this.LastSelectedStyle);
-            console.log(Object.keys(styles));
             this.LastSelectedStyle = 'UNARMED';
         }
 
@@ -487,15 +491,12 @@ App.Combat.CombatEngine = class CombatEngine {
                 position++;
             }
         }
-        console.log(this._Timeline);
 
     }
 
     _PopulateTimeline(o, Timeline)
     {
         var Time = o.GetTimeline(5); // Get 5 turns.
-        console.log("name="+o.Name);
-        console.log(Time);
         for(var i = 0; i < Time.length; i++) {
             var t = Time[i];
             if (Timeline.hasOwnProperty(t)) {
@@ -680,7 +681,6 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _WinFight()
     {
-        console.log("Win fight called");
 
         if (this._encounterData.__proto__.hasOwnProperty('Loot')) {
 
@@ -709,7 +709,6 @@ App.Combat.CombatEngine = class CombatEngine {
 
     _GrantLoot(data) {
 
-        console.log(data);
 
         if (data.Chance == 100 || data.Chance <= Math.floor(Math.random() * 100)) {
             if (data.Type == 'Coins') {

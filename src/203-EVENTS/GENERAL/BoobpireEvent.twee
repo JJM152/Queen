@@ -1,0 +1,107 @@
+:: BoobpireEvent [no-teleport no-saving]
+You're minding your own business, enjoying a stroll scented with strong sea air, when a sultry \
+voice calls out to you from a shadowed doorway.
+
+<span class='npcText'>"Ahoy sissy, looking for a little fun tonight are we?"</span>
+
+You halt in your tracks. It's not often that you're propositioned, especially given the state you're currently in \
+and while the woman is mostly shrouded in the shadows, you can make out that she has a lovely figure and pure white \
+skin. Almost involuntarily you feel the blood pumping in your veins. It's been so long. So very long.
+
+@@color:yellow;Action@@: \
+<<if setup.player.Money < 50>>\
+@@color:grey;If only you had some money@@ \
+<<else>>\
+<<if setup.player.IsEquipped('chastity cage');>>\
+@@color:grey;Too bad your dick is locked up@@ \
+<<else>>\
+<<click "Follow her">>\
+<<if Math.floor( 4 * Math.random()) < 2;>>\
+<<run setup.player.AdjustMoney(-50);>>\
+<<run setup.player.CorruptWillPower(50, 50);>>\
+<<run setup.player.AdjustSkillXP('BlowJobs', 50);>>\
+<<run setup.player.AdjustSkillXP('Seduction', 50);>>\
+<<run setup.player.NextPhase(1);>>\
+<<goto "BoobpireEvent2">>\
+<<else>>\
+<<goto "BoobpireEvent3">>\
+<</if>>\
+<</click>>\
+<</if>>\
+<</if>> | <<eventContinue "Ignore her and continue">>
+:: BoobpireEvent2 [no-teleport no-saving]
+You approach the woman and she's even more beautiful than you had hoped, her piercing blue eyes and blood red lips \
+practically oozing the enticing promise of sex. She beckons for you to follow her to a secluded alleyway and you \
+eagerly do so. However, the moment you turn the corner she grabs you by the shoulders and slams you, hard, into \
+the wall of a nearby building.
+
+You're about to complain, or struggle, do anything really, to break free, when she pushes her over large breasts \
+directly against you, her mouth coming close to your ear and a soft whisper of a moan breaking your concentration. \
+Inwardly you give a sigh of relief, knowing that perhaps you just narrowly escaped the consequences of a likely \
+bad decision. 
+
+Before you can follow that train of thought any further, she reaches into your pants and pulls out your \
+<<= App.PR.pPenis(setup.player, true); >> dick and starts to roughly stroke you while nibbling on your ear. It doesn't \
+take long after that until you're at full mast. 
+
+The whore is quite experienced and she quickly moves to her knees, engulfing your cock with her mouth. The \
+touch of her lips is like soft velvet and even better than you imagined. She locks eyes with you and continues \
+to suck gently, then without warning she goes down to the base of your pubes. The feeling is indescribable.
+
+Your hands automatically go to the back of her head, normally you'd be worried about this being something that \
+@@color:hotpink;<<= setup.player.GirlfriendName >>@@ would never allow you to do, but the prostitute either \
+doesn't care or expects it. In either case, you find yourself eagerly pushing her head up and down on your \
+<<= App.PR.GetNoun('BODY', 'Penis', setup.player.GetStat('BODY','Penis'), true) >>.
+
+The woman attacks your cock with gusto, the alley filling with the echoing sounds of her slurping and gulping \
+for air. The sounds and sensations drive you over the edge and without warning you are gushing a stream of \
+hot salty jizz down this whores throat. From your vantage point you can actually feel her seize up as she \
+accomodates you and then relax her body and throat. Clearly this woman is a professional and you could learn \
+a thing or two from her.
+<<if setup.player.GetStat('STAT', 'Perversion') < 50>>
+Wait... did you just think that? Your time among \
+the pirates on the @@color:cyan;Salty Mermaid@@ must be starting to warp your values, if this continues it won't \
+be long before you're eagerly sucking dicks for fun and not just profit.\
+<<else>>\
+<<if setup.player.GetStat('STAT', 'Perversion') < 80>>
+It seems like a life time ago that such a thought would have bothered you, but now after your indentured \
+servitude as a ship's whore, you take it in stride. After all, every cock you suck brings you just one gulp \
+of cum closer to freedom. It's absolutely not because you enjoy it or anything.\
+<<else>>
+You smirk inwardly at the thought and marvel at what those bastards on the @@color:cyan;Salty Mermaid@@ have \
+done to you. No onger does the thought of sucking a fat dick fill you with disgust, quite the opposite actually, \
+just imagining a quality one like the monster that hangs between @@color:cyan;Kipler's@@ legs is enough to \
+make you start to salivate. At this point, even if you do manage to get free, you'll likely be a pervert for \
+the rest of your life... and you're surprisingly okay with that.\
+<</if>>\
+<</if>>
+
+Finally spent, you pay the woman her @@color:gold;50 coins@@ and carry on your way.
+
+@@color:lime;Travel@@: <<eventContinue>>
+
+:: BoobpireEvent3 [no-teleport no-saving]
+You approach the woman and she's even more beautiful than you had hoped, her piercing blue eyes and blood red lips \
+practically oozing the enticing promise of sex. She beckons for you to follow her to a secluded alleyway and you \
+eagerly do so. However, the moment you turn the corner she grabs you by the shoulders and slams you, hard, into \
+the wall of a nearby building.
+
+You're about to complain, or struggle, do anything really, to break free, when she pushes her over large breasts \
+directly against you, her mouth coming close to your face. That's when you realize it... the chill in your own \
+chest is radiating from this woman... and her teeth... well they happen to sport some pretty serious canines.
+
+Oh shit, this was a bad move, wasn't it?
+
+@@color:yellow;Action@@: \
+<<click "Defend yourself" "Combat">>\
+<<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleeBoobpireStreets"});>>\
+<<run setup.Combat.LoadEncounter("BoobpireStreets");>>\
+<</click>> | <<click "Run away!">>\
+<<if Math.floor( 3 * Math.random()) == 0>>\
+<<goto "CombatFleeBoobpireStreets">>\
+<<else>>\
+<<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleeBoobpireStreets", intro: "You fail to flee!"});>>\
+<<run setup.Combat.LoadEncounter("BoobpireStreets");>>\
+<<goto "Combat">>\
+<</if>>\
+<</click>>

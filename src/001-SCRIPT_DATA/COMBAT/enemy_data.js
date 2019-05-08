@@ -282,3 +282,19 @@ App.Combat.EnemyData['Champion Siren'] = {
     Gender: 0,
     Portraits: [ 'siren_a',]   
 }
+
+App.Combat.EnemyData['Boobpire'] = {
+    Name: 'Boobpire',
+    Title: 'NAME',
+    Health: 150,
+    MaxHealth: 150,
+    Energy: 3,
+    Attack: 100,
+    Defense: 50,
+    MaxStamina: 200,
+    Stamina: 200,
+    Speed: 50,
+    Moves: 'BOOBPIRE',
+    Gender: 0,
+    Portraits: [ 'harlot_a', 'harlot_b']   
+}

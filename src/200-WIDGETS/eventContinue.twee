@@ -1,0 +1,11 @@
+:: eventContinue [widget]
+<<widget "eventContinue">>\
+<<if $args[0] && $args[0] !== 'undefined'>>\
+<<set _ContinueText = $args[0];>>\
+<<else>>\
+<<set _ContinueText = "Continue";>>\
+<</if>>\
+<<click _ContinueText>>\
+<<run setup.eventEngine.NextPassage();>>\
+<</click>>\
+<</widget>>\

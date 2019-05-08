@@ -318,3 +318,46 @@ App.Combat.EncounterData['MamazonAmbush'] = {
         setup.player.NextPhase(1);
     }
 };
+
+// Boobpire street encounter
+App.Combat.EncounterData['BoobpireStreets'] = {
+    Enemies: [ "Boobpire" ],
+    Fatal: false,
+    WinPassage: "CombatWinBoobpireStreets",
+    LosePassage: "CombatLoseBoobpireStreets",
+    Intro: "Suddenly, the woman corners you in an alley and reveals herself to be a dreaded <span style='color:hotpink'>Boobpire</span>!",
+    LootMessage: "Scattered on the ground you find the following items...",
+    Loot: [ 
+        {
+            Chance: 100,
+            Type: 'Coins',
+            Tag: null,
+            Min: 50,
+            Max: 250
+        },
+        {
+            Chance: 100,
+            Type: 'Random',
+            Tag: null,
+            Min: 150,
+            Max: 250
+        },
+        {
+            Chance: 80,
+            Type: 'DRUG',
+            Tag: 'siren elixir',
+            Min: 1,
+            Max: 1,
+        }
+    ],
+    WinHandler : function() {
+        setup.player.NextPhase(1);
+    },
+    LoseHandler : function() {
+        setup.player.AdjustBodyXP('Bust', -200); 
+        setup.player.NextPhase(1);
+    },
+    FleeHandler : function() {
+        setup.player.NextPhase(1);
+    }
+};

@@ -2,11 +2,33 @@ App.EventEngine = class EventEngine {
 
     constructor() {
         this._PassageOverride = null;
+        this._fromPassage = null;
+        this._toPassage = null;
     }
 
     get PassageOverride() { return this._PassageOverride; }
     set PassageOverride(n) { this._PassageOverride = n; };
-    
+    get FromPassage() { 
+        if (this._fromPassage == null) this._LoadState();
+        return this._fromPassage; 
+    }
+    get ToPassage() { 
+        if (this._toPassage == null) this._LoadState();
+        return this._toPassage; 
+    }
+
+    NextPassage()
+    {
+        if (this._toPassage == null) this._LoadState();
+        SugarCube.State.display(this._toPassage);
+    }
+
+    BackPassage()
+    {
+        if (this._fromPassage == null) this._LoadState();
+        SugarCube.State.display(this._fromPassage);
+    }
+
     /**
      * Checks a dictionary of destinations (including 'any') for conditions to process.
      * On a succesful evaluation return a string of a twine passage to the initiating handler
@@ -19,9 +41,6 @@ App.EventEngine = class EventEngine {
      * @returns {string|null} OverridePassage
      */
     CheckEvents(Player, FromPassage, ToPassage) {
-
-        this._fromPassage = FromPassage;
-        this._toPassage = ToPassage;
 
         this._d("From: "+FromPassage+",To:"+ToPassage);
         
@@ -56,6 +75,7 @@ App.EventEngine = class EventEngine {
             var event = this._SelectEvent(validEvents);
             if (event["CHECK"](Player) == true) {
                 this._setFlags(Player, event["ID"]);
+                this._SaveState(FromPassage, ToPassage);
                 return event["PASSAGE"];
             }
         }
@@ -66,10 +86,23 @@ App.EventEngine = class EventEngine {
             var event = this._SelectEvent(validEvents);
             if (event["CHECK"](Player) == true) {
                 this._setFlags(Player, event["ID"]);
+                this._SaveState(FromPassage, ToPassage);
                 return event["PASSAGE"];
             }
         }
 
+    }
+
+    _SaveState(FromPassage, ToPassage) {
+        this._fromPassage = FromPassage;
+        this._toPassage = ToPassage;
+        sessionStorage.setItem('QOS_EVENT_FROM_PASSAGE', this._fromPassage);
+        sessionStorage.setItem('QOS_EVENT_TO_PASSAGE', this._toPassage);
+    }
+
+    _LoadState(){
+        this._fromPassage = sessionStorage.getItem('QOS_EVENT_FROM_PASSAGE');
+        this._toPassage = sessionStorage.getItem('QOS_EVENT_TO_PASSAGE');
     }
 
     /**
@@ -79,8 +112,7 @@ App.EventEngine = class EventEngine {
      * @param {string} ToPassage
      * @returns {*[]}
      */
-    _FilterEvents(Player, FromPassage, ToPassage)
-    {
+    _FilterEvents(Player, FromPassage, ToPassage) {
 
         if (App.Data.Events.hasOwnProperty(ToPassage) == false || App.Data.Events[ToPassage].length < 1) return [];
 
@@ -143,23 +175,17 @@ App.EventEngine = class EventEngine {
 
     /**
      * Manually trigger an event and ignore checks, coolsdowns, etc.
-     * @param {App.Entity.Player} Player 
      * @param {string} Passage 
      * @param {string} ID 
      */
-    FireEvent(Player, Passage, ID)
+    FireEvent(Passage, ID)
     {
         var event = App.Data.Events[Passage].filter(function(o) { return o.ID == ID; })[0];
         console.log(event);
-        this._setFlags(Player, event["ID"]);
+        this._setFlags(setup.player, event["ID"]);
+        this._SaveState(event["FROM"], Passage);
         SugarCube.State.display(event["PASSAGE"]);
     }
-
-    // This isn't working exactly how I want to right now. If a player reloads his page (naughty naughty)
-    // then this object gets baleeeeted and these references are null, which means I can't use them for
-    // dynamic links. However, it's probably not really necessary. I'll think about it.
-    get FromPassage() { return this._fromPassage; }
-    get ToPassage() { return this._toPassage; }
 
     _d(m) {
         if (setup.player.debugMode == true) console.log(m);

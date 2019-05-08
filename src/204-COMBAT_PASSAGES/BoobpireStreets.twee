@@ -1,0 +1,29 @@
+:: CombatWinBoobpireStreets [no-teleport no-saving]
+<<combatResults>>
+
+Your final attack sends the dreaded @@color:hotpink;Boobpire@@ reeling and crashing to her knees. With victory \
+finally within grasp, you lunge forward to send the titty stealing whore to the afterlife, only to witness her \
+dissapate into a sparkly pink cloud of smoke before your eyes. You swear you hear the faint hollow echo of a \
+taunting laugh, but before you can pinpoint it the cloud is gone, leaving you frustrated and thirsty for \
+revenge.
+
+@@color:lime;Travel@@: <<eventContinue>>
+
+:: CombatLoseBoobpireStreets [no-teleport no-saving]
+<<combatResults>>
+
+You wake up in agony, your brow feverish and your body bruised. Not quite remembering what happened, you count \
+yourself lucky that you're still alive, the only disconcerting part of the entire affair being the constant \
+throbbing and burning sensation in your breasts. 
+
+Just what did that harlot do to you?
+
+@@color:lime;Travel@@: <<eventContinue>>
+
+:: CombatFleeBoobpireStreets [no-teleport no-saving]
+Realizing that you're no match for such a powerful mythical creature, you decide to flee. Taking advantage of \
+the first opening your opponent gives you, you shove past her and out into the open away from the long \
+shadows that her kind prefers. For some unknown reason she doesn't give chase, allowing you to reach the \
+relative safety of the more populated city streets.
+
+@@color:lime;Travel@@: <<eventContinue>>

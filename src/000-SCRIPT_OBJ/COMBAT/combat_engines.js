@@ -88,13 +88,9 @@ App.Combat.Engines.Generic = class GenericEngine {
     }
 
     CheckCommand(Command) {
-        console.log("CheckCommand called on "+Command.Name);
         if (Command.Unlock(this.Owner) == false) return false;
-        console.log("Passed Unlock()");
         if (Command.Stamina > this.Owner.Stamina) return false;
-        console.log("Have Stamina");
         if (Command.Combo > this.Owner.Combo) return false;
-        console.log("Have Combo pts");
 
         return true;
     }
@@ -791,6 +787,88 @@ App.Combat.Engines.Siren = class SirenCombatEngine extends App.Combat.Engines.Ge
             this.AttackTarget(Target, this.Owner.Moves["Drown"]);
         } else if (this.Owner.Combo >= this.Owner.Moves["Scream"].Combo && Math.floor(Math.random()* 100) >= 75) {
             this.AttackTarget(Target, this.Owner.Moves["Scream"]);
+        } else if (this.LastMove == "Toss") {
+            this.AttackTarget(Target, this.Owner.Moves["Touch"]);
+        } else {
+            this.AttackTarget(Target, this.Owner.Moves["Toss"]);
+        }
+
+    }
+
+};
+
+// Boobpire
+App.Combat.Engines.Siren = class BoobpireCombatEngine extends App.Combat.Engines.Generic {
+
+    constructor(...args)
+    {
+        super(...args);
+    }
+
+    get Class() { return "BOOBPIRE"; }
+
+    /**
+     * Calculate the damage of an unarmed attack
+     * @param {App.Combat.Combatant|App.Combat.Player} Target 
+     * @param {*} Command 
+     * @param {number} Roll 
+     * @returns {number} Damage
+     */
+    CalculateDamage(Target, Command, Roll)
+    {
+
+        return Math.ceil( Math.max(1, ((this.Owner.Attack/10)*Math.random())) * Command.Damage);
+    }
+
+    /**
+     * Generate any combo points
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     * @returns {number} number of combo points to grant
+     */
+    GenerateCombo(Target, Command, Roll)
+    {
+        if ( (Command.Name == 'Touch' && this.LastMove == 'Toss') ||
+             (Command.Name == 'Toss' && this.LastMove == 'Touch') )
+             {
+                 return 1;
+             }
+
+        return 0;
+    }
+
+    /**
+     * Apply effects to enemy
+     * @param {App.Combat.Combatant|App.Combat.Player} Target  
+     * @param {*} Command 
+     * @param {*} Roll 
+     */
+    ApplyEffects(Target, Command, Roll)
+    {
+
+        if (Target.IsNPC == true) return; // No effects on non-player characters.
+
+        if (Command.Name == 'Bite') {
+            Target.AddEffect('STUNNED', 2);
+            this.Owner.AddEffect('BLOODTHIRST', 2);
+            if (this.Owner.IsNPC) {
+                this.PrintMessage("<span style='color:yellow'>NPC_NAME stuns you!</span>", Target);
+            } else {
+                this.PrintMessage("<span style='color:yellow'>You stun NPC_NAME!</span>", Target);
+                this.PrintMessage("<span style='color:red'>Your chest feels hot!</span>", Target);
+                // Drain breast xp
+                Target.Player.AdjustBodyXP('Bust', Math.ceil((50 * Math.random())*-1.0));
+            }
+        } 
+    }
+
+    DoAI(Target)
+    {
+        if (this.Owner.Combo >= this.Owner.Moves["Claw"].Combo ) {
+            this.AttackTarget(Target, this.Owner.Moves["Claw"]);
+        } else if (this.Owner.Combo >= this.Owner.Moves["Bite"].Combo && Math.floor(Math.random()* 100) >= 50) {
+            this.AttackTarget(Target, this.Owner.Moves["Bite"]);
         } else if (this.LastMove == "Toss") {
             this.AttackTarget(Target, this.Owner.Moves["Touch"]);
         } else {
