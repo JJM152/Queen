@@ -415,9 +415,9 @@ App.PR = new function() {
 
             if (StatName == "Hormones" ) {
                 if (StatValue > 100 ) // Return "Female" version of this meter.
-                    return this.pMeter( (Player.GetStat("STAT", "Hormones") - 100), 100, 0, HtmlSafe);
+                    return this.pMeter( (Player.GetStat("STAT", "Hormones") - 100), 100, Opt, HtmlSafe);
                 if (StatValue <= 100)
-                    return this.pMeter( (100 - StatValue), 100, 0, HtmlSafe);
+                    return this.pMeter( (100 - StatValue), 100, Opt, HtmlSafe);
             }
 
             return this.pMeter( Player.GetStat("STAT", StatName), Player.GetMaxStat("STAT", StatName), Opt, HtmlSafe);
@@ -1184,8 +1184,9 @@ App.PR = new function() {
     };
 
     this.RefreshTwineMeter = function(m) {
+        var invert = ( m == 'Toxicity') ? true : false;
         try {
-            $("#"+m).html(this.pStatMeter(m, setup.player, 0, true));
+            $("#"+m).html(this.pStatMeter(m, setup.player, invert, true));
         } catch (err) {
 
         }

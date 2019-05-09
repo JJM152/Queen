@@ -1,0 +1,4 @@
+:: Cheat [custom-menu no-teleport no-saving]
+@@color:cyan;Interact@@ <<click "Exit" $GameBookmark>><</click>>
+
+No cheating!

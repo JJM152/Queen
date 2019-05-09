@@ -1,1 +1,1 @@
-tweego -f sugarcube-2 -o Queen.html src
+tweego -f sugarcube-2 -o Queen.html src branding\default

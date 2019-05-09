@@ -7,6 +7,9 @@
 *.userosscache
 *.sln.docstates
 Queen.html
+patreonbuild.bat
+PatreonCheatMenu.twee
+branding/patreon/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

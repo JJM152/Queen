@@ -41,7 +41,7 @@ Coins: <span id="Money"><<print setup.player.Money>></span>
 	<td><span id="Hormones"><<print App.PR.pStatMeter("Hormones",setup.player);>></span><<if setup.player.GetStat("STAT","Hormones") < 78>>@@color:cyan;♂@@<<else>><<if setup.player.GetStat("STAT","Hormones") >= 144>>@@color:DeepPink;♀@@<<else>>@@color:orange;⚥<</if>><</if>></td>
 </tr>
 <tr><td colspan="2">\
-<span style='padding-left:20px'><<customMenuLink "Help">></span>
+<span style='padding-left:20px'><<customMenuLink "Help">> | <<customMenuLink "Cheat">></span>
 </td></tr>
 </tbody>
 </table>

@@ -76,16 +76,6 @@ App.Entity.AvatarEngine = class Avatar {
 
             var t2 = performance.now();
             console.log("Loaded DA in "+(t2-t0)+"ms.");
-
-            //Loop until all the patterns resolve.
-            // var patternInterval = setInterval(function() {
-            //     for(var i = 0; i < App.Data.AvatarPatterns.length; i++) {
-            //         if (da.listAvailablePatterns().includes(App.Data.AvatarPatterns[i] == false)) return;
-            //     }
-            //     console.log("All DA Patterns Loaded");
-            //     App.Avatar.Loaded = true;
-            //     clearInterval(patternInterval);
-            // }, 20);
  
         });
 
@@ -153,6 +143,8 @@ App.Entity.AvatarEngine = class Avatar {
     }
 
     DrawCanvas(element, height, width) {
+        this._height = height;
+        this._width = width;
         this._element = element;
         $(document).one(":passageend", this._DrawCanvas.bind(this));
     }
@@ -163,10 +155,8 @@ App.Entity.AvatarEngine = class Avatar {
             canvasGroup = da.getCanvasGroup(this._element, 
                 {
                     border: "1px solid black",
-                   // width: 480,
-                   // height: 960
-                   width: 360,
-                   height: 800,
+                   width: this._width !== 'undefined' ? this._width : 360,
+                   height: this._height !== 'undefined' ? this._height : 800,
                 });
         } 
 
