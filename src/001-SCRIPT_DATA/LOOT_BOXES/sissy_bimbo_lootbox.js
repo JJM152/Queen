@@ -48,7 +48,7 @@ App.Data.LootBoxes["legendary sissy loot box"] = {
     "Effects" : [ "SISSY_BIMBO_LOOT_BOX_LEGENDARY"]
 };
 
-App.Data.LootTables["DANCER_BIMBO"] =  [
+App.Data.LootTables["SISSY_BIMBO"] =  [
     {
         Type : "COINS",
         Chance: 100,

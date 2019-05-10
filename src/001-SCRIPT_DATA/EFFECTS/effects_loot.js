@@ -107,28 +107,28 @@ App.Data.EffectLib["PIRATE_BDSM_LOOT_BOX_LEGENDARY"] = {
 App.Data.EffectLib["SISSY_BIMBO_LOOT_BOX_COMMON"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
-    function(o,p) {  return setup.Loot.GenerateLootBox(App.Data.LootTables["DANCER_BIMBO"], 500, 1000);  },
+    function(o,p) {  return setup.Loot.GenerateLootBox(App.Data.LootTables["SISSY_BIMBO"], 500, 1000);  },
     "VALUE" : 0,
         "KNOWLEDGE" : [ "Loot Box+" ]
 };
 App.Data.EffectLib["SISSY_BIMBO_LOOT_BOX_UNCOMMON"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
-    function(o,p) {  return setup.Loot.GenerateLootBox(App.Data.LootTables["DANCER_BIMBO"], 1000, 1500);  },
+    function(o,p) {  return setup.Loot.GenerateLootBox(App.Data.LootTables["SISSY_BIMBO"], 1000, 1500);  },
     "VALUE" : 0,
         "KNOWLEDGE" : [ "Loot Box++" ]
 };
 App.Data.EffectLib["SISSY_BIMBO_LOOT_BOX_RARE"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
-    function(o,p) {  return setup.Loot.GenerateLootBox(App.Data.LootTables["DANCER_BIMBO"], 1500, 2000);  },
+    function(o,p) {  return setup.Loot.GenerateLootBox(App.Data.LootTables["SISSY_BIMBO"], 1500, 2000);  },
     "VALUE" : 0,
         "KNOWLEDGE" : [ "Loot Box+++" ]
 };
 App.Data.EffectLib["SISSY_BIMBO_LOOT_BOX_LEGENDARY"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
-    function(o,p) {  return setup.Loot.GenerateLootBox(App.Data.LootTables["DANCER_BIMBO"], 2000, 2500);  },
+    function(o,p) {  return setup.Loot.GenerateLootBox(App.Data.LootTables["SISSY_BIMBO"], 2000, 2500);  },
     "VALUE" : 0,
         "KNOWLEDGE" : [ "Loot Box++++" ]
 };
