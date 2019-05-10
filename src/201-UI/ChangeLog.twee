@@ -1,34 +1,8 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.10d - 10/05/2019
-* Added cheat interface for @@color:orange;Fan and Backer level Patreons@@. 
-!!!0.10c - 09/05/2019
-* Cookie can now sell more than 1 rare item type a week. He can sell rare alcohols to players if his mood is high.
-* Julius now can sell more than 1 rare item type a week. His inventory of rare items has also increased.
-* Fishnet stockings were missing their pattern, fixed now.
-* Clothing with the 'Jacket' part was crashing on breasts too small. Fixed it and sent pull request to DAD author's \
-repository because I'm such a nice and helpful person.
-* Enhanced navigation of event engine to store passage direction in session storage. This avoids a potential state \
-where a player could get trapped if they reloaded an event page trying to save scum or something lame like that.
-* Added some monsters: the dreaded Boobpire.
-* New random event added to islands.
-!!!0.10b - 07/05/2019
-!!!!Bug Fixes
-* Not really a bug, but reverted PR #136 to restore previous Bust attribute scaling.
-* Losing Kipler's duel now places you in the correct area when you click Continue.
-* Added [no-teleport] attributes to the fight bet interfaces. It's weird to get the late night travel link from \
-that UI!
-* Skill names cleaned up for overnight sleep log. Added some more messages for Perversion and Femininity changes.
-* You can now flee from the Pirate Attack event on the Salty Mermaid (whoops)
-* Reduces effects of Toxicity on retarding health and energy (higher threshold)
-* You will always get at least 1 energy no matter how toxic you are after sleeping.
-* Fixed bug when you joined a "no weapons" fight and your last used style was Swashbuckling. Primarily affected \
-fight clubs.
-* Added a random component and increased bet pool for Coffin Dice on the Mermaid when offering up sex as your \
-part of the bet. This will allow the player to earn some coins even with poor sex skills and a not-horny crew.
-* Disabled new 'Help' link when playing dice game (opponents turn only).
-!!!0.10 PRE RELEASE - 06/05/2019
+!!!0.10 RELEASE CANDIDATE ??/??/????
 !!!!General
+* Added cheat interface for @@color:orange;Fan and Backer level Patreons@@. 
 * Fixed bug that was causing quest requirements for a worn item to display incorrectly as not worn. (red checkbox)
 * Fixed an oversight that was making reversing tranformation much harder than intended.
 * As above, re-introduced a minor persistant male shift in hormones related to teste size. This will make feminization slower.
@@ -42,6 +16,13 @@ report any issues you see.
 * Toxicity now reduces (slightly) when you rest.
 * The sleep (overnight) chat log has been reformatted to add different types of notifications.
 * Updated the help file for the game. It's also accessable from the player score side panel.
+* Fishnet stockings were missing their pattern, fixed now.
+* Clothing with the 'Jacket' part was crashing on breasts too small. Fixed it and sent pull request to DAD author's \
+repository because I'm such a nice and helpful person.
+* Enhanced navigation of event engine to store passage direction in session storage. This avoids a potential state \
+where a player could get trapped if they reloaded an event page trying to save scum or something lame like that.
+* Added some monsters: the dreaded Boobpire.
+* New random event added to islands.
 !!!!Combat System
 * Basic RPG style combat engine added to the game. 
 * Unarmed style is affected primarily by your fitness stat.
@@ -57,6 +38,8 @@ report any issues you see.
 * Items that pirates wager are generally worth more than your own stakes.
 * This can be used as an alternative to the "Slut Slots", but does not scale as well at upper levels.
 !!!!Salty Mermaid
+* Cookie can now sell more than 1 rare item type a week. He can sell rare alcohols to players if his mood is high.
+* Julius now can sell more than 1 rare item type a week. His inventory of rare items has also increased.
 * Fixed an oversight where Julius's experimentation job wasn't granting growth to hips, but just ass.
 * Fixed formatting in some quest.
 * Added an event to allow Coffin Dice to be unlocked on the mermaid.
@@ -81,7 +64,6 @@ decide to join the battle and fight as well. These events can repeat.
 * New area accessible from the Hidden Cove. This leads to two competing tribes of jungle women, the @@color:cyan;Mamazons@@ and \
 the @@color:cyan;Glutezons@@. You can complete a simple quest to become a member of either tribe, but doing so will exclude you \
 from the other.
-!!!!General
 !!!0.9e - 04/03/2019
 !!!!General
 * Emergency fix for no menu buttons when starting the game (being unable to load an old save).

@@ -170,8 +170,6 @@ App.Entity.AvatarEngine = class Avatar {
                 offsetY: 0
             });
 
-        console.log(PC);
-        //this._DrawPortrait();
     }
 
     DrawPortrait()
@@ -214,7 +212,6 @@ App.Entity.AvatarEngine = class Avatar {
                     parent: document.getElementById("avatarFace"),
                 });
         
-            console.log(portraitCanvas);
             // you can call this multiple times to draw different parts (with different canvases)
             da.drawFocusedWindow(portraitCanvas,
                 exports,
@@ -408,7 +405,6 @@ App.Entity.AvatarEngine = class Avatar {
                 var items = App.Data.AvatarMaps[id];
                 for(var i = 0; i < items.length; i++) {
                     var str = "da.Clothes.create("+items[i].c+","+JSON.stringify(items[i].a)+")";
-                    console.log(str);
                     // This nonsense here is just to be safe due to script 'compiling' order of Tweego.
                     if(items[i].a != null && items[i].a.hasOwnProperty('pattern') && typeof items[i].a.pattern === 'string') {
                         var patternOb = null;
@@ -424,7 +420,6 @@ App.Entity.AvatarEngine = class Avatar {
                 }
             } else {
                 console.log("Unable to map clothes to avatar: "+o.Tag);
-                console.log(o);
             }
         }
 
