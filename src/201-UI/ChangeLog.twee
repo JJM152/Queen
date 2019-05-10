@@ -1,6 +1,6 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.10 RELEASE CANDIDATE ??/??/????
+!!!0.10e RELEASE CANDIDATE 11/05/2019
 !!!!General
 * Added cheat interface for @@color:orange;Fan and Backer level Patreons@@. 
 * Fixed bug that was causing quest requirements for a worn item to display incorrectly as not worn. (red checkbox)
