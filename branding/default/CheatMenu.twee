@@ -1,4 +1,22 @@
 :: Cheat [custom-menu no-teleport no-saving]
-@@color:cyan;Interact@@ <<click "Exit" $GameBookmark>><</click>>
+<img id="patreonScreenShot" data-passage="patreon_screen">
+<span style='color:yellow;font-size:larger'>Sorry, but the cheat menu is only available for Fans and Backers!</span>
 
-No cheating!
+Making video games is my passion and the support that I recieve from my Patreons enables me to spend more time doing \
+what I love. The relationship is reciprocal as all my Patreons receive benefits directly from me as a 'Thank you!' \
+for their support and loyalty. 
+
+For just $2 dollars a month you can become a @@color:orange;Supporter@@, which will give you access to all pre-release \
+and play test versions of this game and any future games I may create. The next teir up, the @@color:orange;Fan@@ also gives you voting rights \
+on all polls so that you can help guide the direction of the game as well as access to the full @@color:gold;Cheat Menu@@ \
+that would normally be on this page. The last level supporter, the @@color:orange;Backer@@ gets all of the previous \
+levels as well as access to all of the @@color:gold;Development Builds@@ that I regularly post. These builds are \
+specifically curated to show off new features and content well before they are ready even to be play tested.
+
+I regularly post updates concerning the development of this game to <a href="https://www.patreon.com/malhavok">my Patreon</a> \
+so stop on by and see whats up, or why not <a href="https://www.patreon.com/bePatron?u=19919727">jump right in and become a supporter!</a>
+
+Thank you,
+@@color:cyan;Malhavok@@
+
+@@color:cyan;Interact@@ <<click "Exit" $GameBookmark>><</click>>

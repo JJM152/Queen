@@ -1183,13 +1183,33 @@ App.PR = new function() {
         }
     };
 
+    this.pHormoneSymbol = function() {
+        var val = setup.player.CoreStats['Hormones'];
+
+        if (val < 78) {
+            return "<span id='HormoneSymbol' style='color:cyan'>♂</span>";
+        } else if (val >= 144) {
+            return "<span id='HormoneSymbol' style='color:hotpink'>♀</span>";
+        } else {
+            return "<span id='HormoneSymbol' style='color:orange'>⚥</span>";
+        }
+
+    };
+
     this.RefreshTwineMeter = function(m) {
         var invert = ( m == 'Toxicity') ? true : false;
+        var str = "";
         try {
             $("#"+m).html(this.pStatMeter(m, setup.player, invert, true));
+            
+            if (m == 'Hormones') {
+                $("#HormoneSymbol").html(this.pHormoneSymbol());
+            }
+
         } catch (err) {
 
         }
+
     };
 
     this.RefreshTwineScore = function() {
