@@ -48,103 +48,76 @@ App.Data.LootBoxes["legendary dancer loot box"] = {
     "Effects" : [ "DANCER_BIMBO_LOOT_BOX_LEGENDARY"]
 };
 
-App.Data.LootTables["DANCER_BIMBO"] =  {
-    10 :  {
-        "LOOT" : [
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5}
-        ] },
-    20 :  {
-        "LOOT" : [
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 5}
-        ] },
-    30 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "fishnet stockings", "QTY" : 1}
-        ] },
-    40 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES",   "TAG" : "silk stockings", "QTY" : 1},
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 5}
-        ] },
-    50 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "tall heels", "QTY" : 1},
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 5}
-        ] },
-    60 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "fishnet stockings", "QTY" : 1},
-            { "TYPE" : "DRUGS", "TAG" : "siren elixir", "QTY" : 1}
-        ] },
-    65 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "cupless corset", "QTY" : 1},
-            { "TYPE" : "DRUGS", "TAG" : "lip balm", "QTY" : 2},
-            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 2}
-        ] },
-    70 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "nipple tassels", "QTY" : 1},
-            { "TYPE" : "DRUGS", "TAG" : "lip balm", "QTY" : 2}
-        ] },
-    75 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "gothic black bra", "QTY" : 1},
-            { "TYPE" : "DRUGS", "TAG" : "lip balm", "QTY" : 2}
-        ] },
-    80 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "sequined g-string", "QTY" : 1},
-            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 2}
-        ] },
-    85 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "black panties", "QTY" : 1},
-            { "TYPE" : "DRUGS", "TAG" : "hair tonic", "QTY" : 1}
-        ] },
-    90 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "small plug", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 3}
-        ] },
-    100 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "burlesque costume", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
-            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2}
-        ] },
-    105 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "platform heels", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
-            { "TYPE" : "DRUGS", "TAG" : "face cream", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2}
-        ] },
-    110 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "exotic wig", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 1}
-        ] },
-    120 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "stripper heels", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 4}
-        ] },
-    130 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "slutty schoolgirl", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 4 }
-        ] }
-};
+App.Data.LootTables["DANCER_BIMBO"] =  [
+    {
+        Type : "COINS",
+        Chance: 100,
+        Min: 1,
+        Max: 50
+    },
+    {
+        Type : "CLOTHES",
+        Chance: 100,
+        MaxCount: 1,
+        Filter: App.Loot.any("Category", [ "Bimbo", "Sexy Dancer" ])
+    },
+    {
+        Type : "COSMETICS",
+        Chance: 80,
+        MaxCount: 5
+    },
+    {
+        Type : "COSMETICS",
+        Chance: 80,
+        MaxCount: 5
+    },
+    {
+        Type: "FOOD",
+        Chance: 75,
+        MaxCount: 2,
+        Filter: App.Loot.any("Effects", 
+            [
+                "BUST_XP_COMMON", "BUST_XP_UNCOMMON", "BUST_XP_RARE", "BUST_XP_LEGENDARY",
+                "FITNESS_XP_COMMON", "FITNESS_XP_UNCOMMON", "FITNESS_XP_RARE", "FITNESS_XP_LEGENDARY",
+                "SEDUCTION_XP_COMMON", "SEDUCTION_XP_UNCOMMON", "SEDUCTION_XP_RARE", "SEDUCTION_XP_LEGENDARY"
+            ])
+    },
+    {
+        Type: "FOOD",
+        Chance: 30,
+        MaxCount: 4,
+        Filter: App.Loot.any("Effects", 
+            [
+                "WHOLESOME_MEAL", "SNACK", "LIGHT_WHOLESOME_MEAL"
+            ])
+    },
+    {
+        Type: "FOOD",
+        Chance: 50,
+        MaxCount: 5,
+        Filter: App.Loot.any("Effects", [ "HARD_ALCOHOL"])
+    },
+    {
+        Type: "DRUGS",
+        Chance: 75,
+        MaxCount: 2,
+        Filter: App.Loot.any("Effects", 
+            [
+                "BUST_XP_COMMON", "BUST_XP_UNCOMMON", "BUST_XP_RARE", "BUST_XP_LEGENDARY",
+                "FITNESS_XP_COMMON", "FITNESS_XP_UNCOMMON", "FITNESS_XP_RARE", "FITNESS_XP_LEGENDARY",
+                "SEDUCTION_XP_COMMON", "SEDUCTION_XP_UNCOMMON", "SEDUCTION_XP_RARE", "SEDUCTION_XP_LEGENDARY"
+            ])
+    },
+    {
+        Type: "DRUGS",
+        Chance: 50,
+        MaxCount: 2,
+        Filter: App.Loot.any("Effects", 
+            [
+                "ENERGY_COMMON", "ENERGY_UNCOMMON", "ENERGY_RARE", "ENERGY_LEGENDARY",
+                "SEDUCTION_XP_COMMON", "SEDUCTION_XP_UNCOMMON", "SEDUCTION_XP_RARE", "SEDUCTION_XP_LEGENDARY",
+                "PERVERSION_XP_COMMON", "PERVERSION_XP_UNCOMMON", "PERVERSION_XP_RARE", "PERVERSION_XP_LEGENDARY"
+            ])
+    },
+
+];

@@ -107,6 +107,8 @@ Config.saves.isAllowed = function() {
  setup.Spectator = new App.Combat.SpectatorEngine();
  // Load notification engine
  setup.Notifications = new App.Notifications.Engine();
+ // Load Loot engine
+ setup.Loot = new App.Loot();
  
 :: Start
 <<set $GameBookmark = passage(); >>

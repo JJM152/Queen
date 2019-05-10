@@ -48,79 +48,10 @@ App.Data.LootBoxes["legendary food loot box"] =  {
     "Effects" : [ "FOOD_LOOT_BOX_LEGENDARY" ]
 };
 
-App.Data.LootTables["FOOD"] = {
-    10 :  {
-        "LOOT" : [
-            { "TYPE": "FOOD", "QTY": 4, "TAG" : "slave gruel"  },
-            { "TYPE": "FOOD", "QTY": 4, "TAG" : "grog"}
-        ] },
-    20 :  {
-        "LOOT" : [
-            { "TYPE": "FOOD", "QTY": 6, "TAG" : "beer"  },
-            { "TYPE": "FOOD", "QTY": 2, "TAG" : "mystery stew"}
-        ] },
-    30 :  {
-        "LOOT" : [
-            { "TYPE": "FOOD", "QTY": 6, "TAG" : "cheap wine"  },
-            { "TYPE": "FOOD", "QTY": 2, "TAG" : "bread and cheese"}
-        ] },
-    40 :  {
-        "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 4}
-        ] },
-    50 :  {
-        "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 3},
-            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2}
-        ] },
-    60 :  {
-        "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 4},
-            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2}
-        ] },
-    70 :  {
-        "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "rum", "QTY" : 2}
-        ] },
-    80 :  {
-        "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "rum", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 2}
-        ] },
-    90 :  {
-        "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "milkdew melon", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "butter gourd", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "rum", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "pink peach", "QTY" : 2}
-        ] },
-    100 :  {
-        "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "red plum",   "QTY" : 2}
-        ] },
-    110 :  {
-        "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "starfruit", "QTY" : 2},
-            { "TYPE" : "FOOD", "TAG" : "purple mushrooms", "QTY" : 2}
-        ] },
-    120 :  {
-        "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "pirates plunder", "QTY" : 1}
-        ] },
-    130 :  {
-        "LOOT" : [
-            { "TYPE" : "FOOD", "TAG" : "ambrosia", "QTY" : 1}
-        ] }
-};
+App.Data.LootTables["FOOD"] = [
+    {
+        Type : "FOOD",
+        Chance: 100,
+    }
+];
+

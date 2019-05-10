@@ -1,16 +1,19 @@
 :: IslaTown
-The town center of Isla Harbor is exactly how you remembered it. People are strolling back and forth between their jobs and various businesses and luckily not paying much attention to you. You're not sure that anyone would even recognize you in your current state, but you take comfort in the fact that their inattention spares you from some embarrassment.
+The town center of Isla Harbor is exactly how you remembered it. People are strolling back and forth between their \
+jobs and various businesses and luckily not paying much attention to you. You're not sure that anyone would even \
+recognize you in your current state, but you take comfort in the fact that their inattention spares you from \
+some embarrassment.
 
-Further up on the hill you can see the Governor's Mansion and behind you are the Docks.
-
-Another path leads uphill to the upper-class part of the city, the Cloud District. You don't get there very often. In fact, you have never been there before your abduction: while the mayor is at least officially supposed to work with every citizen when necessary, the aristocrats and rich merchants built a wall around their district and hired private guards to keep the filth away.
+Further up on the hill you can see the @@color:gold;'Governor's Mansion'@@ and behind you are the @@color:gold;'Docks'@@. \
+A winding @@color:gold;'Village Lane'@@ leads south out of the village square towards the prosperous \
+@@color:gold;'Farmlands'@@ that dot the isle.
 
 <<if setup.player.Phase < 3>>\
-@@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[Cloud District|IslaCloudDistrictGuards]] | [[General Store|IslaStore]] | [[Governors Mansion|IslaMansion]]
+@@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[Village Lane|IslaVillageLane]] | [[General Store|IslaStore]] | [[Governors Mansion|IslaMansion]]
 <<else>>\
 <<if App.Quest.GetFlag(setup.player, "THEBACKDOOR") === "COMPLETED">>\
-@@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[Cloud District|IslaCloudDistrictGuards]] | @@color:grey;[General Store]@@ | [[Governors Mansion|IslaMansion]]
+@@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[Village Lane|IslaVillageLane]] | @@color:grey;[General Store]@@ | [[Governors Mansion|IslaMansion]]
 <<else>>\
-@@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[Cloud District|IslaCloudDistrictGuards]] | @@color:grey;[General Store]@@ | @@color:grey;[Governors Mansion]@@
+@@color:lime;Travel@@: [[The Docks|IslaHarbor]] | [[Village Lane|IslaVillageLane]] | @@color:grey;[General Store]@@ | @@color:grey;[Governors Mansion]@@
 <</if>>\
 <</if>>

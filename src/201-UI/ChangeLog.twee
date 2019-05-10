@@ -23,6 +23,7 @@ repository because I'm such a nice and helpful person.
 where a player could get trapped if they reloaded an event page trying to save scum or something lame like that.
 * Added some monsters: the dreaded Boobpire.
 * New random event added to islands.
+* Fixed bug causing some items that came with multiple charges to only grant 1 charge when you acquired them.
 !!!!Combat System
 * Basic RPG style combat engine added to the game. 
 * Unarmed style is affected primarily by your fitness stat.
@@ -64,6 +65,9 @@ decide to join the battle and fight as well. These events can repeat.
 * New area accessible from the Hidden Cove. This leads to two competing tribes of jungle women, the @@color:cyan;Mamazons@@ and \
 the @@color:cyan;Glutezons@@. You can complete a simple quest to become a member of either tribe, but doing so will exclude you \
 from the other.
+!!!!Isla Harbor
+* Removed the Cloud District from Isla Harbor.
+* Added path to your old home (future content). 
 !!!0.9e - 04/03/2019
 !!!!General
 * Emergency fix for no menu buttons when starting the game (being unable to load an old save).

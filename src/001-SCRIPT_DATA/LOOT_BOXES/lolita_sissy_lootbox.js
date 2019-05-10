@@ -49,71 +49,72 @@ App.Data.LootBoxes["legendary lolita loot box"] = {
     "Effects" : [ "LOLITA_SISSY_LOOT_BOX_LEGENDARY"]
 };
 
-App.Data.LootTables["LOLITA_SISSY"] =  {
-    10 :  {
-        "LOOT" : [
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5}
-        ] },
-    20 :  {
-        "LOOT" : [
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 5},
-            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 5}
-        ] },
-    30 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "pink head bow", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 1}
-        ] },
-    40 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "striped panties", "QTY" : 1}
-        ] },
-    45 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "white knee socks", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 1}
-        ] },
-    50 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "striped bra", "QTY" : 1}
-        ] },
-    60 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "striped stockings", "QTY" : 1}
-        ] },
-    70 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "cute pink bra", "QTY" : 1}
-        ] },
-    80 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "cute pink panties", "QTY" : 1}
-        ] },
-    90 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "pink mary janes", "QTY" : 1}
-        ] },
-    100 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "pink knee socks", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1}
-        ] },
-    110 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "pink platform mary janes", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "honey mead", "QTY" : 1}
-        ] },
-    120 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "pink t-shirt", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 1}
-        ] },
-    130 :  {
-        "LOOT" : [
-            { "TYPE" : "CLOTHES", "TAG" : "pink tartan", "QTY" : 1},
-            { "TYPE" : "FOOD", "TAG" : "purple sucker",  "QTY" : 2}
-        ] }
-};
+App.Data.LootTables["LOLITA_SISSY"] =  [
+    {
+        Type : "COINS",
+        Chance: 100,
+        Min: 1,
+        Max: 50
+    },
+    {
+        Type : "CLOTHES",
+        Chance: 100,
+        MaxCount: 1,
+        Filter: App.Loot.any("Category", [ "Sissy Lolita", "Daddy's Girl" ])
+    },
+    {
+        Type : "COSMETICS",
+        Chance: 80,
+        MaxCount: 5
+    },
+    {
+        Type : "COSMETICS",
+        Chance: 80,
+        MaxCount: 5
+    },
+    {
+        Type: "FOOD",
+        Chance: 75,
+        MaxCount: 2,
+        Filter: App.Loot.any("Effects", 
+            [
+                "LIPS_XP_COMMON", "LIPS_XP_UNCOMMON", "LIPS_XP_RARE", "LIPS_XP_LEGENDARY",
+            ])
+    },
+    {
+        Type: "FOOD",
+        Chance: 50,
+        MaxCount: 4,
+        Filter: App.Loot.any("Effects", 
+            [
+                "WHOLESOME_MEAL", "SNACK", "LIGHT_WHOLESOME_MEAL"
+            ])
+    },
+    {
+        Type: "FOOD",
+        Chance: 25,
+        MaxCount: 2,
+        Filter: App.Loot.any("Effects", [ "HARD_ALCOHOL"])
+    },
+    {
+        Type: "DRUGS",
+        Chance: 75,
+        MaxCount: 2,
+        Filter: App.Loot.any("Effects", 
+            [
+                "LIPS_XP_COMMON", "LIPS_XP_UNCOMMON", "LIPS_XP_RARE", "LIPS_XP_LEGENDARY",
+                "FACE_XP_COMMON", "FACE_XP_UNCOMMON", "FACE_XP_RARE", "FACE_XP_LEGENDARY",
+            ])
+    },
+    {
+        Type: "DRUGS",
+        Chance: 50,
+        MaxCount: 2,
+        Filter: App.Loot.any("Effects", 
+            [
+                "LIPS_XP_COMMON", "LIPS_XP_UNCOMMON", "LIPS_XP_RARE", "LIPS_XP_LEGENDARY",
+                "FEMININITY_XP_COMMON", "FEMININITY_XP_UNCOMMON", "FEMININITY_XP_RARE", "FEMININITY_XP_LEGENDARY"
+            ])
+    },
+
+];

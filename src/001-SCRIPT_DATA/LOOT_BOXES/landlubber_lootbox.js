@@ -15,31 +15,37 @@ App.Data.LootBoxes["landlubber chest"] = {
     "Effects" : [ "LANDLUBBER_LOOT_BOX_COMMON"]
 };
 
-App.Data.LootTables["LANDLUBBER"] =  {
-    10 :  {
-        "LOOT" : [
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 15},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 15},
-            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 10},
-            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 8},
-            { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 5},
-            { "TYPE" : "FOOD", "TAG" : "cheap wine", "QTY" : 5},
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 5},
-            { "TYPE" : "DRUGS", "TAG" : "medicinal herbs", "QTY" : 5},
-            { "TYPE" : "DRUGS", "TAG" : "pixie dust", "QTY" : 5},
-            { "TYPE" : "CLOTHES", "TAG" : "landlubber costume", "QTY" : 1}
-        ] },
-    80 :  {
-        "LOOT" : [
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 15},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 15},
-            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 20},
-            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 12},
-            { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 8},
-            { "TYPE" : "FOOD", "TAG" : "cheap wine", "QTY" : 8},
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 10},
-            { "TYPE" : "DRUGS", "TAG" : "medicinal herbs", "QTY" : 5},
-            { "TYPE" : "DRUGS", "TAG" : "pixie dust", "QTY" : 5},
-            { "TYPE" : "CLOTHES", "TAG" : "landlubber costume", "QTY" : 1}
-        ] }
-};
+App.Data.LootTables["LANDLUBBER"] =  [
+    {
+        Type : "CLOTHES",
+        Chance: 100,
+        Free: true,
+        MaxCount: 1,
+        Filter: App.Loot.cmp("Name", "landlubber costume")
+    },
+    {
+        Type : "COSMETICS",
+        Chance: 100,
+        Free: true,
+        MaxCount: 20
+    },
+    {
+        Type : "COSMETICS",
+        Chance: 100,
+        Free: true,
+        MaxCount: 20
+    },
+    {
+        Type : "FOOD",
+        Chance: 50,
+        Min: 1,
+        Max: 200,
+    },
+    {
+        Type: "DRUGS",
+        Chance: 50,
+        Min: 1,
+        Max: 200
+    }
+];
+

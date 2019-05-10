@@ -19,7 +19,7 @@ When you finally come too, you feel lighter and your proportions are noticeably 
 <<run setup.player.AdjustBody("Bust", -4)>>\
 <<run setup.player.AdjustBody("Ass", -4)>>\
 <<run setup.player.AdjustBody("Hips", -4)>>\
-<<run setup.player.SetHex("TREASURE_FINDER", 10)>>\
+<<run setup.player.SetHex("TREASURE_FINDER", 1.5)>>\
 <</button>>@@ Cost: @@color:red;&dArr;Bust@@ @@color:red;&dArr;Ass@@ @@color:red;&dArr;Hips@@ \
 <</if>>\
 <</if>>
@@ -39,7 +39,7 @@ When you finally come too, you feel lighter and your proportions are noticeably 
 <<run setup.player.AdjustBody("Bust", -8)>>\
 <<run setup.player.AdjustBody("Ass", -8)>>\
 <<run setup.player.AdjustBody("Hips", -8)>>\
-<<run setup.player.SetHex("TREASURE_FINDER", 30)>>\
+<<run setup.player.SetHex("TREASURE_FINDER", 2.0)>>\
 <</button>>@@ Cost: @@color:red;&dArr;&dArr;Bust@@ @@color:red;&dArr;&dArr;Ass@@ @@color:red;&dArr;&dArr;Hips@@ \
 <</if>>\
 <</if>>

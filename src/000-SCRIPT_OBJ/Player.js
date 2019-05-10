@@ -367,7 +367,8 @@ App.Entity.InventoryManager = class InventoryManager {
     }
 
     /**
-     * Adds (or removes) charges to a given item. If item is not in the inventory and Amount > 0, item record is created.
+     * Adds (or removes) charges to a given item. If item is not in the inventory and Amount > 0, item record 
+     * is created.
      * If Amount < 0, resulting number of charges does not go below zero.
      * @param {string} Tag
      * @param {number} Amount
@@ -385,7 +386,8 @@ App.Entity.InventoryManager = class InventoryManager {
         if (!this._state.Inventory[cl].hasOwnProperty(Tag)) {
             this._state.Inventory[cl][Tag] = 0;
         }
-        Amount = Amount == 0 ? App.Item.GetCharges(cl, Tag) : Amount;
+        // some items have default charges greater than 1
+        Amount = Amount == 0 ? App.Item.GetCharges(cl, Tag) : Amount * App.Item.GetCharges(cl, Tag); 
         return this.SetCharges(cl,Tag, this._state.Inventory[cl][Tag] + Amount);
     }
 

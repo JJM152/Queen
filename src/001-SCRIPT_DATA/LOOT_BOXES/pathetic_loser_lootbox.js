@@ -15,46 +15,58 @@ App.Data.LootBoxes["pathetic loser chest"] = {
     "Effects" : [ "PATHETIC_LOSER_LOOT_BOX_COMMON"]
 };
 
-App.Data.LootTables["PATHETIC_LOSER"] =  {
-    10 :  {
-        "LOOT" : [
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 20},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 20},
-            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 10},
-            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 10},
-            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 15},
-            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 15},
-            { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 5},
-            { "TYPE" : "FOOD", "TAG" : "red plum", "QTY" : 5},
-            { "TYPE" : "FOOD", "TAG" : "cheap wine", "QTY" : 5},
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 5},
-            { "TYPE" : "DRUGS", "TAG" : "medicinal herbs", "QTY" : 5},
-            { "TYPE" : "DRUGS", "TAG" : "healing potion", "QTY" : 5},
-            { "TYPE" : "DRUGS", "TAG" : "pixie dust", "QTY" : 10},
-            { "TYPE" : "CLOTHES", "TAG" : "wig", "QTY" : 1},
-            { "TYPE" : "CLOTHES", "TAG" : "choker", "QTY" : 1},
-            { "TYPE" : "CLOTHES", "TAG" : "fishnet tights", "QTY" : 1},
-            { "TYPE" : "CLOTHES", "TAG" : "pathetic loser costume", "QTY" : 1}
 
-        ] },
-    100 :  {
-        "LOOT" : [
-            { "TYPE" : "COSMETICS", "TAG" : "basic makeup", "QTY" : 20},
-            { "TYPE" : "COSMETICS", "TAG" : "hair accessories", "QTY" : 20},
-            { "TYPE" : "COSMETICS", "TAG" : "expensive makeup", "QTY" : 10},
-            { "TYPE" : "COSMETICS", "TAG" : "hair products", "QTY" : 10},
-            { "TYPE" : "FOOD", "TAG" : "bread crust", "QTY" : 15},
-            { "TYPE" : "FOOD", "TAG" : "mystery stew", "QTY" : 15},
-            { "TYPE" : "FOOD", "TAG" : "roast fish", "QTY" : 5},
-            { "TYPE" : "FOOD", "TAG" : "red plum", "QTY" : 5},
-            { "TYPE" : "FOOD", "TAG" : "cheap wine", "QTY" : 5},
-            { "TYPE" : "FOOD", "TAG" : "smugglers ale", "QTY" : 5},
-            { "TYPE" : "DRUGS", "TAG" : "medicinal herbs", "QTY" : 5},
-            { "TYPE" : "DRUGS", "TAG" : "healing potion", "QTY" : 5},
-            { "TYPE" : "DRUGS", "TAG" : "pixie dust", "QTY" : 10},
-            { "TYPE" : "CLOTHES", "TAG" : "wig", "QTY" : 1},
-            { "TYPE" : "CLOTHES", "TAG" : "choker", "QTY" : 1},
-            { "TYPE" : "CLOTHES", "TAG" : "fishnet tights", "QTY" : 1},
-            { "TYPE" : "CLOTHES", "TAG" : "pathetic loser costume", "QTY" : 1}
-        ] }
-};
+App.Data.LootTables["PATHETIC_LOSER"] =  [
+    {
+        Type : "CLOTHES",
+        Chance: 100,
+        Free: true,
+        MaxCount: 1,
+        Filter: App.Loot.cmp("Name", "wig")
+    },
+    {
+        Type : "CLOTHES",
+        Chance: 100,
+        Free: true,
+        MaxCount: 1,
+        Filter: App.Loot.cmp("Name", "choker")
+    },
+    {
+        Type : "CLOTHES",
+        Chance: 100,
+        Free: true,
+        MaxCount: 1,
+        Filter: App.Loot.cmp("Name", "fishnet tights")
+    },
+    {
+        Type : "CLOTHES",
+        Chance: 100,
+        Free: true,
+        MaxCount: 1,
+        Filter: App.Loot.cmp("Name", "pathetic loser costume")
+    },
+    {
+        Type : "COSMETICS",
+        Chance: 100,
+        Free: true,
+        MaxCount: 20
+    },
+    {
+        Type : "COSMETICS",
+        Chance: 100,
+        Free: true,
+        MaxCount: 20
+    },
+    {
+        Type : "FOOD",
+        Chance: 50,
+        Min: 50,
+        Max: 200,
+    },
+    {
+        Type: "DRUGS",
+        Chance: 50,
+        Min: 100,
+        Max: 200
+    }
+];
