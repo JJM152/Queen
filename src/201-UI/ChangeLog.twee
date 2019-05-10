@@ -1,5 +1,7 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.10d RELEASE CANDIDATE - ??/??/????
+* Modified build chain to produce cheat menu enabled version of game for high teir Patreons.
 !!!0.10c - 09/05/2019
 * Cookie can now sell more than 1 rare item type a week. He can sell rare alcohols to players if his mood is high.
 * Julius now can sell more than 1 rare item type a week. His inventory of rare items has also increased.

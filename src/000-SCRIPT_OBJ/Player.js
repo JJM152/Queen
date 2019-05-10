@@ -2321,11 +2321,14 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     get HairColor() { return this._state.HairColor; }
     set HairColor(c) { this._state.HairColor = c; }
     get HairStyle() { return this._state.HairStyle; }
+    set HairStyle(s) { this._state.HairStyle = s; }
     get HairBonus() { return this._state.HairBonus; }
+    set HairBonus(v) { this._state.HairBonus = v; }
     get MakeupStyle() { return this._state.MakeupStyle; }
     get MakeupBonus() { return this._state.MakeupBonus; }
     get EyeColor() { return this._state.EyeColor; }
     get Money() { return this._state.Money; }
+    set Money(c) { this._state.Money = c; }
     /** @type {number} */
     get SailDays() { return this._state.SailDays; }
     get LastUsedMakeup() { return this._state.LastUsedMakeup; }
