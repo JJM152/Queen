@@ -2325,6 +2325,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     get HairBonus() { return this._state.HairBonus; }
     set HairBonus(v) { this._state.HairBonus = v; }
     get MakeupStyle() { return this._state.MakeupStyle; }
+    set MakeupStyle(s) { this._state.MakeupStyle = s; }
     get MakeupBonus() { return this._state.MakeupBonus; }
     get EyeColor() { return this._state.EyeColor; }
     get Money() { return this._state.Money; }
