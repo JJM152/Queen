@@ -24,6 +24,7 @@ where a player could get trapped if they reloaded an event page trying to save s
 * Added some monsters: the dreaded Boobpire.
 * New random event added to islands.
 * Fixed bug causing some items that came with multiple charges to only grant 1 charge when you acquired them.
+* Improved randomness of loot given by loot boxes and overall value of loot. Part of treasure list overhall.
 !!!!Combat System
 * Basic RPG style combat engine added to the game. 
 * Unarmed style is affected primarily by your fitness stat.

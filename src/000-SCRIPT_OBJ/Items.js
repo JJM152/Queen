@@ -304,61 +304,6 @@ App.Item = class Item {
     }
 
     /**
-     * Open a loot box!
-     * @param {App.Entity.Player} Player
-     * @param {string} Type
-     * @param {number} Minimum
-     * @param {number} Bonus
-     * @returns {string}
-     */
-    static DoLootBox(Player, Type, Minimum, Bonus) {
-
-        var DiceRoll    = Math.floor(Math.random() * 100);
-        var Table       = App.Data.LootTables[Type];
-        var output      = "";
-
-        DiceRoll = ( DiceRoll + Bonus) < Minimum ? Minimum : (DiceRoll + Bonus);
-
-        if (Player.HasHex("TREASURE_FINDER")) {
-            DiceRoll += Player.VoodooEffects["TREASURE_FINDER"];
-            Player.RemoveHex("TREASURE_FINDER");
-        }
-
-        for (var prop in Table) {
-            if (!Table.hasOwnProperty(prop)) continue;
-
-            if (DiceRoll <= prop) {
-                var Items = Table[prop]["LOOT"];
-                for (var i = 0; i < Items.length; i++)
-                {
-                    if (Items[i]["TYPE"] == "MONEY") {
-                        Player.AdjustMoney( Items[i]["QTY"]);
-                        output += "@@color:yellow;"+coins + " gold coins.@@\n";
-                        continue;
-                    }
-                    for (var x = 0; x < Items[i]["QTY"]; x++) {
-                        if ( (Items[i]["TYPE"] == "CLOTHES") && (Player.OwnsWardrobeItem(Items[i]) == true)) {
-                            // We own this already. Give some cash.
-                            var coins = Math.floor((this.CalculateBasePrice(Items[i]["TYPE"], Items[i]["TAG"]) * 0.25));
-                            Player.AdjustMoney( coins );
-                            output += "@@color:yellow;"+coins + " gold coins.@@\n";
-                        } else {
-                            var obj = Player.AddItem(Items[i]["TYPE"], Items[i]["TAG"], 0);
-                            if (x == 0) {
-                                output += obj.Description;
-                                output += Items[i]["QTY"] > 1 ? "@@color:gold; x " + Items[i]["QTY"] + "@@\n" : "\n";
-                            }
-                        }
-                    }
-                }
-                break;
-            }
-        }
-
-        return (output != "" ? output : "Nothing?!?!?");
-    }
-
-    /**
      * @param {string} Category
      * @param {string} Tag
      * Generate an item id
