@@ -1,4 +1,5 @@
 :: Cheat [custom-menu no-teleport no-saving]
+<span style='float:right'>@@color:cyan;Interact@@ <<click "Exit" $GameBookmark>><</click>></span>
 <img id="patreonScreenShot" data-passage="patreon_screen">
 <span style='color:yellow;font-size:larger'>Sorry, but the cheat menu is only available for Fans and Backers!</span>
 
@@ -13,10 +14,8 @@ that would normally be on this page. The last level supporter, the @@color:orang
 levels as well as access to all of the @@color:gold;Development Builds@@ that I regularly post. These builds are \
 specifically curated to show off new features and content well before they are ready even to be play tested.
 
-I regularly post updates concerning the development of this game to <a href="https://www.patreon.com/malhavok">my Patreon</a> \
-so stop on by and see whats up, or why not <a href="https://www.patreon.com/bePatron?u=19919727">jump right in and become a supporter!</a>
+I regularly post updates concerning the development of this game to <a href="https://www.patreon.com/malhavok" target='_blank'>my Patreon</a> \
+so stop on by and see whats up, or why not <a href="https://www.patreon.com/bePatron?u=19919727" target='_blank'>jump right in and become a supporter!</a>
 
 Thank you,
 @@color:cyan;Malhavok@@
-
-@@color:cyan;Interact@@ <<click "Exit" $GameBookmark>><</click>>
