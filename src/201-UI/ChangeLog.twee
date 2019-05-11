@@ -25,6 +25,11 @@ where a player could get trapped if they reloaded an event page trying to save s
 * New random event added to islands.
 * Fixed bug causing some items that came with multiple charges to only grant 1 charge when you acquired them.
 * Improved randomness of loot given by loot boxes and overall value of loot. Part of treasure list overhall.
+!!!!Music System
+* Added a basic music system and track list. Future plans are the vary the music by location and activity, like \
+for example, battle music, or jungle music, ship music, etc. 
+* There is a BGM slider button in the settings menu, turning it off will stop the music from playing.
+* Please send me good (small file size) game music tracks, preferable royalty free!
 !!!!Combat System
 * Basic RPG style combat engine added to the game. 
 * Unarmed style is affected primarily by your fitness stat.

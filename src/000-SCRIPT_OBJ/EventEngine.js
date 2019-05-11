@@ -42,6 +42,10 @@ App.EventEngine = class EventEngine {
      */
     CheckEvents(Player, FromPassage, ToPassage) {
 
+        // Init the audio engine on passage click to get around browsers blocking auto play
+        setup.Audio.Init(); 
+        setup.Audio.Transition(ToPassage);
+        
         this._d("From: "+FromPassage+",To:"+ToPassage);
         
         //One time override

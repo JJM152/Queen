@@ -8,6 +8,23 @@ Queen of the Seas (v 0.10e)
 <a id='Reddit' target='_blank' href='https://www.reddit.com/r/QueenOfTheSeas/comments/blaeop/queen_of_the_seas_010_play_test_released_patreon/'></a>
 :: Story Stylesheet [stylesheet]
 
+:: StoryInit
+<<cacheaudio "hauljoe" "hauljoe">>
+<<cacheaudio "dedhors" "dedhors">>
+<<cacheaudio "drunkslr" "drunkslr">>
+<<cacheaudio "hangingj" "hangingj">>
+<<cacheaudio "leaveherj" "leaveherj">>
+<<cacheaudio "newygirls" "newygirls">>
+<<cacheaudio "paddyback" "paddyback">>
+<<createaudiogroup ":bgm">>
+	<<track "hauljoe">>
+    <<track "dedhors">>
+    <<track "drunkslr">>
+    <<track "hangingj">>
+    <<track "leaveherj">>
+    <<track "newygirls">>
+    <<track "paddyback">>
+<</createaudiogroup>>
 :: Story JavaScript [script]
 
 // Social Media Links
@@ -20,23 +37,56 @@ Config.history.controls = false;
 Config.history.maxStates = 1;
 Config.saves.version = App.Data.Game.Version;
 
+console.log("Loading QoS Internal engines...");
+// Player shim
 setup.player = new App.Entity.Player();
+// Jobs
 setup.jobEngine = new App.JobEngine();
-
 // Initalize Avatar Engine
 App.Avatar = new App.Entity.AvatarEngine();
-
-// Random Events and Conditional Navigation Override
-// Override navigation on death.
-
+// Event Engine
 setup.eventEngine = new App.EventEngine();
+ // Load gambling classes
+ setup.CoffinGame = new App.Gambling.Coffin();
+ // Load Combat Engine
+ setup.Combat = new App.Combat.CombatEngine();
+ // Load Spectator Engine
+ setup.Spectator = new App.Combat.SpectatorEngine();
+ // Load notification engine
+ setup.Notifications = new App.Notifications.Engine();
+ // Load Loot engine
+ setup.Loot = new App.Loot();
+ // Audio
+ setup.Audio = new App.Audio();
+console.log("Finished loading QoS engines!");
 
+// Funnel navigation to the event engine
 Config.navigation.override = function (passageName) {
     if (App.EventHandlers.HasPlayerState() == false) return; //ignore these checks if there is no player state.
     return setup.eventEngine.CheckEvents(setup.player, State.passage, passageName);
 };
 
-Setting.addHeader("Display settings");
+Setting.addToggle("displayAvatar", { 
+    label: "Display the PC Avatar in mirrors and Portrait in UI",
+    default: true,
+    onInit: App.Avatar.SettingHandler,
+    onChange: App.Avatar.SettingHandler
+});
+
+Setting.addToggle("fastAnimations", { 
+    label: "Fast Animations",
+    default: false
+});
+
+Setting.addRange("bgmVolume", {
+	label    : "BGM Volume",
+	min      : 0,
+	max      : 10,
+	step     : 1,
+    onInit   : setup.Audio.VolumeInit.bind(setup.Audio),
+	onChange : setup.Audio.VolumeAdjust.bind(setup.Audio),
+    default: 2
+});
 
 // Setting for showing numbers along with the meters
 Setting.addToggle("displayMeterNumber", {
@@ -70,20 +120,7 @@ Setting.addToggle("alternateControlForRogue", {
     default: false
 });
 
-Setting.addToggle("displayAvatar", { 
-    label: "Display the PC Avatar in mirrors",
-    desc: "Turns on the Avatar drawn by the Dynamic Avatar Drawer library.",
-    default: false,
-    onInit: App.Avatar.SettingHandler,
-    onChange: App.Avatar.SettingHandler,
-});
-
-Setting.addToggle("fastAnimations", { 
-    label: "Fast Animations",
-    desc: "Speeds up or turns off certain animations.",
-    default: false
-});
-
+// SugarCube event handlers
 App.EventHandlers.Init();
 
 Config.saves.onLoad = App.EventHandlers.onLoad;
@@ -91,24 +128,12 @@ Config.saves.isAllowed = function() {
     return !tags().includes("no-saving");
 };
 
-
 // Setup some divs that will not get refreshed on passage navigation.
     if ( $('#hiddenCanvas').length == 0 && $('#avatarFace').length == 0 ) {
         var canvas = $("<div id='hiddenCanvas'></div>").appendTo(document.body);
         var container = $("<div id='avatarContainer'></div>").appendTo($("#ui-bar"));
         var portrait = $("<div id='avatarFace'></div").appendTo(container);
     }
- 
- // Load gambling classes
- setup.CoffinGame = new App.Gambling.Coffin();
- // Load Combat Engine
- setup.Combat = new App.Combat.CombatEngine();
- // Load Spectator Engine
- setup.Spectator = new App.Combat.SpectatorEngine();
- // Load notification engine
- setup.Notifications = new App.Notifications.Engine();
- // Load Loot engine
- setup.Loot = new App.Loot();
  
 :: Start
 <<set $GameBookmark = passage(); >>

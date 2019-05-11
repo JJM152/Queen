@@ -194,7 +194,6 @@ App.Task = class Task {
                     break;
                     /* TODO: Refactor this to check also for wearing specific items. **/
                 case "IS_WEARING":
-                    console.log('Name=' + Name + ",Value=" + Value);
                     if (Value === "NOT") {
                         StatusFlag = Player.GetEquipmentInSlot(Name) == null;
                     } else if ((typeof Value === 'undefined' || Value === "") && Player.GetEquipmentInSlot(Name) == null) {
@@ -404,7 +403,6 @@ App.Task = class Task {
         if (Pay === undefined) Pay = 0;
 
         for (const sb of this._SceneBuffer) {
-            console.log(sb.RewardItems());
             Pay += sb.RewardItems().Pay;
             for (const ri of sb.RewardItems().Items) {
                 var n = App.Item.SplitId(ri["Name"]);
@@ -945,7 +943,6 @@ App.Scene = class Scene {
 
         for (var i = 0; i < this._SceneData["RESULTS"].length; i++) {
             if (Percent <= this._SceneData["RESULTS"][i][Tag]) {
-                console.log("Percent " + Percent + "<=" + this._SceneData["RESULTS"][i][Tag]);
                 return this._SceneData["RESULTS"][i]["TEXT"].replace(/@@((?!color:).)+?@@/g, Colorize);
             }
         }
