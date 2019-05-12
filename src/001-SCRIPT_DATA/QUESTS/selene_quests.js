@@ -37,7 +37,8 @@ App.Data.Quests["COURTESAN_GUILD_JOIN"] = {
     herself, <span style='color:cyan'>Black Bertie</span>.\n\n\
     Before NPC_NAME can even open her mouth, you daintily lay your letter into her hands. She looks at you in the yes, \
     her mouth contorted in consternation and then down at the letter. You can tell she's about to dismiss you regardless \
-    so you tap gently on the letter and say, as loftily as you can, ps(You see, //Dearie//, a very important alumnus of \
+    so you tap gently on the letter and say, as loftily as you can.\n\n\
+    sp(You see, //Dearie//, a very important alumnus of \
     this fine school has given me her recomendation. You should at least do her the honor of reading it.)\n\n\
     s(Of course!) says NPC_NAME in a huff and then opens the letter, her eyes drawn first the flowing signature at the \
     bottom. She quickly closes it, not bothering to read the words because she knows that they're immaterial. The last \
