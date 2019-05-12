@@ -245,6 +245,8 @@ App.EventHandlers = new function() {
             let ps = save.state.history[0].variables.PlayerState;
             ps.Skills['Courtesan'] = 0;
             ps.SkillsXP['Courtesan'] = 0;
+            ps.GameStats["TokensEarned"] = 0;
+            ps["Tokens"] = 0;
         }
 
         if (save.version > App.Data.Game.Version) {

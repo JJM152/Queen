@@ -17,6 +17,7 @@ App.Entity.PlayerState = function (){
     this.MakeupBonus = 0;
     this.EyeColor = "brown";
     this.Money = 0;
+    this.Tokens = 0;
     /** @type {number} */
     this.SailDays = 1;
     this.LastUsedMakeup = "minimal blush and lipstick";
@@ -163,7 +164,8 @@ App.Entity.PlayerState = function (){
     this.BodyEffects = [ ]; // lists effect names
 
     this.GameStats = {
-        "MoneyEarned":      0,
+        MoneyEarned: 0,
+        TokensEarned: 0,
         Skills : {}
     };
 
@@ -1550,6 +1552,12 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         var mi = Math.ceil(m);
         if (mi > 0) {this._state.GameStats.MoneyEarned += mi;}
         this._state.Money = Math.max(0, (this._state.Money + mi));
+    }
+
+    AdjustTokens (m) {
+        var mi = Math.ceil(m);
+        if (mi > 0) {this._state.GameStats.TokensEarned += mi;}
+        this._state.Tokens = Math.max(0, (this._state.Tokens + mi));
     }
 
     RandomAdjustBodyXP (Amount) {
