@@ -9,7 +9,11 @@ App.Data.Quests["COURTESAN_GUILD_JOIN"] = {
     ON_ACCEPT: [
         { TYPE : "QUEST", NAME : "COURTESAN_GUILD_JOIN_FETCH", VALUE : "START" } // Start the fetch quest.
      ],
-    POST: [ ],
+    POST: [
+        {
+            TYPE: "SKILL", NAME: "Courtesan", VALUE: 10
+        }
+     ],
     REWARD: [ ],
     INTRO: "\
     NPC_NAME eyes you up and down with a look of faint disgust on her well made up face and sighs despondantly. \

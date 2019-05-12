@@ -16,7 +16,19 @@
 </tr>
 <tr>
 <td>Styling:</td><td><span id="fixed-font"><<print App.PR.pSkillMeter("Styling",setup.player); >></span></td>
-<td colspan="4"> </td>
+<td>\
+<<if setup.player.GetStat('SKILL', 'Courtesan') > 0>>\
+<span style='color:hotpink'>Courtesan</span>\
+<</if>>\
+</td>
+<td>\
+<<if setup.player.GetStat('SKILL', 'Courtesan') > 0>>\
+<span id="fixed-font">\
+<<print App.PR.pSkillMeter("Courtesan",setup.player); >>\
+</span>
+<</if>>\
+</td>
+<td colspan="2"> </td>
 </tr>
 <tr><td colspan="6" style="border-bottom: 1px solid">@@color:yellow;Domestic Skills@@</td></tr>
 <tr>

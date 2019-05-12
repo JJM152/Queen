@@ -477,6 +477,25 @@ App.Data.Lists = {
                        100 : { "COST" :  750, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 16}
                     }
                 },
+                "Courtesan": { "MIN" : 0, "MAX" : 100, "START" : 0,
+                "LEVELING" : {
+                     5 : { "COST" :   50, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  1},
+                    10 : { "COST" :   50, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  2},
+                    15 : { "COST" :   62, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  3},
+                    20 : { "COST" :   62, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  4},
+                    26 : { "COST" :  100, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  5},
+                    32 : { "COST" :  112, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  6},
+                    38 : { "COST" :  125, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  7},
+                    46 : { "COST" :  150, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  8},
+                    54 : { "COST" :  175, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  9},
+                    62 : { "COST" :  200, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 10},
+                    71 : { "COST" :  225, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 12},
+                    80 : { "COST" :  250, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 13},
+                    89 : { "COST" :  275, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 15},
+                    98 : { "COST" :  300, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 16},
+                   100 : { "COST" :  750, "STEP" : 1, "ADJECTIVE" : "", "COLOR" : 16}
+                }
+            },
 				"Cooking": { "MIN" : 0, "MAX" : 100, "START" : 5,
                     "LEVELING" : {
                          5 : { "COST" :   50, "STEP" : 1, "ADJECTIVE" : "", "COLOR" :  1},
