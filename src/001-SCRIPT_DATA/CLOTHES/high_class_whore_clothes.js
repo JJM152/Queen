@@ -81,7 +81,7 @@ App.Data.Clothes["whore sandals"] = { // +20
     Name: "whore sandals", ShortDesc: "pair of {COLOR} high heeled sandals",
     LongDesc: "\
     These sandals have a medium height heel on them and conists of a series of delicate straps \
-    that winde upwards and around your leg to be tied in a bow.\
+    that wind upwards and around your leg to be tied in a bow.\
     ",
     Slot: "Shoes", Restrict: ["Shoes"],
     Color: "red", Style: "LEGENDARY", Type : "CLOTHING",

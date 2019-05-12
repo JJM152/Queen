@@ -68,6 +68,14 @@ App.EventEngine = class EventEngine {
             return "WillPowerEnd";
         }
 
+        // Look for forced events. We need to fire them off regardless.
+        var event = this._FindForcedEvent(FromPassage, ToPassage);
+        if (event != null) {
+            this._setFlags(Player, event["ID"]);
+            this._SaveState(FromPassage, ToPassage);
+            return event.PASSAGE;
+        }
+
         // For now, let's throttle events to 1 per day.
         if (Player.QuestFlags.hasOwnProperty("LAST_EVENT_DAY") && Player.QuestFlags["LAST_EVENT_DAY"] == Player.Day) return;
 
@@ -147,6 +155,29 @@ App.EventEngine = class EventEngine {
         if (events.length > 0) return events.shift();
 
         return eventArray[Math.floor(Math.random() * eventArray.length)];
+    }
+
+    /**
+     * Check to see if we need to force an event for quests.
+     * They should all be single fire events otherwise things might get weird. Use with caution.
+     * @param {string} FromPassage 
+     * @param {string} ToPassage
+     * @returns {object} Event data 
+     */
+    _FindForcedEvent(FromPassage, ToPassage)
+    {
+        if (App.Data.Events.hasOwnProperty(ToPassage) == false || App.Data.Events[ToPassage].length == 0) return null; 
+
+        var events = App.Data.Events[ToPassage].filter( o =>
+            ( o.FROM == 'Any' || o.FROM == FromPassage) &&
+            o.hasOwnProperty('FORCE') && 
+            o.FORCE == true &&
+            ( o["MAX_REPEAT"] == 0 ? true :
+            (Player.QuestFlags.hasOwnProperty("EE_"+o["ID"]+"_COUNT") ? 
+            Player.QuestFlags["EE_"+o["ID"]+"_COUNT"] < o["MAX_REPEAT"] : true)) &&
+            o.CHECK(setup.player) == true);
+
+            return events.length > 0 ? events[0] : null;
     }
 
     /**

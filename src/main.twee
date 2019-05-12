@@ -2,10 +2,10 @@
 ifid:2281acf9-aff5-4833-bd11-9d4317bce5ae
 
 :: StoryTitle
-Queen of the Seas (v 0.10e)
+Queen of the Seas (v 0.11a)
 :: StoryBanner
 <a id='Patreon' target='_blank' href='https://www.patreon.com/malhavok/'></a> \
-<a id='Reddit' target='_blank' href='https://www.reddit.com/r/QueenOfTheSeas/comments/blaeop/queen_of_the_seas_010_play_test_released_patreon/'></a>
+<a id='Reddit' target='_blank' href='https://www.reddit.com/r/QueenOfTheSeas/'></a>
 :: Story Stylesheet [stylesheet]
 
 :: StoryInit
@@ -29,7 +29,7 @@ Queen of the Seas (v 0.10e)
 
 // Social Media Links
 var PatreonLink = "https://www.patreon.com/malhavok/";
-var RedditLink = "https://www.reddit.com/r/QueenOfTheSeas/comments/blaeop/queen_of_the_seas_010_play_test_released_patreon/";
+var RedditLink = "https://www.reddit.com/r/QueenOfTheSeas/";
 
 //Sugarcube config
 console.log("Sugarcube Config...");
