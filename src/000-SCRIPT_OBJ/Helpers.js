@@ -672,6 +672,8 @@ App.PR = new function() {
         var Output = [ ];
 
         var Pay = Task.TaskData["PAY"];
+        var Tokens = Task.TaskData["TOKENS"];
+        if (Tokens == undefined) Tokens = 0;
         if (Pay === undefined) Pay = 0;
         var Items = [ ];
         var SlotUnlockCount = 0;
@@ -679,6 +681,7 @@ App.PR = new function() {
         for (const scene of Task.Scenes) {
             var reward = scene.RewardItems();
             if (reward.Pay > 0) { Pay += scene.RewardItems().Pay; }
+            if (reward.Tokens > 0) { Tokens += scene.RewardItems().Tokens; }
             for (const ri of reward.Items) {
                 if (typeof ri === 'number') continue; // we had to put number here too in order to maintain order
                 var n = App.Item.SplitId(ri["Name"]);
@@ -689,8 +692,13 @@ App.PR = new function() {
         }
 
         if (Pay > 0) {
-            Output.push("@@color:yellow;"+ Pay + " coins@@");
+            Output.push("<span style='color:gold'>"+ Pay + " coins</span>");
         }
+
+        if (Tokens > 0) {
+            Output.push("<span style='color:hotpink'>"+ Tokens + " courtesan tokens</span>");
+        }
+
         var i = 0;
         for (i = 0; i < SlotUnlockCount; ++i) {
             Output.push("@@color:cyan;A slot reel unlock!@@");
