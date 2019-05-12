@@ -1183,6 +1183,14 @@ App.PR = new function() {
         }
     };
 
+    this.RefreshTwineTokens = function() {
+        try {
+            $("#Tokens").html( setup.player.Tokens );
+        } catch (err) {
+
+        }
+    };
+
     this.pHormoneSymbol = function() {
         var val = setup.player.CoreStats['Hormones'];
 

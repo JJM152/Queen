@@ -2341,6 +2341,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     get EyeColor() { return this._state.EyeColor; }
     get Money() { return this._state.Money; }
     set Money(c) { this._state.Money = c; }
+    get Tokens() { return this._state.Tokens; }
+    set Tokens(c) { this._state.Tokens = c; }
     /** @type {number} */
     get SailDays() { return this._state.SailDays; }
     get LastUsedMakeup() { return this._state.LastUsedMakeup; }
