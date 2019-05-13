@@ -1,6 +1,6 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.11a ??/??/????
+!!!0.11a 13/05/2019
 !!!!General
 * Courtesan skill added to player state and UI. It's hidden until it's unlocked via questing.
 * Courtesan skill now provides skill synergy bonus to various other skills. It's as powerful as Femininity when \
@@ -10,6 +10,8 @@ determining skill success.
 * Bertie now has a simple quest associated with gaining her favor. It will unlock more activities later.
 !!!!Port Royale
 * You can now join Lady Selene's Courtesan's Guild.
+* Joining the guild gives you access to the @@color:lightpink;Gift Exchange@@, a place where you can trade \
+in your courtesan tokens for loot boxes!
 !!!0.10e RELEASE CANDIDATE 11/05/2019
 !!!!General
 * Added cheat interface for @@color:orange;Fan and Backer level Patreons@@. 

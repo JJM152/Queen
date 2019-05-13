@@ -353,3 +353,45 @@ div.HeaderSection {
 	color: white;
 	background-color: steelblue;
 }
+
+body.courtesan-theme  { 
+	background-color: lightpink; 
+}
+
+div.courtesan-menu { 
+	font-family: forelle;
+    background-color: antiquewhite;
+    color: saddlebrown;
+    width: 810px;
+    margin-top: 35px;
+		margin-left: -60px;
+		padding-left: 5px;
+		padding-top: 5px;
+		border: solid 2px saddlebrown;
+}
+
+table.courtesan-table {
+	width: 800px;
+}
+
+table.courtesan-table thead {
+	font-size: 20pt;
+}
+
+table.courtesan-table .link-internal {
+	color: hotpink;
+}
+
+table.courtesan-table tbody {
+	font-size: 16pt;
+}
+
+.courtesan-exit {
+	font-family:forelle;
+	font-size:28pt;
+	margin-left:-20px;
+}
+
+.courtesan-exit a {
+	color: antiquewhite !important;
+}

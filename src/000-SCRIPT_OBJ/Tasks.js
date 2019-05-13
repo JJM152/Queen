@@ -897,6 +897,9 @@ App.Scene = class Scene {
                 Result = this._Player.StatRoll(Check.TYPE, Check.NAME, Check.DIFFICULTY, Value, Scaling);
                 break;
             case "SKILL":
+                // This skill is inoperable until you get some points in it.
+                if (Check.NAME == 'Courtesan' && this._Player.GetStat('SKILL', 'Courtesan') == 0) break;
+
                 Result = this._Player.SkillRoll(Check.NAME, Check.DIFFICULTY, Value, Scaling);
                 break;
             case "META":

@@ -1,6 +1,10 @@
 :: storeInventory [widget]
 <<widget storeInventory>>\
+<<if typeof $args[0] !== 'undefined'>>\
+<<set _NPC = setup.player.GetNPC($args[0]);>>\
+<<else>>\
 <<set _NPC = $MenuAction>>\
+<</if>>
 <<set _SE = App.StoreEngine;>>\
 <<set _ST = _SE.OpenStore(setup.player, _NPC);>>\
 <<set _CI = _ST.GetCommonInventory();>>\
