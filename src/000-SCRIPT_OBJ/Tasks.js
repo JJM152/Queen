@@ -896,7 +896,7 @@ App.Scene = class Scene {
         Results[Check.TAG] = r;
         this._Results[Check.TAG] = r;
         if (typeof Check.REWARD !== 'undefined') {
-            this._CalculateReward(Check.REWARD, Check.R_NAME, Value, Check.OPT, Result);
+            this._CalculateReward(Check.REWARD, Check.R_NAME, Value, Check.OPT, Results);
         }
     }
 
