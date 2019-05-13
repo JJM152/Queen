@@ -896,6 +896,9 @@ App.Scene = class Scene {
         Results[Check.TAG] = r;
         this._Results[Check.TAG] = r;
         if (typeof Check.REWARD !== 'undefined') {
+            // automatically scale values on check lines that do not have options.
+            Value = (typeof Check.OPT === 'undefined' || (typeof Check.OPT === 'number' && Check.OPT == 0)) ?
+                Result : Value;
             this._CalculateReward(Check.REWARD, Check.R_NAME, Value, Check.OPT, Results);
         }
     }

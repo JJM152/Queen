@@ -25,6 +25,7 @@ where a player could get trapped if they reloaded an event page trying to save s
 * New random event added to islands.
 * Fixed bug causing some items that came with multiple charges to only grant 1 charge when you acquired them.
 * Improved randomness of loot given by loot boxes and overall value of loot. Part of treasure list overhall.
+* Fixed bug that was causing certain job payments to not scale relative to skill success.
 !!!!Music System
 * Added a basic music system and track list. Future plans are the vary the music by location and activity, like \
 for example, battle music, or jungle music, ship music, etc. 
@@ -59,6 +60,7 @@ decide to join the battle and fight as well. These events can repeat.
 * Fixed a null reference in the whoring jobs at the brothel.
 * Uticus' job was available prior to completing his quest due to a bug in the job engine. Fixed the bug.
 * An exhibition of bare knuckled brawling has opened up just off of the Bazaar. Check it out.
+* Typo in condition was making Uticus say the wrong stuff when trying to enter the Governors Mansion.
 !!!!Port Royale
 * Fixed a null reference in the whoring jobs at the brothel.
 * Jezzebelle will now train you up to 4 stars in dancing.
