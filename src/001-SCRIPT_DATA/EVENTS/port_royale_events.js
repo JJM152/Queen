@@ -48,3 +48,19 @@ App.Data.Events["EntertainmentDistrict"] = [
         }
     },
 ];
+
+App.Data.Events["WealthyDistrict"] = [ 
+    { 
+        ID: 'CourtesanQuestEvent',
+        FROM: 'CourtesansGuild',
+        MAX_REPEAT: 1,
+        MIN_DAY: 0,
+        MAX_DAY: 0,
+        COOL: 1,
+        PHASE: [ 0, 1, 2, 3, 4 ],
+        PASSAGE: 'CourtesanQuestEvent',
+        CHECK: function(p) {
+            return (App.Quest.IsActive(setup.player, "COURTESAN_GUILD_JOIN"));
+        }
+    }
+]

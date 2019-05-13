@@ -2,7 +2,12 @@
 <<widget "score">>\
 @@color:DeepPink;"<<= setup.player.SlaveName >>"@@
 <span id="DayCount">Day <<print setup.player.Day; >>, <<print setup.player.GetPhase(1); >></span>.
-Coins: <span id="Money"><<print setup.player.Money>></span>
+<span style='color:gold'>Coins: <span id="Money"><<print setup.player.Money>></span></span> \
+<<if setup.player.Skills.hasOwnProperty('Courtesan') && setup.player.Skills['Courtesan'] > 0>>\
+<span style='color:hotpink'>\
+Tokens: <span id="Tokens"><<print setup.player.Tokens>></span>\
+</span>\
+<</if>>
 <table class="#score-table" width="100%">
 <tbody>
 <tr>

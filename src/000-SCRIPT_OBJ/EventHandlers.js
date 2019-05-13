@@ -230,6 +230,8 @@ App.EventHandlers = new function() {
             for (let slot in eq) {
                 if (!eq.hasOwnProperty(slot)) continue;
                 if (eq[slot] === 0) eq[slot] = null;
+            }
+
             console.log('Adding new skills to player state...');
             let ps = save.state.history[0].variables.PlayerState;
             ps.GameStats.Skills['BoobJitsu'] = { "Failure": 0, "Success": 0 };
@@ -238,7 +240,16 @@ App.EventHandlers = new function() {
             ps.GameStats.Skills['AssFu'] = { "Failure": 0, "Success": 0 };
             ps.Skills['AssFu'] = 0;
             ps.SkillsXP['AssFu'] = 0;
-            }
+        }
+
+        if (save.version < 0.11) {
+            console.log('Adding new skills to player state...');
+            let ps = save.state.history[0].variables.PlayerState;
+            ps.GameStats.Skills["Courtesan"] = { "Failure" : 0, "Success" : 0 }
+            ps.Skills['Courtesan'] = 0;
+            ps.SkillsXP['Courtesan'] = 0;
+            ps.GameStats["TokensEarned"] = 0;
+            ps["Tokens"] = 0;
         }
 
         if (save.version > App.Data.Game.Version) {

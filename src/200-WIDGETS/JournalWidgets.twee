@@ -48,8 +48,14 @@
 <<run App.PR.HighlightActiveTabButton($args[0], $args[1], "Journal - " +  $args[2])>>
 <<set _GS = setup.player.GameStats>>
 <<if _GS.MoneyEarned > 0>>
-	<<print "You managed to earn " +  _GS.MoneyEarned + " coins.<br><hr>">>
+	<<print "You managed to earn " +  _GS.MoneyEarned + " coins">>
+<<if _GS.TokensEarned > 0>>
+	<<print " and "+ _GS.TokensEarned + " courtesan tokens.<br><hr>">>
+<<else>>
+    <<print ".<br><hr>">>
 <</if>>
+<</if>>
+
 <<set _SK = _GS.Skills>>
 <<set _SexSkillsPrinted = false>>
 <<if _SK.AssFucking.Failure + _SK.AssFucking.Success > 0>>

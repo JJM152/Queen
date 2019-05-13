@@ -3,13 +3,16 @@
 <<set _Quest = $args[0]>>\
 <<set _NPC = setup.player.GetNPC($MenuAction)>>\
 <<set _Scenes = _Quest.PlayScenes(setup.player, _NPC);>>\
-<<set _End = _Quest.PrintEnd(setup.player, _NPC);>>
+<<set _End = _Quest.PrintEnd(setup.player, _NPC);>>\
 <<for _s range _Scenes>><br/><<print _s.Print();>><</for>>\
 <<if _End != "">><br/><<print _End; >><</if>>\
 <<if !_Quest.IsActive(setup.player) and _Quest.IsAvailable(setup.player, _NPC)>>\
 @@.cmdButton;<<button "Accept">>\
 <<run _Quest.CompleteScenes(setup.player);>>\
-<<replace "#QuestUI">><<questList>><</replace>><</button>>@@   @@.cmdButton;<<button "Decline">><<replace "#QuestUI">><<questList>><</replace>><</button>>@@
+<<replace "#QuestUI">>\
+<<questList>>\
+<</replace>>\
+<</button>>@@   @@.cmdButton;<<button "Decline">><<replace "#QuestUI">><<questList>><</replace>><</button>>@@
 <<else>>\
 <<if !_Quest.CanComplete(setup.player)>>\
 @@.cmdButton;<<button "Okay, fine">><<replace "#QuestUI">><<questList>><</replace>><</button>>@@
