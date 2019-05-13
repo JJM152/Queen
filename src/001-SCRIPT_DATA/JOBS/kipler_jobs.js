@@ -43,7 +43,7 @@ App.Data.JobData["MATE01"] =  {
             "TRIGGERS" :[ ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [
-                { "TAG" : "B", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 60, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 20, "OPT" : 0 }
+                { "TAG" : "B", "TYPE" : "SKILL", "NAME" : "Seduction", "DIFFICULTY" : 60, "REWARD" : "MONEY", "R_NAME" : "MONEY", "VALUE" : 20 }
             ],
             "POST" : [
                 { "TYPE" : "NPC_STAT", "NAME" : "Mood",    "VALUE" :  3,  "OPT" : "TAG_B" },

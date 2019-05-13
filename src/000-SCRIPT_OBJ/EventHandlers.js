@@ -234,10 +234,10 @@ App.EventHandlers = new function() {
 
             console.log('Adding new skills to player state...');
             let ps = save.state.history[0].variables.PlayerState;
-            ps.GameStats.Skills["BoobJitsu"] = { "Failure" : 0, "Success" : 0 }
+            ps.GameStats.Skills['BoobJitsu'] = { "Failure": 0, "Success": 0 };
             ps.Skills['BoobJitsu'] = 0;
             ps.SkillsXP['BoobJitsu'] = 0;
-            ps.GameStats.Skills["AssFu"] = { "Failure" : 0, "Success" : 0 }
+            ps.GameStats.Skills['AssFu'] = { "Failure": 0, "Success": 0 };
             ps.Skills['AssFu'] = 0;
             ps.SkillsXP['AssFu'] = 0;
         }
