@@ -167,7 +167,7 @@ App.Data.JobData["MATE01"] =  {
             CHECKS: [
                 {
                     TAG : "Courtesan", TYPE: "SKILL", NAME: "Courtesan", DIFFICULTY: 80, 
-                    REWARD: "TOKENS", R_NAME: "TOKENS", VALUE: 5, OPT: 0
+                    REWARD: "TOKENS", R_NAME: "TOKENS", VALUE: 3,
                 }
              ],
             POST: [ ],

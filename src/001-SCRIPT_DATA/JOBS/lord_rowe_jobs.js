@@ -109,6 +109,21 @@ App.Data.JobData["GOV01"] = {
             literal bucket of semen straight into your gut. You struggle to breathe through your nose while waiting for your \
             customer to finally be spent and are relieved when you finally feel the raging hardness in your mouth start to soften. \
             As soon as NPC_NAME's iron grip goes slack, you remove your mouth from his dick with a gasp and an audible 'pop'. "
+        },
+        {
+            ID: "CourtesanCheck",
+            TRIGGERS: [],
+            TRIGGERS_ANY: [],
+            CHECKS: [
+                {
+                    TAG : "Courtesan", TYPE: "SKILL", NAME: "Courtesan", DIFFICULTY: 100, 
+                    REWARD: "TOKENS", R_NAME: "TOKENS", VALUE: 5,
+                }
+             ],
+            POST: [ ],
+            START: "",
+            END: "",
+            RESULTS: [ ],
         }
     ],
     "END": "NPC_NAME is reclining in his chair, his face sweaty and flushed. You straighten up your clothing and use a small \
