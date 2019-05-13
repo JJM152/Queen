@@ -159,6 +159,21 @@ App.Data.JobData["MATE01"] =  {
                 {"E": 500,  "TEXT": "You do your best and bear down on your sphincter, opening it wide for NPC_NAME's dick to slide \
                 into your nASS. Maybe the oil from the earlier tit fuck helped, but whatever the case, you feel an incredible \
                 sensation of fullness as NPC_NAME @@manages to bottom out in your sissy butt@@." } ]
+        },
+        {
+            ID: "CourtesanCheck",
+            TRIGGERS: [],
+            TRIGGERS_ANY: [],
+            CHECKS: [
+                {
+                    TAG : "Courtesan", TYPE: "SKILL", NAME: "Courtesan", DIFFICULTY: 80, 
+                    REWARD: "TOKENS", R_NAME: "TOKENS", VALUE: 5, OPT: 0
+                }
+             ],
+            POST: [ ],
+            START: "",
+            END: "",
+            RESULTS: [ ],
         }
     ],
     "END" :

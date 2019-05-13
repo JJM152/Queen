@@ -991,7 +991,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     {
         var Mod = this._SkillRoll(SkillName, Difficulty, Scaling);
         var ret = Math.ceil(Amount * Mod);
-        if (this._state.debugMode) console.log("SkillRoll: Mod="+Mod+",Amount="+Amount+",Ret="+ret+"\n");
+        if (this._state.debugMode) console.log("SkillRoll: Mod="+Mod+",Amount="+Amount+",Scaling="+Scaling+",Ret="+ret+"\n");
         return Math.ceil(Amount * Mod);
     }
 
@@ -1556,8 +1556,11 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
     AdjustTokens (m) {
         var mi = Math.ceil(m);
+        console.log("AdjustTokens: " + mi);
         if (mi > 0) {this._state.GameStats.TokensEarned += mi;}
+        console.log("state.Tokens="+this._state.Tokens);
         this._state.Tokens = Math.max(0, (this._state.Tokens + mi));
+        console.log("state.Tokens="+this._state.Tokens);
     }
 
     RandomAdjustBodyXP (Amount) {

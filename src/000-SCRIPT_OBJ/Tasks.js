@@ -1089,8 +1089,8 @@ App.Job = class Job extends App.Task {
     }
 
     /** @returns {number} */
-    Pay() { return this.TaskData["PAY"]; }
-    Tokens() { return this.TaskData["TOKENS"]; }
+    Pay() { return this.hasOwnProperty('PAY') ?  this.TaskData["PAY"] : 0; }
+    Tokens() { return this.TaskData.hasOwnProperty('TOKENS') ? this.TaskData["TOKENS"] : 0; }
 
     /** @returns {Array.<number>} */
     Phases() { return this.TaskData["PHASES"]; }
