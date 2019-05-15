@@ -116,7 +116,7 @@ App.Entity.NPCAvatar = class NPCAvatar {
             "Hat":              null,
             "Neck":             null,
             "Nipples":          null,
-            "Bra":              "gothic black bra",
+            "Bra":              null,
             "Corset":           null,
             "Panty":            null,
             "Stockings":        null,
@@ -134,17 +134,37 @@ App.Entity.NPCAvatar = class NPCAvatar {
 
         this._sliders = { };
 
+        this._Lists = { };
         this._PC = null;
     }
 
     get NPC() { return this._NPCDATA; }
     get PC() { return this._PC; }
     get Sliders() { return this._sliders; }
+    get Lists() { return this._Lists; }
     get EQUIP() { return this._equip; }
 
     Init()
     {
      this._NPCDATA = $.extend(true, {}, this._DefaultData);   
+    }
+
+    AddList(Type, Attrib, Label)
+    {
+        var ID = Type + "_" + Attrib;
+        if (this._Lists.hasOwnProperty(ID) == false) {
+
+            this._Lists[ID] = { 
+                TYPE : Type,
+                ATTRIB : Attrib,
+            };
+
+            this._Lists[ID].LABEL = typeof Label === 'undefined' ? Attrib : Label;
+            this._Lists[ID].ITEMS = this._GetItems(Type, Attrib);
+
+        } 
+
+        return ID;
     }
 
     AddSlider(ID, name, min, max, step)
@@ -176,6 +196,12 @@ App.Entity.NPCAvatar = class NPCAvatar {
             this._DrawSlider(sliderId);
             this._DrawValue(sliderId);
         }
+
+        for (var listId in this.Lists) {
+            this._DrawLabel(listId);
+            this._DrawDropDown(listId);
+        }
+
     }
 
     DrawCanvas(element, height, width) {
@@ -269,6 +295,23 @@ App.Entity.NPCAvatar = class NPCAvatar {
             $("<div>").addClass("npcWorkshopLabel").text(this._GetObj(ID).LABEL));
     }
 
+    _DrawDropDown(ID)
+    {
+
+        var root = $("<select>").attr("id", ID+"_DropDown").addClass("cheatDropDown");
+        $(this._GetAttrib(ID)).append(root);
+
+        var items = this._GetObj(ID).ITEMS;
+        var selected = this._GetSelectedItem(ID);
+        for (var i = 0; i < items.length; i++) {
+            var opt = $('<option>').attr('value', items[i]).text(items[i]);
+            if (items[i] == selected) opt.attr('selected', 'selected');
+            root.append(opt);
+        }
+
+        root.on("change", { "ID" : ID }, this._DropDownChanged.bind(this));
+    }
+
     _DrawSlider(ID)
     {
         var root = $(this._GetAttrib(ID));
@@ -302,7 +345,14 @@ App.Entity.NPCAvatar = class NPCAvatar {
 
     _GetObj(ID)
     {
-        return this.Sliders[ID];
+        var parts = ID.split("_");
+        var type = parts[0];
+        if (type == 'OBJ' || type == 'ARR' || type == 'CLOTHES' || type == 'WEAPON')
+        { 
+            return this.Lists[ID];
+        } else {
+            return this.Sliders[ID];
+        }
 
     }
 
@@ -394,6 +444,61 @@ App.Entity.NPCAvatar = class NPCAvatar {
         return PC;
     }
 
+    _GetItems(Type, Attrib)
+    {
+        var items;
+
+        if (Type == 'OBJ') {
+            items = Object.keys(App.Data.Lists[Attrib]);
+        } else if (Type == 'ARR')
+        {
+            items = App.Data.Lists[Attrib];
+            if (items.length > 0 && typeof items[0] === 'object') {
+                switch(Attrib)
+                {
+                    case 'HairStyles':
+                    case 'MakeupStyles':
+                        items = items.map(o => o.SHORT);
+                        break;
+                    default:
+                        items = items.map(o => o.NAME);
+                }
+            } 
+        } else if (Type == 'WEAPON' || Type == 'CLOTHES')
+        {
+            items = [ "nothing" ];
+            Array.prototype.push.apply(items, Object.entries(App.Data.Clothes).filter( o => o[1].Slot == Attrib).map( (v, i, a) => v[0]));
+        }
+        return items;
+    }
+
+    _GetSelectedItem(ID)
+    {
+        var o = this._GetObj(ID);
+
+        switch(o.TYPE) {
+            case 'CLOTHES':
+            case 'WEAPON':
+                var e = this.EQUIP[o.LABEL];
+                if (e != null) return e;
+                break;
+        }
+
+        switch(o.ATTRIB)
+        {
+            case 'HairStyles':
+                var key = setup.player.HairStyle;
+                var o = App.Data.Lists[o.ATTRIB].filter(o => o.SHORT == key);
+                if (o.length > 0) return o[0].SHORT;
+            case 'HairColors':
+                return setup.player.HairColor;
+            case 'MakeupStyles':
+                return setup.player.MakeupStyle;
+        }
+
+        return undefined;
+    }
+
     DoSliderUpdate(type, attr, val)
     {
         val = parseFloat(val[0]);
@@ -421,5 +526,38 @@ App.Entity.NPCAvatar = class NPCAvatar {
     {
         $("#"+ID+"_Value").html(val); 
         return val;
+    }
+
+    _DropDownChanged(e){
+        var o = this._GetObj(e.data.ID);
+        var list = $("#"+e.data.ID + "_DropDown");
+        var val = list.val();
+
+        switch(o.TYPE)
+        {
+            case 'CLOTHES':
+            case 'WEAPON':
+                if (val == 'nothing') {
+                    this.EQUIP[o.LABEL] = null;
+                } else {
+                   this.EQUIP[o.LABEL] = val;
+                }
+               this._DrawCanvas(); // Portrait has it's own handling for updating on item change.
+                break;
+        }
+
+        switch(o.ATTRIB)
+        {
+            case 'HairStyles':
+                //setup.player.HairStyle = val;
+                this._DrawCanvas();
+                //App.Avatar._DrawPortrait();
+                break;
+            case 'HairColors':
+                //setup.player.HairColor = val;
+                this._DrawCanvas();
+                //App.Avatar._DrawPortrait();
+                break;
+        }
     }
 }

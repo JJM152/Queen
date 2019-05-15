@@ -45,6 +45,12 @@ div.npcWorkshopHeader {
     width: 580px;
 }
 
+#npcEquipHeader {
+    background-color: steelblue;
+    display:inline-block;
+    width: 580px;
+}
+
 span.npcExitLink {
     float: right;
     margin-right: 50px;
@@ -52,4 +58,12 @@ span.npcExitLink {
 
 span.npcExitLink a {
     color:white !important;
+}
+
+select.NPCDropDown {
+    width: 190px;
+}
+
+div.NPCDropDown {
+    margin-bottom: 10px;
 }
