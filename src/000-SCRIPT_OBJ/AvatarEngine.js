@@ -12,6 +12,8 @@ App.Entity.AvatarEngine = class Avatar {
 
     constructor() {
 
+        this._npcCache = { };
+
         this.SettingHandler = function() {
             var container = $('#avatarContainer');
             if( App.EventHandlers.HasPlayerState() == true && container && settings.displayAvatar == true) {
@@ -51,6 +53,7 @@ App.Entity.AvatarEngine = class Avatar {
         da.addPattern("vertical pink stripe", Story.passages["txt_vertical_pink_white_stripe"].text);
         da.addPattern("pink chevron", Story.passages["txt_pink_chevron"].text);
         da.addPattern("pink flowers", Story.passages["txt_pink_flowers"].text);
+        da.addPattern("leather", Story.passages["txt_leather"].text);
 
         //Gradients loaded as textures.
         da.addPattern("pink athletic socks", this._pinkAthleticSocks);
@@ -142,6 +145,8 @@ App.Entity.AvatarEngine = class Avatar {
 
     }
 
+    get NPCPortraits() { this._npcCache; }
+
     DrawCanvas(element, height, width) {
         this._height = height;
         this._width = width;
@@ -225,6 +230,31 @@ App.Entity.AvatarEngine = class Avatar {
         //da.hideCanvasGroup("hiddenCanvas");
     }
 
+    DrawNPC(NPC, element, height, width) {
+        $(document).one(":passageend", { n: NPC, e: element, h: height, w: width }, this._DrawNPC.bind(this));
+    }
+
+    _DrawNPC(e)
+    {
+        var data = e.data;
+
+        // NPC data is cached, so just write it out
+        if (this.NPCPortraits.hasOwnProperty(data.n)) {
+
+            return;
+        }
+
+        var canvasGroup = da.getCanvasGroup("npcCanvas", {
+            border: "none",
+            width: 1000,
+            height: 3000
+         });
+
+         var PC = new da.Player( this.GetNPCData(data.n) );
+
+
+    }
+
     GetPCData() {
         var Data = this._PCData;
         Data = this._MapHeight(Data);
@@ -238,9 +268,9 @@ App.Entity.AvatarEngine = class Avatar {
     }
 
     _AttachParts(PC) {
-        var penis = da.Part.create(da.PenisHuman, { side: "right"});
+        var penis = da.Part.create(da.PenisHuman, { side: null});
         PC.attachPart(penis);
-        var balls = da.Part.create(da.TesticlesHuman, { side: "right" });
+        var balls = da.Part.create(da.TesticlesHuman, { side: null });
         PC.attachPart(balls);
         var bust = da.Part.create(da.OversizedChest, { side: null });
         PC.attachPart(bust);
@@ -276,7 +306,7 @@ App.Entity.AvatarEngine = class Avatar {
         var hormoneMod = (this._c('Hormones')/200);
         var breast = setup.player.GetStat('BODY', 'Bust') == 0 ? 0 : (setup.player.GetStat('BODY', 'Bust')/2);
         var areola = (50 * hormoneMod);
-        var upperMuscle = (40 * (this._c('Fitness')/100)) - (40 * hormoneMod);
+        var upperMuscle = (35 * (this._c('Fitness')/100));
         Data.basedim.breastSize = breast;
         Data.basedim.areolaSize = areola;
         Data.basedim.upperMuscle = upperMuscle;
@@ -285,16 +315,16 @@ App.Entity.AvatarEngine = class Avatar {
     }
 
     _MapLowerBody(Data) {
-        var hormoneMod = (this._c('Hormones')/200);
-        var lowerMuscle = (40 * (this._c('Fitness')/100)) - (40 * hormoneMod);
+        var femMod = (this._c('Femininity')/100);
+        var lowerMuscle = (35 * (this._c('Fitness')/100));
         var ass = 5 + (35 * setup.player.GetStat('BODY', 'Ass') / 100);
-        var hips = 90 + (70 * (setup.player.GetStat('BODY', 'Hips') / 100));
+        var hips = 100 + (75 * (setup.player.GetStat('BODY', 'Hips') / 100));
         var waist = 70 + (100 * (setup.player.GetStat('BODY', 'Waist')/100));
         Data.basedim.lowerMuscle = lowerMuscle;
         Data.basedim.buttFullness = ass;
         Data.basedim.hipWidth = hips;
         Data.basedim.waistWidth = waist;
-        Data.basedim.legFem = (15 + (35 * hormoneMod));
+        Data.basedim.legFem = (10 + (30 * femMod));
         return Data;
     }
     _MapHeight(Data) { 
@@ -304,8 +334,8 @@ App.Entity.AvatarEngine = class Avatar {
 
     //TODO: Make new penis body part as the existing one doesn't scale large enough for the game.
     _MapGenitals(Data) {
-        var penis = 80 * ( this._b('Penis') / 16);
-        var balls = 40 * ( this._b('Balls')/ 9);
+        var penis = 30 + ( 170 *  setup.player.GetStat('BODY', 'Penis') / 100);
+        var balls = 25 + ( 75 * setup.player.GetStat('BODY', 'Balls') / 100);
         Data.basedim.penisSize = penis;
         Data.basedim.testicleSize = balls;
         return Data;
