@@ -1,5 +1,4 @@
 :: Cheat [custom-menu no-teleport no-saving]
-<span style='float:right'>@@color:cyan;Interact@@ <<click "Exit" $GameBookmark>><</click>></span>
 <img id="patreonScreenShot" data-passage="patreon_screen">
 <span style='color:yellow;font-size:larger'>Sorry, but the cheat menu is only available for Fans and Backers!</span>
 
@@ -17,5 +16,10 @@ specifically curated to show off new features and content well before they are r
 I regularly post updates concerning the development of this game to <a href="https://www.patreon.com/malhavok" target='_blank'>my Patreon</a> \
 so stop on by and see whats up, or why not <a href="https://www.patreon.com/bePatron?u=19919727" target='_blank'>jump right in and become a supporter!</a>
 
+In any case, please continue to enjoy this @@color:gold;Free Version@@ of the game and consider sharing it with your \
+friends on social media!
+
 Thank you,
 @@color:cyan;Malhavok@@
+
+<<click "Back to Game" $GameBookmark>><</click>>
