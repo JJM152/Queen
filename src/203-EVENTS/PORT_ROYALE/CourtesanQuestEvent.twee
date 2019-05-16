@@ -1,0 +1,39 @@
+:: CourtesanQuestEvent
+Just as you leave the <span style='color:gold;'>'Courtesans Guild'</span>, a young girl darts out after you, her \
+delicate hand landing on your shoulder. You turn around in surprise and size her up. She's shorter than you, dainty \
+and with modest breasts and a heavily made up face framed with red hair and graced with even redder painted lips.
+
+<span class='npcText'>"Wait dear, I heard your conversation with the headmistress and I want to help..."</span>
+
+<span class='pcText'>"Want to help?"</span> you ask incredulously. That'd be a first - someone wanting to actually \
+help you instead of exploit you or rape you. Wonders never cease.
+
+The girl nods her head vigorously <span class='npcText'>"It's not fair how we get discriminated against and well, \
+us //girls// have to stick together, don't we?"</span>
+
+Wait? You take a closer look at the young woman and consider the high falsetto of her voice, could she possibly \
+be...
+
+Before you can ask, she continues. <span class='npcText'>"I can't help you personally, but I know of someone who \
+might be able to... she's a rather famous graduate of this school herself and sympathetic to people in our \
+condition"</span>
+
+There she goes again. Is she making some sort of assumption... well, it's probably not wrong, but if she's thinking \
+that this was your choice...
+
+<span class='npcText'>"<span style='color:cyan;'>Black Bertie</span>, that's the name. You've probably heard of her, \
+haven't you? She runs <span style='color:gold;'>'Golden Isle'</span> with a velvet glove and a sharp cutlass."</span>
+
+<span style='color:cyan;'>Black Bertie</span>, huh? Sure, you know of her - she's the legendary \
+<span style='color:hotpink'>Pirate Queen of the Seas</span>. \
+Even if she would be willing to help you out, how would you even get close enough to her to ask without \
+meeting the business end of a cutlass? You're just about to let the girl know how improbable and silly her idea \
+is, when someone from inside the <span style='color:gold;'>'Courtesans Guild'</span>. 
+
+<span class='npcText'>"Oops! I've tarried too long! Best of luck to you //sister//!"</span> she then turns tail and \
+rushes away, her skirt bustle swishing as she walks.
+
+Assumptions and implications aside, perhaps this is the lead you're looking for, at least, if you're still interested \
+in trying to join this strange school.
+
+@@color:lime;Travel@@: <<eventContinue "Continue on your way">>

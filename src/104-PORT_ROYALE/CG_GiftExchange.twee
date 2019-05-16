@@ -1,0 +1,75 @@
+:: CG_GiftExchange [courtesan-theme]
+<div style="font-family:forelle;color:antiquewhite;width:620px;">\
+<span style="font-size: 42pt">Lady Selene's Gift Exchange</span>
+<span style="font-size: 18pt;float:right">Every gift has a prize inside! - Lady Selene</span>
+</div>\
+<div class="courtesan-menu">\
+<table class="courtesan-table">
+<thead>
+<tr style="border-bottom:solid 1px white;">
+<td style="width: 50%">Currently on offer...</td>
+<td style="width: 12.5%">Common</td>
+<td style="width: 12.5%">Rare</td>
+<td style="width: 12.5%">Uncommon</td>
+<td style="width: 12.5%">Legendary</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A Shiny Sequined Treasure Chest</td>
+<td><<GiftBuy 5 "common courtesan loot box">></td>
+<td><<GiftBuy 10 "uncommon courtesan loot box">></td>
+<td><<GiftBuy 15 "rare courtesan loot box">></td>
+<td><<GiftBuy 20 "legendary courtesan loot box">></td>
+</tr>
+<tr>
+<td>A Teddy Bear Shaped Novelty Bag</td>
+<td><<GiftBuy 5 "common lolita loot box">></td>
+<td><<GiftBuy 10 "uncommon lolita loot box">></td>
+<td><<GiftBuy 15 "rare lolita loot box">></td>
+<td><<GiftBuy 20 "legendary lolita loot box">></td>
+</tr>
+<tr>
+<td>A Studded Iron Treasure Chest</td>
+<td><<GiftBuy 5 "common pirate loot box">></td>
+<td><<GiftBuy 10 "uncommon pirate loot box">></td>
+<td><<GiftBuy 15 "rare pirate loot box">></td>
+<td><<GiftBuy 20 "legendary pirate loot box">></td>
+</tr>
+<tr>
+<td>A Leopard Print Treasure Chest</td>
+<td><<GiftBuy 5 "common dancer loot box">></td>
+<td><<GiftBuy 10 "uncommon dancer loot box">></td>
+<td><<GiftBuy 15 "rare dancer loot box">></td>
+<td><<GiftBuy 20 "legendary dancer loot box">></td>
+</tr>
+<tr>
+<td>A Pink Gift Box</td>
+<td><<GiftBuy 5 "common sissy loot box">></td>
+<td><<GiftBuy 10 "uncommon sissy loot box">></td>
+<td><<GiftBuy 15 "rare sissy loot box">></td>
+<td><<GiftBuy 20 "legendary sissy loot box">></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class='courtesan-exit'>\
+<<link "Return to the school..." "CourtesansGuild">><</link>></div>
+::GiftBuy [widget]
+<<widget "GiftBuy">>\
+<<nobr>>
+<span style='width:100%;text-align:center'>
+<<if setup.player.Tokens < $args[0]>>
+- - - -
+<<else>>
+<<set _l = $args[0] + " tokens">>
+<<click  _l "CG_GiftExchange">>
+<<run console.log($args)>>
+<<run setup.player.AdjustTokens( ($args[0] * -1))>>
+<<run setup.player.AddItem("LOOT_BOX", $args[1], 1);>>
+<</click>>
+<</if>>
+</span>
+<</nobr>>
+<</widget>>

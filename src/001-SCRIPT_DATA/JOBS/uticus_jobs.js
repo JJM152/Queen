@@ -97,6 +97,21 @@ App.Data.JobData["UTICUS_ANAL"] = {
                 }
             ],
             "END" : ""
+        },
+        {
+            ID: "CourtesanCheck",
+            TRIGGERS: [],
+            TRIGGERS_ANY: [],
+            CHECKS: [
+                {
+                    TAG : "Courtesan", TYPE: "SKILL", NAME: "Courtesan", DIFFICULTY: 80, 
+                    REWARD: "TOKENS", R_NAME: "TOKENS", VALUE: 3,
+                }
+             ],
+            POST: [ ],
+            START: "",
+            END: "",
+            RESULTS: [ ],
         }
     ],
     "END" : "",

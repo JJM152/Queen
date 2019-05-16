@@ -17,6 +17,7 @@ App.Entity.PlayerState = function (){
     this.MakeupBonus = 0;
     this.EyeColor = "brown";
     this.Money = 0;
+    this.Tokens = 0;
     /** @type {number} */
     this.SailDays = 1;
     this.LastUsedMakeup = "minimal blush and lipstick";
@@ -105,6 +106,7 @@ App.Entity.PlayerState = function (){
         "Dancing":          0,
         "Singing":          0,
         "Seduction":        0,
+        "Courtesan":        0,
         "Cleaning":         0,
         "Cooking":          0,
         "Serving":          0,
@@ -124,6 +126,7 @@ App.Entity.PlayerState = function (){
         "Dancing":          0,
         "Singing":          0,
         "Seduction":        0,
+        "Courtesan":        0,
         "Cleaning":         0,
         "Cooking":          0,
         "Serving":          0,
@@ -163,7 +166,8 @@ App.Entity.PlayerState = function (){
     this.BodyEffects = [ ]; // lists effect names
 
     this.GameStats = {
-        "MoneyEarned":      0,
+        MoneyEarned: 0,
+        TokensEarned: 0,
         Skills : {}
     };
 
@@ -993,7 +997,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     {
         var Mod = this._SkillRoll(SkillName, Difficulty, Scaling);
         var ret = Math.ceil(Amount * Mod);
-        if (this._state.debugMode) console.log("SkillRoll: Mod="+Mod+",Amount="+Amount+",Ret="+ret+"\n");
+        if (this._state.debugMode) console.log("SkillRoll: Mod="+Mod+",Amount="+Amount+",Scaling="+Scaling+",Ret="+ret+"\n");
         return Math.ceil(Amount * Mod);
     }
 
@@ -1554,6 +1558,15 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         var mi = Math.ceil(m);
         if (mi > 0) {this._state.GameStats.MoneyEarned += mi;}
         this._state.Money = Math.max(0, (this._state.Money + mi));
+    }
+
+    AdjustTokens (m) {
+        var mi = Math.ceil(m);
+        console.log("AdjustTokens: " + mi);
+        if (mi > 0) {this._state.GameStats.TokensEarned += mi;}
+        console.log("state.Tokens="+this._state.Tokens);
+        this._state.Tokens = Math.max(0, (this._state.Tokens + mi));
+        console.log("state.Tokens="+this._state.Tokens);
     }
 
     RandomAdjustBodyXP (Amount) {
@@ -2337,6 +2350,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     get EyeColor() { return this._state.EyeColor; }
     get Money() { return this._state.Money; }
     set Money(c) { this._state.Money = c; }
+    get Tokens() { return this._state.Tokens; }
+    set Tokens(c) { this._state.Tokens = c; }
     /** @type {number} */
     get SailDays() { return this._state.SailDays; }
     get LastUsedMakeup() { return this._state.LastUsedMakeup; }

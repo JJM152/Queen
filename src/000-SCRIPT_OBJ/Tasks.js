@@ -142,6 +142,12 @@ App.Task = class Task {
                         ReqString = "@@color:orange;Need Money ("+(Value - Player.Money) + ")";
                     }
                     break;
+                case "TOKENS":
+                    if (Task._Cmp( Player.Tokens, Value, Condition) == false) {
+                        StatusFlag = false;
+                        ReqString = "@@color:orange;Need Tokens ("+(Value - Player.Tokens) + ")";
+                    }
+                    break;
                 case "NPC_STAT":
                     if (typeof Option !== 'undefined') NPC = Player.GetNPC(Option);
                     if (typeof NPC !== 'undefined') {
@@ -389,7 +395,16 @@ App.Task = class Task {
         for (const sb of this._SceneBuffer) {
             Pay += sb.RewardItems().Pay;
         }
-        return (Pay > 0) ? "@@color:yellow;"+Pay+"@@" : "";
+        return (Pay > 0) ? "<span style='color:gold'>"+Pay+"</span>" : "";
+    }
+
+    _PrintTokens() {
+        var Tokens = this.TaskData["TOKENS"];
+        if (Tokens === undefined) Tokens = 0;
+        for (const sb of this._SceneBuffer) {
+            Tokens  += sb.RewardItems().Tokens;
+        }
+        return (Tokens > 0) ? "<span style='color:hotpink'>"+Tokens+"</span>" : "";
     }
 
     /**
@@ -400,10 +415,15 @@ App.Task = class Task {
     _SummarizeTask() {
         var items = [ ];
         var Pay = this.TaskData["PAY"];
+        var Tokens = this.TaskData["TOKENS"];
+
         if (Pay === undefined) Pay = 0;
+        if (Tokens === undefined) Tokens = 0;
 
         for (const sb of this._SceneBuffer) {
             Pay += sb.RewardItems().Pay;
+            Tokens += sb.RewardItems().Tokens;
+
             for (const ri of sb.RewardItems().Items) {
                 var n = App.Item.SplitId(ri["Name"]);
                 var oItem = App.Item.Factory(n.Category, n.Tag);
@@ -411,12 +431,16 @@ App.Task = class Task {
             }
         }
 
-        if (Pay > 0) {
-            items.unshift("@@color:yellow;"+Pay+" coins@@");
+        if (Tokens > 0) {
+            items.unshift("<span style='color:hotpink'>"+Tokens+" courtesan tokens</span>\n")
         }
 
-        if (Pay > 0 || items.length > 0) {
-            items.unshift("\n@@color:cyan;Your receive some items:@@");
+        if (Pay > 0) {
+            items.unshift("<span style='color:gold'"+Pay+" coins</span>\n");
+        }
+
+        if (items.length > 0 || Pay > 0 || Tokens > 0) {
+            items.unshift("<span style='color:cyan'>Your receive some items:</span>");
         }
 
         if (items.length > 0 ) return items.join("\n") + "\n";
@@ -499,6 +523,7 @@ App.Task._debug = false;
 App.SceneRewards = class SceneRewards {
     constructor() {
         this.Pay = 0;
+        this.Tokens = 0;
         this.ScaledValues = [ ];
         this.Items = [ ];
         this.ItemChoices = [ ];
@@ -692,6 +717,10 @@ App.Scene = class Scene {
                 this._RewardItems.Pay += Math.floor(val);
                 Scene.Debug("_CalculateReward", "Pay +=" + this._RewardItems.Pay.toString());
                 break;
+            case "TOKENS":
+                this._RewardItems.Tokens += Math.floor(val);
+                Scene.Debug("_CalculateReward", "Tokens +=" + this._RewardItems.Tokens.toString());
+                break;
             case "ITEM": // any item by ID
                 Scene.Debug("_CalculateReward", "Items.push(" + {"Name": Name, "Value": val, "Opt": Opt}.toString() + ")");
                 this._RewardItems.Items.push({"Name": Name, "Value": val, "Opt": Opt});
@@ -750,6 +779,7 @@ App.Scene = class Scene {
         switch(Type)
         {
             case "MONEY":
+            case "TOKENS":
                 // The total scene pay is handled upstream
                 break;
             case "ITEM": // any item by ID
@@ -867,6 +897,9 @@ App.Scene = class Scene {
                 Result = this._Player.StatRoll(Check.TYPE, Check.NAME, Check.DIFFICULTY, Value, Scaling);
                 break;
             case "SKILL":
+                // This skill is inoperable until you get some points in it.
+                if (Check.NAME == 'Courtesan' && this._Player.GetStat('SKILL', 'Courtesan') == 0) break;
+
                 Result = this._Player.SkillRoll(Check.NAME, Check.DIFFICULTY, Value, Scaling);
                 break;
             case "META":
@@ -998,6 +1031,7 @@ App.Scene = class Scene {
     CompleteScene() {
         App.Scene.Debug(this.Id() + ":CompleteScene", "Started");
         this._Player.AdjustMoney(this._RewardItems.Pay);
+        this._Player.AdjustTokens(this._RewardItems.Tokens);
         // apply rewards from checks with "REWARD" prop
         const Checks = this._SceneData["CHECKS"];
         for (const c of Checks) {
@@ -1061,7 +1095,9 @@ App.Job = class Job extends App.Task {
     }
 
     /** @returns {number} */
-    Pay() { return this.TaskData["PAY"]; }
+    Pay() { return this.hasOwnProperty('PAY') ?  this.TaskData["PAY"] : 0; }
+    Tokens() { return this.TaskData.hasOwnProperty('TOKENS') ? this.TaskData["TOKENS"] : 0; }
+
     /** @returns {Array.<number>} */
     Phases() { return this.TaskData["PHASES"]; }
 
@@ -1091,11 +1127,13 @@ App.Job = class Job extends App.Task {
         var Time    = this._GetCost("TIME");
         var Energy  = this._GetCost("STAT", "Energy");
         var Money   = this._GetCost("MONEY");
+        var Tokens  = this._GetCost("TOKENS"); 
         var Strings = [];
 
         if (Time != 0) Strings.push("@@color:lime;Time " + Time + "@@");
         if (Energy != 0) Strings.push("@@color:yellow;Energy " + Energy + "@@");
         if (Money != 0) Strings.push("@@color:orange;Money " + Money + "@@");
+        if (Tokens != 0) Strings.push("@@color:hotpink;Tokens " + Tokens + "@@");
 
         if (Strings.length != 0) Output = Output + " [" + Strings.join("&nbsp;") + "]";
         return Output;
@@ -1156,6 +1194,9 @@ App.Job = class Job extends App.Task {
                 case "MONEY":
                     if (Player.Money < this._Cost()[i]["VALUE"]) return false;
                     break;
+                case "TOKENS":
+                    if (Player.Tokens < this._Cost()[i]["VALUE"]) return false;
+                    break;
             }
         }
         return true;
@@ -1188,6 +1229,9 @@ App.Job = class Job extends App.Task {
                     break;
                 case "MONEY":
                     Player.AdjustMoney(Math.floor(Value * -1.0));
+                    break;
+                case "TOKENS":
+                    Player.AdjustTokens(Math.floor(Value * -1.0));
                     break;
                 case "ITEM":
                     var o = Player.GetItemById(Name);
@@ -1316,6 +1360,7 @@ App.Job = class Job extends App.Task {
      */
     CompleteScenes(Player) {
         Player.AdjustMoney(this.Pay());
+        Player.AdjustTokens(this.Tokens());
         this._DeductCosts(Player);
         this._SetLastCompleted(Player);
         super.CompleteScenes(Player);

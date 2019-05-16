@@ -161,3 +161,32 @@ App.Data.EffectLib["DANCER_BIMBO_LOOT_BOX_LEGENDARY"] = {
     "VALUE" : 0,
         "KNOWLEDGE" : [ "Loot Box++++" ]
 };
+/** COURTESAN BOX */
+App.Data.EffectLib["COURTESAN_LOOT_BOX_COMMON"] = {
+    "FUN" : /** @param {App.Entity.Player} p
+     @param {App.Items.Consumable} o*/
+    function(o,p) { return setup.Loot.GenerateLootBox(App.Data.LootTables["COURTESAN"], 500, 1000);  },
+    "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box+" ]
+};
+App.Data.EffectLib["COURTESAN_LOOT_BOX_UNCOMMON"] = {
+    "FUN" : /** @param {App.Entity.Player} p
+     @param {App.Items.Consumable} o*/
+    function(o,p) { return setup.Loot.GenerateLootBox(App.Data.LootTables["COURTESAN"], 1000, 1500);  },
+    "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box++" ]
+};
+App.Data.EffectLib["COURTESAN_LOOT_BOX_RARE"] = {
+    "FUN" : /** @param {App.Entity.Player} p
+     @param {App.Items.Consumable} o*/
+    function(o,p) { return setup.Loot.GenerateLootBox(App.Data.LootTables["COURTESAN"], 1500, 2000);  },
+    "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box+++" ]
+};
+App.Data.EffectLib["COURTESAN_LOOT_BOX_LEGENDARY"] = {
+    "FUN" : /** @param {App.Entity.Player} p
+     @param {App.Items.Consumable} o*/
+    function(o,p) { return setup.Loot.GenerateLootBox(App.Data.LootTables["COURTESAN"], 2000, 2500);  },
+    "VALUE" : 0,
+        "KNOWLEDGE" : [ "Loot Box++++" ]
+};

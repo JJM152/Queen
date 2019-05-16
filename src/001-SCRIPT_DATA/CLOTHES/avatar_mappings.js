@@ -6,6 +6,7 @@ App.Data.AvatarPatterns = [
     "pink tartan",
     "red tartan",
     "pink gingham",
+    "leather",
     "black lace",
     "black purple stripe",
     "red plastic",
@@ -204,7 +205,7 @@ App.Data.AvatarMaps['training corset'] = [
             botCoverage: 0.48,
             topCoverage: 0.38,
             lacing: false,
-            pattern: "da.getPattern('black leather', 100)"
+            pattern: "da.getPattern('leather', 100)"
         }
     }
 ];
@@ -215,7 +216,7 @@ App.Data.AvatarMaps['bondage corset'] = [
         a: {
             botCoverage: 0.98,
             topCoverage: 0.66,
-            pattern: "da.getPattern('black leather', 100)"
+            pattern: "da.getPattern('leather', 100)"
         }
     }
 ];
@@ -230,7 +231,7 @@ App.Data.AvatarMaps['bondage dress'] = [
             lacing: true,
             armCoverage: 1.3,
             legCoverage: 0.56,
-            pattern: "da.getPattern('black leather', 100)"
+            pattern: "da.getPattern('leather', 100)"
         }
     }
 ];
@@ -617,7 +618,7 @@ App.Data.AvatarMaps["sexy librarian outfit"] = [
             waistCoverage: 0.19814630696357116,
             fill: "black",
             stroke: "black",
-            pattern: "da.getPattern('black leather',100)"
+            pattern: "da.getPattern('leather',100)"
         }
     },
     {
@@ -656,7 +657,7 @@ App.Data.AvatarMaps["naughty nun dress"] = [
             legCoverage: 0.1,
             fill: "black",
             stroke: "darkred",
-            pattern: "da.getPattern('black leather', 100)"
+            pattern: "da.getPattern('leather', 100)"
           }
     }
  ];
@@ -670,7 +671,7 @@ App.Data.AvatarMaps["sexy nun habit"] = [
             legCoverage: 0.1,
             fill: "black",
             stroke: "darkred",
-            pattern: "da.getPattern('black leather', 100)"
+            pattern: "da.getPattern('leather', 100)"
           }
     }
  ];
@@ -683,7 +684,7 @@ App.Data.AvatarMaps["sexy nun boots"] = [
             platformHeight: 0.0,
             toeCoverage: 2,
             fill: "red",
-            pattern: "da.getPattern('black leather', 100)"
+            pattern: "da.getPattern('leather', 100)"
         }
     } 
  ];
@@ -726,7 +727,7 @@ App.Data.AvatarMaps["cow panties"] = [
     {
         c: "da.Panties",
         a: {
-            pattern: "da.getPattern('black leather', 100)",
+            pattern: "da.getPattern('leather', 100)",
             fill: "black",
             stroke: "black"
         }
@@ -902,7 +903,7 @@ App.Data.AvatarMaps["pirate queen regalia"] = [
             waistCoverage: 0.5,
             fill: "black",
             stroke: "darkred",
-            pattern: "da.getPattern('black leather',100)"
+            pattern: "da.getPattern('leather',100)"
           }
     }
 
@@ -1325,7 +1326,7 @@ App.Data.AvatarMaps["choker"] = [
         a: {
             fill: "black",
             stroke: "black",
-            pattern: "da.getPattern('black leather', 100)"
+            pattern: "da.getPattern('leather', 100)"
         }
     }
 ];
@@ -1366,7 +1367,7 @@ App.Data.AvatarMaps["fashion corset"] = [
             fill: "black",
             stroke: "black",
             lacing: false,
-            pattern: "da.getPattern('black leather', 100)"
+            pattern: "da.getPattern('leather', 100)"
         }
     }
 ];
@@ -1435,7 +1436,7 @@ App.Data.AvatarMaps["leather pants"] = [
             legCoverage: 0.7111017275365854,
             fill: "black",
             stroke: "black",
-            pattern: "da.getPattern('black leather', 100)"
+            pattern: "da.getPattern('leather', 100)"
         }
     }
 ];
@@ -1448,7 +1449,7 @@ App.Data.AvatarMaps["leather shorts"] = [
             waistCoverage: 0.09950103377645303,
             fill: "black",
             stroke: "black",
-            pattern: "da.getPattern('black leather', 100)"
+            pattern: "da.getPattern('leather', 100)"
         }
     }
 ];

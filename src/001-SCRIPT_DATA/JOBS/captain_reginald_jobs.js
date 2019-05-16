@@ -335,6 +335,21 @@ App.Data.JobData["CAPT01"] = {
             "START": "",
             "END": "",
             "RESULTS": []
+        },
+        {
+            ID: "CourtesanCheck",
+            TRIGGERS: [],
+            TRIGGERS_ANY: [],
+            CHECKS: [
+                {
+                    TAG : "Courtesan", TYPE: "SKILL", NAME: "Courtesan", DIFFICULTY: 100, 
+                    REWARD: "TOKENS", R_NAME: "TOKENS", VALUE: 5,
+                }
+             ],
+            POST: [ ],
+            START: "",
+            END: "",
+            RESULTS: [ ],
         }
 
     ],

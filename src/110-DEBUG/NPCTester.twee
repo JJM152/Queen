@@ -1,0 +1,59 @@
+::NPCTester
+<span style='color:gold;font-weight:bold;font-size:18pt'>NPC Workshop</span>
+<div class='npcWorkshopMain'>\
+<div id='npcRender' style='display:inline-block'></div>\
+<<run setup.DADNpc = new App.Entity.NPCAvatar();>>\
+<<run setup.DADNpc.Init();>>\
+<<run setup.DADNpc.DrawUI("npcControls");>>\
+<<run setup.DADNpc.DrawCanvas('npcRender', 560, 266);>>\
+<div id='npcControls' style='display:inline-block;width: 600px;position:absolute;margin-left:10px;;'>\
+<div class="npcWorkshopHeader" id="npcGeneralHeader">GENERAL CONFIG\
+<span class="npcExitLink">\
+<<click "QUIT" "DebugPassage">><</click>>\
+</span>
+</div>
+<<npcSlider "base_gender" "Gender" 0 2 1>>\
+<<npcSlider "base_fem" "Fem Bias" 0 11 1>>\
+<<npcSlider "basedim_height" "Height" 150 190 1>>\
+<<npcSlider "basedim_upperMuscle" "Muscle" 1 50>>\
+<<npcSlider "basedim_breastSize" "Boobs" 0 50 1>>\
+<<npcSlider "basedim_buttFullness" "Ass" 0 50 1>>\
+<<npcSlider "basedim_hipWidth" "Hips" 80 200 1>>\
+<<npcSlider "basedim_waistWidth" "Waist" 70 170 1>>\
+<<npcSlider "basedim_penisSize" "Penis" 0 200 1>>\
+<<npcSlider "basedim_testicleSize" "Balls" 0 100 1>>\
+<div class="npcWorkshopHeader" id="npcEquipHeader">EQUIPMENT CONFIG\
+<span class="npcExitLink">\
+<<click "QUIT" "DebugPassage">><</click>>\
+</span>
+</div>
+<<npcList "CLOTHES" "Wig">>\
+<<npcList "CLOTHES" "Hat">>\
+<<npcList "CLOTHES" "Neck">>\
+<<npcList "CLOTHES" "Nipples">>\
+<<npcList "CLOTHES" "Bra">>\
+<<npcList "CLOTHES" "Corset">>\
+<<npcList "CLOTHES" "Panty">>\
+<<npcList "CLOTHES" "Stockings">>\
+<<npcList "CLOTHES" "Shirt">>\
+<<npcList "CLOTHES" "Pants">>\
+<<npcList "CLOTHES" "Dress">>\
+<<npcList "CLOTHES" "Costume">>\
+<<npcList "CLOTHES" "Shoes">>\
+<<npcList "CLOTHES" "Butt">>\
+<<npcList "CLOTHES" "Penis">>\
+<<npcList "WEAPON" "Weapon">>\
+</div>
+
+:: NPCSlider [widget]
+<<widget "npcSlider">>\
+<<set _id = setup.DADNpc.AddSlider($args[0], $args[1], $args[2], $args[3], $args[4]);>>\
+<<run console.log(_id);>>\
+<<print "<div id='"+ _id +"' class='npcSliderWidget'></div>"; >>\
+<</widget>>
+
+:: NPCDropdown [widget]
+<<widget "npcList">>\
+<<set _id = setup.DADNpc.AddList($args[0], $args[1], $args[2]);>>\
+<<print "<div id='"+ _id +"' class='npcSliderWidget npcDropDown'></div>"; >>\
+<</widget>>

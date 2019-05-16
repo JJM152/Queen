@@ -299,6 +299,21 @@ App.Data.JobData["SIMONE_JOB1"] = {
             "START" : "",
             "END" : "",
             "RESULTS" : [ ]
+        },
+        {
+            ID: "CourtesanCheck",
+            TRIGGERS: [],
+            TRIGGERS_ANY: [],
+            CHECKS: [
+                {
+                    TAG : "Courtesan", TYPE: "SKILL", NAME: "Courtesan", DIFFICULTY: 80, 
+                    REWARD: "TOKENS", R_NAME: "TOKENS", VALUE: 3,
+                }
+             ],
+            POST: [ ],
+            START: "",
+            END: "",
+            RESULTS: [ ],
         }
 
     ],
@@ -568,6 +583,21 @@ App.Data.JobData["SIMONE_JOB2"] = {
             "START" : "",
             "END" : "",
             "RESULTS" : [ ]
+        },
+        {
+            ID: "CourtesanCheck",
+            TRIGGERS: [],
+            TRIGGERS_ANY: [],
+            CHECKS: [
+                {
+                    TAG : "Courtesan", TYPE: "SKILL", NAME: "Courtesan", DIFFICULTY: 80, 
+                    REWARD: "TOKENS", R_NAME: "TOKENS", VALUE: 3,
+                }
+             ],
+            POST: [ ],
+            START: "",
+            END: "",
+            RESULTS: [ ],
         }
 
     ],
@@ -845,6 +875,21 @@ App.Data.JobData["SIMONE_JOB3"] = {
             "START" : "",
             "END" : "",
             "RESULTS" : [ ]
+        },
+        {
+            ID: "CourtesanCheck",
+            TRIGGERS: [],
+            TRIGGERS_ANY: [],
+            CHECKS: [
+                {
+                    TAG : "Courtesan", TYPE: "SKILL", NAME: "Courtesan", DIFFICULTY: 80, 
+                    REWARD: "TOKENS", R_NAME: "TOKENS", VALUE: 3,
+                }
+             ],
+            POST: [ ],
+            START: "",
+            END: "",
+            RESULTS: [ ],
         }
 
     ],
@@ -1118,6 +1163,21 @@ App.Data.JobData["SIMONE_JOB4"] = {
             "START" : "",
             "END" : "",
             "RESULTS" : [ ]
+        },
+        {
+            ID: "CourtesanCheck",
+            TRIGGERS: [],
+            TRIGGERS_ANY: [],
+            CHECKS: [
+                {
+                    TAG : "Courtesan", TYPE: "SKILL", NAME: "Courtesan", DIFFICULTY: 80, 
+                    REWARD: "TOKENS", R_NAME: "TOKENS", VALUE: 3,
+                }
+             ],
+            POST: [ ],
+            START: "",
+            END: "",
+            RESULTS: [ ],
         }
 
     ],
