@@ -1,8 +1,10 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.10e RELEASE CANDIDATE 11/05/2019
+!!!0.10f PUBLIC RELEASE 18/05/2019
 !!!!General
 * Added cheat interface for @@color:orange;Fan and Backer level Patreons@@. 
+* Major bug fix - store inventory restocking was broken in the 0.10 series, it's fixed now but you may need \
+to start a new game if you previously unlocked a special item from a shop via a job or quest and then it got lost.
 * Fixed bug that was causing quest requirements for a worn item to display incorrectly as not worn. (red checkbox)
 * Fixed an oversight that was making reversing tranformation much harder than intended.
 * As above, re-introduced a minor persistant male shift in hormones related to teste size. This will make feminization slower.
