@@ -931,6 +931,10 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
 
         if (this._state.debugMode) console.log("SkillRoll(" + SkillName + "," + Difficulty + "):  Target = " + Target + ", DiceRoll = " + DiceRoll + " XPMod="+XpMod+"\n");
 
+        if (this._state.GameStats.Skills.hasOwnProperty(SkillName) == false) {
+            this._state.GameStats.Skills[SkillName] = { Success: 0, Failure: 0 };
+        }
+        
         if (DiceRoll >= Target) {
             this._state.GameStats.Skills[SkillName].Success += 1;
         } else {
