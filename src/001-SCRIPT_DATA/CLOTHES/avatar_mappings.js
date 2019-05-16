@@ -1547,3 +1547,67 @@ App.Data.AvatarMaps["medium heels"] = [
         }
     }
 ];
+
+//Makeup
+App.Data.AvatarMaps["black mascara"] = [
+    {
+        c: "da.Mascara",
+        a: {
+            topFill: "black",
+            botFill: "black",
+            extraLength: 6
+        }
+    }
+];
+
+App.Data.AvatarMaps["green mascara"] = [
+    {
+        c: "da.Mascara",
+        a: {
+            topFill: "green",
+            botFill: "green",
+            extraLength: 6
+        }
+    }
+];
+
+App.Data.AvatarMaps["red mascara"] = [
+    {
+        c: "da.Mascara",
+        a: {
+            topFill: "red",
+            botFill: "red",
+            extraLength: 6
+        }
+    }
+];
+
+App.Data.AvatarMaps["yellow mascara"] = [
+    {
+        c: "da.Mascara",
+        a: {
+            topFill: "yellow",
+            botFill: "yellow",
+            extraLength: 6
+        }
+    }
+];
+
+// misc clothing
+
+App.Data.AvatarMaps["grey tshirt"] = [
+    {
+        c: "da.Tee",
+        a: { 
+            armCoverage: 0.4,
+            cleavageCoverage: 0.2,
+            cleavageOpeness: 0.4,
+            curveCleavageX: 12,
+            curveCleavageY: -15,
+            thickness: 0,
+            waistCoverage: 0.6,
+            fill : "grey",
+            stroke: "lightgrey"
+        }
+    }
+];

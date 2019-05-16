@@ -1,12 +1,20 @@
 ::NPCTester
-<span style='color:gold;font-weight:bold;font-size:18pt'>NPC Workshop</span>
-<div class='npcWorkshopMain'>\
-<div id='npcRender' style='display:inline-block'></div>\
+<<if typeof setup.DADNpc === 'undefined'>>\
 <<run setup.DADNpc = new App.Entity.NPCAvatar();>>\
-<<run setup.DADNpc.Init();>>\
+<<run setup.DADNpc.Init('002');>>\
+<</if>>\
 <<run setup.DADNpc.DrawUI("npcControls");>>\
 <<run setup.DADNpc.DrawCanvas('npcRender', 560, 266);>>\
-<div id='npcControls' style='display:inline-block;width: 600px;position:absolute;margin-left:10px;;'>\
+<<run setup.DADNpc.DrawPortrait('npcRenderPortrait', 266, 266);>>\
+<div style=display:inline-block;width:276px>\
+<span style='color:gold;font-weight:bold;font-size:18pt'>NPC Workshop</span> \
+</div>\
+<div style="display:inline-block;width:580px;color:gold;font-weight:bold">\
+<<npcList "OBJ" "NPCLIST" "LOAD ID">>\
+</div>\
+<div class='npcWorkshopMain'>\
+<div id='npcRender' style='display:inline-block'></div>\
+<div id='npcControls' style='display:inline-block;width: 600px;position:absolute;margin-left:10px;'>\
 <div class="npcWorkshopHeader" id="npcGeneralHeader">GENERAL CONFIG\
 <span class="npcExitLink">\
 <<click "QUIT" "DebugPassage">><</click>>\
@@ -19,15 +27,21 @@
 <<npcSlider "basedim_breastSize" "Boobs" 0 50 1>>\
 <<npcSlider "basedim_buttFullness" "Ass" 0 50 1>>\
 <<npcSlider "basedim_hipWidth" "Hips" 80 200 1>>\
-<<npcSlider "basedim_waistWidth" "Waist" 70 170 1>>\
+<<npcSlider "basedim_waistWidth" "Waist" 70 300 1>>\
 <<npcSlider "basedim_penisSize" "Penis" 0 200 1>>\
 <<npcSlider "basedim_testicleSize" "Balls" 0 100 1>>\
+<<npcSlider "Mods_skinHue" "Skin (H)" 0 360 1>>\
+<<npcSlider "Mods_skinSaturation" "Skin (S)" 0 100 1>>\
+<<npcSlider "Mods_skinLightness" "Skin (L)" -100 0 1>>\
+<<npcSlider "basedim_neckLength" "Neck Length" 60 90 1>>\
+<<npcSlider "basedim_neckWidth" "Neck Width" 35 60 1>>\
+<<npcSlider "basedim_shoulderWidth" "Shoulders" 25 100 1>>\
 <div class="npcWorkshopHeader" id="npcEquipHeader">EQUIPMENT CONFIG\
 <span class="npcExitLink">\
 <<click "QUIT" "DebugPassage">><</click>>\
 </span>
 </div>
-<<npcList "CLOTHES" "Wig">>\
+<<npcList "CLOTHES" "Mascara">>\
 <<npcList "CLOTHES" "Hat">>\
 <<npcList "CLOTHES" "Neck">>\
 <<npcList "CLOTHES" "Nipples">>\
@@ -40,11 +54,80 @@
 <<npcList "CLOTHES" "Dress">>\
 <<npcList "CLOTHES" "Costume">>\
 <<npcList "CLOTHES" "Shoes">>\
-<<npcList "CLOTHES" "Butt">>\
 <<npcList "CLOTHES" "Penis">>\
-<<npcList "WEAPON" "Weapon">>\
+</div>\
+<div class='npcWorkshopMain'>\
+<div id='npcRenderPortrait' style='display:inline-block'></div>\
+<div id='faceControls' style='display:inline-block;width: 600px;position:absolute;margin-left:10px;'>\
+<div class="npcWorkshopHeader" id="npcFaceHeader">FACE CONFIG\
+<span class="npcExitLink">\
+<<click "QUIT" "DebugPassage">><</click>>\
+</span>\
+</div>\
+<<npcSlider "basedim_hairStyle" "Hair Style" 0 7 1>>\
+<<npcSlider "basedim_hairLength" "Hair Length" 0 200 1>>\
+<<npcSlider "basedim_hairHue" "Hair (H)" 0 360 1>>\
+<<npcSlider "basedim_hairSaturation" "Hair (S)" 0 100 1>>\
+<<npcSlider "basedim_hairLightness" "Hair (L)" 0 100 1>>\
+<<npcSlider "basedim_faceFem" "Face Fem" 0 50 1>>\
+<<npcSlider "basedim_faceLength" "Face Length" 180 300 1>>\
+<<npcSlider "basedim_faceWidth" "Face Width" 70 110 1>>\
+<<npcSlider "basedim_lipSize" "Lip Size" 0 35 1>>\
+<<npcSlider "Mods_lipBias" "Lip Bias" -100 100 1>>\
+<<npcSlider "Mods_lipCurl" "Lip Curl" -100 100 1>>\
+<<npcSlider "Mods_lipCupidsBow" "Cupids Bow" -100 100 1>>\
+<<npcSlider "Mods_lipHeight" "Lip Height" -5 5 1>>\
+<<npcSlider "Mods_lipWidth" "Lip Width" -100 100 1>>\
+<<npcSlider "Mods_noseHeight" "Nose Height" -10 5 1>>\
+<<npcSlider "Mods_noseLength" "Nose Length" 0 50 1>>\
+<<npcSlider "Mods_noseRidgeHeight" "Nose Ridge" -12 12 1>>\
+<<npcSlider "Mods_noseRoundness" "Nose Round" -5 10 1>>\
+<<npcSlider "Mods_noseWidth" "Nose Width" 0 50 1>>\
+<<npcSlider "Mods_nostrilSize" "Nostril" 0 20 1>>\
 </div>
-
+</div>
+<div class='npcWorkshopMain' style="margin-top:10px;">\
+<div id='npcRenderPortraitEye' style='display:inline-block'></div>\
+<div id='eyeControls' style='display:inline-block;width: 600px;position:absolute;margin-left:10px;'>\
+<div class="npcWorkshopHeader" id="npcEyeHeader">EYE CONFIG\
+<span class="npcExitLink">\
+<<click "QUIT" "DebugPassage">><</click>>\
+</span>\
+</div>\
+<<npcSlider "basedim_eyeSize" "Eye Size" -50 50 1>>\
+<<npcSlider "Mods_eyeBias" "Eye Bias" -10 10 1>>\
+<<npcSlider "Mods_eyeCloseness" "Eye Close" -50 50 1>>\
+<<npcSlider "Mods_eyeHeight" "Eye Height" -10 0 1>>\
+<<npcSlider "Mods_eyeTilt" "Eye Tilt" -50 50 1>>\
+<<npcSlider "Mods_eyeWidth" "Eye Width" -10 10 1>>\
+<<npcSlider "Mods_irisSize" "Iris Size" 1 50 1>>\
+<<npcSlider "Mods_irisHeight" "Iris Height" -20 20 1>>\
+<<npcSlider "Mods_limbalRingSize" "Iris Ring" -20 20 1>>\
+<<npcSlider "Mods_irisHue" "Iris (H)" 0 360 1>>\
+<<npcSlider "Mods_irisSaturation" "Iris (S)" 0 100 1>>\
+<<npcSlider "Mods_irisLightness" "Iris (L)" 0 100 1>>\
+<<npcSlider "Mods_pupilSize" "Pupil Size" 1 50 1>>\
+<<npcSlider "Mods_eyelidHeight" "Lid Height" -10 10 1>>\
+<<npcSlider "Mods_eyelidBias" "Lid Bias" -10 10 1>>\
+<<npcSlider "Mods_eyelashAngle" "Lash Angle" -10 10 1>>\
+<<npcSlider "basedim_eyelashLength" "Lash Length" 0 10 1>>\
+<<npcSlider "Mods_browThickness" "Brow Thick" -10 10 1>>\
+<<npcSlider "Mods_browSharpness" "Brow Sharp" -10 10 1>>\
+<<npcSlider "Mods_browLength" "Brow Length" -10 10 1>>\
+<<npcSlider "Mods_browHeight" "Brow Height" -10 10 1>>\
+<<npcSlider "Mods_browCloseness" "Brow Close" -10 10 1>>\
+</div>
+</div>
+<div class='npcWorkshopMain' style="margin-top:40px;">\
+<div class="npcWorkshopHeader" id="npcDataHeader">EXPORT DATA\
+<span class="npcExitLink">\
+<<click "QUIT" "DebugPassage">><</click>>\
+</span>\
+</div>\
+<textarea id="dataOutput" class="npcScrollText">\
+</textarea>\
+</div>
+<div id="hiddenPortraitCanvas" style="display:none"></div>
 :: NPCSlider [widget]
 <<widget "npcSlider">>\
 <<set _id = setup.DADNpc.AddSlider($args[0], $args[1], $args[2], $args[3], $args[4]);>>\

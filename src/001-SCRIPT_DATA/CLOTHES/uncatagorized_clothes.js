@@ -107,6 +107,18 @@ App.Data.Clothes["silk blouse"] = {
     "WearEffect": [ "FEMININE_CLOTHING" ]
 };
 
+App.Data.Clothes["grey tshirt"] = {
+    Name: "grey tshirt",
+    ShortDesc: "a {COLOR} t-shirt",
+    LongDesc: "This simple t-shirt is made from rough cotton.",
+    Slot: "Shirt", 
+    Restrict: ["Shirt", "Dress", "Costume"], 
+    Color: "grey",
+    Style: "COMMON", 
+    Type : "CLOTHING",
+    "WearEffect": [ ]
+};
+
 // PANTS SLOT
 App.Data.Clothes["leather pants"] = {
     "Name": "leather pants", "ShortDesc": "a pair of {COLOR} leather pants",

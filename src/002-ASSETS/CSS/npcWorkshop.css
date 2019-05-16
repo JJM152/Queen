@@ -51,6 +51,22 @@ div.npcWorkshopHeader {
     width: 580px;
 }
 
+#npcFaceHeader {
+    background-color: seagreen;
+    display:inline-block;
+    width: 580px;
+}
+
+#npcEyeHeader {
+    background-color: indigo;
+    display:inline-block;
+    width: 580px;
+}
+
+#npcDataHeader {
+    background-color: indianred;
+    display:inline-block;
+}
 span.npcExitLink {
     float: right;
     margin-right: 50px;
@@ -66,4 +82,10 @@ select.NPCDropDown {
 
 div.NPCDropDown {
     margin-bottom: 10px;
+}
+
+textarea.npcScrollText {
+    height:400px;
+    width:100%;
+    overflow:scroll;
 }

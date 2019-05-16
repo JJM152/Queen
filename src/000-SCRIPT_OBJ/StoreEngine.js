@@ -262,7 +262,6 @@ var Store = function(Player, NPC, StoreData) {
             // Add any records in Data that do not exist in the player state.Typically we added something to a shop
             // and the player already has a shop record in their state object.
             var toAdd = this._Data['INVENTORY'].filter(f1 => this._Player.StoreInventory[this._Id]["INVENTORY"].find(f2 => f1.TAG == f2.TAG) === undefined);
-            console.log(toAdd);
             toAdd.forEach( a => this._Player.StoreInventory[this._Id]["INVENTORY"].push(a));
 
             //Restock qty on items.

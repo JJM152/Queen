@@ -6,6 +6,7 @@ App.Data = {};
 
 App.Data.AvatarMaps = {};
 App.Data.Clothes = {};
+App.Data.DADNPC = { };
 App.Data.EffectLib = {};
 App.Data.Events = {};
 App.Data.Drugs = {};

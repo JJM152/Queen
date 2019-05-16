@@ -1,134 +1,14 @@
 App.Entity.NPCAvatar = class NPCAvatar {
     constructor() {
-        this._height = 800;
-        this._width = 360;
-        this._element = "npcRender";
 
-        this._DefaultData = {
-            name: "Default",
-            fem : 11,
-            sub : 2,
-            hairFill  : "indianred",
-            hairStroke: "black",
-            gender: 0, // 0 female, 1 male, 2 trans
-            basedim        : {
-                areolaSize    : 14.923766816143496,
-                armThickness  : 58.468958260259555,
-                armLength     : 45,
-                breastSize    : 9.974887892376682,
-                buttFullness  : 13.019992984917572,
-                chinWidth     : 63.335671694142405,
-                eyelashLength : 4,
-                eyeSize       : 13.019992984917572,
-                faceFem       : 40,
-                faceLength    : 212.32549982462294,
-                faceWidth     : 82.74465099964925,
-                hairLength    : 37.03963521571379,
-                hairStyle     : 4,
-                hairHue       : 0,
-                hairSaturation: 19.081024202034374,
-                hairLightness : 11.224131883549632,
-                handSize      : 118.9757979656261,
-                height        : 163.65022421524662,
-                hipWidth      : 110.85584005612066,
-                legFem        : 39.95790950543669,
-                legFullness   : 4.489652753419852,
-                legLength     : 98.79340582251841,
-                lipSize       : 18.85654156436338,
-                lowerMuscle   : 22.448263767099263,
-                neckLength    : 72.73237460540162,
-                neckWidth     : 39.489652753419854,
-                penisSize     : 50,
-                shoulderWidth : 64.28699551569507,
-                skin          : 0,
-                testicleSize  : 60,
-                upperMuscle   : 0,
-                vaginaSize    : 40,
-                waistWidth    : 102.32549982462294,
-            },
-            Mods: {
-                armRotation            : 0.4089686098654681,
-                arousal                : 0,
-                breastPerkiness        : 3.805682216766048,
-                browBotCurl            : -1.6771300448430502,
-                browTopCurl            : 6.358744394618835,
-                browCloseness          : 0.7910313901345294,
-                browHeight             : 1.2502242152466359,
-                browLength             : -5.408071748878924,
-                browSharpness          : -1.0457399103139018,
-                browThickness          : -1.9641255605381165,
-                browOutBias            : 0.5614349775784753,
-                browTilt               : 2.041255605381167,
-                cheekFullness          : 0.20343739038933606,
-                chinLength             : -3,
-                earlobeLength          : -0.45106980007015096,
-                eyeBias                : 2.6,
-                eyeCloseness           : 28.573991031390136,
-                eyeBotBias             : -3.3417040358744394,
-                eyeBotSize             : 13.980269058295967,
-                eyeHeight              : -6.9641255605381165,
-                eyeTilt                : 6.977578475336323,
-                eyeTopSize             : -1.3212556053811646,
-                eyeWidth               : -0.8161434977578477,
-                eyelashBias            : 5.826025955804981,
-                eyelashAngle           : 0.42,
-                eyelidBias             : -0.7962118554893021,
-                eyelidHeight           : -1.555243774114346,
-                hairAccessoryHue       : 202.03437390389334,
-                hairAccessorySaturation: 59,
-                hairAccessoryLightness : 43,
-                irisHeight             : -1.275336322869956,
-                irisHue                : 70.25650224215246,
-                irisSaturation         : 27.55156950672646,
-                irisLightness          : 67.73094170403587,
-                irisSize               : 15.497757847533633,
-                jawJut                 : -0.1227639424763236,
-                limbalRingSize         : 25.255605381165918,
-                lipBias                : 28.062780269058294,
-                lipCupidsBow           : -7.47264573991032,
-                lipCurl                : -4.387443946188341,
-                lipHeight              : 0.3318385650224229,
-                lipTopCurve            : -17.856502242152466,
-                lipTopSize             : -8.060986547085204,
-                lipBotSize             : 25.38475336322871,
-                lipWidth               : -153.5695067264574,
-                neckCurve              : -6.531041739740441,
-                noseHeight             : -4.030493273542602,
-                noseLength             : 41.78654708520179,
-                noseRidgeHeight        : 0.3318385650224229,
-                noseRoundness          : 4.83695067264574,
-                noseWidth              : 18.724663677130046,
-                nostrilSize            : 10.165919282511211,
-                pupilSize              : 13.468958260259559,
-                shoeHeight             : 3,
-                skinHue                : -0.2547085201793706,
-                skinSaturation         : -4.846636771300448,
-                skinLightness          : 4.337219730941705,
-                age                    : -0.02511210762331828,
-            },
-            clothes : [ 
-            ],
-            decorativeParts : [ ]
-        };
+        this._canvasHeight = 800;
+        this._canvasWidth = 360;
+        this._canvasElement = "npcRender";
+        this._portraitHeight = 240;
+        this._portraitWidth = 180;
+        this._portraitElement = "npcRenderPortrait";
 
-        this._equip = {           
-            "Wig":              null,
-            "Hat":              null,
-            "Neck":             null,
-            "Nipples":          null,
-            "Bra":              null,
-            "Corset":           null,
-            "Panty":            null,
-            "Stockings":        null,
-            "Shirt":            null,
-            "Pants":            null,
-            "Dress":            null,
-            "Costume":          null,
-            "Shoes":            null,
-            "Butt":             null,
-            "Penis":            null,
-            "Weapon":           null
-        };
+        this._equip = { };
 
         this._NPCDATA = null;;
 
@@ -136,6 +16,9 @@ App.Entity.NPCAvatar = class NPCAvatar {
 
         this._Lists = { };
         this._PC = null;
+        this._LoadID = null;
+        this._init = false;
+
     }
 
     get NPC() { return this._NPCDATA; }
@@ -143,10 +26,23 @@ App.Entity.NPCAvatar = class NPCAvatar {
     get Sliders() { return this._sliders; }
     get Lists() { return this._Lists; }
     get EQUIP() { return this._equip; }
+    get LoadID() { return this._LoadID; }
 
-    Init()
+    Init(ID)
     {
-     this._NPCDATA = $.extend(true, {}, this._DefaultData);   
+        if (this._init == true) return;
+        this._LoadID = ID;
+        this._NPCDATA = $.extend(true, {}, App.Data.DADNPC[ID].DATA);
+        this._equip = $.extend(true, {}, App.Data.DADNPC[ID].EQUIP);
+        this._init = true;
+    }
+
+    ReLoad(ID)
+    {
+        this._LoadID = ID;
+        this._NPCDATA = $.extend(true, {}, App.Data.DADNPC[ID].DATA);
+        this._equip = $.extend(true, {}, App.Data.DADNPC[ID].EQUIP);
+        SugarCube.State.display("NPCTester");
     }
 
     AddList(Type, Attrib, Label)
@@ -205,20 +101,20 @@ App.Entity.NPCAvatar = class NPCAvatar {
     }
 
     DrawCanvas(element, height, width) {
-        this._height = height;
-        this._width = width;
-        this._element = element;
+        this._canvasHeight = height;
+        this._canvasWidth = width;
+        this._canvasElement = element;
         $(document).one(":passageend", this._DrawCanvas.bind(this));
     }
 
     _DrawCanvas() {
         var canvasGroup;
         if (typeof canvasGroup === 'undefined' || canvasGroup == null) {
-            canvasGroup = da.getCanvasGroup(this._element, 
+            canvasGroup = da.getCanvasGroup(this._canvasElement, 
                 {
-                   border: "1px solid black",
-                   width: this._width !== 'undefined' ? this._width : 360,
-                   height: this._height !== 'undefined' ? this._height : 800,
+                   border: "1px solid goldenrod",
+                   width: this._canvasWidth,
+                   height: this._canvasHeight
                 });
         } 
 
@@ -235,55 +131,75 @@ App.Entity.NPCAvatar = class NPCAvatar {
 
     }
 
-    DrawPortrait()
+    DrawPortrait(element, height, width)
     {
-        if( settings.displayAvatar == true)
+        this._portraitElement = element;
+        this._portraitHeight = height;
+        this._portraitWidth = width;
+
         $(document).one(":passageend", this._DrawPortrait.bind(this));
     }
 
     _DrawPortrait()
     {
-        if( settings.displayAvatar == false) return;
 
-        var canvasGroup = da.getCanvasGroup("hiddenCanvas", {
+        var canvasGroup = da.getCanvasGroup("hiddenPortraitCanvas", {
                border: "none",
-               width: 1000,
-               height: 3000
+               width: 2100,
+               height: 3600
             });
 
-        var PC = new da.Player( this.GetPCData() );
+        var PC = new da.Player( this.NPC );
         PC = this._AttachParts(PC);
-        PC = this._ClothesHandler(PC);
 
+        var that = this;
         da.draw(canvasGroup, PC, { 
-            printHeight: false, printAdditionalInfo: false, renderShoeSideView: false
+            printHeight: false, printAdditionalInfo: false, renderShoeSideView: false,
             }).then(function (exports) {
             // draw just the head in a separate canvas
             // first retrieve/create the canvas if it's the first time we're getting it
             var portraitCanvas = da.getCanvas("portrait",
                 {
 
-                    width : 180,
-                    height: 240,
+                    width : that._portraitWidth,
+                    height: that._portraitHeight,
                     // can add any CSS style here like border
-                    border: "solid 2px goldenrod",
+                    border: "solid 1px goldenrod",
                     // you can also position it absolutely
                     // position: "absolute",
                     // top     : "10px",
                     // left    : "10px",
                     // or relative to a parent
                     position: "relative",
-                    parent: document.getElementById("avatarFace"),
+                    parent: document.getElementById(that._portraitElement),
                 });
         
+            var eyeCanvas = da.getCanvas("portraitEye",
+            {
+                width : that._portraitWidth,
+                height: that._portraitHeight,
+                border: "solid 1px goldenrod",
+                position: "relative",
+                parent: document.getElementById(that._portraitElement+"Eye"), 
+            });
+
             // you can call this multiple times to draw different parts (with different canvases)
             da.drawFocusedWindow(portraitCanvas,
                 exports,
                 {
                     center: exports[da.Part.RIGHT].neck.nape,
-                    width: 55,
-                    height: 70
+                    width: 50,
+                    height: 50
                 });
+
+            da.drawFocusedWindow(eyeCanvas,
+                exports,
+                {
+                    center: exports[da.Part.RIGHT].eyes.center,
+                    width: 15,
+                    height: 15
+                });
+ 
         });
 
         //da.hideCanvasGroup("hiddenCanvas");
@@ -298,14 +214,14 @@ App.Entity.NPCAvatar = class NPCAvatar {
     _DrawDropDown(ID)
     {
 
-        var root = $("<select>").attr("id", ID+"_DropDown").addClass("cheatDropDown");
+        var root = $("<select>").attr("id", ID+"_DropDown").addClass("NPCDropDown");
         $(this._GetAttrib(ID)).append(root);
 
         var items = this._GetObj(ID).ITEMS;
         var selected = this._GetSelectedItem(ID);
         for (var i = 0; i < items.length; i++) {
-            var opt = $('<option>').attr('value', items[i]).text(items[i]);
-            if (items[i] == selected) opt.attr('selected', 'selected');
+            var opt = $('<option>').attr('value', items[i].v).text(items[i].t);
+            if (items[i].v == selected) opt.attr('selected', 'selected');
             root.append(opt);
         }
 
@@ -317,6 +233,7 @@ App.Entity.NPCAvatar = class NPCAvatar {
         var root = $(this._GetAttrib(ID));
         var element = $("<div>").addClass("npcSliderClass").attr("id", ID +"_Slider");
         root.append(element);
+        console.log("DrawingSlider:"+ID);
             var slider = noUiSlider.create(element.get(0), {
             start: this._GetStat(ID),
             step: this._GetStep(ID),
@@ -377,10 +294,14 @@ App.Entity.NPCAvatar = class NPCAvatar {
      */
     _GetStat(ID)
     {
+        try { 
         var parts = ID.split("_");
         var val =  parts[0] == 'base' ? this.NPC[parts[1]] : this.NPC[parts[0]][parts[1]];
-        console.log("GetStat="+val);
         return val;
+        } catch(ex) {
+            console.log("Error:_GetStat("+ID+")="+ex);
+        }
+        return 0;
     }
 
     _AttachParts(PC) {
@@ -392,11 +313,8 @@ App.Entity.NPCAvatar = class NPCAvatar {
         }
 
         if (PC.gender == 1 && PC.gender != 2) {
-            console.log("Male, no trans");
             PC.removeSpecificPart(da.OversizedChest);
             PC.removeSpecificPart(da.ChestHuman);
-           // var chest = da.Part.create(da.ChestHuman, { side: null });
-            //PC.attachPart(chest);
         }
 
         if (PC.gender == 0 || PC.gender == 2) {
@@ -417,7 +335,6 @@ App.Entity.NPCAvatar = class NPCAvatar {
     _ClothesHandler(PC) {
 
         for (var slot in this.EQUIP) {
-            console.log("rendering slot: "+slot+"=>"+this.EQUIP[slot]);
             var id = this.EQUIP[slot];
             if (App.Data.AvatarMaps.hasOwnProperty(id)) {
                 var items = App.Data.AvatarMaps[id];
@@ -449,7 +366,12 @@ App.Entity.NPCAvatar = class NPCAvatar {
         var items;
 
         if (Type == 'OBJ') {
-            items = Object.keys(App.Data.Lists[Attrib]);
+            if (Attrib == "NPCLIST") {
+                items = Object.entries(App.Data.DADNPC).map( (v, i, a) =>
+                new Object( { t: v[1].DATA.name, v: v[0]}) );
+            } else {
+                items = Object.keys(App.Data.Lists[Attrib]);
+            } 
         } else if (Type == 'ARR')
         {
             items = App.Data.Lists[Attrib];
@@ -466,8 +388,10 @@ App.Entity.NPCAvatar = class NPCAvatar {
             } 
         } else if (Type == 'WEAPON' || Type == 'CLOTHES')
         {
-            items = [ "nothing" ];
-            Array.prototype.push.apply(items, Object.entries(App.Data.Clothes).filter( o => o[1].Slot == Attrib).map( (v, i, a) => v[0]));
+            items = [ { t: "nothing", v: "nothing" } ];
+            Array.prototype.push.apply(items, Object.entries(App.Data.Clothes).filter( o => 
+                o[1].Slot == Attrib).map( (v, i, a) => 
+                new Object({ t: v[0], v: v[0]})));
         }
         return items;
     }
@@ -486,18 +410,21 @@ App.Entity.NPCAvatar = class NPCAvatar {
 
         switch(o.ATTRIB)
         {
+            case 'NPCLIST':
+                return this.LoadID;
             case 'HairStyles':
-                var key = setup.player.HairStyle;
+                var key = this.NPC;
                 var o = App.Data.Lists[o.ATTRIB].filter(o => o.SHORT == key);
                 if (o.length > 0) return o[0].SHORT;
             case 'HairColors':
-                return setup.player.HairColor;
+                return this.NPC.hairFill;
             case 'MakeupStyles':
                 return setup.player.MakeupStyle;
         }
 
         return undefined;
     }
+
 
     DoSliderUpdate(type, attr, val)
     {
@@ -519,7 +446,9 @@ App.Entity.NPCAvatar = class NPCAvatar {
         }
 
         this._DrawCanvas();
+        this._DrawPortrait();
         this.DoSliderValUpdate(val, type+"_"+attr);
+        this.ExportData();
     }
 
     DoSliderValUpdate(val, ID)
@@ -542,12 +471,16 @@ App.Entity.NPCAvatar = class NPCAvatar {
                 } else {
                    this.EQUIP[o.LABEL] = val;
                 }
-               this._DrawCanvas(); // Portrait has it's own handling for updating on item change.
+               this._DrawCanvas();
+               this._DrawPortrait(); 
                 break;
         }
 
         switch(o.ATTRIB)
         {
+            case 'NPCLIST':
+                this.ReLoad(val);
+                break;
             case 'HairStyles':
                 //setup.player.HairStyle = val;
                 this._DrawCanvas();
@@ -559,5 +492,18 @@ App.Entity.NPCAvatar = class NPCAvatar {
                 //App.Avatar._DrawPortrait();
                 break;
         }
+
+        this.ExportData();
+    }
+
+    ExportData()
+    {
+        var txt = $('#dataOutput');
+        var data = {
+            DATA : this.NPC,
+            EQUIP: this.EQUIP
+        };
+        var str = JSON.stringify(data);
+        txt.val(str);
     }
 }
