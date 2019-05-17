@@ -88,16 +88,10 @@ App.Entity.AvatarEngine = class Avatar {
         this._PCData = {
             // provide specific values here to override the default ones set
             age : 26,
-            fem : 11,
-            sub : 2,
             // base physical dimensions
             basedim        : {
                 armThickness  : 58,
                 armLength     : 45,
-                chinWidth     : 75,
-                eyeSize       : 13,
-                faceLength    : 235,
-                faceWidth     : 85,
                 handSize      : 120,
                 legFullness   : 4,
                 legLength     : 97,
@@ -107,11 +101,6 @@ App.Entity.AvatarEngine = class Avatar {
             },
             Mods : {
                 breastPerkiness: 4,
-                lipBias: 30,
-                lipCupidsBow: 1,
-                lipCurl: -4.4,
-                lipHeight: 1,
-                lipTopCurve: 1
 
             },
             decorativeParts: [ ],
@@ -121,6 +110,7 @@ App.Entity.AvatarEngine = class Avatar {
 
     }
 
+    get DefaultData() { return this._PCData; }
     get NPCPortraits() { return this._npcCache; }
 
     // Bound event handlers and methods for drawing canvas and portraits
@@ -453,22 +443,47 @@ App.Entity.AvatarEngine = class Avatar {
 
     
     _MapFace(Data) {
+
+        // Copy player face data into data.
+        var Face = setup.player.FaceData;
+        if (Face == null || Face === undefined) { // kludge just in case.
+            setup.player._state.FaceData = $.extend(true, { }, App.Data.DAD.FacePresets['Default 1']);
+            Face = setup.player.FaceData;
+        }
+
+        for(var p in Face.basedim) Data.basedim[p] = Face.basedim[p];
+        for(var p in Face.Mods) Data.Mods[p] = Face.Mods[p];
+        
         var hormoneMod = (this._c('Hormones')/200);
         var lipMod = (setup.player.GetStat('BODY', 'Lips')/100);
-        Data.basedim.eyelashLength = 0; // (10 * hormoneMod); --The color on this is broken.
-        Data.basedim.faceFem = (20 * (setup.player.GetStat('BODY', 'Face')/100)) + (20 * hormoneMod);
+        
+        // Set the face 'femininity'
+        Data.basedim.faceFem = this._clamp(
+            (20 * (setup.player.GetStat('BODY', 'Face')/100)) + (20 * hormoneMod),
+            Face.basedim.faceFem, 40);
 
-        //Lips
-        // -80 to 40
-        Data.Mods.lipBotSize = -80 + (120 * lipMod);
-        // 0 to 36
-        Data.Mods.lipParting = (36 * lipMod);
-        // -20 to 30
-        Data.Mods.lipTopSize = -20 + (50 * lipMod);
-        // -80 to -10 (reverse for wider, huh?)
-        Data.Mods.lipWidth = -10 - (70 * lipMod);
-        // 10 to 20
-        Data.basedim.lipSize = 10 + (15 * lipMod);
+        //Lip Size
+        Data.basedim.lipSize = this._clamp(
+            (10 + (15 * lipMod)), Face.basedim.lipSize, 35);
+        
+        //Lip top
+        Data.Mods.lipTopSize = this._clamp(( -20 + (55 * lipMod)), Face.Mods.lipTopSize, 35);
+
+        //Lip bottom
+        Data.Mods.lipBotSize = this._clamp( (-80+(120*lipMod)), Face.Mods.lipBotSize, 120);
+        
+        //Lip Part
+        Data.Mods.lipParting = this._clamp(
+            (36 * lipMod), Face.Mods.lipParting, 36);
+        
+        //Lip width
+        Data.Mods.lipWidth = this._clamp(
+            (-10 - (70* lipMod)), -80, Face.Mods.lipWidth);
+        
+        //Eyelashes
+        Data.basedim.eyelashLength = this._clamp(
+            (6 * hormoneMod), Face.basedim.eyelashLength, 6);
+
         return Data;
     }
 
@@ -629,6 +644,10 @@ App.Entity.AvatarEngine = class Avatar {
     _b(s) { return App.PR.StatToCM(setup.player, s); }
 
     _c(s) { return setup.player.GetStat('STAT', s); }
+
+    _clamp(v, min, max) {
+        return Math.max(Math.min(v, max), min);
+    }
 
     // Gradients
     // I want to be able to dynamically scale these, waiting on a response from the DA developer about this.

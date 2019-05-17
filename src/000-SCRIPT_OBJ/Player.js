@@ -139,6 +139,8 @@ App.Entity.PlayerState = function (){
     };
 
 
+    this.FaceData = $.extend(true, {}, App.Data.DAD.FacePresets['Default 1']);
+
     /**
      * Clothing items the Player owns.
      * @type {string[]}
@@ -2412,4 +2414,6 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     }
 
     get GameStats() { return this._state.GameStats; }
+
+    get FaceData() { return this._state.FaceData; }
 };

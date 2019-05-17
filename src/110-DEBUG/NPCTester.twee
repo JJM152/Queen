@@ -71,8 +71,13 @@
 <<npcSlider "basedim_hairLightness" "Hair (L)" 0 100 1>>\
 <<npcSlider "basedim_faceFem" "Face Fem" 0 50 1>>\
 <<npcSlider "basedim_faceLength" "Face Length" 180 300 1>>\
-<<npcSlider "basedim_faceWidth" "Face Width" 70 110 1>>\
+<<npcSlider "basedim_faceWidth" "Face Width" 70 120 1>>\
+<<npcSlider "basedim_chinWidth" "Chin Width" 50  120 1>>\
+<<npcSlider "Mods_jawJut" "Jaw Jut" -10 10 1>>\
 <<npcSlider "basedim_lipSize" "Lip Size" 0 35 1>>\
+<<npcSlider "Mods_lipTopSize" "Lip Top" -100 100 1>>\
+<<npcSlider "Mods_lipBotSize" "Lip Bot" -100 100 1>>\
+<<npcSlider "Mods_lipParting" "Lip Part" 0 50 1>>\
 <<npcSlider "Mods_lipBias" "Lip Bias" -100 100 1>>\
 <<npcSlider "Mods_lipCurl" "Lip Curl" -100 100 1>>\
 <<npcSlider "Mods_lipCupidsBow" "Cupids Bow" -100 100 1>>\
@@ -86,7 +91,7 @@
 <<npcSlider "Mods_nostrilSize" "Nostril" 0 20 1>>\
 </div>
 </div>
-<div class='npcWorkshopMain' style="margin-top:10px;">\
+<div class='npcWorkshopMain' style="margin-top:90px;">\
 <div id='npcRenderPortraitEye' style='display:inline-block'></div>\
 <div id='eyeControls' style='display:inline-block;width: 600px;position:absolute;margin-left:10px;'>\
 <div class="npcWorkshopHeader" id="npcEyeHeader">EYE CONFIG\
@@ -102,7 +107,7 @@
 <<npcSlider "Mods_eyeWidth" "Eye Width" -10 10 1>>\
 <<npcSlider "Mods_irisSize" "Iris Size" 1 50 1>>\
 <<npcSlider "Mods_irisHeight" "Iris Height" -20 20 1>>\
-<<npcSlider "Mods_limbalRingSize" "Iris Ring" -20 20 1>>\
+<<npcSlider "Mods_limbalRingSize" "Iris Ring" 1 40 1>>\
 <<npcSlider "Mods_irisHue" "Iris (H)" 0 360 1>>\
 <<npcSlider "Mods_irisSaturation" "Iris (S)" 0 100 1>>\
 <<npcSlider "Mods_irisLightness" "Iris (L)" 0 100 1>>\
@@ -119,7 +124,7 @@
 </div>
 </div>
 <div class='npcWorkshopMain' style="margin-top:40px;">\
-<div class="npcWorkshopHeader" id="npcDataHeader">EXPORT DATA\
+<div class="npcWorkshopHeader" id="npcDataHeader">FULL EXPORT DATA\
 <span class="npcExitLink">\
 <<click "QUIT" "DebugPassage">><</click>>\
 </span>\
@@ -127,11 +132,20 @@
 <textarea id="dataOutput" class="npcScrollText">\
 </textarea>\
 </div>
+<div class='npcWorkshopMain' style="margin-top:10px;">\
+<div class="npcWorkshopHeader" id="npcDataHeader">FACE EXPORT DATA\
+<span class="npcExitLink">\
+<<click "QUIT" "DebugPassage">><</click>>\
+</span>\
+</div>\
+<textarea id="faceDataOutput" class="npcScrollText">\
+</textarea>\
+</div>
+
 <div id="hiddenPortraitCanvas" style="display:none"></div>
 :: NPCSlider [widget]
 <<widget "npcSlider">>\
 <<set _id = setup.DADNpc.AddSlider($args[0], $args[1], $args[2], $args[3], $args[4]);>>\
-<<run console.log(_id);>>\
 <<print "<div id='"+ _id +"' class='npcSliderWidget'></div>"; >>\
 <</widget>>
 

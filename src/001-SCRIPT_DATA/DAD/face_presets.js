@@ -1,0 +1,50 @@
+App.Data.DAD.FaceStruct = {
+    basedim : { 
+        chinWidth: 0,
+        faceFem : 0,
+        faceLength: 0,
+        faceWidth: 0,
+        lipSize: 0,
+        eyeSize: 0,
+        eyelashLength: 0
+    },
+    Mods : { 
+        lipBias: 0,
+        lipCurl: 0,
+        lipCupidsBow: 0,
+        lipHeight: 0,
+        lipWidth: 0,
+        lipTopSize: 0,
+        lipBotSize: 0,
+        lipParting: 0,
+        noseHeight: 0,
+        noseLength: 0,
+        noseRidgeHeight: 0,
+        noseRoundness: 0,
+        noseWidth: 0,
+        nostrilSize: 0,
+        eyeBias: 0,
+        eyeCloseness: 0,
+        eyeHeight: 0,
+        eyeTilt: 0,
+        eyeWidth: 0,
+        irisSize: 0,
+        irisHeight: 0,
+        limbalRingSize: 0,
+        irisHue: 0,
+        irisSaturation: 0,
+        irisLightness: 0,
+        jawJut: 0,
+        pupilSize: 0,
+        eyelidHeight: 0,
+        eyelidBias: 0,
+        eyelashAngle: 0,
+        browThickness: 0,
+        browSharpness: 0,
+        browLength: 0,
+        browHeight: 0,
+        browCloseness: 0
+    }
+};
+
+App.Data.DAD.FacePresets['Default 1'] = {"basedim":{"chinWidth":55,"faceFem":6,"faceLength":224,"faceWidth":82,"lipSize":14,"eyeSize":18,"eyelashLength":4},"Mods":{"lipBias":28.062780269058294,"lipCurl":-10,"lipCupidsBow":-7.47264573991032,"lipHeight":0,"lipWidth":0,"lipTopSize":-5,"lipBotSize":1,"lipParting":0,"noseHeight":-2,"noseLength":41.78654708520179,"noseRidgeHeight":-5,"noseRoundness":3,"noseWidth":17,"nostrilSize":6,"eyeBias":2.6,"eyeCloseness":28.573991031390136,"eyeHeight":-6.9641255605381165,"eyeTilt":1,"eyeWidth":-0.8161434977578477,"irisSize":19,"irisHeight":-1.275336322869956,"limbalRingSize":19,"irisHue":199,"irisSaturation":54,"irisLightness":67.73094170403587,"jawJut":-3,"pupilSize":13.468958260259559,"eyelidHeight":1,"eyelidBias":3,"eyelashAngle":1,"browThickness":-1.9641255605381165,"browSharpness":4,"browLength":1,"browHeight":3,"browCloseness":-1}};

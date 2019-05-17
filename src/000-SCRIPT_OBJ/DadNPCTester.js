@@ -13,6 +13,7 @@ App.Entity.NPCAvatar = class NPCAvatar {
         this._NPCDATA = null;;
 
         this._sliders = { };
+        this._faceData = { };
 
         this._Lists = { };
         this._PC = null;
@@ -22,10 +23,11 @@ App.Entity.NPCAvatar = class NPCAvatar {
     }
 
     get NPC() { return this._NPCDATA; }
+    get FACE() { return this._faceData; }
+    get EQUIP() { return this._equip; }
     get PC() { return this._PC; }
     get Sliders() { return this._sliders; }
     get Lists() { return this._Lists; }
-    get EQUIP() { return this._equip; }
     get LoadID() { return this._LoadID; }
 
     Init(ID)
@@ -35,6 +37,18 @@ App.Entity.NPCAvatar = class NPCAvatar {
         this._NPCDATA = $.extend(true, {}, App.Data.DADNPC[ID].DATA);
         this._equip = $.extend(true, {}, App.Data.DADNPC[ID].EQUIP);
         this._init = true;
+
+        //Copy face data structure and populate it from loaded npc data.
+        this._faceData = $.extend(true, {}, App.Data.DAD.FaceStruct);
+
+        for(var p in this._faceData.basedim)
+        {
+            if(this._NPCDATA.basedim.hasOwnProperty(p)) this._faceData.basedim[p] = this._NPCDATA.basedim[p];
+        }
+
+        for(var p in this._faceData.Mods) {
+            if(this._NPCDATA.Mods.hasOwnProperty(p)) this._faceData.Mods[p] = this._NPCDATA.Mods[p];
+        }
     }
 
     ReLoad(ID)
@@ -42,6 +56,17 @@ App.Entity.NPCAvatar = class NPCAvatar {
         this._LoadID = ID;
         this._NPCDATA = $.extend(true, {}, App.Data.DADNPC[ID].DATA);
         this._equip = $.extend(true, {}, App.Data.DADNPC[ID].EQUIP);
+        this._faceData = $.extend(true, {}, App.Data.DAD.FaceStruct);
+
+        for(var p in this._faceData.basedim)
+        {
+            if(this._NPCDATA.basedim.hasOwnProperty(p)) this._faceData.basedim[p] = this._NPCDATA.basedim[p];
+        }
+
+        for(var p in this._faceData.Mods) {
+            if(this._NPCDATA.Mods.hasOwnProperty(p)) this._faceData.Mods[p] = this._NPCDATA.Mods[p];
+        }
+
         SugarCube.State.display("NPCTester");
     }
 
@@ -232,9 +257,14 @@ App.Entity.NPCAvatar = class NPCAvatar {
         var root = $(this._GetAttrib(ID));
         var element = $("<div>").addClass("npcSliderClass").attr("id", ID +"_Slider");
         root.append(element);
-        console.log("DrawingSlider:"+ID);
+        var statStart = this._GetStat(ID);
+
+        if (statStart === undefined) {
+            console.log("Unable to map property:"+ID);
+            statStart = this._GetMin(ID);
+        }
             var slider = noUiSlider.create(element.get(0), {
-            start: this._GetStat(ID),
+            start: statStart,
             step: this._GetStep(ID),
                 range: {
                     'min': [ this._GetMin(ID)],
@@ -296,11 +326,11 @@ App.Entity.NPCAvatar = class NPCAvatar {
         try { 
         var parts = ID.split("_");
         var val =  parts[0] == 'base' ? this.NPC[parts[1]] : this.NPC[parts[0]][parts[1]];
+        } catch(error) {
+            console.log("Error:_GetStat("+ID+")");
+        } 
+
         return val;
-        } catch(ex) {
-            console.log("Error:_GetStat("+ID+")="+ex);
-        }
-        return 0;
     }
 
     _AttachParts(PC) {
@@ -352,8 +382,6 @@ App.Entity.NPCAvatar = class NPCAvatar {
                     var part = items[i].a == null ? da.Clothes.create(eval(items[i].c)) : da.Clothes.create(eval(items[i].c), items[i].a);
                     PC.wearClothing(part);
                 }
-            } else {
-                console.log("Unable to map clothes to avatar: "+id);
             }
         }
 
@@ -442,6 +470,7 @@ App.Entity.NPCAvatar = class NPCAvatar {
             this.NPC[attr] = val;
         } else {
             this.NPC[type][attr] = val;
+            if (this.FACE[type].hasOwnProperty(attr)) this.FACE[type][attr] = val;
         }
 
         this._DrawCanvas();
@@ -497,12 +526,12 @@ App.Entity.NPCAvatar = class NPCAvatar {
 
     ExportData()
     {
-        var txt = $('#dataOutput');
         var data = {
             DATA : this.NPC,
             EQUIP: this.EQUIP
         };
-        var str = JSON.stringify(data);
-        txt.val(str);
+
+        $('#dataOutput').val(JSON.stringify(data));
+        $('#faceDataOutput').val(JSON.stringify(this.FACE));
     }
 }

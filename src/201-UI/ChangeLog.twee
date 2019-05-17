@@ -1,7 +1,8 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.11b 17/05/2019
+!!!0.11b 18/05/2019
 !!!!General
+* Made the starting avatar less ugly - he's now using a new face data system, paving the way for some presets.
 * Fixed your cock and balls sporting through dresses if you werent wearing panties.
 * Being more fit now gives you actual muscles in your avatar. Fitness decreases over time and can only be tracked \
 visually with the mirror (or in the mirror text).
@@ -10,6 +11,9 @@ visually with the mirror (or in the mirror text).
 and configure them..
 * Fixed a bug with special items not restocking. If you were affected by this, you'll have to start a new game but \
 fortunatelly it won't appear again.
+* Added a Face and Eye configuration section to the @@color:gold;Patreon Cheat Menu@@. To a large extent changes you \
+make here are still impacted by other body stats, so feel free to mess with it. You can reset the data so long as \
+you are still in the menu.
 !!!0.11a 13/05/2019
 !!!!General
 * Courtesan skill added to player state and UI. It's hidden until it's unlocked via questing.
