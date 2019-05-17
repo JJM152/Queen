@@ -1,5 +1,15 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.11b 17/05/2019
+!!!!General
+* Fixed your cock and balls sporting through dresses if you werent wearing panties.
+* Being more fit now gives you actual muscles in your avatar. Fitness decreases over time and can only be tracked \
+visually with the mirror (or in the mirror text).
+* Fixed some scaling issues with male genitals. Bigger schlongs are in style now.
+* NPC's now can have full body images and portraits. This is still very much a WIP as I have to generate assets still \
+and configure them..
+* Fixed a bug with special items not restocking. If you were affected by this, you'll have to start a new game but \
+fortunatelly it won't appear again.
 !!!0.11a 13/05/2019
 !!!!General
 * Courtesan skill added to player state and UI. It's hidden until it's unlocked via questing.

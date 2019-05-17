@@ -4,7 +4,7 @@
 <<set _JE = setup.jobEngine;>>\
 <<set _SE = App.StoreEngine;>>\
 <<= App.PR.TokenizeString(setup.player, _NPC, _NPC.ShortDesc())>>
-@@color:DeepPink;NPC Menu@@: <<customMenuLink "Examine" _NPC>>\
+@@color:DeepPink;NPC Menu@@: <<customMenuLink "Examine" $args[0] "ExamineNPC">>\
  <<if _JE.HasJobs(setup.player, $args[0]);>>\
  | <<customMenuLink "Jobs" $args[0]>>\
  <<if _JE.JobsAvailable(setup.player, $args[0])>>\

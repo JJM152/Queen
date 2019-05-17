@@ -22,11 +22,13 @@ App.Entity.AvatarEngine = class Avatar {
             } else if( App.EventHandlers.HasPlayerState() == true && container && settings.displayAvatar == false) {
                 container.css("display", "none");
             }
-            // We might be in a mirror dialogue. We could put tags on the passages, but instead let's
-            // just check for an element we know will always exist.
             if ($('#mirrorContainer').length) {
                 state.display(state.active.title, null, "back"); //Tell engine to reload current passage
             }
+        };
+
+        this.NPCSettingHandler = function() {
+            // NO OP for now
         };
 
         this.Loaded = false;
@@ -90,39 +92,18 @@ App.Entity.AvatarEngine = class Avatar {
             sub : 2,
             // base physical dimensions
             basedim        : {
-                //areolaSize    : 14.923766816143496,
                 armThickness  : 58,
                 armLength     : 45,
-                //breastSize    : 9.974887892376682,
-                //buttFullness  : 13.019992984917572,
                 chinWidth     : 75,
-                //eyelashLength : 3.0305156085584004,
                 eyeSize       : 13,
-                //faceFem       : 40,
                 faceLength    : 235,
                 faceWidth     : 85,
-                //hairLength    : 37.03963521571379,
-                //hairStyle     : 4,
-                //hairHue       : 0,
-                //hairSaturation: 19.081024202034374,
-                //hairLightness : 11.224131883549632,
                 handSize      : 120,
-                //height        : 163.65022421524662,
-                //hipWidth      : 110.85584005612066,
-                //legFem        : 39.95790950543669,
                 legFullness   : 4,
                 legLength     : 97,
-                //lipSize       : 19,
-                //lowerMuscle   : 22.448263767099263,
                 neckLength    : 80,
                 neckWidth     :  35,
-                //penisSize     : 50,
-                //shoulderWidth : 64.28699551569507,
                 skin          : 3,
-                //testicleSize  : 60,
-                //upperMuscle   : 0,
-                //vaginaSize    : 40,
-                //waistWidth    : 102.32549982462294,
             },
             Mods : {
                 breastPerkiness: 4,
@@ -133,20 +114,23 @@ App.Entity.AvatarEngine = class Avatar {
                 lipTopCurve: 1
 
             },
-            decorativeParts: [
-                //da.Part.create(da.BeautyMark, {side: null}),
-            ],
+            decorativeParts: [ ],
             // overriding clothing (default to simple red underwear)
-            clothes: [
-                //da.Clothes.create(da.Bra, da.sheerFabric),
-               // da.Clothes.create(da.Panties, da.sheerFabric)
-            ],
+            clothes: [ ],
         };
 
     }
 
-    get NPCPortraits() { this._npcCache; }
+    get NPCPortraits() { return this._npcCache; }
 
+    // Bound event handlers and methods for drawing canvas and portraits
+
+    /**
+     * Draws a full body picture of the player character.
+     * @param {string} element Where to attach the canvas
+     * @param {number} height height of the canvas
+     * @param {number} width width of the canvas
+     */
     DrawCanvas(element, height, width) {
         this._height = height;
         this._width = width;
@@ -154,12 +138,15 @@ App.Entity.AvatarEngine = class Avatar {
         $(document).one(":passageend", this._DrawCanvas.bind(this));
     }
 
+    /**
+     * Called on :passageend by DrawCanvas()
+     */
     _DrawCanvas() {
         var canvasGroup;
         if (typeof canvasGroup === 'undefined' || canvasGroup == null) {
             canvasGroup = da.getCanvasGroup(this._element, 
                 {
-                    border: "1px solid black",
+                   border: "1px solid black",
                    width: this._width !== 'undefined' ? this._width : 360,
                    height: this._height !== 'undefined' ? this._height : 800,
                 });
@@ -177,12 +164,20 @@ App.Entity.AvatarEngine = class Avatar {
 
     }
 
+    /**
+     * Draw a small portrait of the player character.
+     */
     DrawPortrait()
     {
         if( settings.displayAvatar == true)
         $(document).one(":passageend", this._DrawPortrait.bind(this));
     }
 
+    /**
+     * Called on ":passageend" by DrawPortrait();
+     * Requires a hidden canvas 'hiddenCanvas' for drawing a large picture of the player.
+     * Draws specifically to an element with the id of 'avatarFace'. See main.twee for implementation.
+     */
     _DrawPortrait()
     {
         if( settings.displayAvatar == false) return;
@@ -206,53 +201,220 @@ App.Entity.AvatarEngine = class Avatar {
 
                     width : 180,
                     height: 240,
-                    // can add any CSS style here like border
                     border: "solid 2px goldenrod",
-                    // you can also position it absolutely
-                    // position: "absolute",
-                    // top     : "10px",
-                    // left    : "10px",
-                    // or relative to a parent
                     position: "relative",
                     parent: document.getElementById("avatarFace"),
                 });
         
-            // you can call this multiple times to draw different parts (with different canvases)
             da.drawFocusedWindow(portraitCanvas,
                 exports,
                 {
                     center: exports[da.Part.RIGHT].neck.nape,
-                    width: 55,
+                    width: 55, // scaling on the point, smaller is closer, larger is zoomed out.
                     height: 70
                 });
         });
 
-        //da.hideCanvasGroup("hiddenCanvas");
     }
 
-    DrawNPC(NPC, element, height, width) {
-        $(document).one(":passageend", { n: NPC, e: element, h: height, w: width }, this._DrawNPC.bind(this));
+    /**
+     * 
+     * @param {string} NPC The ID of the NPC to render.
+     * @param {*} element The element to attach the drawing to
+     * @param {*} height height of the canvas / image created.
+     * @param {*} width width of the canvas / image created.
+     */
+    DrawCanvasNPC(NPC, element, height, width) {
+        $(document).one(":passageend", { n: NPC, e: element, h: height, w: width }, this._DrawCanvasNPC.bind(this));
     }
 
-    _DrawNPC(e)
+    DrawPortraitNPC(NPC, element, height, width) {
+        $(document).one(":passageend", { n: NPC, e: element, h: height, w: width }, this._DrawPortraitNPC.bind(this));
+    }
+    /**
+     * Called from DrawNPC() on :passageend
+     * @param {object} e { n: npc id, e: html element, h: height, w: width }
+     */
+    _DrawCanvasNPC(e)
     {
         var data = e.data;
-
         // NPC data is cached, so just write it out
-        if (this.NPCPortraits.hasOwnProperty(data.n)) {
-
+        if (this.NPCPortraits.hasOwnProperty(data.n) && this.NPCPortraits[data.n].canvasData != null) {
+            var cached = $("<img>").addClass('npcCanvas');
+            cached.attr('id', 'npcCanvasImage');
+            cached.attr('src', this.NPCPortraits[data.n].canvasData);
+            $('#'+data.e).append(cached);
             return;
+        } else if (App.Data.DADNPC.hasOwnProperty(data.n) == false) { // bad id or no data.
+            if (App.Data.NPCS.hasOwnProperty(data.n)) {
+                data.n = App.Data.NPCS[data.n].Gender == 1 ? 'DefaultMale' : 'DefaultFemale';
+            } else {
+                data.n = 'DefaultMale';
+            }
         }
 
-        var canvasGroup = da.getCanvasGroup("npcCanvas", {
+        var npcData = App.Data.DADNPC[data.n].DATA;
+        var npcEquip = App.Data.DADNPC[data.n].EQUIP;
+
+        var canvasGroup = da.getCanvasGroup(data.e, 
+                {
+                   border: "1px solid goldenrod",
+                   width: data.w,
+                   height: data.h
+                });
+
+
+        var PC = new da.Player( npcData );
+        PC = this._AttachPartsNPC(PC, npcEquip);
+
+        var that = this;
+
+        da.draw(canvasGroup, PC, { 
+                printHeight: false, 
+                printAdditionalInfo: false, 
+                renderShoeSideView: false,
+                offsetX: 10,
+                offsetY: 0
+            }).then(function(exports) {
+                var canvas = document.getElementById(data.e+"16"); // if the number of layers change, this needs to change too
+                var canvasData = canvas.toDataURL();
+                that._CacheNPCCanvas(data.n, canvasData);
+            });
+
+    }
+
+    _DrawPortraitNPC(e)
+    {
+        var data = e.data;
+        // NPC data is cached, so just write it out
+        if (this.NPCPortraits.hasOwnProperty(data.n) && this.NPCPortraits[data.n].portraitData != null) {
+            var cached = $("<img>").addClass('npcPortrait');
+            cached.attr('id', 'npcPortraitImage');
+            cached.attr('src', this.NPCPortraits[data.n].portraitData);
+            $('#'+data.e).append(cached);
+            return;
+        } else if (App.Data.DADNPC.hasOwnProperty(data.n) == false) { // bad id or no data.
+            if (App.Data.NPCS.hasOwnProperty(data.n)) {
+                data.n = App.Data.NPCS[data.n].Gender == 1 ? 'DefaultMale' : 'DefaultFemale';
+            } else {
+                data.n = 'DefaultMale';
+            }
+        }
+
+        var npcData = App.Data.DADNPC[data.n].DATA;
+        var npcEquip = App.Data.DADNPC[data.n].EQUIP;
+
+        var canvasGroup = da.getCanvasGroup("hiddenNPCPortraitCanvas", {
             border: "none",
-            width: 1000,
-            height: 3000
+            width: 1400,
+            height: 2400
          });
 
-         var PC = new da.Player( this.GetNPCData(data.n) );
+        var PC = new da.Player( npcData );
+        PC = this._AttachPartsNPC(PC, npcEquip);
+        var that = this;
 
+        da.draw(canvasGroup, PC, { 
+            printHeight: false, printAdditionalInfo: false, renderShoeSideView: false,
+            }).then(function (exports) {
+            var portraitCanvas = da.getCanvas("npcPortrait",
+                {
+                    width : data.w,
+                    height: data.h,
+                    border: "solid 1px goldenrod",
+                    position: "relative",
+                    parent: document.getElementById(data.e),
+                });
 
+            da.drawFocusedWindow(portraitCanvas,
+                exports,
+                {
+                    center: exports[da.Part.RIGHT].neck.nape,
+                    width: 75,
+                    height: 75
+                });
+
+            var canvas = document.getElementById('npcPortrait');
+            var portraitData = canvas.toDataURL();
+            that._CacheNPCPortrait(data.n, portraitData);
+        });
+
+    }
+
+    _CacheNPCCanvas(key, data)
+    {
+        if (this.NPCPortraits.hasOwnProperty(key)) {
+            this.NPCPortraits.canvasData = data;
+        } else {
+            this.NPCPortraits[key] = { canvasData : data, portraitData: null };
+        }
+    }
+
+    _CacheNPCPortrait(key, data)
+    {
+        if (this.NPCPortraits.hasOwnProperty(key)) {
+            this.NPCPortraits.portraitData = data;
+        } else {
+            this.NPCPortraits[key] = { canvasData : null, portraitData: data };
+        }
+    }
+
+    _AttachPartsNPC(PC, npcEquip)
+    {
+        if (PC.gender == 1 || PC.gender == 2) {
+            var penis = da.Part.create(da.PenisHuman, { side: "right"});
+            PC.attachPart(penis);
+            var balls = da.Part.create(da.TesticlesHuman, { side: "right" });
+            PC.attachPart(balls);
+        }
+
+        if (PC.gender == 1 && PC.gender != 2) {
+            PC.removeSpecificPart(da.OversizedChest);
+            PC.removeSpecificPart(da.ChestHuman);
+        }
+
+        if (PC.gender == 0 || PC.gender == 2) {
+            var bust = da.Part.create(da.OversizedChest, { side: null });
+            PC.attachPart(bust);
+            PC.removeSpecificPart(da.NipplesHuman);
+            var nips = da.Part.create(da.OversizedChestNipples, { side: null});
+            PC.attachPart(nips);
+        }
+
+        if (PC.gender == 0 && PC.gender != 2) {
+            PC.removeSpecificPart(da.PenisHuman);
+            PC.removeSpecificPart(da.TesticlesHuman);
+        }
+        return this._ClothesHandlerNPC(PC, npcEquip); 
+    }
+
+    _ClothesHandlerNPC(PC, npcEquip)
+    {
+        for (var slot in npcEquip) {
+            var id = npcEquip[slot];
+            if (id == null) continue;
+            if (App.Data.AvatarMaps.hasOwnProperty(id)) {
+                var items = App.Data.AvatarMaps[id];
+                for(var i = 0; i < items.length; i++) {
+                    var str = "da.Clothes.create("+items[i].c+","+JSON.stringify(items[i].a)+")";
+                    if(items[i].a != null && items[i].a.hasOwnProperty('pattern') && typeof items[i].a.pattern === 'string') {
+                        var patternOb = null;
+                        try {
+                            patternOb = eval(items[i].a.pattern);
+                        } catch(err) {
+                            console.log(err);
+                        }
+                        if (patternOb != null) items[i].a.fill = patternOb;
+                    } 
+                    var part = items[i].a == null ? da.Clothes.create(eval(items[i].c)) : da.Clothes.create(eval(items[i].c), items[i].a);
+                    PC.wearClothing(part);
+                }
+            } else {
+                console.log("Unable to map clothes to npc: "+id);
+            }
+        }
+
+        return PC;
     }
 
     GetPCData() {

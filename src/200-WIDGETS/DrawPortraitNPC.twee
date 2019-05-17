@@ -1,0 +1,6 @@
+::DrawPortraitNPC [widget]
+<<widget "DrawPortraitNPC">>\
+<div id='npcPortraitUI' style='display:inline-block'></div>\
+<<run App.Avatar.DrawPortraitNPC($args[0], 'npcPortraitUI', 200, 200);>>\
+<div id="hiddenNPCPortraitCanvas" style="display:none"></div>\
+<</widget>>

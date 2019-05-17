@@ -1,0 +1,16 @@
+::ExamineNPC
+<<set _NPC = setup.player.GetNPC($MenuAction);>>\
+@@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>
+
+<div>\
+<<if settings.displayNPC == true>>\
+<<DrawCanvasNPC $MenuAction>>\
+<div style='display:inline-block;width:580px;position:absolute;margin-left:10px'>\
+<<= App.PR.TokenizeString(setup.player, _NPC, _NPC.ShortDesc())>>
+<<= App.PR.TokenizeString(setup.player, _NPC, _NPC.LongDesc())>>
+</div>
+<<else>>\
+<<= App.PR.TokenizeString(setup.player, _NPC, _NPC.ShortDesc())>>
+<<= App.PR.TokenizeString(setup.player, _NPC, _NPC.LongDesc())>>
+<</if>>\
+</div>

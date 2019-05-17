@@ -296,6 +296,14 @@ span.pcThought {
 }
 */
 
+img.npcPortrait {
+	border: solid 1px goldenrod;
+}
+
+img.npcCanvas {
+	border: solid 1px goldenrod;
+}
+
 #avatarUI {
 	width: 360px;
 	height: 800px;
@@ -307,7 +315,7 @@ span.pcThought {
 #mirrorText {
 	width: 480px;
 	height: 600px;
-	float: left;
+	float: right;
 	padding-top: 0px;
 }
 

@@ -159,20 +159,19 @@ App.Entity.NPCAvatar = class NPCAvatar {
             // draw just the head in a separate canvas
             // first retrieve/create the canvas if it's the first time we're getting it
             var portraitCanvas = da.getCanvas("portrait",
-                {
-
-                    width : that._portraitWidth,
-                    height: that._portraitHeight,
-                    // can add any CSS style here like border
-                    border: "solid 1px goldenrod",
-                    // you can also position it absolutely
-                    // position: "absolute",
-                    // top     : "10px",
-                    // left    : "10px",
-                    // or relative to a parent
-                    position: "relative",
-                    parent: document.getElementById(that._portraitElement),
-                });
+            {
+                width : that._portraitWidth,
+                height: that._portraitHeight,
+                // can add any CSS style here like border
+                border: "solid 1px goldenrod",
+                // you can also position it absolutely
+                // position: "absolute",
+                // top     : "10px",
+                // left    : "10px",
+                // or relative to a parent
+                position: "relative",
+                parent: document.getElementById(that._portraitElement),
+            });
         
             var eyeCanvas = da.getCanvas("portraitEye",
             {

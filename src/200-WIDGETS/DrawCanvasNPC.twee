@@ -1,0 +1,5 @@
+::DrawCanvasNPC [widget]
+<<widget "DrawCanvasNPC">>\
+<div id='npcUI' style='display:inline-block'></div>\
+<<run App.Avatar.DrawCanvasNPC($args[0], 'npcUI', 560, 266);>>\
+<</widget>>

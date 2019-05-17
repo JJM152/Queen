@@ -73,6 +73,13 @@ Setting.addToggle("displayAvatar", {
     onChange: App.Avatar.SettingHandler
 });
 
+Setting.addToggle("displayNPC", { 
+    label: "Display NPC Avatars and Portraits in UI",
+    default: true,
+    onInit: App.Avatar.NPCSettingHandler,
+    onChange: App.Avatar.NPCSettingHandler
+});
+
 Setting.addToggle("fastAnimations", { 
     label: "Fast Animations",
     default: false
