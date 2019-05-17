@@ -1,2 +1,13 @@
 :: Quests [custom-menu]
+<<if settings.displayNPC == true>>\
+<div>\
+<div style='width:580px;margin-right:10px;display:inline-block'>\
+<span id="QuestUI"><<questList>></span>\
+</div>\
+<div style='display:inline-block;position:absolute'>\
+<<DrawPortraitNPC $MenuAction>>\
+</div>\
+</div>\
+<<else>>\
 <span id="QuestUI"><<questList>></span>
+<</if>>\

@@ -238,6 +238,16 @@ App.Entity.AvatarEngine = class Avatar {
     _DrawCanvasNPC(e)
     {
         var data = e.data;
+
+        //Supply default NPC.
+        if (App.Data.DADNPC.hasOwnProperty(data.n) == false) {
+            if (App.Data.NPCS.hasOwnProperty(data.n)) {
+                data.n = App.Data.NPCS[data.n].Gender == 1 ? 'DefaultMale' : 'DefaultFemale';
+            } else {
+                data.n = 'DefaultMale';
+            }
+        }
+
         // NPC data is cached, so just write it out
         if (this.NPCPortraits.hasOwnProperty(data.n) && this.NPCPortraits[data.n].canvasData != null) {
             var cached = $("<img>").addClass('npcCanvas');
@@ -245,13 +255,7 @@ App.Entity.AvatarEngine = class Avatar {
             cached.attr('src', this.NPCPortraits[data.n].canvasData);
             $('#'+data.e).append(cached);
             return;
-        } else if (App.Data.DADNPC.hasOwnProperty(data.n) == false) { // bad id or no data.
-            if (App.Data.NPCS.hasOwnProperty(data.n)) {
-                data.n = App.Data.NPCS[data.n].Gender == 1 ? 'DefaultMale' : 'DefaultFemale';
-            } else {
-                data.n = 'DefaultMale';
-            }
-        }
+        } 
 
         var npcData = App.Data.DADNPC[data.n].DATA;
         var npcEquip = App.Data.DADNPC[data.n].EQUIP;
@@ -286,6 +290,16 @@ App.Entity.AvatarEngine = class Avatar {
     _DrawPortraitNPC(e)
     {
         var data = e.data;
+
+        //Supply default NPC.
+        if (App.Data.DADNPC.hasOwnProperty(data.n) == false) {
+            if (App.Data.NPCS.hasOwnProperty(data.n)) {
+                data.n = App.Data.NPCS[data.n].Gender == 1 ? 'DefaultMale' : 'DefaultFemale';
+            } else {
+                data.n = 'DefaultMale';
+            }
+        }
+
         // NPC data is cached, so just write it out
         if (this.NPCPortraits.hasOwnProperty(data.n) && this.NPCPortraits[data.n].portraitData != null) {
             var cached = $("<img>").addClass('npcPortrait');
@@ -293,13 +307,7 @@ App.Entity.AvatarEngine = class Avatar {
             cached.attr('src', this.NPCPortraits[data.n].portraitData);
             $('#'+data.e).append(cached);
             return;
-        } else if (App.Data.DADNPC.hasOwnProperty(data.n) == false) { // bad id or no data.
-            if (App.Data.NPCS.hasOwnProperty(data.n)) {
-                data.n = App.Data.NPCS[data.n].Gender == 1 ? 'DefaultMale' : 'DefaultFemale';
-            } else {
-                data.n = 'DefaultMale';
-            }
-        }
+        } 
 
         var npcData = App.Data.DADNPC[data.n].DATA;
         var npcEquip = App.Data.DADNPC[data.n].EQUIP;

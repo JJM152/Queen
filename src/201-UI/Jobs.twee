@@ -7,8 +7,7 @@
 @@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>><br><br>
 <<if settings.displayNPC == true>>
 <div>
-<<DrawPortraitNPC $MenuAction>>
-<div style="position:absolute;margin-left: 10px;display:inline-block;width:580px">
+<div style="margin-right: 10px;display:inline-block;width:580px">
 <span id="JobUI"><<for _i = 0; _i < _JA.length; _i++>>
 <<if _i > 0;>><br/><br/><</if>>
 <<print _JA[_i].Title(); >><br/>
@@ -22,6 +21,9 @@
   <<if _JU[_i].Available(setup.player, _NPC)>>@@.cmdButton;<<jobButton _JU[_i]>>@@<<else>>@@.cmdDisabledButton;<<jobButton _JU[_i]>>@@<</if>><br/>
 <</for>>
 </span>
+</div>
+<div style='display:inline-block;position:absolute;'>
+<<DrawPortraitNPC $MenuAction>>
 </div>
 </div>
 <<else>>
