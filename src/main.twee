@@ -2,7 +2,7 @@
 ifid:2281acf9-aff5-4833-bd11-9d4317bce5ae
 
 :: StoryTitle
-Queen of the Seas (v 0.11b)
+Queen of the Seas (v 0.11c)
 :: StoryBanner
 <a id='Patreon' target='_blank' href='https://www.patreon.com/malhavok/'></a> \
 <a id='Reddit' target='_blank' href='https://www.reddit.com/r/QueenOfTheSeas/'></a>
@@ -137,7 +137,7 @@ Config.saves.isAllowed = function() {
 
 // Setup some divs that will not get refreshed on passage navigation.
     if ( $('#hiddenCanvas').length == 0 && $('#avatarFace').length == 0 ) {
-        var canvas = $("<div id='hiddenCanvas'></div>").appendTo(document.body);
+        var canvas = $("<canvas id='hiddenCanvas'></div>").appendTo(document.body);
         var container = $("<div id='avatarContainer'></div>").appendTo($("#ui-bar"));
         var portrait = $("<div id='avatarFace'></div").appendTo(container);
     }
@@ -204,18 +204,21 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
 <<nobr>>
 Your name is @@color:yellow;<<= setup.player.OriginalName >> Smythe@@, the middle son of a <span id="familyJob">
 <<click "farmer">>
-    <<run setup.player.AdjustStat("Fitness", 10);>>
+    <<run setup.player.SetFace('Default 1');>>
+    <<run setup.player.AdjustStat("Fitness", 20);>>
     <<replace "#familyJob">>@@color:yellow;farmer@@<</replace>>
     <<replace "#nextPage">>[[Go and meet your lover|Intro2]]<</replace>>
 <</click>> |
 <<click "sailor">>
-    <<run setup.player.AdjustSkill("Navigating", 5);>>
-    <<run setup.player.AdjustSkill("Sailing", 5);>>
+    <<run setup.player.SetFace('Default 2');>>
+    <<run setup.player.AdjustSkill("Navigating",10);>>
+    <<run setup.player.AdjustSkill("Sailing", 10);>>
     <<replace "#familyJob">>@@color:yellow;sailor@@<</replace>>
     <<replace "#nextPage">>[[Go and meet your lover|Intro2]]<</replace>>
 <</click>> |
 <<click "baker">>
-    <<run setup.player.AdjustSkill("Cooking", 5);>>
+    <<run setup.player.SetFace('Default 3');>>
+    <<run setup.player.AdjustSkill("Cooking", 10);>>
     <<run setup.player.AdjustSkill("Serving", 10);>>
     <<replace "#familyJob">>@@color:yellow;baker@@<</replace>>
     <<replace "#nextPage">>[[Go and meet your lover|Intro2]]<</replace>>
@@ -231,8 +234,12 @@ outside of your social class that such a relationship, if it should be known, wo
 Despite this challenge, and despite @@color:Pink;<<= setup.player.GirlfriendName>>'s@@ rather sheltered upbringing, the two of you have agreed to elope. You meet tonight \
 to discuss the plan.
 
-<span id="nextPage">@@color:cyan;Select a profession to continue@@ or [[Skip the intro and begin the game|Cabin][App.Avatar.DrawPortrait();]]</span>
-
+<span id="nextPage">@@color:cyan;Select a profession to continue@@ or \
+<<click "Skip intro and begin the game" "Cabin">>\
+<<run setup.player.SetFace('Default 1');>>\
+<<run setup.player.AdjustSkill('Cooking', 5);>>\
+<</click>>\
+</span>
 
 :: Intro2
 You wait until nightfall and meet @@color:Pink;<<= setup.player.GirlfriendName>>@@ in the opulent gardens behind her mansion. You fondly recall evenings here spent \

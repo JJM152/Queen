@@ -183,7 +183,7 @@ App.Entity.NPCAvatar = class NPCAvatar {
             }).then(function (exports) {
             // draw just the head in a separate canvas
             // first retrieve/create the canvas if it's the first time we're getting it
-            var portraitCanvas = da.getCanvas("portrait",
+            var portraitCanvas = da.getCanvas("portraitFace",
             {
                 width : that._portraitWidth,
                 height: that._portraitHeight,

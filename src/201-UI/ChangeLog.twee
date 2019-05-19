@@ -1,8 +1,19 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.11c 19/05/2019
+!!!!General
+* You now get one of 3 preset faces when you start a new game. It's based off of your fathers profession.
+* More tuning on the effects of feminization and how they show on the avatar. 
+* More fixes to the cheat menu. Resetting your face data should work now.
+* Some tweaks to some of the clothing assets. (endless) WIP.
+* Fixed a bug with the game trying to auto select your last combat style.
+* Fixed a bug with the combat intro chat being set to 'null' after the first battle.
+!!!!Golden Isle
+* Losing a fight at the fight club would send you to an invalid passage, that has been fixed.
 !!!0.11b 18/05/2019
 !!!!General
-* Made the starting avatar less ugly - he's now using a new face data system, paving the way for some presets.
+* Made the starting avatar less ugly - he's now using a new face data system.
+* Increased the skills you get for following the backstory.
 * Fixed your cock and balls sporting through dresses if you werent wearing panties.
 * Being more fit now gives you actual muscles in your avatar. Fitness decreases over time and can only be tracked \
 visually with the mirror (or in the mirror text).

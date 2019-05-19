@@ -100,7 +100,7 @@ App.Combat.EncounterData['Golden Isle Brawler'] = {
     Enemies: [ "Golden Isle Brawler" ],
     Fatal: false,
     WinPassage: "CombatWinFightClubGoldenIsle",
-    LosePassage: "CombatLoseFightGoldenIsle",
+    LosePassage: "CombatLoseFightClubGoldenIsle",
     Intro: "You step up to the ring, ready to fight. ENEMY_0 scoffs at you.",
     LootMessage: "You claim your victory prize...",
     Loot: [ 

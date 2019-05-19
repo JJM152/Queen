@@ -2416,4 +2416,9 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     get GameStats() { return this._state.GameStats; }
 
     get FaceData() { return this._state.FaceData; }
+
+    SetFace(PresetID)
+    {
+        this._state.FaceData = App.Data.DAD.FacePresets[PresetID];
+    }
 };

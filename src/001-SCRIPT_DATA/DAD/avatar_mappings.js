@@ -18,7 +18,8 @@ App.Data.AvatarPatterns = [
     "vertical pink stripe",
     "pink polka dot",
     "pink chevron",
-    "pink flowers"
+    "pink flowers",
+    'blue cotton'
 ]
 
 App.Data.AvatarMaps = {
@@ -1331,7 +1332,7 @@ App.Data.AvatarMaps["choker"] = [
     }
 ];
 
-App.Data.AvatarMaps["chemise"] = [
+/* App.Data.AvatarMaps["chemise"] = [
     { 
         c: "da.Bra", 
         a: { 
@@ -1339,7 +1340,23 @@ App.Data.AvatarMaps["chemise"] = [
             stroke: "antiquewhite"
         } 
     }
-];
+]; */
+
+App.Data.AvatarMaps["chemise"] = [
+    {
+        c: "da.Undershirt",
+        a: {
+            cleavageCoverage: 0.3,
+            curveCleavageX: 15,
+            curveCleavageY: -12,
+            innerNeckCoverage: 0.2,
+            outerNeckCoverage: 0.4,
+            waistCoverage: 0.5,
+            fill: "antiquewhite",
+            stroke: "antiquewhite"
+        }
+    }
+]
 
 App.Data.AvatarMaps["cotton bra"] = [
     { 
@@ -1457,13 +1474,15 @@ App.Data.AvatarMaps["cotton dress"] = [
     { 
         c: "da.SuperDress",
         a:{
-            armCoverage: 0.5,
-            bustle: true,
             cleavageCoverage: 0.3,
-            legCoverage: 0.4,
-            legLoose: 0.3,
-            fill: "skyblue",
-            stroke: "black"
+            cleavageOpeness: 1.0,
+            curveCleavageX: 1,
+            curveCleavageY: -13,
+            lacing: true,
+            legCoverage: 0.2,
+            legLoose: 0.4,
+            pattern: "da.getPattern('blue cotton', 100)",
+            stroke: "hsla(208.0,53%,78%,0.90)"
         }    
     }
 ];

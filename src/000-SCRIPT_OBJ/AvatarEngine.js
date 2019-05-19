@@ -56,6 +56,7 @@ App.Entity.AvatarEngine = class Avatar {
         da.addPattern("pink chevron", Story.passages["txt_pink_chevron"].text);
         da.addPattern("pink flowers", Story.passages["txt_pink_flowers"].text);
         da.addPattern("leather", Story.passages["txt_leather"].text);
+        da.addPattern('blue cotton', Story.passages["txt_blue_cotton"].text);
 
         //Gradients loaded as textures.
         da.addPattern("pink athletic socks", this._pinkAthleticSocks);
@@ -108,10 +109,12 @@ App.Entity.AvatarEngine = class Avatar {
             clothes: [ ],
         };
 
+        this._LastDrawn = null;
     }
 
     get DefaultData() { return this._PCData; }
     get NPCPortraits() { return this._npcCache; }
+    get LastDrawn() { return this._LastDrawn; }
 
     // Bound event handlers and methods for drawing canvas and portraits
 
@@ -144,12 +147,15 @@ App.Entity.AvatarEngine = class Avatar {
 
         var PC = new da.Player( this.GetPCData() );
         PC = this._AttachParts(PC);
+        var that = this;
         da.draw(canvasGroup, PC, { 
                 printHeight: false, 
                 printAdditionalInfo: false, 
                 renderShoeSideView: false,
                 offsetX: 10,
                 offsetY: 0
+            }).then(function(exports) {
+                that._LastDrawn = exports;
             });
 
     }
@@ -157,10 +163,10 @@ App.Entity.AvatarEngine = class Avatar {
     /**
      * Draw a small portrait of the player character.
      */
-    DrawPortrait()
+    DrawPortrait(canvas)
     {
         if( settings.displayAvatar == true)
-        $(document).one(":passageend", this._DrawPortrait.bind(this));
+        $(document).one(":passageend", { e: 'avatarFace', h: 240, w: 240, c: canvas }, this._DrawPortrait.bind(this));
     }
 
     /**
@@ -168,15 +174,29 @@ App.Entity.AvatarEngine = class Avatar {
      * Requires a hidden canvas 'hiddenCanvas' for drawing a large picture of the player.
      * Draws specifically to an element with the id of 'avatarFace'. See main.twee for implementation.
      */
-    _DrawPortrait()
+    _DrawPortrait(event)
     {
         if( settings.displayAvatar == false) return;
 
-        var canvasGroup = da.getCanvasGroup("hiddenCanvas", {
+        var e, w, h, canvasGroup;
+        if (typeof event === 'object') {
+            e = event.data.e;
+            w = event.data.w;
+            h = event.data.h;
+            canvasGroup = event.data.c;
+        } else {
+            e = 'avatarFace';
+            w = 240;
+            h = 240;
+        }
+
+        if (typeof canvasGroup === 'undefined') {
+            canvasGroup = da.getCanvasGroup("hiddenCanvas", {
                border: "none",
-               width: 1000,
-               height: 3000
+               width: 1400,
+               height: 2400
             });
+        }
 
         var PC = new da.Player( this.GetPCData() );
         PC = this._AttachParts(PC);
@@ -184,24 +204,26 @@ App.Entity.AvatarEngine = class Avatar {
         da.draw(canvasGroup, PC, { 
             printHeight: false, printAdditionalInfo: false, renderShoeSideView: false
             }).then(function (exports) {
-            // draw just the head in a separate canvas
-            // first retrieve/create the canvas if it's the first time we're getting it
+
+            var center = { };
+                center.x = exports[da.Part.RIGHT].skull.x;
+                center.y = (exports[da.Part.RIGHT].skull.y) - ( h * 0.18);
+
             var portraitCanvas = da.getCanvas("portrait",
                 {
-
-                    width : 180,
-                    height: 240,
-                    border: "solid 2px goldenrod",
+                    width : w,
+                    height: h,
+                    border: "solid 1px goldenrod",
                     position: "relative",
-                    parent: document.getElementById("avatarFace"),
+                    parent: document.getElementById(e),
                 });
         
             da.drawFocusedWindow(portraitCanvas,
                 exports,
                 {
-                    center: exports[da.Part.RIGHT].neck.nape,
-                    width: 55, // scaling on the point, smaller is closer, larger is zoomed out.
-                    height: 70
+                    center: center,
+                    width: (w * 0.40), // scaling on the point, smaller is closer, larger is zoomed out.
+                    height: (h * 0.40)
                 });
         });
 
@@ -456,11 +478,19 @@ App.Entity.AvatarEngine = class Avatar {
         
         var hormoneMod = (this._c('Hormones')/200);
         var lipMod = (setup.player.GetStat('BODY', 'Lips')/100);
-        
-        // Set the face 'femininity'
+        var faceMod = (setup.player.GetStat('BODY', 'Face')/100);
+
+        // Set the face 'femininity'. Clamp to the lowest set on the face data.
         Data.basedim.faceFem = this._clamp(
-            (20 * (setup.player.GetStat('BODY', 'Face')/100)) + (20 * hormoneMod),
+            (20 * faceMod) + (20 * hormoneMod),
             Face.basedim.faceFem, 40);
+
+        // Slightly shorten the face, but no lower than 200 unless the player has it
+        // set to be shorter.
+        var faceLength = Face.basedim.faceLength < 190 ? Face.basedim.faceLength : 
+            Face.basedim.faceLength * ( 1.0 - ((.06 * faceMod) + (.06 *hormoneMod)));
+
+        Data.basedim.faceLength = this._clamp(faceLength, 190, 240);
 
         //Lip Size
         Data.basedim.lipSize = this._clamp(
@@ -495,7 +525,7 @@ App.Entity.AvatarEngine = class Avatar {
         Data.basedim.breastSize = breast;
         Data.basedim.areolaSize = areola;
         Data.basedim.upperMuscle = upperMuscle;
-        Data.basedim.shoulderWidth = 64;
+        //Data.basedim.shoulderWidth = 64;
         return Data;
     }
 
@@ -543,6 +573,8 @@ App.Entity.AvatarEngine = class Avatar {
         var wig = setup.player.GetEquipmentInSlot("Wig");
         var length =  wig != null ? wig.HairLength() : this._b('Hair');
         var color = wig != null ? App.Data.Lists.HairColors[wig.HairColor()] : App.Data.Lists.HairColors[setup.player.HairColor];
+        var browFill = App.Data.Lists.HairColors[setup.player.HairColor];
+        var lashFill = App.Data.Lists.HairColors[setup.player.HairColor];
         var style = wig != null ? wig.HairStyle() : setup.player.HairStyle;
 
         //TODO: We are missing some hair styles, so either we create them later or get creative.
@@ -605,7 +637,7 @@ App.Entity.AvatarEngine = class Avatar {
         Data.basedim.hairSaturation = color.s;
         Data.basedim.hairLightness = color.l;
         Data.browFill = 'black';
-        Data.eyelashFill = 'black'
+        Data.lashFill = 'black';
 
         return Data;
     }
@@ -633,8 +665,6 @@ App.Entity.AvatarEngine = class Avatar {
                     var part = items[i].a == null ? da.Clothes.create(eval(items[i].c)) : da.Clothes.create(eval(items[i].c), items[i].a);
                     PC.wearClothing(part);
                 }
-            } else {
-                console.log("Unable to map clothes to avatar: "+o.Tag);
             }
         }
 

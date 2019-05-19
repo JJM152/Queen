@@ -63,13 +63,16 @@ App.Combat.CombatEngine = class CombatEngine {
             if (opts.hasOwnProperty('flee')) this._flee = opts.flee;
             if (opts.hasOwnProperty('fleePassage')) this._fleePassage = opts.fleePassage;
             if (opts.hasOwnProperty('noWeapons')) this._noWeapons = opts.noWeapons;
-            if (opts.hasOwnProperty('intro')) this._introChat = opts.intro;
+            if (opts.hasOwnProperty('intro')) {
+                this._introChat = opts.intro;
+                sessionStorage.setItem('QOS_ENCOUNTER_INTRO', this._introChat);
+            }
         }
 
         sessionStorage.setItem('QOS_ENCOUNTER_FLEE', this._flee);
         sessionStorage.setItem('QOS_ENCOUNTER_FLEE_PASSAGE', this._fleePassage);
         sessionStorage.setItem('QOS_ENCOUNTER_NO_WEAPONS', this._noWeapons);
-        sessionStorage.setItem('QOS_ENCOUNTER_INTRO', this._introChat);
+        
 
         
     }
@@ -87,7 +90,7 @@ App.Combat.CombatEngine = class CombatEngine {
         this._encounterData = Object.create(App.Combat.EncounterData[Encounter]);
         for(const e of this._encounterData.Enemies) this._AddEnemy(e);
         this._AddPlayer(setup.player);
-        if (this._introChat && this._introChat != null) {
+        if (this._introChat && this._introChat != null && this._introChat != 'null') {
             this._AddChat(this._introChat);
         } else { 
             this._AddChat(this._encounterData.Intro);
@@ -450,8 +453,14 @@ App.Combat.CombatEngine = class CombatEngine {
                 this._WinFight.bind(this));
         this._player.Id = "PLAYER";
 
-        if (this._noWeapons == true && this.LastSelectedStyle != "SWASHBUCKLING")
+        if (this._noWeapons == true && this.LastSelectedStyle == 'SWASHBUCKLING') {
+            this._SwitchMoveSet('UNARMED');
+        } else if (this.LastSelectedStyle == 'SWASHBUCKLING' && this._player.IsEquipped('Weapon', true) == false) {
+            this._SwitchMoveSet('UNARMED');
+        } else {
             this._SwitchMoveSet(this.LastSelectedStyle);
+        }
+            
 
     }
 
