@@ -43,12 +43,10 @@ App.Data.AvatarMaps = {
     Dress:      [ { c: "da.SuperDress",
                     a:{
                         armCoverage: 0.5,
-                        bustle: true,
                         cleavageCoverage: 0.3,
                         legCoverage: 0.4,
                         legLoose: 0.3,
                         fill: "skyblue",
-                        stroke: "black"
                       }    
                 }],
     Costume:    [
@@ -1542,8 +1540,10 @@ App.Data.AvatarMaps["maid costume"] = [
 ];
 App.Data.AvatarMaps["worn boots"] = [
     { 
-        c: "da.FlatShoes", 
-        a: null 
+        c: "da.QoSBoots", 
+        a: {
+            legCoverage: 0.35
+        } 
     }
 ];
 
