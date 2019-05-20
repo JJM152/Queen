@@ -3,6 +3,12 @@
 !!!0.11d ??/??/????
 !!!!General
 * Beauty supplies now correct come in groups of 5 per purchase, but only cost 1 use as detailed in the styling ui.
+* added basic boots asset, still WIP.
+* Lowered the difficulty of the Kraken and enemy Pirate events on the Salty Mermaid.
+* Added new damage resistance effect (only works in combat).
+* Added above effect onto some items... look for them.
+* WillPower XP losses from Jobs and Quests have been converted to the Corruption Effect. High Perversion will negate \
+some or all of the XP loss.
 !!!0.11c 19/05/2019
 !!!!General
 * You now get one of 3 preset faces when you start a new game. It's based off of your fathers profession.

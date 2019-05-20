@@ -210,3 +210,25 @@ App.Data.EffectLib["MAIDS_PROWESS"] = {
     "VALUE" : 300,
         "KNOWLEDGE" : [ "Maid's Prowess++" ]
 };
+
+App.Data.EffectLib["DAMAGE_RESIST_MINOR"] = {
+    FUN : 
+    /** 
+     * @param {string s} 
+     * @param {App.Items.Consumable} o
+     */
+    function(o, s) { return (s == 'Damage Resistance') ? 5 : 0 },
+    VALUE: 500,
+    KNOWLEDGE: [ "Damage Resistance+"]
+}
+
+App.Data.EffectLib["DAMAGE_RESIST_MAJOR"] = {
+    FUN : 
+    /** 
+     * @param {string s} 
+     * @param {App.Items.Consumable} o
+     */
+    function(o, s) { return (s == 'Damage Resistance') ? 10 : 0 },
+    VALUE: 1200,
+    KNOWLEDGE: [ "Damage Resistance++"]
+}

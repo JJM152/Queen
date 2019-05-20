@@ -814,7 +814,11 @@ App.Scene = class Scene {
             case "STAT_XP":
             case "BODY_XP":
             case "SKILL_XP":
-                this._Player.AdjustXP(Type.slice(0,-3), Name, Value);
+                if (Name == 'WillPower') { // Apply corruption effect.
+                    this._Player.CorruptWillPower( Value, 75); // default scaling for jobs.
+                } else {
+                    this._Player.AdjustXP(Type.slice(0,-3), Name, Value);
+                }
                 break;
             case "STAT":
                 this._Player.AdjustStat(Name, Value);
