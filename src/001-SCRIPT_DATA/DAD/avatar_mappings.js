@@ -19,7 +19,9 @@ App.Data.AvatarPatterns = [
     "pink polka dot",
     "pink chevron",
     "pink flowers",
-    'blue cotton'
+    'blue cotton',
+    "pink leather",
+    "hot pink"
 ]
 
 App.Data.AvatarMaps = {
@@ -78,7 +80,7 @@ App.Data.AvatarMaps['bimbo collar'] = [
             neckBotCoverage: -0.051518301363407515,
             neckCoverage: 0.3036231423018787,
             fill: "hotpink",
-            stroke: "white"
+            stroke: "antiquewhite"
           }
     }
 ];
@@ -88,7 +90,21 @@ App.Data.AvatarMaps['bimbo bra'] = [
         c: "da.Bra",
         a: {
             fill: "hotpink",
-            stroke: "black"
+            stroke: "lightpink",
+            pattern: "da.getPattern('hot pink', 100)",
+          }
+    }
+];
+
+App.Data.AvatarMaps['bimbo thong'] = [
+    {
+        c: "da.Panties",
+        a: {
+            genCoverage: 1,
+            waistCoverage: -0.01205814095615343,
+            fill: "hotpink",
+            stroke: "lightpink",
+            pattern: "da.getPattern('hot pink', 100)",
           }
     }
 ];
@@ -102,16 +118,7 @@ App.Data.AvatarMaps['cupless corset'] = [
     }
 ];
 
-App.Data.AvatarMaps['bimbo thong'] = [
-    {
-        c: "da.Panties",
-        a: {
-            genCoverage: 1,
-            waistCoverage: -0.01205814095615343,
-            fill: "hotpink"
-          }
-    }
-];
+
 
 App.Data.AvatarMaps['sexy micro dress'] = [
     {
@@ -120,7 +127,8 @@ App.Data.AvatarMaps['sexy micro dress'] = [
             chestCoverage: 0.7574149869853,
             waistCoverage: -0.722341028286726,
             fill: "hotpink",
-            stroke: "black"
+            stroke: "lightpink",
+            pattern: "da.getPattern('hot pink', 300)",
           }
     }
 ];
@@ -129,13 +137,19 @@ App.Data.AvatarMaps['bimbo cocktail dress'] = [
     {
         c: "da.SuperDress",
         a: {
+            armCoverage: 0.13266879046346713,
+            bustle: true,
+            cleavageCoverage: 0.8035145411571265,
+            cleavageOpeness: 0.31,
+            crosses: 3,
+            curveCleavageX: 2,
+            curveCleavageY: -43,
+            lacing: true,
+            legCoverage: 0.2905148494502108,
+            legLoose: 0.6104203062377968,
+            pattern: "da.getPattern('pink leather', 100)",
             fill: "hotpink",
-            stroke: "black",
-            armCoverage: 0.007671939247473558,
-            cleavageCoverage: 0.8166052275961815,
-            legCoverage: 0.3036231423018787,
-            legLoose: 2,
-            curveCleavageX: 11
+            stroke: "lightpink",
         }
     }
 ];
@@ -239,8 +253,29 @@ App.Data.AvatarMaps['bondage dress'] = [
 // App.Data.AvatarMaps['rubber nurse outfit'] = [ { } ];
 
 // Custom boots part need for both of these.
-//App.Data.AvatarMaps['shiny knee boots'] = [ { } ];
-//App.Data.AvatarMaps['spiked boots'] = [ { } ];
+App.Data.AvatarMaps['shiny knee boots'] = [ 
+    { 
+         c: "da.QoSBoots",
+         a: {
+             legCoverage : 0.40,
+             fill: "black",
+             stroke: "black",
+             pattern: "da.getPattern('black leather', 100)"
+         }
+    } 
+];
+
+App.Data.AvatarMaps['spiked boots'] = [ 
+    { 
+        c: "da.QoSBoots",
+        a: {
+            legCoverage : 0.65,
+            fill: "black",
+            stroke: "black",
+            pattern: "da.getPattern('black leather', 100)"
+        }
+    } 
+];
 
 // Daddy's Girl
 
@@ -535,7 +570,17 @@ App.Data.AvatarMaps["gothic maid outfit"] = [
 ];
 
 // Need boots for this
-//App.Data.AvatarMaps["black high heeled boots"] = [];
+App.Data.AvatarMaps["black high heeled boots"] = [
+    {    
+        c: "da.QoSBoots",
+        a: {
+            legCoverage : 0.40,
+            fill: "black",
+            stroke: "black",
+            pattern: "da.getPattern('black leather', 100)"
+        }
+    } 
+];
 
 App.Data.AvatarMaps["black platform mary janes"] = [
     {
@@ -677,13 +722,13 @@ App.Data.AvatarMaps["sexy nun habit"] = [
 
 //Need boot piece for this
 App.Data.AvatarMaps["sexy nun boots"] = [
-    {
-        c: "da.ClosedToeStrappedPumps",
+    { 
+        c: "da.QoSBoots",
         a: {
-            platformHeight: 0.0,
-            toeCoverage: 2,
-            fill: "red",
-            pattern: "da.getPattern('leather', 100)"
+            legCoverage : 0.65,
+            fill: "black",
+            stroke: "black",
+            pattern: "da.getPattern('black leather', 100)"
         }
     } 
  ];
@@ -801,7 +846,17 @@ App.Data.AvatarMaps["sexy kitten costume"] = [
  ];
 
 // Needs boots
-//App.Data.AvatarMaps["cow boots"] = [ ];
+App.Data.AvatarMaps["cow boots"] = [
+        { 
+            c: "da.QoSBoots",
+            a: {
+                legCoverage : 0.30,
+                fill: "black",
+                stroke: "black",
+                pattern: "da.getPattern('black leather', 100)"
+            }
+        } 
+ ];
 
 // These could be better too, but not a priority
 App.Data.AvatarMaps["fuzzy paws"] = [
@@ -929,8 +984,28 @@ App.Data.AvatarMaps["pirate stripper costume"] = [
  ];
 
 // Needs boots
-//App.Data.AvatarMaps["pirate boots"] = [ ];
-//App.Data.AvatarMaps["pirate ankle boots"] = [ ];
+App.Data.AvatarMaps["pirate boots"] = [
+    { 
+        c: "da.QoSBoots",
+        a: {
+            legCoverage : 0.65,
+            fill: "black",
+            stroke: "black",
+            pattern: "da.getPattern('black leather', 100)"
+        }
+    }
+ ];
+App.Data.AvatarMaps["pirate ankle boots"] = [
+    { 
+        c: "da.QoSBoots",
+        a: {
+            legCoverage : 0.20,
+            fill: "black",
+            stroke: "black",
+            pattern: "da.getPattern('black leather', 100)"
+        }
+    }
+ ];
 
 // Sexy Dancer Clothes
 
@@ -1055,8 +1130,17 @@ App.Data.AvatarMaps["slutty schoolgirl"] = [
 }
  ];
 
-//Need boots parts
-//App.Data.AvatarMaps["go-go boots"] = [ ];
+
+App.Data.AvatarMaps["go-go boots"] = [
+    { 
+        c: "da.QoSBoots",
+        a: {
+            legCoverage : 0.40,
+            fill: "ivory",
+            stroke: "antiquewhite",
+        }
+    }
+ ];
 
 App.Data.AvatarMaps["stripper heels"] = [
     {

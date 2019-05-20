@@ -392,8 +392,15 @@ App.Entity.InventoryManager = class InventoryManager {
         if (!this._state.Inventory[cl].hasOwnProperty(Tag)) {
             this._state.Inventory[cl][Tag] = 0;
         }
-        // some items have default charges greater than 1
-        Amount = Amount == 0 ? App.Item.GetCharges(cl, Tag) : Amount * App.Item.GetCharges(cl, Tag); 
+        
+        // Items with Charges in their data grant that many charges when added to the inventory.
+        // All usage however only subtracts 1 charge.
+        if (Amount > 0) {
+            Amount =  Amount * App.Item.GetCharges(cl, Tag); 
+        } else {
+            Amount = Amount == 0 ? App.Item.GetCharges(cl, Tag) : Amount; // add charges if no charge specififed? 
+        }
+        
         return this.SetCharges(cl,Tag, this._state.Inventory[cl][Tag] + Amount);
     }
 

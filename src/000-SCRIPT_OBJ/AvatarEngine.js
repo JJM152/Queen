@@ -57,7 +57,8 @@ App.Entity.AvatarEngine = class Avatar {
         da.addPattern("pink flowers", Story.passages["txt_pink_flowers"].text);
         da.addPattern("leather", Story.passages["txt_leather"].text);
         da.addPattern('blue cotton', Story.passages["txt_blue_cotton"].text);
-
+        da.addPattern('pink leather', Story.passages["txt_pink_leather"].text);
+        da.addPattern('hot pink', Story.passages["txt_hot_pink"].text);
         //Gradients loaded as textures.
         da.addPattern("pink athletic socks", this._pinkAthleticSocks);
 
