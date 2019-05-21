@@ -238,6 +238,7 @@ to discuss the plan.
 <<click "Skip intro and begin the game" "Cabin">>\
 <<run setup.player.SetFace('Default 1');>>\
 <<run setup.player.AdjustSkill('Cooking', 5);>>\
+<<run App.Avatar.DrawPortrait();>>\
 <</click>>\
 </span>
 

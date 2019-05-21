@@ -7,6 +7,7 @@ App.Data = {};
 App.Data.AvatarMaps = {};
 App.Data.Clothes = {};
 App.Data.DAD = {};
+App.Data.DAD.ExtraParts = { };
 App.Data.DAD.FaceStruct = { };
 App.Data.DAD.FacePresets = { };
 App.Data.DADNPC = {};

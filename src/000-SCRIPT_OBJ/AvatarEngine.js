@@ -59,6 +59,8 @@ App.Entity.AvatarEngine = class Avatar {
         da.addPattern('blue cotton', Story.passages["txt_blue_cotton"].text);
         da.addPattern('pink leather', Story.passages["txt_pink_leather"].text);
         da.addPattern('hot pink', Story.passages["txt_hot_pink"].text);
+        da.addPattern("purple lace", Story.passages["txt_purple_lace"].text);
+        da.addPattern("red cotton", Story.passages["txt_red_cotton"].text);
         //Gradients loaded as textures.
         da.addPattern("pink athletic socks", this._pinkAthleticSocks);
 
@@ -272,6 +274,7 @@ App.Entity.AvatarEngine = class Avatar {
 
         var npcData = App.Data.DADNPC[data.n].DATA;
         var npcEquip = App.Data.DADNPC[data.n].EQUIP;
+        var npcParts = App.Data.DAD.ExtraParts[data.n];
 
         var canvasGroup = da.getCanvasGroup(data.e, 
                 {
@@ -282,7 +285,7 @@ App.Entity.AvatarEngine = class Avatar {
 
 
         var PC = new da.Player( npcData );
-        PC = this._AttachPartsNPC(PC, npcEquip);
+        PC = this._AttachPartsNPC(PC, npcEquip, npcParts);
 
         var that = this;
 
@@ -324,6 +327,7 @@ App.Entity.AvatarEngine = class Avatar {
 
         var npcData = App.Data.DADNPC[data.n].DATA;
         var npcEquip = App.Data.DADNPC[data.n].EQUIP;
+        var npcParts = App.Data.DAD.ExtraParts[data.n];
 
         var canvasGroup = da.getCanvasGroup("hiddenNPCPortraitCanvas", {
             border: "none",
@@ -332,7 +336,7 @@ App.Entity.AvatarEngine = class Avatar {
          });
 
         var PC = new da.Player( npcData );
-        PC = this._AttachPartsNPC(PC, npcEquip);
+        PC = this._AttachPartsNPC(PC, npcEquip, npcParts);
         var that = this;
 
         da.draw(canvasGroup, PC, { 
@@ -365,7 +369,7 @@ App.Entity.AvatarEngine = class Avatar {
     _CacheNPCCanvas(key, data)
     {
         if (this.NPCPortraits.hasOwnProperty(key)) {
-            this.NPCPortraits.canvasData = data;
+            this.NPCPortraits[key].canvasData = data;
         } else {
             this.NPCPortraits[key] = { canvasData : data, portraitData: null };
         }
@@ -374,14 +378,15 @@ App.Entity.AvatarEngine = class Avatar {
     _CacheNPCPortrait(key, data)
     {
         if (this.NPCPortraits.hasOwnProperty(key)) {
-            this.NPCPortraits.portraitData = data;
+            this.NPCPortraits[key].portraitData = data;
         } else {
             this.NPCPortraits[key] = { canvasData : null, portraitData: data };
         }
     }
 
-    _AttachPartsNPC(PC, npcEquip)
+    _AttachPartsNPC(PC, npcEquip, parts)
     {
+        // Default gender parts.
         if (PC.gender == 1 || PC.gender == 2) {
             var penis = da.Part.create(da.PenisHuman, { side: "right"});
             PC.attachPart(penis);
@@ -405,6 +410,15 @@ App.Entity.AvatarEngine = class Avatar {
         if (PC.gender == 0 && PC.gender != 2) {
             PC.removeSpecificPart(da.PenisHuman);
             PC.removeSpecificPart(da.TesticlesHuman);
+        }
+
+        //Additional Parts
+        if (typeof parts !== 'undefined') {
+            for(var part in parts)
+            {
+                var toAdd = da.Part.create(eval(part), parts[part]);
+                PC.attachPart(toAdd, PC.decorativeParts);
+            }
         }
         return this._ClothesHandlerNPC(PC, npcEquip); 
     }
@@ -469,7 +483,7 @@ App.Entity.AvatarEngine = class Avatar {
 
         // Copy player face data into data.
         var Face = setup.player.FaceData;
-        if (Face == null || Face === undefined) { // kludge just in case.
+        if (Face == null || typeof Face === 'undefined') { // kludge just in case.
             setup.player._state.FaceData = $.extend(true, { }, App.Data.DAD.FacePresets['Default 1']);
             Face = setup.player.FaceData;
         }

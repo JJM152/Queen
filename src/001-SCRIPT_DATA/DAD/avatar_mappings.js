@@ -10,6 +10,7 @@ App.Data.AvatarPatterns = [
     "black lace",
     "black purple stripe",
     "red plastic",
+    "red cotton",
     "cow print",
     "black fur",
     "jolly roger big",
@@ -21,7 +22,8 @@ App.Data.AvatarPatterns = [
     "pink flowers",
     'blue cotton',
     "pink leather",
-    "hot pink"
+    "hot pink",
+    "purple lace"
 ]
 
 App.Data.AvatarMaps = {
@@ -606,6 +608,20 @@ App.Data.AvatarMaps["dark dreams shoes"] = [
 
 //Highclass Whore Clothes
 
+//App.Data.AvatarMaps["hair pin"] = [ ];
+//App.Data.AvatarMaps["gold necklace"] = [ ];
+
+App.Data.AvatarMaps["luxurious purple bra"] = [
+    {
+        c: "da.Bra",
+        a: {
+            fill: "purple",
+            stroke: "lavender",
+            pattern: "da.getPattern('purple lace', 100)",
+          }
+    }
+];
+
 // Need actual belt part.
 App.Data.AvatarMaps["whore belt"] = [
     {
@@ -619,6 +635,50 @@ App.Data.AvatarMaps["whore belt"] = [
         }
     }
  ];
+
+App.Data.AvatarMaps["luxurious purple panties"] = [
+    {
+        c: "da.Panties",
+        a: {
+            genCoverage: 1,
+            waistCoverage: -0.01205814095615343,
+            fill: "purple",
+            stroke: "lavender",
+            pattern: "da.getPattern('purple lace', 100)",
+          }
+    }
+];
+
+App.Data.AvatarMaps["luxurious purple stockings"] = [
+    {
+        c: "da.SuperSocks",
+        a:  {
+            legCoverage: 0.0007,
+            fill: "hsla(296.0,42.0%,43.0%,0.50)",
+          }
+    }
+];
+
+App.Data.AvatarMaps["red halter top"] = [
+    {
+        c: "da.HalterTop",
+        a: {
+
+            fill: "darkred",
+            stroke: "red",
+            pattern: "da.getPattern('red cotton', 100)",
+        }
+    }
+];
+
+App.Data.AvatarMaps["white microskirt"] = [
+
+];
+
+
+App.Data.AvatarMaps["red wedges"] = [
+
+];
 
 App.Data.AvatarMaps["slutty strumpet dress"] = [
     {
@@ -991,7 +1051,7 @@ App.Data.AvatarMaps["pirate boots"] = [
             legCoverage : 0.65,
             fill: "black",
             stroke: "black",
-            pattern: "da.getPattern('black leather', 100)"
+            pattern: "da.getPattern('leather', 100)"
         }
     }
  ];
@@ -1711,6 +1771,42 @@ App.Data.AvatarMaps["grey tshirt"] = [
             waistCoverage: 0.6,
             fill : "grey",
             stroke: "lightgrey"
+        }
+    }
+];
+
+// NPC only clothing
+
+App.Data.AvatarMaps["NPC pirate"] = [
+    {
+        c: "da.WomenDressShirt",
+        a: {
+                collarCoverage: 1.1254118749224817,
+                collarHeight: 11.758527802786517,
+                collarWidth: 9.917149369960313,
+                liningWidth: 8,
+                sleeveLength: 0.7,
+                stomachCoverage: 0.4,
+                topParted: 5,
+                botParted: 0,
+                cling: 1,
+                fill: "black",
+                stroke: "darkred",
+                pattern: "da.getPattern('leather',100)",
+                collarPattern: "goldenrod",
+                cuffPattern: "goldenrod",
+                liningPattern: "darkred",
+                buttonFill: "goldenrod",
+                buttonStroke: "goldenrod"
+        }
+    },
+    {
+        c: "da.SuperLeggins",
+        a: {
+            legCoverage: 0.7111017275365854,
+            fill: "black",
+            stroke: "black",
+            pattern: "da.getPattern('leather', 100)"
         }
     }
 ];
