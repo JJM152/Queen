@@ -257,7 +257,7 @@ App.Data.AvatarMaps['bondage dress'] = [
 // Custom boots part need for both of these.
 App.Data.AvatarMaps['shiny knee boots'] = [ 
     { 
-         c: "da.QoSBoots",
+         c: "da.QueenBoots",
          a: {
              legCoverage : 0.40,
              fill: "black",
@@ -269,7 +269,7 @@ App.Data.AvatarMaps['shiny knee boots'] = [
 
 App.Data.AvatarMaps['spiked boots'] = [ 
     { 
-        c: "da.QoSBoots",
+        c: "da.QueenBoots",
         a: {
             legCoverage : 0.65,
             fill: "black",
@@ -574,7 +574,7 @@ App.Data.AvatarMaps["gothic maid outfit"] = [
 // Need boots for this
 App.Data.AvatarMaps["black high heeled boots"] = [
     {    
-        c: "da.QoSBoots",
+        c: "da.QueenBoots",
         a: {
             legCoverage : 0.40,
             fill: "black",
@@ -783,7 +783,7 @@ App.Data.AvatarMaps["sexy nun habit"] = [
 //Need boot piece for this
 App.Data.AvatarMaps["sexy nun boots"] = [
     { 
-        c: "da.QoSBoots",
+        c: "da.QueenBoots",
         a: {
             legCoverage : 0.65,
             fill: "black",
@@ -908,7 +908,7 @@ App.Data.AvatarMaps["sexy kitten costume"] = [
 // Needs boots
 App.Data.AvatarMaps["cow boots"] = [
         { 
-            c: "da.QoSBoots",
+            c: "da.QueenBoots",
             a: {
                 legCoverage : 0.30,
                 fill: "black",
@@ -1046,7 +1046,7 @@ App.Data.AvatarMaps["pirate stripper costume"] = [
 // Needs boots
 App.Data.AvatarMaps["pirate boots"] = [
     { 
-        c: "da.QoSBoots",
+        c: "da.QueenBoots",
         a: {
             legCoverage : 0.65,
             fill: "black",
@@ -1057,7 +1057,7 @@ App.Data.AvatarMaps["pirate boots"] = [
  ];
 App.Data.AvatarMaps["pirate ankle boots"] = [
     { 
-        c: "da.QoSBoots",
+        c: "da.QueenBoots",
         a: {
             legCoverage : 0.20,
             fill: "black",
@@ -1193,7 +1193,7 @@ App.Data.AvatarMaps["slutty schoolgirl"] = [
 
 App.Data.AvatarMaps["go-go boots"] = [
     { 
-        c: "da.QoSBoots",
+        c: "da.QueenBoots",
         a: {
             legCoverage : 0.40,
             fill: "ivory",
@@ -1486,16 +1486,9 @@ App.Data.AvatarMaps["choker"] = [
 
 App.Data.AvatarMaps["chemise"] = [
     {
-        c: "da.Undershirt",
+        c: "da.QueenUndershirt",
         a: {
-            cleavageCoverage: 0.3,
-            curveCleavageX: 15,
-            curveCleavageY: -12,
-            innerNeckCoverage: 0.2,
-            outerNeckCoverage: 0.4,
-            waistCoverage: 0.5,
-            fill: "antiquewhite",
-            stroke: "antiquewhite"
+            fill: "ivory",
         }
     }
 ]
@@ -1684,7 +1677,7 @@ App.Data.AvatarMaps["maid costume"] = [
 ];
 App.Data.AvatarMaps["worn boots"] = [
     { 
-        c: "da.QoSBoots", 
+        c: "da.QueenBoots", 
         a: {
             legCoverage: 0.35
         } 
