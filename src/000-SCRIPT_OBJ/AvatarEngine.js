@@ -61,6 +61,7 @@ App.Entity.AvatarEngine = class Avatar {
         da.addPattern('hot pink', Story.passages["txt_hot_pink"].text);
         da.addPattern("purple lace", Story.passages["txt_purple_lace"].text);
         da.addPattern("red cotton", Story.passages["txt_red_cotton"].text);
+        da.addPattern("red sequin", Story.passages["txt_red_sequin"].text);
         //Gradients loaded as textures.
         da.addPattern("pink athletic socks", this._pinkAthleticSocks);
 
@@ -536,7 +537,7 @@ App.Entity.AvatarEngine = class Avatar {
         var hormoneMod = (this._c('Hormones')/200);
         var breast = setup.player.GetStat('BODY', 'Bust') == 0 ? 0 : (setup.player.GetStat('BODY', 'Bust')/2);
         var areola = (50 * hormoneMod);
-        var upperMuscle = (35 * (this._c('Fitness')/100));
+        var upperMuscle = (30 * (this._c('Fitness')/100));
         Data.basedim.breastSize = breast;
         Data.basedim.areolaSize = areola;
         Data.basedim.upperMuscle = upperMuscle;

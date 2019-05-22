@@ -23,7 +23,8 @@ App.Data.AvatarPatterns = [
     'blue cotton',
     "pink leather",
     "hot pink",
-    "purple lace"
+    "purple lace",
+    "red sequin"
 ]
 
 App.Data.AvatarMaps = {
@@ -168,11 +169,10 @@ App.Data.AvatarMaps['bimbo cheerleader costume'] = [
         }
     },
     {
-        c: "da.SuperPants",
+        c: "da.QueenSkirt",
         a: {
-            innerLoose: 0.724394840041321,
+            legLoose: 0.724394840041321,
             legCoverage: 0.18524266108011678,
-            outerLoose: 2,
             waistCoverage: 0.04713209965472753,
             fill: "lightpink",
             stroke: "antiquewhite"
@@ -365,12 +365,11 @@ App.Data.AvatarMaps['pink t-shirt'] = [
 // need a proper skirt piece for this
 App.Data.AvatarMaps['pink tartan'] = [
     {
-        c: "da.SuperPants",
+        c: "da.QueenSkirt",
         a: {
-            innerLoose: 1.311719625215395,
-            legCoverage: 0.17841725232614758,
-            outerLoose: 1.587926390139326,
-            waistCoverage: 0.19814630696357116,
+            legCoverage: 0.20,
+            legLoose: 1.0,
+            waistCoverage: 0.0,
             fill: "lightpink",
             stroke: "white",
             pattern: "da.getPattern('pink tartan',100)"
@@ -427,12 +426,11 @@ App.Data.AvatarMaps['naughty schoolgirl outfit'] = [
               }
     },
     {
-        c: "da.SuperPants",
+        c: "da.QueenSkirt",
         a: {
-            legCoverage: 0.17841725232614758,
-            innerLoose: 2.0,
-            outerLoose: 2.0,
-            waistCoverage: 0.19814630696357116,
+            legCoverage: 0.20,
+            legLoose: 1.0,
+            waistCoverage: 0.0,
             fill: "red",
             stroke: "black",
             pattern: "da.getPattern('red tartan',100)"
@@ -651,10 +649,9 @@ App.Data.AvatarMaps["luxurious purple panties"] = [
 
 App.Data.AvatarMaps["luxurious purple stockings"] = [
     {
-        c: "da.SuperSocks",
+        c: "da.StockingsGarter",
         a:  {
-            legCoverage: 0.0007,
-            fill: "hsla(296.0,42.0%,43.0%,0.50)",
+            pattern: "da.getPattern('purple lace', 100)",
           }
     }
 ];
@@ -714,12 +711,11 @@ App.Data.AvatarMaps["sexy librarian outfit"] = [
         }
     },
     {
-        c: "da.SuperPants",
+        c: "da.QueenSkirt",
         a: {
-            legCoverage: 0.17841725232614758,
-            innerLoose: 2.0,
-            outerLoose: 0.0,
-            waistCoverage: 0.19814630696357116,
+            legCoverage: 0.18,
+            legLoose: 0,
+            waistCoverage: 0.19,
             fill: "black",
             stroke: "black",
             pattern: "da.getPattern('leather',100)"
@@ -853,11 +849,10 @@ App.Data.AvatarMaps["cow stockings"] = [
 
 App.Data.AvatarMaps["cow skirt"] = [
     {
-        c: "da.SuperPants",
+        c: "da.QueenSkirt",
         a: {
             legCoverage: 0.17841725232614758,
-            innerLoose: 2.0,
-            outerLoose: 2.0,
+            legLoose: 2.0,
             waistCoverage: 0.19814630696357116,
             fill: "white",
             stroke: "black",
@@ -1010,10 +1005,10 @@ App.Data.AvatarMaps["pirate queen regalia"] = [
         }
     },
     {
-        c: "da.SuperPants",
+        c: "da.QueenSkirt",
         a: {
             legCoverage: 0.17841725232614758,
-            innerLoose: 2.0,
+            legLoose: 2.0,
             waistCoverage: 0.5,
             fill: "black",
             stroke: "darkred",
@@ -1121,10 +1116,10 @@ App.Data.AvatarMaps["stripper costume"] = [
     },
     {
         // Wanted to add trim here, but these pants suck for gradients
-        c: "da.SuperPants",
+        c: "da.QueenSkirt",
         a: {
             legCoverage: 0.15,
-            innerLoose: 2.0,
+            legLoose: 0.0,
            // outerLoose: 2.5,
             waistCoverage: 0.4,
             fill: "navy",
@@ -1138,22 +1133,24 @@ App.Data.AvatarMaps["burlesque costume"] = [
     {
         c: "da.HalterTop",
         a: {
-            cleavageCoverage: 0.37570779870038384,
-            innerNeckCoverage: 0.809747000723704,
-            waistCoverage: 1.2437862027470236,
+            cleavageCoverage: 0.42200362352364085,
+            innerNeckCoverage: 0.6982247463744191,
+            waistCoverage: 0.9349857088179432,
             fill: "darkred",
-            stroke: "red"
+            stroke: "goldenrod",
+            pattern: "da.getPattern('red sequin',100)"
           }
     },
     {
         // Wanted to add trim here, but these pants suck for gradients
-        c: "da.SuperPants",
+        c: "da.QueenSkirt",
         a: {
             legCoverage: 0.15,
-            innerLoose: 2.0,
-            waistCoverage: 0.4,
+            legLoose: 0.0,
+            waistCoverage: 0.3,
             fill: "darkred",
-            stroke: "red",
+            stroke: "goldenrod",
+            pattern: "da.getPattern('red sequin',100)"
           }
     }
  ];

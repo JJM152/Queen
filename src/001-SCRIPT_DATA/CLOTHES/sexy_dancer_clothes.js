@@ -64,7 +64,7 @@ App.Data.Clothes["burlesque costume"] = { // +30
     "Name": "burlesque costume", "ShortDesc": "a fancy {COLOR} burlesque costume",
     "LongDesc": "This two piece red outfit is designed to be taken off in pieces. With the accompanying giant fan and feather boa, you're sure to put on an excellent show.",
     "Slot": "Costume", "Restrict": ["Shirt", "Pants", "Dress", "Costume"], "Color": "red", "Style": "RARE", "Type" : "ONE PIECE",
-    "WearEffect": [ "FEMININE_CLOTHING", "KINKY_CLOTHING" ], "ActiveEffect": [ "MAJOR_STRIPPERS_ALLURE" ]
+    "WearEffect": [ "FEMININE_CLOTHING", "KINKY_CLOTHING" ], "ActiveEffect": [ "MAJOR_STRIPPERS_ALLURE" ], Category: [ "Sexy Dancer" ]
 };
 
 App.Data.Clothes["slutty schoolgirl"] = { // +40
