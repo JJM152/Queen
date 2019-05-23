@@ -5,6 +5,11 @@
 * Beauty supplies now correct come in groups of 5 per purchase, but only cost 1 use as detailed in the styling ui.
 * added basic boots asset, still WIP.
 * added a basic beard body part, still WIP.
+* added a basic skirt asset to replace fake shorts as "skirts". Male genitals will now be exposed if the skirt is short \
+enough and the genitals are big enough, otherwise you will see panties, etc.
+* new asset - nun habbit and re-did a lot of the naughty nun clothes
+* new asset - hair pins 
+* fixed the bun hairstyle that was broken in the DAD distro. 
 * NPC rendering refinements.
 * Lowered the difficulty of the Kraken and enemy Pirate events on the Salty Mermaid.
 * Added new damage resistance effect (only works in combat).

@@ -62,6 +62,8 @@ App.Entity.AvatarEngine = class Avatar {
         da.addPattern("purple lace", Story.passages["txt_purple_lace"].text);
         da.addPattern("red cotton", Story.passages["txt_red_cotton"].text);
         da.addPattern("red sequin", Story.passages["txt_red_sequin"].text);
+        da.addPattern("red velvet", Story.passages["txt_red_velvet"].text);
+        da.addPattern("pink fishnet", Story.passages["txt_pink_fishnet"].text);
         //Gradients loaded as textures.
         da.addPattern("pink athletic socks", this._pinkAthleticSocks);
 
@@ -504,7 +506,7 @@ App.Entity.AvatarEngine = class Avatar {
         // Slightly shorten the face, but no lower than 200 unless the player has it
         // set to be shorter.
         var faceLength = Face.basedim.faceLength < 190 ? Face.basedim.faceLength : 
-            Face.basedim.faceLength * ( 1.0 - ((.06 * faceMod) + (.06 *hormoneMod)));
+            Face.basedim.faceLength * ( 1.0 - ((.065 * faceMod) + (.065 *hormoneMod)));
 
         Data.basedim.faceLength = this._clamp(faceLength, 190, 240);
 

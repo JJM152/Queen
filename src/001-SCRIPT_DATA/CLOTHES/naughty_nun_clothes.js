@@ -14,7 +14,7 @@ App.Data.Clothes["sexy nun cowl"] = { // +12
     piece of cloth, the scapular component is made out of flowing black lace, all the better to show off \
     the cleavage of whomever is wearing it.\
     ",
-    Slot: "Dress", Restrict : [ "Shirt", "Pants", "Dress", "Costume" ],
+    Slot: "Hat", Restrict : [ "Hat" ],
     Color: "black", Style : "LEGENDARY", Type : "ACCESSORY",
     WearEffect: [ "FEMININE_CLOTHING" ],
     ActiveEffect : [],
@@ -69,7 +69,7 @@ App.Data.Clothes["sexy nun habit"] = { // +40
     neckline and a fake belt made out of beads ending in a dangling religious symbol.\
     ",
     Slot: "Costume", Restrict : [ "Shirt", "Pants", "Dress", "Costume" ],
-    Color: "black", Style : "LEGENDARY", Type : "ONE PIECE",
+    Color: "pink", Style : "LEGENDARY", Type : "ONE PIECE",
     WearEffect: [ "KINKY_CLOTHING" ],
     ActiveEffect : [ "MAJOR_STRIPPERS_ALLURE"],
     Category : [ "Naughty Nun", "Sexy Dancer"],

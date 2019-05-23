@@ -7,8 +7,8 @@
 // WIG SLOT
 
 // HAT SLOT
-App.Data.Clothes["hair pin"] = { 
-    Name: "hair pin", ShortDesc: "a {COLOR} hair pin",
+App.Data.Clothes["gold hairpin"] = { 
+    Name: "gold hairpin", ShortDesc: "a {COLOR} hair pin",
     LongDesc: "\
     This delicate hair pin is plated in 24 karat gold and adds a touch of class to your appearance\
     ",
