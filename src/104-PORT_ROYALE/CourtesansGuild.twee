@@ -16,6 +16,6 @@ ascend to powerful financial and social influence.
 <<NPC "Selene">>
 
 <<if App.Quest.IsCompleted(setup.player, "COURTESAN_GUILD_JOIN")>>\
-@@color:yellow;Interact@@: [[School Gift Exchange|CG_GiftExchange]] | [[School Supplies|CG_Supplies]]
+@@color:yellow;Interact@@: [[School Gift Exchange|CG_GiftExchange]]
 <</if>>\
 @@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]

@@ -139,7 +139,9 @@ App.Entity.PlayerState = function (){
     };
 
 
-    this.FaceData = $.extend(true, {}, App.Data.DAD.FacePresets['Default 1']);
+    this.FaceData =  { }
+    
+    $.extend(true, this.FaceData, App.Data.DAD.FacePresets['Default 1']);
 
     /**
      * Clothing items the Player owns.

@@ -228,3 +228,48 @@ App.Data.EffectLib["VOODOO_ANAL_PLUG2"] = {
     "VALUE" : 0,
         "KNOWLEDGE" : [ "Butt Slut++++" ]
 };
+
+// DAD Face modification effects
+App.Data.EffectLib["EYES_BIGGER"] = {
+    "FUN" : /** @param {App.Entity.Player} p
+    @param {App.Items.Consumable} o*/
+   function(o,p) {
+    let c = Math.max(0, Math.min(p.FaceData.basedim.eyeSize + 2, 40));
+    p.FaceData.basedim.eyeSize = c;
+   },
+   "VALUE" : 400,
+       "KNOWLEDGE" : [ "Eyes Bigger++", ]
+};
+
+App.Data.EffectLib["EYES_SMALLER"] = {
+    "FUN" : /** @param {App.Entity.Player} p
+    @param {App.Items.Consumable} o*/
+   function(o,p) {
+    let c = Math.max(0, Math.min(p.FaceData.basedim.eyeSize - 2, 40));
+    p.FaceData.basedim.eyeSize = c;
+   },
+   "VALUE" : 400,
+       "KNOWLEDGE" : [ "Eyes Smaller++", ]
+};
+
+App.Data.EffectLib["BROW_THICKER"] = {
+    "FUN" : /** @param {App.Entity.Player} p
+    @param {App.Items.Consumable} o*/
+   function(o,p) {
+    let c = Math.max(-10, Math.min(p.FaceData.Mods.browThickness +1, 10));
+    p.FaceData.Mods.browThickness = c;
+   },
+   "VALUE" : 200,
+       "KNOWLEDGE" : [ "Eyebrows Thicker++", ]
+};
+
+App.Data.EffectLib["BROW_THINNER"] = {
+    "FUN" : /** @param {App.Entity.Player} p
+    @param {App.Items.Consumable} o*/
+   function(o,p) {
+    let c = Math.max(-10, Math.min(p.FaceData.Mods.browThickness -1, 10));
+    p.FaceData.Mods.browThickness = c;
+   },
+   "VALUE" : 250,
+       "KNOWLEDGE" : [ "Eyebrows Thinner++", ]
+};

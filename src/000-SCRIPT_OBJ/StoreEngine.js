@@ -21,9 +21,9 @@ App.StoreEngine = new function() {
 
         if (!App.Data.Stores.hasOwnProperty(NPC.StoreName())) return false;
         const tmp = App.Data.Stores[NPC.StoreName()];
-        
         if (tmp.hasOwnProperty('UNLOCK_FLAG') 
-            && setup.player.QuestFlags.hasOwnProperty(tmp.UNLOCK_FLAG) == false) return false;
+            && (setup.player.QuestFlags.hasOwnProperty(tmp.UNLOCK_FLAG) == false ||
+               tmp.UNLOCK_FLAG_VALUE != setup.player.QuestFlags[tmp.UNLOCK_FLAG])) return false;
 
         return true;
     };
@@ -284,9 +284,12 @@ var Store = function(Player, NPC, StoreData) {
                 return ((Item["CATEGORY"] == "RARE") && (Mood >= Item["MOOD"]) && (Item["LOCKED"] != 1));
             });
 
+            console.log(MaxRares);
+            console.log(Rares);
             // Add multiple rare items to the store inventory.
             if (Rares.length > 0) {
-
+            console.log("Populating rares...");
+            console.log(Rares);
             for (i = 0; i < MaxRares; i++) {
                 // Filter out Rares that already exist in the rares entry.
                 Rares = Rares.filter(function(o) {
@@ -297,7 +300,8 @@ var Store = function(Player, NPC, StoreData) {
                 }.bind(this));
 
                 // Copy data record object into new variable or we get some bad reference juju.
-                var RareEntry = $.extend({}, Rares[Math.floor(Math.random() * Rares.length)]);
+                var RareEntry = { };
+                $.extend(RareEntry, Rares[Math.floor(Math.random() * Rares.length)]);
                 this._Player.StoreInventory[this._Id]["RARE"].push( RareEntry );
             }
         }

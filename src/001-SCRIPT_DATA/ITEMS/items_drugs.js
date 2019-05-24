@@ -183,3 +183,43 @@ App.Data.Drugs["blond hair dye"] = {
     "Charges": 1,
     "Effects": ["BLOND_HAIR_DYE"]
 };
+
+App.Data.Drugs["luminescent eye drops"] = {
+    "Name": "luminescent eye drops",
+    "ShortDesc": "a vial of luminescent eye drops",
+    "LongDesc": "These drops are meant for the eyes, said to promote clarity and soothing.",
+    "Message": "You lean your head back and drip the liquid into your eyes. The sensation is refreshing and cooling.",
+    "Type": "potion",
+    "Charges": 1,
+    "Effects" : [ "EYES_BIGGER", "TOXICITY_COMMON"]
+};
+
+App.Data.Drugs["astringent eye drops"] = {
+    "Name": "astringent eye drops",
+    "ShortDesc": "a vial of astringent eye drops",
+    "LongDesc": "These drops are meant for the eyes... but why would you put an astringent there?!",
+    "Message": "You lean your head back and drip the liquid into your eyes. The feeling is indescribably strange and all together unpleasant.",
+    "Type": "potion",
+    "Charges": 1,
+    "Effects" : [ "EYES_SMALLER", "TOXICITY_COMMON"]
+};
+
+App.Data.Drugs["brow filler"] = {
+    "Name": "brow filler",
+    "ShortDesc": "a tube of eyebrow filler",
+    "LongDesc": "This chemical treatment comes in a strange tube. It's a liquid-like gel that is tingly to the touch.",
+    "Message": "You carefully rub the chemicals into your eyebrows and wait... Something happened, right?",
+    "Type": "potion",
+    "Charges": 1,
+    "Effects" : [ "BROW_THICKER", "TOXICITY_COMMON"]
+};
+
+App.Data.Drugs["brow thinner"] = {
+    "Name": "brow thinner",
+    "ShortDesc": "a tube of eyebrow thinner",
+    "LongDesc": "This chemical treatment comes in a strange tube. It's a liquid-like gel that is tingly to the touch.",
+    "Message": "You carefully rub the chemicals into your eyebrows and wait... Something happened, right?",
+    "Type": "potion",
+    "Charges": 1,
+    "Effects" : [ "BROW_THINNER", "TOXICITY_COMMON"]
+};

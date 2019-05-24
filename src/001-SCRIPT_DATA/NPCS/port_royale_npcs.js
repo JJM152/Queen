@@ -148,7 +148,14 @@ App.Data.NPCS["Selene"] = {
     DailyLust: 10,
     Gender: 0,
     Title: "NPC_NAME, Headmistress",
-    LongDesc: "A regal lady who strikes an adroit balance of social grace, elegance and raw iron, she takes over the room with her sharp wit and disarming charms. Her beautiful arsenal of body and words has greater potency than the fiercest martial weapon, and many a noble lord or lady has been brought to heel who underestimated her. Her attire is strictly haute couture from the best makers in the world - her every piece of finery selected with matchless refinement and taste. It's rumored her private treasury may rival the governor's, though her real influence and reach are as closely guarded secrets as her feelings. While she (and everyone who knows her) styles herself 'Lady,' even her true name is a mystery, and she knows the value of information."
+    LongDesc: "A regal lady who strikes an adroit balance of social grace, elegance and raw iron, she takes over the \
+    room with her sharp wit and disarming charms. Her beautiful arsenal of body and words has greater potency than the \
+    fiercest martial weapon, and many a noble lord or lady has been brought to heel who underestimated her. Her attire \
+    is strictly haute couture from the best makers in the world - her every piece of finery selected with matchless \
+    refinement and taste. It's rumored her private treasury may rival the governor's, though her real influence and \
+    reach are as closely guarded secrets as her feelings. While she (and everyone who knows her) styles herself 'Lady,' \
+    even her true name is a mystery, and she knows the value of information.",
+    Store : "Selene"
 };
 
 //VERONICA ÍÑIGUEZ DE LA VEGA, Finery Dealer by Appointment of Her Royal Majesty - Note: Mood/Lust values not adjusted//
