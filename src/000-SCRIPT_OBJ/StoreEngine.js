@@ -18,7 +18,14 @@ App.StoreEngine = new function() {
      * @returns {boolean}
      */
     this.HasStore = function(NPC) {
-        return (App.Data.Stores.hasOwnProperty(NPC.StoreName()));
+
+        if (!App.Data.Stores.hasOwnProperty(NPC.StoreName())) return false;
+        const tmp = App.Data.Stores[NPC.StoreName()];
+        
+        if (tmp.hasOwnProperty('UNLOCK_FLAG') 
+            && setup.player.QuestFlags.hasOwnProperty(tmp.UNLOCK_FLAG) == false) return false;
+
+        return true;
     };
 
     /**
