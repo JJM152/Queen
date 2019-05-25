@@ -352,7 +352,7 @@ App.Task = class Task {
      */
     _MatchResult(Tag, Result, Value) {
         var Output = "";
-        var Percent = Math.floor( ((Result / Value) * 100)/2);
+        var Percent = Math.floor( ((Result / Value) * 100)/2); // not sure why this works, need to investigate.
 
         /**
          * @param {string} a
@@ -974,7 +974,7 @@ App.Scene = class Scene {
      */
     _MatchResult(Tag, Result, Value) {
         var Output = "";
-        var Percent = Math.floor((Result / Value) * 100);
+        var Percent = Math.floor(((Result / Value) * 100)/2);
         /**
          * @param {string} a
          * @returns {string}

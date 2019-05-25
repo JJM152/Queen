@@ -123,9 +123,9 @@ App.Data.JobData["COURTESAN_BASIC"] = {
                 that in mind, you lean forward and gently place your hands on his upper thighs while gazing into his eyes, \
                 your mouth slowly starting to engulf his member. \n\n\
                 ",
-            "RESULTS" : [
+            RESULTS : [
                 {
-                    B:  85, 
+                    B:  49, 
                     TEXT:  "\
                     You start off slow, trying to accomodate the girth of this young lads impressive tool, while staring up \
                     into his eyes to give him a more intimate connection, just as you've been taught. However, his own \
@@ -135,7 +135,7 @@ App.Data.JobData["COURTESAN_BASIC"] = {
                     your suckhole."
                 },
                 {
-                    B: 120, 
+                    B: 69, 
                     TEXT: "\
                     You start off slow, trying to accomodate the girth of this young lads impressive tool, while staring up \
                     into his eyes to give him a more intimate connection, just as you've been taught. However, his own \
@@ -189,27 +189,51 @@ App.Data.JobData["COURTESAN_BASIC"] = {
     JOB_RESULTS: [
         {
             A: 40, 
-            TEXT: "You receive an grade of @@'D'@@ on your 'Courtesean' skills. "
+            TEXT: "You receive an grade of @@'D'@@ on your 'Courtesean' quiz.\n"
         },
         {
             A: 50, 
-            TEXT: "You receive an grade of @@'C'@@ on your 'Courtesean' skills. "
+            TEXT: "You receive an grade of @@'C'@@ on your 'Courtesean' quiz.\n"
         },
         {
             A: 60, 
-            TEXT: "You receive an grade of @@'B'@@ on your 'Courtesean' skills. "
+            TEXT: "You receive an grade of @@'B'@@ on your 'Courtesean' quiz.\n"
         },
         {
             A: 70, 
-            TEXT: "You receive an grade of @@'A'@@ on your 'Courtesean' skills. "
+            TEXT: "You receive an grade of @@'A'@@ on your 'Courtesean' quiz.\n"
         },
         {
             A: 80, 
-            TEXT: "You receive an grade of @@'A+'@@ on your 'Courtesean' skills. "
+            TEXT: "You receive an grade of @@'A+'@@ on your 'Courtesean' quiz.\n"
         },
         {
             A: 500, 
-            TEXT: "You receive an grade of @@'S+'@@ on your 'Courtesean' skills. "
+            TEXT: "You receive an grade of @@'S+'@@ on your 'Courtesean' quiz.\n"
+        },
+        {
+            B: 40, 
+            TEXT: "You receive an grade of @@'D'@@ on your 'Blow Job' practical.\n"
+        },
+        {
+            B: 50, 
+            TEXT: "You receive an grade of @@'C'@@ on your 'Blow Job' practical.\n"
+        },
+        {
+            B: 60, 
+            TEXT: "You receive an grade of @@'B'@@ on your 'Blow Job' practical.\n"
+        },
+        {
+            B: 70, 
+            TEXT: "You receive an grade of @@'A'@@ on your 'Blow Job' practical.\n"
+        },
+        {
+            B: 80, 
+            TEXT: "You receive an grade of @@'A+'@@ on your 'Blow Job' practical.\n"
+        },
+        {
+            B: 500, 
+            TEXT: "You receive an grade of @@'S+'@@ on your 'Blow Job' practical.\n"
         }
      ]
 };
@@ -235,17 +259,211 @@ App.Data.JobData["COURTESAN_DANCING"] = {
         { TYPE : "SKILL", NAME: "Dancing", CONDITION: "lte", VALUE: 60 }
     ],
     INTRO:
-        "NPC_NAME says s(Looking for some style tutoring? Sure, I can help you, for a price...)",
+        "\
+        NPC_NAME says, s(Dancing is the art of Seduction. Every proper courtesan knows how to both dance elegantly \
+        at court, or sexily in the bedchamber. This class will help you be perfect at both.)",
     START :
         "\
+        The class starts early in the morning in one of the larger rooms in the guildhouse. Several girls are \
+        already present and chatting enthusiastically with each other - evidently the dance class is a popular \
+        subject amongst aspiring courtesans. Just as you are about to move closer to eavesdrop on the conversation, \
+        a door opens and in steps NPC_NAME followed by several young men pulling racks and racks of clothing.\n\n\
+        Everyone watches the procession with much interest as NPC_NAME directs the porters, she then turns to \
+        addressed the assembled students. s(Ladies), she begins, s(Today will be practical training in the arts \
+        of dancing, conversation and seduction). She motions to the young men behind her, s(These fine gentlemen \
+        will be your dance partners today. Your job will be to not only dance elegantly, but to also entertain \
+        them and most importantly, to keep your composure.... NO. MATTER. WHAT.)\n\n\
+        It's an odd pronouncement for sure, but the way some of the blokes behind her are grinning you have an \
+        inkling of what you're up for. Oh well, it won't be the first time some horny man has gotten 'handsy' \
+        with you since your abduction.\n\
         ",
     SCENES: [
-
+        {
+            ID : "CourtesanTest",
+            TRIGGERS :[ ],
+            TRIGGERS_ANY : [ ],
+            CHECKS : [
+                { 
+                    TAG: "A", TYPE : "SKILL", NAME : "Courtesan", DIFFICULTY : 60, 
+                    REWARD : "", R_NAME : "", VALUE: 100, OPT : 0 
+                }
+            ],
+            POST : [
+                { 
+                    TYPE : "SKILL_XP", NAME : "Courtesan", VALUE :  100, OPT : 0 
+                },
+                { 
+                    TYPE : "SKILL_XP", NAME : "Dancing", VALUE :  200, OPT : 0 
+                }
+            ],
+            START :
+                "\
+                With NPC_NAME's final pronouncement, the class begins in earnest. The racks that were brought in contain \
+                a variety of outfits for different types of dances or social events. Some of the men are actually \
+                musicians and they provide the atmosphere for the lessons. The morning is spent in whirlwind of \
+                costume changes (all within sight of the male onlookers, of course) and brisk instruction in a variety \
+                of popular dances. Your dancing partner happens to be an older man with a prominent nose and an even \
+                larger potbelly. He sweats profusely from his balding pate and leers at your pBUST tits every chance \
+                he gets. \n\n\
+                During one of the dances, a waltz, one of his hands starts to probe your pASS backside, getting more \
+                and more aggressive until he's practically digitally raping your asshole through your clothes. \
+                ",
+            "RESULTS" : [
+                {
+                    A: 50,
+                    TEXT: "\
+                    You do your best to ignore him and to smile pleasantly, but it's @@too much for you@@ and without thinking \
+                    you swat his hand away and adjust your garments, an action NPC_NAME certainly notices."
+                },
+                {
+                    A: 80,
+                    TEXT: "\
+                    It takes a huge amount of self restraint to not just slap the man and walk away, but you @@do your \
+                    best@@ to endure his prodding finger. It's still pretty clear that you're visibly flustered, and \
+                    NPC_NAME certainly takes note."
+                },
+                {
+                    A: 500,
+                    TEXT: "\
+                    With practiced skill you block the mans actions from your mind and give him a brilliant smile, as \
+                    expected from a professional courtesan. Of course this only encourages him and his other hand starts \
+                    to gently heft the underside of your pBUST tits. Still, you smile through it all, an action that \
+                    NPC_NAME certainly notices."
+                }
+             ],
+            "END" :
+                "\n\n\
+                Eventually the dancing session is over and the group breaks for a small lunch. Most of the girls have \
+                brought their own small meals, others simply flirt with the group of male dancers for parts of their \
+                portions. Towards the end of the break several of the men bring in large couches from another room and \
+                arrange them in a large semi-circle.\
+                "
+        },
+        {
+            ID : "SeductionTest",
+            TRIGGERS :[ ],
+            TRIGGERS_ANY : [ ],
+            CHECKS : [
+                { 
+                    TAG: "B", TYPE : "SKILL", NAME : "Seduction", DIFFICULTY : 60, 
+                    REWARD : "", R_NAME : "", VALUE: 100, OPT : 0 
+                }
+            ],
+            POST : [
+            ],
+            START :
+                "\
+                NPC_NAME claps her hands, bringing everyone to attention. s(Now ladies, for this next part of the \
+                afternoon we will be practicing the art of dance as used for seduction.) There is a slight murmur \
+                from the girls, not all of them are too keen about this part of the lesson.\n\n\
+                The next part of the afternoon is spent being instructed in a vareity of dance moves that could \
+                best be described as 'fucking with clothes on'. You're assigned the same dance partners from \
+                the morning activities which means that you spend the next two hours gyrating and sliding all over \
+                an obese old man who is only more than happy to grab your pASS arse or tweak your pBUST tits when \
+                given the opportunity. Finally, practice is over and you're each assigned to perform what \
+                NPC_NAME calls a 'practical exam'. \n\n\
+                You approach your partner who is sitting, reclined on a couch, his legs splayed forward and open \
+                as he knows what is about to happen. You wait for the musicians to start playing and then \
+                begin your dance. Slowly you approach him with what you think is a sensual walk, then when \
+                you arrive in front of him you turn around and start slowly moving your pASS ass back and forth \
+                while you fondle and grope yourself.\n\n\
+                The lecherous old man is more than happy with your performance so far and he takes the opportunity \
+                to feel you up from behind, out of the corner of your eye you notice that his cock is stiffening \
+                in his loose cut cotton trousers. You know what you need to do next, so you start lower your \
+                backside onto his lap. He accomodates you by leaning backwards, shifting his impressive gut out \
+                of the way and giving you better access to his stiffening member.\
+                ",
+            "RESULTS" : [
+                {
+                    A: 50,
+                    TEXT: "\
+                    You casually move your arse across his lap, his stiff prick occasionally poking or prodding you \
+                    as you gyrate. @@Unfortunately it doesn't seem to have much of an effect@@."
+                },
+                {
+                    A: 80,
+                    TEXT: "\
+                    You sensiously move your arse in circles on his lap, taking care to rub the old perverts dick \
+                    between your arsecheeks as you go. You can hear his breathing increase and feel the @@effect \
+                    you are having on him@@ through his trousers. "
+                },
+                {
+                    A: 500,
+                    TEXT: "\
+                    With practiced skill you @@massage the mans cock with your ass@@ through his clothes. Accordingly, \
+                    his breathing increases and his dick, already stiff, becomes rock hard. You take the opportunity to \
+                    isolate his prick between your cheeks and then start to jerk him off with long solid strokes, all \
+                    the while making your own impressive moaning and lustfilled sounds."
+                }
+             ],
+            "END" :
+                "\n\n\
+                Before the situation can go much further, NPC_NAME calls for an end of the lessons. There is a large \
+                amount of grumbling from the men, but evidently their jobs today didn't include 'getting off', which of \
+                course leaves them blueballed, your partner not being an exception. He gets up with a huff and adjusts \
+                his prick in plain sight of everyone before marching away. You overhear one of the men stage whispering \
+                to another - s(If yee want more than that, yee gots to pay the missus fer it!) tp(Ah, so they weren't \
+                getting paid for their time, they were PAYING to be here...) you think to yourself. Truly NPC_NAME is \
+                a ruthless businesswoman. \
+                "
+        },
     ],
     END:
         "\
+        With the practical evaluation over, NPC_NAME gives each one of the girls their scores for the day. \
+        \n\n\
+        JOB_RESULTS\
         ",
-    JOB_RESULTS: [ ]
+    JOB_RESULTS: [
+        {
+            A: 40, 
+            TEXT: "You receive an grade of @@'D'@@ on your 'Courtesean' quiz.\n"
+        },
+        {
+            A: 50, 
+            TEXT: "You receive an grade of @@'C'@@ on your 'Courtesean' quiz.\n"
+        },
+        {
+            A: 60, 
+            TEXT: "You receive an grade of @@'B'@@ on your 'Courtesean' quiz.\n"
+        },
+        {
+            A: 70, 
+            TEXT: "You receive an grade of @@'A'@@ on your 'Courtesean' quiz.\n"
+        },
+        {
+            A: 80, 
+            TEXT: "You receive an grade of @@'A+'@@ on your 'Courtesean' quiz.\n"
+        },
+        {
+            A: 500, 
+            TEXT: "You receive an grade of @@'S+'@@ on your 'Courtesean' quiz.\n"
+        },
+        {
+            B: 40, 
+            TEXT: "You receive an grade of @@'D'@@ on your 'Seduction' practical.\n"
+        },
+        {
+            B: 50, 
+            TEXT: "You receive an grade of @@'C'@@ on your 'Seduction' practical.\n"
+        },
+        {
+            B: 60, 
+            TEXT: "You receive an grade of @@'B'@@ on your 'Seduction' practical.\n"
+        },
+        {
+            B: 70, 
+            TEXT: "You receive an grade of @@'A'@@ on your 'Seduction' practical.\n"
+        },
+        {
+            B: 80, 
+            TEXT: "You receive an grade of @@'A+'@@ on your 'Seduction practical.\n"
+        },
+        {
+            B: 500, 
+            TEXT: "You receive an grade of @@'S+'@@ on your 'Seduction' practical.\n"
+        }
+     ]
 };
 
 // SINGING
