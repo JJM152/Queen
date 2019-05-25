@@ -251,7 +251,7 @@ App.Data.JobData["COURTESAN_DANCING"] = {
     COST : [
             { TYPE : "TIME", VALUE : 3 },
             { TYPE : "STAT", NAME : "Energy", VALUE : 5 },
-            { TYPE : "MONEY", VALUE : 100 },
+            { TYPE : "MONEY", VALUE : 200 },
             { TYPE : "TOKENS", VALUE: 5}
     ],
     REQUIREMENTS: [
@@ -293,7 +293,10 @@ App.Data.JobData["COURTESAN_DANCING"] = {
                     TYPE : "SKILL_XP", NAME : "Courtesan", VALUE :  100, OPT : 0 
                 },
                 { 
-                    TYPE : "SKILL_XP", NAME : "Dancing", VALUE :  200, OPT : 0 
+                    TYPE : "SKILL_XP", NAME : "Dancing", VALUE :  100, OPT : 0 
+                },
+                { 
+                    TYPE : "SKILL_XP", NAME : "Seduction", VALUE :  100, OPT : 0 
                 }
             ],
             START :
@@ -464,106 +467,4 @@ App.Data.JobData["COURTESAN_DANCING"] = {
             TEXT: "You receive an grade of @@'S+'@@ on your 'Seduction' practical.\n"
         }
      ]
-};
-
-// SINGING
-App.Data.JobData["COURTESAN_SINGING"] = {
-    ID: "COURTESAN_SINGING", 
-    TITLE: "Eloquent Singing Class", 
-    GIVER: "Selene", 
-    PAY: 0,
-    RATING: 3, // of 5
-    PHASES: [ 0 ],
-    DAYS: 1,
-    HIDDEN: false,
-    COST : [
-            { TYPE : "TIME", VALUE : 3 },
-            { TYPE : "STAT", NAME : "Energy", VALUE : 5 },
-            { TYPE : "MONEY", VALUE : 100 },
-            { TYPE : "TOKENS", VALUE: 5}
-    ],
-    REQUIREMENTS: [
-        { TYPE : "QUEST", NAME: "COURTESAN_GUILD_JOIN", CONDITION: "eq", VALUE: "COMPLETED" },
-        { TYPE : "SKILL", NAME: "Singing", CONDITION: "lte", VALUE: 60 }
-    ],
-    INTRO:
-        "NPC_NAME says s(Looking for some style tutoring? Sure, I can help you, for a price...)",
-    START :
-        "\
-        ",
-    SCENES: [
-
-    ],
-    END:
-        "\
-        ",
-    JOB_RESULTS: [ ]
-};
-
-// Styling
-App.Data.JobData["COURTESAN_STYLING"] = {
-    ID: "COURTESAN_STYLING", 
-    TITLE: "Sexy Styling Class", 
-    GIVER: "Selene", 
-    PAY: 0,
-    RATING: 3, // of 5
-    PHASES: [ 0 ],
-    DAYS: 1,
-    HIDDEN: false,
-    COST : [
-            { TYPE : "TIME", VALUE : 3 },
-            { TYPE : "STAT", NAME : "Energy", VALUE : 5 },
-            { TYPE : "MONEY", VALUE : 200 },
-            { TYPE : "TOKENS", VALUE: 5}
-    ],
-    REQUIREMENTS: [
-        { TYPE : "QUEST", NAME: "COURTESAN_GUILD_JOIN", CONDITION: "eq", VALUE: "COMPLETED" },
-        { TYPE : "SKILL", NAME: "Styling", CONDITION: "lte", VALUE: 60 }
-    ],
-    INTRO:
-        "NPC_NAME says s(Looking for some style tutoring? Sure, I can help you, for a price...)",
-    START :
-        "\
-        ",
-    SCENES: [
-
-    ],
-    END:
-        "\
-        ",
-    JOB_RESULTS: [ ]
-};
-
-// Serving
-App.Data.JobData["COURTESAN_SERVING"] = {
-    ID: "COURTESAN_SERVING", 
-    TITLE: "Serving your Lord and Lady", 
-    GIVER: "Selene", 
-    PAY: 0,
-    RATING: 3, // of 5
-    PHASES: [ 0 ],
-    DAYS: 1,
-    HIDDEN: false,
-    COST : [
-            { TYPE : "TIME", VALUE : 3 },
-            { TYPE : "STAT", NAME : "Energy", VALUE : 5 },
-            { TYPE : "MONEY", VALUE : 100 },
-            { TYPE : "TOKENS", VALUE: 5}
-    ],
-    REQUIREMENTS: [
-        { TYPE : "QUEST", NAME: "COURTESAN_GUILD_JOIN", CONDITION: "eq", VALUE: "COMPLETED" },
-        { TYPE : "SKILL", NAME: "Serving", CONDITION: "lte", VALUE: 60 }
-    ],
-    INTRO:
-        "NPC_NAME says s(Looking for some style tutoring? Sure, I can help you, for a price...)",
-    START :
-        "\
-        ",
-    SCENES: [
-
-    ],
-    END:
-        "\
-        ",
-    JOB_RESULTS: [ ]
 };

@@ -1,5 +1,18 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.11e 26/05/2019 - PATREON PLAY TEST VERSION
+!!!!General
+* New body effect available on some items - EYES BIGGER.
+* New body effect available on some items - EYES SMALLER.
+* Fixed bug that was causing base pay to be reported, but not earned, in jobs.
+!!!!Golden Isle
+* Added NPC Avatar for Bertie.
+!!!!Port Royale
+* Added NPC Avatar for Selene.
+* Added Shop to Courtesan School (available after completing quest).
+* Added some training jobs to Courtsean School (available after completing quest).
+!!!!Abamond
+* Digging in the caves no longer costs energy. Moving between levels still costs 1 point.
 !!!0.11d 24/05/2019
 !!!!General
 * Beauty supplies now correct come in groups of 5 per purchase, but only cost 1 use as detailed in the styling ui.

@@ -142,13 +142,6 @@ App.Rogue.Player = function() {
                 } else if (this._level.isTreasure(this.getXY()) != null ) {
 
                     if (this.getShovels() > 0 ) {
-                        if ( setup.player.GetStat("STAT","Energy") < 1 ) {
-                            App.Rogue.Engine._textBuffer.write("You're too tired to dig.");
-                            return true;
-                        }
-
-                        setup.player.AdjustStat("Energy", -1);
-                        App.PR.RefreshTwineMeter("Energy");
                         App.Rogue.Engine._textBuffer.write("You start digging...");
                         this._level.digAt(this.getXY());
 

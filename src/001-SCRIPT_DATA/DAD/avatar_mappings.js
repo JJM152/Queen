@@ -1873,4 +1873,56 @@ App.Data.AvatarMaps['NPC_GLASSES'] = [
             fill: "hsla(0.0,0.0%,63.5%,0.06)",
           }
     }
+];
+
+App.Data.AvatarMaps['NPC Bertie'] = [
+    {
+        c: "da.AsymmetricSleevedSweater",
+        a: {
+            neckCoverage: -0.03178822115978053,
+            stomachCoverage: -0.01205814095615343,
+            thickness: 0.4,
+            fill: "hsla(351.4,94.6%,85.5%,0.76)",
+            stroke: "hsla(0.0,50.0%,86.7%,1.00)",
+        }
+    },
+    {
+        c: "da.Corset",
+        a: {
+            botCoverage: 0.5009239443381492,
+            knots: 3.499999999999999,
+            thickness: 0.5,
+            fill: "black",
+        }
+    },
+    {
+        c: "da.QueenSkirt",
+        a: {
+            legCoverage: 0.36,
+            waistCoverage: 0.12,
+            fill: "hsla(351.4,94.6%,85.5%,0.76)",
+            stroke: "hsla(0.0,50.0%,86.7%,1.00)",
+        }
+    },
+    {
+        c: "da.Stockings",
+        a: {
+            fill: "hsla(0.0,0.0%,100.0%,0.86)",
+        }
+    },
+    {
+        c: "da.QueenBoots",
+        a: {
+            legCoverage: 0.22470282148737075,
+            fill: "black",
+            stroke: "hsla(0.0,50.0%,86.7%,1.00)",
+        }
+    },
+    {
+        c: "da.Bracelet",
+        a: {
+            armCoverage: 0.7968751473925542,
+            fill: "hsla(54.1,100.0%,47.6%,1.00)",
+        }
+    }
 ]
