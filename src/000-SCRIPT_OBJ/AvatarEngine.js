@@ -486,8 +486,8 @@ App.Entity.AvatarEngine = class Avatar {
 
         // Copy player face data into data.
         var Face = setup.player.FaceData;
-        if (Face == null || typeof Face === 'undefined') { // kludge just in case.
-            setup.player._state.FaceData = $.extend(true, { }, App.Data.DAD.FacePresets['Default 1']);
+        if (Face == null || typeof Face === 'undefined') { // kludge just in case
+            setup.player.SetFace('Default 1');
             Face = setup.player.FaceData;
         }
 

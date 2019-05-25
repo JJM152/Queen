@@ -284,12 +284,8 @@ var Store = function(Player, NPC, StoreData) {
                 return ((Item["CATEGORY"] == "RARE") && (Mood >= Item["MOOD"]) && (Item["LOCKED"] != 1));
             });
 
-            console.log(MaxRares);
-            console.log(Rares);
             // Add multiple rare items to the store inventory.
             if (Rares.length > 0) {
-            console.log("Populating rares...");
-            console.log(Rares);
             for (i = 0; i < MaxRares; i++) {
                 // Filter out Rares that already exist in the rares entry.
                 Rares = Rares.filter(function(o) {

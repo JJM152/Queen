@@ -706,7 +706,15 @@ App.Data.AvatarMaps["white microskirt"] = [
 
 
 App.Data.AvatarMaps["red wedges"] = [
-
+    {
+        c: "da.ClosedToeStrappedPumps",
+        a: {
+            platformHeight: 0.0,
+            toeCoverage: 2,
+            fill: "red",
+            pattern: "da.getPattern('red plastic', 100)"
+        }
+    }
 ];
 
 App.Data.AvatarMaps["slutty strumpet dress"] = [
@@ -1856,3 +1864,13 @@ App.Data.AvatarMaps["NPC pirate"] = [
         }
     }
 ];
+
+App.Data.AvatarMaps['NPC_GLASSES'] = [
+    {
+        c: "da.Glasses",
+        a: {
+            eccentricity: 5.1000000000000005,
+            fill: "hsla(0.0,0.0%,63.5%,0.06)",
+          }
+    }
+]
