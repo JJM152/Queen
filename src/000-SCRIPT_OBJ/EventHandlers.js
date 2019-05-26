@@ -254,6 +254,7 @@ App.EventHandlers = new function() {
 
         if(save.version < 0.111) {
             console.log('Adding new face data to player state...');
+            let ps = save.state.history[0].variables.PlayerState;
             ps.FaceData = { };
             $.extend(true, ps.FaceData, App.Data.DAD.FacePresets['Default 1']);
         }
