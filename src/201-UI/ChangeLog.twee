@@ -1,5 +1,8 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.11f ??/??/????
+!!!Salty Mermaid
+* You can no longer spar with Kipler during the night or late night phases.
 !!!0.11e - Hotfix C.
 * Fixed crazysauce borked math for damage resistance results on player character.
 !!!0.11e - Hotfix B.
