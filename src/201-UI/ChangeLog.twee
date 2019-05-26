@@ -1,5 +1,11 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.11e - Hotfix C.
+* Fixed crazysauce borked math for damage resistance results on player character.
+!!!0.11e - Hotfix B.
+* Fixed null reference in combat engine relating to damage resistance.
+!!!0.11e - Hotfix A.
+* Fixed save game upgrade from 0.10 to 0.11x versons.
 !!!0.11e 26/05/2019 - PATREON PLAY TEST VERSION
 !!!!General
 * New body effect available on some items - EYES BIGGER.

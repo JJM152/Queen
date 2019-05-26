@@ -140,7 +140,7 @@ App.Combat.Engines.Generic = class GenericEngine {
         } else {
 
             if (Target.IsNPC == false) {
-                var dmgMod = Math.min(Target.Player.GetWornSkillBonus("Damage Resistance"), 90); //capped
+                var dmgMod = Math.min(Target.Player.GetWornSkillBonus("Damage Resistance"), 90) / 100; //capped
                 var dmg = (dmg - Math.ceil( dmg * dmgMod));
             }
             
