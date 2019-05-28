@@ -34,7 +34,20 @@
 	<tr>
 		<td style="width:670px;">
 			<<= setup.player.UseItem($args[0]);>></td>
-		<td style="width:80px;text-align: right;vertical-align:top;"><<if ((typeof _Item !== 'undefined') && (_Item.Charges() > 0));>>@@.inventoryButton;<<button "Repeat">><<replace "#InventoryUI">><<UseItem $args[0] $args[1]>><</replace>><</button>>@@<<else>>@@.disabledWardrobeButton;<<button "Use Again">><</button>>@@<</if>></td>
+		<td style="width:80px;text-align: right;vertical-align:top;">\
+<<if ((typeof _Item !== 'undefined') && (_Item.Charges() > 0));>>\
+@@.inventoryButton;<<button "Repeat">>\
+<<replace "#InventoryUI">>\
+<<UseItem $args[0] $args[1]>>\
+<</replace>>\
+<</button>>@@\
+<<else>>\
+@@.inventoryButton;<<button "Back">>\
+<<replace "#InventoryUI">><<InventoryTable $args[1]>>\
+<</replace>>
+<</button>>@@\
+<</if>>\
+</td>
 	</tr>
 </tbody>
 </table><<replace "#PlayerScore">><<score>><</replace>><</widget>>
@@ -51,7 +64,20 @@
 	<tr>
 		<td style="width:670px;">
 			You threw away <<= setup.player.TakeItem($args[0]).Description;>>.</td>
-		<td style="width:80px;text-align: right;vertical-align:top;"><<if ((typeof _Item !== 'undefined') && (_Item.Charges() > 0));>>@@.inventoryButton;<<button "Repeat">><<replace "#InventoryUI">><<ThrowItem $args[0] $args[1]>><</replace>><</button>>@@<<else>>@@.disabledWardrobeButton;<<button "Throw more">><</button>>@@<</if>></td>
+		<td style="width:80px;text-align: right;vertical-align:top;">\
+<<if ((typeof _Item !== 'undefined') && (_Item.Charges() > 0));>>\
+@@.inventoryButton;<<button "Repeat">>\
+<<replace "#InventoryUI">>\
+<<ThrowItem $args[0] $args[1]>>\
+<</replace>>\
+<</button>>@@\
+<<else>>\
+@@.inventoryButton;<<button "Back">>\
+<<replace "#InventoryUI">><<InventoryTable $args[1]>>\
+<</replace>>\
+<</button>>@@\
+<</if>>\
+</td>
 	</tr>
 </tbody>
 </table><<replace "#PlayerScore">><<score>><</replace>><</widget>>
