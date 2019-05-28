@@ -47,7 +47,7 @@ App.Data.Quests["LORD_ROWE_PORNO_DELIVERY"] = {
     ],
     "REWARD": [
         { "REWARD_TYPE": "MONEY", "AMOUNT": 500 },
-        { "REWARD_TYPE": "UNLOCK_SHOP", "NAME" : "SMUGGLERS", "VALUE" : "steel cutlass", "NPC" : "Petey"  },
+        { "REWARD_TYPE" : "STORE", "NAME" : "SMUGGLERS", "VALUE" :  "steel cutlass",   "OPT" : "UNLOCK"    },
         { "REWARD_TYPE": "MOOD", "NAME" : "Petey", "AMOUNT": 10 }
     ],
     "INTRO": "\

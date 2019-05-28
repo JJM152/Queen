@@ -761,6 +761,7 @@ App.Scene = class Scene {
             case "SLOT":
                 this._RewardItems.SlotUnlockCount += 1;
                 break;
+
         }
     }
 
@@ -857,8 +858,17 @@ App.Scene = class Scene {
                 if (Opt == "LOCK") App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 1);
                 if (Opt == "UNLOCK") App.StoreEngine.ToggleStoreItem(this._Player, Name, Value, 0);
                 break;
+            case "RESET_SHOP":
+                if (this._Player.StoreInventory[Name]["INVENTORY"].length > 1) {
+                    this._Player.StoreInventory[Name]["LAST_STOCKED"] = 0;
+                }
+                break;
             case "NPC_STAT":
                 this._NPC.AdjustStat(Name, Value);
+                break;
+            case "MOOD":
+                var npc = this._Player.GetNPC(Name);
+                npc.AdjustStat('Mood', Value);
                 break;
             case "PIRATE_STATS":
                 this._Player.GetNPC("Crew").AdjustStat(Name, Value);
@@ -961,7 +971,9 @@ App.Scene = class Scene {
         Scene.Debug("_ProcessPost", JSON.stringify(Checks));
 
         for (var i = 0; i < Posts.length; i++)
+        {   
             this._CalculateReward(Posts[i]["TYPE"], Posts[i]["NAME"], Posts[i]["VALUE"], Posts[i]["OPT"], Checks);
+        }
     }
 
     /**
@@ -1607,12 +1619,25 @@ App.Quest = class Quest extends App.Task {
                 }
                 var rewards = this.TaskData['REWARD'];
                 if (rewards !== undefined) {
+                    // had to hack this together because previous refactor fucked it up.
                     for (const r of rewards) {
+                        if (r['REWARD_TYPE'] == 'ITEM' || r['REWARD_TYPE'] == 'ITEM_CHOICE') {
                         res.POST.push({
                             "TYPE" : r['REWARD_TYPE'],
                             "NAME" : App.Item.MakeId(r['TYPE'], r['NAME']),
-                            "VALUE": r['AMOUNT']
+                            "VALUE": r['AMOUNT'],
+                            "OPT" : r['OPT']
                         });
+                        } else {
+                            let v = r.hasOwnProperty('AMOUNT') ? r['AMOUNT'] : r['VALUE'];
+                            res.POST.push({
+                                "TYPE" : r['REWARD_TYPE'],
+                                "NAME" : r['NAME'],
+                                "VALUE": v,
+                                "OPT" : r['OPT']
+                            });
+                            
+                        }
                     }
                 }
 

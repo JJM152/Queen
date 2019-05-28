@@ -3,6 +3,9 @@
 !!!0.11f ??/??/????
 !!!!General
 * Fixed bug that was clobbering random events. 
+* Fixed bug that was not changing NPC's mood when you completed a quest.
+* Fixed bug that was not unlocking some items at shops when you completed a quest.
+* Fixed bug that was not resetting some shops when you completed a quest. (sigh)
 !!!!Salty Mermaid
 * You can no longer spar with Kipler during the night or late night phases.
 !!!0.11e - Hotfix C.
