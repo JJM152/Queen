@@ -8,6 +8,7 @@ App.EventEngine = class EventEngine {
 
     get PassageOverride() { return this._PassageOverride; }
     set PassageOverride(n) { this._PassageOverride = n; };
+
     get FromPassage() { 
         if (this._fromPassage == null) this._LoadState();
         return this._fromPassage; 
@@ -173,8 +174,8 @@ App.EventEngine = class EventEngine {
             o.hasOwnProperty('FORCE') && 
             o.FORCE == true &&
             ( o["MAX_REPEAT"] == 0 ? true :
-            (Player.QuestFlags.hasOwnProperty("EE_"+o["ID"]+"_COUNT") ? 
-            Player.QuestFlags["EE_"+o["ID"]+"_COUNT"] < o["MAX_REPEAT"] : true)) &&
+            (setup.player.QuestFlags.hasOwnProperty("EE_"+o["ID"]+"_COUNT") ? 
+            setup.player.QuestFlags["EE_"+o["ID"]+"_COUNT"] < o["MAX_REPEAT"] : true)) &&
             o.CHECK(setup.player) == true);
 
             return events.length > 0 ? events[0] : null;
