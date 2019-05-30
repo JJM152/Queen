@@ -352,7 +352,7 @@ App.Task = class Task {
      */
     _MatchResult(Tag, Result, Value) {
         var Output = "";
-        var Percent = Math.floor( ((Result / Value) * 100)/2); // not sure why this works, need to investigate.
+        var Percent = Math.floor( (Result / Value) * 100);
 
         /**
          * @param {string} a
@@ -815,11 +815,20 @@ App.Scene = class Scene {
             case "STAT_XP":
             case "BODY_XP":
             case "SKILL_XP":
-                if (Name == 'WillPower') { // Apply corruption effect.
+                if (Name == 'WillPower') { // Override and apply corruption effect.
                     this._Player.CorruptWillPower( Value, 75); // default scaling for jobs.
                 } else {
                     this._Player.AdjustXP(Type.slice(0,-3), Name, Value);
                 }
+                break;
+            case "CORRUPT_WILLPOWER":
+                var Difficulty = 20;
+                if (Name.toLowerCase() == 'medium') {
+                    Difficulty = 50;
+                } else if (Name.toLowerCase() == 'high') {
+                    Diffuclty = 75;
+                }
+                this._Player.CorruptWillPower(Value, Difficulty);
                 break;
             case "STAT":
                 this._Player.AdjustStat(Name, Value);
@@ -986,7 +995,8 @@ App.Scene = class Scene {
      */
     _MatchResult(Tag, Result, Value) {
         var Output = "";
-        var Percent = Math.floor(((Result / Value) * 100)/2);
+        //var Percent = Math.floor(((Result / Value) * 100)/2);
+        var Percent = Math.floor((Result / Value) * 100);
         /**
          * @param {string} a
          * @returns {string}

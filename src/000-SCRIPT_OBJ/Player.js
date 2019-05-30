@@ -964,6 +964,8 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      */
     CorruptWillPower(XP, Difficulty = 50)
     {
+        XP = Math.abs(XP); // make sure negatives become positives.
+        
         if (this._state.debugMode) 
             console.log("CorruptWillPower("+XP+","+Difficulty+") called");
 
@@ -1171,7 +1173,7 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
      * @returns {number}
      */
     Beauty () {
-        var cBeauty = Math.round((this.GetStat("BODY", "Face") * 0.4) + (this.Figure() * 0.3 ) + (this.GetStat("STAT", "Fitness") * 0.3));
+        var cBeauty = Math.round((this.GetStat("BODY", "Face") * 0.4) + (this.Figure() * 0.4 ) + (this.GetStat("STAT", "Fitness") * 0.3));
         return Math.max(1, Math.min(cBeauty, 100));
     }
 

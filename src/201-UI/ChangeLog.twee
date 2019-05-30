@@ -7,8 +7,17 @@
 * Fixed bug that was not unlocking some items at shops when you completed a quest.
 * Fixed bug that was not resetting some shops when you completed a quest. (sigh)
 * Using or throwing away the last item in a stack will now give you a 'back' button to return to inventory.
+* Beauty rating no longer weights 'fitness' as heavily as before and weights having an hourglass type figure more.
+* WIP - Fiddling with how job results get displayed to ensure the ratings are correct. This is just flavor text \
+and doesn't effect gameplay other than that, but you may notice it.
 !!!!Salty Mermaid
 * You can no longer spar with Kipler during the night or late night phases.
+!!!!Golden Isle
+* Minxy's Dance Hall - Fixed Appearance checks. Stripping now only has a minor corruption effect.
+* Bertie's whoring job is now available after you complete her quest.
+* Added a back story quest to Bertie with a nice reward.
+!!!!Port Royale
+* Jezzebelle's - Fixed Apperance checks. Stripping now only has a minor corruption effect.
 !!!0.11e - Hotfix C.
 * Fixed crazysauce borked math for damage resistance results on player character.
 !!!0.11e - Hotfix B.
@@ -19,6 +28,8 @@
 !!!!General
 * New body effect available on some items - EYES BIGGER.
 * New body effect available on some items - EYES SMALLER.
+* New body effect available on some items - BROW THICKER.
+* New body effect available on some items - BROW THINNER.
 * Fixed bug that was causing base pay to be reported, but not earned, in jobs.
 !!!!Golden Isle
 * Added NPC Avatar for Bertie.

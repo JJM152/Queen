@@ -36,7 +36,7 @@ App.Data.JobData["DANCE_AMATEUR"] = {
                     "REWARD" : "MONEY", "VALUE" : 10
                 },
                 {
-                    "TAG": "APPEARANCE_CHECK", "TYPE" : "FUNC",
+                    "TAG": "APPEARANCE_CHECK", "TYPE" : "FUNC", "VALUE" : 10,
                     "FUN": function(p, s, c) {
                         return (c["BEAUTY_CHECK"]["RESULT"] + c["STYLE_CHECK"]["RESULT"])/2;
                     }
@@ -317,7 +317,7 @@ App.Data.JobData["DANCE_AMATEUR"] = {
             ],
             "POST" : [
                 {
-                    "TYPE" : "STAT_XP", "NAME" : "WillPower", "VALUE" : -20, "OPT" : 0
+                    "TYPE" : "CORRUPT_WILLPOWER", "NAME" : "LOW", "VALUE" : -20, "OPT" : 0
                 },
                 {
                     "TYPE" : "STAT_XP", "NAME" : "Perversion", "VALUE" : 50, "OPT" : "TAG_PERFORMANCE_BONUS"
@@ -394,7 +394,7 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
                      "REWARD" : "MONEY", "VALUE" : 10
                  },
                  {
-                     "TAG": "APPEARANCE_CHECK", "TYPE" : "FUNC",
+                     "TAG": "APPEARANCE_CHECK", "TYPE" : "FUNC", "VALUE" : 10,
                      "FUN": function(p, s, c) {
                          return (c["BEAUTY_CHECK"]["RESULT"] + c["STYLE_CHECK"]["RESULT"])/2;
                      }
@@ -732,7 +732,7 @@ App.Data.JobData["DANCE_PROFESSIONAL"] = {
              ],
              "POST" : [
                  {
-                     "TYPE" : "STAT_XP", "NAME" : "WillPower", "VALUE" : -20, "OPT" : 0
+                    "TYPE" : "CORRUPT_WILLPOWER", "NAME" : "LOW", "VALUE" : -20, "OPT" : 0
                  },
                  {
                      "TYPE" : "STAT_XP", "NAME" : "Perversion", "VALUE" : 50, "OPT" : "TAG_PERFORMANCE_BONUS"
@@ -809,7 +809,7 @@ App.Data.JobData["DANCE_EXPERT"] = {
                      "REWARD" : "MONEY", "VALUE" : 10
                  },
                  {
-                     "TAG": "APPEARANCE_CHECK", "TYPE" : "FUNC",
+                     "TAG": "APPEARANCE_CHECK", "TYPE" : "FUNC", "VALUE" : 10,
                      "FUN": function(p, s, c) {
                          return (c["BEAUTY_CHECK"]["RESULT"] + c["STYLE_CHECK"]["RESULT"])/2;
                      }
@@ -1158,7 +1158,7 @@ App.Data.JobData["DANCE_EXPERT"] = {
              ],
              "POST" : [
                  {
-                     "TYPE" : "STAT_XP", "NAME" : "WillPower", "VALUE" : -20, "OPT" : 0
+                     "TYPE" : "CORRUPT_WILLPOWER", "NAME" : "LOW", "VALUE" : -20, "OPT" : 0
                  },
                  {
                      "TYPE" : "STAT_XP", "NAME" : "Perversion", "VALUE" : 50, "OPT" : "TAG_PERFORMANCE_BONUS"
