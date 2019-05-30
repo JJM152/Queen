@@ -1,6 +1,6 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.11f ??/??/????
+!!!0.11f 31/05/2019
 !!!!General
 * Fixed bug that was clobbering random events. 
 * Fixed bug that was not changing NPC's mood when you completed a quest.
