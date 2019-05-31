@@ -1,5 +1,9 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.11g ??/??/2019 - RELEASE CANDIDATE
+!!!!General
+* Added a 'Memory' section to the Player Journal. This will recount the various effects on items that you \
+discover, even if they are not currently in your possession.
 !!!0.11f 31/05/2019
 !!!!General
 * Fixed bug that was clobbering random events. 
@@ -41,7 +45,7 @@ and doesn't effect gameplay other than that, but you may notice it.
 * Digging in the caves no longer costs energy. Moving between levels still costs 1 point.
 !!!0.11d 24/05/2019
 !!!!General
-* Beauty supplies now correct come in groups of 5 per purchase, but only cost 1 use as detailed in the styling ui.
+* Beauty supplies now correctly come in groups of 5 per purchase, but only cost 1 use as detailed in the styling ui.
 * added basic boots asset, still WIP.
 * added a basic beard body part, still WIP.
 * added a basic skirt asset to replace fake shorts as "skirts". Male genitals will now be exposed if the skirt is short \

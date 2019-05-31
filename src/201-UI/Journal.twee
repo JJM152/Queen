@@ -7,7 +7,11 @@ bookmarks in the notebook to quickly access recent records:
 
 <span class="tabbar" id="JournalTabs">\
 	@@.activeTabCaption;<span>placeholder</span>@@\
-	@@.tablink;#gameStats;<<button "Game Stats">>\
+	@@.tablink;#gameMemory;<<button "@@color:azure;Memory@@">>\
+  		<<replace '#JournalUI'>><<MemoryStats 'JournalTabs' 'gameMemory' 'Memory'>><</replace>>\
+		<<run App.PR.PrintMemory();>>\
+	<</button>>@@\
+	@@.tablink;#gameStats;<<button "@@color:lime;Game Stats@@">>\
   		<<replace '#JournalUI'>><<GameStats 'JournalTabs' 'gameStats' 'Game statistic'>><</replace>>
 	<</button>>@@\
 	@@.tablink;#completedQuests;<<button "@@color:yellow;Completed Quests@@">>\

@@ -496,7 +496,7 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
         if (typeof (result) !== "string" || result === "") return this.Name;
         result = result.replace("{COLOR}", String(this.Data.Color));
 
-        if (this.IsLocked()) result += " @@color:red;(Locked)@@";
+        if (this.IsLocked()) result += " <span style='color:red'>(Locked)</span>";
 
         return result;
     }
@@ -529,6 +529,16 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
         Output += this.Category.join(", ");
         Output += "\n";
         Output += "@@color:yellow;Rank @@ " + this.Rank + "\n";
+        var max = Math.min(Usages, this.GetKnowledge().length);
+
+        for(var i = 0; i < max; i++)
+            Output += App.PR.pEffectMeter(this.GetKnowledge()[i], this) + " ";
+        return Output;
+    }
+
+    PrintEffectsOnly(Player) {
+        var Output = "";
+        var Usages = Player.GetHistory("CLOTHING_EFFECTS_KNOWN", this.Tag);
         var max = Math.min(Usages, this.GetKnowledge().length);
 
         for(var i = 0; i < max; i++)
@@ -650,11 +660,11 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
      * @returns {string}
      */
     get Rank() {
-        if (this.Data["Style"] == "COMMON") return "@@color:gold;&#9733;@@";
-        if (this.Data["Style"] == "UNCOMMON") return "@@color:gold;&#9733;&#9733;@@";
-        if (this.Data["Style"] == "RARE") return "@@color:gold;&#9733;&#9733;&#9733;@@";
-        if (this.Data["Style"] == "LEGENDARY") return "@@color:gold;&#9733;&#9733;&#9733;&#9733;@@";
-        return "@@color:gold;&#9733;@@";
+        if (this.Data["Style"] == "COMMON") return "<span style='color:gold'>&#9733</span>";
+        if (this.Data["Style"] == "UNCOMMON") return "<span style='color:gold'>&#9733;&#9733</span>";
+        if (this.Data["Style"] == "RARE") return "<span style='color:gold'>&#9733;&#9733;&#9733</span>";
+        if (this.Data["Style"] == "LEGENDARY") return "<span style='color:gold'>&#9733;&#9733;&#9733;&#9733</span>";
+        return "<span style='color:gold'>&#9733</span>";
     }
 
     /** @returns {string} */
@@ -756,6 +766,16 @@ App.Items.Consumable = /** @class Consumable @extends {App.Item} */ class Consum
         for(var i = 0; i < max; i++)
             Output += App.PR.pEffectMeter(this.GetKnowledge()[i], this) + "  ";
 
+        return Output;
+    }
+
+    PrintEffectsOnly(Player) {
+        var Output = "";
+        var Usages = Player.GetHistory("ITEMS", this.Tag);
+        var max = Math.min(Usages, this.GetKnowledge().length);
+
+        for(var i = 0; i < max; i++)
+            Output += App.PR.pEffectMeter(this.GetKnowledge()[i], this) + " ";
         return Output;
     }
 

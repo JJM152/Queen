@@ -1,9 +1,106 @@
 App.PR = new function() {
 
+    this.PrintMemory = function()
+    {
+        var clothes = this.GetMemory('CLOTHES', setup.player.History.CLOTHING_EFFECTS_KNOWN);
+        
+        var clothesTable = new Tabulator('#clothes-table', {
+            height:"311px",
+            data: clothes,
+            columns: [
+                {title: "Slot", field: "Slot", width: 80 },
+                {title: "Category", field: "Category", width: 100 },
+                {title: "Rank", field: "Rank", width: 80, formatter:function(cell, formatterParams){
+                    return cell.getValue();
+                    } },
+                //force html tags to render
+                {title:"Name", field:"Name", width:200, formatter:function(cell, formatterParams){
+                    return cell.getValue();
+                 }},
+                //force html tags to render
+                {title:"Effects", field:"Effects", width:400, formatter:function(cell, formatterParams){
+                    return cell.getValue();
+                    }}, 
+            ],
+            initialSort:[
+                {column:"Name", dir:"desc"},
+            ],
+        });
+
+        var food = this.GetMemory('FOOD', setup.player.History.ITEMS);
+
+        var foodTable = new Tabulator('#food-table', {
+            height: "311px",
+            layout:"fitColumns",
+            data: food,
+            columns: [
+                //force html tags to render
+                {title:"Name", field:"Name", minWidth:200, formatter:function(cell, formatterParams){
+                    return cell.getValue();
+                 }},
+                //force html tags to render
+                {title:"Effects", field:"Effects", minWidth:600, formatter:function(cell, formatterParams){
+                    return cell.getValue();
+                    }},
+                ],
+            initialSort:[
+                {column:"Name", dir:"desc"},
+            ],
+        });
+
+        var drugs = this.GetMemory('DRUGS', setup.player.History.ITEMS);
+
+        var drugsTable = new Tabulator('#drugs-table', {
+            height: "311px",
+            layout:"fitColumns",
+            data: drugs,
+            columns: [
+                //force html tags to render
+                {title:"Name", field:"Name", minWidth:200, formatter:function(cell, formatterParams){
+                    return cell.getValue();
+                 }},
+                //force html tags to render
+                {title:"Effects", field:"Effects", minWidth:600, formatter:function(cell, formatterParams){
+                    return cell.getValue();
+                    }},
+                ],
+            initialSort:[
+                {column:"Name", dir:"desc"},
+            ],
+        });
+    }
+    /**
+     * Helper function for journal memory.
+     * Reduces the src dictionary down to valid entries in the player Dict(ionary)
+     * eg (CLOTHES, Player.History.CLOTHING_EFFECTS_KNOWN)
+     */
+    this.GetMemory = function(Category, Dict){
+
+        const Src = App.Item._TryGetItemsDictionary(Category);
+
+        if (Src == null) return { }; // empty or couldn't find
+
+        //Reduce dictionary down to items we known about.
+        const allowed = Object.keys(Dict);
+        var temp = Object.keys(Src)
+            .filter(key => allowed.includes(key))
+            .map( f => {
+                 let o = App.Item.Factory(Category, f);
+                 return {
+                     Name: o.Description,
+                     Category: typeof o.Category !== 'undefined' ? o.Category.join(", ") : Category,
+                     Rank: typeof o.Rank !== 'undefined' ? o.Rank : '',
+                     Slot: typeof o.Slot !== 'undefined' ? o.Slot : '',
+                     Effects: o.PrintEffectsOnly(setup.player)
+                  };
+            });
+
+        return temp;
+    }
     this.numericalMeters = false;
 
 	/** Shortcut
-	 */
+	 *
 	this.lengthString = function(x, compact) {
 		return App.unitSystem.lengthString(x, compact);
 	};
@@ -436,16 +533,16 @@ App.PR = new function() {
 
             // Build color and arrow
             if (effect.indexOf('-') != -1 ) {
-                output = "@@color:red;"+effectStr+"@@";
+                output = "<span style='color:red'>"+effectStr+"</span>";
                 output = output.replace(/-/g, '&dArr;');
             } else
             if (effect.indexOf('+') != -1) {
-                output = "@@color:lime;"+effectStr+"@@";
+                output = "<span style='color:lime'>"+effectStr+"</span>";
                 output = output.replace(/\+/g, '&uArr;');
             } else
             if (effect.indexOf('?') != -1) {
-                output = "@@color:lime;&uArr;"+effectStr+"@@";
-                if (typeof item.o['Style'] !== 'undefined') {
+                output = "<span style='color:lime'>&uArr;"+effectStr+"</span>";
+                if (typeof item !== 'undefined' && typeof item.o['Style'] !== 'undefined') {
                     switch(item.o['Style']) {
                         case 'COMMON': output = output.replace(/RANK/g, "&uArr;" ); break;
                         case 'UNCOMMON': output = output.replace(/RANK/g, "&uArr;&uArr;" ); break;
@@ -454,7 +551,7 @@ App.PR = new function() {
                     }
                 }
             } else {
-                output = "@@color:grey;"+effectStr+"@@";
+                output = "<span style='color:grey'>"+effectStr+"</span>";
                 output =  output.replace(/RANK/g, "&uArr;");
             }
 

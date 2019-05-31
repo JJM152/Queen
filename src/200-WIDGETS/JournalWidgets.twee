@@ -129,3 +129,15 @@
 <</if>>
 <</nobr>>
 <</widget>>
+
+<<widget "MemoryStats">>\
+<<run App.PR.HighlightActiveTabButton($args[0], $args[1], "Journal - " +  $args[2])>>\
+<<nobr>>
+<span style='color:gold;font-weight:bold;font-size:larger;line-height:40px;'>Clothing</span>
+<div id="clothes-table"></div>
+<span style='color:gold;font-weight:bold;font-size:larger;line-height:40px;'>Food</span>
+<div id="food-table"></div>
+<span style='color:gold;font-weight:bold;font-size:larger;line-height:40px;'>Drugs and Potions</span>
+<div id="drugs-table"></div>
+<</nobr>>
+<</widget>>

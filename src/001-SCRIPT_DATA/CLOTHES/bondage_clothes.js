@@ -155,7 +155,7 @@ App.Data.Clothes["chastity cage"] = { // +3
 };
 
 App.Data.Clothes["magic cock ring"] = { // +3
-    "Name": "magic cock ring", "ShortDesc": "@@color:purple;a shiny metal cock ring@@",
+    "Name": "magic cock ring", "ShortDesc": "<span style='color:purple'>a shiny metal cock ring</span>",
     "LongDesc": "\
     This shiny silver ring was made custom order from a rare magical ore. It supposedly has the ability to \
     protect your genitals from curses and other magical effects.",
