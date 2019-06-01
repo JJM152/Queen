@@ -86,7 +86,7 @@ App.Data.Quests["STRIPPING"] = {
         every day. Just be careful, you might drive the men so wild that they'll fuck your asshole inside out!)\
         ",
     "JOURNAL_ENTRY": "\
-        NPC_NAME has told you that you can si(use the stage in the Galley to practice your dancing in the mornings). \
+        NPC_NAME has told you that you can s!(use the stage in the Galley to practice your dancing in the mornings). \
         If you improve your abilities enough then you will be able to put on shows in the evening for tips.\
         ",
     "JOURNAL_COMPLETE": "\

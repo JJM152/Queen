@@ -634,16 +634,46 @@ App.Gambling.Coffin = class CoffinEngine {
 
             var that = this;
             if ( (this._GamesPlayed %2) == 1) { // THE NPC IS PLAYER 1
+
                 if (this._PlayerTurn == true) { // THE PC WAS THE ONE ROLLING
                     this._RoundNum++; // END THIS ROUND
                     this._PrintRound();
-                    if (this._RoundNum >= this._MaxRounds) { //DRAW THE GAME.
-                        this._DialogBox("DRAW", "gold");
-                        this._GamesPlayed += 1;
-                        this._WriteChat("The game ends in a draw.");
-                        $('#playButtons').css("display", "none");
-                        $('#endButtons').css("display", "block");
-                        this._TrackStat('Draw', 1);
+
+                    if (this._RoundNum >= this._MaxRounds) { //Check to see who wins or DRAW
+                        if (this._TotalPoints(this.MyScore) > this._TotalPoints(this.OpponentScore)) {
+                            this._DialogBox("YOU WIN!", "gold");
+                            this._WriteChat("You won the match!");
+                            $('#playButtons').css("display", "none");
+                            $('#endButtons').css("display", "block");
+                            this._TrackStat("Won", 1);
+                            this._GamesPlayed += 1;
+                            this._AdjustMoney(2);
+                            if (this._SelectedBet == 1) {
+                                this.Gamblers[this._GamblerPosition].bet1Status = 2; // win
+                            } else {
+                                this.Gamblers[this._GamblerPosition].bet2Status = 2;
+                            }
+                        } else if (this._TotalPoints(this.MyScore) < this._TotalPoints(this.OpponentScore)) {
+                            this._DialogBox("YOU LOSE!", "red");
+                            this._WriteChat("You lost the match!");
+                            $('#playButtons').css("display", "none");
+                            $('#endButtons').css("display", "block");
+                            this._TrackStat("Lost", 1);
+                            this._GamesPlayed += 1;
+                            this._AdjustMoney(1);
+                            if (this._SelectedBet == 1) {
+                                this.Gamblers[this._GamblerPosition].bet1Status = 1; // lose
+                            } else {
+                                this.Gamblers[this._GamblerPosition].bet2Status = 1;
+                            }
+                        } else {
+                            this._DialogBox("DRAW", "gold");
+                            this._GamesPlayed += 1;
+                            this._WriteChat("The game ends in a draw.");
+                            $('#playButtons').css("display", "none");
+                            $('#endButtons').css("display", "block");
+                            this._TrackStat('Draw', 1);
+                        }
                     } else {
                         // HAND OVER CONTROL TO NPC
                         $("#cmdRollDice").css('display', 'none'); // HIDE ROLL BUTTON
@@ -653,6 +683,7 @@ App.Gambling.Coffin = class CoffinEngine {
                         this._DisableMenuLinks();
                         this._PrintRound();
                     }
+
                 } else { // THE NPC WAS ROLLING
 
                     clearInterval(this._Interval); // STOP NPC ROLLING
@@ -681,12 +712,41 @@ App.Gambling.Coffin = class CoffinEngine {
                     this._PrintRound();
 
                     if (this._RoundNum >= this._MaxRounds) { //DRAW THE GAME.
-                        this._DialogBox("DRAW", "gold");
-                        this._GamesPlayed += 1;
-                        $('#playButtons').css("display", "none");
-                        $('#endButtons').css("display", "block");
-                        this._WriteChat("The game ends in a draw.");
-                        this._TrackStat('Draw', 1);
+                        if (this._TotalPoints(this.MyScore) > this._TotalPoints(this.OpponentScore)) {
+                            this._DialogBox("YOU WIN!", "gold");
+                            this._WriteChat("You won the match!");
+                            $('#playButtons').css("display", "none");
+                            $('#endButtons').css("display", "block");
+                            this._TrackStat("Won", 1);
+                            this._GamesPlayed += 1;
+                            this._AdjustMoney(2);
+                            if (this._SelectedBet == 1) {
+                                this.Gamblers[this._GamblerPosition].bet1Status = 2; // win
+                            } else {
+                                this.Gamblers[this._GamblerPosition].bet2Status = 2;
+                            }
+                        } else if (this._TotalPoints(this.MyScore) < this._TotalPoints(this.OpponentScore)) {
+                            this._DialogBox("YOU LOSE!", "red");
+                            this._WriteChat("You lost the match!");
+                            $('#playButtons').css("display", "none");
+                            $('#endButtons').css("display", "block");
+                            this._TrackStat("Lost", 1);
+                            this._GamesPlayed += 1;
+                            this._AdjustMoney(1);
+                            if (this._SelectedBet == 1) {
+                                this.Gamblers[this._GamblerPosition].bet1Status = 1; // lose
+                            } else {
+                                this.Gamblers[this._GamblerPosition].bet2Status = 1;
+                            }
+                        } else {
+                            this._DialogBox("DRAW", "gold");
+                            this._GamesPlayed += 1;
+                            this._WriteChat("The game ends in a draw.");
+                            $('#playButtons').css("display", "none");
+                            $('#endButtons').css("display", "block");
+                            this._TrackStat('Draw', 1);
+                        }
+
                     }
 
                     this._PlayerTurn = true;

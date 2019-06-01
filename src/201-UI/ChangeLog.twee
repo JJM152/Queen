@@ -5,6 +5,8 @@
 * Added a 'Memory' section to the Player Journal. This will recount the effects on items that you \
 discover, even if they are not currently in your possession.
 * Siren and Boobpire encounters had bugged loot. This has been fixed.
+* Coffin dice has been changed to award the win to whomever has the most points at the end of all of the \
+rounds, resulting in way less draws.
 !!!0.11f 31/05/2019
 !!!!General
 * Fixed bug that was clobbering random events. 
