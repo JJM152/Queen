@@ -100,7 +100,7 @@ App.PR = new function() {
     this.numericalMeters = false;
 
 	/** Shortcut
-	 *
+	 */
 	this.lengthString = function(x, compact) {
 		return App.unitSystem.lengthString(x, compact);
 	};
