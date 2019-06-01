@@ -1,9 +1,10 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.11g ??/??/2019 - RELEASE CANDIDATE
+!!!0.11g 01/06/2019 - RELEASE CANDIDATE
 !!!!General
-* Added a 'Memory' section to the Player Journal. This will recount the various effects on items that you \
+* Added a 'Memory' section to the Player Journal. This will recount the effects on items that you \
 discover, even if they are not currently in your possession.
+* Siren and Boobpire encounters had bugged loot. This has been fixed.
 !!!0.11f 31/05/2019
 !!!!General
 * Fixed bug that was clobbering random events. 

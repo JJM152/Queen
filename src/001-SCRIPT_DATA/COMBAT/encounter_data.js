@@ -162,7 +162,7 @@ App.Combat.EncounterData['SirenAttack'] = {
         },
         {
             Chance: 50,
-            Type: 'DRUG',
+            Type: 'DRUGS',
             Tag: 'siren elixir',
             Min: 1,
             Max: 2
@@ -344,7 +344,7 @@ App.Combat.EncounterData['BoobpireStreets'] = {
         },
         {
             Chance: 80,
-            Type: 'DRUG',
+            Type: 'DRUGS',
             Tag: 'siren elixir',
             Min: 1,
             Max: 1,
