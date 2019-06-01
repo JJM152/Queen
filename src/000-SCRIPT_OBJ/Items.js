@@ -660,11 +660,11 @@ App.Items.Clothing = /** @class Clothing @extends {App.Item} */ class Clothing e
      * @returns {string}
      */
     get Rank() {
-        if (this.Data["Style"] == "COMMON") return "<span style='color:gold'>&#9733</span>";
-        if (this.Data["Style"] == "UNCOMMON") return "<span style='color:gold'>&#9733;&#9733</span>";
-        if (this.Data["Style"] == "RARE") return "<span style='color:gold'>&#9733;&#9733;&#9733</span>";
-        if (this.Data["Style"] == "LEGENDARY") return "<span style='color:gold'>&#9733;&#9733;&#9733;&#9733</span>";
-        return "<span style='color:gold'>&#9733</span>";
+        if (this.Data["Style"] == "COMMON") return "<span style='color:gold'>&#9733;</span>";
+        if (this.Data["Style"] == "UNCOMMON") return "<span style='color:gold'>&#9733;&#9733;</span>";
+        if (this.Data["Style"] == "RARE") return "<span style='color:gold'>&#9733;&#9733;&#9733;</span>";
+        if (this.Data["Style"] == "LEGENDARY") return "<span style='color:gold'>&#9733;&#9733;&#9733;&#9733;</span>";
+        return "<span style='color:gold'>&#9733;</span>";
     }
 
     /** @returns {string} */
