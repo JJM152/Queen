@@ -132,7 +132,7 @@ App.Data.EffectLib["ELECTUARY_MARS"] = {
         p.AdjustBody('Penis', 100);
         p.AdjustBody('Balls', 100);
     },
-    "VALUE" : 5000,
+    "VALUE" : 6000,
         "KNOWLEDGE" : [ "Male Hormones++++", "Face Harder++++", "Bust Shrink----", "Hips Narrower----", "Ass Shrink----",
         "Waist Wider----", "Lips Thinner----", "Height Up++", "Penis Grow++++", "Balls Grow++++"]
 };
@@ -153,7 +153,7 @@ App.Data.EffectLib["POSSET_VENUS"] = {
         p.AdjustBody('Penis', -100);
         p.AdjustBody('Balls', -100);
     },
-    "VALUE" : 5000,
+    "VALUE" : 6000,
         "KNOWLEDGE" : [ "Female Hormones++++", "Face Prettier++++", "Bust Growth++++", "Hips Wider++++", "Ass Growth++++",
         "Waist Narrower++++", "Hair Growth++++", "Lips Fuller++++", "Height Down--", "Penis Shrink----",
         "Balls Shrink----" ]
