@@ -1,0 +1,20 @@
+:: BertieMapStolenEvent
+As you enter the governors mansion you intrude upon a scene between <span style='color:cyan'>Black Bertie'</span> \
+and here servant, <span style='color:cyan'>Uticus</span>.
+
+<span class='npcText'>"Dammit you stupid oaf! I pay you to watch the door, not bugger sluts in the alley, now \
+look what's happened!"</span> screams <span style='color:cyan'>Bertie</span> as she angerly punctuates her words \
+with a torn piece of parchment she's holding.
+
+<span class='npcText'>"S..s..sorry captain m'am!"</span> the black giant stammers out while holding his hat in his \
+hands. 
+
+<span style='color:cyan'>Bertie</span> sighs and throws the paper on the ground.
+
+<span class='npcText'>"YOU!"</span>, she points a dainty finger at the man, <span class='npcText'>"Go back to \
+watching that door like your life depends on it, because it //does//!"</span>
+
+<span style='color:cyan'>Uticus</span> hastily retreats from the root, leaving you and a very distraught \
+<span style='color:cyan'>Black Bertie</span> alone.
+
+<<eventContinue "Continue">>

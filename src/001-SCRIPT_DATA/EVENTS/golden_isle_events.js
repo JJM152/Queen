@@ -31,3 +31,25 @@ App.Data.Events["Bazaar"] = [
         }
     },
 ];
+
+App.Data.Events["GI_GovernorsMansionInside"] = [
+    {
+        ID: 'BertieMapStolen',
+        FROM: 'GI_GovernorsMansion',
+        FORCE: true,
+        MAX_REPEAT: 1,
+        MIN_DAY: 0,
+        MAX_DAY: 0,
+        COOL: 5,
+        PHASE: [ 2, 3, 4],
+        PASSAGE: 'BertieMapStolenEvent',
+        CHECK: function(p) {
+           if (p.QuestFlags.hasOwnProperty('BERTIE_SISSY_CompletedOn')) {
+               let t = p.QuestFlags['BERTIE_SISSY_CompletedOn'] + 2;
+               return t <= p.Day;
+           }
+           return false;
+
+        }
+    },
+];

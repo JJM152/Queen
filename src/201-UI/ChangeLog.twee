@@ -1,5 +1,7 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.12a ??/??/????
+!!!
 !!!0.11g 01/06/2019 - RELEASE CANDIDATE
 !!!!General
 * Added a 'Memory' section to the Player Journal. This will recount the effects on items that you \

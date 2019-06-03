@@ -134,4 +134,66 @@ App.Data.Quests["FORGED_LETTER"] = {
         definitely good enough to fool dimwit Darling)\n\n\
         You politely accept the letter from him and go on your way. \
      "
-}
+};
+
+// Part of Bertie's Queen's Favor Part 2
+App.Data.Quests["BERTIE_QUEEN_PT2_DELIVERY_A"] = {
+    "ID": "BERTIE_QUEEN_PT2_DELIVERY_A", 
+    "Title": "Chasing the Thieves",
+    "GIVER": "Petey",
+    "PRE": [
+        {
+            "TYPE" : "QUEST_FLAG", "NAME" : "BERTIE_QUEEN_PT2", "VALUE" : "ACTIVE"
+        }
+    ],
+    "POST": [],
+    "CHECKS": [
+        {
+            "TYPE": "FLAG", "NAME": "BERTIE_QUEEN_PT2_DELIVERY_B", "VALUE": "COMPLETED",
+            ALT_TITLE: "Deliver the parcel to Jonah Blythe"
+        }
+    ],
+    "ON_ACCEPT" : [
+        { "TYPE" : "QUEST", "NAME" : "BERTIE_QUEEN_PT2_DELIVERY_B", "VALUE" : "START" },
+        { "TYPE" : "ITEM", "NAME" : "QUEST/strange parcel", "VALUE" : 1 }
+    ],
+    "REWARD": [
+        { "REWARD_TYPE": "MOOD", "NAME" : "Petey", "AMOUNT": 10 }
+    ],
+    "INTRO": "\
+        NPC_NAME greets you as you enter his shop. s(Ho there traveller! What can I get for you today? Perhaps one o' \
+        our famous ales?)\n\n\
+        You approach the bar top - you've heard rumors about what kind of man NPC_NAME is and if they're right, he \
+        might be just the man to help you. You briefly explain the situation to him and he strokes his chin, \
+        in an apparent act of deep thought.\n\n\
+        s(Now, let's say I do know something about what yee're after, I'm not quite so sure I can say it outright, \
+        not even under threat of the <span style='color:cyan;'>Pirate Queen's</span> wrath. But tell you what, \
+        you do a favor for old Petey here and I might be able to sing you a line or two that could help.)\n\n\
+        Frankly, this is already better than you had hoped for. A little 'quid pro quo', as long as it doesn't \
+        involve your poor abused asshole, isn't out of the question.\n\n\
+        NPC_NAME reaches below his bar top and produces a small package. He then hastily writes a note and stuffs \
+        it inside before waving the entire thing in your face.\n\n\
+        s(Take this to my man on <span style='color:gold'>Port Royal</span>, a crooked Constable by the name \
+        of <span style='color:cyan'>Jonah Blythe</span>. He'll set you straight... just don't lose that \
+        package and we'll be right as rain miss.)\
+        ",
+    "MIDDLE" : "\
+        NPC_NAME says, s(Did you deliver that package yet? What? Well then what are you doing lollygagging around \
+        these parts!)\
+        ",
+    "FINISH":
+        "",
+     "JOURNAL_ENTRY": "\
+     NPC_NAME has offered to give up some valuable information about the thieves that stole part of \
+     <span style='color:cyan'>Bertie's</span> treasure map. All you need to do is to deliver this parcel \
+     he gave you to his inside man on <span style='color:gold'>Port Royal</span>, a crooked Constable \
+     by the name of <span style='color:cyan'>Jonah Blythe</span>.\
+     ",
+     "JOURNAL_COMPLETE": "\
+     You handed over the parcel to <span style='color:cyan'>Jonah Blythe</span> only to learn that NPC_NAME \
+     had cleverly made you an accomplice in the theft. Still, he did come through with his words and you \
+     did learn some valuable information - <span style='color:cyan'>Blythe</span> was able to reproduce \
+     for you a strange symbol that the thieves all wore, an emblem of some sort of arcane or mystical \
+     significance. Now, you just need to get someone to tell you what it all means.\
+     ",
+};

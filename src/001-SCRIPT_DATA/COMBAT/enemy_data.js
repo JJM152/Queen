@@ -298,3 +298,20 @@ App.Combat.EnemyData['Boobpire'] = {
     Gender: 0,
     Portraits: [ 'harlot_a', 'harlot_b']   
 }
+
+// Bertie's Part 2 Quest
+App.Combat.EnemyData['HoodedAssassain'] = {
+    Name: 'Assassain',
+    Title: 'Hooded NAME',
+    Health: 40,
+    MaxHealth: 40,
+    Energy: 3,
+    Attack: 30,
+    Defense: 20,
+    MaxStamina: 100,
+    Stamina: 100,
+    Speed: 50,
+    Moves: 'SWASHBUCKLING',
+    Gender: 1,
+    Portraits: [ 'pirate_a', 'pirate_b', 'pirate_c', 'pirate_d']   
+}
