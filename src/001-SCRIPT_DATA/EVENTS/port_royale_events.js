@@ -30,6 +30,21 @@ App.Data.Events["PR_DarkAlley"] = [
 
         }
     },
+    {
+        ID: 'LevantBoobpireAttack',
+        FROM: 'PR_Levant',
+        FORCE: true,
+        MAX_REPEAT: 1,
+        MIN_DAY: 0,
+        MAX_DAY: 0,
+        COOL: 5,
+        PHASE: [ 2, 3, 4],
+        PASSAGE: 'LevantBoobpireEvent',
+        CHECK: function(p) {
+           return (App.Quest.IsCompleted(setup.player, "BERTIE_QUEEN_PT2_INFO_SOLENN"));
+
+        }
+    },
 ];
 
 App.Data.Events["EntertainmentDistrict"] = [

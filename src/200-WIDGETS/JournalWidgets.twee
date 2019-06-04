@@ -18,7 +18,8 @@
 		// No $args[0] quests.//
 	<<else>>
 		<<for _q range _QL>>
-			<<if (_q.JournalEntry === "HIDDEN")>> <<continue>> <</if>>
+			<<if (_q.JournalEntry == "HIDDEN" && _entryType == 'JOURNAL_ENTRY')>> <<continue>> <</if>>
+			<<if (_q.JournalCompleteEntry == "HIDDEN" && _entryType == 'JOURNAL_COMPLETE')>> <<continue>> <</if>>
 			<<set _NPC = setup.player.GetNPC(_q.Giver());>>
 			<<set _acceptDay = _q.AcceptedOn(setup.player)>>
 			<<set _completeDay = _q.CompletedOn(setup.player)>>

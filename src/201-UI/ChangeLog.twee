@@ -1,7 +1,13 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
 !!!0.12a ??/??/????
-!!!
+!!!!General
+* Quests that had 'hidden' journal entries, but visibile 'journal complete' entries will now have an entry \
+in the completed quests page of your journal (useful for keeping track that something was done).
+* Check boxes for quest item completion were moved to the front of the string instead of being tacked on to \
+the back of the string. (Why was this set this way??? What was I thinking?)
+!!!!Golden Isle
+* New Quest added to Bertie - The Queens Favor - Part 2
 !!!0.11g 01/06/2019 - RELEASE CANDIDATE
 !!!!General
 * Added a 'Memory' section to the Player Journal. This will recount the effects on items that you \

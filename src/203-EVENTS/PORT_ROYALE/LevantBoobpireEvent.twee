@@ -1,0 +1,24 @@
+::LevantBoobpireEvent [no-teleport no-saving]
+As you leave <span style='color:gold'>Le Maison Du Soleil Levant</span>, the moon hangs high in the sky, \
+casting long shadows in the otherwise dark alley. Something about your encounter with \
+<span style='color:cyan'>Solenn Leclère</span> has unsettled you greatly and you wish nothing more than \
+to depart as fast as you can.\n\n\
+You make it to the end of the alley before you find yourself cut off. A woman with dark features, her head \
+covered in a hood approaches you from a hidden corner. In the dim light you can make out that her body is \
+thin, but voluptuous with a generous heaving bosom that wobbles slightly as she walks. Instinctively you \
+take a step back and the woman lunges, throwing back her hood to reveal a generous amount of snow white \
+cleavage and a pair of blood red lips encircling a pair of dazzlingly white fangs!
+
+@@color:yellow;Action@@: \
+<<click "Defend yourself" "Combat">>\
+<<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleeBoobpireStreets"});>>\
+<<run setup.Combat.LoadEncounter("BoobpireStreets");>>\
+<</click>> | <<click "Run away!">>\
+<<if Math.floor( 3 * Math.random()) == 0>>\
+<<goto "CombatFleeBoobpireStreets">>\
+<<else>>\
+<<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleeBoobpireStreets", intro: "You fail to flee!"});>>\
+<<run setup.Combat.LoadEncounter("BoobpireStreets");>>\
+<<goto "Combat">>\
+<</if>>\
+<</click>>

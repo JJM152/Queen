@@ -225,7 +225,7 @@ App.Data.Quests["BERTIE_QUEEN_PT2"] = {
      ],
     CHECKS: [
         { 
-            TYPE : "QUEST_FLAG", NAME : "BERTIE_INFO_FOUND", VALUE : "COMPLETED", 
+            TYPE : "QUEST_FLAG", NAME : "BERTIE_QUEEN_PT2_INFO", VALUE : "COMPLETED", 
             ALT_TITLE: "Find information on the thieves" 
         }
      ],

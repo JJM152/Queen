@@ -5,17 +5,33 @@ App.Data.Quests["BERTIE_QUEEN_PT2_DELIVERY_B"] = {
     "GIVER": "Blythe",
     "PRE": [
         {
-            "TYPE" : "QUEST_FLAG", "NAME" : "BERTIE_QUEEN_PT2_DELIVERY_A", "VALUE" : "ACTIVE"
+            TYPE : "QUEST_FLAG", NAME : "BERTIE_QUEEN_PT2_DELIVERY_A", VALUE : "ACTIVE"
         }
     ],
     "POST": [
-        { "TYPE" : "QUEST", "NAME" : "BERTIE_QUEEN_PT2_DELIVERY_A", "VALUE" : "COMPLETE" },
+        { 
+            TYPE : "QUEST", NAME : "BERTIE_QUEEN_PT2_DELIVERY_A", VALUE : "COMPLETE" 
+        },
+        {
+            TYPE: "QUEST_FLAG", NAME: "BERTIE_QUEEN_PT2_INFO", OPT: "SET", VALUE: "ACTIVE"
+        },
+        { 
+            TYPE : "QUEST", NAME : "BERTIE_QUEEN_PT2_INFO_SOLENN", VALUE : "START" 
+        },
+        { 
+            TYPE : "QUEST", NAME : "BERTIE_QUEEN_PT2_INFO_PAOLA", VALUE : "START" 
+        },
+        { 
+            TYPE : "QUEST", NAME : "BERTIE_QUEEN_PT2_INFO_PAPA_BABA", VALUE : "START" 
+        },
     ],
     "CHECKS": [
         {
-            "TYPE": "FLAG", "NAME": "BERTIE_QUEEN_PT2_DELIVERY_A", "VALUE": "ACTIVE"
+            TYPE: "FLAG", NAME: "BERTIE_QUEEN_PT2_DELIVERY_A", VALUE: "ACTIVE"
         },
-        {"TYPE": "ITEM", "NAME": "QUEST/strange parcel", "VALUE": 1 }
+        {
+            TYPE: "ITEM", NAME: "QUEST/strange parcel", VALUE: 1 
+        }
     ],
     "ON_ACCEPT" : [],
     "REWARD": [],

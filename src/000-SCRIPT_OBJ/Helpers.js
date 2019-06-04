@@ -728,7 +728,7 @@ App.PR = new function() {
     this.pQuestCheckbox = function(Player, pString, Val)
     {
         var Out = pString + " ";
-        Out = Out + (Val == true ? "@@color:lime; &#9745; @@" : "@@color:red; &#9746; @@");
+        Out = (Val == true ? "@@color:lime; &#9745; @@" : "@@color:red; &#9746; @@") + Out;
         return Out;
     };
 
