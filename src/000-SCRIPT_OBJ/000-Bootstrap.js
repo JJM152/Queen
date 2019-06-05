@@ -5,6 +5,8 @@ window.App = App;
 App.Data = {};
 
 App.Data.AvatarMaps = {};
+App.Data.Abamond = { };
+App.Data.Abamond.Mobs = { };
 App.Data.Clothes = {};
 App.Data.DAD = {};
 App.Data.DAD.ExtraParts = { };

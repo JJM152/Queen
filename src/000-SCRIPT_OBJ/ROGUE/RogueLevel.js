@@ -165,6 +165,12 @@ App.Rogue.Level = function(depth) {
         }
     };
 
+    this.genMonsters = function()
+    {
+        
+
+    };
+
     this.isTreasure = function(xy) {
         return this._treasure[xy] || null;
     };
