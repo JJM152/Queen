@@ -23,7 +23,7 @@ App.Rogue.Engine = new function() {
 
     this.LoadScene = function(Element, ExitPassage, Depth) {
         this._element = Element;
-        this._player = new App.Rogue.Player();
+        this._player = new App.Rogue.Player( { ch: "@", fg: "hotpink", bg: null} );
         this._title = "Abamond Caves";
         this._passage = ExitPassage;
         this._scheduler = new ROT.Scheduler.Speed();
@@ -78,7 +78,7 @@ App.Rogue.Engine = new function() {
 
     this.draw = function(xy) {
         var entity = this._level.getEntityAt(xy);
-        var visual = entity.getVisual();
+        var visual = entity.Visual;
         this._display.draw(xy.x, xy.y, visual.ch, visual.fg, visual.bg);
     };
 
@@ -99,6 +99,7 @@ App.Rogue.Engine = new function() {
         level.genEntrance();
         level.genExit();
         level.genTreasure();
+        level.genMonsters();
         return level;
     };
 
@@ -108,8 +109,8 @@ App.Rogue.Engine = new function() {
         // Draw GUI.
         this._sideBar.Title(this._title);
         this._sideBar.Level("Level: "+this._depth + "/" + this._maxDepth);
-        this._sideBar.Torches("Torches: "+ this._player.getTorches());
-        this._sideBar.Shovels("Shovels: "+ this._player.getShovels());
+        this._sideBar.Torches("Torches: "+ this._player.Torches);
+        this._sideBar.Shovels("Shovels: "+ this._player.Shovels);
         this._sideBar.Help();
     };
 
@@ -144,7 +145,7 @@ App.Rogue.Engine = new function() {
         this._textBuffer.clear();
 
         this._display.clear();
-        this._drawWithLight(this._player.getXY());
+        this._drawWithLight(this._player.XY);
 
         this.RefreshStatus();
 
