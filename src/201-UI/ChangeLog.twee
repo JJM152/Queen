@@ -1,6 +1,6 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.11g 01/06/2019 - RELEASE CANDIDATE
+!!!0.11g 07/06/2019 - PUBLIC RELEASE
 !!!!General
 * Added a 'Memory' section to the Player Journal. This will recount the effects on items that you \
 discover, even if they are not currently in your possession.
