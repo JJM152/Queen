@@ -197,7 +197,7 @@ App.Combat.EncounterData['SirenAttack'] = {
 
 // Pirate Attack on the Salty Mermaid
 App.Combat.EncounterData['PirateAttack'] = {
-    Enemies: [ "Pirate", "Pirate" ],
+    Enemies: [ "Weak Pirate", "Weak Pirate" ],
     Fatal: false,
     WinPassage: "CombatWinPirate",
     LosePassage: "CombatLosePirate",

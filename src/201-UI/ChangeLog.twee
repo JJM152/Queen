@@ -1,5 +1,8 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.11h 07/06/2019 - Hotfix A.
+!!!!Salty Mermaid
+* Accidently left the Pirate Attack encounter too difficult. It's been reduced to the correct level.
 !!!0.11g 07/06/2019 - PUBLIC RELEASE
 !!!!General
 * Added a 'Memory' section to the Player Journal. This will recount the effects on items that you \
