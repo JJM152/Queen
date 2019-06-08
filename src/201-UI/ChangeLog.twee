@@ -1,6 +1,12 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.12a ??/??/????
+!!!0.12b 09/06/2019
+!!!!Abamond
+* The chat buffer in the rogue-like now retains previous lines. It's also larger.
+* Some of the spamminess in the above has been reduced in frequency.
+* Collectable items have been added to loot drops in Abamond Caverns.
+* Monsters now spawn in the Abamond Caverns.
+!!!0.12a 05/06/2019
 !!!!General
 * Quests that had 'hidden' journal entries, but visibile 'journal complete' entries will now have an entry \
 in the completed quests page of your journal (useful for keeping track that something was done).

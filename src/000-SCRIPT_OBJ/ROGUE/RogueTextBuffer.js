@@ -6,7 +6,8 @@ App.Rogue.TextBuffer = function() {
     this._options = {
         display: null,
         position: new App.Rogue.XY(),
-        size: new App.Rogue.XY()
+        size: new App.Rogue.XY(),
+        lines: 5,
     };
 
     this.configure = function(options) {
@@ -17,9 +18,23 @@ App.Rogue.TextBuffer = function() {
         this._data = [];
     };
 
-    this.write = function(text) {
-        this._data.push(text);
+    this._chunkString = function(str, length) {
+        return str.match(new RegExp('.{1,' + length + '}', 'g'));
     };
+
+    this.write = function(text) {
+        //Chunk long messages into buffer sized segments.
+        var s = this._chunkString(text, this._options.size.x);
+        console.log(s);
+        this._data = this._data.concat(s);
+        // Only keep 'lines' length
+        if (this._data.length >= this._options.lines) {
+            this._data.splice(0, this._data.length - this._options.lines);
+        }
+        //this._data.push(text);
+    };
+
+
 
     this.flush = function() {
         var o = this._options;
@@ -34,7 +49,7 @@ App.Rogue.TextBuffer = function() {
             }
         }
 
-        var text = this._data.join(" ");
+        var text = this._data.join("\n");
         d.drawText(pos.x, pos.y, text, size.x);
     };
 

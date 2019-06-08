@@ -92,7 +92,7 @@ App.Combat.CombatEngine = class CombatEngine {
         this._AddPlayer(setup.player);
         if (this._introChat && this._introChat != null && this._introChat != 'null') {
             this._AddChat(this._introChat);
-        } else { 
+        } else if ( this._encounterData.hasOwnProperty('Intro')) { 
             this._AddChat(this._encounterData.Intro);
         }
     }

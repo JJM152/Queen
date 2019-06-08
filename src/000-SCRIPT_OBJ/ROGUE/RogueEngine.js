@@ -125,7 +125,7 @@ App.Rogue.Engine = new function() {
         }
         var size = this._level.getSize();
 
-        var bufferSize = 3;
+        var bufferSize = 5;
         this._display.setOptions({width:size.x+20, height:size.y + bufferSize});
         //Side status panel
 
@@ -139,7 +139,8 @@ App.Rogue.Engine = new function() {
         this._textBuffer.configure({
             display: this._display,
             position: new App.Rogue.XY(0, size.y),
-            size: new App.Rogue.XY(size.x, bufferSize)
+            size: new App.Rogue.XY(size.x, bufferSize),
+            lines: bufferSize
         });
 
         this._textBuffer.clear();

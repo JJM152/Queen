@@ -7,14 +7,14 @@ App.Data.Abamond.Mobs['COMMON'] = [
         encounter: 'abamond goblin weak',
         name: 'weak goblin',
         symbol: 'g',
-        color: 'grey'
+        color: 'ANTIQUEWHITE'
     },
     {
         level: 5,
         encounter: 'abamond slime weak',
         name: 'weak slime',
         symbol: 's',
-        color: 'grey'
+        color: 'ANTIQUEWHITE'
     },
     {
         level: 10,
@@ -63,14 +63,14 @@ App.Data.Abamond.Mobs['COMMON'] = [
         encounter: 'abamond crawler',
         name: 'cave crawler',
         symbol: 'c',
-        color: 'grey'
+        color: 'ANTIQUEWHITE'
     },
     {
         level: 40,
         encounter: 'abamond zombie',
         name: 'zombie',
         symbol: 'z',
-        color: 'grey'
+        color: 'ANTIQUEWHITE'
     },
     {
         level: 50,

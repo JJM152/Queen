@@ -302,6 +302,17 @@ App.Rogue.Level = function(depth) {
     /** @returns{App.Rogue.XY} */
     this.getExit = function() { return this._exit };
 
+    this.removeBeing = function(entity)
+    {
+        if (entity.Level == this) {
+            var key = entity.XY;
+            delete this._beings[key];
+            if (App.Rogue.Engine._level == this) {
+                App.Rogue.Engine.draw(key);
+            }
+        }
+    };
+    
     this.setEntity = function(entity, xy) {
         /* FIXME remove from old position, draw */
         if (entity.Level == this) {

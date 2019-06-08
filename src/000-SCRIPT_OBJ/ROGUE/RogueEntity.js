@@ -39,10 +39,18 @@ App.Rogue.Being = class RogueBeing extends App.Rogue.Entity {
         super(visual);
         this._speed = 100;
         this._hp = 10;
+        this._awake = false;
     }
 
     get Speed() { return this._speed; }
     set Speed(s) { this._speed = s; }
+    get Awake() { return this._awake; }
+    set Awake(s) {
+        if (s == true && this._awake != true) {
+            App.Rogue.Engine._textBuffer.write( this.Name + " notices you!");
+        }
+        this._awake = s;
+    }
 
     // Used by ROT engine.
     getSpeed() {
@@ -65,6 +73,47 @@ App.Rogue.Being = class RogueBeing extends App.Rogue.Entity {
     act()
     {
         console.log("RogueBeing: act() called");
+        //Check if I need to wakeup.
+        if (this.XY.dist(App.Rogue.Engine._player.XY) <= 10) {
+            this.Awake = true;
+        } else {
+            this.Awake = false; // go to sleep if the player is too far away
+        }
+
+        if (this.Awake == true) { // Chase the player.
+
+            var x = App.Rogue.Engine._player.XY.x;
+            var y = App.Rogue.Engine._player.XY.y;
+            var passableCallback = function(x, y) {
+                return (x+","+y in App.Rogue.Engine._level._freeCells); // obstacle free
+            }
+            var astar = new ROT.Path.AStar(x, y, passableCallback, {topology:4});
+         
+            var path = [];
+            var pathCallback = function(x, y) {
+                path.push([x, y]);
+            }
+
+            astar.compute(this.XY.x, this.XY.y, pathCallback);
+            // Now move.
+            path.shift(); // remove mobs position
+            if (path.length == 1) {
+                App.Rogue.Engine._scheduler.remove(this);
+                this.Level.removeBeing(this);
+                App.Rogue.Engine._engine.lock();
+
+                setup.Combat.InitializeScene({flee:30, fleePassage: "CombatAbamondGenericWin"});
+                setup.Combat.LoadEncounter( this.Encounter);
+                SugarCube.State.display("Combat");
+                // Switch to combat mode here.
+            } else if (path.length > 0) {
+                x = path[0][0];
+                y = path[0][1];
+                var newXY = new App.Rogue.XY(x, y);
+                this.Level.setEntity(this, newXY);
+            }
+
+        }
     }
 
     setPosition(xy, level) {
@@ -209,7 +258,7 @@ App.Rogue.Player = class RoguePlayer extends App.Rogue.Being {
         var keys = SugarCube.settings.alternateControlForRogue == true ? this._akeys : this._keys;
 
         if (code in keys) {
-            App.Rogue.Engine._textBuffer.clear();
+            //App.Rogue.Engine._textBuffer.clear();
 
             // Traverse staircase
             if ((code == ROT.VK_NUMPAD5) || (code == ROT.VK_R)) {
@@ -285,7 +334,7 @@ App.Rogue.Player = class RoguePlayer extends App.Rogue.Being {
                 return true;
             }
 
-            if (this.LightDuration < 20 && this.LightDuration > 1) App.Rogue.Engine._textBuffer.write("Your torch is sputtering.");
+            if (this.LightDuration < 20 && this.LightDuration > 1 && Math.floor((Math.random() * 3)) == 0) App.Rogue.Engine._textBuffer.write("Your torch is sputtering.");
             if (this.LightDuration == 1) App.Rogue.Engine._textBuffer.write("Your torch goes out!");
             if (this.LightDuration > 0) this._lightDuration--;
             if (this.LightDuration < 1) {
@@ -297,7 +346,7 @@ App.Rogue.Player = class RoguePlayer extends App.Rogue.Being {
                 this.LightLevel = 1;
             }
 
-            if (this.LightDuration > 0 && Math.random() < 0.15) {
+            if (this.LightDuration > 0 && Math.random() < 0.10) {
                 // get approximate direction to exit
                 /** @type {App.Rogue.XY} */
                 const exit = this.Level.getExit();
