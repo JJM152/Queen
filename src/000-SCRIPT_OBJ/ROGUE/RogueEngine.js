@@ -23,7 +23,7 @@ App.Rogue.Engine = new function() {
 
     this.LoadScene = function(Element, ExitPassage, Depth) {
         this._element = Element;
-        this._player = new App.Rogue.Player( { ch: "@", fg: "hotpink", bg: null} );
+
         this._title = "Abamond Caves";
         this._passage = ExitPassage;
         this._scheduler = new ROT.Scheduler.Speed();
@@ -35,6 +35,8 @@ App.Rogue.Engine = new function() {
         this._maxDepth = 100;
         this._lastDrawnCells = [ ];
 
+        this._player = new App.Rogue.Player( { ch: "@", fg: "hotpink", bg: null} );
+        
         var level =  this._genLevel(this._depth);
 
         this._switchLevel(level);

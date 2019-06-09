@@ -40,6 +40,9 @@ App.Rogue.Being = class RogueBeing extends App.Rogue.Entity {
         this._speed = 100;
         this._hp = 10;
         this._awake = false;
+
+        App.Rogue.Engine._scheduler.add(this, true); // Add newly created creatures to scheduler
+
     }
 
     get Speed() { return this._speed; }
@@ -68,6 +71,7 @@ App.Rogue.Being = class RogueBeing extends App.Rogue.Entity {
     die()
     {
         App.Rogue.Engine._scheduler.remove(this);
+        this.Level.removeBeing(this);
     }
     
     act()
@@ -118,10 +122,6 @@ App.Rogue.Being = class RogueBeing extends App.Rogue.Entity {
 
     setPosition(xy, level) {
 
-        /* came to a currently active level; add self to the scheduler */
-        if (level != this._level && level == App.Rogue.Engine._level) {
-            App.Rogue.Engine._scheduler.add(this, true);
-        }
         this._xy = xy;
         this._level = level;
         return this;
