@@ -106,7 +106,7 @@ App.Rogue.Being = class RogueBeing extends App.Rogue.Entity {
                 this.Level.removeBeing(this);
                 App.Rogue.Engine._engine.lock();
 
-                setup.Combat.InitializeScene({flee:30, fleePassage: "CombatAbamondGenericWin"});
+                setup.Combat.InitializeScene({flee:30, fleePassage: "CombatAbamondGenericFlee"});
                 setup.Combat.LoadEncounter( this.Encounter);
                 SugarCube.State.display("Combat");
                 // Switch to combat mode here.
@@ -329,9 +329,26 @@ App.Rogue.Player = class RoguePlayer extends App.Rogue.Being {
             var dir = ROT.DIRS[8][direction];
             var xy = this.XY.plus(new App.Rogue.XY(dir[0], dir[1]));
 
+            // Collision detection...
             if (typeof this.Level.getFreeCells()[xy] === 'undefined') {
-                /* FIXME collision detection */
                 return true;
+            }
+
+            // Check for monster at location
+            if (this.Level._beings.hasOwnProperty(xy)) {
+                var being = this.Level._beings[xy]; // get monster ob
+                if (being.Encounter != null) {
+                    App.Rogue.Engine._scheduler.remove(being);
+                    this.Level.removeBeing(being);
+                    App.Rogue.Engine._engine.lock();
+    
+                    setup.Combat.InitializeScene({flee:30, fleePassage: "CombatAbamondGenericFlee"});
+                    setup.Combat.LoadEncounter( being.Encounter);
+                    this.Level.setEntity(this, xy);
+                    App.Rogue.Engine.redraw(xy);
+                    SugarCube.State.display("Combat");
+                    return true;
+                }
             }
 
             if (this.LightDuration < 20 && this.LightDuration > 1 && Math.floor((Math.random() * 3)) == 0) App.Rogue.Engine._textBuffer.write("Your torch is sputtering.");

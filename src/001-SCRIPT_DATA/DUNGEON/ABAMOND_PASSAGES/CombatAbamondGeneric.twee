@@ -14,6 +14,15 @@ grisly fate?
 
 @@color:lime;Travel@@: [[Continue|CaveRogueLikeGUI]]
 
+::CombatAbamondGenericLoseNonFatal
+<<combatResults>>
+
+You wake up battered and bloodied on the cold cavern floors. You don't remember what happened to you, but \
+you're sure it was nothing good. With an exasperated sigh you pick yourself up to carry on - at least you're \
+still alive.
+
+@@color:lime;Travel@@: [[Continue|CaveRogueLikeGUI]]
+
 ::CombatAbamondGenericFlee
 You turn tail and run! After some time, you manage to lose your pursuers in the dark caverns.
 

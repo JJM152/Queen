@@ -397,7 +397,7 @@ App.Combat.CombatEngine = class CombatEngine {
         });
 
         m = m.replace(/NPC_PRONOUN/g, function(m, f, n ) {
-            return o.Gender == 1 ? "his" : "her";
+            return o.Gender == 1 ? "his" : o.Gender == -1 ? "its" : "her";
         });
 
         m = App.PR.TokenizeString(setup.player, npc, m);

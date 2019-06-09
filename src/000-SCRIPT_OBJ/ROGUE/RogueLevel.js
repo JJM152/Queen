@@ -339,4 +339,5 @@ App.Rogue.Level = function(depth) {
         /* FIXME list of all beings */
         return this._beings;
     };
+
 };

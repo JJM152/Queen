@@ -130,8 +130,8 @@ App.Data.Abamond.Mobs['COMMON'] = [
     },
     {
         level: 90,
-        encounter: 'abamond sucubus',
-        name: 'sucubus',
+        encounter: 'abamond succubus',
+        name: 'succubus',
         symbol: 'S',
         color: 'pink'
     },

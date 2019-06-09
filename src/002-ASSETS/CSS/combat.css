@@ -403,3 +403,37 @@ div.thunderbuns_icon {
 div.bunsofsteel_icon {
     background-image: [img[bunsofsteel_icon]];
 }
+/* ABAMOND MONSTERS */
+div.goblin_a {
+    background-image: [img[goblin_a]];
+}
+div.goblin_b {
+    background-image: [img[goblin_b]];
+}
+div.green_slime_a {
+    background-image: [img[green_slime_a]];
+}
+div.blue_slime_a {
+    background-image: [img[blue_slime_a]];
+}
+div.brown_slime_a {
+    background-image: [img[brown_slime_a]];
+}
+div.pink_slime_a {
+    background-image: [img[pink_slime_a]];
+}
+div.crawler_a {
+    background-image: [img[crawler_a]];
+}
+div.zombie_a {
+    background-image: [img[zombie_a]];
+}
+div.gelatinous_cube_a {
+    background-image: [img[gelatinous_cube_a]];
+}
+div.succubus_a {
+    background-image: [img[succubus_a]];
+}
+div.incubus_a {
+    background-image: [img[incubus_a]];
+}
