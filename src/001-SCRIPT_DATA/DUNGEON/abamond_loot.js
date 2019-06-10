@@ -9,7 +9,7 @@ App.Data.Loot["DUNGEON_COMMON"] = [
     { category: "FOOD", tag: "beer", min: 1, max: 3 },
     { category: "FOOD", tag: "cheap wine", min: 1, max: 3 },
     { category: "FOOD", tag: "hardtack", min: 1, max: 1 },
-    { category: "MISC_CONSUMABLE", tag: "broken rune", min: 1, max: 1 }
+    { category: "MISC_LOOT", tag: "broken rune", min: 1, max: 1 }
 ];
 
 App.Data.Loot["DUNGEON_UNCOMMON"] = [
@@ -23,7 +23,7 @@ App.Data.Loot["DUNGEON_UNCOMMON"] = [
     { category: "FOOD", tag: "milkdew melon", min: 1, max: 2 },
     { category: "FOOD", tag: "butter gourd", min: 1, max: 2 },
     { category: "FOOD", tag: "orgeat", min: 1, max: 3 },
-    { category: "MISC_CONSUMABLE", tag: "old arrowhead", min: 1, max: 1 }
+    { category: "MISC_LOOT", tag: "old arrowhead", min: 1, max: 1 }
 ];
 
 App.Data.Loot["DUNGEON_RARE"] = [
@@ -36,7 +36,7 @@ App.Data.Loot["DUNGEON_RARE"] = [
     { category: "DRUGS", tag: "AP_widows_web", min: 1, max: 1 },
     { category: "FOOD", tag: "pirates plunder", min: 1, max: 1 },
     { category: "FOOD", tag: "purple mushrooms", min:1, max: 3 },
-    { category: "MISC_CONSUMABLE", tag: "glowing crystal", min: 1, max: 1 }
+    { category: "MISC_LOOT", tag: "glowing crystal", min: 1, max: 1 }
 ];
 
 App.Data.Loot["DUNGEON_LEGENDARY"] = [
@@ -46,6 +46,6 @@ App.Data.Loot["DUNGEON_LEGENDARY"] = [
     { category: "FOOD", tag: "pirates plunder", min: 1, max: 2 },
     { category: "FOOD", tag: "purple mushrooms", min:1, max: 3 },
     { category: "FOOD", tag: "ambrosia", min:1, max: 1 },
-    { category: "MISC_CONSUMABLE", tag: "stone tablet", min: 1, max: 1 }
+    { category: "MISC_LOOT", tag: "stone tablet", min: 1, max: 1 }
 
 ];

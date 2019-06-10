@@ -1,5 +1,8 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.12c ??/??/????
+!!!!Abamond
+* Relics from Abamond have been moved to the Loot tab in inventory and can no longer be found in markets.
 !!!0.12b 10/06/2019
 !!!!Abamond
 * The chat buffer in the rogue-like now retains previous lines. It's also larger.
