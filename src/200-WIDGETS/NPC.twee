@@ -20,5 +20,10 @@
 <<if _SE.IsOpen(setup.player, _NPC) == true>>\
  | <<customMenuLink "Shop" _NPC>>\
  <<else>>\
- | @@color:grey;[Shop]@@<</if>><</if>>\
+ | @@color:grey;[Shop]@@\
+ <</if>>\
+ <</if>>\
+<<if $args[1] !== undefined>>\
+ | <<customMenuLink $args[1] _NPC $args[2]>>
+ <</if>>\
  <</widget>>

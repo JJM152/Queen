@@ -6,6 +6,10 @@ An array of unusual sounds greets you as well - the ticking of old timepieces, t
 and the squawk of a testy blue-gold macaw who perches behind the counter. It is a place of humble wonders, \
 brought here from distant shores, collectively inhabiting an eccentric life that surpasses the sum of its parts.
 
+<<if App.Quest.IsCompleted(setup.player, "COURTESAN_GUILD_JOIN")>>\
+<<NPC "Bram" "Shop" "CurioShopMenu">>
+<<else>>\
 <<NPC "Bram">>
+<</if>>\
 
 @@color:lime;Travel@@: [[Entertainment District|EntertainmentDistrict]]
