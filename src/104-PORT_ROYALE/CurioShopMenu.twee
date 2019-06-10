@@ -1,0 +1,2 @@
+:: CurioShopMenu [custom-menu]
+@@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>

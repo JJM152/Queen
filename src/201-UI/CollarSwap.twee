@@ -1,4 +1,4 @@
-::CollarSwap [custom-menu]
+::CollarSwap [custom-menu no-teleport no-saving]
 Using a magical process, it's possible to swap the appearance of the cursed collar around your neck for @@color:yellow;300 coins@@. Doing so may grant you \
 any associated bonuses from the new collar, but will not revoke the magic that @@color:cyan;Captain Reginald@@ is using to \
 to keep you in servitude.

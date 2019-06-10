@@ -1,4 +1,4 @@
-::ExamineNPC
+::ExamineNPC [custom-menu no-teleport no-saving]
 <<set _NPC = setup.player.GetNPC($MenuAction);>>\
 @@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>
 

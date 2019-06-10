@@ -1,7 +1,8 @@
-:: ChangeLog [custom-menu]
+:: ChangeLog [custom-menu no-teleport no-saving]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
 !!!0.12c ??/??/????
 !!!!General
+* Disabled saving in some menus because it bugs out the game state.
 * Some NPC's have had extra menu items added to them that were previously room interactions. This is just to \
 keep the UI nice and streamlined.
 !!!!Abamond

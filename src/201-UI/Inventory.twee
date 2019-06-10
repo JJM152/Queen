@@ -1,4 +1,4 @@
-:: Inventory [custom-menu]
+:: Inventory [custom-menu no-teleport no-saving]
 @@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>\
 <<set _Drugs = setup.player.GetItemByTypes(["potion"]);>>\
 <<set _Quests = setup.player.GetItemByTypes(["QUEST", "LOOT_BOX"]);>>
