@@ -3,6 +3,8 @@
 !!!0.12c ??/??/????
 !!!!Abamond
 * Relics from Abamond have been moved to the Loot tab in inventory and can no longer be found in markets.
+!!!!Port Royale
+* Added a simple introductory quest to Bram at the Curio Shop.
 !!!0.12b 10/06/2019
 !!!!Abamond
 * The chat buffer in the rogue-like now retains previous lines. It's also larger.
@@ -478,7 +480,7 @@ for sale, but she won't sell them to just anyone.
 !!!!General
 * Rounding bug with Journal quest tracker fixed.
 * Figure rating blank in mirror fixed (hopefully)
-* New Title PAge
+* New Title Page
 * New Intro sequence
 * Added flavor choices to intro that give small stat/skill boosts.
 * Added changelog and faq/rules page.
