@@ -7,7 +7,7 @@ and the squawk of a testy blue-gold macaw who perches behind the counter. It is 
 brought here from distant shores, collectively inhabiting an eccentric life that surpasses the sum of its parts.
 
 <<if App.Quest.IsCompleted(setup.player, "COURTESAN_GUILD_JOIN")>>\
-<<NPC "Bram" "Shop" "CurioShopMenu">>\
+<<NPC "Bram" "Relic Manufacture" "CurioShopMenu">>\
 <<else>>\
 <<NPC "Bram">>\
 <</if>>\

@@ -1,2 +1,55 @@
 :: CurioShopMenu [custom-menu]
 @@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>
+<div style='margin-left:160px;'><span style='color:cyan;font-size:larger;'>Relic Manufactuory</span></div>
+<div class='HeaderSection' style='background-color:maroon'>Potions and Elixers</div>\
+<<set _r = App.Data.RelicStore.filter( o => { return o.type == 'potion';});>>\
+<<for _i = 0; _i < App.Data.RelicStore.length; _i++>>\
+<<RelicItem _r[_i]>>\
+<</for>>\
+
+::RelicItem [widget]
+<<widget "RelicItem">>\
+<<nobr>>
+<<set _d = App.Item._TryGetItemsDictionary($args[0].category)[$args[0].tag];>>
+<<set _rs = $args[0].cost.map(o=> {
+    var r = App.Item.SplitId(o.type); 
+    return App.Item._FetchData(r.Category, r.Tag)['ShortDesc'] + (o.amount > 1 ? " x"+o.amount : "")
+}).join(" + ");>>
+<div style='width:850px;margin-top:3px;margin-bottom:3px;border: 1px solid grey;padding: 5px 10px 5px 10px'>
+<div>
+<div style='display:inline-block;'>
+<span style='color:gold;font-weight:bold'><<= _d["ShortDesc"] >></span> 
+</div>
+<div style='width:100px;display:inline-block;float:right;'>
+<<set _c = $args[0].cost.filter(o=> {
+    return (setup.player.GetItemById(o.type) !== undefined && setup.player.GetItemById(o.type).Charges() >= o.amount);
+});>>
+<<if _c.length < $args[0].cost.length>>
+@@.disabledStoreButton;<<button "CREATE">><</button>>
+<<else>>
+@@.storeButton;<<button "CREATE" "CurioShopMenu">>
+<<run setup.player.AddItem($args[0].category, $args[0].tag);>>
+<<run $args[0].cost.map( o => {
+    setup.player.TakeItem( o.type, o.amount);
+})>>
+<</button>>
+<</if>>
+</div>
+</div>
+<div>
+<div><span style='color:cyan;font-weight:bold'>Effects : </span></div>
+<div style='padding-left: 10px;font-size: smaller'>
+<<= App.PR.GetAllEffects( $args[0].category, $args[0].tag); >>
+</div>
+</div>
+<div>
+<div><span style='color:yellow;font-weight:bold'>Recipe : </span></div>
+<div style='padding-left:10px;font-size:smaller'>
+<<= $args[0].cost.map(o=> {
+    var r = App.Item.SplitId(o.type); 
+    return App.Item._FetchData(r.Category, r.Tag)['ShortDesc'] + (o.amount > 1 ? " x"+o.amount : "")
+}).join(" + "); >>
+</div>
+</div>
+<</nobr>>\
+<</widget>>

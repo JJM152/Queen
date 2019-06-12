@@ -1,6 +1,6 @@
 :: ChangeLog [custom-menu no-teleport no-saving]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.12c ??/??/????
+!!!0.12c 13/06/2019
 !!!!General
 * Disabled saving in some menus because it bugs out the game state.
 * Some NPC's have had extra menu items added to them that were previously room interactions. This is just to \
@@ -9,6 +9,7 @@ keep the UI nice and streamlined.
 * Relics from Abamond have been moved to the Loot tab in inventory and can no longer be found in markets.
 !!!!Port Royale
 * Added a simple introductory quest to Bram at the Curio Shop.
+* After completing the above introductory quest, Bram can concoct unique power ups for you.
 !!!0.12b 10/06/2019
 !!!!Abamond
 * The chat buffer in the rogue-like now retains previous lines. It's also larger.

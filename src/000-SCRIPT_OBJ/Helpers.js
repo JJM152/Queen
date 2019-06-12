@@ -96,7 +96,33 @@ App.PR = new function() {
             });
 
         return temp;
-    }
+    };
+
+    /**
+     * Get a list of all effects, but print ????? for ones unlearned.
+     */
+    this.GetAllEffects = function(Type, Tag)
+    {
+        let o = App.Item.Factory(Type, Tag);
+        const effects = o.GetKnowledge();
+        const uses = (Type == 'CLOTHES') ? setup.player.GetHistory("CLOTHING_EFFECTS_KNOWN", Tag) : 
+            setup.player.GetHistory('ITEMS', Tag);
+
+        let output = [ ];
+
+        for(var i = 0; i < effects.length; i++ )
+        {
+            if (i < uses) {
+                output.push( App.PR.pEffectMeter(effects[i], this) );
+            } else {
+                output.push("?????");
+            }
+        }
+
+        return output.join(" ");
+
+    };
+    
     this.numericalMeters = false;
 
 	/** Shortcut
