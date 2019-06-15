@@ -63,7 +63,7 @@ App.EventEngine = class EventEngine {
             return "DeathEnd";
         }
 
-        if (setup.player.GetStat("STAT", "WillPower") < 20) {
+        if (setup.player.GetStat("STAT", "WillPower") <= 15) {
             this._d("Player lost too much willpower event.");
             //State.temporary.followup = passageName;
             return "WillPowerEnd";

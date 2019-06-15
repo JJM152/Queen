@@ -136,7 +136,7 @@ App.Combat.EncounterData['Golden Isle Boxer'] = {
     Enemies: [ "Golden Isle Boxer" ],
     Fatal: false,
     WinPassage: "CombatWinFightClubGoldenIsle",
-    LosePassage: "CombatLoseFightGoldenIsle",
+    LosePassage: "CombatLoseFightClubGoldenIsle",
     Intro: "You step up to the ring, ready to fight. ENEMY_0 scoffs at you.",
     LootMessage: "You claim your victory prize...",
     Loot: [ 
@@ -173,7 +173,7 @@ App.Combat.EncounterData['Golden Isle Pugilist'] = {
     Enemies: [ "Golden Isle Pugilist" ],
     Fatal: false,
     WinPassage: "CombatWinFightClubGoldenIsle",
-    LosePassage: "CombatLoseFightGoldenIsle",
+    LosePassage: "CombatLoseFightClubGoldenIsle",
     Intro: "You step up to the ring, ready to fight. ENEMY_0 scoffs at you.",
     LootMessage: "You claim your victory prize...",
     Loot: [ 
@@ -210,7 +210,7 @@ App.Combat.EncounterData['Golden Isle Champion'] = {
     Enemies: [ "Golden Isle Champion" ],
     Fatal: false,
     WinPassage: "CombatWinFightClubGoldenIsle",
-    LosePassage: "CombatLoseFightGoldenIsle",
+    LosePassage: "CombatLoseFightClubGoldenIsle",
     Intro: "You step up to the ring, ready to fight. ENEMY_0 scoffs at you.",
     LootMessage: "You claim your victory prize...",
     Loot: [ 

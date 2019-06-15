@@ -1,5 +1,13 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.11i 15/06/2019 - Hotfix B.
+!!!!General 
+* Disabled saving in some passages where it would break the game. This is unlikely to change because I don't want to increase \
+the size of the player state object (and slow down the game). Primarily effects combat.
+* Reduces 'Game Over' threshold for low willpower from 20 pts to 15 pts to give a bit more wiggle room.
+!!!!Golden Isle
+* Losing some of the fights at the Fight Club would trap you in a broken passage, effectively ending your game. This has been \
+fixed.
 !!!0.11h 07/06/2019 - Hotfix A.
 !!!!General
 * Reduced overall strength of Pirate mobs.
