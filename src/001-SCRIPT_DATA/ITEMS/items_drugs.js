@@ -58,6 +58,22 @@ App.Data.Drugs["fairy dust"] = {
     "Effects": [ "ENERGY_COMMON", "SHRINK_COMMON", "TOXICITY_COMMON", "BREAK_WILL_COMMON" ]
 };
 
+App.Data.Drugs['fey dust'] = {
+    Name: "fey dust",
+    ShortDesc: "sparkling fey dust",
+    LongDesc: "\
+    This pile of dust looks to be made of glittering yellow and blue flakes. Touching them reveals that they are \
+    unnaturally cool and have some sort of numbing effect, as your fingers instantly tingle with just a slight brush.",
+    Message: "You snort the fey dust up your nostril. After a few moments of dizziness it feels like your entire \
+    conciousness has opened up to a new dimension of awareness. Look at the colors...",
+    Type: "potion",
+    Charges: 1,
+    Effects: [
+        "ENERGY_RARE", "TOXICITY_UNCOMMON", "BREAK_WILL_COMMON", "FITNESS_DOWN_XP_RARE"
+        
+    ]
+};
+
 App.Data.Drugs["medicinal herbs"] = {
     "Name": "medicinal herbs",
     "ShortDesc": "Medicinal Herbs",

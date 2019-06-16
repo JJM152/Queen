@@ -5,6 +5,7 @@
 * New asset - Pirate Hat (still WIP).
 * Changed a lot of the colorization in text to use HTML instead of wikifier code. Please report any malformed html \
 elements you see!
+* New random items added with Waist Thicker and Fitness Down attributes. 
 !!!0.12c 13/06/2019
 !!!!General
 * Disabled saving in some menus because it bugs out the game state.

@@ -200,6 +200,7 @@ App.Data.Food["bread and cheese"] = {
     "Charges": 1,
     "Effects" : [ "LIGHT_WHOLESOME_MEAL" ]
 };
+
 App.Data.Food["meat pie"] = {
     "Name": "meat pie",
     "ShortDesc": "A beef and cheese meat pie",
@@ -209,6 +210,7 @@ App.Data.Food["meat pie"] = {
     "Charges": 1,
     "Effects" : [ "LIGHT_WHOLESOME_MEAL" ]
 };
+
 App.Data.Food["roast fish"] = {
     "Name": "roast fish",
     "ShortDesc": "A roasted fish",
@@ -267,6 +269,7 @@ App.Data.Food["red plum"] = {
     "Charges": 1,
     "Effects" : [ "PURGE_RARE", "HEAL_UNCOMMON", "NUTRITION_COMMON", "NUTRITION_XP_COMMON"]
 };
+
 App.Data.Food["pirates plunder"] = {
     "Name": "pirates plunder",
     "ShortDesc": "A flask of 'Pirates Plunder'",
@@ -537,4 +540,25 @@ App.Data.Food["purple tentacle"] = {
         "NUTRITION_XP_COMMON",
         "PERVERSION_XP_RARE"
     ]
-}
+};
+
+App.Data.Food["giant island pear"] = {
+    Name : "giant island pear",
+    ShortDesc: "A giant island pear",
+    LongDesc: "\
+    These prized fruits are a rare treat as they can only be found on trees growing on otherwise desolate atols. They \
+    are said to increase vigor and strength. \
+    ",
+    Message: "\
+    Despite being a fruit, the island pear has more of a savory than sweet taste. The flesh is soft and melts in your \
+    mouth like the fat off a well cooked side of meat. While the fruit is not sweet, it's certainly delicious.",
+    Type: "food",
+    Charges: 1,
+    Effects: [
+        "UNWHOLESOME_MEAL",
+        "NUTRITION_RARE",
+        "NUTRITION_XP_RARE",
+        "WAIST_REVERT_RARE",
+        "FITNESS_XP_COMMON"
+    ]
+};

@@ -306,6 +306,11 @@ App.Data.EffectLib["FITNESS_XP_RARE"] = {
     "VALUE" : 300, "KNOWLEDGE" : [ "Fitness Up+++" ]
 };
 
+App.Data.EffectLib["FITNESS_DOWN_XP_RARE"] = {
+    "FUN" : function(o,p) { p.AdjustStatXP('Fitness', -100); },
+    VALUE: 50, KNOWLEDGE : [ 'Fitness Down---']
+};
+
 App.Data.EffectLib["FITNESS_XP_LEGENDARY"] = {
     "FUN" : /** @param {App.Entity.Player} p
      @param {App.Items.Consumable} o*/
