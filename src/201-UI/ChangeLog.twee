@@ -1,5 +1,8 @@
 :: ChangeLog [custom-menu no-teleport no-saving]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.12d ??/??/????
+!!!!General
+* New asset - Pirate Hat.
 !!!0.12c 13/06/2019
 !!!!General
 * Disabled saving in some menus because it bugs out the game state.

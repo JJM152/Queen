@@ -1004,7 +1004,12 @@ App.Data.AvatarMaps["fuzzy paws"] = [
 // Pirate Slut Clothines
 
 // Needs hat piece.
-//App.Data.AvatarMaps["pirate hat"] = [ ];
+App.Data.AvatarMaps["pirate hat"] = [
+    {
+        c: "da.QueenPirateHat",
+        a: null
+    }
+ ];
 
 //Use default
 //App.Data.AvatarMaps["skull piercings"] = [ ];
