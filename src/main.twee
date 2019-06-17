@@ -2,7 +2,7 @@
 ifid:2281acf9-aff5-4833-bd11-9d4317bce5ae
 
 :: StoryTitle
-Queen of the Seas (v 0.11i)
+Queen of the Seas (v 0.11j)
 :: StoryBanner
 <a id='Patreon' target='_blank' href='https://www.patreon.com/malhavok/'></a> \
 <a id='Reddit' target='_blank' href='https://www.reddit.com/r/QueenOfTheSeas/'></a>
@@ -182,6 +182,7 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
     <<replace "#difficulty">>\
     @@color:pink;Landlubber difficulty selected.@@
     A small bonus to all sorts of skill and stat rolls (+5)
+    Reduction in Willpower loss due to corruption.
     Check your inventory under the @@color:yellow;Quest & Loot@@ tab for a free gift.
 
     [[Continue|Intro1]]
@@ -193,6 +194,7 @@ As the new "Cabin Girl" of the Salty Mermaid, can you manage to raise the price 
     <<replace "#difficulty">>\
     @@color:purple;Pathetic Loser difficulty selected.@@
     A big bonus to all sorts of skill and stat rolls (+10)
+    A large reduction in Willpower loss due to corruption.
     Check your inventory under the @@color:yellow;Quest & Loot@@ tab for a free gift.
 
     [[Continue|Intro1]]

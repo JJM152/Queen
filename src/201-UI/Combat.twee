@@ -1,2 +1,2 @@
-:: Combat [custom-menu no-teleport no-saving]
+:: Combat [no-teleport no-saving]
 <<combatUI>>

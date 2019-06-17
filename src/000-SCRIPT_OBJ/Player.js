@@ -974,6 +974,12 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
         var toWillPowerXP = Math.ceil(XP * mod) * -1.0;
         var toPerversionXP = Math.ceil( (XP * mod)/2);
 
+        if (this._state.difficultySetting == 1) {
+            toWillPowerXP = Math.ceil( Math.abs(toWillPowerXP) * 0.8 ) * -1.0;
+        } else if (this._state.difficultySetting == 2) {
+            toWillPowerXP = Math.ceil( Math.abs(toWillPowerXP) * 0.7) * -1.0;
+        } 
+
         this.AdjustXP('STAT', 'WillPower', toWillPowerXP, 0, true);
         this.AdjustXP('STAT', 'Perversion', toPerversionXP, 0, true);
 

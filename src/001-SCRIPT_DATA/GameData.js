@@ -1339,5 +1339,5 @@ App.Data.Fashion = {
 };
 
 App.Data.Game = {
-    Version : 0.117 // version 0.11i
+    Version : 0.118 // version 0.11j
 };

@@ -1,5 +1,9 @@
 :: ChangeLog [custom-menu]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.11j 17/06/2019 - Hotfix C.
+!!!!General
+* Fixed bug that was kicking you out of combat when you tried to use an item.
+* Choosing an easier difficulty setting reduces the effects of corruption on willpower.
 !!!0.11i 15/06/2019 - Hotfix B.
 !!!!General 
 * Disabled saving in some passages where it would break the game. This is unlikely to change because I don't want to increase \
