@@ -30,7 +30,25 @@ in the completed quests page of your journal (useful for keeping track that some
 the back of the string. (Why was this set this way??? What was I thinking?)
 !!!!Golden Isle
 * New Quest added to Bertie - The Queens Favor - Part 2
-!!!0.11g 01/06/2019 - RELEASE CANDIDATE
+!!!0.11j 17/06/2019 - Hotfix C.
+!!!!General
+* Fixed bug that was kicking you out of combat when you tried to use an item.
+* Choosing an easier difficulty setting reduces the effects of corruption on willpower.
+!!!0.11i 15/06/2019 - Hotfix B.
+!!!!General 
+* Disabled saving in some passages where it would break the game. This is unlikely to change because I don't want to increase \
+the size of the player state object (and slow down the game). Primarily effects combat.
+* Reduces 'Game Over' threshold for low willpower from 20 pts to 15 pts to give a bit more wiggle room.
+!!!!Golden Isle
+* Losing some of the fights at the Fight Club would trap you in a broken passage, effectively ending your game. This has been \
+fixed.
+!!!0.11h 07/06/2019 - Hotfix A.
+!!!!General
+* Reduced overall strength of Pirate mobs.
+* Reduced overall strength of Siren mobs.
+!!!!Salty Mermaid
+* Accidently left the Pirate Attack encounter too difficult. It's been reduced to the correct level.
+!!!0.11g 07/06/2019 - PUBLIC RELEASE
 !!!!General
 * Added a 'Memory' section to the Player Journal. This will recount the effects on items that you \
 discover, even if they are not currently in your possession.
