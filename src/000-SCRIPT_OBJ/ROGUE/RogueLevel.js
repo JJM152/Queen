@@ -161,9 +161,51 @@ App.Rogue.Level = function(depth) {
             XY.setStr(treasure);
             this._treasure[treasure] = XY;
             this._freeCells[XY] = new App.Rogue.Entity({ ch:'*', fg:'#A52A2A', bg:null });
-            this._freeCells[XY].SetType('dig_spot');
+            this._freeCells[XY].Type = 'dig_spot';
         }
     };
+
+    this.genMonsters = function()
+    {
+        console.log("genMonsters() called");
+        // Select generic monster encounters.
+        var tLevel = this._depth;
+        console.log("tLevel="+tLevel);
+        var Mobs = App.Data.Abamond.Mobs['COMMON'].filter( o => 
+            o.level >=  ( tLevel - 10) &&
+            o.level <= tLevel);
+
+        console.log(Mobs);
+        var MobPool = ((tLevel * 5) * Math.random())
+
+        while(MobPool > 0 && Mobs.length >= 1) {
+            let m = Mobs[Math.floor(Math.random() * Mobs.length)];
+            MobPool -= m.level;
+            this._placeMonster(m);
+        }
+
+    };
+
+    // Place the monster we just generated
+    this._placeMonster = function(Mob)
+    {
+
+        var entity = new App.Rogue.Being( { ch: Mob.symbol, fg: Mob.color, bg: null });
+        entity.Name = Mob.name;
+        entity.Encounter = Mob.encounter;
+        var that = this;
+        var cells = Object.keys(this._freeCells).filter( c => 
+            c != that._entrance.toString() &&
+            c != that._exit.toString() &&
+            Object.keys(that._beings).includes(c) == false
+            );
+        var place = cells[Math.floor(Math.random() * cells.length)];
+        var XY = new App.Rogue.XY();
+        XY.setStr(place);
+        console.log("Placing mob:" +Mob.name + " at " + XY.toString());
+        this.setEntity(entity, XY);
+
+    }
 
     this.isTreasure = function(xy) {
         return this._treasure[xy] || null;
@@ -219,7 +261,7 @@ App.Rogue.Level = function(depth) {
             setup.player.AddItem(loot.category, loot.tag, count);
             var name = setup.player.GetItemByName(loot.tag);
             if (typeof name !== 'undefined' && name != null ) {
-                App.Rogue.Engine._textBuffer.write("You find: "+name.Description+"!");
+                App.Rogue.Engine._textBuffer.write("You find: "+name.Name+"!");
             } else {
                 App.Rogue.Engine._textBuffer.write("You find: "+ loot.tag +"(bug)!");
             }
@@ -236,7 +278,7 @@ App.Rogue.Level = function(depth) {
         this._entrance = new App.Rogue.XY();
         this._entrance.setStr(entrance);
         this._freeCells[entrance] = new App.Rogue.Entity({ ch:'O', fg:'#3f3', bg:null});
-        this._freeCells[entrance].SetType("stairs_up");
+        this._freeCells[entrance].Type = 'stairs_up';
 
     };
 
@@ -253,17 +295,28 @@ App.Rogue.Level = function(depth) {
         this._exit = new App.Rogue.XY();
         this._exit.setStr(exit);
         this._freeCells[exit] = new App.Rogue.Entity(( { ch:'X', fg: '#1ABC9C', bg:null}));
-        this._freeCells[exit].SetType("stairs_down");
+        this._freeCells[exit].Type = 'stairs_down';
     };
 
     this.getEntrance = function () { return this._entrance; };
     /** @returns{App.Rogue.XY} */
     this.getExit = function() { return this._exit };
 
+    this.removeBeing = function(entity)
+    {
+        if (entity.Level == this) {
+            var key = entity.XY;
+            delete this._beings[key];
+            if (App.Rogue.Engine._level == this) {
+                App.Rogue.Engine.draw(key);
+            }
+        }
+    };
+    
     this.setEntity = function(entity, xy) {
         /* FIXME remove from old position, draw */
-        if (entity.getLevel() == this) {
-            var oldXY = entity.getXY();
+        if (entity.Level == this) {
+            var oldXY = entity.XY;
             delete this._beings[oldXY];
             if (App.Rogue.Engine._level == this) { App.Rogue.Engine.draw(oldXY); }
         }
@@ -286,4 +339,5 @@ App.Rogue.Level = function(depth) {
         /* FIXME list of all beings */
         return this._beings;
     };
+
 };

@@ -1,5 +1,35 @@
-:: ChangeLog [custom-menu]
+:: ChangeLog [custom-menu no-teleport no-saving]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.12d ??/??/????
+!!!!General
+* New asset - Pirate Hat (still WIP).
+* Changed a lot of the colorization in text to use HTML instead of wikifier code. Please report any malformed html \
+elements you see!
+* New random items added with Waist Thicker and Fitness Down attributes. 
+!!!0.12c 13/06/2019
+!!!!General
+* Disabled saving in some menus because it bugs out the game state.
+* Some NPC's have had extra menu items added to them that were previously room interactions. This is just to \
+keep the UI nice and streamlined.
+!!!!Abamond
+* Relics from Abamond have been moved to the Loot tab in inventory and can no longer be found in markets.
+!!!!Port Royale
+* Added a simple introductory quest to Bram at the Curio Shop.
+* After completing the above introductory quest, Bram can concoct unique power ups for you.
+!!!0.12b 10/06/2019
+!!!!Abamond
+* The chat buffer in the rogue-like now retains previous lines. It's also larger.
+* Some of the spamminess in the above has been reduced in frequency.
+* Collectable items have been added to loot drops in Abamond Caverns.
+* Monsters now spawn in the Abamond Caverns. They also drop loot.
+!!!0.12a 05/06/2019
+!!!!General
+* Quests that had 'hidden' journal entries, but visibile 'journal complete' entries will now have an entry \
+in the completed quests page of your journal (useful for keeping track that something was done).
+* Check boxes for quest item completion were moved to the front of the string instead of being tacked on to \
+the back of the string. (Why was this set this way??? What was I thinking?)
+!!!!Golden Isle
+* New Quest added to Bertie - The Queens Favor - Part 2
 !!!0.11j 17/06/2019 - Hotfix C.
 !!!!General
 * Fixed bug that was kicking you out of combat when you tried to use an item.
@@ -479,7 +509,7 @@ for sale, but she won't sell them to just anyone.
 !!!!General
 * Rounding bug with Journal quest tracker fixed.
 * Figure rating blank in mirror fixed (hopefully)
-* New Title PAge
+* New Title Page
 * New Intro sequence
 * Added flavor choices to intro that give small stat/skill boosts.
 * Added changelog and faq/rules page.

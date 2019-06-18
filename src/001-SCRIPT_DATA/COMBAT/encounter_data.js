@@ -361,3 +361,19 @@ App.Combat.EncounterData['BoobpireStreets'] = {
         setup.player.NextPhase(1);
     }
 };
+
+//Bertie Quest Encounter - Queen's Favor Part 2
+App.Combat.EncounterData['QueenFavorAmbush'] = {
+    Enemies: [ "HoodedAssassain" ],
+    Fatal: true,
+    WinPassage: "CombatWinQueenFavorAmbush",
+    LosePassage: "CombatLoseQueenFavorAmbush",
+    Intro: "The hooded man leaps to attack you!",
+    WinHandler : function() {
+    },
+    LoseHandler : function() { 
+    },
+    FleeHandler : function() {
+
+    }
+};

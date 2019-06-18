@@ -132,7 +132,7 @@
 <<case "potion">>
 	<<set _Items = setup.player.GetItemByTypes(["potion"], true);>>
 <<case "quest">>
-	<<set _Items = setup.player.GetItemByTypes(["QUEST", "LOOT_BOX"], true);>>
+	<<set _Items = setup.player.GetItemByTypes(["QUEST", "LOOT_BOX", 'MISC_LOOT'], true);>>
 <<case 'gear'>>
 	<<set _Items = setup.player.Wardrobe>>
 <<case 'misc'>>

@@ -13,14 +13,6 @@ App.EventHandlers = new function() {
                   }
               }
           });
-
-      // Do something on passage start
-      //      $(document).on(':passagestart', function (ev) {
-      //          if (ev.passage['tags'].includes("event")) {
-      //              console.log("event tag detected");
-      //          }
-      //
-      //      });
     };
 
     /**
@@ -257,6 +249,20 @@ App.EventHandlers = new function() {
             let ps = save.state.history[0].variables.PlayerState;
             ps.FaceData = { };
             $.extend(true, ps.FaceData, App.Data.DAD.FacePresets['Default 1']);
+        }
+
+        if (save.version < 0.122) {
+            let ps = save.state.history[0].variables.PlayerState;
+            if (ps.Inventory.hasOwnProperty('MISC_CONSUMABLE')) {
+                for (var k in ps.Inventory['MISC_CONSUMABLE']) {
+                    if (k == 'broken rune' || k == 'old arrowhead' || k == 'glowing crystal' || k == 'stone tablet') {
+                        console.log(ps.Inventory['MISC_CONSUMABLE']);
+                        if (ps.Inventory.hasOwnProperty('MISC_LOOT') == false) ps.Inventory['MISC_LOOT'] = { };
+                        ps.Inventory['MISC_LOOT'][k] = ps.Inventory['MISC_CONSUMABLE'][k];
+                        delete ps.Inventory['MISC_CONSUMABLE'][k];
+                    }
+                }
+            }
         }
 
         if (save.version > App.Data.Game.Version) {

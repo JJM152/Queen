@@ -92,7 +92,7 @@ App.Combat.CombatEngine = class CombatEngine {
         this._AddPlayer(setup.player);
         if (this._introChat && this._introChat != null && this._introChat != 'null') {
             this._AddChat(this._introChat);
-        } else { 
+        } else if ( this._encounterData.hasOwnProperty('Intro')) { 
             this._AddChat(this._encounterData.Intro);
         }
     }
@@ -397,7 +397,7 @@ App.Combat.CombatEngine = class CombatEngine {
         });
 
         m = m.replace(/NPC_PRONOUN/g, function(m, f, n ) {
-            return o.Gender == 1 ? "his" : "her";
+            return o.Gender == 1 ? "his" : o.Gender == -1 ? "its" : "her";
         });
 
         m = App.PR.TokenizeString(setup.player, npc, m);

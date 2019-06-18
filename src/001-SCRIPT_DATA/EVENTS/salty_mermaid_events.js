@@ -37,7 +37,7 @@ App.Data.Events["Cabin"] = [
         PHASE: [ 0 ],
         PASSAGE: 'KrakenAttackEvent',
         CHECK: function(p) { 
-            return (Math.floor(Math.random() * 4) == 0);
+            return (Math.floor(Math.random() * 5) == 0);
         }  
     },
     {
@@ -50,7 +50,7 @@ App.Data.Events["Cabin"] = [
         PHASE: [ 0 ],
         PASSAGE: 'PirateAttackEvent',
         CHECK: function(p) { 
-            return (Math.floor(Math.random() * 4) == 0);
+            return (Math.floor(Math.random() * 5) == 0);
         }  
     },
     {
@@ -122,11 +122,11 @@ App.Data.Events["Deck"]= [
         MAX_REPEAT: 0,
         MIN_DAY: 40,
         MAX_DAY: 0,
-        COOL: 12,
+        COOL: 20,
         PHASE: [ 3],
         PASSAGE: 'SirenAttackEvent',
         CHECK: function(p) {
-            return (Math.floor(Math.random() * 4) == 0);
+            return (Math.floor(Math.random() * 5) == 0);
         }
     },
     {

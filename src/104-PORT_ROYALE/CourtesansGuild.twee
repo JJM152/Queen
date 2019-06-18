@@ -13,9 +13,10 @@ engage her future companion in every way, using her wit, charm and intellect ali
 elite socialite, she can advance to an otherwise unobtainable life of privilege. If played well, she might even \
 ascend to powerful financial and social influence.
 
-<<NPC "Selene">>
-
 <<if App.Quest.IsCompleted(setup.player, "COURTESAN_GUILD_JOIN")>>\
-@@color:yellow;Interact@@: [[School Gift Exchange|CG_GiftExchange]]
+<<NPC "Selene" "Gift Exchange" "CG_GiftExchange">>\
+<<else>>\
+<<NPC "Selene">>\
 <</if>>\
+
 @@color:lime;Travel@@: [[The Wealthy District|WealthyDistrict]]

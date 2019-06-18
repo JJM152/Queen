@@ -1,0 +1,34 @@
+:: CombatWinQueenFavorAmbush [no-teleport no-saving]
+Your last attack sends your assailant to the ground, his sword hanging limply in his hand. You stand over \
+him and remove his hood, only to realize that you don't recognize him. He's barely concious and fading fast \
+and despite your efforts to get him to talk, he merely gurgles something unintelligable and then passes from \
+this life.
+
+Not wanting to be caught in a dark alley holding a corpse, you quickly retreat and make your way to the \
+<span style='color:gold'>Great Market</span> in an effort to get lost in the crowds and shake off any other \
+potential pursuers. 
+
+Still, you're left wondering if this was just a random event, or something more sinister...
+
+@@color:lime;Travel@@: [[Great Market|GreatMarket]]
+:: CombatLoseQueenFavorAmbush [no-teleport no-saving]
+The last blow from your assailant sends you sprawling to the ground, blood dripping from a nasty gash in your \
+head. You have no energy left to resist and can do little but stare in shock as he approaches you, his sword \
+pointed at your chest. 
+
+You start to stammer, to plead for your life, but it is to no avail. The last thing you see is the faint glint \
+of the eyes of your killer as he thrusts his blade deep into your heart. The pain is intense, but mercifully \
+quick. 
+
+Some hours later a passing whore will find your cold body stuffed into a trash barrel, an ignominious end to a \
+wasted life.
+
+''THE END''
+
+:: CombatFleeQueenFavorAmbush [no-teleport no-saving]
+You warily face off against your hooded attacker, doing your best to avoid his deadly blade. You bide your \
+time and eventually he leaves an opening that allows you to rush past him and out of the alley. Without \
+turning back to look you rush off as fast as your legs can carry you until you get lost in the \
+<span style='color:gold'>Great Market</span>.
+
+@@color:lime;Travel@@: [[Great Market|GreatMarket]]

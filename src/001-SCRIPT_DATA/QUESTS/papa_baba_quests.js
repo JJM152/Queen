@@ -56,3 +56,51 @@ App.Data.Quests["BOBOLA_SAP_2"] = {
         @@color:gold;Swamp River@@.\
     "
 };
+
+// Part of Bertie's Queen's Favor Part 2
+App.Data.Quests["BERTIE_QUEEN_PT2_INFO_PAPA_BABA"] = {
+    "ID": "BERTIE_QUEEN_PT2_INFO_PAPA_BABA", 
+    "Title": "Chasing the Thieves",
+    "GIVER": "Papa Baba",
+    "PRE": [
+        {
+            TYPE : "QUEST_FLAG", NAME : "BERTIE_QUEEN_PT2_DELIVERY_B", VALUE : "COMPLETED"
+        },
+        {
+            TYPE: "QUEST_FLAG", NAME: "BERTIE_QUEEN_PT2_INFO",  VALUE: "ACTIVE"
+        },
+    ],
+    "POST": [
+        {
+            TYPE: "QUEST_FLAG", NAME: "BERTIE_QUEEN_PT2_INFO", OPT: "SET", VALUE: "COMPLETED"
+        },
+        {
+            TYPE: "QUEST_FLAG", NAME: "BERTIE_QUEEN_PT2_INFO_PAOLA", OPT: "DELETE"
+        },
+    ],
+    "CHECKS": [],
+    "ON_ACCEPT" : [],
+    "REWARD": [],
+    "INTRO": "",
+    "MIDDLE" : "",
+    "FINISH": "\
+    You approach NPC_NAME, the mysterious jungle medicine man. He greets you somberly and and gestures for \
+    you to take a seat. s(Wot ye be needin' girlie? Sumthin Baba ken do for ye?)\n\
+    You clear your throat and lick your lips, then reach into your garments and produce the drawing that \
+    <span style='color:cyan'>Jonah Blythe</span> gave you and politely ask her if she recognizes it.\n\n\
+    NPC_NAME's mouth twists in a grimace. He hands the picture back and sits down across from you on a simple \
+    stool. s(Ye, I know et. I know et well.) he says. s(Ets a devil the white man worship. Dey be callin' et \
+    'Mahomet') he stops and makes a sign over his heart, possibly some kind of protective charm.\n\n\
+    Who is that? What does it mean? You have a dozen questions pop into your mind. However, all you can get \
+    out of NPC_NAME is a single statement - s(I dun noe much, but dis - dat devil fills a man with madness \
+    and lust and demands a price in blood. Unfaithful. Dat's what eet likes - unfaithful, disloyal, liars.)\n\n\
+    You ponder this information for a moment, it's not much, but you at least have a name and some indication \
+    of who might be behind it. It's probably enough to return to <span style='color:cyan'>Bertie</span> with.\
+     ",
+     "JOURNAL_ENTRY": "HIDDEN",
+     "JOURNAL_COMPLETE": "\
+     You asked NPC_NAME if he knew anything about the mysterious symbol. He told you a couple of key \
+     pieces of information. Namely the symbol belongs to a cult that worships some type of demonic \
+     figure named 'Mahomet' and that you should look for his followers amongst the 'unfaithful'.\
+     ",
+};

@@ -164,11 +164,11 @@ App.Data.Quests["SIMONE_CUSTOMER_SERVICE"] = {
         s(Like I promised, here's your cut of the take, oh and also, I threw in a little something extra \
         that'd be of particular use to a working girl like yourself.)\n\n\
         NPC_NAME grins lustily at you. s(You can have this back as well.)\n\n\
-        You grimace as she hands you back GF_NAME's <span style='color:purple>14 inch purple dildo</span>.\n\n\
+        You grimace as she hands you back GF_NAME's <span style='color:purple'>14 inch purple dildo</span>.\n\n\
         s(Let's just say I found something bigger) she shudders slightly, a bit of drool starting to drip out \
         of the corner of her mouth. s(And seein the way you work that ass, I figure a hungry slut like you could \
         use a good thick friend)\n\n\
-        <<if setup.player.GetStat('STAT', 'Perversion') >= 50>>\
+        <<if setup.player.GetStat('STAT', 'Perversion') >= 70>>\
         You know you should be disgusted by this, being given a giant dildo used by two different women, but \
         for some reason you eagerly reach out for it all the same. You never had a chance to properly try out \
         the monster fake cock and you daydream about what it would feel like snaking it's way up your backside.\

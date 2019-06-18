@@ -215,3 +215,95 @@ App.Data.Quests["COURTESAN_GUILD_JOIN_FETCH"] = {
     JOURNAL_ENTRY : "HIDDEN",
     JOURNAL_COMPLETE : "HIDDEN"
 };
+
+App.Data.Quests["BERTIE_QUEEN_PT2"] = {
+    ID: "BERTIE_QUEEN_PT2",
+    Title: "The Queens Favor - Part 2",
+    GIVER: "Bertie",
+    PRE: [
+        { TYPE : "QUEST_FLAG", NAME : "EE_BertieMapStolen_COUNT", VALUE : 1 }
+     ],
+    CHECKS: [
+        { 
+            TYPE : "QUEST_FLAG", NAME : "BERTIE_QUEEN_PT2_INFO", VALUE : "COMPLETED", 
+            ALT_TITLE: "Find information on the thieves" 
+        }
+     ],
+    POST: [ ],
+    REWARD: [
+        {
+            REWARD_TYPE: "SLOT" 
+        },
+        {
+            REWARD_TYPE: "ITEM_CHOICE", TYPE: "DRUGS", NAME: "AP_mars", AMOUNT: 1
+        },
+        {
+            REWARD_TYPE: "ITEM_CHOICE", TYPE: "DRUGS", NAME: "AP_venus", AMOUNT: 1
+        },
+        {
+            REWARD_TYPE: "ITEM_CHOICE", TYPE: "REEL", NAME: "RARE_ANAL_ANGEL", AMOUNT: 1
+        },
+        {
+            REWARD_TYPE: "ITEM_CHOICE", TYPE: "REEL", NAME: "RARE_BOOBJITSU_MATRIARCH", AMOUNT: 1
+        },
+        {
+            REWARD_TYPE: "ITEM_CHOICE", TYPE: "REEL", NAME: "RARE_BREATH_MINT", AMOUNT: 1
+        },
+        {
+            REWARD_TYPE: "ITEM_CHOICE", TYPE: "REEL", NAME: "RARE_HANDMAIDEN", AMOUNT: 1
+        },
+     ],
+    INTRO: "\
+    NPC_NAME looks distraught. Her fists, clenching and unclenching in rage.\n\n\
+    s(Some damn thieves have broken into the mansion and made off with something... precious to me!) she \
+    complains. \n\n\
+    She looks at you for a moment and then relaxes slightly.\n\n\
+    s(I can't trust that oaf <span style='color:cyan'>Uticus</span> to keep his damn trouser snake \
+    in his pants for more than five minutes, but you... I can trust you, can't I?) she says.\n\n\
+    It appears that all your efforts with NPC_NAME have born fruit - she is coming to you first for \
+    help, surely you may be able to ask for the favor to be returned in the future?\n\n\
+    s(Some thieves broke into the mansion and made off with one half of my personal treasure map!) she \
+    exclaims. s(Normally, I'd hunt them down myself but I'm leery of walking into a //trap// of some sort, \
+    that's where you come in.) She smirks to herself over her own innudendo.\n\n\
+    s(Don't worry, I don't expect it will be dangerous, at least if you're smart. All I need you to do is \
+    track down who stole my map. You don't need to return it, just tell me who they are.)\n\n\
+    That actually... doesn't sound too bad, and if you're lucky it won't involve you getting raped \
+    by a giant tree or some other ghastly monster.\n\n\
+    NPC_NAME continues speaking, s(I don't have any leads, but if I were you I'd start asking around \
+    at the <span style='color:gold'>Docks</span>, after all there's only one way in or out of this \
+    blasted island.)\
+        ",
+    MIDDLE:"\
+    NPC_NAME is sitting at a large gilded oak desk, pouring over a pile of documents, doubtless part of \
+    her official duties as the Governor of this island. She briefly looks up at you with a cocked eyebrow \
+    and then returns to her work without saying a word.\n\n\
+    Considering you don't have anything solid to report yet, you decide to not waste her time.\
+        ",
+    FINISH:"\
+    You approach NPC_NAME and explain the results of your search.\n\n\
+    s(Mahomet you say? Cultists? What a load of hornswaggle...) she mutters.\n\n\
+    As you provide more details around how you came by this information, NPC_NAME's look of disbelief \
+    hardens, her eyes burning bright with indignation.\n\n\
+    s(Alright, PLAYER_NAME, I believe you... after all, you've no real reason to tell me such a \
+    cockamamie lie, but the issue is... Why? Why would these devil worshipers be after my map?) \n\n\
+    You don't have any real reason to provide, so you helplessly look on as NPC_NAME ponders the \
+    situation.\n\n\
+    NPC_NAME sighs wearily. s(I've still more work to do... don't get me wrong, you've been a big \
+    help and I intend to reward you appropriately, but I'll have to have some of my underlings \
+    look into this some more. In any case, pick one of these as a reward... you've earned it.)\n\n\
+    NPC_NAME gestures to a table, filled with a rare alchemical goods.\n\n\
+    s(Just... make sure to come back later and talk to me again. I might have another job for you \
+    once I make some more progress.) she says.\n\n\
+    You nod as your hand reaches out for your reward. Clearly getting in good with NPC_NAME is paying \
+    off, you only wonder what more you'll have to do to earn her total confidence? \
+        ",
+    JOURNAL_ENTRY : "\
+    Some thieves have made off with one half of NPC_NAME's personal treasure map. You've been asked to \
+    to see what you can find out about who they are and to return to NPC_NAME with the information.\
+    ",
+    JOURNAL_COMPLETE : "\
+    After an exhaustive search you've managed to determine that the people who stole NPC_NAME's treasure map \
+    are connected to a cult that worships a strange devil named 'Mahomet'. NPC_NAME was thankful for the \
+    information and to check back with her later after her agents did some more snooping around. \
+    "
+};

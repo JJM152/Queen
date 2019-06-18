@@ -1,4 +1,4 @@
-:: Examine [custom-menu]
+:: Examine [custom-menu no-teleport no-saving]
 <<= App.PR.TokenizeString(setup.player, $MenuAction, $MenuAction.ShortDesc())>>
 <<= App.PR.TokenizeString(setup.player, $MenuAction, $MenuAction.LongDesc())>>
 

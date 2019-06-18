@@ -1,0 +1,17 @@
+::QueenFavorAmbushEvent
+As you step off of the deck of the <span style='color:cyan'>Salty Mermaid</span> and onto the bustling docks of \
+<span style='color:gold'>Port Royale</span>, an uncomfortable feeling creeps over you, like someone is staring \
+a hole into the back of your head. You pause at the corner of two shops and an alleyway, then glance \
+backwards hoping to catch whomever it is that you're sure is following you.
+
+Nothing. There's no one there. You're just about to chalk it up to nerves when a pair of rough hands grab \
+you from behind and pull you into the alley you just conviently stopped by. Damn it all.
+
+There is a glint of steel that flashes before your eyes, only luck or fate prevents you from being instantly \
+decapitated as you scramble backwards on your arse. A tall man stands before you wearing a hood over his face and \
+holding a wicked looking sword. 
+
+@@color:yellow;Action@@: <<click "Defend yourself!" "Combat">>\
+    <<run setup.Combat.InitializeScene({flee:30,fleePassage:"CombatFleeQueenFavorAmbush"});>>\
+    <<run setup.Combat.LoadEncounter("QueenFavorAmbush");>>\
+    <</click>>\

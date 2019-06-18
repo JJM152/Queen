@@ -96,7 +96,33 @@ App.PR = new function() {
             });
 
         return temp;
-    }
+    };
+
+    /**
+     * Get a list of all effects, but print ????? for ones unlearned.
+     */
+    this.GetAllEffects = function(Type, Tag)
+    {
+        let o = App.Item.Factory(Type, Tag);
+        const effects = o.GetKnowledge();
+        const uses = (Type == 'CLOTHES') ? setup.player.GetHistory("CLOTHING_EFFECTS_KNOWN", Tag) : 
+            setup.player.GetHistory('ITEMS', Tag);
+
+        let output = [ ];
+
+        for(var i = 0; i < effects.length; i++ )
+        {
+            if (i < uses) {
+                output.push( App.PR.pEffectMeter(effects[i], this) );
+            } else {
+                output.push("?????");
+            }
+        }
+
+        return output.join(" ");
+
+    };
+    
     this.numericalMeters = false;
 
 	/** Shortcut
@@ -374,7 +400,6 @@ App.PR = new function() {
      * @returns {string}
      */
         this.ColorizeString = function (Value, String, Opt) {
-                //return "@@color:" + this.ColorScale(Value, Opt) + ";" + String + "@@";
                 return "<span style='color:"+this.ColorScale(Value, Opt)+"'>"+String+"</span>";
         };
     /**
@@ -387,7 +412,7 @@ App.PR = new function() {
 		this.ColorizeMeter = function (n, s, h) {
                 var Colors = ["red", "brown", "yellow", "cyan", "lime"];
                 var cIndex = Math.max(0, Math.min(Math.round(((n / 20) - 1)), 4));
-                return h ? "<span style='color:"+ Colors[cIndex]+"'>"+s+"</span>" : "@@color:" + Colors[cIndex] + ";" + s + "@@";
+                return h ? "<span style='color:"+ Colors[cIndex]+"'>"+s+"</span>" : "<span style='color:" + Colors[cIndex] + "'>" + s + "</span>";
         };
 
     /**
@@ -432,10 +457,10 @@ App.PR = new function() {
 				sMeter = this.ColorizeMeter(nMeter, sMeter, HtmlSafe);
 
 				if ( (10 - Stars ) != 0) {
-					sMeter += HtmlSafe ? "<span style=\"color:grey;\">" : "@@color:grey;";
+					sMeter += "<span style='color:grey;'>";
 					for (i = 0; i < (10 - Stars); i++)
 						sMeter += "&#9733;";
-						sMeter += HtmlSafe ? "</span>" : "@@";
+						sMeter += "</span>";
 					}
 
 				if (App.PR.numericalMeters) {
@@ -636,7 +661,7 @@ App.PR = new function() {
                 case "MONEY":
                     bMeter = true;
                     Val = Player.Money;
-                    pString = "@@color:yellow;Coins@@";
+                    pString = "<span style='color:yellow;'>Coins</span>";
                     break;
                 case "STAT_BODY":
                     bMeter = true;
@@ -728,7 +753,7 @@ App.PR = new function() {
     this.pQuestCheckbox = function(Player, pString, Val)
     {
         var Out = pString + " ";
-        Out = Out + (Val == true ? "@@color:lime; &#9745; @@" : "@@color:red; &#9746; @@");
+        Out = (Val == true ? "<span style='color:lime'> &#9745; </span>" : "<span style='color:red'> &#9746; </span>") + Out;
         return Out;
     };
 
@@ -798,7 +823,7 @@ App.PR = new function() {
 
         var i = 0;
         for (i = 0; i < SlotUnlockCount; ++i) {
-            Output.push("@@color:cyan;A slot reel unlock!@@");
+            Output.push("<span style='color:cyan'>A slot reel unlock!</span>");
         }
         Output.push.apply(Output, Items);
 
@@ -871,11 +896,11 @@ App.PR = new function() {
 
         if ((aPercent > 30) || (hPercent > 30)) {
             if ( aPercent  < ( hPercent - 15) ) {
-                Output += " It is @@color:yellow;disproportionately small@@ for your ";
+                Output += " It is <span style='color:yellow'>disproportionately small</span> for your ";
             } else if ( aPercent > ( hPercent + 15)) {
-                Output += " It is @@color:yellow;disproportionately big@@ for your ";
+                Output += " It is <span style='color:yellow'>disproportionately big</span> for your ";
             } else {
-                Output += " It is @@color:lime;flattered@@ by your ";
+                Output += " It is <span style='color:lime'>flattered</span> by your ";
             }
             Output += this.GetAdjective("BODY", "Hips", hPercent, true) + " hips.";
         }
@@ -1107,33 +1132,33 @@ App.PR = new function() {
             var rBustHips = pBust/pHips;
 
             // Cases for being fat (too much waist). Go on a diet.
-            if (pWaist >= 120) return "a @@color:red;morbidly obese@@ "+statsStr;
-            if (pWaist >= 100) return "an @@color:red;obese@@ "+statsStr;
-            if (pWaist >= 90) return "a @@color:red;fat@@ "+statsStr;
+            if (pWaist >= 120) return "a <span style='color:red;'>morbidly obese</span> "+statsStr;
+            if (pWaist >= 100) return "an <span style='color:red;'>obese</span> "+statsStr;
+            if (pWaist >= 90) return "a <span style='color:red;'>fat</span> "+statsStr;
 
             //Boobs and hips are in proportion
             if (rBustHips <= 1.1 && rBustHips >= 0.9) {
-                if (pBust >= 95 && pWaist <= 75) return "an @@color:DeepPink;extreme hourglass@@ "+statsStr;
-                if (pBust >= 95) return "an @@color:magenta;hourglass@@ " +statsStr;
-                if (pBust >= 90) return "a @@color:cyan;very curvy@@ "+statsStr;
-                if (pBust >= 85) return "a @@color:lime;curvy@@ "+statsStr;
-                if (pBust >= 82) return "a @@color:yellow;slightly curvy@@ "+statsStr;
-                if (pWaist <= 55) return "a @@color:lime;petite@@ "+statsStr;
-                if (pWaist <= 70) return "a @@color:lime;slender@@ "+statsStr;
-                if (pWaist < 80) return "a @@color:lime;thin@@ "+statsStr;
-                return "an @@color:yellow;average@@ "+statsStr;
+                if (pBust >= 95 && pWaist <= 75) return "an <span style='color:deeppink;'>extreme hourglass</span> "+statsStr;
+                if (pBust >= 95) return "an <span style='color:magenta;'>hourglass</span> " +statsStr;
+                if (pBust >= 90) return "a <span style='color:cyan;'>very curvy</span> "+statsStr;
+                if (pBust >= 85) return "a <span style='color:lime;'>curvy</span> "+statsStr;
+                if (pBust >= 82) return "a <span style='color:yellow;'>slightly curvy</span> "+statsStr;
+                if (pWaist <= 55) return "a <span style='color:lime;'>petite</span> "+statsStr;
+                if (pWaist <= 70) return "a <span style='color:lime;'>slender</span> "+statsStr;
+                if (pWaist < 80) return "a <span style='color:lime;'>thin</span> "+statsStr;
+                return "an <span style='color:yellow;'>average</span> "+statsStr;
             }
 
             // Boobs are bigger than hips
-            if (rBustHips >= 1.25 && pBust >= 90)  return "a @@color:lime;top heavy@@ "+statsStr;
+            if (rBustHips >= 1.25 && pBust >= 90)  return "a <span style='color:lime;'>top heavy</span> "+statsStr;
 
-            if (rBustHips <= 0.75 && pHips >= 90) return "a @@color:lime;bottom heavy@@ "+statsStr;
+            if (rBustHips <= 0.75 && pHips >= 90) return "a <span style='color:lime;'>bottom heavy</span> "+statsStr;
 
-            if (pWaist <= 55) return "a @@color:lime;petite@@ "+statsStr;
-            if (pWaist <= 70) return "a @@color:lime;slender@@ "+statsStr;
-            if (pWaist < 80) return "a @@color:lime;thin@@ "+statsStr;
+            if (pWaist <= 55) return "a <span style='color:lime;'>petite</span> "+statsStr;
+            if (pWaist <= 70) return "a <span style='color:lime;'>slender</span> "+statsStr;
+            if (pWaist < 80) return "a <span style='color:lime;'>thin</span> "+statsStr;
 
-            return "an @@color:yellow;average@@ "+statsStr;
+            return "an <span style='color:yellow;'>average</span> "+statsStr;
         };
 
 
@@ -1194,7 +1219,7 @@ App.PR = new function() {
                 equip = Player.GetEquipmentInSlot(slots[i]);
                 if (equip != null) return equip.Description;
             }
-            return "@@color:red;bug!@@";
+            return "<span style='color:red'>bug!</span>";
         }
 
         // Like pReplacer, but pass an argument instead of using the characters statistic.
@@ -1255,7 +1280,7 @@ App.PR = new function() {
      * @returns {string}
      */
     this.GetItemFavoriteIcon = function (IsFavorite) {
-        return IsFavorite ? "@@color:yellow;&#9733;@@" : "@@color:white;&#9734;@@";
+        return IsFavorite ? "<span style='color:yellow'>&#9733;</span>" : "<span style='color:white'>&#9734;</span>";
     };
 
 
@@ -1531,11 +1556,11 @@ App.PR = new function() {
 
             //Fight
             if (wins < r.WinsRequired ) {
-                str += "<td>@@color:grey;Need "+r.WinsRequired+" wins@@</td>";
+                str += "<td><span style='color:grey'>Need "+r.WinsRequired+" wins</span></td>";
             } else if (wins > r.MaxWins && r.MaxWins != 0) {
-                str += "<td>@@color:orange;Too Experienced@@</td>";
+                str += "<td><span style='color:orange'>Too Experienced</span></td>";
             } else if (Player.Phase > 3) {
-                str += "<td>@@color:red;CLOSED@@</td>"
+                str += "<td><span style='color:red'>CLOSED</span></td>"
             } else {
                 str += "<td> \
                 <<click 'Fight!' 'Combat'>> \

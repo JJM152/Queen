@@ -14,6 +14,7 @@ App.Item = class Item {
         if (Type == "FOOD") return App.Data.Food;
         if (Type == "COSMETICS") return App.Data.Cosmetics;
         if (Type == "MISC_CONSUMABLE") return App.Data.Misc;
+        if (Type == 'MISC_LOOT') return App.Data.MiscLoot;
         if (Type == "CLOTHES") return App.Data.Clothes;
         if (Type == "WEAPON") return App.Data.Clothes;
         if (Type == "STORE") return App.Data.Stores;
@@ -80,6 +81,7 @@ App.Item = class Item {
                 price += typeof d["Effects"] !== 'undefined' ? App.Item.CalculateEffectPrice( d["Effects"]) : 0;
                 break;
             case 'COSMETICS':
+            case 'MISC_LOOT':
             case 'MISC_CONSUMABLE':
                 price = (typeof d["VALUE"] !== 'undefined') ? d["VALUE"] : 25;
                 break;
@@ -197,6 +199,7 @@ App.Item = class Item {
             case 'FOOD' : d = App.Data.Food; break;
             case 'COSMETICS': d = App.Data.Cosmetics; break;
             case 'MISC_CONSUMABLE': d = App.Data.Misc; break;
+            case 'MISC_LOOT' : d = App.Data.MiscLoot; break;
             case 'WEAPON':
             case 'CLOTHES': d = App.Data.Clothes; break;
             case 'REEL': d = App.Data.Slots; break;
@@ -290,7 +293,7 @@ App.Item = class Item {
 
         if (Type == "QUEST") o = new App.Items.QuestItem(Tag, d, Inventory);
 
-        if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" || Type == 'MISC_CONSUMABLE') {
+        if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" || Type == "LOOT_BOX" ||Type == 'MISC_LOOT' || Type == 'MISC_CONSUMABLE') {
              o = new App.Items.Consumable(Type, Tag, d, Inventory);
         }
 
