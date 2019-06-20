@@ -125,7 +125,7 @@ App.Data.JobData["COURTESAN_BASIC"] = {
                 ",
             RESULTS : [
                 {
-                    B:  49, 
+                    B:  70, 
                     TEXT:  "\
                     You start off slow, trying to accomodate the girth of this young lads impressive tool, while staring up \
                     into his eyes to give him a more intimate connection, just as you've been taught. However, his own \
@@ -135,7 +135,7 @@ App.Data.JobData["COURTESAN_BASIC"] = {
                     your suckhole."
                 },
                 {
-                    B: 69, 
+                    B: 100, 
                     TEXT: "\
                     You start off slow, trying to accomodate the girth of this young lads impressive tool, while staring up \
                     into his eyes to give him a more intimate connection, just as you've been taught. However, his own \
@@ -188,23 +188,23 @@ App.Data.JobData["COURTESAN_BASIC"] = {
         ",
     JOB_RESULTS: [
         {
-            A: 40, 
+            A: 60, 
             TEXT: "You receive an grade of @@'D'@@ on your 'Courtesean' quiz.\n"
         },
         {
-            A: 50, 
+            A: 70, 
             TEXT: "You receive an grade of @@'C'@@ on your 'Courtesean' quiz.\n"
         },
         {
-            A: 60, 
+            A: 80, 
             TEXT: "You receive an grade of @@'B'@@ on your 'Courtesean' quiz.\n"
         },
         {
-            A: 70, 
+            A: 90, 
             TEXT: "You receive an grade of @@'A'@@ on your 'Courtesean' quiz.\n"
         },
         {
-            A: 80, 
+            A: 100, 
             TEXT: "You receive an grade of @@'A+'@@ on your 'Courtesean' quiz.\n"
         },
         {
@@ -212,23 +212,23 @@ App.Data.JobData["COURTESAN_BASIC"] = {
             TEXT: "You receive an grade of @@'S+'@@ on your 'Courtesean' quiz.\n"
         },
         {
-            B: 40, 
+            B: 60, 
             TEXT: "You receive an grade of @@'D'@@ on your 'Blow Job' practical.\n"
         },
         {
-            B: 50, 
+            B: 70, 
             TEXT: "You receive an grade of @@'C'@@ on your 'Blow Job' practical.\n"
         },
         {
-            B: 60, 
+            B: 80, 
             TEXT: "You receive an grade of @@'B'@@ on your 'Blow Job' practical.\n"
         },
         {
-            B: 70, 
+            B: 90, 
             TEXT: "You receive an grade of @@'A'@@ on your 'Blow Job' practical.\n"
         },
         {
-            B: 80, 
+            B: 100, 
             TEXT: "You receive an grade of @@'A+'@@ on your 'Blow Job' practical.\n"
         },
         {
@@ -313,13 +313,13 @@ App.Data.JobData["COURTESAN_DANCING"] = {
                 ",
             "RESULTS" : [
                 {
-                    A: 50,
+                    A: 70,
                     TEXT: "\
                     You do your best to ignore him and to smile pleasantly, but it's @@too much for you@@ and without thinking \
                     you swat his hand away and adjust your garments, an action NPC_NAME certainly notices."
                 },
                 {
-                    A: 80,
+                    A: 100,
                     TEXT: "\
                     It takes a huge amount of self restraint to not just slap the man and walk away, but you @@do your \
                     best@@ to endure his prodding finger. It's still pretty clear that you're visibly flustered, and \
@@ -378,13 +378,13 @@ App.Data.JobData["COURTESAN_DANCING"] = {
                 ",
             "RESULTS" : [
                 {
-                    A: 50,
+                    A: 70,
                     TEXT: "\
                     You casually move your arse across his lap, his stiff prick occasionally poking or prodding you \
                     as you gyrate. @@Unfortunately it doesn't seem to have much of an effect@@."
                 },
                 {
-                    A: 80,
+                    A: 100,
                     TEXT: "\
                     You sensiously move your arse in circles on his lap, taking care to rub the old perverts dick \
                     between your arsecheeks as you go. You can hear his breathing increase and feel the @@effect \
@@ -419,23 +419,23 @@ App.Data.JobData["COURTESAN_DANCING"] = {
         ",
     JOB_RESULTS: [
         {
-            A: 40, 
+            A: 60, 
             TEXT: "You receive an grade of @@'D'@@ on your 'Courtesean' quiz.\n"
         },
         {
-            A: 50, 
+            A: 70, 
             TEXT: "You receive an grade of @@'C'@@ on your 'Courtesean' quiz.\n"
         },
         {
-            A: 60, 
+            A: 80, 
             TEXT: "You receive an grade of @@'B'@@ on your 'Courtesean' quiz.\n"
         },
         {
-            A: 70, 
+            A: 90, 
             TEXT: "You receive an grade of @@'A'@@ on your 'Courtesean' quiz.\n"
         },
         {
-            A: 80, 
+            A: 100, 
             TEXT: "You receive an grade of @@'A+'@@ on your 'Courtesean' quiz.\n"
         },
         {
@@ -443,28 +443,293 @@ App.Data.JobData["COURTESAN_DANCING"] = {
             TEXT: "You receive an grade of @@'S+'@@ on your 'Courtesean' quiz.\n"
         },
         {
-            B: 40, 
+            B: 60, 
             TEXT: "You receive an grade of @@'D'@@ on your 'Seduction' practical.\n"
         },
         {
-            B: 50, 
+            B: 70, 
             TEXT: "You receive an grade of @@'C'@@ on your 'Seduction' practical.\n"
         },
         {
-            B: 60, 
+            B: 80, 
             TEXT: "You receive an grade of @@'B'@@ on your 'Seduction' practical.\n"
         },
         {
-            B: 70, 
+            B: 90, 
             TEXT: "You receive an grade of @@'A'@@ on your 'Seduction' practical.\n"
         },
         {
-            B: 80, 
+            B: 100, 
             TEXT: "You receive an grade of @@'A+'@@ on your 'Seduction practical.\n"
         },
         {
             B: 500, 
             TEXT: "You receive an grade of @@'S+'@@ on your 'Seduction' practical.\n"
+        }
+     ]
+};
+
+// SINGING
+App.Data.JobData["COURTESAN_SINGING"] = {
+    ID: "COURTESAN_SINGING", 
+    TITLE: "Sultry Singing Class", 
+    GIVER: "Selene", 
+    PAY: 0,
+    RATING: 3, // of 5
+    PHASES: [ 0 ],
+    DAYS: 1,
+    HIDDEN: false,
+    COST : [
+            { TYPE : "TIME", VALUE : 3 },
+            { TYPE : "STAT", NAME : "Energy", VALUE : 5 },
+            { TYPE : "MONEY", VALUE : 200 },
+            { TYPE : "TOKENS", VALUE: 5}
+    ],
+    REQUIREMENTS: [
+        { TYPE : "QUEST", NAME: "COURTESAN_GUILD_JOIN", CONDITION: "eq", VALUE: "COMPLETED" },
+        { TYPE : "SKILL", NAME: "Singing", CONDITION: "lte", VALUE: 60 }
+    ],
+    INTRO:
+        "\
+        NPC_NAME says, s(A good singing voice is a valuable asset as a Courtesan, performing in public or in \
+        private is a sure way to lure all eyes on to you.)",
+    START :
+        "\
+        The class starts early in one of the smaller parlours of the sprawling estate. There are relatively \
+        few students here compared to some of the other classes you have seen in passing, which is odd considering \
+        how popular an art singing appears to be. With a slight shrug of your shoulders, you take a seat next \
+        to another student and idly look out the window until the instruction starts.\n\n\
+        NPC_NAME arrives in a flurry of activity, accompanied by two men who are carrying musical instruments. The \
+        girls around you perk up noticibly, apparently there will be some musical accompaniment with todays lesson. \
+        ",
+    SCENES: [
+        {
+            ID : "SingingTest",
+            TRIGGERS :[ ],
+            TRIGGERS_ANY : [ ],
+            CHECKS : [
+                { 
+                    TAG: "A", TYPE : "SKILL", NAME : "Singing", DIFFICULTY : 60, 
+                    REWARD : "", R_NAME : "", VALUE: 100, OPT : 0 
+                }
+            ],
+            POST : [
+            ],
+            START :
+                "\
+                NPC_NAME claps her hands, bringing everyone to attention. s(Now ladies, for this morning session \
+                we are going to go over some basic theory and instruction on singing.) She makes a motion to one \
+                of the musicians, s(We'll also practice singing in tune to an instrument). NPC_NAME then proceeds \
+                to launch into an hour long lecture, interjected here and there with some practical examples - \
+                surprisingly the sour old woman has a lovely singing voice. Eventually the morning instruction \
+                gives way to practice, both solo and in groups, with NPC_NAME crtically observing and taking down \
+                notes on the performances.\n\n\
+                Eventually your turn comes up and you're instructed to sing a long to a popular and lively \
+                tavern tune that is being played on a fiddle. \
+                ",
+            "RESULTS" : [
+                {
+                    A: 70,
+                    TEXT: "\
+                    You start out relatively okay - a little flat, but not too bad. However, about half way \
+                    through the song you @@hit a harsh note@@ that causes everyone in the room to wince. \
+                    "
+                },
+                {
+                    A: 100,
+                    TEXT: "\
+                    The tune is easy enough and your ability is mostly up to snuff. With the exception of a small \
+                    mistake here and there, overall your @@performance is well recieved@@. \
+                    "
+                },
+                {
+                    A: 500,
+                    TEXT: "\
+                    Without a hitch, you join in along with the lilting music, @@perfectly in tune@@. Even NPC_NAME \
+                    seems to take note, one of her carefully plucked eyebrows arching as she scribbles down a note. \
+                    "
+                }
+             ],
+            "END" :
+                "\n\n\
+                After your turn, you take a seat and watch a few other girls perform. Over all the class is of average \
+                ability, but with one or two standouts. Everyone is given a small break for a half hour, before heading into \
+                the afternoons lessons. NPC_NAME has promised that they will be 'challenging'. Great. \
+                "
+        },
+        {
+            ID : "CourtesanTest",
+            TRIGGERS :[ ],
+            TRIGGERS_ANY : [ ],
+            CHECKS : [
+                { 
+                    TAG: "B", TYPE : "SKILL", NAME : "Courtesan", DIFFICULTY : 60, 
+                    REWARD : "", R_NAME : "", VALUE: 100, OPT : 0 
+                }
+            ],
+            POST : [
+                { 
+                    TYPE : "SKILL_XP", NAME : "Courtesan", VALUE :  100, OPT : 0 
+                },
+                { 
+                    TYPE : "SKILL_XP", NAME : "Singing", VALUE :  100, OPT : 0 
+                }
+            ],
+            START :
+                "\
+                NPC_NAME claps her hands to get the rooms attention. s(Now, for the second part of the day we will \
+                practice performance and poise. There will be occasions where you will need to be able to do your \
+                best even though there may be... distractions.) She coughs dramatically.\n\n\
+                s(Now then... you, come up here!) she says while pointing in your direction. You rise from your \
+                seat and approach the head of the class, standing next to NPC_NAME.\n\n\
+                s(Now strip.) she says perfuntorally.\n\n\
+                ''What?'' You eye her incredulously, but she doesn't blink an eye and the corners of her mouth \
+                turn down. It's clear she's serious. \
+                <<set _p = setup.player.GetStat('STAT', 'Perversion')>>\
+                <<if _p >= 70>>\
+                You merely shrug your shoulders and proceed to take off your clothes in front of the class. \
+                Some of the other students are looking away out of modesty, but it doesn't really bother you at \
+                all, in fact, when you finally stand nude in front of the class you thrust out your hip and give \
+                your pASS ass a saucy little slap. \
+                <<else>>\
+                <<if _p >= 40>>\
+                You sigh inwardly and proceed to follow instructions. It's not the first time you've been \
+                publicly humiliated, but that doesn't mean that you're used to it... at least not yet. Some of \
+                the girls in the audience are as uncomfortable about the situation as you are, but their \
+                reaction only serves to underline how embarassing this is. \
+                <<else>>\
+                You start to let out a feeble protest, but NPC_NAME shuts you down with no more than a \
+                withering stare. Resigned, you start to remove your clothes, your fingers fumbling awkwardly \
+                as you struggle to hold back your embarassment and shame. \
+                <</if>>\
+                <</if>>\n\n\
+                Standing nude in front of the class, your pPENIS cock is clearly on display. Some of the girls go \
+                wide eyed or gasp and there are even a few awkward laughs. NPC_NAME turns her glare on the \
+                assembled students and speaks, s(Now, now, Ladies. This sissy is just as much a \
+                girl as you are. Don't let that unslightly thing between her legs fool you.) \n\n\
+                <<set _t = setup.player.ObviousTrappiness();>>\
+                <<if _t > 50>>\
+                s(Although, to be fair, she could do with some of our styling classes). \
+                <<else>>\
+                <<if _t > 0>>\
+                She whispers to you, s(Not bad, I bet you love taking it up your faggot ass, don't you?) \
+                <<else>>\
+                She whispers to you, s(Mmm... what a delicious little sissy slut. You nearly had me fooled.) \
+                <</if>>\
+                <</if>>\
+                She grins wickedly at her own comment.\n\n\
+                With the distraction settled, she instructs you to sing from a sheet of music she hands you. Just as you \
+                start the tune, you voice wavers and rises in shock as you feel a hand groping your ass. One of the \
+                musicians has manuvered behind you while you were distracted earlier and he's taken the opportunity to \
+                start feeling you up. You shoot NPC_NAME a questioning look, but she just states, s(Keep singing).\n\n\
+                You sigh and continue under duress as the mans groping gets more profound. It's a hard struggle to \
+                try and stay on tune and you almost lose it entirely when you feel something hot and wet land between \
+                your arsecheeks. In the next moment, something hard and hot is shoved unceremoniously up your backside. \
+                ",
+            "RESULTS" : [
+                {
+                    A: 70,
+                    TEXT: "\
+                    Your @@voice falters@@ and you immediately start gasping under the brutal ass fucking you are \
+                    getting. You struggle and try to hit the right notes, but after a minute of the assault you're not \
+                    even singing coherently anymore. "
+                },
+                {
+                    A: 100,
+                    TEXT: "\
+                    Your @@voice slightly wavers@@ and you struggle through the sensations of the brutal ass fucking the \
+                    musician is giving you. It takes a supreme amount of concentration, but you manage to continue singing. \
+                    "
+                },
+                {
+                    A: 500,
+                    TEXT: "\
+                    The man behind you thrusts deeply into your arse, but you @@don't miss a beat@@ and continue belting \
+                    out the song while being pumped viciously from behind. NPC_NAME nods at you approvingly. \
+                    "
+                }
+             ],
+            "END" :
+                "\n\n\
+                Eventually you come to the end of the song, but the man raping you hasn't finished yet. NPC_NAME \
+                rolls her eyes and then moves behind the two of you. You then hear a big 'slap' sound and the \
+                musician gasps in pain. \n\n\
+                s(Keep fucking that sissies ass!) screams NPC_NAME, punctuating it with another 'slap' to what \
+                must be the mans backside. Instantly the pace picks up and the mans cock starts hitting you \
+                deeply. s(Cum in that dirty butt slut!) encourages NPC_NAME, s(Empty your balls in her bowels!) \
+                she adds. ''slap'' \n\n\
+                Something she did must have worked because the man grabs your pHIPS hips with both hands and practially \
+                drags you backwards, impaling your pASS sissy butt on his dick with a moan as he shoots a thick \
+                hot load of cum up your anus.\n\n\
+                The entire class is staring on in shock and with the way you are being held, you are forced to \
+                stare into their surprised faces. You can even see a glimpse of realization behind some of those \
+                scared eyes as they realize their turns are next.\
+                "
+        },
+    ],
+    END:
+        "\
+        The man who just fucked your ass lets you go and switches positions with the man who was playing the \
+        fiddle while NPC_NAME dismisses you. You pick up your clothes from the floor and take your seat while \
+        another girl steps up to take your place. You can see her face go ashen white as she starts to disrobe. \n\n\
+        The rest of the class proceeds predictably - a lot of strained singing and rape. Many of the girls break \
+        down in tears, clearly they are not cut out for this kind of work, it's just a shame they had to find out \
+        in such a brutal way. Eventually the last singer is picking her cum splattered ass off the floor while \
+        NPC_NAME dismisses the now useless musicians - their dicks probably no longer functioning properly after \
+        tearing through the nubile students in the class. NPC_NAME then turns to face you and the rest of the girls \
+        to give out her appraisals.\n\n\
+        With the practical evaluation over, NPC_NAME gives each one of the girls their scores for the day. \
+        \n\n\
+        JOB_RESULTS\
+        ",
+    JOB_RESULTS: [
+        {
+            A: 60, 
+            TEXT: "You receive an grade of @@'D'@@ on your 'Singing' lesson.\n"
+        },
+        {
+            A: 70, 
+            TEXT: "You receive an grade of @@'C'@@ on your 'Singing' lesson.\n"
+        },
+        {
+            A: 80, 
+            TEXT: "You receive an grade of @@'B'@@ on your 'Singing' lesson.\n"
+        },
+        {
+            A: 90, 
+            TEXT: "You receive an grade of @@'A'@@ on your 'Singing' lesson.\n"
+        },
+        {
+            A: 100, 
+            TEXT: "You receive an grade of @@'A+'@@ on your 'Singing' lesson.\n"
+        },
+        {
+            A: 500, 
+            TEXT: "You receive an grade of @@'S+'@@ on your 'Singing' lesson.\n"
+        },
+        {
+            B: 60, 
+            TEXT: "You receive an grade of @@'D'@@ on your 'Performance' practical.\n"
+        },
+        {
+            B: 70, 
+            TEXT: "You receive an grade of @@'C'@@ on your 'Performance' practical.\n"
+        },
+        {
+            B: 80, 
+            TEXT: "You receive an grade of @@'B'@@ on your 'Performance' practical.\n"
+        },
+        {
+            B: 90, 
+            TEXT: "You receive an grade of @@'A'@@ on your 'Performance' practical.\n"
+        },
+        {
+            B: 100, 
+            TEXT: "You receive an grade of @@'A+'@@ on your 'Performance practical.\n"
+        },
+        {
+            B: 500, 
+            TEXT: "You receive an grade of @@'S+'@@ on your 'Performance' practical.\n"
         }
      ]
 };
