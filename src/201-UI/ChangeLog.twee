@@ -1,6 +1,6 @@
 :: ChangeLog [custom-menu no-teleport no-saving]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.12d ??/??/????
+!!!0.12d 21/06/2019
 !!!!General
 * New asset - Pirate Hat (still WIP).
 * Changed a lot of the colorization in text to use HTML instead of wikifier code. Please report any malformed html \
