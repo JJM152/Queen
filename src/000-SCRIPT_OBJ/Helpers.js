@@ -1350,6 +1350,14 @@ App.PR = new function() {
 
     };
 
+    this.RefreshSlaveName = function() {
+        try {
+            $("#scoreSlaveName").text( '"' +  setup.player.SlaveName + '"');
+        } catch (err) {
+
+        }
+    };
+
     this.RefreshTwineScore = function() {
         // Redraw Energy Bars
         try {

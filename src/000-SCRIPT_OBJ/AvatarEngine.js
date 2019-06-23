@@ -505,10 +505,10 @@ App.Entity.AvatarEngine = class Avatar {
 
         // Slightly shorten the face, but no lower than 200 unless the player has it
         // set to be shorter.
-        var faceLength = Face.basedim.faceLength < 190 ? Face.basedim.faceLength : 
+        var faceLength = Face.basedim.faceLength < 195 ? Face.basedim.faceLength : 
             Face.basedim.faceLength * ( 1.0 - ((.065 * faceMod) + (.065 *hormoneMod)));
 
-        Data.basedim.faceLength = this._clamp(faceLength, 190, 240);
+        Data.basedim.faceLength = this._clamp(faceLength, 195, 240);
 
         //Lip Size
         Data.basedim.lipSize = this._clamp(

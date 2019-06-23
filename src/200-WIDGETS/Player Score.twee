@@ -1,6 +1,8 @@
 :: Player Score [widget]
 <<widget "score">>\
-@@color:DeepPink;"<<= setup.player.SlaveName >>"@@
+<span id="scoreSlaveName" style="color:deeppink">\
+"<<= setup.player.SlaveName >>"\
+</span>
 <span id="DayCount">Day <<print setup.player.Day; >>, <<print setup.player.GetPhase(1); >></span>.
 <span style='color:gold'>Coins: <span id="Money"><<print setup.player.Money>></span></span> \
 <<if setup.player.Skills.hasOwnProperty('Courtesan') && setup.player.Skills['Courtesan'] > 0>>\

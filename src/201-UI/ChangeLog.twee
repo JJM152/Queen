@@ -1,5 +1,10 @@
 :: ChangeLog [custom-menu no-teleport no-saving]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.12e 22/06/2019
+!!!!General
+* Fixed width scaling on pirate hat. Still working on it.
+* Raised lower threshold on face shortening due to hormones / face (190mm to 195mm)
+* Added settings for your original, slave and girlfriend names to the patreon cheat menu under 'Misc'
 !!!0.12d 21/06/2019
 !!!!General
 * New asset - Pirate Hat (still WIP).

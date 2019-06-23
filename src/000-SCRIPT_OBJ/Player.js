@@ -2353,8 +2353,11 @@ App.Entity.Player = /** @class Player @type {Player} */ class Player {
     // redirections for the state properties
 
     get OriginalName() { return this._state.OriginalName; }
+    set OriginalName(n) { this._state.OriginalName = n; }
     get SlaveName() { return this._state.SlaveName; }
+    set SlaveName(n) { this._state.SlaveName = n; };
     get GirlfriendName() { return this._state.GirlfriendName; }
+    set GirlfriendName(n) { this._state.GirlfriendName = n; }
     get NickName() { return this._state.NickName; }
     get HairColor() { return this._state.HairColor; }
     set HairColor(c) { this._state.HairColor = c; }
