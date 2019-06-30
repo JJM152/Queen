@@ -74,7 +74,7 @@ App.Data.Abamond.Mobs['COMMON'] = [
     },
     {
         level: 50,
-        encunter: 'abamond dark crawler',
+        encounter: 'abamond dark crawler',
         name: 'dark cave crawler',
         symbol: 'c',
         color: 'green'

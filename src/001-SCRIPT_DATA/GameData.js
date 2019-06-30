@@ -275,8 +275,8 @@ App.Data.Lists = {
                 },
                 "Penis": { "MIN" : 1, "MAX" : 100, "START" : 44, "CM_MIN" : 1, "CM_MAX": 36,
                     "LEVELING" : {
-                        0 : { "COST" : 3000, "STEP" : 1, "ADJECTIVE" : "micro",      "COLOR" :  1},
-                        5 : { "COST" :  720, "STEP" : 1, "ADJECTIVE" : "tiny",       "COLOR" :  2},
+                        0 : { "COST" : 1400, "STEP" : 1, "ADJECTIVE" : "micro",      "COLOR" :  1},
+                        5 : { "COST" :  700, "STEP" : 1, "ADJECTIVE" : "tiny",       "COLOR" :  2},
                        10 : { "COST" :  550, "STEP" : 1, "ADJECTIVE" : "shriveled",  "COLOR" :  3},
                        17 : { "COST" :  375, "STEP" : 1, "ADJECTIVE" : "shrunken",   "COLOR" :  4},
                        25 : { "COST" :  300, "STEP" : 1, "ADJECTIVE" : "diminutive", "COLOR" :  5},
@@ -288,8 +288,8 @@ App.Data.Lists = {
                        83 : { "COST" :  300, "STEP" : 1, "ADJECTIVE" : "huge",       "COLOR" : 12},
                        90 : { "COST" :  375, "STEP" : 1, "ADJECTIVE" : "gigantic",   "COLOR" : 13},
                        95 : { "COST" :  550, "STEP" : 1, "ADJECTIVE" : "stupendous", "COLOR" : 15},
-                       99 : { "COST" :  720, "STEP" : 1, "ADJECTIVE" : "massive",    "COLOR" : 16},
-                      100 : { "COST" : 3000, "STEP" : 1, "ADJECTIVE" : "enormous",   "COLOR" : 16}
+                       99 : { "COST" :  700, "STEP" : 1, "ADJECTIVE" : "massive",    "COLOR" : 16},
+                      100 : { "COST" : 1400, "STEP" : 1, "ADJECTIVE" : "enormous",   "COLOR" : 16}
                     }
                 },
                 "Hair": { "MIN" : 0, "MAX" : 100, "START" : 5, "CM_MIN" : 1, "CM_MAX" : 130,
@@ -1339,5 +1339,5 @@ App.Data.Fashion = {
 };
 
 App.Data.Game = {
-    Version : 0.124 // version 0.12e
+    Version : 0.125 // version 0.12f
 };

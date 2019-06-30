@@ -462,16 +462,21 @@ App.Combat.Player = class PlayerCombatant extends App.Combat.Combatant {
         if (!o || typeof o === 'undefined' || o == null) return 1;
 
         if (o.Data.Style == 'COMMON') { 
-            return 2;
-        } else if (o.Data.Style == 'UNCOMMON' ) {
             return 3;
-        } else if (o.Data.Style == 'RARE' ) {
+        } else if (o.Data.Style == 'UNCOMMON' ) {
             return 4;
-        } else if (o.Data.Style == 'LEGENDARY' ) {
+        } else if (o.Data.Style == 'RARE' ) {
             return 5;
+        } else if (o.Data.Style == 'LEGENDARY' ) {
+            return 6;
         } else {
             return 1;
         }
+    }
+
+    GetWeaponBonus()
+    {
+        return this.Player.GetWornSkillBonus("Sharpness");
     }
 
     get Bust() { return this.Player.GetStat('BODY', 'Bust'); }

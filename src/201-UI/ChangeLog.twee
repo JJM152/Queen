@@ -1,5 +1,13 @@
 :: ChangeLog [custom-menu no-teleport no-saving]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.12f 22/06/2019 - RELEASE CANDIDATE
+!!!!General
+* Adjusted the XP cost for penis growth and shrinkage on the extremes. For people who did not know, this table is an inverted \
+bell curve where the extremes (small and big) cost more XP. This number has been dramatically reduced.
+* New effect added to some weapons, 'Sharpness' - it increases damage.
+* Added a new mid level weapon available in the game.
+!!!!Abamond
+* Fixed some of the broken monster encounters that were freezing the rogue-like interface.
 !!!0.12e 22/06/2019
 !!!!General
 * Fixed width scaling on pirate hat. Still working on it.

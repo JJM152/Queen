@@ -220,7 +220,7 @@ App.Data.EffectLib["DAMAGE_RESIST_MINOR"] = {
     function(o, s) { return (s == 'Damage Resistance') ? 5 : 0 },
     VALUE: 500,
     KNOWLEDGE: [ "Damage Resistance+"]
-}
+};
 
 App.Data.EffectLib["DAMAGE_RESIST_MAJOR"] = {
     FUN : 
@@ -231,4 +231,48 @@ App.Data.EffectLib["DAMAGE_RESIST_MAJOR"] = {
     function(o, s) { return (s == 'Damage Resistance') ? 10 : 0 },
     VALUE: 1200,
     KNOWLEDGE: [ "Damage Resistance++"]
-}
+};
+
+App.Data.EffectLib['SHARP_BLADE_COMMON'] = {
+    FUN : 
+    /** 
+     * @param {string s} 
+     * @param {App.Items.Consumable} o
+     */
+    function(o, s) { return (s == 'Sharpness') ? 1 : 0 },
+    VALUE: 250,
+    KNOWLEDGE: [ "Sharpness+"]
+};
+
+App.Data.EffectLib['SHARP_BLADE_UNCOMMON'] = {
+    FUN : 
+    /** 
+     * @param {string s} 
+     * @param {App.Items.Consumable} o
+     */
+    function(o, s) { return (s == 'Sharpness') ? 2 : 0 },
+    VALUE: 500,
+    KNOWLEDGE: [ "Sharpness++"]
+};
+
+App.Data.EffectLib['SHARP_BLADE_RARE'] = {
+    FUN : 
+    /** 
+     * @param {string s} 
+     * @param {App.Items.Consumable} o
+     */
+    function(o, s) { return (s == 'Sharpness') ? 3 : 0 },
+    VALUE: 750,
+    KNOWLEDGE: [ "Sharpness+++"]
+};
+
+App.Data.EffectLib['SHARP_BLADE_LEGENDARY'] = {
+    FUN : 
+    /** 
+     * @param {string s} 
+     * @param {App.Items.Consumable} o
+     */
+    function(o, s) { return (s == 'Sharpness') ? 4 : 0 },
+    VALUE: 750,
+    KNOWLEDGE: [ "Sharpness++++"]
+};

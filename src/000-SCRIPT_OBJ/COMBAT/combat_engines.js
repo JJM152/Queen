@@ -309,11 +309,12 @@ App.Combat.Engines.Swashbuckling = class SwashbucklingCombatEngine extends App.C
 
         if (this.Owner.IsNPC == false) {
             var weaponQuality = this.Owner.GetWeaponQuality();
+            var bonus = this.Owner.GetWeaponBonus();
             var skill = this.Owner.Attack;
             var fitness = this.Owner.Player.GetStat('STAT', 'Fitness');
             var mod =  1 + ( skill / 100) + (fitness / 100);
 
-            base = Math.ceil(weaponQuality * mod);
+            base = Math.ceil(weaponQuality * mod) + bonus;
         } else {
             base = base + Math.floor(this.Owner.Attack/10);
         }
