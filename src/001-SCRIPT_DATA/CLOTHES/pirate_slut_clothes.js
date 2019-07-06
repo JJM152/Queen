@@ -253,7 +253,7 @@ App.Data.Clothes["iron cutlass"] = {
     Type: "WEAPON",
     WearEffect: [ "SHARP_BLADE_COMMON" ], ActiveEffect : [ "CUT_THROAT", "DAMAGE_RESIST_MINOR" ], 
     Category : [ "Pirate Slut" ], 
-    InMarket: false
+    InMarket: true
 };
 
 App.Data.Clothes["steel cutlass"] = {

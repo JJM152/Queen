@@ -217,7 +217,8 @@ App.Combat.Engines.Unarmed = class UnarmedCombatEngine extends App.Combat.Engine
         var base = 1;
 
         if (this.Owner.IsNPC == false) {
-            base = Math.max(1, Math.min(Math.floor(this.Owner.Player.GetStat('STAT', 'Fitness')/20), 5));
+            base = 1 + (Math.random() * 3) + Math.max(1, Math.min((this.Owner.Player.GetStat('STAT', 'Fitness')/25), 4));
+            base = Math.floor(base);
         } else {
             base = base + Math.floor(this.Owner.Attack/20);
         }

@@ -1,5 +1,9 @@
 :: ChangeLog [custom-menu no-teleport no-saving]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.12g 07/07/2019 - HOTFIX A 
+!!!!General
+* Unarmed combat damage (for players) increased. Does not affect Boobjitsu or Ass-Fu, only "unarmed" damage.
+* The weapon "iron cutlass" was not available in markets or in loot boxes. This has been fixed. (oops)
 !!!0.12f 01/07/2019 - PUBLIC RELEASE
 !!!!General
 * Adjusted the XP cost for penis growth and shrinkage on the extremes. For people who did not know, this table is an inverted \
