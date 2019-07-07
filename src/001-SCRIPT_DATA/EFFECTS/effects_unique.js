@@ -42,7 +42,7 @@ App.Data.EffectLib["SUCCUBUS_PHILTRE"] = {
     "VALUE" : 2000,
     "KNOWLEDGE" : [ "Female Hormones++++", "Femininity Up+++", "Femininity XP+++", "Toxicity Up---",
         "Bust Growth++++", "Ass Growth++++", "Hips Wider++++", "WillPower Up+++",
-        "Waist Narrower++++", "Perversion XP----", "Seduction XP++++" ]
+        "Waist Narrower++++", "Perversion XP++++", "Seduction XP++++" ]
 };
 
 App.Data.EffectLib["FEMALE_MANDRAKE"] = {
