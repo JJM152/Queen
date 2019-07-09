@@ -1,5 +1,7 @@
 :: ChangeLog [custom-menu no-teleport no-saving]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.13a ??/??/??
+
 !!!0.12g 07/07/2019 - HOTFIX A 
 !!!!General
 * Unarmed combat damage (for players) increased. Does not affect Boobjitsu or Ass-Fu, only "unarmed" damage.
