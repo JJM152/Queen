@@ -1,0 +1,19 @@
+::BertieCourierEvent
+As you step foot onto the docks of <span style='color:gold'>Golden Isle</span> a man in a long brown coat approaches you.
+
+<span class='npcText'>"Ahoy <<= setup.player.SlaveName >>, I have a missive for you!"</span> he says. He abruptly places \
+a rolled parchment in your hand and then tips his hat in farewell.
+
+You stare at the letter... what a peculiar thing to recieve in a place like this. With a sidelong glance to see if anyone \
+is watching from the shadows, you unfold the paper and begin to read...
+
+<<= setup.player.SlaveName >>,
+I've had this man posted at the docks to await your arrival. Turns out your tale wasn't as tall as I thought. \
+Get your sweet arse over here and let's discuss.
+<div style='width:600px;text-align:right'>Yours, Bertie.</div>
+
+<span style='color:cyan'>Bertie</span> has amusingly 'signed' the letter with a big red lipstick kiss. She must have \
+found out some more information about this rumored cult that broke into her mansion. Possibly, she wants your assistance \
+again... 
+
+<<eventContinue "Continue">>

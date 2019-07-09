@@ -1,5 +1,7 @@
 :: ChangeLog [custom-menu no-teleport no-saving]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.13a 22/07/2019
+
 !!!0.12i 20/07/2019 - HOTFIX C
 !!!!Abamond
 * Monsters now have collision detection with each other.
