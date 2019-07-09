@@ -99,3 +99,13 @@ App.Data.QuestItems["strange parcel"] = {
     ",
     Type: "QUEST"
 };
+
+App.Data.QuestItems["berties map"] = {
+    Name: "berties map",
+    ShortDesc: "<span style='color:purple'>a weathered old map</span>",
+    LongDesc: "\
+    You liberated this map from the possession of a mysterious demon worshipping cult. You should return it \
+    to <span style='color:cyan'>Bertie</span> to get your reward. \
+    ",
+    Type: "QUEST"
+};
