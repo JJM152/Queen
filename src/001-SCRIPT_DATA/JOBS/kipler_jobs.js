@@ -23,7 +23,6 @@ App.Data.JobData["MATE01"] =  {
                 { "TAG" : "A", "TYPE" : "STAT", "NAME" : "Perversion", "DIFFICULTY" : 80, "REWARD" : "STAT_XP", "R_NAME" : "Perversion", "VALUE" : 50, "OPT" : "RANDOM" }
             ],
             "POST" : [
-                { "TYPE" : "STAT_XP", "NAME" : "WillPower",     "VALUE" : -20,  "OPT" : 0 },
                 { "TYPE" : "STAT_XP", "NAME" : "Perversion",    "VALUE" :  50,  "OPT" : "TAG_A"}
             ],
             "START" :

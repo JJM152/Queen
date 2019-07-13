@@ -421,8 +421,8 @@ App.Combat.EncounterData['abamond dark crawler'] = {
             Chance: 30,
             Type: 'Random',
             Tag: null,
-            Min: 80,
-            Max: 180
+            Min: 100,
+            Max: 200
         },
         {
             Chance: 40,
@@ -467,8 +467,8 @@ App.Combat.EncounterData['abamond dark zombie'] = {
             Chance: 30,
             Type: 'Random',
             Tag: null,
-            Min: 80,
-            Max: 180
+            Min: 100,
+            Max: 200
         },
         {
             Chance: 40,
@@ -513,8 +513,8 @@ App.Combat.EncounterData['abamond deep crawler'] = {
             Chance: 30,
             Type: 'Random',
             Tag: null,
-            Min: 80,
-            Max: 180
+            Min: 100,
+            Max: 200
         },
         {
             Chance: 40,
@@ -566,8 +566,8 @@ App.Combat.EncounterData['abamond deep zombie'] = {
             Chance: 30,
             Type: 'Random',
             Tag: null,
-            Min: 80,
-            Max: 180
+            Min: 100,
+            Max: 200
         },
         {
             Chance: 40,
@@ -619,8 +619,8 @@ App.Combat.EncounterData['abamond hobgoblin chief'] = {
             Chance: 30,
             Type: 'Random',
             Tag: null,
-            Min: 100,
-            Max: 220
+            Min: 120,
+            Max: 240
         },
         {
             Chance: 40,
@@ -672,8 +672,8 @@ App.Combat.EncounterData['abamond gelatinous cube'] = {
             Chance: 30,
             Type: 'Random',
             Tag: null,
-            Min: 100,
-            Max: 220
+            Min: 120,
+            Max: 240
         },
         {
             Chance: 40,
@@ -725,8 +725,8 @@ App.Combat.EncounterData['abamond hobgoblin sorcerer'] = {
             Chance: 30,
             Type: 'Random',
             Tag: null,
-            Min: 100,
-            Max: 220
+            Min: 120,
+            Max: 240
         },
         {
             Chance: 40,
@@ -785,8 +785,8 @@ App.Combat.EncounterData['abamond death jelly'] = {
             Chance: 30,
             Type: 'Random',
             Tag: null,
-            Min: 100,
-            Max: 220
+            Min: 120,
+            Max: 240
         },
         {
             Chance: 40,
@@ -845,8 +845,8 @@ App.Combat.EncounterData['abamond succubus'] = {
             Chance: 30,
             Type: 'Random',
             Tag: null,
-            Min: 100,
-            Max: 220
+            Min: 120,
+            Max: 240
         },
         {
             Chance: 40,
@@ -905,8 +905,8 @@ App.Combat.EncounterData['abamond incubus'] = {
             Chance: 30,
             Type: 'Random',
             Tag: null,
-            Min: 100,
-            Max: 220
+            Min: 120,
+            Max: 240
         },
         {
             Chance: 40,

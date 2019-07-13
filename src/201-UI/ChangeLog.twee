@@ -1,6 +1,15 @@
 :: ChangeLog [custom-menu no-teleport no-saving]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.12g 07/07/2019 - HOTFIX A 
+!!!0.12h 13/07/2019 - HOTFIX B
+!!!!Abamond
+* Rebalance of some monster encounters.
+* Increased some loot drops values.
+!!!!Salty Mermaid
+* Increased frequency of lootbox reward and decreased willpower hit on the Captain's "Sissy Training" job.
+* Decreased willpower hit on Kipler's "Personal Whore" job.
+* Increased frequency of lootbox reward from Cookie's "Helping out in the Galley" job.
+* Decreased willpower hit from Cookie's "Free Meal" job.
+!!!0.12g 07/07/2019 - HOTFIX A
 !!!!General
 * Unarmed combat damage (for players) increased. Does not affect Boobjitsu or Ass-Fu, only "unarmed" damage.
 * The weapon "iron cutlass" was not available in markets or in loot boxes. This has been fixed. (oops)

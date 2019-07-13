@@ -273,7 +273,7 @@ App.Data.JobData["CAPT01"] = {
                 { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
                 { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
                 { "TYPE" : "TAG", "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
-                { "TYPE" : "COUNTER", "NAME" : "CAPTAIN_LOOT", "VALUE" : 5, "CONDITION" : "gte" }
+                { "TYPE" : "COUNTER", "NAME" : "CAPTAIN_LOOT", "VALUE" : 4, "CONDITION" : "gte" }
             ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [ ],
@@ -294,7 +294,7 @@ App.Data.JobData["CAPT01"] = {
                 { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
                 { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
                 { "TYPE" : "TAG", "NAME" : "C", "VALUE" : 100, "CONDITION" : "gte" },
-                { "TYPE" : "COUNTER", "NAME" : "CAPTAIN_LOOT", "VALUE" : 4, "CONDITION" : "lte" },
+                { "TYPE" : "COUNTER", "NAME" : "CAPTAIN_LOOT", "VALUE" : 3, "CONDITION" : "lte" },
                 { "TYPE" : "FLAG", "NAME" : "CAPTAIN_REWARD",  "OPT" : "NOT_SET" }
             ],
             "TRIGGERS_ANY" : [ ],
@@ -329,7 +329,6 @@ App.Data.JobData["CAPT01"] = {
             "CHECKS": [],
             "POST": [
                 { "TYPE" : "FLAG",       "NAME" : "CAPTAIN_TRAINING",   "VALUE" :   1, "OPT" : "SET"},
-                { "TYPE" : "STAT_XP",    "NAME" : "WillPower",          "VALUE" : -50, "OPT" : "RANDOM" },
                 { "TYPE" : "STAT_XP",    "NAME" : "Perversion",         "VALUE" : 100, "OPT" : "RANDOM" }
             ],
             "START": "",

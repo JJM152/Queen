@@ -83,7 +83,7 @@ App.Data.JobData["COOK01"] = {
             "TRIGGERS" :[
                 { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
                 { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
-                { "TYPE" : "COUNTER", "NAME" : "COOKIE_LOOT", "VALUE" : 5, "CONDITION" : "gte" }
+                { "TYPE" : "COUNTER", "NAME" : "COOKIE_LOOT", "VALUE" : 4, "CONDITION" : "gte" }
             ],
             "TRIGGERS_ANY" : [ ],
             "CHECKS" : [ ],
@@ -101,7 +101,7 @@ App.Data.JobData["COOK01"] = {
             "TRIGGERS" :[
                 { "TYPE" : "TAG", "NAME" : "A", "VALUE" : 100, "CONDITION" : "gte" },
                 { "TYPE" : "TAG", "NAME" : "B", "VALUE" : 100, "CONDITION" : "gte" },
-                { "TYPE" : "COUNTER", "NAME" : "COOKIE_LOOT", "VALUE" : 4, "CONDITION" : "lte" },
+                { "TYPE" : "COUNTER", "NAME" : "COOKIE_LOOT", "VALUE" : 3, "CONDITION" : "lte" },
                 { "TYPE" : "FLAG", "NAME" : "COOKIE_REWARD",  "OPT" : "NOT_SET" }
             ],
             "TRIGGERS_ANY" : [ ],
@@ -293,7 +293,6 @@ App.Data.JobData["COOK03"] = {
             { "TYPE" : "BODY_XP",   "NAME" : "Lips",        "VALUE" :  50,  "OPT" : 0 },
             { "TYPE" : "BODY_XP",   "NAME" : "Lips",        "VALUE" : 100,  "OPT" : "RANDOM" },
             { "TYPE" : "STAT_XP",   "NAME" : "Hormones",    "VALUE" : 100,  "OPT" : "RANDOM" },
-            { "TYPE" : "STAT_XP",   "NAME" : "WillPower",   "VALUE" : -20,  "OPT" : 0 },
             { "TYPE" : "NPC_STAT",  "NAME" : "Mood",        "VALUE" :   5,  "OPT" : 0 },
             { "TYPE" : "NPC_STAT",  "NAME" : "Lust",        "VALUE" : -20,  "OPT" : 0 }
         ],
