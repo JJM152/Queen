@@ -1,5 +1,12 @@
 :: ChangeLog [custom-menu no-teleport no-saving]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
+!!!0.12i 20/07/2019 - HOTFIX C
+!!!!Abamond
+* Monsters now have collision detection with each other.
+!!!!Port Royale
+* The relic shop menu is now correctly accessable after completing Bram's intro quest. 
+!!!!General
+* My second child was born yesterday. /pops champagne/
 !!!0.12h 13/07/2019 - HOTFIX B
 !!!!Abamond
 * Rebalance of some monster encounters.

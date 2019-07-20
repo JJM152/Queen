@@ -88,8 +88,12 @@ App.Rogue.Being = class RogueBeing extends App.Rogue.Entity {
 
             var x = App.Rogue.Engine._player.XY.x;
             var y = App.Rogue.Engine._player.XY.y;
+            var that = this;
             var passableCallback = function(x, y) {
-                return (x+","+y in App.Rogue.Engine._level._freeCells); // obstacle free
+                var str = x+","+y;
+                return (App.Rogue.Engine._level.getBeings()[str] == that) 
+                ||  (str in App.Rogue.Engine._level._freeCells) 
+                && ((App.Rogue.Engine._level.getBeings()[str] instanceof App.Rogue.Being) == false); // obstacle free
             }
             var astar = new ROT.Path.AStar(x, y, passableCallback, {topology:4});
          
