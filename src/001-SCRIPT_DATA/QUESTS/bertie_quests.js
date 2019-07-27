@@ -346,24 +346,10 @@ App.Data.Quests["BERTIE_QUEEN_PT3"] = {
         },
      ],
     INTRO: "\
-    NPC_NAME looks distraught. Her fists, clenching and unclenching in rage.\n\n\
-    s(Some damn thieves have broken into the mansion and made off with something... precious to me!) she \
-    complains. \n\n\
-    She looks at you for a moment and then relaxes slightly.\n\n\
-    s(I can't trust that oaf <span style='color:cyan'>Uticus</span> to keep his damn trouser snake \
-    in his pants for more than five minutes, but you... I can trust you, can't I?) she says.\n\n\
-    It appears that all your efforts with NPC_NAME have born fruit - she is coming to you first for \
-    help, surely you may be able to ask for the favor to be returned in the future?\n\n\
-    s(Some thieves broke into the mansion and made off with one half of my personal treasure map!) she \
-    exclaims. s(Normally, I'd hunt them down myself but I'm leery of walking into a //trap// of some sort, \
-    that's where you come in.) She smirks to herself over her own innudendo.\n\n\
-    s(Don't worry, I don't expect it will be dangerous, at least if you're smart. All I need you to do is \
-    track down who stole my map. You don't need to return it, just tell me who they are.)\n\n\
-    That actually... doesn't sound too bad, and if you're lucky it won't involve you getting raped \
-    by a giant tree or some other ghastly monster.\n\n\
-    NPC_NAME continues speaking, s(I don't have any leads, but if I were you I'd start asking around \
-    at the <span style='color:gold'>Docks</span>, after all there's only one way in or out of this \
-    blasted island.)\
+    NPC_NAME is grumbling and grousing over some papers at her desk when you enter the study. She looks up\
+    at you and grimaces slightly.\n\n\
+    s(Ahoy, PLAYER_NAME) she says, s(You won't hear me repeat this again - but you were right.)\n\n\
+    She gestures for you to take a seat.\n\n\
         ",
     MIDDLE:"\
     NPC_NAME is sitting at a large gilded oak desk, pouring over a pile of documents, doubtless part of \
