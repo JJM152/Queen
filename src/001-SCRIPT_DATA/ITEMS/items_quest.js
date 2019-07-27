@@ -70,7 +70,7 @@ App.Data.QuestItems["bucket of bobola sap"] = {
 
 App.Data.QuestItems["bucket of refined bobola sap"] = {
     Name: "bucket of refined bobola sap",
-    ShortDesc: "<span style='color:purple'>bucket of refined bobola sape</span>",
+    ShortDesc: "<span style='color:purple'>bucket of refined bobola sap</span>",
     LongDesc: "\
     This bucket is overflowing with the viscous purple sap of the bobola tree. It gives off a pungent smell that \
     reminds you of semen. It has been chemically refined and treated so that it can be processed into goods by \

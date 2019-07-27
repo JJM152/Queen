@@ -696,7 +696,7 @@ App.PR = new function() {
                 case "ITEM": {
                     bMeter = false;
                     const itemName = App.Item.SplitId(Name);
-                    pString = App.Item.Factory(itemName.Category, itemName.Tag).Name;
+                    pString = App.Item.Factory(itemName.Category, itemName.Tag).Description;
                     var cv = checks[i]["VALUE"];
                     if (typeof cv !== 'undefined' && cv > 1) {
                         pString = pString + " x" + cv;
