@@ -1,7 +1,13 @@
 :: ChangeLog [custom-menu no-teleport no-saving]
 @@color:yellow;Change Log - Most Recent First@@ <<click "Exit" $GameBookmark>><</click>>
-!!!0.13a 22/07/2019
-
+!!!0.12j 27/07/2019 - HOTFIX D
+!!!!General
+* Quest descriptions for item requirements now use the familiar description string instead of the items name. 
+!!!!Golden Isle
+* Fixed a typo in the 'Golden Goods' store data that was causing the incorrect number of torches and shovels to be offered.
+* Fixed a typo in the 'Smugglers Den' store data that was causing the incorrect number of torches and shovels to be offered.
+!!!!Isla Harbor
+* Fixed a typo at the 'General Store' store data that was causing the incorrect number of torches and shovels to be offered.
 !!!0.12i 20/07/2019 - HOTFIX C
 !!!!Abamond
 * Monsters now have collision detection with each other.
