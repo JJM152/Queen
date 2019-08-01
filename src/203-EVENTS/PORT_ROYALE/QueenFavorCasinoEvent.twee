@@ -1,0 +1,18 @@
+:: QueenFavorCasinoEvent
+Just as you enter the <span style='color:gold;'>'Gaming Hall'</span>, there is a loud commotion as one of \
+the large bouncers is forcibily pushing a man out the door. 
+
+<span class='npcText'>"That's the last time!"</span> the large man grouses.
+
+<span class='npcText'>"But you can't kick me out!"</span> the smaller man complains, \
+<span class='npcText'>"I'm a member! Here let me show..."</span>.
+
+The smaller man starts to remove something from inside his clothes, a necklace of some sort, only to have \
+the bouncer clamp his hand down and growl, <span class='npcText'>"You idiot! Do you want to die!"</span>
+
+The conversation at that point is much lower and you can't make out the words exchanged between the two men, \
+but ultimately it ends when the larger man focibily shoves the beligerant 'customer' out into the street. You watch \
+carefully as he picks himself up off the ground, stumbling slightly and then makes his way across the square to the \
+<span style='color:gold;'>'Green Gryphon'</span>.
+
+@@color:lime;Travel@@: <<eventContinue "Continue on your way">>

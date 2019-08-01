@@ -350,38 +350,49 @@ App.Data.Quests["BERTIE_QUEEN_PT3"] = {
     at you and grimaces slightly.\n\n\
     s(Ahoy, PLAYER_NAME) she says, s(You won't hear me repeat this again - but you were right.)\n\n\
     She gestures for you to take a seat.\n\n\
+    s(My informants have managed to verify at least part of your story - the gang that broke into my \
+    personal apartment are based out of Port Royale and they use this symbol.)\n\n\
+    NPC_NAME tosses a handful of those strange amulets to you. You flip them over in your hands, noticing \
+    that there is the odd piece of dried blood on them. The harsh look on her face tells you all you need \
+    to know about how they were acquired.\n\n\
+    s(This is where you come in, PLAYER_NAME. Supposedly this mob is running a high class brothel out of \
+    the gaming hall on Port Royale. I need an inside man...) she pauses for a second and grins to herself, \
+    s(...or woman as it were, to infiltrate the place and get back the missing part of my map).\n\n\
+    Hmm... a brothel? You suppose you know exactly why NPC_NAME has asked you to do this job, the only thing \
+    that bothers you is how does she expect you to find and get that map back?\n\n\
+    s(So... what do you say PLAYER_NAME? You game?) she says, laughing at her own pun.\
         ",
     MIDDLE:"\
     NPC_NAME is sitting at a large gilded oak desk, pouring over a pile of documents, doubtless part of \
     her official duties as the Governor of this island. She briefly looks up at you with a cocked eyebrow \
     and then returns to her work without saying a word.\n\n\
-    Considering you don't have anything solid to report yet, you decide to not waste her time.\
+    Considering you don't have her map yet, you decide to not waste her time.\
         ",
     FINISH:"\
-    You approach NPC_NAME and explain the results of your search.\n\n\
-    s(Mahomet you say? Cultists? What a load of hornswaggle...) she mutters.\n\n\
-    As you provide more details around how you came by this information, NPC_NAME's look of disbelief \
-    hardens, her eyes burning bright with indignation.\n\n\
-    s(Alright, PLAYER_NAME, I believe you... after all, you've no real reason to tell me such a \
-    cockamamie lie, but the issue is... Why? Why would these devil worshipers be after my map?) \n\n\
-    You don't have any real reason to provide, so you helplessly look on as NPC_NAME ponders the \
-    situation.\n\n\
-    NPC_NAME sighs wearily. s(I've still more work to do... don't get me wrong, you've been a big \
-    help and I intend to reward you appropriately, but I'll have to have some of my underlings \
-    look into this some more. In any case, pick one of these as a reward... you've earned it.)\n\n\
-    NPC_NAME gestures to a table, filled with a rare alchemical goods.\n\n\
-    s(Just... make sure to come back later and talk to me again. I might have another job for you \
-    once I make some more progress.) she says.\n\n\
-    You nod as your hand reaches out for your reward. Clearly getting in good with NPC_NAME is paying \
-    off, you only wonder what more you'll have to do to earn her total confidence? \
+    NPC_NAME is sitting at a large gilded oak desk, pouring over a pile of documents, doubtless part of \
+    her official duties as the Governor of this island. With casual cheekiness, you drape the map fragment \
+    over the journal she is reading and step back.\n\n\
+    s(This...!! You did it!!) she exclaims, her hands gently caressing the creases out of the battered \
+    parchment.\n\n\
+    She looks up at you and smiles broadly. s(Ah... I shouldn't be surprised any more by your ingenuity \
+    PLAYER_NAME, you always seem to come through for me after all...)\n\n\
+    She stops and ponders for a moment.\n\n\
+    s(It's about time I did something for you... about your situation.) her eyes drift towards the magical \
+    slave collar on your neck. s(Let me think about it. Come back to see me the next time you're in port. \
+    In the mean time, enjoy these rewards.)\n\n\
+    Your mind reels. Could NPC_NAME do something to free you from the grip of the pirates of the \
+    <span style='color:cyan'>Salty Mermaid</span>? You dare not get your hopes up, yet you feel your \
+    pulse quicken regardless.\
         ",
     JOURNAL_ENTRY : "\
-    Some thieves have made off with one half of NPC_NAME's personal treasure map. You've been asked to \
-    to see what you can find out about who they are and to return to NPC_NAME with the information.\
+    NPC_NAME has tracked down the culprits who stole her map to a high class brothel that operates out \
+    of the <span style='color:gold'>Gaming House on Port Royale</span>. You are to infiltrate them, \
+    abscond with the map and return it NPC_NAME.\
     ",
     JOURNAL_COMPLETE : "\
-    After an exhaustive search you've managed to determine that the people who stole NPC_NAME's treasure map \
-    are connected to a cult that worships a strange devil named 'Mahomet'. NPC_NAME was thankful for the \
-    information and to check back with her later after her agents did some more snooping around. \
+    You somehow managed to fuck, suck and murder your way through a group of demonic cultists and in the \
+    process you found and returned NPC_NAME's treasure map to her. She was immensely grateful and hinted that \
+    she might be able to help you out with your situation on the <span style='color:cyan'>Salty Mermaid</span>. \
+    You should come back and visit her later.\
     "
 };

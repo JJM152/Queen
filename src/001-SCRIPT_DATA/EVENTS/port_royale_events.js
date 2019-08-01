@@ -96,3 +96,20 @@ App.Data.Events["PortRoyale"] = [
         }
     }
 ];
+
+// Queen favor part 3 casino
+App.Data.Events["Casino"] = [ 
+    { 
+        ID: 'QueenFavorCasinoEvent',
+        FROM: 'EntertainmentDistrict',
+        MAX_REPEAT: 1,
+        MIN_DAY: 0,
+        MAX_DAY: 0,
+        COOL: 1,
+        PHASE: [ 0, 1, 2, 3, 4 ],
+        PASSAGE: 'QueenFavorCasinoEvent',
+        CHECK: function(p) {
+            return (App.Quest.IsActive(setup.player, "BERTIE_QUEEN_PT3"));
+        }
+    }
+];
