@@ -1,6 +1,11 @@
 :: StorySettings
 ifid:2281acf9-aff5-4833-bd11-9d4317bce5ae
 
+:: StoryData
+{
+    "ifid": "2281ACF9-AFF5-4833-BD11-9D4317BCE5AE"
+}
+
 :: StoryTitle
 Queen of the Seas (v 0.12j)
 :: StoryBanner
@@ -66,21 +71,21 @@ Config.navigation.override = function (passageName) {
     return setup.eventEngine.CheckEvents(setup.player, State.passage, passageName);
 };
 
-Setting.addToggle("displayAvatar", { 
+Setting.addToggle("displayAvatar", {
     label: "Display the PC Avatar in mirrors and Portrait in UI",
     default: true,
     onInit: App.Avatar.SettingHandler,
     onChange: App.Avatar.SettingHandler
 });
 
-Setting.addToggle("displayNPC", { 
+Setting.addToggle("displayNPC", {
     label: "Display NPC Avatars and Portraits in UI",
     default: true,
     onInit: App.Avatar.NPCSettingHandler,
     onChange: App.Avatar.NPCSettingHandler
 });
 
-Setting.addToggle("fastAnimations", { 
+Setting.addToggle("fastAnimations", {
     label: "Fast Animations",
     default: false
 });
@@ -141,7 +146,7 @@ Config.saves.isAllowed = function() {
         var container = $("<div id='avatarContainer'></div>").appendTo($("#ui-bar"));
         var portrait = $("<div id='avatarFace'></div").appendTo(container);
     }
- 
+
 :: Start
 <<set $GameBookmark = passage(); >>
 @@color:deepPink;Queen of the Seas@@ is designed to be an RPG like transformation game with @@color:red;heavy non-consentual themes@@. \
