@@ -17,7 +17,11 @@
 
 <<widget "jobButton">><<nobr>>
 <<if $args[0].Available(setup.player, _NPC)>>
-<<button "Accept">><<replace "#JobUI">><<printJobResult $args[0]>><</replace>><<replace "#PlayerScore">><<score>><</replace>><</button>>
+<<button "Accept">>
+	<<replace "#JobUI">><<printJobResult $args[0]>><</replace>>
+	<<replace "#PlayerScore">><<score>><</replace>>
+	<<if settings.displayBodyScore == true>><<replace "#bodyScoreContainer">><<BodyScore>><</replace>><</if>>
+<</button>>
 <<else>>
 <<if $args[0].OnCoolDown(setup.player) == true>>
 <<button "COOLDOWN">><</button>><<else>>

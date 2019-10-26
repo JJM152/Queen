@@ -55,3 +55,43 @@ Tokens: <span id="Tokens"><<print setup.player.Tokens>></span>\
 </tbody>
 </table>
 <</widget>>
+
+<<widget "BodyScore">>
+<table class="#score-table" width="100%">
+<tbody>
+<tr>
+	<td>Hair:</td><td><span id="Hair"><<print window.App.PR.pBodyMeter("Hair", setup.player); >></span></td>
+</tr>
+<tr>
+	<td>Face:</td><td><span id="Face"><<print window.App.PR.pBodyMeter("Face", setup.player); >></span></td>
+</tr>
+<tr>
+	<td>Lips:</td><td><span id="Lips"><<print window.App.PR.pBodyMeter("Lips", setup.player); >></span></td>
+</tr>
+<tr>
+	<td>Bust:</td><td><span id="Bust"><<print window.App.PR.pBodyMeter("Bust", setup.player); >></span></td>
+</tr>
+<tr>
+	<td>Lactation:</td><td><span id="Lactation"><<print window.App.PR.pBodyMeter("Lactation", setup.player); >></span></td>
+</tr>
+<tr>
+	<td>Height:</td><td><span id="Height"><<print window.App.PR.pBodyMeter("Height", setup.player) >></span></td>
+</tr>
+<tr>
+	<td>Waist:</td><td><span id="Waist"><<print window.App.PR.pBodyMeter("Waist", setup.player); >></span></td>
+</tr>
+<tr>
+	<td>Hips:</td><td><span id="Hips"><<print window.App.PR.pBodyMeter("Hips", setup.player); >></span></td>
+</tr>
+<tr>
+	<td>Ass:</td><td><span id="Ass"><<print window.App.PR.pBodyMeter("Ass", setup.player); >></span></td>
+</tr>
+<tr>
+	<td>Penis:</td><td><span id="Penis"><<print window.App.PR.pBodyMeter("Penis", setup.player); >></span></td>
+</tr>
+<tr>
+	<td>Balls:</td><td><span id="Balls"><<print window.App.PR.pBodyMeter("Balls", setup.player); >></span></td>
+</tr>
+</tbody>
+</table>
+<</widget>>

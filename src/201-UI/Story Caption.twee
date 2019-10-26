@@ -2,5 +2,6 @@
 <span id="PlayerScore">\
 <<if ($PlayerState != undefined) && $InIntro != 1>>\
 <<score>>\
+<<if settings.displayBodyScore == true>><<replace "#bodyScoreContainer">><<BodyScore>><</replace>><</if>>\
 <</if>>\
 </span>\
