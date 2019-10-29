@@ -31,8 +31,7 @@ App.EventHandlers = new function() {
         }, window) != undefined;
     };
 
-    this.onLoad = function(save)
-    {
+    this.onLoad = function (save) {
         function findItemId(Name, Rank) {
 
             function tryFindInClass(cl, Name, NameProp) {
@@ -43,8 +42,8 @@ App.EventHandlers = new function() {
                 return undefined;
             }
 
-            function tryFindReelInClass(cl, Name, Rank ) {
-                for (var prop in cl ) {
+            function tryFindReelInClass(cl, Name, Rank) {
+                for (var prop in cl) {
                     if (!cl.hasOwnProperty(prop)) continue;
                     if (cl[prop]["NAME"] == Name && cl[prop]["RANK"] == Rank) return prop;
                 }
@@ -54,25 +53,25 @@ App.EventHandlers = new function() {
             var nm = tryFindInClass(App.Data.Drugs, Name, "Name");
             if (nm) return ["DRUGS", nm];
             nm = tryFindInClass(App.Data.Food, Name, "Name");
-            if (nm) return["FOOD", nm];
+            if (nm) return ["FOOD", nm];
             nm = tryFindInClass(App.Data.Cosmetics, Name, "Name");
-            if (nm) return["COSMETICS", nm];
+            if (nm) return ["COSMETICS", nm];
             nm = tryFindInClass(App.Data.Misc, Name, "Name");
             if (nm) return ["MISC_CONSUMABLE", nm];
             nm = tryFindInClass(App.Data.Clothes, Name, "Name");
-            if (nm) return["CLOTHES", nm];
+            if (nm) return ["CLOTHES", nm];
             //?? if (Type == "WEAPON") return App.Data.Clothes;
             nm = tryFindInClass(App.Data.Stores, Name, "Name");
-            if (nm) return["STORE", nm];
+            if (nm) return ["STORE", nm];
             nm = tryFindInClass(App.Data.NPCS, Name, "Name");
-            if (nm) return["NPC", nm];
+            if (nm) return ["NPC", nm];
             nm = tryFindInClass(App.Data.QuestItems, Name, "Name");
-            if (nm) return["QUEST", nm];
+            if (nm) return ["QUEST", nm];
             nm = tryFindInClass(App.Data.LootBoxes, Name, "Name");
-            if (nm) return["LOOT_BOX", nm];
+            if (nm) return ["LOOT_BOX", nm];
             //nm = tryFindInClass(App.Data.Slots, Name, "NAME");
             nm = tryFindReelInClass(App.Data.Slots, Name, Rank);
-            if (nm) return["REEL", nm];
+            if (nm) return ["REEL", nm];
         }
 
         if (save.id.indexOf("queen-of-the-seas") != 0) {
@@ -154,7 +153,7 @@ App.EventHandlers = new function() {
                 if (oldEqip[prop] != 0) {
                     var oi = oldEqip[prop];
                     var id = findItemId(oi.Name());
-                    newEquip[prop] = {ID: App.Item.MakeId(id[0], id[1]), Locked: oi.IsLocked()};
+                    newEquip[prop] = { ID: App.Item.MakeId(id[0], id[1]), Locked: oi.IsLocked() };
                 } else {
                     newEquip[prop] = 0;
                 }
@@ -202,18 +201,36 @@ App.EventHandlers = new function() {
             delete save.state.history[0].variables.Player; // Clear old player object after copy.
         }
 
-        if (save.version < 0.09) {
-            let ps = save.state.history[0].variables.PlayerState;
-            console.log("Adding empty game stat records...");
-            ps.GameStats = {
-                "MoneyEarned": 0,
-                Skills: {}
-            };
-            for (var skill in ps.Skills) {
-                if (!ps.Skills.hasOwnProperty(skill)) continue;
-                ps.GameStats.Skills[skill] = { "Failure": 0, "Success": 0 };
+        // adding new stats, skills, XP attrinutes
+        /**
+         * Copies new properties from source to target
+         * @param {*} target
+         * @param {*} source
+         * @param {string[]} blacklist properties to ignore
+         */
+        function deepUpdate(target, source, blacklist) {
+            function isObject(o) {
+                return (o !== undefined && typeof o === 'object' && !Array.isArray(o));
+            }
+            if (isObject(target) && isObject(source)) {
+                for (const key in source) {
+                    if (!source.hasOwnProperty(key) || blacklist.contains(key)) { continue; }
+                    if (isObject(source[key])) {
+                        if (!target.hasOwnProperty(key)) { target[key] = {}; }
+                        deepUpdate(target[key], source[key], []);
+                    } else {
+                        if (!target.hasOwnProperty(key)) {
+                            target[key] = source[key];
+                        }
+                    }
+                }
             }
         }
+
+        console.log('Adding new stats and skills to player state...');
+        deepUpdate(save.state.history[0].variables.PlayerState, new App.Entity.PlayerState(), [
+            "Wardrobe", "Inventory", "InventoryFavorites", "Equipment", "StoreInventory"
+        ]);
 
         if (save.version < 0.10) {
             console.log("Replacing '0' with 'null' in empty slots...");
@@ -223,32 +240,6 @@ App.EventHandlers = new function() {
                 if (!eq.hasOwnProperty(slot)) continue;
                 if (eq[slot] === 0) eq[slot] = null;
             }
-
-            console.log('Adding new skills to player state...');
-            let ps = save.state.history[0].variables.PlayerState;
-            ps.GameStats.Skills['BoobJitsu'] = { "Failure": 0, "Success": 0 };
-            ps.Skills['BoobJitsu'] = 0;
-            ps.SkillsXP['BoobJitsu'] = 0;
-            ps.GameStats.Skills['AssFu'] = { "Failure": 0, "Success": 0 };
-            ps.Skills['AssFu'] = 0;
-            ps.SkillsXP['AssFu'] = 0;
-        }
-
-        if (save.version < 0.11) {
-            console.log('Adding new skills to player state...');
-            let ps = save.state.history[0].variables.PlayerState;
-            ps.GameStats.Skills["Courtesan"] = { "Failure" : 0, "Success" : 0 }
-            ps.Skills['Courtesan'] = 0;
-            ps.SkillsXP['Courtesan'] = 0;
-            ps.GameStats["TokensEarned"] = 0;
-            ps["Tokens"] = 0;
-        }
-
-        if(save.version < 0.111) {
-            console.log('Adding new face data to player state...');
-            let ps = save.state.history[0].variables.PlayerState;
-            ps.FaceData = { };
-            $.extend(true, ps.FaceData, App.Data.DAD.FacePresets['Default 1']);
         }
 
         if (save.version < 0.122) {
