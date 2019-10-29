@@ -3,4 +3,13 @@ After a long and arduous trek you've finally made your way into the deepest and 
 
 Towards the back of the room you see a small opening. Upon inspecting it, it appears to be a secret tunnel leading back to the surface.
 
+<<set _QE = window.App.QuestEngine>>\
+<<set $GameBookmark = passage(); >>\
+<<if _QE.QuestCompleted(setup.player, "FUTACOLLAR") == false>>
+In one of the corners you notice remains of a human skeleton. Upon a closer look you notice something shining near it. Trying to take that thing out you discover that it was bound around the neck of the human, whose dead remains seem to be lying in this chamber for hundreds of years. Fortunately, it is not hard to pull it out through already rotten bones. Slightly cleaning the object you recognize a neck collar, made of a heavy, shining metal, and decorated with a few big gems. You decide to take the collar with you.
+
+<<run setup.player.AddItem("CLOTHES", "ancient metal collar", 1);>>\
+<<run _QE.SetQuestFlag(setup.player, "FUTACOLLAR", "COMPLETED");>>
+<</if>>
+
 @@color:lime;Travel@@: [[Into the Jungle|Jungle]]

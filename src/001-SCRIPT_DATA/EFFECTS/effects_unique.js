@@ -273,3 +273,13 @@ App.Data.EffectLib["BROW_THINNER"] = {
    "VALUE" : 250,
        "KNOWLEDGE" : [ "Eyebrows Thinner++", ]
 };
+
+App.Data.EffectLib["FUTA_COLLAR"] = {
+    "FUN" : /** @param {App.Entity.Player} p
+     @param {App.Items.Consumable} o*/
+    function(o,p) {
+        p.AdjustStatXP('Futa', 50);
+    },
+    "VALUE" : 50,
+    "KNOWLEDGE" : [ "Futanari Identity+" ]
+};

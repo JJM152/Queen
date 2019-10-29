@@ -37,6 +37,16 @@ App.Data.Clothes["choker"] = {
     "WearEffect": [ "FEMININE_CLOTHING" ]
 };
 
+App.Data.Clothes["ancient metal collar"] = {
+    "Name": "ancient metal collar",
+    "ShortDesc": "an ancient metal collar",
+    "LongDesc": "An ancient collar made of metal inlaid with a few big gems of various colours.",
+    "Slot": "Neck", "Restrict": ["Neck"], "Color": "silver",
+    "Style": "LEGENDARY", "Type" : "ACCESSORY",
+    "WearEffect": [ "FUTA_COLLAR" ],
+    "InMarket" : false
+};
+
 // NIPPLES SLOT
 
 // BRA SLOT

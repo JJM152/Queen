@@ -11,6 +11,7 @@ You have a <<print App.PR.pFace(setup.player);>> <<print App.PR.pHair(setup.play
 <<print App.PR.pHips(setup.player);>> <<print App.PR.pWaist(setup.player);>> and \
 <<print App.PR.pFigure(setup.player);>>. You have <<print App.PR.pPenis(setup.player);>> and \
 <<print App.PR.pBalls(setup.player);>> between your legs.
+<<if setup.player.IsFuta()>><<print window.App.PR.pFutaStatus(setup.player);>><</if>>
 
 You consider your natural beauty to be <<print App.PR.pBeauty(setup.player);>>.
 The fetish appeal of your body is <<print App.PR.pFetish(setup.player);>>.\
@@ -23,6 +24,7 @@ You have a <<print window.App.PR.pFace(setup.player);>> <<print window.App.PR.pH
 <<print window.App.PR.pHips(setup.player);>> <<print window.App.PR.pWaist(setup.player);>> and \
 <<print window.App.PR.pFigure(setup.player);>>. You have <<print window.App.PR.pPenis(setup.player);>> and \
 <<print window.App.PR.pBalls(setup.player);>> between your legs.
+<<if setup.player.IsFuta()>><<print window.App.PR.pFutaStatus(setup.player);>><</if>>
 
 You consider your natural beauty to be <<print window.App.PR.pBeauty(setup.player);>>.
 The fetish appeal of your body is <<print window.App.PR.pFetish(setup.player);>>.\
